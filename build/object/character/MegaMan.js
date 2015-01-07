@@ -1,4 +1,4 @@
-Characters.MegaMan = function()
+Engine.assets.objects.characters.MegaMan = function()
 {
 	var SPRITES = {
 		'left': {
@@ -11,23 +11,24 @@ Characters.MegaMan = function()
 		},
 	};
 
-	this.__proto__ = new Characters.Player();
+	this.__proto__ = new Engine.assets.objects.characters.Player();
 	var self = this;
 	self.horizontalDirection = 'right';
 
 
 	self.timeShift = function(t)
 	{
+		self.model.rotation.y -= t*5;
 		if (self.walk > 0) {
 			self.horizontalDirection = 'right';
-			self.sprite.src = SPRITES[self.horizontalDirection]['running'];
+			//self.sprite.src = SPRITES[self.horizontalDirection]['running'];
 		}
 		else if (self.walk < 0) {
 			self.horizontalDirection = 'left';
-			self.sprite.src = SPRITES[self.horizontalDirection]['running'];
+			//self.sprite.src = SPRITES[self.horizontalDirection]['running'];
 		}
 		else {
-			self.sprite.src = SPRITES[self.horizontalDirection]['idle'];
+			//self.sprite.src = SPRITES[self.horizontalDirection]['idle'];
 		}
 		self.__proto__.timeShift(t);
 	}

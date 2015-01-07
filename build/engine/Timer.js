@@ -1,4 +1,4 @@
-var Timer = function()
+Engine.Timer = function()
 {
     var self = this;
     self.running = false;

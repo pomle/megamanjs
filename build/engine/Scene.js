@@ -1,13 +1,15 @@
-var Scene = function()
+Engine.Scene = function()
 {
     var self = this;
-    self.collision = new Collision();
+    self.camera = new Engine.Camera(new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000));
+    self.camera.camera.position.z = 100;
+    self.scene = new THREE.Scene();
     self.objects = [];
 
     self.addObject = function(o)
     {
         self.objects.push(o);
-        self.collision.objects.push(o);
+        self.scene.add(o.model);
     }
 
     self.updateTime = function(timeElapsed)
@@ -16,6 +18,7 @@ var Scene = function()
         for (i in self.objects) {
             self.objects[i].timeShift(timeElapsed);
         }
-        self.collision.detect();
     }
 }
+
+Engine.scenes = {};

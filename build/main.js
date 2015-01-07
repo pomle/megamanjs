@@ -1,31 +1,28 @@
-var Game = new Engine();
-var camera = new Camera();
-Game.camera = camera;
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(600, 400);
+document.body.appendChild(renderer.domElement);
 
-var scene = new Scene();
-Game.camera.scene = scene;
-Game.scene = scene;
-var context = document.getElementById('megaman').getContext('2d');
-Game.camera.context = context;
+var Game = new Engine(renderer);
+Game.timer = new Engine.Timer();
 
-var player = new Characters.MegaMan();
+var level = new Engine.scenes.Level();
+Game.scene = level;
+
+var player = new Engine.assets.objects.characters.MegaMan();
 player.health = 100;
 player.position.y = 20;
-scene.objects.push(player);
+level.addObject(player);
 
 
-var energyTank = new Items.EnergyTank();
+var energyTank = new Engine.assets.objects.items.EnergyTank();
 energyTank.position.x = 200;
 energyTank.position.y = 100;
-scene.objects.push(energyTank);
+level.addObject(energyTank);
 
-
-
-Game.timer = new Timer();
 Game.run();
 
 
-var keyboard = new Keyboard();
+var keyboard = new Engine.Keyboard();
 
 keyboard.intermittent(39,
 	function(event) {

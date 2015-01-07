@@ -1,4 +1,4 @@
-var Keyboard = function()
+Engine.Keyboard = function()
 {
     var self = this;
     self.bindings = {
@@ -24,6 +24,7 @@ var Keyboard = function()
         if (self.keystate[k]) {
             return;
         }
+        console.log(k);
         self.keystate[k] = new Date();
         if (self.bindings.down[k]) {
             self.bindings.down[k](event);

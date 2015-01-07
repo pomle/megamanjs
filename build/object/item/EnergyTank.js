@@ -1,8 +1,6 @@
-Items.EnergyTank = function()
+Engine.assets.objects.items.EnergyTank = function()
 {
-	this.__proto__ = new Item();
+	this.__proto__ = new Engine.assets.objects.Item();
 	var self = this;
 	self.capacity = 100;
-
-	self.sprite.src = 'sprites/powerup/energy-tank-large.gif';
 }

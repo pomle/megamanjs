@@ -1,4 +1,4 @@
-var Collision = function()
+Engine.Collision = function()
 {
     var self = this;
     self.objects = [];

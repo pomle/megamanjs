@@ -1,21 +1,16 @@
-var Engine = function()
+var Engine = function(renderer)
 {
     var self = this;
-    self.camera = undefined;
-    self.timer = undefined;
+    self.renderer = renderer;
     self.scene = undefined;
+    self.timer = undefined;
 
     self.run = function()
     {
         if (self.scene) {
             self.timer.callbacks.push(function(t) {
                 self.scene.updateTime(t);
-            });
-        }
-
-        if (self.camera) {
-            self.timer.callbacks.push(function(t) {
-                self.camera.render();
+                renderer.render(self.scene.scene, self.scene.camera.camera);
             });
         }
 
@@ -35,3 +30,5 @@ Engine.Vector2 = function(x, y)
     self.x = x || 0;
     self.y = y || 0;
 }
+
+Engine.assets = {};
