@@ -7,7 +7,7 @@ Engine.assets.objects.items.EnergyTank = function()
 
     self.capacity = 100;
 
-    var texture = THREE.ImageUtils.loadTexture('sprites/powerup/energy-tank-large.gif');
+    var texture = THREE.ImageUtils.loadTexture('sprites/powerup/energy-capsule.gif');
 
     var material = new THREE.MeshLambertMaterial({});
     material.transparent = true;
@@ -19,9 +19,13 @@ Engine.assets.objects.items.EnergyTank = function()
     );
 
     self.sprite = new Engine.Sprite(texture);
-    self.sprite.addFrame(.1);
-    self.sprite.addFrame(.1);
+    self.sprite.addFrames([.1,.1]);
     self.sprite.play();
 
     self.setModel(model);
+
+    self.collides = function(withObject, ourZone, theirZone)
+    {
+        console.log(withObject, ourZone, theirZone);
+    }
 }

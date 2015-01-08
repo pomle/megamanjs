@@ -10,7 +10,8 @@ var Engine = function(renderer)
         if (self.scene) {
             self.timer.callbacks.push(function(t) {
                 self.scene.updateTime(t);
-                renderer.render(self.scene.scene, self.scene.camera.camera);
+                self.scene.camera.updateTime(t);
+                self.render();
             });
         }
 
@@ -21,6 +22,11 @@ var Engine = function(renderer)
     {
         self.timer.stop();
         self.timer.callbacks = [];
+    }
+
+    self.render = function()
+    {
+        renderer.render(self.scene.scene, self.scene.camera.camera);
     }
 }
 

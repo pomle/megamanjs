@@ -10,17 +10,27 @@ Game.scene = level;
 
 var player = new Engine.assets.objects.characters.MegaMan();
 player.health = 100;
-player.position.y = 20;
+player.model.position.x = -50;
 level.addObject(player);
 
 
 var energyTank = new Engine.assets.objects.items.EnergyTank();
-energyTank.position.x = 200;
-energyTank.position.y = 100;
+energyTank.model.position.x = 50;
+energyTank.model.position.y = -40;
 level.addObject(energyTank);
 
-Game.run();
+var energyCapsule = new Engine.assets.objects.items.EnergyCapsule();
+energyCapsule.model.position.x = 80;
+energyCapsule.model.position.y = -40;
+level.addObject(energyCapsule);
 
+var weaponTank = new Engine.assets.objects.items.WeaponTank();
+weaponTank.model.position.x = 100;
+weaponTank.model.position.y = -40;
+level.addObject(weaponTank);
+
+
+Game.run();
 
 var keyboard = new Engine.Keyboard();
 

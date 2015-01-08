@@ -1,4 +1,4 @@
-Engine.assets.objects.items.EnergyTank = function()
+Engine.assets.objects.items.WeaponTank = function()
 {
     this.__proto__ = new Engine.assets.objects.Item();
     var self = this;
@@ -7,7 +7,7 @@ Engine.assets.objects.items.EnergyTank = function()
 
     self.capacity = 100;
 
-    var texture = THREE.ImageUtils.loadTexture('sprites/powerup/energy-tank-large.gif');
+    var texture = THREE.ImageUtils.loadTexture('sprites/powerup/weapon-tank-large.gif');
 
     var material = new THREE.MeshLambertMaterial({});
     material.transparent = true;

@@ -2,16 +2,19 @@ Engine.assets.objects.characters.Player = function()
 {
     this.__proto__ = new Engine.assets.objects.Character();
     var self = this;
-    var jumpHeight = 500;
-
+    var jumpTimer;
     self.jumpForce = 0;
     self.walkSpeed = 100;
     self.walk = 0;
 
     self.jumpStart = function()
     {
-        self.jumpForce = jumpHeight;
-        setTimeout(self.jumpEnd, 500);
+        if (!self.isSupported()) {
+            return false;
+        }
+        self.jumpForce = 150;
+        jumpTimer = setTimeout(self.jumpEnd, 180);
+        return jumpTimer;
     }
 
     self.jumpEnd = function()
@@ -22,9 +25,9 @@ Engine.assets.objects.characters.Player = function()
     self.timeShift = function(t)
     {
         self.speed.x = self.walkSpeed * self.walk;
+        //console.log('Jump Force: %f', self.jumpForce);
         if (self.jumpForce > 0) {
             self.speed.y = self.jumpForce;
-            self.jumpForce -= jumpHeight/10;
         }
         self.__proto__.timeShift(t);
     }
