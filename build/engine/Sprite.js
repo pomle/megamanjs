@@ -5,15 +5,23 @@ Engine.Sprite = function(texture)
 
     var self = this;
     var timer = null;
-    var index = 0;
-    var frame = 0;
+    var pointer = 0;
+    var stack = [];
     self.frames = [];
     self.texture = texture;
 
-    self.addFrame = function(duration)
+    self.addFrame = function(duration, count)
     {
-        self.frames.push(duration);
-        texture.repeat.set(1/self.frames.length, 1);
+        var frame = {
+            'index': self.frames.length,
+            'duration': duration,
+            'count': count || -1
+        };
+        console.log(frame);
+        self.frames.push(frame);
+        stack.push(frame);
+        texture.repeat.set(1 / self.frames.length, 1);
+        return frame;
     }
 
     self.addFrames = function(durs)
@@ -31,13 +39,17 @@ Engine.Sprite = function(texture)
 
     self.play = function()
     {
-        if (self.frames.length <= 1) {
+        if (stack.length <= 1) {
             return;
         }
-        index = (frame++ % self.frames.length);
-        texture.offset.x = index / self.frames.length;
-        var duration = self.frames[index];
-        timer = setTimeout(self.play, duration*1000);
+        var frame = stack.shift();
+        self.update(frame);
+        timer = setTimeout(self.play, frame.duration*1000);
+        if (frame.count > -1 && --frame.count == 0) {
+            return;
+        }
+        stack.push(frame);
+        return frame;
     }
 
     self.restart = function()
@@ -49,6 +61,11 @@ Engine.Sprite = function(texture)
     self.stop = function()
     {
         self.pause();
-        frame = 0;
+        stack = self.frames.slice(0);
+    }
+
+    self.update = function(frame)
+    {
+        texture.offset.x = frame.index / self.frames.length;
     }
 }
