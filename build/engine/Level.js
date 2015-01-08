@@ -3,11 +3,28 @@ Engine.scenes.Level = function()
     this.__proto__ = new Engine.Scene();
     var self = this;
     self.collision = new Engine.Collision();
+    self.camera.camera.position.z = 100;
+    self.startPosition = new Engine.Vector2();
 
     self.addObject = function(o)
     {
         self.__proto__.addObject(o);
         self.collision.objects.push(o);
+    }
+
+    self.addPlayer = function(player)
+    {
+        player.model.position.x = self.startPosition.x;
+        player.model.position.y = -self.startPosition.y;
+        self.addObject(player);
+        self.camera.follow(player);
+    }
+
+    self.setStartPosition = function(x, y)
+    {
+        self.startPosition.x = x;
+        self.startPosition.y = y;
+        self.camera.jumpTo(x, -y);
     }
 
     self.updateTime = function(timeElapsed)
@@ -16,3 +33,5 @@ Engine.scenes.Level = function()
         self.collision.detect();
     }
 }
+
+Engine.scenes.levels = {};

@@ -1,6 +1,6 @@
 Engine.assets.Object = function()
 {
-    var obstacleY = -40;
+    var obstacleY = -148;
 
     var self = this;
     var isSupported = false;
