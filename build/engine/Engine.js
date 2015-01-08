@@ -37,4 +37,13 @@ Engine.Vector2 = function(x, y)
     self.y = y || 0;
 }
 
+Engine.Util = {
+    getTexture: function(url, callback)
+    {
+        var texture = THREE.ImageUtils.loadTexture(url, null, callback);
+        //texture.magFilter = THREE.NearestFilter;
+        return texture;
+    }
+}
+
 Engine.assets = {};
