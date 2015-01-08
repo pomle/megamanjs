@@ -4,6 +4,8 @@ Engine.assets.objects.characters.Player = function()
     var self = this;
     var jumpTimer;
     self.jumpForce = 0;
+    self.moveSpeed = 0;
+    self.walkAcc = 20;
     self.walkSpeed = 100;
     self.walk = 0;
 
@@ -24,11 +26,18 @@ Engine.assets.objects.characters.Player = function()
 
     self.timeShift = function(t)
     {
-        self.speed.x = self.walkSpeed * self.walk;
-        //console.log('Jump Force: %f', self.jumpForce);
+        if (self.walk != 0) {
+            self.moveSpeed = Math.min(self.moveSpeed + self.walkAcc, self.walkSpeed);
+        }
+        else {
+            self.moveSpeed = 0;
+        }
+        self.speed.x = (self.moveSpeed * self.walk);
         if (self.jumpForce > 0) {
             self.speed.y = self.jumpForce;
         }
+        //console.log('Move Speed: %f', self.moveSpeed);
+        //console.log('Jump Force: %f', self.jumpForce);
         self.__proto__.timeShift(t);
     }
 
