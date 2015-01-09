@@ -5,15 +5,13 @@ document.body.appendChild(renderer.domElement);
 var Game = new Engine(renderer);
 Game.timer = new Engine.Timer();
 
-var level = new Engine.scenes.Level();
+var level = new Engine.scenes.levels.Flashman();
 Game.scene = level;
 
 var player = new Engine.assets.objects.characters.MegaMan();
 player.health = 100;
-player.model.position.x = -50;
-level.addObject(player);
-
-
+level.addPlayer(player);
+/*
 var energyTank = new Engine.assets.objects.items.EnergyTank();
 energyTank.model.position.x = 50;
 energyTank.model.position.y = -40;
@@ -28,7 +26,7 @@ var weaponTank = new Engine.assets.objects.items.WeaponTank();
 weaponTank.model.position.x = 100;
 weaponTank.model.position.y = -40;
 level.addObject(weaponTank);
-
+*/
 
 Game.run();
 
