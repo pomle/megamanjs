@@ -6,7 +6,7 @@ Engine.assets.objects.characters.Player = function()
     self.jumpForce = 0;
     self.moveSpeed = 0;
     self.walkAcc = 20;
-    self.walkSpeed = 100;
+    self.walkSpeed = 90;
     self.walk = 0;
 
     self.jumpStart = function()
@@ -14,7 +14,7 @@ Engine.assets.objects.characters.Player = function()
         if (!self.isSupported()) {
             return false;
         }
-        self.jumpForce = 150;
+        self.jumpForce = 155;
         jumpTimer = setTimeout(self.jumpEnd, 180);
         return jumpTimer;
     }

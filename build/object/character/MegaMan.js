@@ -2,29 +2,29 @@ Engine.assets.objects.characters.MegaMan = function()
 {
     var currentSprite = undefined;
 
-    var idleLeft = new Engine.Sprite(THREE.ImageUtils.loadTexture('sprites/megaman/idle-left.gif'));
+    var idleLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/idle-left.gif'));
     idleLeft.addFrames([3.85,.15]);
-    var idleRight = new Engine.Sprite(THREE.ImageUtils.loadTexture('sprites/megaman/idle-right.gif'));
+    var idleRight = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/idle-right.gif'));
     idleRight.addFrames([3.85,.15]);
 
-    var leanLeft = new Engine.Sprite(THREE.ImageUtils.loadTexture('sprites/megaman/lean-left.gif'));
-    var leanRight = new Engine.Sprite(THREE.ImageUtils.loadTexture('sprites/megaman/lean-right.gif'));
+    var leanLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/lean-left.gif'));
+    var leanRight = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/lean-right.gif'));
 
-    var runLeft = new Engine.Sprite(THREE.ImageUtils.loadTexture('sprites/megaman/running-left.gif'));
+    var runLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/running-left.gif'));
     runLeft.addFrames([.12,.12,.12,.12]);
-    var runRight = new Engine.Sprite(THREE.ImageUtils.loadTexture('sprites/megaman/running-right.gif'));
+    var runRight = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/running-right.gif'));
     runRight.addFrames([.12,.12,.12,.12]);
 
     var sprites = {
         'left': {
             'idle': idleLeft,
-            'jump': new Engine.Sprite(THREE.ImageUtils.loadTexture('sprites/megaman/jumping-left.gif')),
+            'jump': new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/jumping-left.gif')),
             'lean': leanLeft,
             'run': runLeft,
         },
         'right': {
             'idle': idleRight,
-            'jump': new Engine.Sprite(THREE.ImageUtils.loadTexture('sprites/megaman/jumping-right.gif')),
+            'jump': new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/jumping-right.gif')),
             'lean': leanRight,
             'run': runRight,
         },
@@ -55,12 +55,14 @@ Engine.assets.objects.characters.MegaMan = function()
         if (!self.isSupported()) {
             return sprites[self.direction]['jump'];
         }
+
         if (self.walk != 0) {
             if (self.moveSpeed < self.walkSpeed) {
                 return sprites[self.direction]['lean'];
             }
             return sprites[self.direction]['run'];
         }
+
         return sprites[self.direction]['idle'];
     }
 
