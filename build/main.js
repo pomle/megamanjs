@@ -9,7 +9,6 @@ var level = new Engine.scenes.levels.Flashman();
 Game.scene = level;
 
 var player = new Engine.assets.objects.characters.MegaMan();
-player.health = 100;
 level.addPlayer(player);
 
 var player2 = new Engine.assets.objects.characters.MegaMan();

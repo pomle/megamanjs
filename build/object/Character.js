@@ -2,7 +2,7 @@ Engine.assets.objects.Character = function()
 {
 	this.__proto__ = new Engine.assets.Object();
 	var self = this;
-	self.health = 100;
+	self.health = new Engine.assets.Energy(100);
 	self.direction = undefined;
 	self.setGravity(10);
 
