@@ -7,7 +7,7 @@ Engine.assets.Object = function()
     self.uuid = THREE.Math.generateUUID();
     self.collision = [];
     self.gravityForce = 0;
-    self.speed = new Engine.Vector2();
+    self.speed = new THREE.Vector2();
     self.scene = undefined;
 
     self.addCollisionZone = function(r, x, y)

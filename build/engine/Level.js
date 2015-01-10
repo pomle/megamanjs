@@ -4,7 +4,7 @@ Engine.scenes.Level = function()
     var self = this;
     self.collision = new Engine.Collision();
     self.camera.camera.position.z = 120;
-    self.startPosition = new Engine.Vector2();
+    self.startPosition = new THREE.Vector2();
 
     self.addObject = function(o)
     {

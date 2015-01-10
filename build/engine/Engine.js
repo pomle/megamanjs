@@ -30,13 +30,6 @@ var Engine = function(renderer)
     }
 }
 
-Engine.Vector2 = function(x, y)
-{
-    var self = this;
-    self.x = x || 0;
-    self.y = y || 0;
-}
-
 Engine.Util = {
     createSprite: function(location, w, h)
     {
