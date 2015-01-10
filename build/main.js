@@ -8,7 +8,7 @@ Game.timer = new Engine.Timer();
 var level = new Engine.scenes.levels.Flashman();
 Game.scene = level;
 
-var player = new Engine.assets.objects.characters.MegaMan();
+var player = new Engine.assets.objects.characters.Megaman();
 level.addPlayer(player);
 
 var player2 = new Engine.assets.objects.characters.MegaMan();

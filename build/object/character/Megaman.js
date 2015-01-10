@@ -1,4 +1,4 @@
-Engine.assets.objects.characters.MegaMan = function()
+Engine.assets.objects.characters.Megaman = function()
 {
     this.__proto__ = new Engine.assets.objects.characters.Player();
 
