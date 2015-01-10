@@ -10,11 +10,17 @@ Engine.assets.Projectile = function()
 
     self.collides = function(withObject, ourZone, theirZone)
     {
+        if (!withObject.health) {
+            return false;
+        }
+
         if (self.emitter.uuid == withObject.uuid) {
-            return;
+            return false;
         }
         console.log('Inflicting %f damage on %s', self.damage, withObject);
         self.scene.removeObject(self);
+
+        return true;
     }
 
     self.setDamage = function(points)
