@@ -22,14 +22,14 @@ Engine.assets.objects.characters.Megaman = function()
     var jumpFireLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/jump-fire-left.gif'));
     var jumpFireRight = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/jump-fire-right.gif'));
 
-    var runLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/running-left.gif'));
+    var runLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/run-left.gif'));
     runLeft.addFrames([.12,.12,.12,.12]);
-    var runRight = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/running-right.gif'));
+    var runRight = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/run-right.gif'));
     runRight.addFrames([.12,.12,.12,.12]);
 
-    var runFireLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/running-fire-left.gif'));
+    var runFireLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/run-fire-left.gif'));
     runFireLeft.addFrames([.12,.12,.12,.12]);
-    var runFireRight = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/running-fire-right.gif'));
+    var runFireRight = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/run-fire-right.gif'));
     runFireRight.addFrames([.12,.12,.12,.12]);
 
 
