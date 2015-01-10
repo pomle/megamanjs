@@ -42,7 +42,10 @@ Engine.Util = {
     {
         var texture = Engine.Util.getTexture('sprites/' + location);
         var geometry = new THREE.PlaneBufferGeometry(w, h);
-        var material = new THREE.MeshLambertMaterial({map: texture});
+        var material = new THREE.MeshLambertMaterial({
+            map: texture,
+            transparent: true
+        });
         var model = new THREE.Mesh(geometry, material);
         return model;
     },
