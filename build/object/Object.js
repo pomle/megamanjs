@@ -4,10 +4,11 @@ Engine.assets.Object = function()
 
     var self = this;
     var isSupported = false;
+    self.uuid = THREE.Math.generateUUID();
     self.collision = [];
     self.gravityForce = 0;
     self.speed = new Engine.Vector2();
-    self.wantsRemove = false;
+    self.scene = undefined;
 
     self.addCollisionZone = function(r, x, y)
     {
@@ -16,7 +17,8 @@ Engine.assets.Object = function()
 
     self.collides = function(withObject, ourZone, theirZone)
     {
-        console.log(withObject, ourZone, theirZone);
+        console.log('%s collides with %s', self.uuid, withObject.uuid);
+        //console.log(withObject, ourZone, theirZone);
     }
 
     self.isSupported = function()
@@ -32,6 +34,20 @@ Engine.assets.Object = function()
     self.setModel = function(model)
     {
         self.model = model;
+    }
+
+    self.setScene = function(scene)
+    {
+        if (scene instanceof Engine.Scene !== true) {
+            throw new Error('Invalid scene');
+        }
+        self.scene = scene;
+    }
+
+    self.setSpeed = function(x, y)
+    {
+        self.speed.x = x;
+        self.speed.y = y;
     }
 
     self.timeShift = function(t)
@@ -63,6 +79,5 @@ Engine.assets.Object.prototype.model = new THREE.Mesh(
         wireframe: true,
         color: 'blue'
     }));
-
 
 Engine.assets.objects = {};

@@ -11,6 +11,13 @@ Game.scene = level;
 var player = new Engine.assets.objects.characters.MegaMan();
 player.health = 100;
 level.addPlayer(player);
+
+var player2 = new Engine.assets.objects.characters.MegaMan();
+player2.health = 100;
+level.addPlayer(player2);
+
+var weapon = new Engine.assets.weapons.Plasma();
+player.equipWeapon(weapon);
 /*
 var energyTank = new Engine.assets.objects.items.EnergyTank();
 energyTank.model.position.x = 50;
@@ -32,22 +39,7 @@ Game.run();
 
 var keyboard = new Engine.Keyboard();
 
-keyboard.intermittent(39,
-	function(event) {
-		player.moveRightStart();
-	},
-	function(event) {
-		player.moveRightEnd();
-	}
-);
-
-keyboard.intermittent(37,
-	function(event) {
-		player.moveLeftStart();
-	},
-	function(event) {
-		player.moveLeftEnd();
-	}
-);
-
-keyboard.intermittent(32, player.jumpStart, player.jumpEnd);
+keyboard.intermittent(65, player.moveLeftStart, player.moveLeftEnd);
+keyboard.intermittent(68, player.moveRightStart, player.moveRightEnd);
+keyboard.intermittent(96, player.jumpStart, player.jumpEnd);
+keyboard.hit(110, player.fire);

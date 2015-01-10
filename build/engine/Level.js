@@ -3,13 +3,20 @@ Engine.scenes.Level = function()
     this.__proto__ = new Engine.Scene();
     var self = this;
     self.collision = new Engine.Collision();
-    self.camera.camera.position.z = 100;
+    self.camera.camera.position.z = 120;
     self.startPosition = new Engine.Vector2();
 
     self.addObject = function(o)
     {
         self.__proto__.addObject(o);
-        self.collision.objects.push(o);
+        self.collision.addObject(o);
+        o.setScene(self);
+    }
+
+    self.removeObject = function(o)
+    {
+        self.__proto__.removeObject(o);
+        self.collision.removeObject(o);
     }
 
     self.addPlayer = function(player)

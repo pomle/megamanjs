@@ -2,17 +2,40 @@ Engine.Collision = function()
 {
     var self = this;
     self.objects = [];
-    self.positionCache = {};
+    self.positionCache = [];
+
+    self.addObject = function(object)
+    {
+        self.objects.push(object);
+        self.positionCache.push(undefined);
+    }
+
+    self.removeObject = function(object)
+    {
+        var i;
+        for (i in self.objects) {
+            if (self.objects[i].uuid == object.uuid) {
+                self.objects.splice(i, 1);
+                self.positionCache.splice(i, 1);
+            }
+        }
+    }
 
     self.detect = function()
     {
         var i, j, o1, o2;
         for (i in self.objects) {
+            o1 = self.objects[i];
+            // If object's position haven't changed.
+            if (self.positionCache[i] && self.positionCache[i].equals(o1.model.position)) {
+                continue;
+            }
+            self.positionCache[i] = o1.model.position.clone();
+
             for (j in self.objects) {
                 if (j == i) {
                     continue;
                 }
-                o1 = self.objects[i];
                 o2 = self.objects[j];
                 self.findZones(o1, o2);
             }

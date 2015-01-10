@@ -38,6 +38,15 @@ Engine.Vector2 = function(x, y)
 }
 
 Engine.Util = {
+    createSprite: function(location, w, h)
+    {
+        var texture = Engine.Util.getTexture('sprites/' + location);
+        var geometry = new THREE.PlaneBufferGeometry(w, h);
+        var material = new THREE.MeshLambertMaterial({map: texture});
+        var model = new THREE.Mesh(geometry, material);
+        return model;
+    },
+
     getTexture: function(url, callback)
     {
         var texture = THREE.ImageUtils.loadTexture(url, null, callback);
