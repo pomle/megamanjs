@@ -2,7 +2,6 @@ Engine.scenes.levels.Flashman = function()
 {
     this.__proto__ = new Engine.scenes.Level();
     var self = this;
-    self.collision = new Engine.Collision();
     self.backdrop = undefined;
 
     var texture = Engine.Util.getTexture('sprites/levels/flashman/level.gif', function(texture) {
