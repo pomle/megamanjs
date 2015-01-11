@@ -17,6 +17,9 @@ Engine.assets.Projectile = function()
         if (self.emitter.uuid == withObject.uuid) {
             return false;
         }
+
+        withObject.health.reduce(self.damage);
+
         console.log('Inflicting %f damage on %s', self.damage, withObject);
         self.scene.removeObject(self);
 
