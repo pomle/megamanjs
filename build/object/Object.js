@@ -10,9 +10,9 @@ Engine.assets.Object = function()
     self.speed = new THREE.Vector2();
     self.scene = undefined;
 
-    self.addCollisionZone = function(r, x, y)
+    self.addCollisionZone = function(r, offsetX, offsetY)
     {
-        self.collision.push({'radius': r, 'x': x, 'y': y});
+        self.collision.push({'radius': r, 'x': offsetX, 'y': offsetY});
     }
 
     self.collides = function(withObject, ourZone, theirZone)
