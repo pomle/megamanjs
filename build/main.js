@@ -15,8 +15,13 @@ var player2 = new Engine.assets.objects.characters.MegaMan();
 player2.health = 100;
 level.addPlayer(player2);
 
-var weapon = new Engine.assets.weapons.Plasma();
-player.equipWeapon(weapon);
+var weapons = {
+	'p': new Engine.assets.weapons.Plasma(),
+	'm': new Engine.assets.weapons.MetalBlade()
+};
+
+player.equipWeapon(weapons['p']);
+
 /*
 var energyTank = new Engine.assets.objects.items.EnergyTank();
 energyTank.model.position.x = 50;
