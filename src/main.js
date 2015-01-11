@@ -37,15 +37,15 @@ level.addObject(weaponTank);
 
 var keyboard = new Engine.Keyboard();
 
-keyboard.intermittent(37, player.moveLeftStart, player.moveLeftEnd);
-keyboard.intermittent(39, player.moveRightStart, player.moveRightEnd);
-keyboard.intermittent(96, player.jumpStart, player.jumpEnd);
-keyboard.hit(110, player.fire);
+keyboard.intermittent(37, function() { player.moveLeftStart(); }, function() { player.moveLeftEnd(); });
+keyboard.intermittent(39, function() { player.moveRightStart(); }, function() { player.moveRightEnd(); });
+keyboard.intermittent(96, function() { player.jumpStart(); }, function() { player.jumpEnd(); });
+keyboard.hit(110, function() { player.fire(); });
 
-keyboard.intermittent(65, boss.moveLeftStart, boss.moveLeftEnd);
-keyboard.intermittent(68, boss.moveRightStart, boss.moveRightEnd);
-keyboard.intermittent(86, boss.jumpStart, boss.jumpEnd);
-keyboard.hit(67, boss.fire);
+keyboard.intermittent(65, function() { boss.moveLeftStart(); }, function() { boss.moveLeftEnd(); });
+keyboard.intermittent(68, function() { boss.moveRightStart(); }, function() { boss.moveRightEnd(); });
+keyboard.intermittent(86, function() { boss.jumpStart(); }, function() { boss.jumpEnd(); });
+keyboard.hit(67, function() { boss.fire(); });
 
 
 Engine.scenes.Level.Util.loadFromXML('levels/Flashman.xml', function(level) {

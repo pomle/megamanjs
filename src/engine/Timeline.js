@@ -1,94 +1,95 @@
 Engine.Timeline = function()
 {
-    var self = this;
-    var index = 0;
-    var lastIndex;
-    self.callbacks = [];
-    self.frames = [];
-    self.accumulatedTime = 0;
-    self.infiniteTime = 0;
-    self.totalDuration = 0;
+    this.index = 0;
+    this.lastIndex;
 
-    self.addFrame = function(value, duration)
-    {
-        self.frames.push({
-            'duration': duration,
-            'value': value
-        });
-        self.totalDuration += duration;
+    this.accumulatedTime = 0;
+    this.infiniteTime = 0;
+    this.totalDuration = 0;
+
+    this.callbacks = [];
+    this.frames = [];
+}
+
+Engine.Timeline.prototype.addFrame = function(value, duration)
+{
+    this.frames.push({
+        'duration': duration,
+        'value': value
+    });
+    this.totalDuration += duration;
+}
+
+Engine.Timeline.prototype.onChange = function(callback)
+{
+    this.callbacks.push(callback);
+}
+
+Engine.Timeline.prototype.frameShift = function(steps)
+{
+    this.index = (this.index + steps) % this.frames.length;
+    var i, time = 0;
+    for (i = 0; i < this.index; i++) {
+        time += this.frames[i].duration;
     }
+    this.infiniteTime = time;
+}
 
-    self.onChange = function(callback)
-    {
-        self.callbacks.push(callback);
-    }
+Engine.Timeline.prototype.getIndex = function()
+{
+    return this.getIndexAtTime(this.infiniteTime);
+}
 
-    self.frameShift = function(steps)
-    {
-        index = (index + steps) % self.frames.length;
-        var i, time = 0;
-        for (i = 0; i < index; i++) {
-            time += self.frames[i].duration;
-        }
-        self.infiniteTime = time;
-    }
+Engine.Timeline.prototype.getIndexAtTime = function(time)
+{
+    /*
+        Because all JavaScript numbers are floats with finite precision
+        there's a chance this will crash because the accumulative durations
+        are less than infiniteTime.
+    */
+    var i = 0, incrementalTime = 0, index = 0;
+    do {
+        index = i++;
+        incrementalTime += this.frames[index].duration;
+    } while (time >= incrementalTime);
+    return index;
+}
 
-    self.getIndex = function()
-    {
-        return self.getIndexAtTime(self.infiniteTime);
-    }
+Engine.Timeline.prototype.getValue = function()
+{
+    var index = this.getIndexAtTime(this.infiniteTime);
+    return this.getValueAtIndex(index);
+}
 
-    self.getIndexAtTime = function(time)
-    {
-        /*
-            Because all JavaScript numbers are floats with finite precision
-            there's a chance this will crash because the accumulative durations
-            are less than infiniteTime.
-        */
-        var i = 0, incrementalTime = 0, index = 0;
-        do {
-            index = i++;
-            incrementalTime += self.frames[index].duration;
-        } while (time >= incrementalTime);
-        return index;
-    }
+Engine.Timeline.prototype.getValueAtIndex = function(index)
+{
+    return this.frames[index].value;
+}
 
-    self.getValue = function()
-    {
-        var index = self.getIndexAtTime(self.infiniteTime);
-        return self.getValueAtIndex(index);
-    }
+Engine.Timeline.prototype.getValueAtTime = function(time)
+{
+    var index = this.getIndexAtTime(time);
+    return this.getValueAtIndex(index);
+}
 
-    self.getValueAtIndex = function(index)
-    {
-        return self.frames[index].value;
-    }
+Engine.Timeline.prototype.reset = function()
+{
+    this.accumulatedTime = 0;
+}
 
-    self.getValueAtTime = function(time)
-    {
-        var index = self.getIndexAtTime(time);
-        return self.getValueAtIndex(index);
-    }
-
-    self.reset = function()
-    {
-        self.accumulatedTime = 0;
-    }
-
-    self.timeShift = function(diff)
-    {
-        self.accumulatedTime += diff;
-        self.infiniteTime = (self.accumulatedTime % self.totalDuration + self.totalDuration) % self.totalDuration;
-        if (self.callbacks.length) {
-            var nextIndex = self.getIndex();
-            if (nextIndex !== lastIndex) {
-                //console.log('Index updated from %d to %d', lastIndex, nextIndex);
-                var i;
-                for (i in self.callbacks) {
-                    self.callbacks[i].call(self);
-                }
-                lastIndex = nextIndex;
+Engine.Timeline.prototype.timeShift = function(diff)
+{
+    this.accumulatedTime += diff;
+    this.infiniteTime = (this.accumulatedTime % this.totalDuration + this.totalDuration) % this.totalDuration;
+    if (this.callbacks.length) {
+        var nextIndex = this.getIndex();
+        if (nextIndex !== this.lastIndex) {
+            //console.log('Index updated from %d to %d', this.lastIndex, nextIndex);
+            var i;
+            for (i in this.callbacks) {
+                this.callbacks[i].call(this.getValue());
             }
+            this.lastIndex = nextIndex;
         }
     }
 }

@@ -1,57 +1,56 @@
 Engine.assets.Weapon = function()
 {
-    var self = this;
-    var coolDownTimer;
-    self.ammo = -1;
-    self.coolDown = 0;
-    self.isReady = true;
-    self.isFiring = false;
-    self.user = undefined;
+    this.coolDownTimer;
+    this.ammo = -1;
+    this.coolDown = 0;
+    this.isReady = true;
+    this.isFiring = false;
+    this.user = undefined;
+}
 
-    self.fire = function()
-    {
-        if (!self.isReady) {
-            return false;
-        }
-
-        if (self.ammo == 0) {
-            return false;
-        }
-
-        if (self.ammo > 0) {
-            self.ammo--;
-        }
-
-        if (self.coolDown > 0) {
-            self.isReady = false;
-            coolDownTimer = setTimeout(self.ready, self.coolDown * 1000);
-        }
-
-        return true;
+Engine.assets.Weapon.prototype.fire = function()
+{
+    if (!this.isReady) {
+        return false;
     }
 
-    self.ready = function()
-    {
-        self.isReady = true;
+    if (this.ammo == 0) {
+        return false;
     }
 
-    self.setAmmo = function(value)
-    {
-        self.ammo = value;
+    if (this.ammo > 0) {
+        this.ammo--;
     }
 
-    self.setCoolDown = function(duration)
-    {
-        self.coolDown = duration;
+    if (this.coolDown > 0) {
+        this.isReady = false;
+        coolDownTimer = setTimeout(this.ready.bind(this), this.coolDown * 1000);
     }
 
-    self.setUser = function(user)
-    {
-         /*if (user instanceof Engine.assets.objects.Character !== true) {
-            throw new Error('Invalid user');
-        }*/
-        self.user = user;
+    return true;
+}
+
+Engine.assets.Weapon.prototype.ready = function()
+{
+    this.isReady = true;
+}
+
+Engine.assets.Weapon.prototype.setAmmo = function(value)
+{
+    this.ammo = value;
+}
+
+Engine.assets.Weapon.prototype.setCoolDown = function(duration)
+{
+    this.coolDown = duration;
+}
+
+Engine.assets.Weapon.prototype.setUser = function(user)
+{
+    if (user instanceof Engine.assets.objects.Character !== true) {
+        throw new Error('Invalid user');
     }
+    this.user = user;
 }
 
 Engine.assets.weapons = {};

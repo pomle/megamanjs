@@ -1,44 +1,46 @@
 Engine.scenes.Level = function()
 {
-    this.__proto__ = new Engine.Scene();
-    var self = this;
-    self.collision = new Engine.Collision();
-    self.camera.camera.position.z = 120;
-    self.startPosition = new THREE.Vector2();
+    Engine.Scene.call(this);
+    this.camera.camera.position.z = 120;
+    this.collision = new Engine.Collision();
+    this.startPosition = new THREE.Vector2();
+}
 
-    self.addObject = function(o, x, y)
-    {
-        o.model.position.x = x === undefined ? o.model.position.x : x;
-        o.model.position.y = y === undefined ? o.model.position.y : y;
-        self.__proto__.addObject(o);
-        self.collision.addObject(o);
-        o.setScene(self);
-    }
+Engine.scenes.Level.prototype = Object.create(Engine.Scene.prototype);
+Engine.scenes.Level.prototype.constructor = Engine.scenes.Level;
 
-    self.removeObject = function(o)
-    {
-        self.__proto__.removeObject(o);
-        self.collision.removeObject(o);
-    }
+Engine.scenes.Level.prototype.addObject = function(o, x, y)
+{
+    o.model.position.x = x === undefined ? o.model.position.x : x;
+    o.model.position.y = y === undefined ? o.model.position.y : y;
+    Engine.Scene.prototype.addObject.call(this, o);
+    this.collision.addObject(o);
+    o.setScene(this);
+}
 
-    self.addPlayer = function(player)
-    {
-        self.addObject(player, self.startPosition.x, -self.startPosition.y);
-        self.camera.follow(player);
-    }
+Engine.scenes.Level.prototype.removeObject = function(o)
+{
+    Engine.Scene.prototype.removeObject.call(this, o);
+    this.collision.removeObject(o);
+}
 
-    self.setStartPosition = function(x, y)
-    {
-        self.startPosition.x = x;
-        self.startPosition.y = y;
-        self.camera.jumpTo(x, -y);
-    }
+Engine.scenes.Level.prototype.addPlayer = function(player)
+{
+    this.addObject(player, this.startPosition.x, -this.startPosition.y);
+    this.camera.follow(player);
+}
 
-    self.updateTime = function(timeElapsed)
-    {
-        self.__proto__.updateTime(timeElapsed);
-        self.collision.detect();
-    }
+Engine.scenes.Level.prototype.setStartPosition = function(x, y)
+{
+    this.startPosition.x = x;
+    this.startPosition.y = y;
+    this.camera.jumpTo(x, -y);
+}
+
+Engine.scenes.Level.prototype.updateTime = function(timeElapsed)
+{
+    Engine.Scene.prototype.updateTime.call(this, timeElapsed);
+    this.collision.detect();
 }
 
 Engine.scenes.levels = {};

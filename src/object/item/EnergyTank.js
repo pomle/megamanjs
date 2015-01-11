@@ -1,11 +1,10 @@
 Engine.assets.objects.items.EnergyTank = function()
 {
-    this.__proto__ = new Engine.assets.objects.Item();
-    var self = this;
+    Engine.assets.objects.Item.call(this);
 
-    self.addCollisionZone(8, 0, 0);
+    this.addCollisionZone(8, 0, 0);
 
-    self.capacity = 100;
+    this.capacity = 100;
 
     var texture = THREE.ImageUtils.loadTexture('sprites/powerup/energy-tank-large.gif');
 
@@ -18,10 +17,13 @@ Engine.assets.objects.items.EnergyTank = function()
         material
     );
 
-    self.sprite = new Engine.Sprite(texture);
-    self.sprite.addFrame(.1);
-    self.sprite.addFrame(.1);
-    self.sprite.play();
+    this.sprite = new Engine.Sprite(texture);
+    this.sprite.addFrame(.1);
+    this.sprite.addFrame(.1);
+    this.sprite.play();
 
-    self.setModel(model);
+    this.setModel(model);
 }
+
+Engine.assets.objects.items.EnergyTank.prototype = Object.create(Engine.assets.objects.Item.prototype);
+Engine.assets.objects.items.EnergyTank.constructor = Engine.assets.objects.items.EnergyTank;

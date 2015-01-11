@@ -1,124 +1,130 @@
 Engine.assets.objects.Character = function()
 {
-    this.__proto__ = new Engine.assets.Object();
+    Engine.assets.Object.call(this);
 
-    var self = this;
-    var fireTimer;
-    var jumpTimer;
+    this.fireTimer = undefined;
+    this.jumpTimer = undefined;
 
-    self.fireTimeout = .25;
-    self.direction = undefined;
-    self.health = new Engine.assets.Energy(100);
-    self.isFiring = false;
-    self.jumpForce = 155;
-    self.jumpSpeed = 0;
-    self.jumpTimeout = .18;
-    self.moveSpeed = 0;
-    self.walkAcc = 20;
-    self.walkSpeed = 90;
-    self.walk = 0;
-    self.weapon = undefined;
+    this.fireTimeout = .25;
+    this.direction = undefined;
+    this.health = new Engine.assets.Energy(100);
+    this.isFiring = false;
+    this.jumpForce = 155;
+    this.jumpSpeed = 0;
+    this.jumpTimeout = .18;
+    this.moveSpeed = 0;
+    this.walkAcc = 20;
+    this.walkSpeed = 90;
+    this.walk = 0;
+    this.weapon = undefined;
 
-    self.setGravity(10);
+    this.setGravity(10);
+}
 
-    self.equipWeapon = function(weapon)
-    {
-        if (weapon instanceof Engine.assets.Weapon !== true) {
-            throw new Error('Invalid weapon');
-        }
-        self.weapon = weapon;
-        self.weapon.setUser(self);
+Engine.assets.objects.Character.prototype = Object.create(Engine.assets.Object.prototype);
+Engine.assets.objects.Character.constructor = Engine.assets.objects.Character;
+
+Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
+{
+    if (weapon instanceof Engine.assets.Weapon !== true) {
+        throw new Error('Invalid weapon');
+    }
+    this.weapon = weapon;
+    this.weapon.setUser(this);
+}
+
+Engine.assets.objects.Character.prototype.fire = function()
+{
+    if (!this.weapon) {
+        return false;
     }
 
-    self.fire = function()
-    {
-        if (!self.weapon) {
-            return false;
-        }
-
-        if (!self.weapon.fire()) {
-            return false;
-        }
-
-        clearTimeout(fireTimer);
-        self.isFiring = true;
-        console.log(self.fireTimeout);
-        fireTimer = setTimeout(function() { self.isFiring = false; }, self.fireTimeout * 1000);
-
-        return true;
+    if (!this.weapon.fire()) {
+        return false;
     }
 
-    self.jumpStart = function()
-    {
-        if (!self.isSupported()) {
-            return false;
-        }
-        self.jumpSpeed = self.jumpForce;
-        jumpTimer = setTimeout(self.jumpEnd, self.jumpTimeout * 1000);
-        return jumpTimer;
-    }
+    clearTimeout(this.fireTimer);
+    this.isFiring = true;
 
-    self.jumpEnd = function()
-    {
-        self.jumpSpeed = 0;
-    }
+    this.fireTimer = setTimeout(
+        function stopFire() {
+            this.isFiring = false;
+        }.bind(this),
+        this.fireTimeout * 1000);
 
-    self.moveLeftStart = function()
-    {
-        self.walk--;
-    }
+    return true;
+}
 
-    self.moveLeftEnd = function()
-    {
-        self.walk++;
+Engine.assets.objects.Character.prototype.jumpStart = function()
+{
+    if (!this.isSupported) {
+        return false;
     }
+    this.jumpSpeed = this.jumpForce;
+    this.jumpTimer = setTimeout(this.jumpEnd.bind(this), this.jumpTimeout * 1000);
+    return this.jumpTimer;
+}
 
-    self.moveRightStart = function()
-    {
-        self.walk++;
-    }
+Engine.assets.objects.Character.prototype.jumpEnd = function()
+{
+    this.jumpSpeed = 0;
+}
 
-    self.moveRightEnd = function()
-    {
-        self.walk--;
-    }
+Engine.assets.objects.Character.prototype.moveLeftStart = function()
+{
+    this.walk--;
+}
 
-    self.setDirection = function(d)
-    {
-        self.direction = d;
-    }
+Engine.assets.objects.Character.prototype.moveLeftEnd = function()
+{
+    this.walk++;
+}
 
-    self.setFireTimeout = function(seconds)
-    {
-        self.fireTimeout = seconds;
-    }
+Engine.assets.objects.Character.prototype.moveRightStart = function()
+{
+    this.walk++;
+}
 
-    self.setJumpForce = function(force)
-    {
-        self.jumpForce = force;
-    }
+Engine.assets.objects.Character.prototype.moveRightEnd = function()
+{
+    this.walk--;
+}
 
-    self.setWalkspeed = function(speed)
-    {
-        self.walkSpeed = speed;
-    }
+Engine.assets.objects.Character.prototype.setDirection = function(d)
+{
+    this.direction = d;
+}
 
-    self.timeShift = function(t)
-    {
-        if (self.walk != 0) {
-            self.moveSpeed = Math.min(self.moveSpeed + self.walkAcc, self.walkSpeed);
-        }
-        else {
-            self.moveSpeed = 0;
-        }
-        self.speed.x = (self.moveSpeed * self.walk);
-        if (self.jumpSpeed > 0) {
-            self.speed.y = self.jumpSpeed;
-        }
-        //console.log('Move Speed: %f', self.moveSpeed);
-        //console.log('Jump Force: %f', self.jumpSpeed);
-        self.__proto__.timeShift(t);
+Engine.assets.objects.Character.prototype.setFireTimeout = function(seconds)
+{
+    this.fireTimeout = seconds;
+}
+
+Engine.assets.objects.Character.prototype.setJumpForce = function(force)
+{
+    this.jumpForce = force;
+}
+
+Engine.assets.objects.Character.prototype.setWalkspeed = function(speed)
+{
+    this.walkSpeed = speed;
+}
+
+Engine.assets.objects.Character.prototype.timeShift = function(t)
+{
+    if (this.walk != 0) {
+        this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc, this.walkSpeed);
     }
+    else {
+        this.moveSpeed = 0;
+    }
+    this.speed.x = (this.moveSpeed * this.walk);
+    if (this.jumpSpeed > 0) {
+        this.speed.y = this.jumpSpeed;
+    }
+    //console.log('Move Speed: %f', this.moveSpeed);
+    //console.log('Jump Force: %f', this.jumpSpeed);
+    Engine.assets.Object.prototype.timeShift.call(this, t);
 }
 
 Engine.assets.objects.characters = {};

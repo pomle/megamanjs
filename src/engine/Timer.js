@@ -1,59 +1,58 @@
 Engine.Timer = function()
 {
-    var self = this;
-    self.running = false;
-    self.animationCycleId = undefined;
-    self.callbacks = [];
-    self.timeLastEvent = undefined;
-    self.timeStretch = 1;
+    this.animationCycleId = undefined;
+    this.callbacks = [];
+    this.running = false;
+    this.timeLastEvent = undefined;
+    this.timeStretch = 1;
+}
 
-    self.eventLoop = function()
-    {
-        var timeNow = new Date();
-        var timeElapsed = (timeNow.getTime() - self.timeLastEvent.getTime()) / 1000;
-        self.timeLastEvent = timeNow;
+Engine.Timer.prototype.eventLoop = function()
+{
+    var timeNow = new Date();
+    var timeElapsed = (timeNow.getTime() - this.timeLastEvent.getTime()) / 1000;
+    this.timeLastEvent = timeNow;
 
-        if (!self.running) {
-            return;
-        }
-
-        timeElapsed *= self.timeStretch;
-
-        var i;
-        if (self.callbacks.length) {
-            for (i in self.callbacks) {
-                self.callbacks[i](timeElapsed);
-            }
-        }
-
-        self.animationCycleId = requestAnimationFrame(self.eventLoop);
+    if (!this.running) {
+        return;
     }
 
-    self.start = function()
-    {
-        if (self.running) {
-            return true;
+    timeElapsed *= this.timeStretch;
+
+    var i;
+    if (this.callbacks.length) {
+        for (i in this.callbacks) {
+            this.callbacks[i](timeElapsed);
         }
+    }
 
-        self.timeLastEvent = new Date();
-        self.running = true;
-        self.eventLoop();
+    requestAnimationFrame(this.eventLoop.bind(this));
+}
 
+Engine.Timer.prototype.start = function()
+{
+    if (this.running) {
         return true;
     }
 
-    self.stop = function()
-    {
-        if (!self.running) {
-            return true;
-        }
+    this.timeLastEvent = new Date();
+    this.running = true;
+    this.eventLoop();
 
-        self.running = false;
-        if (self.animationCycleId) {
-            cancelAnimationFrame(self.animationCycleId);
-            self.animationCycleId = undefined;
-        }
+    return true;
+}
 
+Engine.Timer.prototype.stop = function()
+{
+    if (!this.running) {
         return true;
     }
+
+    this.running = false;
+    if (this.animationCycleId) {
+        cancelAnimationFrame(this.animationCycleId);
+        this.animationCycleId = undefined;
+    }
+
+    return true;
 }

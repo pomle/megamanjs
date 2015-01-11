@@ -1,50 +1,50 @@
 Engine.Camera = function(camera)
 {
-    var self = this;
-    self.camera = camera;
-    self.followObject = undefined;
-    self.followTween = undefined;
+    this.camera = camera;
+    this.followObject = undefined;
+    this.followTween = undefined;
+}
 
-    self.follow = function(object, distance)
-    {
-        self.followObject = object;
-        self.followTween = new TweenMax(self.camera.position, 1, {
-            x: self.followObject.model.position.x,
-            y: self.followObject.model.position.y
-        });
-        //self.zoomTween = new TweenMax(self.camera.position, 3, {'z': self.followDistance});
-    }
+Engine.Camera.prototype.follow = function(object, distance)
+{
+    this.followObject = object;
+    this.followTween = new TweenMax(this.camera.position, 1, {
+        x: this.followObject.model.position.x,
+        y: this.followObject.model.position.y
+    });
+    //this.zoomTween = new TweenMax(this.camera.position, 3, {'z': this.followDistance});
+}
 
-    self.jumpTo = function(x, y)
-    {
-        self.unfollow();
-        self.camera.position.x = x;
-        self.camera.position.y = y;
-    }
+Engine.Camera.prototype.jumpTo = function(x, y)
+{
+    this.unfollow();
+    this.camera.position.x = x;
+    this.camera.position.y = y;
+}
 
-    self.panTo = function(x, y)
+Engine.Camera.prototype.panTo = function(x, y)
+{
+    this.followTween.updateTo({
+        'x': x,
+        'y': y
+    }, true);
+}
+
+Engine.Camera.prototype.unfollow = function()
+{
+    this.followObject = undefined;
+}
+
+Engine.Camera.prototype.updateTime = function(timeElapsed)
+{
+    if (this.followObject)
     {
-        self.followTween.updateTo({
-            'x': x,
-            'y': y
+        this.panTo(this.followObject.model.position.x, this.followObject.model.position.y);
+        /*
+        var newZ = this.followDistance + Math.max(Math.abs(this.followObject.speed.x), Math.abs(this.followObject.speed.y));
+        this.zoomTween.updateTo({
+            'z': newZ
         }, true);
-    }
-
-    self.unfollow = function()
-    {
-        self.followObject = undefined;
-    }
-
-    self.updateTime = function(timeElapsed)
-    {
-        if (self.followObject) {
-            self.panTo(self.followObject.model.position.x, self.followObject.model.position.y);
-            /*
-            var newZ = self.followDistance + Math.max(Math.abs(self.followObject.speed.x), Math.abs(self.followObject.speed.y));
-            self.zoomTween.updateTo({
-                'z': newZ
-            }, true);
-            */
-        }
+        */
     }
 }

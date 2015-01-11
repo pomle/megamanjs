@@ -1,17 +1,16 @@
 Engine.assets.Energy = function(max)
 {
-    var self = this;
-    self.min = 0;
-    self.max = max;
-    self.current = max;
+    this.min = 0;
+    this.max = max;
+    this.current = max;
+}
 
-    self.reduce = function(points)
-    {
-        self.current = Math.max(self.min, self.current - points);
-    }
+Engine.assets.Energy.prototype.reduce = function(points)
+{
+    this.current = Math.max(this.min, this.current - points);
+}
 
-    self.refill = function(points)
-    {
-        self.current = Math.min(self.max, self.current + points);
-    }
+Engine.assets.Energy.prototype.refill = function(points)
+{
+    this.current = Math.min(this.max, this.current + points);
 }

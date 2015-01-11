@@ -8,24 +8,23 @@ Engine.UVAnimator = function(timeline, geometry)
         throw new Error('Invalid geometry');
     }
 
-    var self = this;
-    var isPlaying = false;
+    this.isPlaying = false;
+    this.geometry = geometry;
+    this.timeline = timeline;
+}
 
-    self.pause = function()
-    {
-        isPlaying = false;
-    }
+Engine.UVAnimator.prototype.pause = function()
+{
+    this.isPlaying = false;
+}
 
-    self.play = function()
-    {
-        isPlaying = true;
-    }
+Engine.UVAnimator.prototype.play = function()
+{
+    this.isPlaying = true;
+}
 
-    self.update = function()
-    {
-        geometry.faceVertexUvs[0] = timeline.getValue();
-        geometry.uvsNeedUpdate = true;
-    }
-
-    timeline.onChange(self.update);
+Engine.UVAnimator.prototype.update = function(uvMap)
+{
+    this.geometry.faceVertexUvs[0] = uvMap;
+    this.geometry.uvsNeedUpdate = true;
 }

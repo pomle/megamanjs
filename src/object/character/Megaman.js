@@ -1,9 +1,9 @@
 Engine.assets.objects.characters.Megaman = function()
 {
-    this.__proto__ = new Engine.assets.objects.Character();
+    Engine.assets.objects.Character.call(this);
 
-    var LEFT = -1;
-    var RIGHT = 1;
+    this.LEFT = -1;
+    this.RIGHT = 1;
 
     var idleLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/megaman/idle-left.gif'));
     idleLeft.addFrames([3.85,.15]);
@@ -33,8 +33,8 @@ Engine.assets.objects.characters.Megaman = function()
     runFireRight.addFrames([.12,.12,.12,.12]);
 
 
-    var sprites = {};
-    sprites[LEFT] = {
+    this.sprites = {};
+    this.sprites[this.LEFT] = {
         'idle': idleLeft,
         'fire': fireLeft,
         'jump': jumpLeft,
@@ -43,7 +43,7 @@ Engine.assets.objects.characters.Megaman = function()
         'run': runLeft,
         'runFire': runFireLeft,
     };
-    sprites[RIGHT] = {
+    this.sprites[this.RIGHT] = {
         'idle': idleRight,
         'fire': fireRight,
         'jump': jumpRight,
@@ -53,8 +53,7 @@ Engine.assets.objects.characters.Megaman = function()
         'runFire': runFireRight
     };
 
-    var self = this;
-    self.setDirection(RIGHT);
+    this.setDirection(this.RIGHT);
 
     var material = new THREE.MeshLambertMaterial({});
     material.transparent = true;
@@ -64,52 +63,57 @@ Engine.assets.objects.characters.Megaman = function()
         material
     );
 
-    self.addCollisionZone(10, 0, 0);
+    this.addCollisionZone(10, 0, 0);
 
-    self.setModel(model);
+    this.setModel(model);
 
-    self.getSprite = function()
-    {
-        if (self.walk != 0) {
-            self.setDirection(self.walk > 0 ? RIGHT : LEFT);
-        }
 
-        if (!self.isSupported()) {
-            if (self.isFiring) {
-                return sprites[self.direction]['jumpFire'];
-            }
-            return sprites[self.direction]['jump'];
-        }
+    this.currentSprite;
+}
 
-        if (self.walk != 0) {
-            if (self.moveSpeed < self.walkSpeed) {
-                return sprites[self.direction]['lean'];
-            }
-            if (self.isFiring) {
-                return sprites[self.direction]['runFire'];
-            }
-            return sprites[self.direction]['run'];
-        }
+Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);
+Engine.assets.objects.characters.Megaman.constructor = Engine.assets.objects.characters.Megaman;
 
-        if (self.isFiring) {
-            return sprites[self.direction]['fire'];
-        }
-
-        return sprites[self.direction]['idle'];
+Engine.assets.objects.characters.Megaman.prototype.getSprite = function()
+{
+    if (this.walk != 0) {
+        this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
     }
 
-    var currentSprite;
-    self.timeShift = function(t)
-    {
-        var sprite = self.getSprite();
-        if (currentSprite !== sprite) {
-            if (currentSprite) {
-                currentSprite.stop();
-            }
-            currentSprite = sprite;
-            currentSprite.restart();
-            self.model.material.map = currentSprite.texture;
+    if (!this.isSupported) {
+        if (this.isFiring) {
+            return this.sprites[this.direction]['jumpFire'];
         }
-        self.__proto__.timeShift(t);
+        return this.sprites[this.direction]['jump'];
     }
+
+    if (this.walk != 0) {
+        if (this.moveSpeed < this.walkSpeed) {
+            return this.sprites[this.direction]['lean'];
+        }
+        if (this.isFiring) {
+            return this.sprites[this.direction]['runFire'];
+        }
+        return this.sprites[this.direction]['run'];
+    }
+
+    if (this.isFiring) {
+        return this.sprites[this.direction]['fire'];
+    }
+
+    return this.sprites[this.direction]['idle'];
+}
+
+Engine.assets.objects.characters.Megaman.prototype.timeShift = function(t)
+{
+    var sprite = this.getSprite();
+    if (this.currentSprite !== sprite) {
+        if (this.currentSprite) {
+            this.currentSprite.stop();
+        }
+        this.currentSprite = sprite;
+        this.currentSprite.restart();
+        this.model.material.map = this.currentSprite.texture;
+    }
+    Engine.assets.objects.Character.prototype.timeShift.call(this, t);
 }

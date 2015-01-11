@@ -1,3 +1,3 @@
-Engine.assets.AI = function()
+Engine.AI = function()
 {
 }

@@ -1,33 +1,34 @@
 var Engine = function(renderer)
 {
-    var self = this;
-    self.renderer = renderer;
-    self.scene = undefined;
-    self.timer = undefined;
+    this.renderer = renderer;
+    this.scene = undefined;
+    this.timer = undefined;
+}
 
-    self.run = function()
-    {
-        if (self.scene) {
-            self.timer.callbacks.push(function(t) {
-                self.scene.updateTime(t);
-                self.scene.camera.updateTime(t);
-                self.render();
-            });
-        }
-
-        self.timer.start();
+Engine.prototype.run = function()
+{
+    if (this.scene) {
+        this.timer.callbacks.push(this.timeShift.bind(this));
     }
+    this.timer.start();
+}
 
-    self.pause = function()
-    {
-        self.timer.stop();
-        self.timer.callbacks = [];
-    }
+Engine.prototype.pause = function()
+{
+    this.timer.stop();
+    this.timer.callbacks = [];
+}
 
-    self.render = function()
-    {
-        renderer.render(self.scene.scene, self.scene.camera.camera);
-    }
+Engine.prototype.render = function()
+{
+    renderer.render(this.scene.scene, this.scene.camera.camera);
+}
+
+Engine.prototype.timeShift = function(timeElapsed)
+{
+    this.scene.updateTime(timeElapsed);
+    this.scene.camera.updateTime(timeElapsed);
+    this.render();
 }
 
 Engine.Util = {

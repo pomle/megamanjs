@@ -1,9 +1,9 @@
 Engine.assets.objects.characters.Metalman = function()
 {
-    this.__proto__ = new Engine.assets.objects.Character();
+    Engine.assets.objects.Character.call(this);
 
-    var LEFT = -1;
-    var RIGHT = 1;
+    this.LEFT = -1;
+    this.RIGHT = 1;
 
     var idleLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/idle-left.gif'));
     var idleRight = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/idle-right.gif'));
@@ -25,28 +25,25 @@ Engine.assets.objects.characters.Metalman = function()
     runRight.addFrames([.12,.12,.12,.12]);
 
 
-    var sprites = {};
-    sprites[LEFT] = {
+    this.sprites = {};
+    this.sprites[this.LEFT] = {
         'idle': idleLeft,
         'fire': fireLeft,
         'jump': jumpLeft,
         'jumpFire': jumpFireLeft,
-        'run': runLeft,
-        'runFire': fireLeft,
+        'run': runLeft
     };
-    sprites[RIGHT] = {
+    this.sprites[this.RIGHT] = {
         'idle': idleRight,
         'fire': fireRight,
         'jump': jumpRight,
         'jumpFire': jumpFireRight,
-        'run': runRight,
-        'runFire': fireRight
+        'run': runRight
     };
 
-    var self = this;
-    self.setDirection(RIGHT);
+    this.setDirection(this.RIGHT);
 
-    self.setFireTimeout(.2);
+    this.setFireTimeout(.2);
 
     var material = new THREE.MeshLambertMaterial({});
     material.transparent = true;
@@ -56,52 +53,58 @@ Engine.assets.objects.characters.Metalman = function()
         material
     );
 
-    self.addCollisionZone(6, 0, 6);
+    this.addCollisionZone(6, 0, 6);
 
-    self.setJumpForce(250);
+    this.setJumpForce(250);
 
-    self.setModel(model);
+    this.setModel(model);
 
-    self.getSprite = function()
-    {
-        if (self.walk != 0) {
-            self.setDirection(self.walk > 0 ? RIGHT : LEFT);
-        }
 
-        if (!self.isSupported()) {
-            if (self.isFiring) {
-                return sprites[self.direction]['jumpFire'];
-            }
-            return sprites[self.direction]['jump'];
-        }
-
-        if (self.walk != 0) {
-            if (self.isFiring) {
-                return sprites[self.direction]['runFire'];
-            }
-            return sprites[self.direction]['run'];
-        }
-
-        if (self.isFiring) {
-            return sprites[self.direction]['fire'];
-        }
-
-        return sprites[self.direction]['idle'];
-    }
-
-    var currentSprite;
-    self.timeShift = function(t)
-    {
-        var sprite = self.getSprite();
-        if (currentSprite != sprite) {
-            if (currentSprite) {
-                currentSprite.stop();
-            }
-            currentSprite = sprite;
-            currentSprite.restart();
-            self.model.material.map = currentSprite.texture;
-        }
-        self.__proto__.timeShift(t);
-    }
+    this.currentSprite;
 }
 
+Engine.assets.objects.characters.Metalman.prototype = Object.create(Engine.assets.objects.Character.prototype);
+Engine.assets.objects.characters.Metalman.constructor = Engine.assets.objects.characters.Metalman;
+
+Engine.assets.objects.characters.Metalman.prototype.getSprite = function()
+{
+    if (this.walk != 0) {
+        this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
+    }
+
+    var sprites = this.sprites[this.direction];
+
+    if (!this.isSupported) {
+        if (this.isFiring) {
+            return sprites['jumpFire'];
+        }
+        return sprites['jump'];
+    }
+
+    if (this.walk != 0) {
+        if (this.isFiring) {
+            return sprites['runFire'];
+        }
+        return sprites['run'];
+    }
+
+    if (this.isFiring) {
+        return sprites['fire'];
+    }
+
+    return sprites['idle'];
+}
+
+Engine.assets.objects.characters.Metalman.prototype.timeShift = function(t)
+{
+    var sprite = this.getSprite();
+    if (this.currentSprite !== sprite) {
+        if (this.currentSprite) {
+            this.currentSprite.stop();
+        }
+        this.currentSprite = sprite;
+        this.currentSprite.restart();
+        this.model.material.map = this.currentSprite.texture;
+    }
+    Engine.assets.objects.Character.prototype.timeShift.call(this, t);
+}

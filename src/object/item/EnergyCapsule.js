@@ -1,11 +1,10 @@
 Engine.assets.objects.items.EnergyCapsule = function()
 {
-    this.__proto__ = new Engine.assets.objects.Item();
-    var self = this;
+    Engine.assets.objects.Item.call(this);
 
-    self.addCollisionZone(8, 0, 0);
+    this.addCollisionZone(8, 0, 0);
 
-    self.capacity = 100;
+    this.capacity = 100;
 
     var texture = THREE.ImageUtils.loadTexture('sprites/powerup/energy-capsule.gif');
 
@@ -18,14 +17,13 @@ Engine.assets.objects.items.EnergyCapsule = function()
         material
     );
 
-    self.sprite = new Engine.Sprite(texture);
-    self.sprite.addFrames([.1,.1]);
-    self.sprite.play();
+    this.sprite = new Engine.Sprite(texture);
+    this.sprite.addFrames([.1,.1]);
+    this.sprite.play();
 
-    self.setModel(model);
-
-    self.collides = function(withObject, ourZone, theirZone)
-    {
-        console.log(withObject, ourZone, theirZone);
-    }
+    this.setModel(model);
 }
+
+Engine.assets.objects.items.EnergyCapsule.prototype = Object.create(Engine.assets.objects.Item.prototype);
+Engine.assets.objects.items.EnergyCapsule.constructor = Engine.assets.objects.items.EnergyCapsule;
+
