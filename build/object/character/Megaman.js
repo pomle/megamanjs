@@ -1,6 +1,6 @@
 Engine.assets.objects.characters.Megaman = function()
 {
-    this.__proto__ = new Engine.assets.objects.characters.Player();
+    this.__proto__ = new Engine.assets.objects.Character();
 
     var LEFT = -1;
     var RIGHT = 1;
