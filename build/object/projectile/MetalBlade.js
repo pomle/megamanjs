@@ -12,4 +12,14 @@ Engine.assets.projectiles.MetalBlade = function()
     self.addCollisionZone(8, 0, 0);
     self.setDamage(20);
     self.setVelocity(240);
+
+    /*
+    var rotationSpeed = 10;
+    sprite.goTo(0);
+    self.timeShift = function(t)
+    {
+        console.log(t, self.model.rotation.z);
+        self.model.rotation.z += ((self.speed.x > 0 ? rotationSpeed : -rotationSpeed) * t);
+
+    }*/
 }
