@@ -6,8 +6,10 @@ Engine.scenes.Level = function()
     self.camera.camera.position.z = 120;
     self.startPosition = new THREE.Vector2();
 
-    self.addObject = function(o)
+    self.addObject = function(o, x, y)
     {
+        o.model.position.x = x === undefined ? o.model.position.x : x;
+        o.model.position.y = y === undefined ? o.model.position.y : y;
         self.__proto__.addObject(o);
         self.collision.addObject(o);
         o.setScene(self);
@@ -21,9 +23,7 @@ Engine.scenes.Level = function()
 
     self.addPlayer = function(player)
     {
-        player.model.position.x = self.startPosition.x;
-        player.model.position.y = -self.startPosition.y;
-        self.addObject(player);
+        self.addObject(player, self.startPosition.x, -self.startPosition.y);
         self.camera.follow(player);
     }
 
