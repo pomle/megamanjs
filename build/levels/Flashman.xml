@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<level>
+	<checkpoints>
+		<checkpoint x="128" y="64"/>
+	</checkpoints>
+
+	<sprites>
+		<sprite></sprite>
+	</sprites>
+
+
+
+	<background url="sprites/levels/flashman/level.gif" w="3328" h="1920"/>
+</level>

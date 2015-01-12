@@ -41,4 +41,61 @@ Engine.scenes.Level = function()
     }
 }
 
+Engine.scenes.Level.Util = {
+    'createFromXML': function(xml)
+    {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(xml, "application/xml");
+
+        var level = new Engine.scenes.Level();
+
+        var background = doc.evaluate('/level/background', doc, null, XPathResult.ANY_TYPE , null).iterateNext();
+        if (background) {
+            var url = doc.evaluate('@url', background, null, XPathResult.STRING_TYPE).stringValue;
+            var w = doc.evaluate('@w', background, null, XPathResult.NUMBER_TYPE).numberValue;
+            var h = doc.evaluate('@h', background, null, XPathResult.NUMBER_TYPE).numberValue;
+
+            var texture = Engine.Util.getTexture(url);
+            var material = new THREE.MeshLambertMaterial({});
+            material.map = texture;
+            var model = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry(w, h),
+                material
+            );
+
+            model.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(w/2, -(h/2), 0));
+            level.scene.add(model);
+        }
+
+        var checkpoint = doc.evaluate('/level/checkpoints/checkpoint[1]', doc, null, XPathResult.ANY_TYPE , null).iterateNext();
+        if (checkpoint) {
+            var x = doc.evaluate('@x', checkpoint, null, XPathResult.NUMBER_TYPE).numberValue;
+            var y = doc.evaluate('@y', checkpoint, null, XPathResult.NUMBER_TYPE).numberValue;
+            level.setStartPosition(x, y);
+        }
+
+        return level;
+    },
+    'loadFromXML': function(url, callback)
+    {
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function()
+        {
+            switch(this.readyState) {
+                case 4:
+                    try {
+                        var level = Engine.scenes.Level.Util.createFromXML(this.responseText);
+                        callback(level);
+                    } catch (e) {
+                        throw new Error('Could not construct level from ' + url + ', ' + e);
+                    }
+                    break;
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+};
+
 Engine.scenes.levels = {};
+
