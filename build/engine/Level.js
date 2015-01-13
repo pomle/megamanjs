@@ -80,7 +80,9 @@ Engine.scenes.Level.Util = {
             }
 
             var texture = THREE.ImageUtils.loadTexture(url);
-            var material = new THREE.MeshBasicMaterial({map: texture});
+            var material = new THREE.MeshBasicMaterial();
+            material.map = texture;
+            material.side = THREE.DoubleSide;
 
             spriteNodes = doc.evaluate('sprite', spritesetNode, null, XPathResult.ANY_TYPE , null);
             while (spriteNode = spriteNodes.iterateNext()) {
@@ -110,11 +112,25 @@ Engine.scenes.Level.Util = {
         objectNodes = doc.evaluate('/level/objects/object', doc, null, XPathResult.ANY_TYPE , null);
         while (objectNode = objectNodes.iterateNext()) {
             var name = doc.evaluate('@name', objectNode, null, XPathResult.STRING_TYPE).stringValue;
+            var mesh = new THREE.Mesh(spriteIndex[name].geometry, spriteIndex[name].material);
+
             var x = doc.evaluate('@x', objectNode, null, XPathResult.NUMBER_TYPE).numberValue;
             var y = doc.evaluate('@y', objectNode, null, XPathResult.NUMBER_TYPE).numberValue;
-            var mesh = new THREE.Mesh(spriteIndex[name].geometry, spriteIndex[name].material);
             mesh.position.x = x;
             mesh.position.y = -y;
+
+            var rotate = doc.evaluate('@rotate', objectNode, null, XPathResult.NUMBER_TYPE).numberValue;
+            var flip = doc.evaluate('@flip', objectNode, null, XPathResult.STRING_TYPE).stringValue;
+            if (isFinite(rotate)) {
+                mesh.rotation.z = -(Math.PI/180)*rotate;
+            }
+            if (flip == 'x') {
+                mesh.rotation.x = Math.PI;
+            }
+            if (flip == 'y') {
+                mesh.rotation.y = Math.PI;
+            }
+
             level.scene.add(mesh);
         }
 

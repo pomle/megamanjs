@@ -4,15 +4,21 @@
 		<checkpoint x="128" y="64"/>
 	</checkpoints>
 
-	<sprites url="sprites/levels/flashman/tiles.png" w="139" h="113">
+	<sprites url="sprites/levels/flashman/tiles.gif" w="128" h="96">
 		<sprite name="drwily_sign">
-			<bounds x1="69" x2="104" y1="18" y2="53"/>
+			<bounds x1="64" x2="96" y1="16" y2="48"/>
+			<size w="32" h="32"/>
+		</sprite>
+
+		<sprite name="drwily_sign">
+			<bounds x1="64" x2="96" y1="16" y2="48"/>
 			<size w="32" h="32"/>
 		</sprite>
 	</sprites>
 
 	<objects>
 		<object name="drwily_sign" x="100" y="100"/>
+		<object name="drwily_sign" x="200" y="100" rotate="45" flip="x" />
 	</objects>
 
 	<background url="sprites/levels/flashman/level.gif" w="3328" h="1920"/>
