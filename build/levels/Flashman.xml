@@ -1,25 +1,96 @@
 <?xml version="1.0"?>
 <level>
-	<checkpoints>
-		<checkpoint x="128" y="64"/>
-	</checkpoints>
+    <checkpoints>
+        <checkpoint x="100" y="64"/>
+    </checkpoints>
 
-	<sprites url="sprites/levels/flashman/tiles.gif" w="128" h="96">
-		<sprite name="drwily_sign">
-			<bounds x1="64" x2="96" y1="16" y2="48"/>
-			<size w="32" h="32"/>
-		</sprite>
+    <sprites url="sprites/levels/flashman/tiles.gif" w="128" h="96">
+        <sprite id="drwily-sign-blue">
+            <bounds x="64" y="16" w="32" h="32"/>
+        </sprite>
+        <sprite id="drwily-sign-cyan">
+            <bounds x="64" y="64" w="32" h="32"/>
+        </sprite>
 
-		<sprite name="drwily_sign">
-			<bounds x1="64" x2="96" y1="16" y2="48"/>
-			<size w="32" h="32"/>
-		</sprite>
-	</sprites>
+        <sprite id="single-block-blue">
+            <bounds x="64" y="0" w="16" h="16"/>
+        </sprite>
+        <sprite id="single-block-cyan">
+            <bounds x="64" y="48" w="16" h="16"/>
+        </sprite>
 
-	<objects>
-		<object name="drwily_sign" x="100" y="100"/>
-		<object name="drwily_sign" x="200" y="100" rotate="45" flip="x" />
-	</objects>
+        <sprite id="triple-block-blue-vert">
+            <bounds x="0" y="0" w="16" h="48"/>
+        </sprite>
+        <sprite id="triple-block-cyan-vert">
+            <bounds x="0" y="48" w="16" h="48"/>
+        </sprite>
+        <sprite id="triple-block-blue-horiz">
+            <bounds x="16" y="0" w="48" h="16"/>
+        </sprite>
+        <sprite id="triple-block-cyan-horiz">
+            <bounds x="16" y="48" w="48" h="16"/>
+        </sprite>
 
-	<background url="sprites/levels/flashman/level.gif" w="3328" h="1920"/>
+        <objects>
+            <object id="drwily-sign" w="32" h="32">
+                <frame sprite="drwily-sign-blue" duration=".5" />
+                <frame sprite="drwily-sign-cyan" duration=".5" />
+            </object>
+
+            <object id="single-block-1" w="16" h="16">
+                <frame sprite="single-block-blue" duration="2" />
+                <frame sprite="single-block-cyan" duration="1" />
+            </object>
+            <object id="single-block-2" w="16" h="16">
+                <frame sprite="single-block-cyan" duration="1" />
+                <frame sprite="single-block-blue" duration="2" />
+            </object>
+            <object id="single-block-3" w="16" h="16">
+                <frame sprite="single-block-blue" duration="1" />
+                <frame sprite="single-block-cyan" duration="1" />
+                <frame sprite="single-block-blue" duration="1" />
+            </object>
+
+            <object id="triple-block-horiz-1" w="48" h="16">
+                <frame sprite="triple-block-blue-horiz" duration="2" />
+                <frame sprite="triple-block-cyan-horiz" duration="1" />
+            </object>
+            <object id="triple-block-horiz-2" w="48" h="16">
+                <frame sprite="triple-block-cyan-horiz" duration="1" />
+                <frame sprite="triple-block-blue-horiz" duration="2" />
+            </object>
+            <object id="triple-block-horiz-3" w="48" h="16">
+                <frame sprite="triple-block-blue-horiz" duration="1" />
+                <frame sprite="triple-block-cyan-horiz" duration="1" />
+                <frame sprite="triple-block-blue-horiz" duration="1" />
+            </object>
+
+            <object id="triple-block-vert-1" w="16" h="48">
+                <frame sprite="triple-block-blue-vert" duration="2" />
+                <frame sprite="triple-block-cyan-vert" duration="1" />
+            </object>
+            <object id="triple-block-vert-2" w="16" h="48">
+                <frame sprite="triple-block-cyan-vert" duration="1" />
+                <frame sprite="triple-block-blue-vert" duration="2" />
+            </object>
+            <object id="triple-block-vert-3" w="16" h="48">
+                <frame sprite="triple-block-blue-vert" duration="1" />
+                <frame sprite="triple-block-cyan-vert" duration="1" />
+                <frame sprite="triple-block-blue-vert" duration="1" />
+            </object>
+        </objects>
+
+    </sprites>
+
+    <layout>
+        <object ref="drwily-sign" x="50" y="50" rotate="0" />
+        <object ref="single-block-1" x="0" y="0" rotate="0" />
+        <object ref="triple-block-horiz-2" x="16" y="0" rotate="0" />
+        <object ref="triple-block-vert-3" x="0" y="16" rotate="0" />
+
+
+    </layout>
+
+    <!--<background url="sprites/levels/flashman/level.gif" w="3328" h="1920"/>-->
 </level>
