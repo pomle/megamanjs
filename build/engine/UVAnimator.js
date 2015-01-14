@@ -21,9 +21,14 @@ Engine.UVAnimator = function(geometry)
         self.totalDuration += duration;
     }
 
-    self.findIndex = function(time)
+    self.getFrameAtTime = function(time)
     {
-
+        var i = 0, incrementalTime = 0;
+        do {
+            var frame = self.frames[i++];
+            incrementalTime += frame.duration;
+        } while (time >= incrementalTime);
+        return frame;
     }
 
     self.pause = function()
@@ -51,10 +56,10 @@ Engine.UVAnimator = function(geometry)
         index = 0;
     }
 
-    self.timeShift = function(seconds)
+    self.timeShift = function(diff)
     {
-        var incrementalTime = self.infiniteTime + (seconds < 0 ? self.totalDuration - seconds : seconds);
-        self.infiniteTime = incrementalTime % self.totalDuration;
+        self.accumulatedTime += diff;
+        self.infiniteTime = (self.accumulatedTime % self.totalDuration + self.totalDuration) % self.totalDuration;
     }
 
     self.update = function(frame)
