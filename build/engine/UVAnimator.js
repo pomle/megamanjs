@@ -8,6 +8,9 @@ Engine.UVAnimator = function(geometry)
     var timer;
     var index = 0;
     self.frames = [];
+    self.accumulatedTime = 0;
+    self.infiniteTime = 0;
+    self.totalDuration = 0;
 
     self.addFrame = function(uvMap, duration)
     {
@@ -15,6 +18,12 @@ Engine.UVAnimator = function(geometry)
             'uvMap': uvMap,
             'duration': duration
         });
+        self.totalDuration += duration;
+    }
+
+    self.findIndex = function(time)
+    {
+
     }
 
     self.pause = function()
@@ -40,6 +49,12 @@ Engine.UVAnimator = function(geometry)
     {
         self.pause();
         index = 0;
+    }
+
+    self.timeShift = function(seconds)
+    {
+        var incrementalTime = self.infiniteTime + (seconds < 0 ? self.totalDuration - seconds : seconds);
+        self.infiniteTime = incrementalTime % self.totalDuration;
     }
 
     self.update = function(frame)
