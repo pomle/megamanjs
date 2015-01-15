@@ -1,0 +1,3 @@
+Engine.assets.AI = function()
+{
+}
