@@ -62,10 +62,10 @@ Test.Suite = function(name)
 }
 
 var test = new Test();
-var suite = new Test.Suite('Engine.UVAnimator');
+var suite = new Test.Suite('Engine.Timeline');
 suite.add('testInfiniteTime', function() {
 
-	var anim = new Engine.UVAnimator(new THREE.Geometry());
+	var anim = new Engine.Timeline();
 	anim.addFrame({}, 1);
 	anim.addFrame({}, 4);
 	anim.addFrame({}, 2);
@@ -100,14 +100,49 @@ suite.add('testInfiniteTime', function() {
 });
 
 suite.add('testFrameDig', function() {
-	var anim = new Engine.UVAnimator(new THREE.Geometry());
+	var anim = new Engine.Timeline();
 	anim.addFrame('A', 4);
 	anim.addFrame('B', 2);
 	anim.addFrame('C', 3);
-	this.assertEquals('A', anim.getFrameAtTime(0).uvMap);
-	this.assertEquals('A', anim.getFrameAtTime(3).uvMap);
-	this.assertEquals('B', anim.getFrameAtTime(4).uvMap);
-	this.assertEquals('C', anim.getFrameAtTime(8.999).uvMap);
+	this.assertEquals(0, anim.getIndexAtTime(0));
+	this.assertEquals('A', anim.getValueAtTime(0));
+	this.assertEquals(0, anim.getIndexAtTime(3));
+	this.assertEquals('A', anim.getValueAtTime(3));
+	this.assertEquals(1, anim.getIndexAtTime(4));
+	this.assertEquals('B', anim.getValueAtTime(4));
+	this.assertEquals(2, anim.getIndexAtTime(8.999));
+	this.assertEquals('C', anim.getValueAtTime(8.999));
+
+	anim.timeShift(2);
+	this.assertEquals(0, anim.getIndex());
+	this.assertEquals('A', anim.getValue());
+	anim.timeShift(1);
+	this.assertEquals(0, anim.getIndex());
+	this.assertEquals('A', anim.getValue());
+	anim.timeShift(1);
+	this.assertEquals(1, anim.getIndex());
+	this.assertEquals('B', anim.getValue());
+	anim.timeShift(4.999);
+	this.assertEquals(2, anim.getIndex());
+	this.assertEquals('C', anim.getValue());
+});
+
+suite.add('testFrameShift', function() {
+	var anim = new Engine.Timeline();
+	anim.addFrame('A', 4);
+	anim.addFrame('B', 2);
+	anim.addFrame('C', 3);
+	this.assertEquals('A', anim.getValue());
+	this.assertEquals(0, anim.infiniteTime);
+	anim.frameShift(1);
+	this.assertEquals('B', anim.getValue());
+	this.assertEquals(4, anim.infiniteTime);
+	anim.frameShift(1);
+	this.assertEquals('C', anim.getValue());
+	this.assertEquals(6, anim.infiniteTime);
+	anim.frameShift(1);
+	this.assertEquals('A', anim.getValue());
+	this.assertEquals(0, anim.infiniteTime);
 });
 
 test.add(suite);
