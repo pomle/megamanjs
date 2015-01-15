@@ -5,6 +5,7 @@
     </checkpoints>
 
     <sprites url="sprites/levels/flashman/tiles.gif" w="128" h="96">
+        <!-- Decorations -->
         <sprite id="drwily-sign-blue">
             <bounds x="64" y="16" w="32" h="32"/>
         </sprite>
@@ -12,13 +13,13 @@
             <bounds x="64" y="64" w="32" h="32"/>
         </sprite>
 
+        <!-- Flashing blocks -->
         <sprite id="single-block-blue">
             <bounds x="64" y="0" w="16" h="16"/>
         </sprite>
         <sprite id="single-block-cyan">
             <bounds x="64" y="48" w="16" h="16"/>
         </sprite>
-
         <sprite id="triple-block-blue-vert">
             <bounds x="0" y="0" w="16" h="48"/>
         </sprite>
@@ -32,64 +33,97 @@
             <bounds x="16" y="48" w="48" h="16"/>
         </sprite>
 
+        <!-- Background -->
+        <sprite id="bricks">
+            <bounds x="96" y="64" w="32" h="16"/>
+        </sprite>
+        <sprite id="mortar-reg">
+            <bounds x="96" y="16" w="16" h="16"/>
+        </sprite>
+        <sprite id="mortar-ireg">
+            <bounds x="96" y="32" w="16" h="16"/>
+        </sprite>
+        <sprite id="truss-vert">
+            <bounds x="112" y="16" w="16" h="16"/>
+        </sprite>
+        <sprite id="truss-hori">
+            <bounds x="112" y="32" w="16" h="16"/>
+        </sprite>
+
         <objects>
             <object id="drwily-sign" w="32" h="32">
-                <frame sprite="drwily-sign-blue" duration=".5" />
-                <frame sprite="drwily-sign-cyan" duration=".5" />
+                <frame sprite="drwily-sign-blue" duration=".5"/>
+                <frame sprite="drwily-sign-cyan" duration=".5"/>
             </object>
 
             <object id="single-block-1" w="16" h="16">
-                <frame sprite="single-block-blue" duration="2" />
-                <frame sprite="single-block-cyan" duration="1" />
+                <frame sprite="single-block-blue" duration="2"/>
+                <frame sprite="single-block-cyan" duration="1"/>
             </object>
             <object id="single-block-2" w="16" h="16">
-                <frame sprite="single-block-cyan" duration="1" />
-                <frame sprite="single-block-blue" duration="2" />
+                <frame sprite="single-block-cyan" duration="1"/>
+                <frame sprite="single-block-blue" duration="2"/>
             </object>
             <object id="single-block-3" w="16" h="16">
-                <frame sprite="single-block-blue" duration="1" />
-                <frame sprite="single-block-cyan" duration="1" />
-                <frame sprite="single-block-blue" duration="1" />
+                <frame sprite="single-block-blue" duration="1"/>
+                <frame sprite="single-block-cyan" duration="1"/>
+                <frame sprite="single-block-blue" duration="1"/>
             </object>
 
             <object id="triple-block-horiz-1" w="48" h="16">
-                <frame sprite="triple-block-blue-horiz" duration="2" />
-                <frame sprite="triple-block-cyan-horiz" duration="1" />
+                <frame sprite="triple-block-blue-horiz" duration="2"/>
+                <frame sprite="triple-block-cyan-horiz" duration="1"/>
             </object>
             <object id="triple-block-horiz-2" w="48" h="16">
-                <frame sprite="triple-block-cyan-horiz" duration="1" />
-                <frame sprite="triple-block-blue-horiz" duration="2" />
+                <frame sprite="triple-block-cyan-horiz" duration="1"/>
+                <frame sprite="triple-block-blue-horiz" duration="2"/>
             </object>
             <object id="triple-block-horiz-3" w="48" h="16">
-                <frame sprite="triple-block-blue-horiz" duration="1" />
-                <frame sprite="triple-block-cyan-horiz" duration="1" />
-                <frame sprite="triple-block-blue-horiz" duration="1" />
+                <frame sprite="triple-block-blue-horiz" duration="1"/>
+                <frame sprite="triple-block-cyan-horiz" duration="1"/>
+                <frame sprite="triple-block-blue-horiz" duration="1"/>
             </object>
 
             <object id="triple-block-vert-1" w="16" h="48">
-                <frame sprite="triple-block-blue-vert" duration="2" />
-                <frame sprite="triple-block-cyan-vert" duration="1" />
+                <frame sprite="triple-block-blue-vert" duration="2"/>
+                <frame sprite="triple-block-cyan-vert" duration="1"/>
             </object>
             <object id="triple-block-vert-2" w="16" h="48">
-                <frame sprite="triple-block-cyan-vert" duration="1" />
-                <frame sprite="triple-block-blue-vert" duration="2" />
+                <frame sprite="triple-block-cyan-vert" duration="1"/>
+                <frame sprite="triple-block-blue-vert" duration="2"/>
             </object>
             <object id="triple-block-vert-3" w="16" h="48">
-                <frame sprite="triple-block-blue-vert" duration="1" />
-                <frame sprite="triple-block-cyan-vert" duration="1" />
-                <frame sprite="triple-block-blue-vert" duration="1" />
+                <frame sprite="triple-block-blue-vert" duration="1"/>
+                <frame sprite="triple-block-cyan-vert" duration="1"/>
+                <frame sprite="triple-block-blue-vert" duration="1"/>
             </object>
-        </objects>
 
+            <object id="mortar" w="16" h="16">
+                <frame sprite="mortar-reg" duration="0"/>
+            </object>
+
+        </objects>
     </sprites>
 
     <layout>
-        <object ref="drwily-sign" x="50" y="50" rotate="0" />
-        <object ref="single-block-1" x="0" y="0" rotate="0" />
-        <object ref="triple-block-horiz-2" x="16" y="0" rotate="0" />
-        <object ref="triple-block-vert-3" x="0" y="16" rotate="0" />
+        <!--<object ref="drwily-sign" x="50" y="50" rotate="0"/>-->
+        <object ref="single-block-1" x="0" y="16" rotate="0"/>
+        <object ref="triple-block-horiz-2" x="16" y="16" rotate="0"/>
+        <object ref="triple-block-vert-3" x="0" y="32" rotate="0"/>
 
-
+        <background x="0" y="0" w="1792" h="240" w-segments="112" h-segments="15">
+            <sprite ref="mortar-reg">
+                <segment x="*" y="*"/>
+            </sprite>
+            <sprite ref="mortar-ireg">
+                <segment x="2,4,6,8,10,12,14" y="3,5,7,9"/>
+                <segment x="3,5,7,9,11,13" y="4,6,8,10"/>
+            </sprite>
+            <sprite ref="truss-vert">
+                <segment x="4-5" y="0"/>
+                <segment x="3,13,17" y="13-14"/>
+            </sprite>
+        </background>
     </layout>
 
     <!--<background url="sprites/levels/flashman/level.gif" w="3328" h="1920"/>-->

@@ -14,10 +14,52 @@ Engine.scenes.Level.Util = {
         var level = new Engine.scenes.Level();
         level.animators = [];
 
-        function createObjects() {
-            var spriteIndex = {};
-            var objectIndex = {};
+        var spriteIndex = {};
+        var objectIndex = {};
 
+        function expandRange(input, total)
+        {
+            var values = [];
+            var groups, group, ranges, range, i;
+            groups = input.split(',');
+            while (group = groups.shift()) {
+                ranges = group.split('-');
+                if (ranges.length == 2) {
+                    var lower = parseFloat(ranges[0]);
+                    var upper = parseFloat(ranges[1]);
+                    for (i = lower; i <= upper; i++) {
+                        values.push(i);
+                    }
+                }
+                else if (ranges[0] == '*') {
+                    for (i = 0; i < total; i++) {
+                        values.push(i);
+                    }
+                }
+                else {
+                    values.push(parseFloat(ranges[0]));
+                }
+            }
+            return values;
+        }
+
+        function getObject(ref)
+        {
+            if (!objectIndex[ref]) {
+                throw new Error("No object reference '" + ref + "'");
+            }
+            return objectIndex[ref];
+        }
+
+        function getSprite(ref)
+        {
+            if (!spriteIndex[ref]) {
+                throw new Error("No sprite '" + ref + "'");
+            }
+            return spriteIndex[ref];
+        }
+
+        function createObjects() {
             var spriteSheets = doc.evaluate('/level/sprites', doc, null, XPathResult.ANY_TYPE , null);
             var spriteSheet;
             while (spriteSheet = spriteSheets.iterateNext()) {
@@ -52,7 +94,10 @@ Engine.scenes.Level.Util = {
                         [uvs[1], uvs[2], uvs[3]]
                     ];
 
-                    spriteIndex[sprite.attributes['id'].value] = uvMap;
+                    spriteIndex[sprite.attributes['id'].value] = {
+                        'uvMap': uvMap,
+                        'texture': texture
+                    }
                 }
 
                 var objects = doc.evaluate('objects/object', spriteSheet, null, XPathResult.ANY_TYPE , null);
@@ -75,17 +120,16 @@ Engine.scenes.Level.Util = {
                             'duration': parseFloat(frameNode.attributes['duration'].value)
                         });
                     }
-                    console.log(frames);
                     if (frames.length > 1) {
                         var timeline = new Engine.Timeline();
                         var animator = new Engine.UVAnimator(timeline, geometry);
                         var i;
                         for (i in frames) {
-                            timeline.addFrame(spriteIndex[frames[i].ref], frames[i].duration);
+                            timeline.addFrame(getSprite(frames[i].ref).uvMap, frames[i].duration);
                         }
                         level.addTimeline(timeline);
                     }
-                    geometry.faceVertexUvs[0] = spriteIndex[frames[0].ref];
+                    geometry.faceVertexUvs[0] = spriteIndex[frames[0].ref].uvMap;
 
                     objectIndex[objectId] = {
                         'size': size,
@@ -94,32 +138,78 @@ Engine.scenes.Level.Util = {
                     };
                 }
             }
-
-            return objectIndex;
         }
 
-        var objectIndex = createObjects();
-        console.log(objectIndex);
+        createObjects();
 
+        var backgroundNodes = doc.evaluate('/level/layout/background', doc, null, XPathResult.ANY_TYPE , null);
+        var backgroundNode;
+        level.backgrounds = [];
+        while (backgroundNode = backgroundNodes.iterateNext()) {
+            var prop = {
+                'x': parseFloat(backgroundNode.attributes['x'].value),
+                'y': parseFloat(backgroundNode.attributes['y'].value),
+                'w': parseFloat(backgroundNode.attributes['w'].value),
+                'h': parseFloat(backgroundNode.attributes['h'].value),
+                'wx': parseFloat(backgroundNode.attributes['w-segments'].value),
+                'hx': parseFloat(backgroundNode.attributes['h-segments'].value)
+            }
+            var geometry = new THREE.PlaneGeometry(prop.w, prop.h, prop.wx, prop.hx);
 
+            var spriteNodes = doc.evaluate('sprite', backgroundNode, null, XPathResult.ANY_TYPE , null);
+            var spriteNode;
+            level.uvMaps = [];
+            while (spriteNode = spriteNodes.iterateNext()) {
+                var ref = spriteNode.attributes['ref'].value;
+                var texture = getSprite(ref).texture;
+                var material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    side: THREE.FrontSide,
+                });
+                var uvMap = getSprite(ref).uvMap;
 
-        //{'geometry': geometry, 'material': material};
+                var segmentNodes = doc.evaluate('segment', spriteNode, null, XPathResult.ANY_TYPE , null);
+                var segmentNode;
+                while (segmentNode = segmentNodes.iterateNext()) {
+                    var range = {
+                        x: expandRange(segmentNode.attributes['x'].value, prop.wx),
+                        y: expandRange(segmentNode.attributes['y'].value, prop.hx),
+                    }
 
-        /*
-                var geometry = new THREE.PlaneGeometry(spriteBounds.w, spriteBounds.h, 1, 1);
-                geometry.faceVertexUvs[0] = [];
-                               var material = new THREE.MeshBasicMaterial();
-                material.map = texture;
-                material.side = THREE.DoubleSide;
+                    var i, j, x, y, faceIndex;
+                    for (i in range.x) {
+                        x = range.x[i];
+                        for (j in range.y) {
+                            y = range.y[j];
+                            faceIndex = (x + (y * prop.wx)) * 2;
+                            geometry.faceVertexUvs[0][faceIndex] = uvMap[0];
+                            geometry.faceVertexUvs[0][faceIndex+1] = uvMap[1];
+                        }
+                    }
+                }
+            }
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position.x = prop.x + (prop.w / 2);
+            mesh.position.y = -(prop.y + (prop.h / 2));
+            mesh.position.z = 0;
+            level.backgrounds.push(mesh);
+            level.scene.add(mesh);
+        }
+
+        /* FOR MERGING
+        //var levelGeometry = new THREE.Geometry();
+            //mesh.updateMatrix();
+            //levelGeometry.merge(mesh.geometry, mesh.matrix);
+        //var levelMesh = new THREE.Mesh(levelGeometry, new THREE.MeshFaceMaterial(materials));
+        //level.scene.add(levelMesh);
         */
 
-        //var levelGeometry = new THREE.Geometry();
         var layoutNodes = doc.evaluate('/level/layout/object', doc, null, XPathResult.ANY_TYPE , null);
         //var materials = [];
         var objectNode;
         while (objectNode = layoutNodes.iterateNext()) {
             var ref = objectNode.attributes['ref'].value;
-            var object = objectIndex[ref];
+            var object = getObject(ref);
 
             var material = new THREE.MeshBasicMaterial();
             material.map = object.texture;
@@ -146,12 +236,10 @@ Engine.scenes.Level.Util = {
             if (flip == 'y') {
                 mesh.rotation.y = Math.PI;
             }
-            //mesh.updateMatrix();
-            //levelGeometry.merge(mesh.geometry, mesh.matrix);
+
             level.scene.add(mesh);
         }
-        //var levelMesh = new THREE.Mesh(levelGeometry, new THREE.MeshFaceMaterial(materials));
-        //level.scene.add(levelMesh);
+
 
 
         var checkpoint = doc.evaluate('/level/checkpoints/checkpoint[1]', doc, null, XPathResult.ANY_TYPE , null).iterateNext();
