@@ -8,7 +8,7 @@ To run project locally without a web server, Chrome needs to be started with --a
 
 Windows:
 ```
-C:\Users\Pom>"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --allow-file-access-from-files
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --allow-file-access-from-files
 ```
 
 OSX
