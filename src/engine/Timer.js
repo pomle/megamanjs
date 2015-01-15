@@ -5,6 +5,7 @@ Engine.Timer = function()
     self.animationCycleId = undefined;
     self.callbacks = [];
     self.timeLastEvent = undefined;
+    self.timeStretch = 1;
 
     self.eventLoop = function()
     {
@@ -15,6 +16,8 @@ Engine.Timer = function()
         if (!self.running) {
             return;
         }
+
+        timeElapsed *= self.timeStretch;
 
         var i;
         if (self.callbacks.length) {
