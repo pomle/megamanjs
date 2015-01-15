@@ -7,6 +7,7 @@ Engine.Scene = function()
     var ambientLight = new THREE.AmbientLight(0xffffff);
     self.scene.add(ambientLight);
     self.objects = [];
+    self.timelines = [];
 
     self.addObject = function(object)
     {
@@ -16,6 +17,14 @@ Engine.Scene = function()
         self.objects.push(object);
         self.scene.add(object.model);
         console.log('Added object', object.uuid, object);
+    }
+
+    self.addTimeline = function(timeline)
+    {
+        if (timeline instanceof Engine.Timeline !== true) {
+            throw new Error('Invalid timeline');
+        }
+        self.timelines.push(timeline);
     }
 
     self.removeObject = function(object)
@@ -42,7 +51,11 @@ Engine.Scene = function()
         var i, o;
         for (i in self.objects) {
             o = self.objects[i];
-            self.objects[i].timeShift(timeElapsed);
+            o.timeShift(timeElapsed);
+        }
+        for (i in self.timelines) {
+            o = self.timelines[i];
+            o.timeShift(timeElapsed);
         }
     }
 }
