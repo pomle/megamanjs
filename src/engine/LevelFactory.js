@@ -77,13 +77,13 @@ Engine.scenes.Level.Util = {
                     }
                     console.log(frames);
                     if (frames.length > 1) {
-                        var animator = new Engine.UVAnimator(geometry);
+                        var timeline = new Engine.Timeline();
+                        var animator = new Engine.UVAnimator(timeline, geometry);
                         var i;
                         for (i in frames) {
-                            animator.addFrame(spriteIndex[frames[i].ref], frames[i].duration);
+                            timeline.addFrame(spriteIndex[frames[i].ref], frames[i].duration);
                         }
-                        animator.play();
-                        level.animators.push(animator);
+                        level.addTimeline(timeline);
                     }
                     geometry.faceVertexUvs[0] = spriteIndex[frames[0].ref];
 
