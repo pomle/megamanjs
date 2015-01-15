@@ -2,6 +2,8 @@ Engine.Timeline = function()
 {
     var self = this;
     var index = 0;
+    var lastIndex;
+    self.callbacks = [];
     self.frames = [];
     self.accumulatedTime = 0;
     self.infiniteTime = 0;
@@ -14,6 +16,11 @@ Engine.Timeline = function()
             'value': value
         });
         self.totalDuration += duration;
+    }
+
+    self.onChange = function(callback)
+    {
+        self.callbacks.push(callback);
     }
 
     self.frameShift = function(steps)
@@ -72,5 +79,16 @@ Engine.Timeline = function()
     {
         self.accumulatedTime += diff;
         self.infiniteTime = (self.accumulatedTime % self.totalDuration + self.totalDuration) % self.totalDuration;
+        if (self.callbacks.length) {
+            var nextIndex = self.getIndex();
+            if (nextIndex !== lastIndex) {
+                //console.log('Index updated from %d to %d', lastIndex, nextIndex);
+                var i;
+                for (i in self.callbacks) {
+                    self.callbacks[i].call(self);
+                }
+                lastIndex = nextIndex;
+            }
+        }
     }
 }
