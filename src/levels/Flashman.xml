@@ -40,6 +40,9 @@
         <sprite id="mortar-reg">
             <bounds x="96" y="16" w="16" h="16"/>
         </sprite>
+        <sprite id="mortar-reg-shadow">
+            <bounds x="96" y="0" w="16" h="16"/>
+        </sprite>
         <sprite id="mortar-ireg">
             <bounds x="96" y="32" w="16" h="16"/>
         </sprite>
@@ -97,23 +100,30 @@
                 <frame sprite="triple-block-cyan-vert" duration="1"/>
                 <frame sprite="triple-block-blue-vert" duration="1"/>
             </object>
-
-            <object id="mortar" w="16" h="16">
-                <frame sprite="mortar-reg" duration="0"/>
-            </object>
-
         </objects>
     </sprites>
 
     <layout>
         <!--<object ref="drwily-sign" x="50" y="50" rotate="0"/>-->
-        <object ref="single-block-1" x="0" y="16" rotate="0"/>
-        <object ref="triple-block-horiz-2" x="16" y="16" rotate="0"/>
-        <object ref="triple-block-vert-3" x="0" y="32" rotate="0"/>
+        <object ref="single-block-1"       x="0"  y="16"/>
+        <object ref="triple-block-vert-3"  x="0"  y="32"/>
+        <object ref="single-block-2"       x="0"  y="80"/>
+        <object ref="single-block-1"       x="0"  y="96"/>
+        <object ref="triple-block-vert-3"  x="0"  y="112"/>
+        <object ref="single-block-2"       x="0"  y="160"/>
+
+        <object ref="triple-block-horiz-2" x="16" y="16"/>
+
+        <object ref="triple-block-horiz-1" x="16" y="160"/>
+        <object ref="single-block-3"       x="64" y="160"/>
+
 
         <background x="0" y="0" w="1792" h="240" w-segments="112" h-segments="15">
             <sprite ref="mortar-reg">
                 <segment x="*" y="*"/>
+            </sprite>
+            <sprite ref="mortar-reg-shadow">
+                <segment x="1-16" y="3"/>
             </sprite>
             <sprite ref="mortar-ireg">
                 <segment x="3,5,7,9,11,13,15" y="4,6,8,10"/>
