@@ -116,12 +116,12 @@
                 <segment x="*" y="*"/>
             </sprite>
             <sprite ref="mortar-ireg">
-                <segment x="2,4,6,8,10,12,14" y="3,5,7,9"/>
-                <segment x="3,5,7,9,11,13" y="4,6,8,10"/>
+                <segment x="3,5,7,9,11,13,15" y="4,6,8,10"/>
+                <segment x="4,6,8,10,12,14" y="5,7,9"/>
             </sprite>
             <sprite ref="truss-vert">
-                <segment x="4-5" y="0"/>
-                <segment x="3,13,17" y="13-14"/>
+                <segment x="5-6" y="1"/>
+                <segment x="4,14,18" y="14-15"/>
             </sprite>
         </background>
     </layout>

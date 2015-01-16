@@ -33,7 +33,7 @@ Engine.scenes.Level.Util = {
                 }
                 else if (ranges[0] == '*') {
                     for (i = 0; i < total; i++) {
-                        values.push(i);
+                        values.push(i+1);
                     }
                 }
                 else {
@@ -178,9 +178,10 @@ Engine.scenes.Level.Util = {
 
                     var i, j, x, y, faceIndex;
                     for (i in range.x) {
-                        x = range.x[i];
+                        x = range.x[i] - 1;
                         for (j in range.y) {
-                            y = range.y[j];
+                            y = range.y[j] - 1;
+
                             faceIndex = (x + (y * prop.wx)) * 2;
                             geometry.faceVertexUvs[0][faceIndex] = uvMap[0];
                             geometry.faceVertexUvs[0][faceIndex+1] = uvMap[1];
