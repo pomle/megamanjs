@@ -241,7 +241,15 @@ Engine.scenes.Level.Util = {
             level.scene.add(mesh);
         }
 
-
+        var itemNodes = doc.evaluate('/level/layout/item', doc, null, XPathResult.ANY_TYPE , null);
+        var itemNode;
+        while (itemNode = itemNodes.iterateNext()) {
+            var name = itemNode.attributes['name'].value;
+            var Item = new Engine.assets.objects.items[name]();
+            Item.model.position.x = parseFloat(itemNode.attributes['x'].value);
+            Item.model.position.y = -parseFloat(itemNode.attributes['y'].value);
+            level.addObject(Item);
+        }
 
         var checkpoint = doc.evaluate('/level/checkpoints/checkpoint[1]', doc, null, XPathResult.ANY_TYPE , null).iterateNext();
         if (checkpoint) {

@@ -116,6 +116,11 @@
 
         <object ref="triple-block-horiz-1" x="16" y="160"/>
         <object ref="single-block-3"       x="64" y="160"/>
+        <object ref="single-block-2"       x="112" y="160"/>
+        <object ref="triple-block-horiz-1" x="128" y="160"/>
+
+
+        <item name="EnergyTank" x="128" y="144"/>
 
 
         <background x="0" y="0" w="1792" h="240" w-segments="112" h-segments="15">
