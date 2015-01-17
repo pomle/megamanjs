@@ -11,6 +11,11 @@ Engine.Timeline = function()
     this.frames = [];
 }
 
+Engine.Timeline.prototype.addCallback = function(callback)
+{
+    this.callbacks.push(callback);
+}
+
 Engine.Timeline.prototype.addFrame = function(value, duration)
 {
     this.frames.push({
@@ -18,11 +23,6 @@ Engine.Timeline.prototype.addFrame = function(value, duration)
         'value': value
     });
     this.totalDuration += duration;
-}
-
-Engine.Timeline.prototype.onChange = function(callback)
-{
-    this.callbacks.push(callback);
 }
 
 Engine.Timeline.prototype.frameShift = function(steps)
@@ -82,14 +82,13 @@ Engine.Timeline.prototype.timeShift = function(diff)
     this.accumulatedTime += diff;
     this.infiniteTime = (this.accumulatedTime % this.totalDuration + this.totalDuration) % this.totalDuration;
     if (this.callbacks.length) {
-        var nextIndex = this.getIndex();
-        if (nextIndex !== this.lastIndex) {
-            //console.log('Index updated from %d to %d', this.lastIndex, nextIndex);
-            var i;
-            for (i in this.callbacks) {
-                this.callbacks[i].call(this.getValue());
+        var index = this.getIndex();
+        if (index !== this.lastIndex) {
+            //console.log('Index updated from %d to %d', this.lastIndex, index);
+            for (var i in this.callbacks) {
+                this.callbacks[i](this.getValueAtIndex(index));
             }
-            this.lastIndex = nextIndex;
+            this.lastIndex = index;
         }
     }
 }

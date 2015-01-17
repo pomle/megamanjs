@@ -11,6 +11,7 @@ Engine.UVAnimator = function(timeline, geometry)
     this.isPlaying = false;
     this.geometry = geometry;
     this.timeline = timeline;
+    this.timeline.addCallback(this.update.bind(this));
 }
 
 Engine.UVAnimator.prototype.pause = function()
