@@ -68,6 +68,48 @@ Test.Suite = function(name)
 
 var test = new Test();
 test.add(function() {
+	var suite = new Test.Suite('Weapon');
+
+	suite.add(function testAmmo() {
+		var weapon = new Engine.assets.Weapon();
+		this.assertEquals(0, weapon.ammo.min);
+		this.assertEquals(100, weapon.ammo.max);
+		this.assertEquals(undefined, weapon.ammo.value);
+		this.assertEquals(0, weapon.projectileCost);
+		this.assertFalse(weapon.ammo.refill(100));
+		this.assertFalse(weapon.ammo.reduce(100));
+		weapon.ammo.value = 0;
+		this.assertTrue(weapon.ammo.refill(50));
+		this.assertEquals(50, weapon.ammo.value);
+		this.assertTrue(weapon.ammo.refill(60));
+		this.assertEquals(100, weapon.ammo.value);
+
+		this.assertTrue(weapon.ammo.reduce(90));
+		this.assertEquals(10, weapon.ammo.value);
+		this.assertTrue(weapon.ammo.reduce(124124));
+		this.assertEquals(0, weapon.ammo.value);
+
+		weapon.ammo.refill(100);
+		this.assertEquals(100, weapon.ammo.value);
+		weapon.fire();
+		this.assertEquals(100, weapon.ammo.value);
+		weapon.projectileCost = 25;
+		this.assertTrue(weapon.fire());
+		this.assertTrue(weapon.fire());
+		this.assertTrue(weapon.fire());
+		this.assertEquals(25, weapon.ammo.value);
+		this.assertTrue(weapon.fire());
+		this.assertFalse(weapon.fire());
+		weapon.ammo.refill(30);
+		this.assertTrue(weapon.fire());
+		this.assertFalse(weapon.fire());
+		this.assertEquals(5, weapon.ammo.value);
+	});
+
+	return suite;
+}());
+
+test.add(function() {
 	var suite = new Test.Suite('Engine.Timeline');
 
 	suite.add(function testInfiniteTime() {
