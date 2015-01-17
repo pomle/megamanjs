@@ -31,14 +31,16 @@ Engine.assets.objects.characters.Metalman = function()
         'fire': fireLeft,
         'jump': jumpLeft,
         'jumpFire': jumpFireLeft,
-        'run': runLeft
+        'run': runLeft,
+        'runFire': fireLeft,
     };
     this.sprites[this.RIGHT] = {
         'idle': idleRight,
         'fire': fireRight,
         'jump': jumpRight,
         'jumpFire': jumpFireRight,
-        'run': runRight
+        'run': runRight,
+        'runFire': fireRight,
     };
 
     this.setDirection(this.RIGHT);
