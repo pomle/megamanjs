@@ -27,3 +27,11 @@ Engine.assets.objects.items.WeaponTank = function()
 
 Engine.assets.objects.items.WeaponTank.prototype = Object.create(Engine.assets.objects.Item.prototype);
 Engine.assets.objects.items.WeaponTank.constructor = Engine.assets.objects.items.WeaponTank;
+
+Engine.assets.objects.items.WeaponTank.prototype.collides = function(withObject, theirZone, ourZone)
+{
+    if (withObject.weapon && withObject.weapon.ammo) {
+        withObject.weapon.ammo.refill(this.capacity);
+        this.scene.removeObject(this);
+    }
+}
