@@ -16,7 +16,7 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
         return false;
     }
 
-    if (this.emitter.uuid == withObject.uuid) {
+    if (this.emitter == withObject) {
         return false;
     }
 
