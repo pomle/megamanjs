@@ -121,6 +121,7 @@
 
 
         <item name="EnergyTank" x="128" y="144"/>
+        <item name="WeaponTank" x="120" y="144"/>
 
 
         <background x="0" y="0" w="1792" h="240" w-segments="112" h-segments="15">
