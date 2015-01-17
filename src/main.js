@@ -14,7 +14,7 @@ var player = new Engine.assets.objects.characters.Megaman();
 player.equipWeapon(weapons['p']);
 
 var boss = new Engine.assets.objects.characters.Metalman();
-boss.equipWeapon(weapons['m']);
+boss.equipWeapon(new Engine.assets.weapons.MetalBlade());
 
 
 //Game.run();
