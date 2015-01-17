@@ -53,7 +53,8 @@ Engine.Collision.prototype.findZones = function(o1, o2)
             dy = (z1.y + o1.model.position.y + z1.radius) - (z2.y + o2.model.position.y + z2.radius);
             distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < z1.radius + z2.radius) {
-                o1.collides(o2, z1, z2);
+                o1.collides.call(o1, o2, z1, z2);
+                o2.collides.call(o2, o1, z2, z1);
                 return;
             }
         }
