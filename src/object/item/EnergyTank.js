@@ -4,7 +4,7 @@ Engine.assets.objects.items.EnergyTank = function()
 
     this.addCollisionZone(8, 0, 0);
 
-    this.capacity = 100;
+    this.capacity = 30;
 
     var texture = THREE.ImageUtils.loadTexture('sprites/powerup/energy-tank-large.gif');
 
@@ -27,3 +27,11 @@ Engine.assets.objects.items.EnergyTank = function()
 
 Engine.assets.objects.items.EnergyTank.prototype = Object.create(Engine.assets.objects.Item.prototype);
 Engine.assets.objects.items.EnergyTank.constructor = Engine.assets.objects.items.EnergyTank;
+
+Engine.assets.objects.items.EnergyTank.prototype.collides = function(withObject, theirZone, ourZone)
+{
+    if (withObject instanceof Engine.assets.objects.Character) {
+        withObject.health.refill(this.capacity);
+        this.scene.removeObject(this);
+    }
+}
