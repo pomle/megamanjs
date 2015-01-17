@@ -16,22 +16,6 @@ player.equipWeapon(weapons['p']);
 var boss = new Engine.assets.objects.characters.Metalman();
 boss.equipWeapon(weapons['m']);
 
-/*
-var energyTank = new Engine.assets.objects.items.EnergyTank();
-energyTank.model.position.x = 50;
-energyTank.model.position.y = -40;
-level.addObject(energyTank);
-
-var energyCapsule = new Engine.assets.objects.items.EnergyCapsule();
-energyCapsule.model.position.x = 80;
-energyCapsule.model.position.y = -40;
-level.addObject(energyCapsule);
-
-var weaponTank = new Engine.assets.objects.items.WeaponTank();
-weaponTank.model.position.x = 100;
-weaponTank.model.position.y = -40;
-level.addObject(weaponTank);
-*/
 
 //Game.run();
 
