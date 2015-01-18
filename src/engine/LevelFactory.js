@@ -69,8 +69,7 @@ Engine.scenes.Level.Util = {
                     'h': parseFloat(spriteSheet.attributes['h'].value)
                 };
 
-                var texture = THREE.ImageUtils.loadTexture(url);
-                texture.magFilter = THREE.NearestFilter;
+                var texture = Engine.Util.getTexture(url);
                 var sprites = doc.evaluate('sprite', spriteSheet, null, XPathResult.ANY_TYPE , null);
                 var sprite;
                 while (sprite = sprites.iterateNext()) {

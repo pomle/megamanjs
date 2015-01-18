@@ -44,12 +44,29 @@ Engine.Util = {
         return model;
     },
 
-    getTexture: function(url, callback)
+    getTexture: function(url)
     {
-        var texture = THREE.ImageUtils.loadTexture(url, null, callback);
-        //texture.magFilter = THREE.NearestFilter;
+        return Engine.Util.getScaledTexture(url, 4);
+    },
+
+    getScaledTexture: function(url, scale)
+    {
+        var canvas = document.createElement("canvas");
+        var texture = new THREE.Texture(canvas);
+        var image = new Image();
+        image.onload = function() {
+            var x = this.width * scale;
+            var y = this.height * scale;
+            canvas.width = x;
+            canvas.height = y;
+            var context = canvas.getContext("2d");
+            context.imageSmoothingEnabled = false;
+            context.drawImage(this, 0, 0, x, y);
+            texture.needsUpdate = true;
+        }
+        image.src = url;
         return texture;
-    }
+    },
 }
 
 Engine.assets = {};
