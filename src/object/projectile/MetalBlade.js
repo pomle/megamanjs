@@ -19,8 +19,10 @@ Engine.assets.projectiles.MetalBlade = function()
 Engine.assets.projectiles.MetalBlade.prototype = Object.create(Engine.assets.Projectile.prototype);
 Engine.assets.projectiles.MetalBlade.constructor = Engine.assets.Projectile;
 
+/*
 Engine.assets.projectiles.MetalBlade.prototype.timeShift = function(t)
 {
     Engine.assets.Projectile.prototype.timeShift.call(this, t);
     this.model.rotation.z += ((this.speed.x > 0 ? this.rotationSpeed : -this.rotationSpeed) * t);
 }
+*/
