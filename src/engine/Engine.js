@@ -35,10 +35,12 @@ Engine.Util = {
     createSprite: function(location, w, h)
     {
         var texture = Engine.Util.getTexture('sprites/' + location);
-        var geometry = new THREE.PlaneBufferGeometry(w, h);
-        var material = new THREE.MeshLambertMaterial({
+        var geometry = new THREE.PlaneGeometry(w, h);
+        var material = new THREE.MeshBasicMaterial({
+            //color: 0xffffff,
+            //wireframe: true,
             map: texture,
-            transparent: true
+            transparent: true,
         });
         var model = new THREE.Mesh(geometry, material);
         return model;
