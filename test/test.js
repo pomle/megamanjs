@@ -196,4 +196,43 @@ test.add(function() {
 	return suite;
 }());
 
+
+test.add(function() {
+	var suite = new Test.Suite('Collision');
+
+	suite.add(function testCollision() {
+		var collideMock = function(a,b,c) {
+			this.args = [a,b,c]
+		}
+
+		var energyTank1 = new Engine.assets.objects.items.EnergyTank();
+		var energyTank2 = new Engine.assets.objects.items.EnergyTank();
+		energyTank1.collides = collideMock;
+		energyTank2.collides = collideMock;
+
+		var collision = new Engine.Collision();
+		this.assertEquals(0, collision.objects.length);
+		this.assertEquals(0, collision.positionCache.length);
+
+		collision.addObject(energyTank1);
+		collision.addObject(energyTank2);
+		this.assertEquals(2, collision.objects.length);
+		this.assertEquals(2, collision.positionCache.length);
+		collision.removeObject(energyTank1);
+		this.assertEquals(1, collision.objects.length);
+		this.assertEquals(collision.objects[0], energyTank2);
+		collision.addObject(energyTank1);
+		this.assertEquals(collision.objects[0], energyTank2);
+		this.assertEquals(collision.objects[1], energyTank1);
+
+		collision.detect();
+		this.assertEquals(energyTank1.args[0], energyTank2);
+		this.assertEquals(energyTank2.args[0], energyTank1);
+	});
+
+
+	return suite;
+}());
+
 test.run(document.getElementById('log'));
+
