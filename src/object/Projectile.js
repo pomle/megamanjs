@@ -9,6 +9,7 @@ Engine.assets.Projectile = function()
 }
 
 Engine.assets.Projectile.prototype = Object.create(Engine.assets.Object.prototype);
+Engine.assets.Projectile.constructor = Engine.assets.Projectile;
 
 Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, theirZone)
 {
