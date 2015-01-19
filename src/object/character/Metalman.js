@@ -51,16 +51,14 @@ Engine.assets.objects.characters.Metalman = function()
     material.transparent = true;
 
     var model = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry (48, 48),
+        new THREE.PlaneBufferGeometry(48, 48),
         material
     );
-
-    this.addCollisionZone(6, 0, 6);
 
     this.setJumpForce(250);
 
     this.setModel(model);
-
+    this.addCollisionRect(12, 24, 0, 0);
 
     this.currentSprite;
 }

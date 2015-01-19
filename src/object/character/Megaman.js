@@ -55,20 +55,14 @@ Engine.assets.objects.characters.Megaman = function()
 
     this.setDirection(this.RIGHT);
 
-    var material = new THREE.MeshLambertMaterial({});
-    material.transparent = true;
+    this.energyCapsules = 0;
 
-    var model = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry (32, 32),
-        material
-    );
-
-    this.addCollisionZone(10, 0, 0);
-
+    var model = Engine.Util.createSprite('megaman/idle-left.gif', 32, 32);
     this.setModel(model);
 
+    this.addCollisionRect(10, 22, 0, 0);
 
-    this.currentSprite;
+    this.currentSprite = undefined;
 }
 
 Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);

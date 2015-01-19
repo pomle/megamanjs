@@ -8,9 +8,27 @@ Engine.assets.Object = function()
     this.scene = undefined;
 }
 
+Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
+{
+    var material = new THREE.MeshBasicMaterial({color: 'white', wireframe: true});
+    var mesh = new THREE.Mesh(geometry, material);
+    mesh.position.x = offsetX || 0;
+    mesh.position.y = offsetY || 0;
+    mesh.position.z = .01;
+    this.collision.push(mesh);
+    //this.model.add(mesh); // Show collision zone.
+}
+
+Engine.assets.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
+{
+    var rect = new THREE.PlaneGeometry(w, h, 1, 1);
+    return this.addCollisionGeometry(rect, offsetX, offsetY);
+}
+
 Engine.assets.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 {
-    this.collision.push({'radius': r, 'x': offsetX, 'y': offsetY});
+    var circle = new THREE.CircleGeometry(r, 16);
+    return this.addCollisionGeometry(circle, offsetX, offsetY);
 }
 
 Engine.assets.Object.prototype.collides = function(withObject, ourZone, theirZone)
