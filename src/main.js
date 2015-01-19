@@ -15,8 +15,6 @@ player.equipWeapon(weapons['p']);
 
 var boss = new Engine.assets.objects.characters.Metalman();
 boss.equipWeapon(new Engine.assets.weapons.MetalBlade());
-
-
 //Game.run();
 
 var keyboard = new Engine.Keyboard();
@@ -34,7 +32,7 @@ keyboard.hit(67, function() { boss.fire(); });
 
 Engine.scenes.Level.Util.loadFromXML('levels/flashman/Flashman.xml', function(level) {
 	level.addPlayer(player);
-	level.addObject(boss);
+	//level.addObject(boss);
 	Game.scene = level;
 	Game.run();
 });

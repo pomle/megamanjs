@@ -3,7 +3,7 @@ Engine.assets.Object = function()
     this.uuid = THREE.Math.generateUUID();
     this.collision = [];
     this.gravityForce = 0;
-    this.isSupported = false;
+    this.gravityPull = 0;
     this.speed = new THREE.Vector2();
     this.scene = undefined;
 }
@@ -63,26 +63,8 @@ Engine.assets.Object.prototype.setSpeed = function(x, y)
 
 Engine.assets.Object.prototype.timeShift = function(t)
 {
-    var obstacleY = -148;
-
     this.model.position.x += (this.speed.x * t);
     this.model.position.y += (this.speed.y * t);
-
-    if (!this.isSupported) {
-        this.speed.y -= this.gravityForce;
-    }
-
-    if (this.model.position.y < obstacleY + 10) {
-        this.isSupported = true;
-    }
-
-    if (this.model.position.y < obstacleY) {
-        this.speed.y = 0;
-        this.model.position.y = obstacleY;
-    }
-    else if (this.model.position.y > obstacleY) {
-        this.isSupported = false;
-    }
 }
 
 // Set up a default model.

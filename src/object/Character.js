@@ -9,11 +9,12 @@ Engine.assets.objects.Character = function()
     this.direction = undefined;
     this.health = new Engine.assets.Energy(100);
     this.isFiring = false;
+    this.isSupported = false;
     this.jumpForce = 155;
     this.jumpSpeed = 0;
     this.jumpTimeout = .18;
     this.moveSpeed = 0;
-    this.walkAcc = 20;
+    this.walkAcc = 15;
     this.walkSpeed = 90;
     this.walk = 0;
     this.weapon = undefined;
@@ -57,7 +58,7 @@ Engine.assets.objects.Character.prototype.fire = function()
 
 Engine.assets.objects.Character.prototype.jumpStart = function()
 {
-    if (!this.isSupported) {
+    if (this.speed.y) {
         return false;
     }
     this.jumpSpeed = this.jumpForce;
@@ -121,6 +122,14 @@ Engine.assets.objects.Character.prototype.timeShift = function(t)
     this.speed.x = (this.moveSpeed * this.walk);
     if (this.jumpSpeed > 0) {
         this.speed.y = this.jumpSpeed;
+    }
+
+    if (!this.isSupported) {
+        this.speed.y -= this.gravityForce;
+    }
+
+    if (this.speed.x || this.speed.y) {
+        this.isSupported = false;
     }
     //console.log('Move Speed: %f', this.moveSpeed);
     //console.log('Jump Force: %f', this.jumpSpeed);

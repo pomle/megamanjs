@@ -252,6 +252,35 @@ Engine.scenes.Level.Util = {
             level.addObject(Item);
         }
 
+
+        var solidNodes = doc.evaluate('/level/layout/solids/*', doc, null, XPathResult.ANY_TYPE , null);
+        var solidNode;
+        var material = new THREE.MeshBasicMaterial({
+            color: 'white',
+            wireframe: true,
+        });
+        var exposeSolids = true;
+        while (solidNode = solidNodes.iterateNext()) {
+            var prop = {
+                'x': parseFloat(solidNode.attributes['x'].value),
+                'y': parseFloat(solidNode.attributes['y'].value),
+                'w': parseFloat(solidNode.attributes['w'].value),
+                'h': parseFloat(solidNode.attributes['h'].value),
+            }
+
+            var geometry = new THREE.PlaneGeometry(prop.w, prop.h);
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position.x = prop.x + (prop.w / 2);
+            mesh.position.y = -(prop.y + (prop.h / 2));
+            mesh.position.z = exposeSolids ? 1 : -1;
+
+            var solid = new Engine.assets.Solid();
+            solid.setModel(mesh);
+            solid.addCollisionGeometry(geometry);
+
+            level.addObject(solid);
+        }
+
         var checkpoint = doc.evaluate('/level/checkpoints/checkpoint[1]', doc, null, XPathResult.ANY_TYPE , null).iterateNext();
         if (checkpoint) {
             var x = doc.evaluate('@x', checkpoint, null, XPathResult.NUMBER_TYPE, null).numberValue;

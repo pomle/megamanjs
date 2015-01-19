@@ -74,7 +74,8 @@ Engine.assets.objects.characters.Megaman.prototype.getSprite = function()
         this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
     }
 
-    if (!this.isSupported) {
+    // If we have any vertical speed we are "falling".
+    if (this.speed.y) {
         if (this.isFiring) {
             return this.sprites[this.direction]['jumpFire'];
         }
