@@ -15,3 +15,10 @@ Engine.assets.objects.items.EnergyCapsule = function()
 Engine.assets.objects.items.EnergyCapsule.prototype = Object.create(Engine.assets.objects.Item.prototype);
 Engine.assets.objects.items.EnergyCapsule.constructor = Engine.assets.objects.items.EnergyCapsule;
 
+Engine.assets.objects.items.EnergyCapsule.prototype.collides = function(withObject, theirZone, ourZone)
+{
+    if (withObject instanceof Engine.assets.objects.characters.Megaman) {
+        withObject.energyCapsules++;
+        this.scene.removeObject(this);
+    }
+}
