@@ -4,7 +4,7 @@
         <checkpoint x="100" y="64"/>
     </checkpoints>
 
-    <sprites url="sprites/levels/flashman/tiles.gif" w="128" h="96">
+    <sprites url="tiles.gif" w="128" h="96">
         <!-- Decorations -->
         <sprite id="drwily-sign-blue">
             <bounds x="64" y="16" w="32" h="32"/>
@@ -120,9 +120,17 @@
         <object ref="triple-block-horiz-1" x="128" y="160"/>
 
 
-        <item name="EnergyTank" x="0" y="130"/>
-        <item name="WeaponTank" x="120" y="144"/>
-        <item name="EnergyCapsule" x="150" y="144"/>
+        <!--<item name="EnergyTank" x="0" y="130"/>
+        <item name="WeaponTank" x="120" y="144"/>-->
+        <item name="EnergyCapsule" x="24" y="152"/>
+
+        <solids expose="1">
+            <rect x="0" y="160" w="2000" h="16"/>
+            <rect x="0" y="0" w="16" h="160"/>
+            <rect x="200" y="100" w="32" h="16"/>
+            <rect x="250" y="110" w="32" h="16"/>
+            <rect x="300" y="120" w="32" h="16"/>
+        </solids>
 
 
         <background x="0" y="0" w="1792" h="240" w-segments="112" h-segments="15">

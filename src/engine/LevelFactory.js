@@ -1,6 +1,8 @@
 Engine.scenes.Level.Util = {
-    'createFromXML': function(xml)
+    'createFromXML': function(xml, baseUrl)
     {
+        var baseUrl = baseUrl || '';
+
         var parser = new DOMParser();
         var doc = parser.parseFromString(xml, "application/xml");
 
@@ -63,7 +65,7 @@ Engine.scenes.Level.Util = {
             var spriteSheets = doc.evaluate('/level/sprites', doc, null, XPathResult.ANY_TYPE , null);
             var spriteSheet;
             while (spriteSheet = spriteSheets.iterateNext()) {
-                var url = spriteSheet.attributes['url'].value;
+                var url = baseUrl + '/' + spriteSheet.attributes['url'].value;
                 var size = {
                     'w': parseFloat(spriteSheet.attributes['w'].value),
                     'h': parseFloat(spriteSheet.attributes['h'].value)
@@ -261,12 +263,13 @@ Engine.scenes.Level.Util = {
     },
     'loadFromXML': function(url, callback)
     {
+        var baseUrl = url.split('/').slice(0, -1).join('/');
         xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function()
         {
             switch(this.readyState) {
                 case 4:
-                    var level = Engine.scenes.Level.Util.createFromXML(this.responseText);
+                    var level = Engine.scenes.Level.Util.createFromXML(this.responseText, baseUrl);
                     callback(level);
                     break;
             }

@@ -32,7 +32,7 @@ keyboard.intermittent(86, function() { boss.jumpStart(); }, function() { boss.ju
 keyboard.hit(67, function() { boss.fire(); });
 
 
-Engine.scenes.Level.Util.loadFromXML('levels/Flashman.xml', function(level) {
+Engine.scenes.Level.Util.loadFromXML('levels/flashman/Flashman.xml', function(level) {
 	level.addPlayer(player);
 	level.addObject(boss);
 	Game.scene = level;
