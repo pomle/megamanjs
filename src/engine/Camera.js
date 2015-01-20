@@ -3,6 +3,7 @@ Engine.Camera = function(camera)
     this.camera = camera;
     this.followObject = undefined;
     this.followTween = undefined;
+    this.followOffset = [0, 50];
 }
 
 Engine.Camera.prototype.follow = function(object, distance)
@@ -10,7 +11,7 @@ Engine.Camera.prototype.follow = function(object, distance)
     this.followObject = object;
     this.followTween = new TweenMax(this.camera.position, 1, {
         x: this.followObject.model.position.x,
-        y: this.followObject.model.position.y
+        y: this.followObject.model.position.y + this.followOffset[1]
     });
     //this.zoomTween = new TweenMax(this.camera.position, 3, {'z': this.followDistance});
 }
@@ -39,7 +40,7 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
 {
     if (this.followObject)
     {
-        this.panTo(this.followObject.model.position.x, this.followObject.model.position.y);
+        this.panTo(this.followObject.model.position.x, this.followObject.model.position.y + this.followOffset[1]);
         /*
         var newZ = this.followDistance + Math.max(Math.abs(this.followObject.speed.x), Math.abs(this.followObject.speed.y));
         this.zoomTween.updateTo({
