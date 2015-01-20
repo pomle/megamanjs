@@ -74,6 +74,12 @@ Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone
         object1.model.position.clone().add(zone1.position),
         object2.model.position.clone().add(zone2.position)
     ];
+
+    var lookAheadX = (object1.speed.x / 40);
+    var lookAheadY = (object1.speed.y / 40);
+    pos[0].x += lookAheadX;
+    pos[0].y += lookAheadY;
+
     var geo = [
         zone1.geometry,
         zone2.geometry
