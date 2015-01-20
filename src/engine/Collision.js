@@ -117,9 +117,10 @@ Engine.Collision.prototype.circlesIntersect = function(r1, r2, x1, x2, y1, y2)
     var dx = x2 - x1;
     var dy = y2 - y1;
     var radii = r1 + r2;
-    if ((dx * dx + dy * dy) < radii * radii) {
+    if (dx * dx + dy * dy < radii * radii) {
         return true;
     }
+    return false;
 }
 
 Engine.Collision.prototype.circleInRectangle = function(r, x, y, a, b, w, h)
