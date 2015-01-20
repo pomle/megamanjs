@@ -32,17 +32,17 @@ Engine.assets.objects.Character = function()
 Engine.assets.objects.Character.prototype = Object.create(Engine.assets.Object.prototype);
 Engine.assets.objects.Character.constructor = Engine.assets.objects.Character;
 
-Engine.assets.objects.Character.prototype.calculateMoveSpeed = function()
+Engine.assets.objects.Character.prototype.calculateMoveSpeed = function(dt)
 {
-    this.moveSpeed = 0;
-
     if (this.walk == 0) {
+        this.moveSpeed = 0;
         return;
     }
 
     if (this.movementInhibitor.r && this.walk > 0) {
         if (this.movementInhibitor.r.y1 > this.model.position.y
         && this.movementInhibitor.r.y2 < this.model.position.y) {
+            this.moveSpeed = 0;
             return;
         }
     }
@@ -51,6 +51,7 @@ Engine.assets.objects.Character.prototype.calculateMoveSpeed = function()
     if (this.movementInhibitor.l && this.walk < 0) {
         if (this.movementInhibitor.l.y1 > this.model.position.y
         && this.movementInhibitor.l.y2 < this.model.position.y) {
+            this.moveSpeed = 0;
             return;
         }
     }
