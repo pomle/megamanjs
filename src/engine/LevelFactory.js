@@ -73,7 +73,7 @@ Engine.scenes.Level.Util = {
                 var sprites = doc.evaluate('sprite', spriteSheet, null, XPathResult.ANY_TYPE , null);
                 var sprite;
                 while (sprite = sprites.iterateNext()) {
-                    var bound = doc.evaluate('bounds', sprite, null, XPathResult.ANY_TYPE).iterateNext();
+                    var bound = doc.evaluate('bounds', sprite, null, XPathResult.ANY_TYPE, null).iterateNext();
                     var bounds = {
                         'x': parseFloat(bound.attributes['x'].value),
                         'y': parseFloat(bound.attributes['y'].value),
@@ -111,7 +111,7 @@ Engine.scenes.Level.Util = {
                     var geometry = new THREE.PlaneGeometry(size.w, size.h, 1, 1);
 
                     var frames = [];
-                    var frameNodes = doc.evaluate('frame', object, null, XPathResult.ANY_TYPE);
+                    var frameNodes = doc.evaluate('frame', object, null, XPathResult.ANY_TYPE, null);
                     var frameNode;
                     while (frameNode = frameNodes.iterateNext()) {
                         frames.push({
@@ -225,8 +225,8 @@ Engine.scenes.Level.Util = {
             mesh.position.x = pos.x + (object.size.w / 2);
             mesh.position.y = -(pos.y + (object.size.h / 2));
 
-            var rotate = doc.evaluate('@rotate', objectNode, null, XPathResult.NUMBER_TYPE).numberValue;
-            var flip = doc.evaluate('@flip', objectNode, null, XPathResult.STRING_TYPE).stringValue;
+            var rotate = doc.evaluate('@rotate', objectNode, null, XPathResult.NUMBER_TYPE, null).numberValue;
+            var flip = doc.evaluate('@flip', objectNode, null, XPathResult.STRING_TYPE, null).stringValue;
             if (isFinite(rotate)) {
                 mesh.rotation.z = -(Math.PI/180)*rotate;
             }
@@ -252,8 +252,8 @@ Engine.scenes.Level.Util = {
 
         var checkpoint = doc.evaluate('/level/checkpoints/checkpoint[1]', doc, null, XPathResult.ANY_TYPE , null).iterateNext();
         if (checkpoint) {
-            var x = doc.evaluate('@x', checkpoint, null, XPathResult.NUMBER_TYPE).numberValue;
-            var y = doc.evaluate('@y', checkpoint, null, XPathResult.NUMBER_TYPE).numberValue;
+            var x = doc.evaluate('@x', checkpoint, null, XPathResult.NUMBER_TYPE, null).numberValue;
+            var y = doc.evaluate('@y', checkpoint, null, XPathResult.NUMBER_TYPE, null).numberValue;
             level.setStartPosition(x, y);
         }
 
