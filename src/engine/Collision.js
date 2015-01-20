@@ -26,6 +26,7 @@ Engine.Collision.prototype.removeObject = function(object)
 
 Engine.Collision.prototype.detect = function()
 {
+    var collisions = 0;
     var i, j, o1, o2;
     for (i in this.objects) {
         o1 = this.objects[i];
@@ -45,9 +46,12 @@ Engine.Collision.prototype.detect = function()
             /*if (o2 instanceof Engine.assets.Solid)o1.model.position.distanceTo(o2.model.position) > 200) {
                 continue;
             }*/
-            this.objectsCollide(o1, o2);
+            if (this.objectsCollide(o1, o2)) {
+                collisions++;
+            }
         }
     }
+    return collisions;
 }
 
 Engine.Collision.prototype.objectsCollide = function(o1, o2)
@@ -57,7 +61,6 @@ Engine.Collision.prototype.objectsCollide = function(o1, o2)
         z1 = o1.collision[i];
         for (j in o2.collision) {
             z2 = o2.collision[j];
-            console.log('Collision check');
             if (this.zonesCollide(o1, z1, o2, z2)) {
                 o1.collides.call(o1, o2, z1, z2);
                 o2.collides.call(o2, o1, z2, z1);
@@ -94,7 +97,6 @@ Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone
             this.convertPlaneToRectangle(geo[0]),
             this.convertPlaneToRectangle(geo[1]),
         ];
-        //console.log(pos);
         return this.rectanglesIntersect(
             pos[0].x, pos[0].y, rect[0].w, rect[0].h,
             pos[1].x, pos[1].y, rect[1].w, rect[1].h);
