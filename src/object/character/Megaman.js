@@ -83,7 +83,7 @@ Engine.assets.objects.characters.Megaman.prototype.getSprite = function()
     }
 
     if (this.moveSpeed) {
-        if (this.moveSpeed < this.walkSpeed) {
+        if (this.moveSpeed < this.walkSpeed * .8) {
             return this.sprites[this.direction]['lean'];
         }
         if (this.isFiring) {
