@@ -6,27 +6,13 @@ Engine.assets.Solid = function()
 Engine.assets.Solid.prototype = Object.create(Engine.assets.Object.prototype);
 Engine.assets.Solid.constructor = Engine.assets.Solid;
 
-Engine.assets.Object.prototype.collides = function(subject, ourZone, theirZone)
+Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
 {
     if (subject instanceof Engine.assets.objects.Character == false) {
         return;
     }
 
     console.log("%s collided", subject);
-
-    var their = {};
-    their.prop = {
-        x: subject.model.position.x + theirZone.position.x,
-        y: subject.model.position.y + theirZone.position.y,
-        w: theirZone.geometry.parameters.width,
-        h: theirZone.geometry.parameters.height,
-    };
-    their.bound = {
-        l: their.prop.x - (their.prop.w / 2),
-        r: their.prop.x + (their.prop.w / 2),
-        t: their.prop.y + (their.prop.h / 2),
-        b: their.prop.y - (their.prop.h / 2),
-    };
 
     var our = {};
     our.prop = {
@@ -42,10 +28,22 @@ Engine.assets.Object.prototype.collides = function(subject, ourZone, theirZone)
         b: our.prop.y - (our.prop.h / 2),
     };
 
-    if (subject.speed.y) {
-        if (subject.speed.y < 0 &&
-            their.bound.b > our.bound.b &&
-            their.bound.b < our.bound.t) {
+    var their = {};
+    their.prop = {
+        x: subject.model.position.x + theirZone.position.x,
+        y: subject.model.position.y + theirZone.position.y,
+        w: theirZone.geometry.parameters.width,
+        h: theirZone.geometry.parameters.height,
+    };
+    their.bound = {
+        l: their.prop.x - (their.prop.w / 2),
+        r: their.prop.x + (their.prop.w / 2),
+        t: their.prop.y + (their.prop.h / 2),
+        b: their.prop.y - (their.prop.h / 2),
+    };
+
+    if (subject.speed.y && their.bound.r > our.bound.l && their.bound.l < our.bound.r) {
+        if (subject.speed.y < 0) {
             subject.model.position.y = our.bound.t + (their.prop.h / 2);
             subject.speed.y = 0;
             subject.isSupported = true;
@@ -58,27 +56,14 @@ Engine.assets.Object.prototype.collides = function(subject, ourZone, theirZone)
             subject.jumpSpeed = 0;
         }
     }
-    /*
-    if (subject.speed.x) {
-        var ourX = this.model.position.x + ourZone.position.x;
-        var theirX = subject.model.position.x + theirZone.position.x;
-
-        var edgeDistance = [
-            ourZone.geometry.parameters.width / 2,
-            theirZone.geometry.parameters.width / 2,
-        ];
-
-        var theirLeft = theirX - edgeDistance[1];
-        var ourLeft = ourX - edgeDistance[0];
-        var theirRight = theirX + edgeDistance[1];
-        var ourRight = ourX + edgeDistance[0];
-
-        subject.speed.x = 0;
-
-        if (theirRight > ourLeft) {
-            subject.model.position.x = ourLeft + edgeDistance[1];
-        } else if (theirLeft < ourRight) {
-            subject.model.position.x = ourRight + edgeDistance[1];
+    else if (subject.speed.x && their.bound.b < our.bound.t && their.bound.t > our.bound.b) {
+        if (subject.speed.x > 0) {
+            subject.moveSpeed = 0;
+            subject.model.position.x = our.bound.l - (their.prop.w / 2);
+        }
+        else if (subject.speed.x < 0 && their.bound.l < our.bound.r) {
+            subject.moveSpeed = 0;
+            subject.model.position.x = our.bound.r + (their.prop.w / 2);
         }
     }
 

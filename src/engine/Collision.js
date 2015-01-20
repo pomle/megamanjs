@@ -77,6 +77,7 @@ Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone
 
     var lookAheadX = (object1.speed.x / 40);
     var lookAheadY = (object1.speed.y / 40);
+    //console.log('Look-a-head: x: %f, y: %f', lookAheadX, lookAheadY);
     pos[0].x += lookAheadX;
     pos[0].y += lookAheadY;
 
