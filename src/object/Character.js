@@ -19,14 +19,15 @@ Engine.assets.objects.Character = function()
     };
     this.jumpForce = 155;
     this.jumpSpeed = 0;
-    this.jumpTimeout = .18;
+    this.jumpTime = undefined;
+    this.jumpDuration = .18;
     this.moveSpeed = 0;
-    this.walkAcc = 15;
+    this.walkAcc = 600;
     this.walkSpeed = 90;
     this.walk = 0;
     this.weapon = undefined;
 
-    this.setGravity(10);
+    this.setGravity(500);
 }
 
 Engine.assets.objects.Character.prototype = Object.create(Engine.assets.Object.prototype);
@@ -57,7 +58,7 @@ Engine.assets.objects.Character.prototype.calculateMoveSpeed = function(dt)
     }
     this.movementInhibitor.l = undefined;
 
-    this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc, this.walkSpeed);
+    this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc * dt, this.walkSpeed);
 }
 
 Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
@@ -97,8 +98,7 @@ Engine.assets.objects.Character.prototype.jumpStart = function()
         return false;
     }
     this.jumpSpeed = this.jumpForce;
-    this.jumpTimer = setTimeout(this.jumpEnd.bind(this), this.jumpTimeout * 1000);
-    return this.jumpTimer;
+    this.jumpTime = this.time;
 }
 
 Engine.assets.objects.Character.prototype.jumpEnd = function()
@@ -148,16 +148,19 @@ Engine.assets.objects.Character.prototype.setWalkspeed = function(speed)
 
 Engine.assets.objects.Character.prototype.timeShift = function(t)
 {
-    this.calculateMoveSpeed();
+    this.calculateMoveSpeed(t);
 
     this.speed.x = (this.moveSpeed * this.walk);
 
     if (this.jumpSpeed > 0) {
         this.speed.y = this.jumpSpeed;
+        if (this.time - this.jumpTime > this.jumpDuration) {
+            this.jumpEnd();
+        }
     }
 
     if (!this.isSupported) {
-        this.speed.y -= this.gravityForce;
+        this.speed.y -= (this.gravityForce * t);
     }
     else if (this.speed.y > 0
     || this.model.position.x < this.isSupportedUntil.x1

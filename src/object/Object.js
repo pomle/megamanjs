@@ -6,6 +6,7 @@ Engine.assets.Object = function()
     this.gravityPull = 0;
     this.speed = new THREE.Vector2();
     this.scene = undefined;
+    this.time = 0;
 }
 
 Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
@@ -61,10 +62,11 @@ Engine.assets.Object.prototype.setSpeed = function(x, y)
     this.speed.y = y;
 }
 
-Engine.assets.Object.prototype.timeShift = function(t)
+Engine.assets.Object.prototype.timeShift = function(dt)
 {
-    this.model.position.x += (this.speed.x * t);
-    this.model.position.y += (this.speed.y * t);
+    this.time += dt;
+    this.model.position.x += (this.speed.x * dt);
+    this.model.position.y += (this.speed.y * dt);
 }
 
 // Set up a default model.
