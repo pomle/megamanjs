@@ -27,7 +27,7 @@ Engine.assets.Object.prototype.addCollisionRect = function(w, h, offsetX, offset
 
 Engine.assets.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 {
-    var circle = new THREE.CircleGeometry(r, 16);
+    var circle = new THREE.CircleGeometry(r, 8);
     return this.addCollisionGeometry(circle, offsetX, offsetY);
 }
 
