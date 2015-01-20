@@ -10,6 +10,7 @@ Engine.assets.objects.Character = function()
     this.health = new Engine.assets.Energy(100);
     this.isFiring = false;
     this.isSupported = false;
+    this.isSupportedUntil = {x1: null, x2: null};
     this.jumpForce = 155;
     this.jumpSpeed = 0;
     this.jumpTimeout = .18;
@@ -127,8 +128,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(t)
     if (!this.isSupported) {
         this.speed.y -= this.gravityForce;
     }
-
-    if (this.speed.x || this.speed.y) {
+    else if (this.speed.y > 0 || this.model.position.x < this.isSupportedUntil.x1 || this.model.position.x > this.isSupportedUntil.x2) {
         this.isSupported = false;
     }
     //console.log('Move Speed: %f', this.moveSpeed);

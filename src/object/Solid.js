@@ -12,32 +12,53 @@ Engine.assets.Object.prototype.collides = function(subject, ourZone, theirZone)
         return;
     }
 
+    console.log("%s collided", subject);
+
+    var their = {};
+    their.prop = {
+        x: subject.model.position.x + theirZone.position.x,
+        y: subject.model.position.y + theirZone.position.y,
+        w: theirZone.geometry.parameters.width,
+        h: theirZone.geometry.parameters.height,
+    };
+    their.bound = {
+        l: their.prop.x - (their.prop.w / 2),
+        r: their.prop.x + (their.prop.w / 2),
+        t: their.prop.y + (their.prop.h / 2),
+        b: their.prop.y - (their.prop.h / 2),
+    };
+
+    var our = {};
+    our.prop = {
+        x: this.model.position.x + ourZone.position.x,
+        y: this.model.position.y + ourZone.position.y,
+        w: ourZone.geometry.parameters.width,
+        h: ourZone.geometry.parameters.height,
+    };
+    our.bound = {
+        l: our.prop.x - (our.prop.w / 2),
+        r: our.prop.x + (our.prop.w / 2),
+        t: our.prop.y + (our.prop.h / 2),
+        b: our.prop.y - (our.prop.h / 2),
+    };
+
     if (subject.speed.y) {
-        var ourY = this.model.position.y + ourZone.position.y;
-        var theirY = subject.model.position.y + theirZone.position.y;
-
-        var edgeDistance = [
-            ourZone.geometry.parameters.height / 2,
-            theirZone.geometry.parameters.height / 2,
-        ];
-
-        if (subject.speed.y < 0) {
-            var theirBottom = theirY - edgeDistance[1];
-            var ourTop = ourY + edgeDistance[0];
-            var handicap = (subject.speed.y / 7);
-            if (theirBottom - handicap >= ourTop) {
-                subject.model.position.y = ourTop + edgeDistance[1];
-                subject.speed.y = 0;
-                subject.isSupported = true;
-            }
+        if (subject.speed.y < 0 &&
+            their.bound.b > our.bound.b &&
+            their.bound.b < our.bound.t) {
+            subject.model.position.y = our.bound.t + (their.prop.h / 2);
+            subject.speed.y = 0;
+            subject.isSupported = true;
+            subject.isSupportedUntil.x1 = our.bound.l - (their.prop.w / 2);
+            subject.isSupportedUntil.x2 = our.bound.r + (their.prop.w / 2);
         }
         else {
-            subject.model.position.y = ourY - (edgeDistance[0] + edgeDistance[1]);
+            subject.model.position.y = our.bound.b - (their.prop.h / 2);
             subject.speed.y = -(subject.speed.y / 5);
             subject.jumpSpeed = 0;
         }
     }
-
+    /*
     if (subject.speed.x) {
         var ourX = this.model.position.x + ourZone.position.x;
         var theirX = subject.model.position.x + theirZone.position.x;
