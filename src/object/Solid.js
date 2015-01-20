@@ -52,28 +52,24 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
         }
         else {
             subject.model.position.y = our.bound.b - (their.prop.h / 2);
+            subject.jumpEnd();
             subject.speed.y = -(subject.speed.y / 5);
-            subject.jumpSpeed = 0;
         }
     }
     else if (subject.speed.x && their.bound.b < our.bound.t && their.bound.t > our.bound.b) {
+        var inhibitor = {
+            'y1': our.bound.t + (their.prop.h / 2),
+            'y2': our.bound.b - (their.prop.h / 2),
+        };
         if (subject.speed.x > 0) {
             subject.moveSpeed = 0;
             subject.model.position.x = our.bound.l - (their.prop.w / 2);
-            subject.movementInhibitor.r = {
-                'x': subject.model.position.x,
-                'y1': our.bound.t + (their.prop.h / 2),
-                'y2': our.bound.b - (their.prop.h / 2),
-            };
+            subject.movementInhibitor.r = inhibitor;
         }
         else {
             subject.moveSpeed = 0;
             subject.model.position.x = our.bound.r + (their.prop.w / 2);
-            subject.movementInhibitor.l = {
-                'x': subject.model.position.x,
-                'y1': our.bound.t + (their.prop.h / 2),
-                'y2': our.bound.b - (their.prop.h / 2),
-            };
+            subject.movementInhibitor.l = inhibitor;
         }
     }
 
