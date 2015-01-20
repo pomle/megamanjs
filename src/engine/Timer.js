@@ -2,6 +2,8 @@ Engine.Timer = function()
 {
     this.animationCycleId = undefined;
     this.callbacks = [];
+    this.frame = 0;
+    this.frameRateLimit = 1;
     this.running = false;
     this.timeLastEvent = undefined;
     this.timeStretch = 1;
@@ -9,23 +11,24 @@ Engine.Timer = function()
 
 Engine.Timer.prototype.eventLoop = function()
 {
-    var timeNow = new Date();
-    var timeElapsed = (timeNow.getTime() - this.timeLastEvent.getTime()) / 1000;
-    this.timeLastEvent = timeNow;
+    if (this.frame++ % this.frameRateLimit == 0) {
+        var timeNow = new Date();
+        var timeElapsed = (timeNow.getTime() - this.timeLastEvent.getTime()) / 1000;
+        this.timeLastEvent = timeNow;
 
-    if (!this.running) {
-        return;
-    }
+        if (!this.running) {
+            return;
+        }
 
-    timeElapsed *= this.timeStretch;
+        timeElapsed *= this.timeStretch;
 
-    var i;
-    if (this.callbacks.length) {
-        for (i in this.callbacks) {
-            this.callbacks[i](timeElapsed);
+        var i;
+        if (this.callbacks.length) {
+            for (i in this.callbacks) {
+                this.callbacks[i](timeElapsed);
+            }
         }
     }
-
     requestAnimationFrame(this.eventLoop.bind(this));
 }
 
