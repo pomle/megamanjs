@@ -60,10 +60,20 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
         if (subject.speed.x > 0) {
             subject.moveSpeed = 0;
             subject.model.position.x = our.bound.l - (their.prop.w / 2);
+            subject.movementInhibitor.r = {
+                'x': subject.model.position.x,
+                'y1': our.bound.t + (their.prop.h / 2),
+                'y2': our.bound.b - (their.prop.h / 2),
+            };
         }
-        else if (subject.speed.x < 0 && their.bound.l < our.bound.r) {
+        else {
             subject.moveSpeed = 0;
             subject.model.position.x = our.bound.r + (their.prop.w / 2);
+            subject.movementInhibitor.l = {
+                'x': subject.model.position.x,
+                'y1': our.bound.t + (their.prop.h / 2),
+                'y2': our.bound.b - (their.prop.h / 2),
+            };
         }
     }
 

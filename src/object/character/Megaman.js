@@ -82,7 +82,7 @@ Engine.assets.objects.characters.Megaman.prototype.getSprite = function()
         return this.sprites[this.direction]['jump'];
     }
 
-    if (this.walk != 0) {
+    if (this.moveSpeed) {
         if (this.moveSpeed < this.walkSpeed) {
             return this.sprites[this.direction]['lean'];
         }

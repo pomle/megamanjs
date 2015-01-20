@@ -10,7 +10,13 @@ Engine.assets.objects.Character = function()
     this.health = new Engine.assets.Energy(100);
     this.isFiring = false;
     this.isSupported = false;
-    this.isSupportedUntil = {x1: null, x2: null};
+    this.isSupportedUntil = {x1: undefined, x2: undefined};
+    this.movementInhibitor = {
+        t: undefined,
+        b: undefined,
+        l: undefined,
+        r: undefined,
+    };
     this.jumpForce = 155;
     this.jumpSpeed = 0;
     this.jumpTimeout = .18;
@@ -25,6 +31,33 @@ Engine.assets.objects.Character = function()
 
 Engine.assets.objects.Character.prototype = Object.create(Engine.assets.Object.prototype);
 Engine.assets.objects.Character.constructor = Engine.assets.objects.Character;
+
+Engine.assets.objects.Character.prototype.calculateMoveSpeed = function()
+{
+    this.moveSpeed = 0;
+
+    if (this.walk == 0) {
+        return;
+    }
+
+    if (this.movementInhibitor.r && this.walk > 0) {
+        if (this.movementInhibitor.r.y1 > this.model.position.y
+        && this.movementInhibitor.r.y2 < this.model.position.y) {
+            return;
+        }
+    }
+    this.movementInhibitor.r = undefined;
+
+    if (this.movementInhibitor.l && this.walk < 0) {
+        if (this.movementInhibitor.l.y1 > this.model.position.y
+        && this.movementInhibitor.l.y2 < this.model.position.y) {
+            return;
+        }
+    }
+    this.movementInhibitor.l = undefined;
+
+    this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc, this.walkSpeed);
+}
 
 Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
 {
@@ -114,13 +147,10 @@ Engine.assets.objects.Character.prototype.setWalkspeed = function(speed)
 
 Engine.assets.objects.Character.prototype.timeShift = function(t)
 {
-    if (this.walk != 0) {
-        this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc, this.walkSpeed);
-    }
-    else {
-        this.moveSpeed = 0;
-    }
+    this.calculateMoveSpeed();
+
     this.speed.x = (this.moveSpeed * this.walk);
+
     if (this.jumpSpeed > 0) {
         this.speed.y = this.jumpSpeed;
     }
@@ -128,7 +158,9 @@ Engine.assets.objects.Character.prototype.timeShift = function(t)
     if (!this.isSupported) {
         this.speed.y -= this.gravityForce;
     }
-    else if (this.speed.y > 0 || this.model.position.x < this.isSupportedUntil.x1 || this.model.position.x > this.isSupportedUntil.x2) {
+    else if (this.speed.y > 0
+    || this.model.position.x < this.isSupportedUntil.x1
+    || this.model.position.x > this.isSupportedUntil.x2) {
         this.isSupported = false;
     }
     //console.log('Move Speed: %f', this.moveSpeed);
