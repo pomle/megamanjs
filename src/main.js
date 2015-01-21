@@ -32,7 +32,7 @@ keyboard.hit(67, function() { boss.fire(); });
 
 Engine.scenes.Level.Util.loadFromXML('levels/flashman/Flashman.xml', function(level) {
 	level.addPlayer(player);
-	//level.addObject(boss);
+	level.addObject(boss, 300, -100);
 	Game.scene = level;
 	Game.run();
 });
