@@ -24,7 +24,11 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
     withObject.health.reduce(this.damage);
 
     console.log('Inflicting %f damage on %s', this.damage, withObject);
-    this.scene.removeObject(this);
+
+    // The object absorbed the projectile
+    if (!withObject.health.depleted()) {
+        this.scene.removeObject(this);
+    }
 
     return true;
 }
