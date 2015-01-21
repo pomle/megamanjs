@@ -19,6 +19,11 @@ Engine.assets.Energy.prototype.change = function(diff)
     return true;
 }
 
+Engine.assets.Energy.prototype.depleted = function()
+{
+    return this.value == this.min;
+}
+
 Engine.assets.Energy.prototype.reduce = function(points)
 {
     return this.change(-points);

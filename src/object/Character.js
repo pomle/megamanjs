@@ -150,6 +150,10 @@ Engine.assets.objects.Character.prototype.timeShift = function(t)
 {
     this.calculateMoveSpeed(t);
 
+    if (this.health.depleted()) {
+        this.scene.removeObject(this);
+    }
+
     this.speed.x = (this.moveSpeed * this.walk);
 
     if (this.jumpSpeed > 0) {
