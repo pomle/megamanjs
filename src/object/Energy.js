@@ -1,8 +1,8 @@
-Engine.assets.Energy = function(value, max, min)
+Engine.assets.Energy = function(max, min)
 {
     this.min = min || 0;
     this.max = max || 100;
-    this.value = value;
+    this.value = this.max;
 }
 
 Engine.assets.Energy.prototype.change = function(diff)
@@ -21,7 +21,22 @@ Engine.assets.Energy.prototype.change = function(diff)
 
 Engine.assets.Energy.prototype.depleted = function()
 {
-    return this.value == this.min;
+    return this.fraction() == 0;
+}
+
+Engine.assets.Energy.prototype.finite = function(value)
+{
+    if (isFinite(value)) {
+        this.value = value;
+    }
+    else {
+        this.value = undefined;
+    }
+}
+
+Engine.assets.Energy.prototype.fraction = function()
+{
+    return isFinite(this.value) ? this.value / this.max : 1;
 }
 
 Engine.assets.Energy.prototype.reduce = function(points)
