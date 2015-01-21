@@ -99,10 +99,11 @@ $(function() {
     });
 
 
+    var baseUrl = document.location.href.split('/').slice(0, -1).join('/');
 
-    $('input[name=template').val('file:///C:/Users/Pom/Desktop/MegaManJS/tool/templates/flashman.png');
+    $('input[name=template').val(baseUrl + '/templates/flashman.png');
     $('#template').submit();
-    $('input[name=xml').val('file:///C:/Users/Pom/Desktop/MegaManJS/src/levels/flashman/Flashman.xml');
+    $('input[name=xml').val(baseUrl + '/../src/levels/flashman/Flashman.xml');
     $('#xml').submit();
 
 });
