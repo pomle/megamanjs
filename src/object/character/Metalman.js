@@ -61,10 +61,28 @@ Engine.assets.objects.characters.Metalman = function()
     this.addCollisionRect(12, 24, 0, 0);
 
     this.currentSprite;
+
+    this.timeAIUpdated = null;
 }
 
 Engine.assets.objects.characters.Metalman.prototype = Object.create(Engine.assets.objects.Character.prototype);
 Engine.assets.objects.characters.Metalman.constructor = Engine.assets.objects.characters.Metalman;
+
+Engine.assets.objects.characters.Metalman.prototype.updateAI = function()
+{
+    if (Math.abs(this.time - this.timeAIUpdated) > 2) {
+        var o;
+        for (var i in this.scene.objects) {
+            o = this.scene.objects[i];
+            if (o instanceof Engine.assets.objects.characters.Megaman) {
+                this.walk = o.walk;
+                break;
+            }
+        }
+
+        this.timeAIUpdated = this.time;
+    }
+}
 
 Engine.assets.objects.characters.Metalman.prototype.getSprite = function()
 {
@@ -97,6 +115,7 @@ Engine.assets.objects.characters.Metalman.prototype.getSprite = function()
 
 Engine.assets.objects.characters.Metalman.prototype.timeShift = function(t)
 {
+    this.updateAI(t);
     var sprite = this.getSprite();
     if (this.currentSprite !== sprite) {
         if (this.currentSprite) {
