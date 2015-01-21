@@ -99,7 +99,7 @@ Engine.assets.objects.characters.Metalman.prototype.getSprite = function()
         return sprites['jump'];
     }
 
-    if (this.walk != 0) {
+    if (this.moveSpeed) {
         if (this.isFiring) {
             return sprites['runFire'];
         }
