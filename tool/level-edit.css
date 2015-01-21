@@ -29,6 +29,14 @@ input {
 .workspace .grid {
     position: relative;
 }
+.workspace .grid > .template {
+    opacity: .5;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+}
 .workspace .grid > .overlay {
     background: url('gfx/grid.png');
     opacity: .3;

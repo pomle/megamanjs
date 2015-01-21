@@ -48,9 +48,11 @@ $(function() {
         var img = new Image();
         img.onload = function() {
             grid.css({
-                'background-image': "url('" + this.src + "')",
                 'height': this.height + 'px',
                 'width': this.width + 'px',
+            })
+            .children('.template').css({
+                'background-image': "url('" + this.src + "')",
             });
         }
         img.src = url;
