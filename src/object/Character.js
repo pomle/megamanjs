@@ -146,9 +146,9 @@ Engine.assets.objects.Character.prototype.setWalkspeed = function(speed)
     this.walkSpeed = speed;
 }
 
-Engine.assets.objects.Character.prototype.timeShift = function(t)
+Engine.assets.objects.Character.prototype.timeShift = function(dt)
 {
-    this.calculateMoveSpeed(t);
+    this.calculateMoveSpeed(dt);
 
     if (this.health.depleted()) {
         this.scene.removeObject(this);
@@ -164,7 +164,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(t)
     }
 
     if (!this.isSupported) {
-        this.speed.y -= (this.gravityForce * t);
+        this.speed.y -= (this.gravityForce * dt);
     }
     else if (this.speed.y > 0
     || this.model.position.x < this.isSupportedUntil.x1
@@ -173,7 +173,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(t)
     }
     //console.log('Move Speed: %f', this.moveSpeed);
     //console.log('Jump Force: %f', this.jumpSpeed);
-    Engine.assets.Object.prototype.timeShift.call(this, t);
+    Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
 
 Engine.assets.objects.characters = {};
