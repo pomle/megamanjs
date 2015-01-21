@@ -75,7 +75,7 @@ Engine.assets.objects.characters.Metalman.prototype.updateAI = function()
         for (var i in this.scene.objects) {
             o = this.scene.objects[i];
             if (o instanceof Engine.assets.objects.characters.Megaman) {
-                this.walk = o.walk;
+                this.walk = this.model.position.x > o.model.position.x ? -1 : 1;
                 break;
             }
         }
