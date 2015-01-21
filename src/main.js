@@ -1,5 +1,5 @@
 var renderer = new THREE.WebGLRenderer();
-renderer.setSize(600, 400);
+renderer.setSize(800, 532);
 document.body.appendChild(renderer.domElement);
 
 var Game = new Engine(renderer);
