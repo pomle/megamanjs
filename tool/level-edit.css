@@ -74,7 +74,8 @@ input, textarea {
 }
 
 .asset.solid {
-    border: solid 1px #fff;
+    background: url('gfx/solid.png');
+    border: dotted 1px #fff;
     box-sizing: border-box;
     height: 16px;
     width: 32px;

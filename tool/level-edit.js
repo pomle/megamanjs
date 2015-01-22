@@ -46,11 +46,6 @@ $(function() {
                         $('.assets .sprites').append(spriteElement);
 
                     });
-                    /*
-
-                    <sprite id="drwily-sign-blue">
-            <bounds x="64" y="16" w="32" h="32"/>
-        </sprite>*/
                 });
             },
         });
@@ -73,6 +68,7 @@ $(function() {
 
     var objectMani = new ObjectManipulator();
     levelEdit.objectManipulator = objectMani;
+    levelEdit.objectManipulator.quantize = 16;
 
 
     var workspace = $('.workspace');
@@ -81,9 +77,7 @@ $(function() {
     var zoom = workspace.find('.zoom');
     var controlpanel = $('.controlpanel');
     var assets = $('.assets');
-    console.log(zoom);
 
-    //var zoomAreaDraggable = Draggable.create('.workspace', {type:"scroll", edgeResistance:1});
 
     workspace.droppable({
         accept: '.asset',
@@ -126,11 +120,21 @@ $(function() {
     controlpanel.find('.zoom > button').on('click', function() {
         zoomWorkspace(parseFloat($(this).data('mag')));
     });
+    controlpanel.find('.snap > :input').on('change', function() {
+        levelEdit.objectManipulator.quantize = parseFloat(this.value) || 1;
+    });
 
     workspace.on('mousewheel', function(e) {
         e.preventDefault();
-        zoomWorkspace(e.originalEvent.deltaY < 0 ? 2 : .5);
+        e.stopPropagation();
+        var factor = e.originalEvent.deltaY < 0 ? 2 : .5;
+        zoomWorkspace(factor);
+        if (factor > 1) {
+            workspace.scrollLeft(workspace.scrollLeft() + e.offsetX);
+            workspace.scrollTop(workspace.scrollTop() + e.offsetY);
+        }
     });
+
     assets.on('mousewheel', function(e) {
         e.stopPropagation();
     });
@@ -178,7 +182,22 @@ $(function() {
     $('button#generateXml').on('click', function() {
         var level = $('<level></level>');
         var items = workspace.find('.items');
-        //items.find('.sprite')
+        items.each(function(i, item) {
+            item = $(item);
+
+            var solids = $('<solids></solids>');
+            item.find('.solid').each(function(i, item) {
+                item = $(item);
+                var rect = $('<rect/>');
+                rect.attr('x', parseFloat(item.css('left')));
+                rect.attr('y', parseFloat(item.css('top')));
+                rect.attr('w', parseFloat(item.css('width')));
+                rect.attr('h', parseFloat(item.css('height')));
+                solids.append(rect);
+            });
+            level.append(solids);
+        });
+
 
         $('#console').html(level[0].outerHTML);
     });
@@ -257,6 +276,7 @@ KeyboardHelper.prototype.keyUpEvent = function(event)
 var ObjectManipulator = function()
 {
     this.quantize = 1;
+    this.multiply = 1;
     this.selectedObject = undefined;
 
     this.undo = [];
@@ -271,8 +291,10 @@ ObjectManipulator.prototype.nudge = function(x, y)
 ObjectManipulator.prototype.move = function(x, y)
 {
     var pos = this.pos();
-    this.selectedObject.style.left = (x - (x % this.quantize)) + 'px';
-    this.selectedObject.style.top = (y - (y % this.quantize)) + 'px';
+    var qx = -(x % this.quantize);
+    var qy = -(y % this.quantize);
+    this.selectedObject.style.left = (x + qx) + 'px';
+    this.selectedObject.style.top = (y + qy) + 'px';
 }
 
 ObjectManipulator.prototype.pos = function()
@@ -293,4 +315,12 @@ ObjectManipulator.prototype.select = function(object)
 {
     object.addClass('selected').siblings().removeClass('selected');
     this.selectedObject = object.get(0);
+}
+
+ObjectManipulator.prototype.size = function(w, h)
+{
+    var qw = -(w % this.quantize);
+    var qh = -(h % this.quantize);
+    this.selectedObject.style.width = (w + qw) + 'px';
+    this.selectedObject.style.height = (h + qh) + 'px';
 }
