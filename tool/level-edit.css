@@ -11,7 +11,7 @@ body {
     font-size: 12px;
 }
 
-input {
+input, textarea {
     background: transparent;
     border-width: 1px;
 }
@@ -20,7 +20,7 @@ input {
     border-width: 1px;
     height: 500px;
     image-rendering: pixelated;
-    overflow: scroll;
+    overflow: auto;
 }
 .workspace > .zoom {
 
@@ -47,6 +47,15 @@ input {
     top: 0;
 }
 
+.workspace .grid .items {
+    position: relative;
+}
+.workspace .grid .items .asset.selected {
+    border: dotted 1px #00aeef;
+    box-sizing: border-box;
+    /*box-shadow: inset 0 0 1px #00aeef;*/
+}
+
 .assets {
     background: rgba(0,0,0,.8);
     border: solid 1px rgba(255,255,255,.15);
@@ -60,6 +69,13 @@ input {
     width: 300px;
 }
 
-.assets .sprite {
+.assets .asset {
     margin: 5px;
+}
+
+.asset.solid {
+    border: solid 1px #fff;
+    box-sizing: border-box;
+    height: 16px;
+    width: 32px;
 }
