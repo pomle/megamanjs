@@ -8,18 +8,12 @@ Engine.scenes.Level.Util = {
 
         var jXml = $(jQuery.parseXML(xml));
 
-        function parseInteger(value) {
-            if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) {
-                return Number(value);
-            }
-            return NaN;
-        }
-
         var level = new Engine.scenes.Level();
         level.animators = [];
 
         var spriteIndex = {};
         var objectIndex = {};
+        var animationIndex = {};
 
         function expandRange(input, total)
         {
@@ -66,7 +60,7 @@ Engine.scenes.Level.Util = {
         function createObjects() {
             jXml.find('level > sprites').each(function(i, sprites) {
                 sprites = $(sprites);
-                //debugger;
+
                 var url = baseUrl + '/' + sprites.attr('url');
                 var size = {
                     'w': parseFloat(sprites.attr('w')),
@@ -76,13 +70,11 @@ Engine.scenes.Level.Util = {
                 var texture = Engine.Util.getTexture(url);
                 sprites.children('sprite').each(function(i, sprite) {
                     sprite = $(sprite);
-                    var boundElement = sprite.children('bounds');
-
                     var bounds = {
-                        'x': parseFloat(boundElement.attr('x')),
-                        'y': parseFloat(boundElement.attr('y')),
-                        'w': parseFloat(boundElement.attr('w')),
-                        'h': parseFloat(boundElement.attr('h')),
+                        'x': parseFloat(sprite.attr('x')),
+                        'y': parseFloat(sprite.attr('y')),
+                        'w': parseFloat(sprite.attr('w')),
+                        'h': parseFloat(sprite.attr('h')),
                     };
 
                     var uvMap = Engine.Util.createUVMap(bounds.x, bounds.y, bounds.w, bounds.h, size.w, size.h);
@@ -92,38 +84,49 @@ Engine.scenes.Level.Util = {
                     }
                 });
 
+                sprites.children('animation').each(function(i, anim) {
+                    anim = $(anim);
+                    var timeline = new Engine.Timeline();
+                    timeline.name = anim.attr('name');
+                    anim.children('frame').each(function(i, frame) {
+                        frame = $(frame);
+                        timeline.addFrame(getSprite(frame.attr('sprite')).uvMap, parseFloat(frame.attr('duration')));
+                    });
+                    level.addTimeline(timeline);
+                    animationIndex[anim.attr('name')] = timeline;
+                });
+
+
                 jXml.find('objects > object').each(function(i, object) {
-                    console.dir(object);
                     object = $(object);
                     var objectId = object.attr('id');
                     var size = {
                         'w': parseFloat(object.attr('w')),
                         'h': parseFloat(object.attr('h')),
+                        'wseg': parseFloat(object.attr('segments-w')) || 1,
+                        'hseg': parseFloat(object.attr('segments-h')) || 1,
                     };
 
-                    var geometry = new THREE.PlaneGeometry(size.w, size.h, 1, 1);
-
-                    var frames = [];
-                    console.log(object.find());
-                    object.find('frame').each(function(i, frame) {
-                        frame = $(frame);
-                        frames.push({
-                            'ref': frame.attr('sprite'),
-                            'duration': parseFloat(frame.attr('duration')),
-                        });
+                    var geometry = new THREE.PlaneGeometry(size.w, size.h, size.wseg, size.hseg);
+            /*
+            <object id="triple-block-vert-2" w="16" h="32" segments-h="2">
+                <animation ref="v-block-n" offset="0" />
+                <animation ref="v-block-s" offset="0" />
+            </object>*/
+                    object.children().each(function(i, face) {
+                        face = $(face);
+                        var ref = face.attr('ref');
+                        if (face.is('animation')) {
+                            var offset = parseFloat(face.attr('offset')) || 0;
+                            var animator = new Engine.UVAnimator(animationIndex[ref], geometry, i, offset);
+                        }
+                        else if (face.is('sprite')) {
+                            geometry.faceVertexUvs[i] = getSprite(ref).uvMap;
+                        }
+                        else {
+                            throw new Error('Unsupported face ' + face[0].localName);
+                        }
                     });
-
-                    if (frames.length > 1) {
-                        var offset = parseFloat(object.children('animate').attr('offset')) || 0;
-                        var timeline = new Engine.Timeline(offset);
-                        var animator = new Engine.UVAnimator(timeline, geometry);
-                        $.each(frames, function(i, frame) {
-                            console.log(i);
-                            timeline.addFrame(getSprite(frames[i].ref).uvMap, frames[i].duration);
-                        });
-                        level.addTimeline(timeline);
-                    }
-                    geometry.faceVertexUvs[0] = getSprite(frames[0].ref).uvMap;
 
                     objectIndex[objectId] = {
                         'size': size,

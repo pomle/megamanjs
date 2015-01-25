@@ -6,118 +6,201 @@
 
     <sprites url="tiles.gif" w="128" h="96">
         <!-- Decorations -->
-        <sprite id="drwily-sign-blue">
-            <bounds x="64" y="16" w="32" h="32"/>
-        </sprite>
-        <sprite id="drwily-sign-cyan">
-            <bounds x="64" y="64" w="32" h="32"/>
-        </sprite>
+        <sprite id="drwily-sign-blue" x="64" y="16" w="32" h="32"/>
+        <sprite id="drwily-sign-cyan" x="64" y="64" w="32" h="32"/>
 
-        <!-- Flashing blocks -->
-        <sprite id="single-block-blue">
-            <bounds x="64" y="0" w="16" h="16"/>
-        </sprite>
-        <sprite id="single-block-cyan">
-            <bounds x="64" y="48" w="16" h="16"/>
-        </sprite>
-        <sprite id="triple-block-blue-vert">
-            <bounds x="0" y="0" w="16" h="48"/>
-        </sprite>
-        <sprite id="triple-block-cyan-vert">
-            <bounds x="0" y="48" w="16" h="48"/>
-        </sprite>
-        <sprite id="triple-block-blue-horiz">
-            <bounds x="16" y="0" w="48" h="16"/>
-        </sprite>
-        <sprite id="triple-block-cyan-horiz">
-            <bounds x="16" y="48" w="48" h="16"/>
-        </sprite>
+        <!-- Single blocks -->
+        <sprite id="block-blue" x="64" y="0" w="16" h="16"/>
+        <sprite id="block-cyan" x="64" y="48" w="16" h="16"/>
+
+        <!-- Vertical blue block -->
+        <sprite id="v-block-n-blue" x="0" y="0" w="16" h="16"/>
+        <sprite id="v-block-c-blue" x="0" y="16" w="16" h="16"/>
+        <sprite id="v-block-s-blue" x="0" y="32" w="16" h="16"/>
+        <!-- Vertical cyan block -->
+        <sprite id="v-block-n-cyan" x="0" y="48" w="16" h="16"/>
+        <sprite id="v-block-c-cyan" x="0" y="64" w="16" h="16"/>
+        <sprite id="v-block-s-cyan" x="0" y="80" w="16" h="16"/>
+        <!-- Horizontal blue block -->
+        <sprite id="h-block-n-blue" x="16" y="0" w="16" h="16"/>
+        <sprite id="h-block-c-blue" x="32" y="0" w="16" h="16"/>
+        <sprite id="h-block-s-blue" x="48" y="0" w="16" h="16"/>
+        <!-- Horizontal cyan block -->
+        <sprite id="h-block-n-cyan" x="16" y="48" w="16" h="16"/>
+        <sprite id="h-block-c-cyan" x="32" y="48" w="16" h="16"/>
+        <sprite id="h-block-s-cyan" x="48" y="48" w="16" h="16"/>
 
         <!-- Background -->
-        <sprite id="bricks">
-            <bounds x="96" y="64" w="32" h="16"/>
-        </sprite>
-        <sprite id="mortar-reg">
-            <bounds x="96" y="16" w="16" h="16"/>
-        </sprite>
-        <sprite id="mortar-reg-shadow">
-            <bounds x="96" y="0" w="16" h="16"/>
-        </sprite>
-        <sprite id="mortar-ireg">
-            <bounds x="96" y="32" w="16" h="16"/>
-        </sprite>
-        <sprite id="truss-vert">
-            <bounds x="112" y="16" w="16" h="16"/>
-        </sprite>
-        <sprite id="truss-hori">
-            <bounds x="112" y="32" w="16" h="16"/>
-        </sprite>
+        <sprite id="bricks"             x="96"  y="64" w="32" h="16"/>
+        <sprite id="mortar-reg"         x="96"  y="16" w="16" h="16"/>
+        <sprite id="mortar-reg-shadow"  x="96"  y="0"  w="16" h="16"/>
+        <sprite id="mortar-ireg"        x="96"  y="32" w="16" h="16"/>
+        <sprite id="truss-vert"         x="112" y="16" w="16" h="16"/>
+        <sprite id="truss-hori"         x="112" y="32" w="16" h="16"/>
+
+        <animation name="dr-wily-sign">
+            <frame sprite="drwily-sign-cyan" duration=".5"/>
+            <frame sprite="drwily-sign-blue" duration=".5"/>
+        </animation>
+
+        <!-- Single block -->
+        <animation name="block">
+            <frame sprite="block-cyan" duration="1"/>
+            <frame sprite="block-blue" duration="2"/>
+        </animation>
+
+        <!-- Vertical block -->
+        <animation name="v-block-n">
+            <frame sprite="v-block-n-cyan" duration="1"/>
+            <frame sprite="v-block-n-blue" duration="2"/>
+        </animation>
+        <animation name="v-block-c">
+            <frame sprite="v-block-c-cyan" duration="1"/>
+            <frame sprite="v-block-c-blue" duration="2"/>
+        </animation>
+        <animation name="v-block-s">
+            <frame sprite="v-block-s-cyan" duration="1"/>
+            <frame sprite="v-block-s-blue" duration="2"/>
+        </animation>
+
+        <!-- Horizontal block -->
+        <animation name="h-block-n">
+            <frame sprite="h-block-n-cyan" duration="1"/>
+            <frame sprite="h-block-n-blue" duration="2"/>
+        </animation>
+        <animation name="h-block-c">
+            <frame sprite="h-block-c-cyan" duration="1"/>
+            <frame sprite="h-block-c-blue" duration="2"/>
+        </animation>
+        <animation name="h-block-s">
+            <frame sprite="h-block-s-cyan" duration="1"/>
+            <frame sprite="h-block-s-blue" duration="2"/>
+        </animation>
+
 
         <objects>
-            <object id="drwily-sign" w="32" h="32">
-                <frame sprite="drwily-sign-blue" duration=".5"/>
-                <frame sprite="drwily-sign-cyan" duration=".5"/>
+            <object id="dr-wily-sign" w="32" h="32">
+                <animation ref="dr-wily-sign" />
             </object>
 
-            <object id="single-block-1" w="16" h="16">
-                <frame sprite="single-block-blue" duration="2"/>
-                <frame sprite="single-block-cyan" duration="1"/>
+            <object id="block-single-1" w="16" h="16">
+                <animation ref="block" offset="0" />
             </object>
-            <object id="single-block-2" w="16" h="16">
-                <frame sprite="single-block-cyan" duration="1"/>
-                <frame sprite="single-block-blue" duration="2"/>
+            <object id="block-single-2" w="16" h="16">
+                <animation ref="block" offset="1" />
             </object>
-            <object id="single-block-3" w="16" h="16">
-                <frame sprite="single-block-blue" duration="1"/>
-                <frame sprite="single-block-cyan" duration="1"/>
-                <frame sprite="single-block-blue" duration="1"/>
+            <object id="block-single-2" w="16" h="16">
+                <animation ref="block" offset="2" />
             </object>
 
-            <object id="triple-block-horiz-1" w="48" h="16">
-                <frame sprite="triple-block-blue-horiz" duration="2"/>
-                <frame sprite="triple-block-cyan-horiz" duration="1"/>
+            <object id="block-vert-duo-1" w="16" h="32" segments-h="2">
+                <animation ref="v-block-n" offset="0" />
+                <animation ref="v-block-s" offset="0" />
             </object>
-            <object id="triple-block-horiz-2" w="48" h="16">
-                <frame sprite="triple-block-cyan-horiz" duration="1"/>
-                <frame sprite="triple-block-blue-horiz" duration="2"/>
+            <object id="block-vert-duo-2" w="16" h="32" segments-h="2">
+                <animation ref="v-block-n" offset="1" />
+                <animation ref="v-block-s" offset="1" />
             </object>
-            <object id="triple-block-horiz-3" w="48" h="16">
-                <frame sprite="triple-block-blue-horiz" duration="1"/>
-                <frame sprite="triple-block-cyan-horiz" duration="1"/>
-                <frame sprite="triple-block-blue-horiz" duration="1"/>
+            <object id="block-vert-duo-3" w="16" h="32" segments-h="2">
+                <animation ref="v-block-n" offset="2" />
+                <animation ref="v-block-s" offset="2" />
             </object>
 
-            <object id="triple-block-vert-1" w="16" h="48">
-                <frame sprite="triple-block-blue-vert" duration="2"/>
-                <frame sprite="triple-block-cyan-vert" duration="1"/>
+            <object id="block-vert-trio-1" w="16" h="48" segments-h="3">
+                <animation ref="v-block-n" offset="0" />
+                <animation ref="v-block-c" offset="0" />
+                <animation ref="v-block-s" offset="0" />
             </object>
-            <object id="triple-block-vert-2" w="16" h="48">
-                <frame sprite="triple-block-cyan-vert" duration="1"/>
-                <frame sprite="triple-block-blue-vert" duration="2"/>
+            <object id="block-vert-trio-2" w="16" h="48" segments-h="3">
+                <animation ref="v-block-n" offset="1" />
+                <animation ref="v-block-c" offset="1" />
+                <animation ref="v-block-s" offset="1" />
             </object>
-            <object id="triple-block-vert-3" w="16" h="48">
-                <frame sprite="triple-block-blue-vert" duration="1"/>
-                <frame sprite="triple-block-cyan-vert" duration="1"/>
-                <frame sprite="triple-block-blue-vert" duration="1"/>
+            <object id="block-vert-trio-3" w="16" h="48" segments-h="3">
+                <animation ref="v-block-n" offset="2" />
+                <animation ref="v-block-c" offset="2" />
+                <animation ref="v-block-s" offset="2" />
+            </object>
+
+            <object id="block-vert-quad-1" w="16" h="48" segments-h="4">
+                <animation ref="v-block-n" offset="0" />
+                <animation ref="v-block-c" offset="0" />
+                <animation ref="v-block-c" offset="0" />
+                <animation ref="v-block-s" offset="0" />
+            </object>
+            <object id="block-vert-quad-2" w="16" h="48" segments-h="4">
+                <animation ref="v-block-n" offset="1" />
+                <animation ref="v-block-c" offset="1" />
+                <animation ref="v-block-c" offset="1" />
+                <animation ref="v-block-s" offset="1" />
+            </object>
+            <object id="block-vert-quad-3" w="16" h="48" segments-h="4">
+                <animation ref="v-block-n" offset="2" />
+                <animation ref="v-block-c" offset="2" />
+                <animation ref="v-block-c" offset="2" />
+                <animation ref="v-block-s" offset="2" />
+            </object>
+
+
+            <object id="block-hori-duo-1" h="16" w="32" segments-w="2">
+                <animation ref="h-block-n" offset="0" />
+                <animation ref="h-block-s" offset="0" />
+            </object>
+            <object id="block-hori-duo-2" h="16" w="32" segments-w="2">
+                <animation ref="h-block-n" offset="1" />
+                <animation ref="h-block-s" offset="1" />
+            </object>
+            <object id="block-hori-duo-3" h="16" w="32" segments-w="2">
+                <animation ref="h-block-n" offset="2" />
+                <animation ref="h-block-s" offset="2" />
+            </object>
+
+            <object id="block-hori-trio-1" h="16" w="48" segments-w="3">
+                <animation ref="h-block-n" offset="0" />
+                <animation ref="h-block-c" offset="0" />
+                <animation ref="h-block-s" offset="0" />
+            </object>
+            <object id="block-hori-trio-2" h="16" w="48" segments-w="3">
+                <animation ref="h-block-n" offset="1" />
+                <animation ref="h-block-c" offset="1" />
+                <animation ref="h-block-s" offset="1" />
+            </object>
+            <object id="block-hori-trio-3" h="16" w="48" segments-w="3">
+                <animation ref="h-block-n" offset="2" />
+                <animation ref="h-block-c" offset="2" />
+                <animation ref="h-block-s" offset="2" />
+            </object>
+
+            <object id="block-hori-quad-1" h="16" w="48" segments-w="4">
+                <animation ref="h-block-n" offset="0" />
+                <animation ref="h-block-c" offset="0" />
+                <animation ref="h-block-c" offset="0" />
+                <animation ref="h-block-s" offset="0" />
+            </object>
+            <object id="block-hori-quad-2" h="16" w="48" segments-w="4">
+                <animation ref="h-block-n" offset="1" />
+                <animation ref="h-block-c" offset="1" />
+                <animation ref="h-block-c" offset="1" />
+                <animation ref="h-block-s" offset="1" />
+            </object>
+            <object id="block-hori-quad-3" h="16" w="48" segments-w="4">
+                <animation ref="h-block-n" offset="2" />
+                <animation ref="h-block-c" offset="2" />
+                <animation ref="h-block-c" offset="2" />
+                <animation ref="h-block-s" offset="2" />
             </object>
         </objects>
     </sprites>
 
     <layout>
-        <!--<object ref="drwily-sign" x="50" y="50" rotate="0"/>-->
-        <object ref="single-block-1"       x="0"  y="16"/>
-        <object ref="triple-block-vert-3"  x="0"  y="32"/>
-        <object ref="single-block-2"       x="0"  y="80"/>
-        <object ref="single-block-1"       x="0"  y="96"/>
-        <object ref="triple-block-vert-3"  x="0"  y="112"/>
-        <object ref="single-block-2"       x="0"  y="160"/>
+        <object ref="block-single-1" x="0" y="16"/>
+        <object ref="block-vert-duo-2" x="0" y="32"/>
+        <object ref="block-vert-trio-3" x="0" y="64"/>
+        <object ref="block-single-1" x="0" y="112"/>
+        <object ref="block-vert-duo-2" x="0" y="128"/>
+        <object ref="block-hori-quad-3" x="0" y="160"/>
 
-        <object ref="triple-block-horiz-2" x="16" y="16"/>
-
-        <object ref="triple-block-horiz-1" x="16" y="160"/>
-        <object ref="single-block-3"       x="64" y="160"/>
-        <object ref="single-block-2"       x="112" y="160"/>
-        <object ref="triple-block-horiz-1" x="128" y="160"/>
+        <!--<object ref="dr-wily-sign" x="100" y="100"/>-->
 
 
         <!--<item name="EnergyTank" x="0" y="130"/>
@@ -143,6 +226,4 @@
             </sprite>
         </background>
     </layout>
-
-    <!--<background url="sprites/levels/flashman/level.gif" w="3328" h="1920"/>-->
 </level>
