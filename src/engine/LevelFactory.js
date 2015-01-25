@@ -6,6 +6,8 @@ Engine.scenes.Level.Util = {
         var parser = new DOMParser();
         var doc = parser.parseFromString(xml, "application/xml");
 
+        var jXml = $(jQuery.parseXML(xml));
+
         function parseInteger(value) {
             if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) {
                 return Number(value);
@@ -62,25 +64,25 @@ Engine.scenes.Level.Util = {
         }
 
         function createObjects() {
-            var spriteSheets = doc.evaluate('/level/sprites', doc, null, XPathResult.ANY_TYPE , null);
-            var spriteSheet;
-            while (spriteSheet = spriteSheets.iterateNext()) {
-                var url = baseUrl + '/' + spriteSheet.attributes['url'].value;
+            jXml.find('level > sprites').each(function(i, sprites) {
+                sprites = $(sprites);
+                //debugger;
+                var url = baseUrl + '/' + sprites.attr('url');
                 var size = {
-                    'w': parseFloat(spriteSheet.attributes['w'].value),
-                    'h': parseFloat(spriteSheet.attributes['h'].value)
+                    'w': parseFloat(sprites.attr('w')),
+                    'h': parseFloat(sprites.attr('h')),
                 };
 
                 var texture = Engine.Util.getTexture(url);
-                var sprites = doc.evaluate('sprite', spriteSheet, null, XPathResult.ANY_TYPE , null);
-                var sprite;
-                while (sprite = sprites.iterateNext()) {
-                    var bound = doc.evaluate('bounds', sprite, null, XPathResult.ANY_TYPE, null).iterateNext();
+                sprites.children('sprite').each(function(i, sprite) {
+                    sprite = $(sprite);
+                    var boundElement = sprite.children('bounds');
+
                     var bounds = {
-                        'x': parseFloat(bound.attributes['x'].value),
-                        'y': parseFloat(bound.attributes['y'].value),
-                        'w': parseFloat(bound.attributes['w'].value),
-                        'h': parseFloat(bound.attributes['h'].value)
+                        'x': parseFloat(boundElement.attr('x')),
+                        'y': parseFloat(boundElement.attr('y')),
+                        'w': parseFloat(boundElement.attr('w')),
+                        'h': parseFloat(boundElement.attr('h')),
                     };
 
                     var uvs = [
@@ -95,50 +97,52 @@ Engine.scenes.Level.Util = {
                         [uvs[1], uvs[2], uvs[3]]
                     ];
 
-                    spriteIndex[sprite.attributes['id'].value] = {
+                    spriteIndex[sprite.attr('id')] = {
                         'uvMap': uvMap,
-                        'texture': texture
+                        'texture': texture,
                     }
-                }
+                });
 
-                var objects = doc.evaluate('objects/object', spriteSheet, null, XPathResult.ANY_TYPE , null);
-                var object;
-                while (object = objects.iterateNext()) {
-                    var objectId = object.attributes['id'].value;
+                jXml.find('objects > object').each(function(i, object) {
+                    console.dir(object);
+                    object = $(object);
+                    var objectId = object.attr('id');
                     var size = {
-                        'w': parseFloat(object.attributes['w'].value),
-                        'h': parseFloat(object.attributes['h'].value)
+                        'w': parseFloat(object.attr('w')),
+                        'h': parseFloat(object.attr('h')),
                     };
 
                     var geometry = new THREE.PlaneGeometry(size.w, size.h, 1, 1);
 
                     var frames = [];
-                    var frameNodes = doc.evaluate('frame', object, null, XPathResult.ANY_TYPE, null);
-                    var frameNode;
-                    while (frameNode = frameNodes.iterateNext()) {
+                    console.log(object.find());
+                    object.find('frame').each(function(i, frame) {
+                        frame = $(frame);
                         frames.push({
-                            'ref': frameNode.attributes['sprite'].value,
-                            'duration': parseFloat(frameNode.attributes['duration'].value)
+                            'ref': frame.attr('sprite'),
+                            'duration': parseFloat(frame.attr('duration')),
                         });
-                    }
+                    });
+
                     if (frames.length > 1) {
-                        var timeline = new Engine.Timeline();
+                        var offset = parseFloat(object.children('animate').attr('offset')) || 0;
+                        var timeline = new Engine.Timeline(offset);
                         var animator = new Engine.UVAnimator(timeline, geometry);
-                        var i;
-                        for (i in frames) {
+                        $.each(frames, function(i, frame) {
+                            console.log(i);
                             timeline.addFrame(getSprite(frames[i].ref).uvMap, frames[i].duration);
-                        }
+                        });
                         level.addTimeline(timeline);
                     }
-                    geometry.faceVertexUvs[0] = spriteIndex[frames[0].ref].uvMap;
+                    geometry.faceVertexUvs[0] = getSprite(frames[0].ref).uvMap;
 
                     objectIndex[objectId] = {
                         'size': size,
                         'geometry': geometry,
                         'texture': texture
                     };
-                }
-            }
+                });
+            });
         }
 
         createObjects();
