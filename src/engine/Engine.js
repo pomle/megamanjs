@@ -46,6 +46,21 @@ Engine.Util = {
         return model;
     },
 
+    createUVMap: function(x, y, w, h, totalW, totalH)
+    {
+        var uvs = [
+            new THREE.Vector2(x / totalW, (totalH - y) / totalH),
+            new THREE.Vector2(x / totalW, (totalH - (y + h)) / totalH),
+            new THREE.Vector2((x + w) / totalW, (totalH - (y + h)) / totalH),
+            new THREE.Vector2((x + w) / totalW, (totalH - y) / totalH),
+        ];
+        var uvMap = [
+            [uvs[0], uvs[1], uvs[3]],
+            [uvs[1], uvs[2], uvs[3]]
+        ];
+        return uvMap;
+    },
+
     getTexture: function(url)
     {
         return Engine.Util.getScaledTexture(url, 4);

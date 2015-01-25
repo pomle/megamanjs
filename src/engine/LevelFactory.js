@@ -85,18 +85,7 @@ Engine.scenes.Level.Util = {
                         'h': parseFloat(boundElement.attr('h')),
                     };
 
-                    var uvs = [
-                        new THREE.Vector2(bounds.x / size.w, (size.h - bounds.y) / size.h),
-                        new THREE.Vector2(bounds.x / size.w, (size.h - (bounds.y + bounds.h)) / size.h),
-                        new THREE.Vector2((bounds.x + bounds.w) / size.w, (size.h - (bounds.y + bounds.h)) / size.h),
-                        new THREE.Vector2((bounds.x + bounds.w) / size.w, (size.h - bounds.y) / size.h),
-                    ];
-
-                    var uvMap = [
-                        [uvs[0], uvs[1], uvs[3]],
-                        [uvs[1], uvs[2], uvs[3]]
-                    ];
-
+                    var uvMap = Engine.Util.createUVMap(bounds.x, bounds.y, bounds.w, bounds.h, size.w, size.h);
                     spriteIndex[sprite.attr('id')] = {
                         'uvMap': uvMap,
                         'texture': texture,
