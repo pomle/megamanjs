@@ -4,8 +4,8 @@ $(function() {
     function assetApplyDraggable(elements)
     {
         elements.addClass('asset').draggable({
-            start: function() { workspace.droppable("enable"); },
-            stop: function() { workspace.droppable("disable"); },
+            start: function() { grid.droppable("enable"); },
+            stop: function() { grid.droppable("disable"); },
             revert: true,
             revertDuration: 0,
             helper:'clone',
@@ -13,9 +13,47 @@ $(function() {
         });
     }
 
+    function createAsset()
+    {
+        return $('<div class="asset"></div>');
+    }
+
+    function getZoomLevel()
+    {
+        return parseFloat(zoom.css('zoom')) || 1;
+    }
+
     function zoomWorkspace(ratio)
     {
-        zoom.css('zoom', parseFloat(zoom.css('zoom')) * ratio);
+        var level = getZoomLevel();
+        level *= ratio
+
+        if (level < .25) {
+            return false;
+        }
+
+        zoom.css({
+            'zoom': level,
+        });
+
+        var centerShift = {
+            x: Math.round((workspace.width() * 1) / 2),
+            y: Math.round((workspace.height() * 1) / 2),
+        };
+
+        var scrollShift = {
+            x: Math.round(workspace.scrollLeft() * ratio),
+            y: Math.round(workspace.scrollTop() * ratio),
+        };
+
+        if (ratio < 1) {
+            centerShift.x = -centerShift.x * ratio;
+            centerShift.y = -centerShift.y * ratio;
+        }
+        //console.log(scrollShift, centerShift);
+        workspace.scrollLeft(scrollShift.x + centerShift.x);
+        workspace.scrollTop(scrollShift.y + centerShift.y);
+        return level;
     }
 
     function loadXML(xmlUrl)
@@ -47,6 +85,23 @@ $(function() {
 
                     });
                 });
+
+                level.children('layout').each(function(i, layout) {
+                    console.log($(this).find('solids>solid'));
+                    $(this).find('solids > rect').each(function(i, solid) {
+                        solid = $(solid);
+                        var asset = createAsset();
+                        asset
+                            .addClass('solid rect')
+                            .css({
+                                'left': solid.attr('x') + 'px',
+                                'top': solid.attr('y') + 'px',
+                                'width': solid.attr('w') + 'px',
+                                'height': solid.attr('h') + 'px',
+                            });
+                        workspace.items.addItem(asset);
+                    });
+                });
             },
         });
     }
@@ -55,20 +110,30 @@ $(function() {
     {
         var img = new Image();
         img.onload = function() {
+            var w = this.width;
+            var h = this.height;
+            zoom.css({
+                'height': (h * 3) + 'px',
+                'width': (w * 3) + 'px',
+            });
             grid.css({
-                'height': this.height + 'px',
-                'width': this.width + 'px',
+                'top': h + 'px',
+                'left': w + 'px',
+                'height': h + 'px',
+                'width': w + 'px',
             })
             .children('.template').css({
                 'background-image': "url('" + this.src + "')",
             });
+            workspace.scrollLeft(w);
+            workspace.scrollTop(h);
         }
         img.src = url;
     }
 
     var objectMani = new ObjectManipulator();
     levelEdit.objectManipulator = objectMani;
-    levelEdit.objectManipulator.quantize = 16;
+    levelEdit.objectManipulator.quantizer = 16;
 
 
     var workspace = $('.workspace');
@@ -77,39 +142,41 @@ $(function() {
     var zoom = workspace.find('.zoom');
     var controlpanel = $('.controlpanel');
     var assets = $('.assets');
+    workspace.items = workspace.find('.items');
+    workspace.items.addItem = function(item)
+    {
+        item.css({
+            position: 'absolute',
+        })
+        .draggable({
+            containment: '.zoom',
+            stop: function(event, ui) {
+                levelEdit.objectManipulator.move(ui.position.left, ui.position.top);
+            },
+        });
+        this.append(item);
+    }
 
-
-    workspace.droppable({
+    grid.droppable({
         accept: '.asset',
         tolerance: "fit",
         drop: function(event, ui) {
-            console.dir(event);
-            console.dir(ui);
             var sprite = ui.draggable.clone();
+            workspace.items.addItem(sprite);
 
-            sprite.css({
-                position: 'absolute',
-            }).draggable({
-                containment: workspace,
-                //cursor: 'none',
-                //start: zoomAreaDraggable.disable,
-                stop: function(event, ui) {
-                    levelEdit.objectManipulator.move(ui.position.left, ui.position.top);
-                },
-            });
-            /*.resizable({
-                grid: [16, 16],
-            });*/
-
-            workspace.find('.items').append(sprite);
-
-            var zoomFactor = parseFloat(zoom.css('zoom')) || 1;
-            var scrollFactor = [workspace.scrollLeft(), workspace.scrollTop()];
-            var offsetFactor = [workspace.offset().left, workspace.offset().top];
+            var zoomFactor = getZoomLevel();
+            var dropPos = {
+                x: ui.position.left / zoomFactor,
+                y: ui.position.top / zoomFactor,
+            };
+            /*dropPos.x -= workspace.offset().left;
+            dropPos.y -= workspace.offset().top;
+            dropPos.x -= workspace.scrollLeft();
+            dropPos.x += grid.offset().left;*/
+            dropPos.x -= grid.offset().left;
+            dropPos.y -= grid.offset().top;
             levelEdit.objectManipulator.select(sprite);
-            levelEdit.objectManipulator.move(
-                (ui.position.left + scrollFactor[0] - offsetFactor[0]) / zoomFactor,
-                (ui.position.top + scrollFactor[1] - offsetFactor[1]) / zoomFactor);
+            levelEdit.objectManipulator.move(dropPos.x, dropPos.y);
         }
     }).droppable("disable");
 
@@ -121,7 +188,7 @@ $(function() {
         zoomWorkspace(parseFloat($(this).data('mag')));
     });
     controlpanel.find('.snap > :input').on('change', function() {
-        levelEdit.objectManipulator.quantize = parseFloat(this.value) || 1;
+        levelEdit.objectManipulator.quantizer = parseFloat(this.value) || 1;
     });
 
     workspace.on('mousewheel', function(e) {
@@ -129,10 +196,6 @@ $(function() {
         e.stopPropagation();
         var factor = e.originalEvent.deltaY < 0 ? 2 : .5;
         zoomWorkspace(factor);
-        if (factor > 1) {
-            workspace.scrollLeft(workspace.scrollLeft() + e.offsetX);
-            workspace.scrollTop(workspace.scrollTop() + e.offsetY);
-        }
     });
 
     assets.on('mousewheel', function(e) {
@@ -164,13 +227,69 @@ $(function() {
     });
 
     var keyboard = new KeyboardHelper();
-    keyboard.intermittent(71, function() { zoomAreaDraggable.enable(); }, function() { zoomAreaDraggable.disable(); });
-    keyboard.hit(65, function() { assets.toggle(); });
-    keyboard.hit(38, function() { objectMani.nudge(0, -16); });
-    keyboard.hit(40, function() { objectMani.nudge(0, 16); });
-    keyboard.hit(37, function() { objectMani.nudge(-16, 0); });
-    keyboard.hit(39, function() { objectMani.nudge(16, 0); });
-    keyboard.hit(46, function() { objectMani.remove(); });
+    keyboard.intermittent(71,
+        function() {
+            zoomAreaDraggable.enable();
+        },
+        function() {
+            zoomAreaDraggable.disable();
+        });
+    keyboard.hit(65, function() {
+        assets.toggle();
+    });
+    // Up
+    keyboard.hit(38, function(event) {
+        switch (objectMani.mode) {
+            case 'size':
+                objectMani.nudgeSize(0, -16);
+                break;
+            default:
+                objectMani.nudge(0, -16);
+                break;
+        }
+    });
+    // Down
+    keyboard.hit(40, function() {
+        switch (objectMani.mode) {
+            case 'size':
+                objectMani.nudgeSize(0, 16);
+                break;
+            default:
+                objectMani.nudge(0, 16);
+                break;
+        }
+    });
+    // Left
+    keyboard.hit(37, function() {
+        switch (objectMani.mode) {
+            case 'size':
+                objectMani.nudgeSize(-16, 0);
+                break;
+            default:
+                objectMani.nudge(-16, 0);
+                break;
+        }
+    });
+    // Right
+    keyboard.hit(39, function() {
+        switch (objectMani.mode) {
+            case 'size':
+                objectMani.nudgeSize(16, 0);
+                break;
+            default:
+                objectMani.nudge(16, 0);
+                break;
+        }
+    });
+    keyboard.hit(46, function() {
+        objectMani.remove();
+    });
+    keyboard.hit(77, function() {
+        objectMani.mode = 'move';
+    });
+    keyboard.hit(83, function() {
+        objectMani.mode = 'size';
+    })
 
 
     $(':input').on('focus', function() {
@@ -180,6 +299,7 @@ $(function() {
     });
 
     $('button#generateXml').on('click', function() {
+        $('#console').html('');
         var level = $('<level></level>');
         var items = workspace.find('.items');
         items.each(function(i, item) {
@@ -198,8 +318,8 @@ $(function() {
             level.append(solids);
         });
 
-
-        $('#console').html(level[0].outerHTML);
+        //console.log(level, level[0], level[0].outerHTML);
+        $('#console').val(level[0].outerHTML);
     });
 
 
@@ -275,8 +395,8 @@ KeyboardHelper.prototype.keyUpEvent = function(event)
 
 var ObjectManipulator = function()
 {
-    this.quantize = 1;
-    this.multiply = 1;
+    this.quantizer = 1;
+    this.multiplier = 1;
     this.selectedObject = undefined;
 
     this.undo = [];
@@ -288,13 +408,18 @@ ObjectManipulator.prototype.nudge = function(x, y)
     this.move(pos.x + x, pos.y + y);
 }
 
+ObjectManipulator.prototype.nudgeSize = function(w, h)
+{
+    var size = this.size();
+    this.resize(size.w + w, size.h + h);
+}
+
 ObjectManipulator.prototype.move = function(x, y)
 {
-    var pos = this.pos();
-    var qx = -(x % this.quantize);
-    var qy = -(y % this.quantize);
-    this.selectedObject.style.left = (x + qx) + 'px';
-    this.selectedObject.style.top = (y + qy) + 'px';
+    x = this.quantize(x);
+    y = this.quantize(y);
+    this.selectedObject.style.left = x + 'px';
+    this.selectedObject.style.top = y + 'px';
 }
 
 ObjectManipulator.prototype.pos = function()
@@ -305,10 +430,28 @@ ObjectManipulator.prototype.pos = function()
     };
 }
 
+ObjectManipulator.prototype.quantize = function(value)
+{
+    var rest = (value % this.quantizer);
+    value -= rest;
+    if (rest > this.quantizer / 2) {
+        value += this.quantizer;
+    }
+    return value;
+}
+
 ObjectManipulator.prototype.remove = function()
 {
     this.undo.push(this.selectedObject);
     this.selectedObject.parentNode.removeChild(this.selectedObject);
+}
+
+ObjectManipulator.prototype.resize = function(w, h)
+{
+    w = this.quantize(w);
+    h = this.quantize(h);
+    this.selectedObject.style.width = w + 'px';
+    this.selectedObject.style.height = h + 'px';
 }
 
 ObjectManipulator.prototype.select = function(object)
@@ -317,10 +460,10 @@ ObjectManipulator.prototype.select = function(object)
     this.selectedObject = object.get(0);
 }
 
-ObjectManipulator.prototype.size = function(w, h)
+ObjectManipulator.prototype.size = function()
 {
-    var qw = -(w % this.quantize);
-    var qh = -(h % this.quantize);
-    this.selectedObject.style.width = (w + qw) + 'px';
-    this.selectedObject.style.height = (h + qh) + 'px';
+    return {
+        w: parseFloat(this.selectedObject.style.width),
+        h: parseFloat(this.selectedObject.style.height),
+    };
 }
