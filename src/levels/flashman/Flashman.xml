@@ -122,19 +122,19 @@
                 <animation ref="v-block-s" offset="2" />
             </object>
 
-            <object id="block-vert-quad-1" w="16" h="48" segments-h="4">
+            <object id="block-vert-quad-1" w="16" h="64" segments-h="4">
                 <animation ref="v-block-n" offset="0" />
                 <animation ref="v-block-c" offset="0" />
                 <animation ref="v-block-c" offset="0" />
                 <animation ref="v-block-s" offset="0" />
             </object>
-            <object id="block-vert-quad-2" w="16" h="48" segments-h="4">
+            <object id="block-vert-quad-2" w="16" h="64" segments-h="4">
                 <animation ref="v-block-n" offset="1" />
                 <animation ref="v-block-c" offset="1" />
                 <animation ref="v-block-c" offset="1" />
                 <animation ref="v-block-s" offset="1" />
             </object>
-            <object id="block-vert-quad-3" w="16" h="48" segments-h="4">
+            <object id="block-vert-quad-3" w="16" h="64" segments-h="4">
                 <animation ref="v-block-n" offset="2" />
                 <animation ref="v-block-c" offset="2" />
                 <animation ref="v-block-c" offset="2" />
@@ -171,19 +171,19 @@
                 <animation ref="h-block-s" offset="2" />
             </object>
 
-            <object id="block-hori-quad-1" h="16" w="48" segments-w="4">
+            <object id="block-hori-quad-1" h="16" w="64" segments-w="4">
                 <animation ref="h-block-n" offset="0" />
                 <animation ref="h-block-c" offset="0" />
                 <animation ref="h-block-c" offset="0" />
                 <animation ref="h-block-s" offset="0" />
             </object>
-            <object id="block-hori-quad-2" h="16" w="48" segments-w="4">
+            <object id="block-hori-quad-2" h="16" w="64" segments-w="4">
                 <animation ref="h-block-n" offset="1" />
                 <animation ref="h-block-c" offset="1" />
                 <animation ref="h-block-c" offset="1" />
                 <animation ref="h-block-s" offset="1" />
             </object>
-            <object id="block-hori-quad-3" h="16" w="48" segments-w="4">
+            <object id="block-hori-quad-3" h="16" w="64" segments-w="4">
                 <animation ref="h-block-n" offset="2" />
                 <animation ref="h-block-c" offset="2" />
                 <animation ref="h-block-c" offset="2" />
@@ -193,19 +193,7 @@
     </sprites>
 
     <layout>
-        <object ref="block-single-1" x="0" y="16"/>
-        <object ref="block-vert-duo-2" x="0" y="32"/>
-        <object ref="block-vert-trio-3" x="0" y="64"/>
-        <object ref="block-single-1" x="0" y="112"/>
-        <object ref="block-vert-duo-2" x="0" y="128"/>
-        <object ref="block-hori-quad-3" x="0" y="160"/>
-
-        <!--<object ref="dr-wily-sign" x="100" y="100"/>-->
-
-
-        <!--<item name="EnergyTank" x="0" y="130"/>
-        <item name="WeaponTank" x="120" y="144"/>-->
-        <item name="EnergyCapsule" x="24" y="152"/>
+        <object ref="block-single-1" x="0" y="16"></object><object ref="block-vert-duo-2" x="0" y="32"></object><object ref="block-vert-trio-3" x="0" y="64"></object><object ref="block-single-1" x="0" y="112"></object><object ref="block-vert-duo-2" x="0" y="128"></object><object ref="block-hori-quad-3" x="0" y="160"></object><object ref="block-single-1" x="64" y="160"></object><object ref="block-hori-trio-2" x="80" y="160"></object><object ref="block-hori-duo-3" x="128" y="160"></object><object ref="block-hori-trio-1" x="160" y="160"></object><object ref="block-single-2" x="208" y="160"></object><object ref="block-single-2" x="224" y="160"></object><object ref="block-hori-trio-1" x="240" y="160"></object><object ref="block-hori-trio-2" x="16" y="16"></object><object ref="block-hori-duo-3" x="64" y="16"></object><object ref="block-hori-duo-1" x="96" y="16"></object><object ref="block-single-2" x="128" y="16"></object><object ref="block-hori-quad-3" x="144" y="16"></object><object ref="block-single-1" x="208" y="16"></object><object ref="block-hori-duo-2" x="224" y="16"></object><object ref="block-single-2" x="256" y="16"></object><object ref="block-hori-duo-3" x="256" y="32"></object><object ref="block-hori-trio-1" x="288" y="32"></object><object ref="block-single-1" x="256" y="48"></object><object ref="block-vert-duo-2" x="256" y="64"></object><object ref="block-single-2" x="256" y="96"></object><object ref="block-hori-trio-1" x="256" y="112"></object>
 
         <solids><rect x="0" y="160" w="592" h="16"></rect><rect x="0" y="16" w="16" h="160"></rect><rect x="576" y="160" w="16" h="64"></rect><rect x="576" y="208" w="720" h="16"></rect><rect x="1152" y="160" w="144" h="16"></rect><rect x="1280" y="160" w="16" h="64"></rect><rect x="1248" y="112" w="16" h="64"></rect><rect x="1248" y="112" w="128" h="16"></rect><rect x="624" y="160" w="496" h="16"></rect><rect x="752" y="16" w="720" h="16"></rect><rect x="1408" y="64" w="16" h="112"></rect><rect x="1408" y="160" w="128" h="16"></rect><rect x="1408" y="128" w="128" h="16"></rect><rect x="1520" y="128" w="16" h="48"></rect><rect x="1360" y="112" w="16" h="112"></rect><rect x="1152" y="64" w="272" h="16"></rect><rect x="1456" y="80" w="64" h="16"></rect><rect x="1456" y="16" w="16" h="80"></rect><rect x="1504" y="16" w="16" h="80"></rect><rect x="1504" y="16" w="288" h="16"></rect><rect x="544" y="112" w="336" h="16"></rect><rect x="800" y="64" w="272" h="16"></rect><rect x="912" y="112" w="160" h="16"></rect><rect x="912" y="64" w="16" h="64"></rect><rect x="1056" y="64" w="16" h="64"></rect><rect x="256" y="112" w="256" h="16"></rect><rect x="256" y="16" w="16" h="112"></rect><rect x="496" y="64" w="16" h="64"></rect><rect x="496" y="64" w="272" h="16"></rect><rect x="752" y="16" w="16" h="64"></rect><rect x="1104" y="16" w="16" h="112"></rect><rect x="1360" y="208" w="336" h="16"></rect><rect x="1568" y="64" w="16" h="112"></rect><rect x="1568" y="160" w="80" h="16"></rect><rect x="1616" y="112" w="80" h="16"></rect><rect x="1536" y="256" w="16" h="384"></rect><rect x="1728" y="64" w="16" h="352"></rect><rect x="1776" y="16" w="16" h="448"></rect><rect x="1680" y="112" w="16" h="160"></rect><rect x="1568" y="64" w="176" h="16"></rect><rect x="1536" y="256" w="160" h="16"></rect><rect x="1584" y="400" w="160" h="16"></rect><rect x="1632" y="448" w="160" h="16"></rect><rect x="1632" y="448" w="16" h="64"></rect><rect x="1632" y="496" w="160" h="16"></rect><rect x="1584" y="544" w="160" h="16"></rect><rect x="1584" y="448" w="16" h="112"></rect><rect x="1776" y="496" w="16" h="368"></rect><rect x="1728" y="544" w="16" h="256"></rect><rect x="1616" y="624" w="80" h="16"></rect><rect x="1536" y="624" w="48" h="16"></rect><rect x="1568" y="624" w="16" h="80"></rect><rect x="1568" y="688" w="80" h="16"></rect><rect x="1680" y="592" w="16" h="224"></rect><rect x="1584" y="800" w="112" h="16"></rect><rect x="1536" y="752" w="112" h="16"></rect><rect x="1632" y="688" w="16" h="80"></rect><rect x="1728" y="848" w="16" h="144"></rect><rect x="1728" y="848" w="64" h="16"></rect><rect x="1728" y="976" w="48" h="16"></rect><rect x="1760" y="976" w="16" h="208"></rect><rect x="1536" y="752" w="16" h="672"></rect><rect x="1536" y="1408" w="160" h="16"></rect><rect x="1680" y="1408" w="16" h="64"></rect><rect x="1632" y="1264" w="16" h="64"></rect><rect x="1632" y="1312" w="64" h="16"></rect><rect x="1584" y="1120" w="16" h="160"></rect><rect x="1584" y="1264" w="64" h="16"></rect><rect x="1680" y="1264" w="64" h="16"></rect><rect x="1680" y="1168" w="16" h="112"></rect><rect x="1632" y="1168" w="16" h="64"></rect><rect x="1632" y="1168" w="64" h="16"></rect><rect x="1632" y="1216" w="64" h="16"></rect><rect x="1728" y="1168" w="16" h="64"></rect><rect x="1728" y="1168" w="48" h="16"></rect><rect x="1728" y="1216" w="64" h="16"></rect><rect x="1584" y="800" w="16" h="288"></rect><rect x="1584" y="1024" w="64" h="16"></rect><rect x="1632" y="976" w="64" h="16"></rect><rect x="1632" y="848" w="16" h="144"></rect><rect x="1680" y="848" w="16" h="288"></rect><rect x="1632" y="848" w="64" h="16"></rect><rect x="1680" y="1024" w="48" h="16"></rect><rect x="1728" y="1072" w="48" h="16"></rect><rect x="1680" y="1120" w="48" h="16"></rect><rect x="1632" y="1072" w="64" h="16"></rect><rect x="1584" y="1120" w="64" h="16"></rect><rect x="1728" y="1264" w="16" h="208"></rect><rect x="1776" y="1216" w="16" h="464"></rect><rect x="1632" y="1648" w="160" h="32"></rect><rect x="1584" y="1584" w="16" h="176"></rect><rect x="1728" y="1504" w="16" h="112"></rect><rect x="1696" y="1536" w="48" h="16"></rect><rect x="1648" y="1536" w="16" h="16"></rect><rect x="1600" y="1536" w="16" h="16"></rect><rect x="1536" y="1456" w="160" h="16"></rect><rect x="1536" y="1456" w="16" h="448"></rect><rect x="1584" y="1744" w="304" h="16"></rect><rect x="1536" y="1888" w="1264" h="16"></rect><rect x="2784" y="1808" w="16" h="96"></rect><rect x="2672" y="1808" w="80" h="16"></rect><rect x="2384" y="1840" w="240" h="16"></rect><rect x="2304" y="1744" w="416" h="16"></rect><rect x="2704" y="1680" w="16" h="32"></rect><rect x="1936" y="1744" w="16" h="16"></rect><rect x="2000" y="1744" w="16" h="16"></rect><rect x="2048" y="1744" w="16" h="16"></rect><rect x="2096" y="1744" w="16" h="16"></rect><rect x="2144" y="1744" w="16" h="16"></rect><rect x="2192" y="1744" w="16" h="16"></rect><rect x="2256" y="1744" w="16" h="16"></rect></solids>
 

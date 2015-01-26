@@ -13,9 +13,9 @@ $(function() {
         });
     }
 
-    function createAsset()
+    function createAsset(type)
     {
-        return $('<div class="asset"></div>');
+        return $('<div class="asset" type="' + (type || 'misc') + '"></div>');
     }
 
     function getZoomLevel()
@@ -32,27 +32,33 @@ $(function() {
             return false;
         }
 
-        zoom.css({
-            'zoom': level,
-        });
-
-        var centerShift = {
-            x: Math.round((workspace.width() * 1) / 2),
-            y: Math.round((workspace.height() * 1) / 2),
-        };
-
-        var scrollShift = {
+        var sizeShift = {
             x: Math.round(workspace.scrollLeft() * ratio),
             y: Math.round(workspace.scrollTop() * ratio),
         };
 
-        if (ratio < 1) {
-            centerShift.x = -centerShift.x * ratio;
-            centerShift.y = -centerShift.y * ratio;
+        zoom.css({
+            'zoom': level,
+        });
+
+        var viewPort = {
+            x: Math.round(workspace.width() / 2),
+            y: Math.round(workspace.height() / 2),
+        };
+
+        if (ratio > 1) {
+            workspace.scrollLeft(sizeShift.x + viewPort.x);
+            workspace.scrollTop(sizeShift.y + viewPort.y);
         }
-        //console.log(scrollShift, centerShift);
-        workspace.scrollLeft(scrollShift.x + centerShift.x);
-        workspace.scrollTop(scrollShift.y + centerShift.y);
+        else {
+            workspace.scrollLeft(sizeShift.x - viewPort.x * ratio);
+            workspace.scrollTop(sizeShift.y - viewPort.y * ratio);
+        }
+
+        console.log(scrollShift);
+
+
+
         return level;
     }
 
@@ -61,36 +67,68 @@ $(function() {
         var urlBase = xmlUrl.split('/').slice(0, -1).join('/');
         $.ajax({
             url: xmlUrl,
+            dataType: "xml",
             success: function(response) {
                 var level = $(response);
-                level.children('level > sprites').each(function(i, sprites) {
+                level.find('level > sprites').each(function(i, sprites) {
                     sprites = $(sprites);
                     var spriteImageUrl = urlBase + '/' + sprites.attr('url');
+
+                    var spriteIndex = {};
                     sprites.children('sprite').each(function(i, sprite) {
                         sprite = $(sprite);
-                        var bounds = sprite.children('bounds');
+                        spriteIndex[sprite.attr('id')] = {
+                            x: parseFloat(sprite.attr('x')),
+                            y: parseFloat(sprite.attr('y')),
+                            w: parseFloat(sprite.attr('w')),
+                            h: parseFloat(sprite.attr('h')),
+                        };
+                    });
+                    var animationSpriteIndex = {};
+                    sprites.children('animation').each(function(i, anim) {
+                        anim = $(anim);
+                        var frame = anim.find('frame');
+                        animationSpriteIndex[anim.attr('name')] = spriteIndex[frame.attr('sprite')];
+                    });
 
-                        var spriteElement = $('<div class="sprite"></div>');
+                    sprites.find('objects > object').each(function(i, object) {
+                        object = $(object);
 
-                        spriteElement
-                            .addClass(sprite.attr('id'))
-                            .css({
-                                background: "url('" + spriteImageUrl + "') -" + bounds.attr('x') + 'px -' + bounds.attr('y') + 'px',
-                                height: bounds.attr('h') + 'px',
-                                width: bounds.attr('w') + 'px',
+                        var w = parseFloat(object.attr('w'));
+                        var h = parseFloat(object.attr('h'));
+                        var wSegs = parseFloat(object.attr('segments-w')) || 1;
+                        var hSegs = parseFloat(object.attr('segments-h')) || 1;
+
+                        var objectElement = $('<div class="object" type="object"></object>').css({
+                            'background-image': "url('" + spriteImageUrl + "')",
+                            'width': object.attr('w') + 'px',
+                            'height': object.attr('h') + 'px',
+                        }).attr('title', object.attr('id')).attr('ref', object.attr('id'));
+
+                        object.children().each(function(i, face) {
+                            face = $(face);
+                            if (face.is('animation')) {
+                                var sprite = animationSpriteIndex[face.attr('ref')];
+                            }
+                            var tile = $('<div/>').css({
+                                'background-image': 'inherit',
+                                'background-position': '-' + sprite.x + 'px -' + sprite.y + 'px',
+                                'float': 'left',
+                                'width': sprite.w,
+                                'height': sprite.h
                             });
+                            objectElement.append(tile);
+                        });
 
-                        assetApplyDraggable(spriteElement);
-                        $('.assets .sprites').append(spriteElement);
-
+                        assetApplyDraggable(objectElement);
+                        $('.assets .sprites').append(objectElement);
                     });
                 });
 
-                level.children('layout').each(function(i, layout) {
-                    console.log($(this).find('solids>solid'));
+                level.find('level > layout').each(function(i, layout) {
                     $(this).find('solids > rect').each(function(i, solid) {
                         solid = $(solid);
-                        var asset = createAsset();
+                        var asset = createAsset('solid');
                         asset
                             .addClass('solid rect')
                             .css({
@@ -139,6 +177,7 @@ $(function() {
     var workspace = $('.workspace');
     levelEdit.workspace = workspace;
     var grid = workspace.find('.grid');
+    workspace.grid = grid;
     var zoom = workspace.find('.zoom');
     var controlpanel = $('.controlpanel');
     var assets = $('.assets');
@@ -154,7 +193,28 @@ $(function() {
                 levelEdit.objectManipulator.move(ui.position.left, ui.position.top);
             },
         });
-        this.append(item);
+        var type = item.attr('type') || 'misc';
+        this.children('.layer.' + type).append(item);
+        workspace.layer.toggle(type, true);
+    }
+    workspace.layer = {
+        toggle: function(name, state)
+        {
+            switch (name) {
+                case 'template':
+                    workspace.grid.children('.template').toggle(state);
+                    break;
+                case 'grid':
+                    workspace.grid.children('.overlay').toggle(state);
+                    break;
+                default:
+                    workspace.items.children('.layer.' + name).toggle(state);
+                    break;
+            }
+            //debugger;
+            workspace.layer.switches.filter('[name="' + name + '"]').prop('checked', state);
+        },
+        switches: controlpanel.find('.layers > :input'),
     }
 
     grid.droppable({
@@ -169,10 +229,6 @@ $(function() {
                 x: ui.position.left / zoomFactor,
                 y: ui.position.top / zoomFactor,
             };
-            /*dropPos.x -= workspace.offset().left;
-            dropPos.y -= workspace.offset().top;
-            dropPos.x -= workspace.scrollLeft();
-            dropPos.x += grid.offset().left;*/
             dropPos.x -= grid.offset().left;
             dropPos.y -= grid.offset().top;
             levelEdit.objectManipulator.select(sprite);
@@ -190,6 +246,11 @@ $(function() {
     controlpanel.find('.snap > :input').on('change', function() {
         levelEdit.objectManipulator.quantizer = parseFloat(this.value) || 1;
     });
+    workspace.layer.switches.on('change', function() {
+        var name = $(this).attr('name');
+        var state = $(this).prop('checked');
+        workspace.layer.toggle(name, state);
+    });
 
     workspace.on('mousewheel', function(e) {
         e.preventDefault();
@@ -203,7 +264,6 @@ $(function() {
     });
 
     var zoomAreaDraggable = Draggable.create(workspace, {type:"scroll", edgeResistance:1})[0];
-    console.dir(zoomAreaDraggable);
     zoomAreaDraggable.disable();
 
     assets.draggable();
@@ -299,26 +359,32 @@ $(function() {
     });
 
     $('button#generateXml').on('click', function() {
-        $('#console').html('');
+        var items = workspace.items;
         var level = $('<level></level>');
-        var items = workspace.find('.items');
-        items.each(function(i, item) {
+
+        var objects = $('<objects></objects>');
+        items.find('.layer.object > .object').each(function(i, item) {
             item = $(item);
-
-            var solids = $('<solids></solids>');
-            item.find('.solid').each(function(i, item) {
-                item = $(item);
-                var rect = $('<rect/>');
-                rect.attr('x', parseFloat(item.css('left')));
-                rect.attr('y', parseFloat(item.css('top')));
-                rect.attr('w', parseFloat(item.css('width')));
-                rect.attr('h', parseFloat(item.css('height')));
-                solids.append(rect);
-            });
-            level.append(solids);
+            var object = $('<object/>');
+            object.attr('ref', item.attr('ref'));
+            object.attr('x', parseFloat(item.css('left')));
+            object.attr('y', parseFloat(item.css('top')));
+            objects.append(object);
         });
+        level.append(objects);
 
-        //console.log(level, level[0], level[0].outerHTML);
+        var solids = $('<solids></solids>');
+        items.find('.layer.solid > .solid').each(function(i, item) {
+            item = $(item);
+            var rect = $('<rect/>');
+            rect.attr('x', parseFloat(item.css('left')));
+            rect.attr('y', parseFloat(item.css('top')));
+            rect.attr('w', parseFloat(item.css('width')));
+            rect.attr('h', parseFloat(item.css('height')));
+            solids.append(rect);
+        });
+        level.append(solids);
+
         $('#console').val(level[0].outerHTML);
     });
 
@@ -456,8 +522,8 @@ ObjectManipulator.prototype.resize = function(w, h)
 
 ObjectManipulator.prototype.select = function(object)
 {
-    object.addClass('selected').siblings().removeClass('selected');
-    this.selectedObject = object.get(0);
+    $(this.selectedObject).removeClass('selected');
+    this.selectedObject = object.addClass('selected').get(0);
 }
 
 ObjectManipulator.prototype.size = function()

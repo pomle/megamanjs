@@ -50,10 +50,22 @@ input, textarea {
 .workspace .grid .items {
     position: relative;
 }
-.workspace .grid .items .asset.selected {
-    border: dotted 1px #00aeef;
+
+.asset.solid {
+    background: url('gfx/solid.png');
+    border: dotted 1px #fff;
     box-sizing: border-box;
-    /*box-shadow: inset 0 0 1px #00aeef;*/
+    height: 16px;
+    width: 16px;
+}
+.asset.solid.selected {
+    margin: 0;
+}
+
+.asset.selected {
+    border: dotted 1px #00aeef;
+    margin: -1px;
+    z-index: 2;
 }
 
 .assets {
@@ -67,16 +79,15 @@ input, textarea {
     top: 50px;
     height: 400px;
     width: 300px;
+    z-index: 3;
 }
 
 .assets .asset {
     margin: 5px;
 }
 
-.asset.solid {
-    background: url('gfx/solid.png');
-    border: dotted 1px #fff;
-    box-sizing: border-box;
-    height: 16px;
-    width: 16px;
+
+.controlpanel fieldset {
+    float: left;
+    height: 40px;
 }

@@ -18,7 +18,11 @@
             <div class="grid">
                 <div class="template"></div>
                 <div class="overlay"></div>
-                <div class="items"></div>
+                <div class="items">
+                    <div class="layer misc"></div>
+                    <div class="layer solid"></div>
+                    <div class="layer object"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -37,28 +41,36 @@
         </div>
 
         <div class="collision">
-            <div class="solid rect" style="width: 16px; height: 16px;"></div>
-            <div class="solid rect" style="width: 64px; height: 16px;"></div>
-            <div class="solid rect" style="width: 128px; height: 16px;"></div>
-            <div class="solid rect" style="width: 256px; height: 16px;"></div>
-            <div class="solid rect" style="width: 16px; height: 64px;"></div>
-            <div class="solid rect" style="width: 16px; height: 128px;"></div>
-            <div class="solid rect" style="width: 16px; height: 256px;"></div>
+            <div class="solid rect" type="solid" style="width: 16px; height: 16px;"></div>
+            <div class="solid rect" type="solid" style="width: 64px; height: 16px;"></div>
+            <div class="solid rect" type="solid" style="width: 128px; height: 16px;"></div>
+            <div class="solid rect" type="solid" style="width: 256px; height: 16px;"></div>
+            <div class="solid rect" type="solid" style="width: 16px; height: 64px;"></div>
+            <div class="solid rect" type="solid" style="width: 16px; height: 128px;"></div>
+            <div class="solid rect" type="solid" style="width: 16px; height: 256px;"></div>
         </div>
     </div>
 
     <div class="controlpanel">
         <div>
-            <span class="zoom">
+            <fieldset class="zoom">
+                <legend>Zoom</legend>
                 <button data-mag=".5"> - </button>
                 <button data-mag="2"> + </button>
-            </span>
-            <span class="snap">
-                Snap
-                <input type="radio" value="1"><label>1</label>
-                <input type="radio" value="16"><label>16</label>
-                <input type="radio" value="32"><label>32</label>
-            </span>
+            </fieldset>
+            <fieldset class="snap">
+                <legend>Snap</legend>
+                <input type="radio" name="snap" value="1"><label>1</label>
+                <input type="radio" name="snap" value="16"><label>16</label>
+                <input type="radio" name="snap" value="32"><label>32</label>
+            </fieldset>
+            <fieldset class="layers">
+                <legend>Layers</legend>
+                <input type="checkbox" name="solid"><label>Solids</label>
+                <input type="checkbox" name="object"><label>Objects</label>
+                <input type="checkbox" name="grid"><label>Grid</label>
+                <input type="checkbox" name="template"><label>Template</label>
+            </fieldset>
         <table>
             <form id="template">
             <tr>
