@@ -248,14 +248,15 @@ Engine.scenes.Level.Util = {
             level.addObject(Item);
         }
 
-
+        var exposeSolids = false;
         var solidNodes = doc.evaluate('/level/layout/solids/*', doc, null, XPathResult.ANY_TYPE , null);
         var solidNode;
         var material = new THREE.MeshBasicMaterial({
             color: 'white',
             wireframe: true,
+            visible: exposeSolids,
         });
-        var exposeSolids = true;
+
         while (solidNode = solidNodes.iterateNext()) {
             var prop = {
                 'x': parseFloat(solidNode.attributes['x'].value),
