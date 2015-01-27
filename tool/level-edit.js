@@ -70,11 +70,14 @@ $(function() {
             dataType: "xml",
             success: function(response) {
                 var level = $(response);
+
+                var spriteIndex = {};
+                var objectIndex = {};
+
                 level.find('level > sprites').each(function(i, sprites) {
                     sprites = $(sprites);
                     var spriteImageUrl = urlBase + '/' + sprites.attr('url');
 
-                    var spriteIndex = {};
                     sprites.children('sprite').each(function(i, sprite) {
                         sprite = $(sprite);
                         spriteIndex[sprite.attr('id')] = {
@@ -93,17 +96,19 @@ $(function() {
 
                     sprites.find('objects > object').each(function(i, object) {
                         object = $(object);
+                        var objectId = object.attr('id');
 
                         var w = parseFloat(object.attr('w'));
                         var h = parseFloat(object.attr('h'));
                         var wSegs = parseFloat(object.attr('segments-w')) || 1;
                         var hSegs = parseFloat(object.attr('segments-h')) || 1;
 
-                        var objectElement = $('<div class="object" type="object"></object>').css({
+                        var objectElement = createAsset('object');
+                        objectElement.addClass('object').css({
                             'background-image': "url('" + spriteImageUrl + "')",
                             'width': object.attr('w') + 'px',
                             'height': object.attr('h') + 'px',
-                        }).attr('title', object.attr('id')).attr('ref', object.attr('id'));
+                        }).attr('title', objectId).attr('ref', object.attr('id'));
 
                         object.children().each(function(i, face) {
                             face = $(face);
@@ -119,14 +124,17 @@ $(function() {
                             });
                             objectElement.append(tile);
                         });
+                        objectIndex[objectId] = objectElement;
 
-                        assetApplyDraggable(objectElement);
-                        $('.assets .sprites').append(objectElement);
+                        var clone = objectElement.clone();
+                        assetApplyDraggable(clone);
+                        $('.assets .sprites').append(clone);
                     });
                 });
 
                 level.find('level > layout').each(function(i, layout) {
-                    $(this).find('solids > rect').each(function(i, solid) {
+                    layout = $(layout);
+                    layout.find('solids > rect').each(function(i, solid) {
                         solid = $(solid);
                         var asset = createAsset('solid');
                         asset
@@ -139,6 +147,17 @@ $(function() {
                             });
                         workspace.items.addItem(asset);
                     });
+
+                    layout.find('object').each(function(i, object) {
+                        object = $(object);
+                        var objectRef = object.attr('ref');
+                        var clone = objectIndex[objectRef].clone();
+                        clone.css({
+                            'left': object.attr('x') + 'px',
+                            'top': object.attr('y') + 'px',
+                        });
+                        workspace.items.addItem(clone);
+                    })
                 });
             },
         });
