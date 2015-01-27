@@ -11,6 +11,7 @@ var weapons = {
 };
 
 var player = new Engine.assets.objects.characters.Megaman();
+player.lifes = 0;
 player.equipWeapon(weapons['p']);
 
 var boss = new Engine.assets.objects.characters.Metalman();
