@@ -1,6 +1,7 @@
 var Engine = function(renderer)
 {
     this.renderer = renderer;
+    this.isRunning = false;
     this.scene = undefined;
     this.timer = undefined;
 }
@@ -11,12 +12,14 @@ Engine.prototype.run = function()
         this.timer.callbacks.push(this.timeShift.bind(this));
     }
     this.timer.start();
+    this.isRunning = true;
 }
 
 Engine.prototype.pause = function()
 {
     this.timer.stop();
     this.timer.callbacks = [];
+    this.isRunning = false;
 }
 
 Engine.prototype.render = function()

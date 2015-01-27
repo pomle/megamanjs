@@ -23,6 +23,13 @@ keyboard.intermittent(65, function() { player.moveLeftStart(); }, function() { p
 keyboard.intermittent(68, function() { player.moveRightStart(); }, function() { player.moveRightEnd(); });
 keyboard.intermittent(80, function() { player.jumpStart(); }, function() { player.jumpEnd(); });
 keyboard.hit(79, function() { player.fire(); });
+keyboard.hit(89, function() {
+	if (Game.isRunning) {
+		Game.pause();
+	} else {
+		Game.run();
+	}
+});
 
 keyboard.intermittent(65, function() { boss.moveLeftStart(); }, function() { boss.moveLeftEnd(); });
 keyboard.intermittent(68, function() { boss.moveRightStart(); }, function() { boss.moveRightEnd(); });
