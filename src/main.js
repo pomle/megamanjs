@@ -30,16 +30,16 @@ keyboard.hit(89, function() {
 		Game.run();
 	}
 });
-
+/*
 keyboard.intermittent(65, function() { boss.moveLeftStart(); }, function() { boss.moveLeftEnd(); });
 keyboard.intermittent(68, function() { boss.moveRightStart(); }, function() { boss.moveRightEnd(); });
 keyboard.intermittent(86, function() { boss.jumpStart(); }, function() { boss.jumpEnd(); });
 keyboard.hit(67, function() { boss.fire(); });
-
+*/
 
 Engine.scenes.Level.Util.loadFromXML('levels/flashman/Flashman.xml', function(level) {
 	level.addPlayer(player);
-	level.addObject(boss, 300, -100);
+	//level.addObject(boss, 300, -100);
 	Game.scene = level;
 	Game.run();
 });
