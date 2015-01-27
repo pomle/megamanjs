@@ -18,26 +18,37 @@ Engine.scenes.Level.Util = {
         function expandRange(input, total)
         {
             var values = [];
-            var groups, group, ranges, range, i;
+            var groups, group, ranges, range, mod, upper, lower, i;
+
             groups = input.split(',');
+
             while (group = groups.shift()) {
+
+                mod = parseFloat(group.split('/')[1]) || 1;
                 ranges = group.split('-');
+
                 if (ranges.length == 2) {
-                    var lower = parseFloat(ranges[0]);
-                    var upper = parseFloat(ranges[1]);
-                    for (i = lower; i <= upper; i++) {
-                        values.push(i);
-                    }
+                    lower = parseFloat(ranges[0]);
+                    upper = parseFloat(ranges[1]);
                 }
                 else if (ranges[0] == '*') {
-                    for (i = 0; i < total; i++) {
-                        values.push(i+1);
-                    }
+                    lower = 1;
+                    upper = total;
                 }
                 else {
-                    values.push(parseFloat(ranges[0]));
+                    lower = parseFloat(ranges[0]);
+                    upper = lower;
+                }
+
+                i = 0;
+                while (lower <= upper) {
+                    if (i++ % mod === 0) {
+                        values.push(lower);
+                    }
+                    lower++
                 }
             }
+
             return values;
         }
 
