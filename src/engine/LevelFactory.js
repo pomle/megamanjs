@@ -202,7 +202,7 @@ Engine.scenes.Level.Util = {
         //level.scene.add(levelMesh);
         */
 
-        var layoutNodes = doc.evaluate('/level/layout/object', doc, null, XPathResult.ANY_TYPE , null);
+        var layoutNodes = doc.evaluate('/level/layout/objects/object', doc, null, XPathResult.ANY_TYPE , null);
         //var materials = [];
         var objectNode;
         while (objectNode = layoutNodes.iterateNext()) {
