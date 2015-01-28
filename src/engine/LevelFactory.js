@@ -253,6 +253,9 @@ Engine.scenes.Level.Util = {
         var itemNode;
         while (itemNode = itemNodes.iterateNext()) {
             var name = itemNode.attributes['name'].value;
+            if (!Engine.assets.objects.items[name]) {
+                throw new Error('Item ' + name + ' does not exist');
+            }
             var Item = new Engine.assets.objects.items[name]();
             Item.model.position.x = parseFloat(itemNode.attributes['x'].value);
             Item.model.position.y = -parseFloat(itemNode.attributes['y'].value);
