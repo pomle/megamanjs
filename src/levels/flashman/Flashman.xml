@@ -1,618 +1,1140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
     <checkpoints>
-        <checkpoint x="100" y="64" />
+        <checkpoint x="100" y="64"/>
     </checkpoints>
     <sprites url="tiles.gif" w="128" h="96">
         <!-- Decorations -->
-        <sprite id="drwily-sign-blue" x="64" y="16" w="32" h="32" />
-        <sprite id="drwily-sign-cyan" x="64" y="64" w="32" h="32" />
+        <sprite id="drwily-sign-blue" x="64" y="16" w="32" h="32"/>
+        <sprite id="drwily-sign-cyan" x="64" y="64" w="32" h="32"/>
         <!-- Single blocks -->
-        <sprite id="block-blue" x="64" y="0" w="16" h="16" />
-        <sprite id="block-cyan" x="64" y="48" w="16" h="16" />
+        <sprite id="block-blue" x="64" y="0" w="16" h="16"/>
+        <sprite id="block-cyan" x="64" y="48" w="16" h="16"/>
         <!-- Vertical blue block -->
-        <sprite id="v-block-n-blue" x="0" y="0" w="16" h="16" />
-        <sprite id="v-block-c-blue" x="0" y="16" w="16" h="16" />
-        <sprite id="v-block-s-blue" x="0" y="32" w="16" h="16" />
+        <sprite id="v-block-n-blue" x="0" y="0" w="16" h="16"/>
+        <sprite id="v-block-c-blue" x="0" y="16" w="16" h="16"/>
+        <sprite id="v-block-s-blue" x="0" y="32" w="16" h="16"/>
         <!-- Vertical cyan block -->
-        <sprite id="v-block-n-cyan" x="0" y="48" w="16" h="16" />
-        <sprite id="v-block-c-cyan" x="0" y="64" w="16" h="16" />
-        <sprite id="v-block-s-cyan" x="0" y="80" w="16" h="16" />
+        <sprite id="v-block-n-cyan" x="0" y="48" w="16" h="16"/>
+        <sprite id="v-block-c-cyan" x="0" y="64" w="16" h="16"/>
+        <sprite id="v-block-s-cyan" x="0" y="80" w="16" h="16"/>
         <!-- Horizontal blue block -->
-        <sprite id="h-block-n-blue" x="16" y="0" w="16" h="16" />
-        <sprite id="h-block-c-blue" x="32" y="0" w="16" h="16" />
-        <sprite id="h-block-s-blue" x="48" y="0" w="16" h="16" />
+        <sprite id="h-block-n-blue" x="16" y="0" w="16" h="16"/>
+        <sprite id="h-block-c-blue" x="32" y="0" w="16" h="16"/>
+        <sprite id="h-block-s-blue" x="48" y="0" w="16" h="16"/>
         <!-- Horizontal cyan block -->
-        <sprite id="h-block-n-cyan" x="16" y="48" w="16" h="16" />
-        <sprite id="h-block-c-cyan" x="32" y="48" w="16" h="16" />
-        <sprite id="h-block-s-cyan" x="48" y="48" w="16" h="16" />
+        <sprite id="h-block-n-cyan" x="16" y="48" w="16" h="16"/>
+        <sprite id="h-block-c-cyan" x="32" y="48" w="16" h="16"/>
+        <sprite id="h-block-s-cyan" x="48" y="48" w="16" h="16"/>
         <!-- Background -->
-        <sprite id="bricks" x="96" y="64" w="32" h="16" />
-        <sprite id="mortar-reg" x="96" y="16" w="16" h="16" />
-        <sprite id="mortar-reg-shadow" x="96" y="0" w="16" h="16" />
-        <sprite id="mortar-ireg" x="96" y="32" w="16" h="16" />
-        <sprite id="truss-vert" x="112" y="16" w="16" h="16" />
-        <sprite id="truss-hori" x="112" y="32" w="16" h="16" />
+        <sprite id="bricks-odd" x="96" y="64" w="16" h="16"/>
+        <sprite id="bricks-even" x="112" y="64" w="16" h="16"/>
+        <sprite id="bricks-odd-shadow" x="96" y="48" w="16" h="16"/>
+        <sprite id="bricks-even-shadow" x="112" y="48" w="16" h="16"/>
+        <sprite id="mortar-reg" x="96" y="16" w="16" h="16"/>
+        <sprite id="mortar-reg-shadow" x="96" y="0" w="16" h="16"/>
+        <sprite id="mortar-ireg" x="96" y="32" w="16" h="16"/>
+        <sprite id="truss-vert" x="112" y="16" w="16" h="16"/>
+        <sprite id="truss-hori" x="112" y="32" w="16" h="16"/>
         <animation name="dr-wily-sign">
-            <frame sprite="drwily-sign-cyan" duration=".5" />
-            <frame sprite="drwily-sign-blue" duration=".5" />
+            <frame sprite="drwily-sign-cyan" duration=".5"/>
+            <frame sprite="drwily-sign-blue" duration=".5"/>
         </animation>
         <!-- Single block -->
         <animation name="block">
-            <frame sprite="block-cyan" duration="1" />
-            <frame sprite="block-blue" duration="2" />
+            <frame sprite="block-cyan" duration="1"/>
+            <frame sprite="block-blue" duration="2"/>
         </animation>
         <!-- Vertical block -->
         <animation name="v-block-n">
-            <frame sprite="v-block-n-cyan" duration="1" />
-            <frame sprite="v-block-n-blue" duration="2" />
+            <frame sprite="v-block-n-cyan" duration="1"/>
+            <frame sprite="v-block-n-blue" duration="2"/>
         </animation>
         <animation name="v-block-c">
-            <frame sprite="v-block-c-cyan" duration="1" />
-            <frame sprite="v-block-c-blue" duration="2" />
+            <frame sprite="v-block-c-cyan" duration="1"/>
+            <frame sprite="v-block-c-blue" duration="2"/>
         </animation>
         <animation name="v-block-s">
-            <frame sprite="v-block-s-cyan" duration="1" />
-            <frame sprite="v-block-s-blue" duration="2" />
+            <frame sprite="v-block-s-cyan" duration="1"/>
+            <frame sprite="v-block-s-blue" duration="2"/>
         </animation>
         <!-- Horizontal block -->
         <animation name="h-block-n">
-            <frame sprite="h-block-n-cyan" duration="1" />
-            <frame sprite="h-block-n-blue" duration="2" />
+            <frame sprite="h-block-n-cyan" duration="1"/>
+            <frame sprite="h-block-n-blue" duration="2"/>
         </animation>
         <animation name="h-block-c">
-            <frame sprite="h-block-c-cyan" duration="1" />
-            <frame sprite="h-block-c-blue" duration="2" />
+            <frame sprite="h-block-c-cyan" duration="1"/>
+            <frame sprite="h-block-c-blue" duration="2"/>
         </animation>
         <animation name="h-block-s">
-            <frame sprite="h-block-s-cyan" duration="1" />
-            <frame sprite="h-block-s-blue" duration="2" />
+            <frame sprite="h-block-s-cyan" duration="1"/>
+            <frame sprite="h-block-s-blue" duration="2"/>
         </animation>
         <objects>
             <object id="dr-wily-sign" w="32" h="32">
-                <animation ref="dr-wily-sign" />
+                <animation ref="dr-wily-sign"/>
             </object>
             <object id="block-single-1" w="16" h="16">
-                <animation ref="block" offset="0" />
+                <animation ref="block" offset="0"/>
             </object>
             <object id="block-single-2" w="16" h="16">
-                <animation ref="block" offset="1" />
+                <animation ref="block" offset="1"/>
             </object>
             <object id="block-single-3" w="16" h="16">
-                <animation ref="block" offset="2" />
+                <animation ref="block" offset="2"/>
             </object>
             <object id="block-vert-duo-1" w="16" h="32" segments-h="2">
-                <animation ref="v-block-n" offset="0" />
-                <animation ref="v-block-s" offset="0" />
+                <animation ref="v-block-n" offset="0"/>
+                <animation ref="v-block-s" offset="0"/>
             </object>
             <object id="block-vert-duo-2" w="16" h="32" segments-h="2">
-                <animation ref="v-block-n" offset="1" />
-                <animation ref="v-block-s" offset="1" />
+                <animation ref="v-block-n" offset="1"/>
+                <animation ref="v-block-s" offset="1"/>
             </object>
             <object id="block-vert-duo-3" w="16" h="32" segments-h="2">
-                <animation ref="v-block-n" offset="2" />
-                <animation ref="v-block-s" offset="2" />
+                <animation ref="v-block-n" offset="2"/>
+                <animation ref="v-block-s" offset="2"/>
             </object>
             <object id="block-vert-trio-1" w="16" h="48" segments-h="3">
-                <animation ref="v-block-n" offset="0" />
-                <animation ref="v-block-c" offset="0" />
-                <animation ref="v-block-s" offset="0" />
+                <animation ref="v-block-n" offset="0"/>
+                <animation ref="v-block-c" offset="0"/>
+                <animation ref="v-block-s" offset="0"/>
             </object>
             <object id="block-vert-trio-2" w="16" h="48" segments-h="3">
-                <animation ref="v-block-n" offset="1" />
-                <animation ref="v-block-c" offset="1" />
-                <animation ref="v-block-s" offset="1" />
+                <animation ref="v-block-n" offset="1"/>
+                <animation ref="v-block-c" offset="1"/>
+                <animation ref="v-block-s" offset="1"/>
             </object>
             <object id="block-vert-trio-3" w="16" h="48" segments-h="3">
-                <animation ref="v-block-n" offset="2" />
-                <animation ref="v-block-c" offset="2" />
-                <animation ref="v-block-s" offset="2" />
+                <animation ref="v-block-n" offset="2"/>
+                <animation ref="v-block-c" offset="2"/>
+                <animation ref="v-block-s" offset="2"/>
             </object>
             <object id="block-vert-quad-1" w="16" h="64" segments-h="4">
-                <animation ref="v-block-n" offset="0" />
-                <animation ref="v-block-c" offset="0" />
-                <animation ref="v-block-c" offset="0" />
-                <animation ref="v-block-s" offset="0" />
+                <animation ref="v-block-n" offset="0"/>
+                <animation ref="v-block-c" offset="0"/>
+                <animation ref="v-block-c" offset="0"/>
+                <animation ref="v-block-s" offset="0"/>
             </object>
             <object id="block-vert-quad-2" w="16" h="64" segments-h="4">
-                <animation ref="v-block-n" offset="1" />
-                <animation ref="v-block-c" offset="1" />
-                <animation ref="v-block-c" offset="1" />
-                <animation ref="v-block-s" offset="1" />
+                <animation ref="v-block-n" offset="1"/>
+                <animation ref="v-block-c" offset="1"/>
+                <animation ref="v-block-c" offset="1"/>
+                <animation ref="v-block-s" offset="1"/>
             </object>
             <object id="block-vert-quad-3" w="16" h="64" segments-h="4">
-                <animation ref="v-block-n" offset="2" />
-                <animation ref="v-block-c" offset="2" />
-                <animation ref="v-block-c" offset="2" />
-                <animation ref="v-block-s" offset="2" />
+                <animation ref="v-block-n" offset="2"/>
+                <animation ref="v-block-c" offset="2"/>
+                <animation ref="v-block-c" offset="2"/>
+                <animation ref="v-block-s" offset="2"/>
             </object>
             <object id="block-vert-quint-1" w="16" h="80" segments-h="5">
-                <animation ref="v-block-n" offset="0" />
-                <animation ref="v-block-c" offset="0" />
-                <animation ref="v-block-c" offset="0" />
-                <animation ref="v-block-c" offset="0" />
-                <animation ref="v-block-s" offset="0" />
+                <animation ref="v-block-n" offset="0"/>
+                <animation ref="v-block-c" offset="0"/>
+                <animation ref="v-block-c" offset="0"/>
+                <animation ref="v-block-c" offset="0"/>
+                <animation ref="v-block-s" offset="0"/>
             </object>
             <object id="block-vert-quint-2" w="16" h="80" segments-h="5">
-                <animation ref="v-block-n" offset="1" />
-                <animation ref="v-block-c" offset="1" />
-                <animation ref="v-block-c" offset="1" />
-                <animation ref="v-block-c" offset="1" />
-                <animation ref="v-block-s" offset="1" />
+                <animation ref="v-block-n" offset="1"/>
+                <animation ref="v-block-c" offset="1"/>
+                <animation ref="v-block-c" offset="1"/>
+                <animation ref="v-block-c" offset="1"/>
+                <animation ref="v-block-s" offset="1"/>
             </object>
             <object id="block-vert-quint-3" w="16" h="80" segments-h="5">
-                <animation ref="v-block-n" offset="2" />
-                <animation ref="v-block-c" offset="2" />
-                <animation ref="v-block-c" offset="2" />
-                <animation ref="v-block-c" offset="2" />
-                <animation ref="v-block-s" offset="2" />
+                <animation ref="v-block-n" offset="2"/>
+                <animation ref="v-block-c" offset="2"/>
+                <animation ref="v-block-c" offset="2"/>
+                <animation ref="v-block-c" offset="2"/>
+                <animation ref="v-block-s" offset="2"/>
             </object>
             <object id="block-hori-duo-1" h="16" w="32" segments-w="2">
-                <animation ref="h-block-n" offset="0" />
-                <animation ref="h-block-s" offset="0" />
+                <animation ref="h-block-n" offset="0"/>
+                <animation ref="h-block-s" offset="0"/>
             </object>
             <object id="block-hori-duo-2" h="16" w="32" segments-w="2">
-                <animation ref="h-block-n" offset="1" />
-                <animation ref="h-block-s" offset="1" />
+                <animation ref="h-block-n" offset="1"/>
+                <animation ref="h-block-s" offset="1"/>
             </object>
             <object id="block-hori-duo-3" h="16" w="32" segments-w="2">
-                <animation ref="h-block-n" offset="2" />
-                <animation ref="h-block-s" offset="2" />
+                <animation ref="h-block-n" offset="2"/>
+                <animation ref="h-block-s" offset="2"/>
             </object>
             <object id="block-hori-trio-1" h="16" w="48" segments-w="3">
-                <animation ref="h-block-n" offset="0" />
-                <animation ref="h-block-c" offset="0" />
-                <animation ref="h-block-s" offset="0" />
+                <animation ref="h-block-n" offset="0"/>
+                <animation ref="h-block-c" offset="0"/>
+                <animation ref="h-block-s" offset="0"/>
             </object>
             <object id="block-hori-trio-2" h="16" w="48" segments-w="3">
-                <animation ref="h-block-n" offset="1" />
-                <animation ref="h-block-c" offset="1" />
-                <animation ref="h-block-s" offset="1" />
+                <animation ref="h-block-n" offset="1"/>
+                <animation ref="h-block-c" offset="1"/>
+                <animation ref="h-block-s" offset="1"/>
             </object>
             <object id="block-hori-trio-3" h="16" w="48" segments-w="3">
-                <animation ref="h-block-n" offset="2" />
-                <animation ref="h-block-c" offset="2" />
-                <animation ref="h-block-s" offset="2" />
+                <animation ref="h-block-n" offset="2"/>
+                <animation ref="h-block-c" offset="2"/>
+                <animation ref="h-block-s" offset="2"/>
             </object>
             <object id="block-hori-quad-1" h="16" w="64" segments-w="4">
-                <animation ref="h-block-n" offset="0" />
-                <animation ref="h-block-c" offset="0" />
-                <animation ref="h-block-c" offset="0" />
-                <animation ref="h-block-s" offset="0" />
+                <animation ref="h-block-n" offset="0"/>
+                <animation ref="h-block-c" offset="0"/>
+                <animation ref="h-block-c" offset="0"/>
+                <animation ref="h-block-s" offset="0"/>
             </object>
             <object id="block-hori-quad-2" h="16" w="64" segments-w="4">
-                <animation ref="h-block-n" offset="1" />
-                <animation ref="h-block-c" offset="1" />
-                <animation ref="h-block-c" offset="1" />
-                <animation ref="h-block-s" offset="1" />
+                <animation ref="h-block-n" offset="1"/>
+                <animation ref="h-block-c" offset="1"/>
+                <animation ref="h-block-c" offset="1"/>
+                <animation ref="h-block-s" offset="1"/>
             </object>
             <object id="block-hori-quad-3" h="16" w="64" segments-w="4">
-                <animation ref="h-block-n" offset="2" />
-                <animation ref="h-block-c" offset="2" />
-                <animation ref="h-block-c" offset="2" />
-                <animation ref="h-block-s" offset="2" />
+                <animation ref="h-block-n" offset="2"/>
+                <animation ref="h-block-c" offset="2"/>
+                <animation ref="h-block-c" offset="2"/>
+                <animation ref="h-block-s" offset="2"/>
             </object>
             <object id="block-hori-quint-1" w="80" h="16" segments-w="5">
-                <animation ref="h-block-n" offset="0" />
-                <animation ref="h-block-c" offset="0" />
-                <animation ref="h-block-c" offset="0" />
-                <animation ref="h-block-c" offset="0" />
-                <animation ref="h-block-s" offset="0" />
+                <animation ref="h-block-n" offset="0"/>
+                <animation ref="h-block-c" offset="0"/>
+                <animation ref="h-block-c" offset="0"/>
+                <animation ref="h-block-c" offset="0"/>
+                <animation ref="h-block-s" offset="0"/>
             </object>
             <object id="block-hori-quint-2" w="80" h="16" segments-w="5">
-                <animation ref="h-block-n" offset="1" />
-                <animation ref="h-block-c" offset="1" />
-                <animation ref="h-block-c" offset="1" />
-                <animation ref="h-block-c" offset="1" />
-                <animation ref="h-block-s" offset="1" />
+                <animation ref="h-block-n" offset="1"/>
+                <animation ref="h-block-c" offset="1"/>
+                <animation ref="h-block-c" offset="1"/>
+                <animation ref="h-block-c" offset="1"/>
+                <animation ref="h-block-s" offset="1"/>
             </object>
             <object id="block-hori-quint-3" w="80" h="16" segments-w="5">
-                <animation ref="h-block-n" offset="2" />
-                <animation ref="h-block-c" offset="2" />
-                <animation ref="h-block-c" offset="2" />
-                <animation ref="h-block-c" offset="2" />
-                <animation ref="h-block-s" offset="2" />
+                <animation ref="h-block-n" offset="2"/>
+                <animation ref="h-block-c" offset="2"/>
+                <animation ref="h-block-c" offset="2"/>
+                <animation ref="h-block-c" offset="2"/>
+                <animation ref="h-block-s" offset="2"/>
             </object>
         </objects>
     </sprites>
     <layout>
-        <item name="ExtraLife" x="1368" y="56" />
+        <item name="ExtraLife" x="1368" y="56"/>
+        <item name="EnergyTank" x="712" y="153"/>
+        <item name="EnergyTank" x="1648" y="841"/>
+        <item name="EnergyTank" x="1768" y="1657"/>
+        <item name="WeaponTank" x="1624" y="1019"/>
+        <item name="EnergyCapsule" x="2504" y="1737"/>
         <objects>
-            <object ref="block-single-1" x="0" y="16" />
-            <object ref="block-vert-duo-2" x="0" y="32" />
-            <object ref="block-vert-trio-3" x="0" y="64" />
-            <object ref="block-single-1" x="0" y="112" />
-            <object ref="block-vert-duo-2" x="0" y="128" />
-            <object ref="block-hori-quad-3" x="0" y="160" />
-            <object ref="block-single-1" x="64" y="160" />
-            <object ref="block-hori-trio-2" x="80" y="160" />
-            <object ref="block-hori-duo-3" x="128" y="160" />
-            <object ref="block-hori-trio-1" x="160" y="160" />
-            <object ref="block-single-2" x="208" y="160" />
-            <object ref="block-single-2" x="224" y="160" />
-            <object ref="block-hori-trio-1" x="240" y="160" />
-            <object ref="block-hori-trio-2" x="16" y="16" />
-            <object ref="block-hori-duo-3" x="64" y="16" />
-            <object ref="block-hori-duo-1" x="96" y="16" />
-            <object ref="block-single-2" x="128" y="16" />
-            <object ref="block-hori-quad-3" x="144" y="16" />
-            <object ref="block-single-1" x="208" y="16" />
-            <object ref="block-hori-duo-2" x="224" y="16" />
-            <object ref="block-single-2" x="256" y="16" />
-            <object ref="block-hori-duo-3" x="256" y="32" />
-            <object ref="block-hori-trio-1" x="288" y="32" />
-            <object ref="block-single-1" x="256" y="48" />
-            <object ref="block-vert-duo-2" x="256" y="64" />
-            <object ref="block-single-2" x="304" y="112" />
-            <object ref="block-hori-trio-1" x="256" y="112" />
-            <object ref="block-hori-duo-2" x="288" y="160" />
-            <object ref="block-hori-trio-3" x="320" y="160" />
-            <object ref="block-single-1" x="368" y="160" />
-            <object ref="block-hori-duo-2" x="384" y="160" />
-            <object ref="block-single-2" x="416" y="160" />
-            <object ref="block-hori-trio-3" x="432" y="160" />
-            <object ref="block-single-2" x="496" y="160" />
-            <object ref="block-single-1" x="480" y="160" />
-            <object ref="block-hori-quad-3" x="512" y="160" />
-            <object ref="block-single-1" x="576" y="160" />
-            <object ref="block-single-2" x="576" y="176" />
-            <object ref="block-single-2" x="576" y="192" />
-            <object ref="block-hori-trio-1" x="576" y="208" />
-            <object ref="block-hori-quad-3" x="640" y="208" />
-            <object ref="block-hori-quad-2" x="720" y="208" />
-            <object ref="block-hori-quad-2" x="816" y="208" />
-            <object ref="block-hori-duo-1" x="896" y="208" />
-            <object ref="block-hori-duo-1" x="960" y="208" />
-            <object ref="block-hori-trio-3" x="1008" y="208" />
-            <object ref="block-hori-trio-1" x="1056" y="208" />
-            <object ref="block-hori-duo-3" x="1120" y="208" />
-            <object ref="block-hori-trio-2" x="1168" y="208" />
-            <object ref="block-single-2" x="624" y="208" />
-            <object ref="block-single-1" x="704" y="208" />
-            <object ref="block-single-1" x="800" y="208" />
-            <object ref="block-single-2" x="928" y="208" />
-            <object ref="block-single-2" x="992" y="208" />
-            <object ref="block-single-2" x="1104" y="208" />
-            <object ref="block-single-1" x="1152" y="208" />
-            <object ref="block-single-3" x="256" y="96" />
-            <object ref="block-single-2" x="384" y="112" />
-            <object ref="block-hori-trio-3" x="320" y="112" />
-            <object ref="block-single-1" x="368" y="112" />
-            <object ref="block-vert-duo-3" x="400" y="96" />
-            <object ref="block-single-2" x="400" y="80" />
-            <object ref="block-hori-duo-1" x="384" y="64" />
-            <object ref="block-single-3" x="368" y="64" />
-            <object ref="block-hori-trio-2" x="320" y="64" />
-            <object ref="block-hori-duo-1" x="288" y="64" />
-            <object ref="block-single-3" x="272" y="64" />
-            <object ref="block-single-2" x="336" y="32" />
-            <object ref="block-vert-duo-3" x="336" y="0" />
-            <object ref="block-hori-trio-3" x="352" y="32" />
-            <object ref="block-single-1" x="400" y="32" />
-            <object ref="block-hori-quint-2" x="416" y="32" />
-            <object ref="block-vert-duo-1" x="464" y="0" />
-            <object ref="block-single-3" x="496" y="32" />
-            <object ref="block-hori-duo-1" x="512" y="32" />
-            <object ref="block-hori-trio-2" x="544" y="32" />
-            <object ref="block-single-3" x="592" y="32" />
-            <object ref="block-hori-trio-1" x="608" y="32" />
-            <object ref="block-single-2" x="656" y="32" />
-            <object ref="block-hori-trio-3" x="672" y="32" />
-            <object ref="block-single-1" x="720" y="32" />
-            <object ref="block-hori-duo-2" x="736" y="32" />
-            <object ref="block-single-3" x="752" y="16" />
-            <object ref="block-single-3" x="752" y="48" />
-            <object ref="block-hori-trio-1" x="416" y="112" />
-            <object ref="block-single-2" x="464" y="112" />
-            <object ref="block-single-3" x="480" y="112" />
-            <object ref="block-vert-duo-1" x="496" y="96" />
-            <object ref="block-single-2" x="496" y="80" />
-            <object ref="block-hori-duo-3" x="480" y="64" />
-            <object ref="block-single-2" x="416" y="64" />
-            <object ref="block-single-3" x="432" y="64" />
-            <object ref="block-hori-duo-2" x="448" y="64" />
-            <object ref="block-single-2" x="512" y="64" />
-            <object ref="block-hori-trio-1" x="528" y="64" />
-            <object ref="block-single-3" x="576" y="64" />
-            <object ref="block-hori-trio-2" x="592" y="64" />
-            <object ref="block-hori-duo-1" x="640" y="64" />
-            <object ref="block-single-3" x="672" y="64" />
-            <object ref="block-hori-quad-2" x="688" y="64" />
-            <object ref="block-single-1" x="752" y="64" />
-            <object ref="block-hori-trio-1" x="768" y="16" />
-            <object ref="block-single-2" x="816" y="16" />
-            <object ref="block-hori-duo-3" x="832" y="16" />
-            <object ref="block-hori-quad-2" x="880" y="16" />
-            <object ref="block-hori-quad-1" x="960" y="16" />
-            <object ref="block-hori-trio-2" x="1024" y="16" />
-            <object ref="block-hori-trio-1" x="1088" y="16" />
-            <object ref="block-hori-duo-2" x="1152" y="16" />
-            <object ref="block-hori-quad-1" x="1184" y="16" />
-            <object ref="block-hori-quad-3" x="1264" y="16" />
-            <object ref="block-hori-duo-2" x="1344" y="16" />
-            <object ref="block-hori-quad-1" x="1392" y="16" />
-            <object ref="block-hori-trio-1" x="544" y="112" />
-            <object ref="block-hori-trio-1" x="624" y="112" />
-            <object ref="block-hori-duo-2" x="672" y="112" />
-            <object ref="block-hori-quad-1" x="720" y="112" />
-            <object ref="block-hori-trio-3" x="800" y="112" />
-            <object ref="block-hori-trio-1" x="640" y="160" />
-            <object ref="block-hori-duo-3" x="704" y="160" />
-            <object ref="block-hori-quad-2" x="752" y="160" />
-            <object ref="block-hori-duo-1" x="832" y="160" />
-            <object ref="block-hori-quint-3" x="864" y="160" />
-            <object ref="block-hori-quad-2" x="976" y="160" />
-            <object ref="block-hori-trio-2" x="1072" y="160" />
-            <object ref="block-hori-duo-1" x="800" y="64" />
-            <object ref="block-hori-trio-3" x="848" y="64" />
-            <object ref="block-hori-duo-1" x="896" y="64" />
-            <object ref="block-hori-trio-3" x="944" y="64" />
-            <object ref="block-hori-duo-1" x="992" y="64" />
-            <object ref="block-vert-duo-3" x="912" y="96" />
-            <object ref="block-hori-duo-1" x="928" y="112" />
-            <object ref="block-hori-duo-3" x="976" y="112" />
-            <object ref="block-hori-duo-2" x="1024" y="112" />
-            <object ref="block-vert-trio-3" x="1056" y="80" />
-            <object ref="block-vert-duo-2" x="1104" y="32" />
-            <object ref="block-vert-quad-1" x="1104" y="64" />
-            <object ref="block-single-1" x="864" y="16" />
-            <object ref="block-single-3" x="944" y="16" />
-            <object ref="block-single-3" x="1072" y="16" />
-            <object ref="block-single-2" x="1136" y="16" />
-            <object ref="block-single-2" x="1248" y="16" />
-            <object ref="block-single-1" x="1328" y="16" />
-            <object ref="block-single-2" x="592" y="112" />
-            <object ref="block-single-3" x="608" y="112" />
-            <object ref="block-single-3" x="704" y="112" />
-            <object ref="block-single-2" x="784" y="112" />
-            <object ref="block-single-2" x="848" y="112" />
-            <object ref="block-single-3" x="864" y="112" />
-            <object ref="block-single-2" x="832" y="64" />
-            <object ref="block-single-2" x="928" y="64" />
-            <object ref="block-single-1" x="1056" y="64" />
-            <object ref="block-single-2" x="1024" y="64" />
-            <object ref="block-single-3" x="1040" y="64" />
-            <object ref="block-single-2" x="912" y="80" />
-            <object ref="block-single-2" x="960" y="112" />
-            <object ref="block-single-1" x="1008" y="112" />
-            <object ref="block-single-1" x="624" y="160" />
-            <object ref="block-single-3" x="688" y="160" />
-            <object ref="block-single-2" x="736" y="160" />
-            <object ref="block-single-1" x="816" y="160" />
-            <object ref="block-single-1" x="944" y="160" />
-            <object ref="block-single-2" x="960" y="160" />
-            <object ref="block-single-1" x="1040" y="160" />
-            <object ref="block-single-2" x="1056" y="160" />
-            <object ref="block-single-3" x="784" y="208" />
-            <object ref="block-single-3" x="880" y="208" />
-            <object ref="block-single-3" x="944" y="208" />
-            <object ref="block-single-3" x="1216" y="208" />
-            <object ref="block-single-3" x="1376" y="16" />
-            <object ref="block-hori-trio-3" x="1168" y="64" />
-            <object ref="block-hori-duo-2" x="1232" y="64" />
-            <object ref="block-hori-quad-2" x="1296" y="64" />
-            <object ref="block-hori-duo-1" x="1376" y="64" />
-            <object ref="block-hori-duo-1" x="1408" y="128" />
-            <object ref="block-hori-duo-1" x="1472" y="128" />
-            <object ref="block-hori-duo-2" x="1504" y="128" />
-            <object ref="block-hori-duo-1" x="1504" y="160" />
-            <object ref="block-hori-trio-1" x="1440" y="160" />
-            <object ref="block-hori-duo-2" x="1408" y="160" />
-            <object ref="block-hori-trio-1" x="1152" y="160" />
-            <object ref="block-hori-quad-3" x="1216" y="160" />
-            <object ref="block-hori-trio-1" x="1232" y="208" />
-            <object ref="block-vert-duo-2" x="1280" y="192" />
-            <object ref="block-single-1" x="1280" y="176" />
-            <object ref="block-hori-duo-2" x="1280" y="160" />
-            <object ref="block-single-2" x="1200" y="160" />
-            <object ref="block-single-1" x="1312" y="160" />
-            <object ref="block-vert-duo-3" x="1328" y="160" />
-            <object ref="block-vert-trio-2" x="1328" y="192" />
-            <object ref="block-vert-duo-2" x="1248" y="128" />
-            <object ref="block-single-1" x="1248" y="112" />
-            <object ref="block-hori-trio-3" x="1264" y="112" />
-            <object ref="block-single-2" x="1312" y="112" />
-            <object ref="block-hori-trio-1" x="1328" y="112" />
-            <object ref="block-vert-duo-3" x="1360" y="128" />
-            <object ref="block-vert-quad-2" x="1360" y="160" />
-            <object ref="block-hori-trio-3" x="1392" y="208" />
-            <object ref="block-hori-quad-1" x="1456" y="208" />
-            <object ref="block-hori-quad-1" x="1552" y="208" />
-            <object ref="block-hori-duo-2" x="1632" y="208" />
-            <object ref="block-single-2" x="1152" y="64" />
-            <object ref="block-single-1" x="1216" y="64" />
-            <object ref="block-single-3" x="1264" y="64" />
-            <object ref="block-single-1" x="1280" y="64" />
-            <object ref="block-single-3" x="1360" y="64" />
-            <object ref="block-vert-trio-2" x="1408" y="64" />
-            <object ref="block-single-3" x="1408" y="112" />
-            <object ref="block-single-3" x="1520" y="144" />
-            <object ref="block-single-2" x="1488" y="160" />
-            <object ref="block-single-2" x="1408" y="144" />
-            <object ref="block-single-2" x="1440" y="128" />
-            <object ref="block-single-3" x="1456" y="128" />
-            <object ref="block-single-1" x="1376" y="208" />
-            <object ref="block-single-2" x="1440" y="208" />
-            <object ref="block-single-3" x="1520" y="208" />
-            <object ref="block-single-2" x="1536" y="208" />
-            <object ref="block-single-2" x="1616" y="208" />
-            <object ref="block-single-3" x="1664" y="208" />
-            <object ref="block-vert-duo-2" x="1680" y="192" />
-            <object ref="block-single-1" x="1680" y="176" />
-            <object ref="block-single-3" x="1680" y="160" />
-            <object ref="block-vert-duo-2" x="1680" y="128" />
-            <object ref="block-single-1" x="1680" y="112" />
-            <object ref="block-single-2" x="1616" y="112" />
-            <object ref="block-hori-trio-2" x="1632" y="112" />
-            <object ref="block-single-2" x="1456" y="16" />
-            <object ref="block-vert-duo-3" x="1456" y="32" />
-            <object ref="block-single-1" x="1456" y="64" />
-            <object ref="block-single-2" x="1456" y="80" />
-            <object ref="block-hori-duo-3" x="1472" y="80" />
-            <object ref="block-vert-duo-1" x="1504" y="64" />
-            <object ref="block-vert-duo-2" x="1504" y="32" />
-            <object ref="block-single-3" x="1504" y="16" />
-            <object ref="block-hori-quad-1" x="1520" y="16" />
-            <object ref="block-single-2" x="1584" y="16" />
-            <object ref="block-single-3" x="1600" y="16" />
-            <object ref="block-hori-duo-1" x="1616" y="16" />
-            <object ref="block-hori-duo-3" x="1664" y="16" />
-            <object ref="block-single-2" x="1648" y="16" />
-            <object ref="block-hori-trio-1" x="1696" y="16" />
-            <object ref="block-hori-duo-3" x="1760" y="16" />
-            <object ref="block-single-1" x="1632" y="160" />
-            <object ref="block-hori-trio-2" x="1584" y="160" />
-            <object ref="block-single-3" x="1568" y="160" />
-            <object ref="block-vert-trio-1" x="1568" y="112" />
-            <object ref="block-vert-duo-3" x="1568" y="64" />
-            <object ref="block-single-2" x="1568" y="96" />
-            <object ref="block-single-1" x="1584" y="64" />
-            <object ref="block-hori-quad-2" x="1600" y="64" />
-            <object ref="block-hori-trio-1" x="1680" y="64" />
-            <object ref="block-single-3" x="1664" y="64" />
-            <object ref="block-single-2" x="1728" y="64" />
-            <object ref="block-vert-quad-3" x="1728" y="80" />
-            <object ref="block-single-1" x="1728" y="144" />
-            <object ref="block-vert-duo-2" x="1728" y="160" />
-            <object ref="block-vert-quad-1" x="1728" y="192" />
-            <object ref="block-single-2" x="1744" y="16" />
-            <object ref="block-vert-duo-1" x="1776" y="32" />
-            <object ref="block-vert-duo-2" x="1776" y="64" />
-            <object ref="block-vert-trio-2" x="1776" y="128" />
-            <object ref="block-vert-trio-1" x="1776" y="192" />
-            <object ref="block-vert-trio-2" x="1776" y="240" />
-            <object ref="block-single-3" x="1776" y="96" />
-            <object ref="block-single-1" x="1776" y="112" />
-            <object ref="block-single-3" x="1776" y="176" />
+            <object ref="block-single-1" x="0" y="16"/>
+            <object ref="block-vert-duo-2" x="0" y="32"/>
+            <object ref="block-vert-trio-3" x="0" y="64"/>
+            <object ref="block-single-1" x="0" y="112"/>
+            <object ref="block-vert-duo-2" x="0" y="128"/>
+            <object ref="block-hori-quad-3" x="0" y="160"/>
+            <object ref="block-single-1" x="64" y="160"/>
+            <object ref="block-hori-trio-2" x="80" y="160"/>
+            <object ref="block-hori-duo-3" x="128" y="160"/>
+            <object ref="block-hori-trio-1" x="160" y="160"/>
+            <object ref="block-single-2" x="208" y="160"/>
+            <object ref="block-single-2" x="224" y="160"/>
+            <object ref="block-hori-trio-1" x="240" y="160"/>
+            <object ref="block-hori-trio-2" x="16" y="16"/>
+            <object ref="block-hori-duo-3" x="64" y="16"/>
+            <object ref="block-hori-duo-1" x="96" y="16"/>
+            <object ref="block-single-2" x="128" y="16"/>
+            <object ref="block-hori-quad-3" x="144" y="16"/>
+            <object ref="block-single-1" x="208" y="16"/>
+            <object ref="block-hori-duo-2" x="224" y="16"/>
+            <object ref="block-single-2" x="256" y="16"/>
+            <object ref="block-hori-duo-3" x="256" y="32"/>
+            <object ref="block-hori-trio-1" x="288" y="32"/>
+            <object ref="block-single-1" x="256" y="48"/>
+            <object ref="block-vert-duo-2" x="256" y="64"/>
+            <object ref="block-single-2" x="304" y="112"/>
+            <object ref="block-hori-trio-1" x="256" y="112"/>
+            <object ref="block-hori-duo-2" x="288" y="160"/>
+            <object ref="block-hori-trio-3" x="320" y="160"/>
+            <object ref="block-single-1" x="368" y="160"/>
+            <object ref="block-hori-duo-2" x="384" y="160"/>
+            <object ref="block-single-2" x="416" y="160"/>
+            <object ref="block-hori-trio-3" x="432" y="160"/>
+            <object ref="block-single-2" x="496" y="160"/>
+            <object ref="block-single-1" x="480" y="160"/>
+            <object ref="block-hori-quad-3" x="512" y="160"/>
+            <object ref="block-single-1" x="576" y="160"/>
+            <object ref="block-single-2" x="576" y="176"/>
+            <object ref="block-single-2" x="576" y="192"/>
+            <object ref="block-hori-trio-1" x="576" y="208"/>
+            <object ref="block-hori-quad-3" x="640" y="208"/>
+            <object ref="block-hori-quad-2" x="720" y="208"/>
+            <object ref="block-hori-quad-2" x="816" y="208"/>
+            <object ref="block-hori-duo-1" x="896" y="208"/>
+            <object ref="block-hori-duo-1" x="960" y="208"/>
+            <object ref="block-hori-trio-3" x="1008" y="208"/>
+            <object ref="block-hori-trio-1" x="1056" y="208"/>
+            <object ref="block-hori-duo-3" x="1120" y="208"/>
+            <object ref="block-hori-trio-2" x="1168" y="208"/>
+            <object ref="block-single-2" x="624" y="208"/>
+            <object ref="block-single-1" x="704" y="208"/>
+            <object ref="block-single-1" x="800" y="208"/>
+            <object ref="block-single-2" x="928" y="208"/>
+            <object ref="block-single-2" x="992" y="208"/>
+            <object ref="block-single-2" x="1104" y="208"/>
+            <object ref="block-single-1" x="1152" y="208"/>
+            <object ref="block-single-3" x="256" y="96"/>
+            <object ref="block-single-2" x="384" y="112"/>
+            <object ref="block-hori-trio-3" x="320" y="112"/>
+            <object ref="block-single-1" x="368" y="112"/>
+            <object ref="block-vert-duo-3" x="400" y="96"/>
+            <object ref="block-single-2" x="400" y="80"/>
+            <object ref="block-hori-duo-1" x="384" y="64"/>
+            <object ref="block-single-3" x="368" y="64"/>
+            <object ref="block-hori-trio-2" x="320" y="64"/>
+            <object ref="block-hori-duo-1" x="288" y="64"/>
+            <object ref="block-single-3" x="272" y="64"/>
+            <object ref="block-single-2" x="336" y="32"/>
+            <object ref="block-vert-duo-3" x="336" y="0"/>
+            <object ref="block-hori-trio-3" x="352" y="32"/>
+            <object ref="block-single-1" x="400" y="32"/>
+            <object ref="block-hori-quint-2" x="416" y="32"/>
+            <object ref="block-vert-duo-1" x="464" y="0"/>
+            <object ref="block-single-3" x="496" y="32"/>
+            <object ref="block-hori-duo-1" x="512" y="32"/>
+            <object ref="block-hori-trio-2" x="544" y="32"/>
+            <object ref="block-single-3" x="592" y="32"/>
+            <object ref="block-hori-trio-1" x="608" y="32"/>
+            <object ref="block-single-2" x="656" y="32"/>
+            <object ref="block-hori-trio-3" x="672" y="32"/>
+            <object ref="block-single-1" x="720" y="32"/>
+            <object ref="block-hori-duo-2" x="736" y="32"/>
+            <object ref="block-single-3" x="752" y="16"/>
+            <object ref="block-single-3" x="752" y="48"/>
+            <object ref="block-hori-trio-1" x="416" y="112"/>
+            <object ref="block-single-2" x="464" y="112"/>
+            <object ref="block-single-3" x="480" y="112"/>
+            <object ref="block-vert-duo-1" x="496" y="96"/>
+            <object ref="block-single-2" x="496" y="80"/>
+            <object ref="block-hori-duo-3" x="480" y="64"/>
+            <object ref="block-single-2" x="416" y="64"/>
+            <object ref="block-single-3" x="432" y="64"/>
+            <object ref="block-hori-duo-2" x="448" y="64"/>
+            <object ref="block-single-2" x="512" y="64"/>
+            <object ref="block-hori-trio-1" x="528" y="64"/>
+            <object ref="block-single-3" x="576" y="64"/>
+            <object ref="block-hori-trio-2" x="592" y="64"/>
+            <object ref="block-hori-duo-1" x="640" y="64"/>
+            <object ref="block-single-3" x="672" y="64"/>
+            <object ref="block-hori-quad-2" x="688" y="64"/>
+            <object ref="block-single-1" x="752" y="64"/>
+            <object ref="block-hori-trio-1" x="768" y="16"/>
+            <object ref="block-single-2" x="816" y="16"/>
+            <object ref="block-hori-duo-3" x="832" y="16"/>
+            <object ref="block-hori-quad-2" x="880" y="16"/>
+            <object ref="block-hori-quad-1" x="960" y="16"/>
+            <object ref="block-hori-trio-2" x="1024" y="16"/>
+            <object ref="block-hori-trio-1" x="1088" y="16"/>
+            <object ref="block-hori-duo-2" x="1152" y="16"/>
+            <object ref="block-hori-quad-1" x="1184" y="16"/>
+            <object ref="block-hori-quad-3" x="1264" y="16"/>
+            <object ref="block-hori-duo-2" x="1344" y="16"/>
+            <object ref="block-hori-quad-1" x="1392" y="16"/>
+            <object ref="block-hori-trio-1" x="544" y="112"/>
+            <object ref="block-hori-trio-1" x="624" y="112"/>
+            <object ref="block-hori-duo-2" x="672" y="112"/>
+            <object ref="block-hori-quad-1" x="720" y="112"/>
+            <object ref="block-hori-trio-3" x="800" y="112"/>
+            <object ref="block-hori-trio-1" x="640" y="160"/>
+            <object ref="block-hori-duo-3" x="704" y="160"/>
+            <object ref="block-hori-quad-2" x="752" y="160"/>
+            <object ref="block-hori-duo-1" x="832" y="160"/>
+            <object ref="block-hori-quint-3" x="864" y="160"/>
+            <object ref="block-hori-quad-2" x="976" y="160"/>
+            <object ref="block-hori-trio-2" x="1072" y="160"/>
+            <object ref="block-hori-duo-1" x="800" y="64"/>
+            <object ref="block-hori-trio-3" x="848" y="64"/>
+            <object ref="block-hori-duo-1" x="896" y="64"/>
+            <object ref="block-hori-trio-3" x="944" y="64"/>
+            <object ref="block-hori-duo-1" x="992" y="64"/>
+            <object ref="block-vert-duo-3" x="912" y="96"/>
+            <object ref="block-hori-duo-1" x="928" y="112"/>
+            <object ref="block-hori-duo-3" x="976" y="112"/>
+            <object ref="block-hori-duo-2" x="1024" y="112"/>
+            <object ref="block-vert-trio-3" x="1056" y="80"/>
+            <object ref="block-vert-duo-2" x="1104" y="32"/>
+            <object ref="block-vert-quad-1" x="1104" y="64"/>
+            <object ref="block-single-1" x="864" y="16"/>
+            <object ref="block-single-3" x="944" y="16"/>
+            <object ref="block-single-3" x="1072" y="16"/>
+            <object ref="block-single-2" x="1136" y="16"/>
+            <object ref="block-single-2" x="1248" y="16"/>
+            <object ref="block-single-1" x="1328" y="16"/>
+            <object ref="block-single-2" x="592" y="112"/>
+            <object ref="block-single-3" x="608" y="112"/>
+            <object ref="block-single-3" x="704" y="112"/>
+            <object ref="block-single-2" x="784" y="112"/>
+            <object ref="block-single-2" x="848" y="112"/>
+            <object ref="block-single-3" x="864" y="112"/>
+            <object ref="block-single-2" x="832" y="64"/>
+            <object ref="block-single-2" x="928" y="64"/>
+            <object ref="block-single-1" x="1056" y="64"/>
+            <object ref="block-single-2" x="1024" y="64"/>
+            <object ref="block-single-3" x="1040" y="64"/>
+            <object ref="block-single-2" x="912" y="80"/>
+            <object ref="block-single-2" x="960" y="112"/>
+            <object ref="block-single-1" x="1008" y="112"/>
+            <object ref="block-single-1" x="624" y="160"/>
+            <object ref="block-single-3" x="688" y="160"/>
+            <object ref="block-single-2" x="736" y="160"/>
+            <object ref="block-single-1" x="816" y="160"/>
+            <object ref="block-single-1" x="944" y="160"/>
+            <object ref="block-single-2" x="960" y="160"/>
+            <object ref="block-single-1" x="1040" y="160"/>
+            <object ref="block-single-2" x="1056" y="160"/>
+            <object ref="block-single-3" x="784" y="208"/>
+            <object ref="block-single-3" x="880" y="208"/>
+            <object ref="block-single-3" x="944" y="208"/>
+            <object ref="block-single-3" x="1216" y="208"/>
+            <object ref="block-single-3" x="1376" y="16"/>
+            <object ref="block-hori-trio-3" x="1168" y="64"/>
+            <object ref="block-hori-duo-2" x="1232" y="64"/>
+            <object ref="block-hori-quad-2" x="1296" y="64"/>
+            <object ref="block-hori-duo-1" x="1376" y="64"/>
+            <object ref="block-hori-duo-1" x="1408" y="128"/>
+            <object ref="block-hori-duo-1" x="1472" y="128"/>
+            <object ref="block-hori-duo-2" x="1504" y="128"/>
+            <object ref="block-hori-duo-1" x="1504" y="160"/>
+            <object ref="block-hori-trio-1" x="1440" y="160"/>
+            <object ref="block-hori-duo-2" x="1408" y="160"/>
+            <object ref="block-hori-trio-1" x="1152" y="160"/>
+            <object ref="block-hori-quad-3" x="1216" y="160"/>
+            <object ref="block-hori-trio-1" x="1232" y="208"/>
+            <object ref="block-vert-duo-2" x="1280" y="192"/>
+            <object ref="block-single-1" x="1280" y="176"/>
+            <object ref="block-hori-duo-2" x="1280" y="160"/>
+            <object ref="block-single-2" x="1200" y="160"/>
+            <object ref="block-single-1" x="1312" y="160"/>
+            <object ref="block-vert-duo-3" x="1328" y="160"/>
+            <object ref="block-vert-trio-2" x="1328" y="192"/>
+            <object ref="block-vert-duo-2" x="1248" y="128"/>
+            <object ref="block-single-1" x="1248" y="112"/>
+            <object ref="block-hori-trio-3" x="1264" y="112"/>
+            <object ref="block-single-2" x="1312" y="112"/>
+            <object ref="block-hori-trio-1" x="1328" y="112"/>
+            <object ref="block-vert-duo-3" x="1360" y="128"/>
+            <object ref="block-vert-quad-2" x="1360" y="160"/>
+            <object ref="block-hori-trio-3" x="1392" y="208"/>
+            <object ref="block-hori-quad-1" x="1456" y="208"/>
+            <object ref="block-hori-quad-1" x="1552" y="208"/>
+            <object ref="block-hori-duo-2" x="1632" y="208"/>
+            <object ref="block-single-2" x="1152" y="64"/>
+            <object ref="block-single-1" x="1216" y="64"/>
+            <object ref="block-single-3" x="1264" y="64"/>
+            <object ref="block-single-1" x="1280" y="64"/>
+            <object ref="block-single-3" x="1360" y="64"/>
+            <object ref="block-vert-trio-2" x="1408" y="64"/>
+            <object ref="block-single-3" x="1408" y="112"/>
+            <object ref="block-single-3" x="1520" y="144"/>
+            <object ref="block-single-2" x="1488" y="160"/>
+            <object ref="block-single-2" x="1408" y="144"/>
+            <object ref="block-single-2" x="1440" y="128"/>
+            <object ref="block-single-3" x="1456" y="128"/>
+            <object ref="block-single-1" x="1376" y="208"/>
+            <object ref="block-single-2" x="1440" y="208"/>
+            <object ref="block-single-3" x="1520" y="208"/>
+            <object ref="block-single-2" x="1536" y="208"/>
+            <object ref="block-single-2" x="1616" y="208"/>
+            <object ref="block-single-3" x="1664" y="208"/>
+            <object ref="block-vert-duo-2" x="1680" y="192"/>
+            <object ref="block-single-1" x="1680" y="176"/>
+            <object ref="block-single-3" x="1680" y="160"/>
+            <object ref="block-vert-duo-2" x="1680" y="128"/>
+            <object ref="block-single-1" x="1680" y="112"/>
+            <object ref="block-single-2" x="1616" y="112"/>
+            <object ref="block-hori-trio-2" x="1632" y="112"/>
+            <object ref="block-single-2" x="1456" y="16"/>
+            <object ref="block-vert-duo-3" x="1456" y="32"/>
+            <object ref="block-single-1" x="1456" y="64"/>
+            <object ref="block-single-2" x="1456" y="80"/>
+            <object ref="block-hori-duo-3" x="1472" y="80"/>
+            <object ref="block-vert-duo-1" x="1504" y="64"/>
+            <object ref="block-vert-duo-2" x="1504" y="32"/>
+            <object ref="block-single-3" x="1504" y="16"/>
+            <object ref="block-hori-quad-1" x="1520" y="16"/>
+            <object ref="block-single-2" x="1584" y="16"/>
+            <object ref="block-single-3" x="1600" y="16"/>
+            <object ref="block-hori-duo-1" x="1616" y="16"/>
+            <object ref="block-hori-duo-3" x="1664" y="16"/>
+            <object ref="block-single-2" x="1648" y="16"/>
+            <object ref="block-hori-trio-1" x="1696" y="16"/>
+            <object ref="block-hori-duo-3" x="1760" y="16"/>
+            <object ref="block-single-1" x="1632" y="160"/>
+            <object ref="block-hori-trio-2" x="1584" y="160"/>
+            <object ref="block-single-3" x="1568" y="160"/>
+            <object ref="block-vert-trio-1" x="1568" y="112"/>
+            <object ref="block-vert-duo-3" x="1568" y="64"/>
+            <object ref="block-single-2" x="1568" y="96"/>
+            <object ref="block-single-1" x="1584" y="64"/>
+            <object ref="block-hori-quad-2" x="1600" y="64"/>
+            <object ref="block-hori-trio-1" x="1680" y="64"/>
+            <object ref="block-single-3" x="1664" y="64"/>
+            <object ref="block-single-2" x="1728" y="64"/>
+            <object ref="block-vert-quad-3" x="1728" y="80"/>
+            <object ref="block-single-1" x="1728" y="144"/>
+            <object ref="block-vert-duo-2" x="1728" y="160"/>
+            <object ref="block-vert-quad-1" x="1728" y="192"/>
+            <object ref="block-single-2" x="1744" y="16"/>
+            <object ref="block-vert-duo-1" x="1776" y="32"/>
+            <object ref="block-vert-duo-2" x="1776" y="64"/>
+            <object ref="block-vert-trio-2" x="1776" y="128"/>
+            <object ref="block-vert-trio-1" x="1776" y="192"/>
+            <object ref="block-vert-trio-2" x="1776" y="240"/>
+            <object ref="block-single-3" x="1776" y="96"/>
+            <object ref="block-single-1" x="1776" y="112"/>
+            <object ref="block-single-3" x="1776" y="176"/>
+            <object ref="block-single-3" x="1680" y="224"/>
+            <object ref="block-vert-duo-1" x="1680" y="240"/>
+            <object ref="block-single-2" x="1664" y="256"/>
+            <object ref="block-hori-duo-3" x="1632" y="256"/>
+            <object ref="block-single-1" x="1616" y="256"/>
+            <object ref="block-hori-trio-2" x="1568" y="256"/>
+            <object ref="block-hori-trio-3" x="1520" y="256"/>
+            <object ref="block-vert-duo-1" x="1536" y="272"/>
+            <object ref="block-single-3" x="1776" y="288"/>
+            <object ref="block-vert-quad-1" x="1776" y="304"/>
+            <object ref="block-single-2" x="1776" y="368"/>
+            <object ref="block-vert-trio-3" x="1776" y="384"/>
+            <object ref="block-vert-duo-1" x="1776" y="432"/>
+            <object ref="block-single-2" x="1760" y="448"/>
+            <object ref="block-hori-trio-3" x="1712" y="448"/>
+            <object ref="block-hori-duo-2" x="1664" y="448"/>
+            <object ref="block-single-1" x="1696" y="448"/>
+            <object ref="block-single-3" x="1648" y="448"/>
+            <object ref="block-single-1" x="1632" y="448"/>
+            <object ref="block-single-3" x="1728" y="256"/>
+            <object ref="block-vert-trio-2" x="1728" y="272"/>
+            <object ref="block-single-1" x="1728" y="320"/>
+            <object ref="block-single-3" x="1728" y="336"/>
+            <object ref="block-vert-trio-2" x="1728" y="352"/>
+            <object ref="block-single-1" x="1728" y="400"/>
+            <object ref="block-vert-trio-2" x="1536" y="304"/>
+            <object ref="block-single-3" x="1536" y="352"/>
+            <object ref="block-vert-quad-1" x="1536" y="368"/>
+            <object ref="block-single-2" x="1536" y="432"/>
+            <object ref="block-vert-quad-3" x="1536" y="448"/>
+            <object ref="block-vert-trio-1" x="1536" y="512"/>
+            <object ref="block-single-2" x="1536" y="560"/>
+            <object ref="block-vert-duo-3" x="1536" y="576"/>
+            <object ref="block-hori-trio-3" x="1680" y="400"/>
+            <object ref="block-hori-trio-3" x="1600" y="400"/>
+            <object ref="block-single-2" x="1664" y="400"/>
+            <object ref="block-single-1" x="1648" y="400"/>
+            <object ref="block-single-2" x="1584" y="400"/>
+            <object ref="block-single-2" x="1632" y="464"/>
+            <object ref="block-vert-duo-3" x="1632" y="480"/>
+            <object ref="block-single-1" x="1648" y="496"/>
+            <object ref="block-hori-quad-2" x="1664" y="496"/>
+            <object ref="block-hori-trio-3" x="1728" y="496"/>
+            <object ref="block-single-1" x="1776" y="496"/>
+            <object ref="block-vert-duo-2" x="1776" y="512"/>
+            <object ref="block-vert-quad-3" x="1776" y="544"/>
+            <object ref="block-single-1" x="1776" y="608"/>
+            <object ref="block-vert-trio-2" x="1776" y="624"/>
+            <object ref="block-single-3" x="1776" y="672"/>
+            <object ref="block-single-1" x="1776" y="688"/>
+            <object ref="block-vert-quad-3" x="1776" y="704"/>
+            <object ref="block-single-3" x="1776" y="768"/>
+            <object ref="block-vert-quad-1" x="1776" y="784"/>
+            <object ref="block-hori-trio-2" x="1760" y="848"/>
+            <object ref="block-single-3" x="1744" y="848"/>
+            <object ref="block-vert-duo-1" x="1728" y="848"/>
+            <object ref="block-vert-duo-2" x="1728" y="880"/>
+            <object ref="block-hori-duo-3" x="1728" y="912"/>
+            <object ref="block-hori-duo-1" x="1760" y="912"/>
+            <object ref="block-single-1" x="1728" y="928"/>
+            <object ref="block-single-2" x="1728" y="944"/>
+            <object ref="block-vert-duo-3" x="1728" y="960"/>
+            <object ref="block-single-1" x="1744" y="976"/>
+            <object ref="block-single-2" x="1760" y="976"/>
+            <object ref="block-vert-trio-3" x="1760" y="992"/>
+            <object ref="block-single-1" x="1760" y="1040"/>
+            <object ref="block-vert-quad-2" x="1760" y="1056"/>
+            <object ref="block-vert-quad-3" x="1760" y="1120"/>
+            <object ref="block-hori-duo-1" x="1728" y="1168"/>
+            <object ref="block-single-2" x="1728" y="1184"/>
+            <object ref="block-single-3" x="1728" y="1200"/>
+            <object ref="block-hori-trio-1" x="1728" y="1216"/>
+            <object ref="block-single-2" x="1776" y="1216"/>
+            <object ref="block-vert-duo-3" x="1776" y="1232"/>
+            <object ref="block-single-1" x="1776" y="1264"/>
+            <object ref="block-vert-quad-2" x="1776" y="1280"/>
+            <object ref="block-single-3" x="1776" y="1344"/>
+            <object ref="block-single-1" x="1776" y="1360"/>
+            <object ref="block-vert-quint-2" x="1776" y="1376"/>
+            <object ref="block-single-3" x="1776" y="1456"/>
+            <object ref="block-vert-quad-1" x="1776" y="1472"/>
+            <object ref="block-single-2" x="1776" y="1536"/>
+            <object ref="block-vert-duo-3" x="1776" y="1552"/>
+            <object ref="block-single-1" x="1776" y="1584"/>
+            <object ref="block-vert-quad-2" x="1776" y="1600"/>
+            <object ref="block-hori-quad-3" x="1728" y="1664"/>
+            <object ref="block-hori-trio-1" x="1680" y="1664"/>
+            <object ref="block-single-2" x="1664" y="1664"/>
+            <object ref="block-hori-duo-3" x="1632" y="1664"/>
+            <object ref="block-hori-trio-1" x="1632" y="1648"/>
+            <object ref="block-single-2" x="1680" y="1648"/>
+            <object ref="block-hori-quad-3" x="1696" y="1648"/>
+            <object ref="block-vert-trio-1" x="1728" y="1504"/>
+            <object ref="block-single-2" x="1728" y="1552"/>
+            <object ref="block-vert-duo-3" x="1728" y="1568"/>
+            <object ref="block-single-1" x="1728" y="1600"/>
+            <object ref="block-single-2" x="1712" y="1536"/>
+            <object ref="block-single-3" x="1696" y="1536"/>
+            <object ref="block-single-1" x="1648" y="1536"/>
+            <object ref="block-single-2" x="1600" y="1536"/>
+            <object ref="block-single-3" x="1584" y="1584"/>
+            <object ref="block-vert-trio-1" x="1584" y="1600"/>
+            <object ref="block-single-2" x="1584" y="1648"/>
+            <object ref="block-vert-duo-3" x="1584" y="1664"/>
+            <object ref="block-vert-quad-1" x="1728" y="1408"/>
+            <object ref="block-single-2" x="1728" y="1392"/>
+            <object ref="block-vert-quad-3" x="1728" y="1328"/>
+            <object ref="block-single-1" x="1728" y="1312"/>
+            <object ref="block-vert-trio-2" x="1728" y="1264"/>
+            <object ref="block-hori-duo-3" x="1696" y="1264"/>
+            <object ref="block-single-1" x="1680" y="1264"/>
+            <object ref="block-vert-duo-2" x="1680" y="1232"/>
+            <object ref="block-vert-duo-3" x="1680" y="1200"/>
+            <object ref="block-single-1" x="1680" y="1184"/>
+            <object ref="block-single-2" x="1680" y="1168"/>
+            <object ref="block-single-3" x="1664" y="1168"/>
+            <object ref="block-single-1" x="1648" y="1168"/>
+            <object ref="block-single-2" x="1632" y="1168"/>
+            <object ref="block-single-3" x="1632" y="1184"/>
+            <object ref="block-vert-duo-1" x="1632" y="1200"/>
+            <object ref="block-single-2" x="1648" y="1216"/>
+            <object ref="block-single-3" x="1664" y="1216"/>
+            <object ref="block-single-1" x="1584" y="448"/>
+            <object ref="block-vert-quint-2" x="1584" y="464"/>
+            <object ref="block-single-3" x="1584" y="544"/>
+            <object ref="block-single-1" x="1600" y="544"/>
+            <object ref="block-single-2" x="1616" y="544"/>
+            <object ref="block-single-3" x="1632" y="544"/>
+            <object ref="block-hori-trio-1" x="1648" y="544"/>
+            <object ref="block-single-2" x="1696" y="544"/>
+            <object ref="block-single-3" x="1712" y="544"/>
+            <object ref="block-vert-duo-1" x="1728" y="544"/>
+            <object ref="block-vert-trio-2" x="1728" y="576"/>
+            <object ref="block-single-3" x="1728" y="624"/>
+            <object ref="block-vert-quad-1" x="1728" y="640"/>
+            <object ref="block-vert-duo-2" x="1728" y="704"/>
+            <object ref="block-single-3" x="1728" y="736"/>
+            <object ref="block-vert-duo-1" x="1728" y="752"/>
+            <object ref="block-single-2" x="1728" y="784"/>
+            <object ref="block-vert-duo-1" x="1536" y="608"/>
+            <object ref="block-single-1" x="1552" y="624"/>
+            <object ref="block-single-2" x="1568" y="624"/>
+            <object ref="block-vert-duo-3" x="1568" y="640"/>
+            <object ref="block-single-1" x="1568" y="672"/>
+            <object ref="block-hori-duo-2" x="1536" y="672"/>
+            <object ref="block-hori-quad-3" x="1568" y="688"/>
+            <object ref="block-single-2" x="1632" y="688"/>
+            <object ref="block-vert-duo-1" x="1632" y="704"/>
+            <object ref="block-single-3" x="1632" y="736"/>
+            <object ref="block-single-2" x="1632" y="752"/>
+            <object ref="block-hori-trio-3" x="1584" y="752"/>
+            <object ref="block-vert-trio-2" x="1584" y="704"/>
+            <object ref="block-single-2" x="1568" y="752"/>
+            <object ref="block-hori-duo-1" x="1536" y="752"/>
+            <object ref="block-single-3" x="1536" y="768"/>
+            <object ref="block-vert-duo-2" x="1536" y="784"/>
+            <object ref="block-single-1" x="1536" y="816"/>
+            <object ref="block-vert-trio-3" x="1536" y="832"/>
+            <object ref="block-vert-quad-2" x="1536" y="880"/>
+            <object ref="block-single-1" x="1536" y="944"/>
+            <object ref="block-vert-trio-3" x="1536" y="960"/>
+            <object ref="block-single-2" x="1536" y="1008"/>
+            <object ref="block-vert-quad-1" x="1536" y="1024"/>
+            <object ref="block-single-3" x="1536" y="1088"/>
+            <object ref="block-single-2" x="1536" y="1104"/>
+            <object ref="block-vert-duo-1" x="1536" y="1120"/>
+            <object ref="block-single-3" x="1536" y="1152"/>
+            <object ref="block-vert-quad-2" x="1536" y="1168"/>
+            <object ref="block-vert-duo-1" x="1536" y="1232"/>
+            <object ref="block-single-3" x="1536" y="1264"/>
+            <object ref="block-vert-quad-2" x="1536" y="1280"/>
+            <object ref="block-single-1" x="1536" y="1344"/>
+            <object ref="block-vert-duo-3" x="1536" y="1360"/>
+            <object ref="block-single-2" x="1536" y="1392"/>
+            <object ref="block-hori-quad-1" x="1536" y="1408"/>
+            <object ref="block-single-3" x="1600" y="1408"/>
+            <object ref="block-hori-trio-2" x="1616" y="1408"/>
+            <object ref="block-single-1" x="1664" y="1408"/>
+            <object ref="block-single-3" x="1680" y="1408"/>
+            <object ref="block-single-2" x="1680" y="1424"/>
+            <object ref="block-vert-duo-1" x="1680" y="1440"/>
+            <object ref="block-single-3" x="1664" y="1456"/>
+            <object ref="block-single-2" x="1648" y="1456"/>
+            <object ref="block-hori-trio-1" x="1600" y="1456"/>
+            <object ref="block-hori-trio-2" x="1536" y="1456"/>
+            <object ref="block-single-3" x="1584" y="1456"/>
+            <object ref="block-vert-duo-1" x="1536" y="1472"/>
+            <object ref="block-vert-trio-3" x="1536" y="1504"/>
+            <object ref="block-single-2" x="1536" y="1552"/>
+            <object ref="block-vert-quad-1" x="1536" y="1568"/>
+            <object ref="block-single-3" x="1536" y="1632"/>
+            <object ref="block-vert-quad-2" x="1536" y="1648"/>
+            <object ref="block-single-1" x="1536" y="1712"/>
+            <object ref="block-vert-quad-3" x="1536" y="1728"/>
+            <object ref="block-single-2" x="1536" y="1792"/>
+            <object ref="block-single-1" x="1536" y="1808"/>
+            <object ref="block-vert-trio-3" x="1536" y="1824"/>
+            <object ref="block-vert-duo-2" x="1536" y="1872"/>
+            <object ref="block-single-1" x="1552" y="1888"/>
+            <object ref="block-single-1" x="1584" y="1696"/>
+            <object ref="block-vert-duo-2" x="1584" y="1712"/>
+            <object ref="block-single-3" x="1584" y="1744"/>
+            <object ref="block-hori-trio-1" x="1600" y="1744"/>
+            <object ref="block-single-2" x="1648" y="1744"/>
+            <object ref="block-hori-duo-3" x="1664" y="1744"/>
+            <object ref="block-hori-trio-2" x="1712" y="1744"/>
+            <object ref="block-hori-trio-2" x="1792" y="1744"/>
+            <object ref="block-hori-duo-1" x="1856" y="1744"/>
+            <object ref="block-single-1" x="1696" y="1744"/>
+            <object ref="block-single-3" x="1760" y="1744"/>
+            <object ref="block-single-1" x="1776" y="1744"/>
+            <object ref="block-single-3" x="1840" y="1744"/>
+            <object ref="block-single-2" x="1936" y="1744"/>
+            <object ref="block-single-3" x="2000" y="1744"/>
+            <object ref="block-single-1" x="2048" y="1744"/>
+            <object ref="block-single-2" x="2096" y="1744"/>
+            <object ref="block-single-3" x="2144" y="1744"/>
+            <object ref="block-single-1" x="2192" y="1744"/>
+            <object ref="block-single-2" x="2256" y="1744"/>
+            <object ref="block-single-3" x="2304" y="1744"/>
+            <object ref="block-hori-trio-1" x="2320" y="1744"/>
+            <object ref="block-hori-trio-1" x="2400" y="1744"/>
+            <object ref="block-hori-trio-3" x="2464" y="1744"/>
+            <object ref="block-hori-trio-2" x="2528" y="1744"/>
+            <object ref="block-hori-duo-1" x="2592" y="1744"/>
+            <object ref="block-hori-duo-2" x="2624" y="1744"/>
+            <object ref="block-hori-trio-1" x="2672" y="1744"/>
+            <object ref="block-vert-trio-3" x="2704" y="1664"/>
+            <object ref="dr-wily-sign" x="2784" y="1696"/>
+            <object ref="block-single-2" x="2368" y="1744"/>
+            <object ref="block-single-3" x="2384" y="1744"/>
+            <object ref="block-single-2" x="2448" y="1744"/>
+            <object ref="block-single-1" x="2512" y="1744"/>
+            <object ref="block-single-3" x="2576" y="1744"/>
+            <object ref="block-single-3" x="2656" y="1744"/>
+            <object ref="block-hori-quad-3" x="1568" y="1888"/>
+            <object ref="block-hori-trio-1" x="1648" y="1888"/>
+            <object ref="block-hori-trio-1" x="1728" y="1888"/>
+            <object ref="block-hori-quad-2" x="1792" y="1888"/>
+            <object ref="block-hori-quad-3" x="1872" y="1888"/>
+            <object ref="block-hori-duo-3" x="1968" y="1888"/>
+            <object ref="block-hori-trio-1" x="2016" y="1888"/>
+            <object ref="block-hori-trio-2" x="2080" y="1888"/>
+            <object ref="block-hori-trio-1" x="2176" y="1888"/>
+            <object ref="block-hori-duo-2" x="2240" y="1888"/>
+            <object ref="block-hori-trio-3" x="2288" y="1888"/>
+            <object ref="block-hori-quad-3" x="2368" y="1888"/>
+            <object ref="block-hori-trio-1" x="2448" y="1888"/>
+            <object ref="block-hori-trio-2" x="2512" y="1888"/>
+            <object ref="block-hori-trio-2" x="2592" y="1888"/>
+            <object ref="block-hori-trio-1" x="2688" y="1888"/>
+            <object ref="block-hori-duo-2" x="2752" y="1888"/>
+            <object ref="block-single-1" x="2672" y="1808"/>
+            <object ref="block-hori-duo-2" x="2688" y="1808"/>
+            <object ref="block-hori-duo-3" x="2720" y="1808"/>
+            <object ref="block-single-2" x="1632" y="1888"/>
+            <object ref="block-single-3" x="1696" y="1888"/>
+            <object ref="block-single-2" x="1712" y="1888"/>
+            <object ref="block-single-3" x="1776" y="1888"/>
+            <object ref="block-single-1" x="1856" y="1888"/>
+            <object ref="block-single-2" x="1936" y="1888"/>
+            <object ref="block-single-1" x="1952" y="1888"/>
+            <object ref="block-single-2" x="2000" y="1888"/>
+            <object ref="block-single-3" x="2064" y="1888"/>
+            <object ref="block-single-1" x="2128" y="1888"/>
+            <object ref="block-single-3" x="2144" y="1888"/>
+            <object ref="block-single-2" x="2160" y="1888"/>
+            <object ref="block-single-3" x="2224" y="1888"/>
+            <object ref="block-single-1" x="2272" y="1888"/>
+            <object ref="block-single-2" x="2336" y="1888"/>
+            <object ref="block-single-1" x="2352" y="1888"/>
+            <object ref="block-single-2" x="2432" y="1888"/>
+            <object ref="block-single-3" x="2496" y="1888"/>
+            <object ref="block-single-1" x="2560" y="1888"/>
+            <object ref="block-single-3" x="2576" y="1888"/>
+            <object ref="block-single-1" x="2640" y="1888"/>
+            <object ref="block-single-3" x="2656" y="1888"/>
+            <object ref="block-single-2" x="2672" y="1888"/>
+            <object ref="block-single-3" x="2736" y="1888"/>
+            <object ref="block-single-1" x="2784" y="1888"/>
+            <object ref="block-single-1" x="2384" y="1840"/>
+            <object ref="block-single-2" x="2400" y="1840"/>
+            <object ref="block-single-1" x="2448" y="1840"/>
+            <object ref="block-single-3" x="2528" y="1840"/>
+            <object ref="block-single-2" x="2576" y="1840"/>
+            <object ref="block-hori-duo-3" x="2416" y="1840"/>
+            <object ref="block-hori-quad-2" x="2464" y="1840"/>
+            <object ref="block-hori-duo-1" x="2544" y="1840"/>
+            <object ref="block-hori-duo-3" x="2592" y="1840"/>
+            <object ref="block-hori-duo-2" x="-16" y="192"/>
+            <object ref="block-single-3" x="16" y="192"/>
+            <object ref="block-hori-duo-1" x="32" y="192"/>
+            <object ref="block-hori-duo-2" x="64" y="192"/>
+            <object ref="block-hori-trio-1" x="112" y="192"/>
+            <object ref="block-hori-duo-3" x="192" y="192"/>
+            <object ref="block-hori-duo-3" x="256" y="192"/>
+            <object ref="block-hori-quad-3" x="320" y="192"/>
+            <object ref="block-hori-duo-3" x="416" y="192"/>
+            <object ref="block-hori-quad-1" x="448" y="192"/>
+            <object ref="block-hori-duo-2" x="512" y="192"/>
+            <object ref="block-vert-trio-3" x="544" y="208"/>
+            <object ref="block-single-3" x="96" y="192"/>
+            <object ref="block-single-3" x="80" y="208"/>
+            <object ref="block-vert-duo-1" x="80" y="224"/>
+            <object ref="block-single-2" x="160" y="192"/>
+            <object ref="block-vert-duo-3" x="176" y="192"/>
+            <object ref="block-vert-duo-1" x="176" y="224"/>
+            <object ref="block-single-1" x="224" y="192"/>
+            <object ref="block-single-2" x="240" y="192"/>
+            <object ref="block-single-1" x="288" y="192"/>
+            <object ref="block-vert-duo-3" x="304" y="224"/>
+            <object ref="block-vert-duo-2" x="304" y="192"/>
+            <object ref="block-single-1" x="384" y="192"/>
+            <object ref="block-single-2" x="400" y="192"/>
+            <object ref="block-single-1" x="432" y="208"/>
+            <object ref="block-vert-duo-2" x="432" y="224"/>
+            <object ref="block-single-3" x="544" y="192"/>
+            <object ref="block-vert-duo-2" x="672" y="224"/>
+            <object ref="block-vert-duo-2" x="784" y="224"/>
+            <object ref="block-vert-duo-2" x="944" y="224"/>
+            <object ref="block-vert-duo-2" x="1088" y="224"/>
+            <object ref="block-vert-duo-2" x="1232" y="224"/>
+            <object ref="block-vert-duo-1" x="1408" y="224"/>
+            <object ref="block-vert-duo-2" x="1488" y="224"/>
+            <object ref="block-vert-trio-3" x="560" y="-16"/>
+            <object ref="block-vert-quad-1" x="1584" y="1136"/>
+            <object ref="block-vert-quad-2" x="1584" y="1200"/>
+            <object ref="block-vert-trio-3" x="1632" y="1280"/>
+            <object ref="block-single-1" x="1632" y="1120"/>
+            <object ref="block-single-3" x="1584" y="1120"/>
+            <object ref="block-single-3" x="1584" y="1264"/>
+            <object ref="block-single-2" x="1632" y="1264"/>
+            <object ref="block-single-1" x="1648" y="1312"/>
+            <object ref="block-hori-duo-2" x="1600" y="1120"/>
+            <object ref="block-hori-duo-1" x="1600" y="1264"/>
+            <object ref="block-hori-duo-2" x="1664" y="1312"/>
+            <object ref="block-single-1" x="1680" y="592"/>
+            <object ref="block-single-3" x="1664" y="624"/>
+            <object ref="block-single-2" x="1616" y="624"/>
+            <object ref="block-single-3" x="1680" y="752"/>
+            <object ref="block-single-2" x="1664" y="800"/>
+            <object ref="block-single-1" x="1600" y="800"/>
+            <object ref="block-single-2" x="1584" y="800"/>
+            <object ref="block-single-1" x="1584" y="848"/>
+            <object ref="block-single-3" x="1584" y="928"/>
+            <object ref="block-single-2" x="1584" y="1024"/>
+            <object ref="block-single-1" x="1632" y="1024"/>
+            <object ref="block-vert-duo-2" x="1680" y="608"/>
+            <object ref="block-vert-duo-3" x="1680" y="640"/>
+            <object ref="block-vert-trio-1" x="1680" y="672"/>
+            <object ref="block-vert-duo-2" x="1680" y="720"/>
+            <object ref="block-vert-trio-1" x="1680" y="768"/>
+            <object ref="block-vert-duo-3" x="1584" y="816"/>
+            <object ref="block-vert-quad-2" x="1584" y="864"/>
+            <object ref="block-vert-quint-1" x="1584" y="944"/>
+            <object ref="block-vert-trio-3" x="1584" y="1040"/>
+            <object ref="block-hori-duo-3" x="1600" y="1024"/>
+            <object ref="block-hori-trio-3" x="1616" y="800"/>
+            <object ref="block-vert-duo-1" x="1680" y="848"/>
+            <object ref="block-vert-trio-2" x="1680" y="880"/>
+            <object ref="block-single-3" x="1680" y="928"/>
+            <object ref="block-single-1" x="1680" y="944"/>
+            <object ref="block-vert-duo-2" x="1680" y="960"/>
+            <object ref="block-single-2" x="1664" y="848"/>
+            <object ref="block-hori-duo-3" x="1632" y="848"/>
+            <object ref="block-single-1" x="1632" y="864"/>
+            <object ref="block-single-2" x="1632" y="880"/>
+            <object ref="block-vert-quad-3" x="1632" y="896"/>
+            <object ref="block-vert-duo-1" x="1632" y="960"/>
+            <object ref="block-single-2" x="1648" y="976"/>
+            <object ref="block-single-3" x="1664" y="976"/>
+            <object ref="block-vert-duo-3" x="1680" y="992"/>
+            <object ref="block-vert-quad-1" x="1680" y="1024"/>
+            <object ref="block-vert-duo-2" x="1680" y="1088"/>
+            <object ref="block-single-3" x="1680" y="1120"/>
+            <object ref="block-hori-duo-1" x="1696" y="1120"/>
+            <object ref="block-hori-duo-2" x="1696" y="1024"/>
+            <object ref="block-hori-duo-3" x="1632" y="1072"/>
+            <object ref="block-single-2" x="1664" y="1072"/>
+            <object ref="block-hori-duo-3" x="1728" y="1072"/>
+            <object ref="block-hori-duo-2" x="2784" y="1872"/>
+            <object ref="block-single-3" x="2816" y="1872"/>
+            <object ref="block-single-1" x="2832" y="1872"/>
+            <object ref="block-single-2" x="2848" y="1872"/>
+            <object ref="block-vert-duo-3" x="2864" y="1872"/>
+            <object ref="block-hori-duo-1" x="2880" y="1872"/>
+            <object ref="block-hori-duo-2" x="2912" y="1872"/>
+            <object ref="block-hori-duo-3" x="2944" y="1872"/>
+            <object ref="block-hori-duo-1" x="3072" y="1872"/>
+            <object ref="block-hori-duo-2" x="3040" y="1808"/>
+            <object ref="block-hori-trio-3" x="2992" y="1808"/>
+            <object ref="block-hori-duo-2" x="2944" y="1808"/>
+            <object ref="block-hori-duo-1" x="2896" y="1808"/>
+            <object ref="block-hori-trio-3" x="2832" y="1808"/>
+            <object ref="block-hori-duo-2" x="2784" y="1808"/>
+            <object ref="block-hori-duo-3" x="3120" y="1856"/>
+            <object ref="block-hori-duo-1" x="3152" y="1840"/>
+            <object ref="block-hori-duo-2" x="3184" y="1824"/>
+            <object ref="block-hori-duo-3" x="3216" y="1856"/>
+            <object ref="block-hori-duo-1" x="3248" y="1840"/>
+            <object ref="block-hori-trio-3" x="3280" y="1824"/>
+            <object ref="block-hori-trio-3" x="3264" y="1696"/>
+            <object ref="block-hori-duo-3" x="3200" y="1696"/>
+            <object ref="block-hori-trio-2" x="3072" y="1696"/>
+            <object ref="block-hori-duo-3" x="2992" y="1728"/>
+            <object ref="block-hori-duo-1" x="2944" y="1728"/>
+            <object ref="block-hori-trio-2" x="2880" y="1728"/>
+            <object ref="block-hori-trio-3" x="2816" y="1728"/>
+            <object ref="block-single-1" x="2976" y="1872"/>
+            <object ref="block-single-2" x="2992" y="1872"/>
+            <object ref="block-single-1" x="3024" y="1872"/>
+            <object ref="block-single-2" x="3040" y="1872"/>
+            <object ref="block-single-3" x="3056" y="1872"/>
+            <object ref="block-single-2" x="3072" y="1856"/>
+            <object ref="block-vert-duo-3" x="3072" y="1824"/>
+            <object ref="block-single-1" x="3072" y="1808"/>
+            <object ref="block-single-2" x="3104" y="1872"/>
+            <object ref="block-vert-duo-1" x="3120" y="1872"/>
+            <object ref="block-vert-duo-3" x="3120" y="1904"/>
+            <object ref="block-vert-duo-3" x="3008" y="1872"/>
+            <object ref="block-vert-duo-1" x="2864" y="1904"/>
+            <object ref="block-single-1" x="2944" y="1888"/>
+            <object ref="block-vert-duo-3" x="3008" y="1904"/>
+            <object ref="block-vert-duo-2" x="2944" y="1904"/>
+            <object ref="block-single-2" x="3152" y="1856"/>
+            <object ref="block-single-3" x="3184" y="1840"/>
+            <object ref="block-vert-quad-1" x="3200" y="1840"/>
+            <object ref="block-hori-quad-3" x="3216" y="1888"/>
+            <object ref="block-vert-duo-2" x="3280" y="1840"/>
+            <object ref="block-vert-quad-1" x="3280" y="1872"/>
+            <object ref="block-hori-duo-1" x="3296" y="1872"/>
+            <object ref="block-single-2" x="3248" y="1856"/>
+            <object ref="block-single-1" x="3312" y="1808"/>
+            <object ref="block-single-2" x="3312" y="1792"/>
+            <object ref="block-vert-trio-3" x="3312" y="1744"/>
+            <object ref="block-vert-duo-1" x="3312" y="1712"/>
+            <object ref="block-single-2" x="3312" y="1696"/>
+            <object ref="block-single-1" x="3248" y="1696"/>
+            <object ref="block-single-2" x="3232" y="1696"/>
+            <object ref="block-hori-trio-1" x="3152" y="1696"/>
+            <object ref="block-single-2" x="3136" y="1696"/>
+            <object ref="block-single-3" x="3120" y="1696"/>
+            <object ref="block-single-1" x="2864" y="1728"/>
+            <object ref="block-single-3" x="2928" y="1728"/>
+            <object ref="block-single-2" x="2976" y="1728"/>
+            <object ref="block-single-1" x="3024" y="1728"/>
+            <object ref="block-single-2" x="3040" y="1728"/>
+            <object ref="block-single-3" x="3056" y="1728"/>
+            <object ref="block-vert-duo-1" x="3072" y="1712"/>
+            <object ref="block-single-1" x="2976" y="1808"/>
+            <object ref="block-single-3" x="2928" y="1808"/>
+            <object ref="block-single-2" x="2880" y="1808"/>
+            <object ref="block-single-1" x="2816" y="1808"/>
+            <object ref="block-single-3" x="2784" y="1824"/>
+            <object ref="block-vert-duo-1" x="2784" y="1840"/>
+            <object ref="block-single-2" x="2800" y="1840"/>
+            <object ref="block-single-2" x="2896" y="1840"/>
+            <object ref="block-single-1" x="2960" y="1840"/>
+            <object ref="block-single-3" x="3008" y="1840"/>
+            <object ref="block-hori-duo-3" x="2816" y="1840"/>
+            <object ref="block-hori-trio-1" x="2848" y="1840"/>
+            <object ref="block-hori-trio-3" x="2912" y="1840"/>
+            <object ref="block-hori-duo-2" x="2976" y="1840"/>
+            <object ref="block-hori-trio-1" x="3024" y="1840"/>
         </objects>
         <solids>
-            <rect x="0" y="160" w="592" h="16" />
-            <rect x="0" y="16" w="16" h="160" />
-            <rect x="576" y="160" w="16" h="64" />
-            <rect x="576" y="208" w="720" h="16" />
-            <rect x="1152" y="160" w="144" h="16" />
-            <rect x="1280" y="160" w="16" h="64" />
-            <rect x="1248" y="112" w="16" h="64" />
-            <rect x="1248" y="112" w="128" h="16" />
-            <rect x="624" y="160" w="496" h="16" />
-            <rect x="752" y="16" w="720" h="16" />
-            <rect x="1408" y="64" w="16" h="112" />
-            <rect x="1408" y="160" w="128" h="16" />
-            <rect x="1408" y="128" w="128" h="16" />
-            <rect x="1520" y="128" w="16" h="48" />
-            <rect x="1360" y="112" w="16" h="112" />
-            <rect x="1152" y="64" w="272" h="16" />
-            <rect x="1456" y="80" w="64" h="16" />
-            <rect x="1456" y="16" w="16" h="80" />
-            <rect x="1504" y="16" w="16" h="80" />
-            <rect x="1504" y="16" w="288" h="16" />
-            <rect x="544" y="112" w="336" h="16" />
-            <rect x="800" y="64" w="272" h="16" />
-            <rect x="912" y="112" w="160" h="16" />
-            <rect x="912" y="64" w="16" h="64" />
-            <rect x="1056" y="64" w="16" h="64" />
-            <rect x="256" y="112" w="256" h="16" />
-            <rect x="256" y="16" w="16" h="112" />
-            <rect x="496" y="64" w="16" h="64" />
-            <rect x="496" y="64" w="272" h="16" />
-            <rect x="752" y="16" w="16" h="64" />
-            <rect x="1104" y="16" w="16" h="112" />
-            <rect x="1360" y="208" w="336" h="16" />
-            <rect x="1568" y="64" w="16" h="112" />
-            <rect x="1568" y="160" w="80" h="16" />
-            <rect x="1616" y="112" w="80" h="16" />
-            <rect x="1536" y="256" w="16" h="384" />
-            <rect x="1728" y="64" w="16" h="352" />
-            <rect x="1776" y="16" w="16" h="448" />
-            <rect x="1680" y="112" w="16" h="160" />
-            <rect x="1568" y="64" w="176" h="16" />
-            <rect x="1536" y="256" w="160" h="16" />
-            <rect x="1584" y="400" w="160" h="16" />
-            <rect x="1632" y="448" w="160" h="16" />
-            <rect x="1632" y="448" w="16" h="64" />
-            <rect x="1632" y="496" w="160" h="16" />
-            <rect x="1584" y="544" w="160" h="16" />
-            <rect x="1584" y="448" w="16" h="112" />
-            <rect x="1776" y="496" w="16" h="368" />
-            <rect x="1728" y="544" w="16" h="256" />
-            <rect x="1616" y="624" w="80" h="16" />
-            <rect x="1536" y="624" w="48" h="16" />
-            <rect x="1568" y="624" w="16" h="80" />
-            <rect x="1568" y="688" w="80" h="16" />
-            <rect x="1680" y="592" w="16" h="224" />
-            <rect x="1584" y="800" w="112" h="16" />
-            <rect x="1536" y="752" w="112" h="16" />
-            <rect x="1632" y="688" w="16" h="80" />
-            <rect x="1728" y="848" w="16" h="144" />
-            <rect x="1728" y="848" w="64" h="16" />
-            <rect x="1728" y="976" w="48" h="16" />
-            <rect x="1760" y="976" w="16" h="208" />
-            <rect x="1536" y="752" w="16" h="672" />
-            <rect x="1536" y="1408" w="160" h="16" />
-            <rect x="1680" y="1408" w="16" h="64" />
-            <rect x="1632" y="1264" w="16" h="64" />
-            <rect x="1632" y="1312" w="64" h="16" />
-            <rect x="1584" y="1120" w="16" h="160" />
-            <rect x="1584" y="1264" w="64" h="16" />
-            <rect x="1680" y="1264" w="64" h="16" />
-            <rect x="1680" y="1168" w="16" h="112" />
-            <rect x="1632" y="1168" w="16" h="64" />
-            <rect x="1632" y="1168" w="64" h="16" />
-            <rect x="1632" y="1216" w="64" h="16" />
-            <rect x="1728" y="1168" w="16" h="64" />
-            <rect x="1728" y="1168" w="48" h="16" />
-            <rect x="1728" y="1216" w="64" h="16" />
-            <rect x="1584" y="800" w="16" h="288" />
-            <rect x="1584" y="1024" w="64" h="16" />
-            <rect x="1632" y="976" w="64" h="16" />
-            <rect x="1632" y="848" w="16" h="144" />
-            <rect x="1680" y="848" w="16" h="288" />
-            <rect x="1632" y="848" w="64" h="16" />
-            <rect x="1680" y="1024" w="48" h="16" />
-            <rect x="1728" y="1072" w="48" h="16" />
-            <rect x="1680" y="1120" w="48" h="16" />
-            <rect x="1632" y="1072" w="64" h="16" />
-            <rect x="1584" y="1120" w="64" h="16" />
-            <rect x="1728" y="1264" w="16" h="208" />
-            <rect x="1776" y="1216" w="16" h="464" />
-            <rect x="1632" y="1648" w="160" h="32" />
-            <rect x="1584" y="1584" w="16" h="176" />
-            <rect x="1728" y="1504" w="16" h="112" />
-            <rect x="1696" y="1536" w="48" h="16" />
-            <rect x="1648" y="1536" w="16" h="16" />
-            <rect x="1600" y="1536" w="16" h="16" />
-            <rect x="1536" y="1456" w="160" h="16" />
-            <rect x="1536" y="1456" w="16" h="448" />
-            <rect x="1584" y="1744" w="304" h="16" />
-            <rect x="1536" y="1888" w="1264" h="16" />
-            <rect x="2784" y="1808" w="16" h="96" />
-            <rect x="2672" y="1808" w="80" h="16" />
-            <rect x="2384" y="1840" w="240" h="16" />
-            <rect x="2304" y="1744" w="416" h="16" />
-            <rect x="2704" y="1680" w="16" h="32" />
-            <rect x="1936" y="1744" w="16" h="16" />
-            <rect x="2000" y="1744" w="16" h="16" />
-            <rect x="2048" y="1744" w="16" h="16" />
-            <rect x="2096" y="1744" w="16" h="16" />
-            <rect x="2144" y="1744" w="16" h="16" />
-            <rect x="2192" y="1744" w="16" h="16" />
-            <rect x="2256" y="1744" w="16" h="16" />
+            <rect x="0" y="160" w="592" h="16"/>
+            <rect x="0" y="16" w="16" h="160"/>
+            <rect x="576" y="160" w="16" h="64"/>
+            <rect x="576" y="208" w="720" h="16"/>
+            <rect x="1152" y="160" w="144" h="16"/>
+            <rect x="1280" y="160" w="16" h="64"/>
+            <rect x="1248" y="112" w="16" h="64"/>
+            <rect x="1248" y="112" w="128" h="16"/>
+            <rect x="624" y="160" w="496" h="16"/>
+            <rect x="752" y="16" w="720" h="16"/>
+            <rect x="1408" y="64" w="16" h="112"/>
+            <rect x="1408" y="160" w="128" h="16"/>
+            <rect x="1408" y="128" w="128" h="16"/>
+            <rect x="1520" y="128" w="16" h="48"/>
+            <rect x="1360" y="112" w="16" h="112"/>
+            <rect x="1152" y="64" w="272" h="16"/>
+            <rect x="1456" y="80" w="64" h="16"/>
+            <rect x="1456" y="16" w="16" h="80"/>
+            <rect x="1504" y="16" w="16" h="80"/>
+            <rect x="1504" y="16" w="288" h="16"/>
+            <rect x="544" y="112" w="336" h="16"/>
+            <rect x="800" y="64" w="272" h="16"/>
+            <rect x="912" y="112" w="160" h="16"/>
+            <rect x="912" y="64" w="16" h="64"/>
+            <rect x="1056" y="64" w="16" h="64"/>
+            <rect x="256" y="112" w="256" h="16"/>
+            <rect x="256" y="16" w="16" h="112"/>
+            <rect x="496" y="64" w="16" h="64"/>
+            <rect x="496" y="64" w="272" h="16"/>
+            <rect x="752" y="16" w="16" h="64"/>
+            <rect x="1104" y="16" w="16" h="112"/>
+            <rect x="1360" y="208" w="336" h="16"/>
+            <rect x="1568" y="64" w="16" h="112"/>
+            <rect x="1568" y="160" w="80" h="16"/>
+            <rect x="1616" y="112" w="80" h="16"/>
+            <rect x="1536" y="256" w="16" h="384"/>
+            <rect x="1728" y="64" w="16" h="352"/>
+            <rect x="1776" y="16" w="16" h="448"/>
+            <rect x="1680" y="112" w="16" h="160"/>
+            <rect x="1568" y="64" w="176" h="16"/>
+            <rect x="1536" y="256" w="160" h="16"/>
+            <rect x="1584" y="400" w="160" h="16"/>
+            <rect x="1632" y="448" w="160" h="16"/>
+            <rect x="1632" y="448" w="16" h="64"/>
+            <rect x="1632" y="496" w="160" h="16"/>
+            <rect x="1584" y="544" w="160" h="16"/>
+            <rect x="1584" y="448" w="16" h="112"/>
+            <rect x="1776" y="496" w="16" h="368"/>
+            <rect x="1728" y="544" w="16" h="256"/>
+            <rect x="1616" y="624" w="80" h="16"/>
+            <rect x="1536" y="624" w="48" h="16"/>
+            <rect x="1568" y="624" w="16" h="80"/>
+            <rect x="1568" y="688" w="80" h="16"/>
+            <rect x="1680" y="592" w="16" h="224"/>
+            <rect x="1584" y="800" w="112" h="16"/>
+            <rect x="1536" y="752" w="112" h="16"/>
+            <rect x="1632" y="688" w="16" h="80"/>
+            <rect x="1728" y="848" w="16" h="144"/>
+            <rect x="1728" y="848" w="64" h="16"/>
+            <rect x="1728" y="976" w="48" h="16"/>
+            <rect x="1760" y="976" w="16" h="208"/>
+            <rect x="1536" y="752" w="16" h="672"/>
+            <rect x="1536" y="1408" w="160" h="16"/>
+            <rect x="1680" y="1408" w="16" h="64"/>
+            <rect x="1632" y="1264" w="16" h="64"/>
+            <rect x="1632" y="1312" w="64" h="16"/>
+            <rect x="1584" y="1120" w="16" h="160"/>
+            <rect x="1584" y="1264" w="64" h="16"/>
+            <rect x="1680" y="1264" w="64" h="16"/>
+            <rect x="1680" y="1168" w="16" h="112"/>
+            <rect x="1632" y="1168" w="16" h="64"/>
+            <rect x="1632" y="1168" w="64" h="16"/>
+            <rect x="1632" y="1216" w="64" h="16"/>
+            <rect x="1728" y="1168" w="16" h="64"/>
+            <rect x="1728" y="1168" w="48" h="16"/>
+            <rect x="1728" y="1216" w="64" h="16"/>
+            <rect x="1584" y="800" w="16" h="288"/>
+            <rect x="1584" y="1024" w="64" h="16"/>
+            <rect x="1632" y="976" w="64" h="16"/>
+            <rect x="1632" y="848" w="16" h="144"/>
+            <rect x="1680" y="848" w="16" h="288"/>
+            <rect x="1632" y="848" w="64" h="16"/>
+            <rect x="1680" y="1024" w="48" h="16"/>
+            <rect x="1728" y="1072" w="48" h="16"/>
+            <rect x="1680" y="1120" w="48" h="16"/>
+            <rect x="1632" y="1072" w="64" h="16"/>
+            <rect x="1584" y="1120" w="64" h="16"/>
+            <rect x="1728" y="1264" w="16" h="208"/>
+            <rect x="1776" y="1216" w="16" h="464"/>
+            <rect x="1632" y="1648" w="128" h="32"/>
+            <rect x="1584" y="1584" w="16" h="176"/>
+            <rect x="1728" y="1504" w="16" h="112"/>
+            <rect x="1696" y="1536" w="48" h="16"/>
+            <rect x="1648" y="1536" w="16" h="16"/>
+            <rect x="1600" y="1536" w="16" h="16"/>
+            <rect x="1536" y="1456" w="160" h="16"/>
+            <rect x="1536" y="1456" w="16" h="448"/>
+            <rect x="1584" y="1744" w="304" h="16"/>
+            <rect x="1536" y="1888" w="1264" h="16"/>
+            <rect x="2784" y="1808" w="16" h="96"/>
+            <rect x="2672" y="1808" w="80" h="16"/>
+            <rect x="2384" y="1840" w="240" h="16"/>
+            <rect x="2304" y="1744" w="416" h="16"/>
+            <rect x="2704" y="1680" w="16" h="32"/>
+            <rect x="1936" y="1744" w="16" h="16"/>
+            <rect x="2000" y="1744" w="16" h="16"/>
+            <rect x="2048" y="1744" w="16" h="16"/>
+            <rect x="2096" y="1744" w="16" h="16"/>
+            <rect x="2144" y="1744" w="16" h="16"/>
+            <rect x="2192" y="1744" w="16" h="16"/>
+            <rect x="2256" y="1744" w="16" h="16"/>
+            <rect x="1744" y="1664" w="48" h="16"/>
+            <rect x="2768" y="1680" w="320" h="64"/>
+            <rect x="2784" y="1808" w="304" h="16"/>
+            <rect x="3072" y="1696" w="256" h="16"/>
+            <rect x="3312" y="1696" w="16" h="144"/>
+            <rect x="3072" y="1808" w="16" h="80"/>
+            <rect x="3072" y="1872" w="64" h="16"/>
+            <rect x="3120" y="1856" w="208" h="32"/>
+            <rect x="3152" y="1840" w="64" h="32"/>
+            <rect x="3184" y="1824" w="32" h="32"/>
+            <rect x="3248" y="1840" w="48" h="32"/>
+            <rect x="3280" y="1824" w="48" h="32"/>
         </solids>
-
         <background x="0" y="0" w="1792" h="240" w-segments="112" h-segments="15">
             <sprite ref="mortar-reg">
-                <segment x="*" y="*" />
+                <segment x="*" y="*"/>
             </sprite>
             <sprite ref="mortar-reg-shadow">
-                <segment x="1-16" y="3" />
+                <segment x="1-17,48-92,95-112" y="3"/>
+                <segment x="18-47," y="4"/>
+                <segment x="17-48,51-67,73-88,100-109" y="6"/>
+                <segment x="92-95" y="7"/>
+                <segment x="17-32,35-55,58-67,70,79-86,102-106" y="9"/>
+                <segment x="89-96" y="10"/>
+                <segment x="1-36,40-70,73-84,89-96,99-103" y="12"/>
+                <segment x="1-34" y="14"/>
+                <segment x="37-81,86-106" y="15"/>
             </sprite>
             <sprite ref="mortar-ireg">
-                <segment x="3,5,7,9,11,13,15" y="4,6,8,10" />
-                <segment x="4,6,8,10,12,14" y="5,7,9" />
+                <segment x="3-15/2" y="4,6,8"/>
+                <segment x="4-16/2" y="5,7,9"/>
+                <segment x="3-33/2" y="10"/>
+                <segment x="34" y="7,9"/>
+                <segment x="33" y="8"/>
             </sprite>
             <sprite ref="truss-vert">
-                <segment x="5-6" y="1" />
-                <segment x="4,14,18" y="14-15" />
+                <segment x="5-6" y="1"/>
+                <segment x="4,14,18" y="14-15"/>
+            </sprite>
+        </background>
+        <background x="1536" y="240" w="256" h="1440" w-segments="16" h-segments="90">
+            <sprite ref="mortar-reg">
+                <segment x="*" y="*"/>
+            </sprite>
+        </background>
+        <background x="1536" y="1680" w="1792" h="240" w-segments="112" h-segments="15">
+            <sprite ref="mortar-reg">
+                <segment x="*" y="*"/>
+            </sprite>
+            <sprite ref="bricks-odd-shadow">
+                <segment x="98-111" y="3"/>
+            </sprite>
+            <sprite ref="bricks-even-shadow">
+                <segment x="99,101,103,105,107,109,111" y="3"/>
+            </sprite>
+            <sprite ref="bricks-odd">
+                <segment x="98-111" y="4-9"/>
+                <segment x="98-103,106-109" y="10"/>
+                <segment x="98-101,106-107" y="11"/>
+                <segment x="98,99" y="12"/>
+            </sprite>
+            <sprite ref="bricks-even">
+                <segment x="99,101,103,105,107,109,111" y="4-9"/>
+                <segment x="99,101,107,109" y="10"/>
+                <segment x="99,101,107" y="11"/>
+                <segment x="99" y="12"/>
             </sprite>
         </background>
     </layout>
