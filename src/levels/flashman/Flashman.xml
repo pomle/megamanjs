@@ -956,6 +956,7 @@
             <object ref="block-hori-trio-3" x="2912" y="1840"/>
             <object ref="block-hori-duo-2" x="2976" y="1840"/>
             <object ref="block-hori-trio-1" x="3024" y="1840"/>
+            <object ref="block-hori-duo-1" x="1632" y="624"/>
         </objects>
         <solids>
             <rect x="0" y="160" w="592" h="16"/>
