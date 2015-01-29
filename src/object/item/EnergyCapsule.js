@@ -12,7 +12,7 @@ Engine.assets.objects.items.EnergyCapsule = function()
     this.timeShift = timeline.timeShift.bind(timeline);
 
     this.setModel(model);
-    this.addCollisionZone(8, 0, 0);
+    this.addCollisionRect(16, 16);
 }
 
 Engine.assets.objects.items.EnergyCapsule.prototype = Object.create(Engine.assets.objects.Item.prototype);

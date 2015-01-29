@@ -4,11 +4,14 @@ Engine.assets.objects.items.EnergyTank = function()
 
     this.capacity = 30;
 
-    var model = Engine.Util.createSprite('powerup/energy-tank-large.gif', 16, 16);
-    this.sprite = new Engine.Sprite(model.material.map);
-    this.sprite.addFrame(.1);
-    this.sprite.addFrame(.1);
-    this.sprite.play();
+    var model = Engine.Util.createSprite('powerup/tiles.gif', 16, 16);
+
+    var timeline = new Engine.Timeline();
+    timeline.addFrame(Engine.Util.createUVMap(0, 0, 16, 16, 48, 48), .1);
+    timeline.addFrame(Engine.Util.createUVMap(16, 0, 16, 16, 48, 48), .1);
+
+    var uvAnimator = new Engine.UVAnimator(timeline, model.geometry, 0, 0);
+    this.timeShift = timeline.timeShift.bind(timeline);
 
     this.setModel(model);
     this.addCollisionZone(8, 0, 0);
