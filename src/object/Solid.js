@@ -12,8 +12,6 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
         return;
     }
 
-    console.log("%s collided", subject);
-
     var our = {};
     our.prop = {
         x: this.model.position.x + ourZone.position.x,
