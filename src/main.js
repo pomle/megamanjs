@@ -11,6 +11,13 @@ var weapons = {
 	'c': new Engine.assets.weapons.CrashBomb()
 };
 
+var weaponIndex = [];
+weaponIndex.selected = 0;
+for (var c in weapons) {
+	weaponIndex.push(weapons[c]);
+}
+
+
 var player = new Engine.assets.objects.characters.Megaman();
 player.lifes = 0;
 player.equipWeapon(weapons['p']);
@@ -31,6 +38,13 @@ keyboard.hit(89, function() {
 	} else {
 		Game.run();
 	}
+});
+
+keyboard.hit(33, function() {
+	player.equipWeapon(weaponIndex[++weaponIndex.selected]);
+});
+keyboard.hit(34, function() {
+	player.equipWeapon(weaponIndex[--weaponIndex.selected]);
 });
 /*
 keyboard.intermittent(65, function() { boss.moveLeftStart(); }, function() { boss.moveLeftEnd(); });
