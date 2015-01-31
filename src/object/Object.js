@@ -11,7 +11,11 @@ Engine.assets.Object = function()
 
 Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
 {
-    var material = new THREE.MeshBasicMaterial({color: 'white', wireframe: true});
+    var material = new THREE.MeshBasicMaterial({
+        color: 'white',
+        wireframe: true,
+        side: THREE.DoubleSide,
+    });
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = offsetX || 0;
     mesh.position.y = offsetY || 0;
@@ -36,6 +40,11 @@ Engine.assets.Object.prototype.collides = function(withObject, ourZone, theirZon
 {
     console.log('%s collides with %s', this.uuid, withObject.uuid);
     //console.log(withObject, ourZone, theirZone);
+}
+
+Engine.assets.Object.prototype.dropCollision = function()
+{
+    this.collision.length = 0;
 }
 
 Engine.assets.Object.prototype.setGravity = function(force)
