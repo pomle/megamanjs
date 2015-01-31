@@ -5,62 +5,41 @@ Engine.assets.objects.characters.Metalman = function()
     this.LEFT = -1;
     this.RIGHT = 1;
 
-    var idleLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/idle-left.gif'));
-    var idleRight = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/idle-right.gif'));
+    var model = Engine.Util.createSprite('bosses/metalman/tiles.gif', 48, 48);
+    this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 96);
 
-    var fireLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/fire-left.gif'));
-    var fireRight = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/fire-right.gif'));
+    var idle = this.sprites.addSprite('idle');
+    idle.addFrame(0, 0);
 
-    var jumpLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/jump-left.gif'));
-    var jumpRight = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/jump-right.gif'));
+    var jump = this.sprites.addSprite('jump');
+    jump.addFrame(0, 48);
 
-    var jumpFireLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/jump-fire-left.gif'));
-    jumpFireLeft.addFrames([.02,1]);
-    var jumpFireRight = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/jump-fire-right.gif'));
-    jumpFireRight.addFrames([.02,1]);
+    var fire = this.sprites.addSprite('fire', 'run-fire');
+    fire.addFrame(48, 0);
 
-    var runLeft = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/running-left.gif'));
-    runLeft.addFrames([.12,.12,.12,.12]);
-    var runRight = new Engine.Sprite(Engine.Util.getTexture('sprites/bosses/metalman/running-right.gif'));
-    runRight.addFrames([.12,.12,.12,.12]);
+    var jumpFire = this.sprites.addSprite('jump-fire');
+    jumpFire.rewind = Engine.SpriteManager.REWIND_ALWAYS;
+    jumpFire.addFrame(96, 0, .05);
+    jumpFire.addFrame(144, 0, 5);
 
-
-    this.sprites = {};
-    this.sprites[this.LEFT] = {
-        'idle': idleLeft,
-        'fire': fireLeft,
-        'jump': jumpLeft,
-        'jumpFire': jumpFireLeft,
-        'run': runLeft,
-        'runFire': fireLeft,
-    };
-    this.sprites[this.RIGHT] = {
-        'idle': idleRight,
-        'fire': fireRight,
-        'jump': jumpRight,
-        'jumpFire': jumpFireRight,
-        'run': runRight,
-        'runFire': fireRight,
-    };
+    var run = this.sprites.addSprite('run', 'run-fire');
+    run.addFrame(96,  48, .12);
+    run.addFrame(48,  48, .12);
+    run.addFrame(96,  48, .12);
+    run.addFrame(144, 48, .12);
 
     this.setDirection(this.RIGHT);
+    this.sprites.setDirection(this.RIGHT);
 
     this.setFireTimeout(.2);
 
     var material = new THREE.MeshLambertMaterial({});
     material.transparent = true;
 
-    var model = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(48, 48),
-        material
-    );
-
     this.setJumpForce(250);
 
     this.setModel(model);
     this.addCollisionRect(12, 24, 0, 0);
-
-    this.currentSprite;
 
     this.timeAIUpdated = null;
 }
@@ -84,46 +63,38 @@ Engine.assets.objects.characters.Metalman.prototype.updateAI = function()
     }
 }
 
-Engine.assets.objects.characters.Metalman.prototype.getSprite = function()
+Engine.assets.objects.characters.Metalman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
         this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
+        this.sprites.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
     }
-
-    var sprites = this.sprites[this.direction];
 
     if (!this.isSupported) {
         if (this.isFiring) {
-            return sprites['jumpFire'];
+            return this.sprites.applySprite('jump-fire');
         }
-        return sprites['jump'];
+        return this.sprites.applySprite('jump');
     }
 
     if (this.moveSpeed) {
         if (this.isFiring) {
-            return sprites['runFire'];
+            return this.sprites.applySprite('fire');
         }
-        return sprites['run'];
+        return this.sprites.applySprite('run');
     }
 
     if (this.isFiring) {
-        return sprites['fire'];
+        return this.sprites.applySprite('fire');
     }
 
-    return sprites['idle'];
+    return this.sprites.applySprite('idle');
 }
 
-Engine.assets.objects.characters.Metalman.prototype.timeShift = function(t)
+Engine.assets.objects.characters.Metalman.prototype.timeShift = function(dt)
 {
-    this.updateAI(t);
-    var sprite = this.getSprite();
-    if (this.currentSprite !== sprite) {
-        if (this.currentSprite) {
-            this.currentSprite.stop();
-        }
-        this.currentSprite = sprite;
-        this.currentSprite.restart();
-        this.model.material.map = this.currentSprite.texture;
-    }
-    Engine.assets.objects.Character.prototype.timeShift.call(this, t);
+    //this.updateAI(dt);
+    this.updateSprite();
+    this.sprites.timeShift(dt);
+    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
 }
