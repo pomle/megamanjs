@@ -49,6 +49,9 @@ Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
         this.sprites.applySprite('flying');
     } else {
         if (this.isAttached > 2) {
+            var explosion = new Engine.assets.decorations.Explosion();
+            explosion.model.position.copy(this.model.position);
+            this.scene.addObject(explosion);
             this.scene.removeObject(this);
         }
         else if (this.isAttached > .25) {
