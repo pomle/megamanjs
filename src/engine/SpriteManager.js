@@ -56,10 +56,10 @@ Engine.SpriteManager.prototype.getSprite = function(label)
 Engine.SpriteManager.prototype.setDirection = function(direction)
 {
     if (direction < 0) {
-        this.model.rotation.y = Math.PI;
+        this.model.scale.x = -1;
     }
     else {
-        this.model.rotation.y = 0;
+        this.model.scale.x = 1;
     }
 }
 
