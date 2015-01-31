@@ -115,6 +115,9 @@ $(function() {
                             if (face.is('animation')) {
                                 var sprite = animationSpriteIndex[face.attr('ref')];
                             }
+                            else {
+                                return true;
+                            }
                             var tile = $('<div/>').css({
                                 'background-image': 'inherit',
                                 'background-position': '-' + sprite.x + 'px -' + sprite.y + 'px',

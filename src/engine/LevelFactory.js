@@ -134,6 +134,9 @@ Engine.scenes.Level.Util = {
                         else if (face.is('sprite')) {
                             geometry.faceVertexUvs[i] = getSprite(ref).uvMap;
                         }
+                        else if (face.is('empty')) {
+
+                        }
                         else {
                             throw new Error('Unsupported face ' + face[0].localName);
                         }
