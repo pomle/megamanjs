@@ -42,34 +42,34 @@
         </animation>
         <!-- Single block -->
         <animation name="block">
-            <frame sprite="block-cyan" duration="1"/>
-            <frame sprite="block-blue" duration="2"/>
+            <frame sprite="block-cyan" duration=".5"/>
+            <frame sprite="block-blue" duration="1"/>
         </animation>
         <!-- Vertical block -->
         <animation name="v-block-n">
-            <frame sprite="v-block-n-cyan" duration="1"/>
-            <frame sprite="v-block-n-blue" duration="2"/>
+            <frame sprite="v-block-n-cyan" duration=".5"/>
+            <frame sprite="v-block-n-blue" duration="1"/>
         </animation>
         <animation name="v-block-c">
-            <frame sprite="v-block-c-cyan" duration="1"/>
-            <frame sprite="v-block-c-blue" duration="2"/>
+            <frame sprite="v-block-c-cyan" duration=".5"/>
+            <frame sprite="v-block-c-blue" duration="1"/>
         </animation>
         <animation name="v-block-s">
-            <frame sprite="v-block-s-cyan" duration="1"/>
-            <frame sprite="v-block-s-blue" duration="2"/>
+            <frame sprite="v-block-s-cyan" duration=".5"/>
+            <frame sprite="v-block-s-blue" duration="1"/>
         </animation>
         <!-- Horizontal block -->
         <animation name="h-block-n">
-            <frame sprite="h-block-n-cyan" duration="1"/>
-            <frame sprite="h-block-n-blue" duration="2"/>
+            <frame sprite="h-block-n-cyan" duration=".5"/>
+            <frame sprite="h-block-n-blue" duration="1"/>
         </animation>
         <animation name="h-block-c">
-            <frame sprite="h-block-c-cyan" duration="1"/>
-            <frame sprite="h-block-c-blue" duration="2"/>
+            <frame sprite="h-block-c-cyan" duration=".5"/>
+            <frame sprite="h-block-c-blue" duration="1"/>
         </animation>
         <animation name="h-block-s">
-            <frame sprite="h-block-s-cyan" duration="1"/>
-            <frame sprite="h-block-s-blue" duration="2"/>
+            <frame sprite="h-block-s-cyan" duration=".5"/>
+            <frame sprite="h-block-s-blue" duration="1"/>
         </animation>
         <objects>
             <object id="dr-wily-sign" w="32" h="32">
