@@ -37,6 +37,9 @@ Engine.Keyboard.prototype.keyDownEvent = function(event)
 Engine.Keyboard.prototype.keyUpEvent = function(event)
 {
     var k = event.keyCode;
+    if (!this.keystate[k]) {
+        return;
+    }
     var start = this.keystate[k];
     var stop = new Date();
     var duration = (stop.getTime() - start.getTime()) / 1000;;
