@@ -58,26 +58,26 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function()
     // If we have any vertical speed we are "falling".
     if (this.speed.y) {
         if (this.isFiring) {
-            return this.sprites.applySprite('jump-fire');
+            return this.sprites.selectSprite('jump-fire');
         }
-        return this.sprites.applySprite('jump');
+        return this.sprites.selectSprite('jump');
     }
 
     if (this.moveSpeed) {
         if (this.moveSpeed < this.walkSpeed * .8) {
-            return this.sprites.applySprite('lean');
+            return this.sprites.selectSprite('lean');
         }
         if (this.isFiring) {
-            return this.sprites.applySprite('run-fire');
+            return this.sprites.selectSprite('run-fire');
         }
-        return this.sprites.applySprite('run');
+        return this.sprites.selectSprite('run');
     }
 
     if (this.isFiring) {
-        return this.sprites.applySprite('fire');
+        return this.sprites.selectSprite('fire');
     }
 
-    return this.sprites.applySprite('idle');
+    return this.sprites.selectSprite('idle');
 }
 
 Engine.assets.objects.characters.Megaman.prototype.timeShift = function(dt)

@@ -72,23 +72,23 @@ Engine.assets.objects.characters.Metalman.prototype.updateSprite = function()
 
     if (!this.isSupported) {
         if (this.isFiring) {
-            return this.sprites.applySprite('jump-fire');
+            return this.sprites.selectSprite('jump-fire');
         }
-        return this.sprites.applySprite('jump');
+        return this.sprites.selectSprite('jump');
     }
 
     if (this.moveSpeed) {
         if (this.isFiring) {
-            return this.sprites.applySprite('fire');
+            return this.sprites.selectSprite('fire');
         }
-        return this.sprites.applySprite('run');
+        return this.sprites.selectSprite('run');
     }
 
     if (this.isFiring) {
-        return this.sprites.applySprite('fire');
+        return this.sprites.selectSprite('fire');
     }
 
-    return this.sprites.applySprite('idle');
+    return this.sprites.selectSprite('idle');
 }
 
 Engine.assets.objects.characters.Metalman.prototype.timeShift = function(dt)

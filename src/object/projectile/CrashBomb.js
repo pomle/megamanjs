@@ -46,7 +46,7 @@ Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
     }
 
     if (this.isAttached === false) {
-        this.sprites.applySprite('flying');
+        this.sprites.selectSprite('flying');
     } else {
         if (this.isAttached > 2) {
             var explosion = new Engine.assets.decorations.Explosion();
@@ -55,10 +55,10 @@ Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
             this.scene.removeObject(this);
         }
         else if (this.isAttached > .25) {
-            this.sprites.applySprite('ticking');
+            this.sprites.selectSprite('ticking');
         }
         else {
-            this.sprites.applySprite('gripping');
+            this.sprites.selectSprite('gripping');
         }
         this.isAttached += dt;
     }

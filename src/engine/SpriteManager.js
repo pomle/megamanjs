@@ -30,7 +30,7 @@ Engine.SpriteManager.prototype.addSprite = function(label, group)
     return this.getSprite(label);
 }
 
-Engine.SpriteManager.prototype.applySprite = function(label)
+Engine.SpriteManager.prototype.selectSprite = function(label)
 {
     if (label == this.label) {
         return;

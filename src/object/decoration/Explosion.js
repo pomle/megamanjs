@@ -25,7 +25,7 @@ Engine.assets.decorations.Explosion = function()
     }
     explosion.addFrame(144, 144, .05);
 
-    this.sprites.applySprite('explosion');
+    this.sprites.selectSprite('explosion');
 
     this.damage = 50;
     this.lifetime = explosion.timeline.totalDuration;
