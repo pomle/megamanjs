@@ -23,17 +23,18 @@ Engine.assets.decorations.Explosion = function()
         explosion.addFrame(48, 144, .05);
         explosion.addFrame(96, 144, .0333);
     }
-    explosion.addFrame(144, 144, .05);
+    explosion.addFrame(144, 144, 1);
 
     this.sprites.selectSprite('explosion');
+    this.sprites.applySprite();
 
-    this.damage = 50;
-    this.lifetime = explosion.timeline.totalDuration;
+    this.damage = 25;
+    this.lifetime = explosion.timeline.totalDuration - .95;
     this.lifespan = 0;
 
     this.setModel(model);
 
-    this.addCollisionZone(22)
+    this.addCollisionZone(22);
 }
 
 Engine.assets.decorations.Explosion.prototype = Object.create(Engine.assets.Decoration.prototype);
