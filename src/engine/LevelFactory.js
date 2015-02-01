@@ -243,10 +243,10 @@ Engine.scenes.Level.Util = {
                 mesh.rotation.z = -(Math.PI/180)*rotate;
             }
             if (flip == 'x') {
-                mesh.rotation.x = Math.PI;
+                mesh.scale.x = -1;
             }
             if (flip == 'y') {
-                mesh.rotation.y = Math.PI;
+                mesh.scale.y = -1;
             }
 
             level.scene.add(mesh);
