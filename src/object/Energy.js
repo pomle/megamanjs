@@ -3,6 +3,8 @@ Engine.assets.Energy = function(max, min)
     this.min = min || 0;
     this.max = max || 100;
     this.value = this.max;
+
+    this.event = function() {};
 }
 
 Engine.assets.Energy.prototype.change = function(diff)
@@ -10,11 +12,15 @@ Engine.assets.Energy.prototype.change = function(diff)
     if (diff != 0 && !isFinite(this.value)) {
         return false;
     }
+    var change = this.value;
     if (diff > 0) {
         this.value = Math.min(this.max, this.value + diff);
     }
     else {
         this.value = Math.max(this.min, this.value + diff);
+    }
+    if (this.value != change) {
+        this.event(this);
     }
     return true;
 }
