@@ -70,13 +70,6 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
             subject.movementInhibitor.l = inhibitor;
         }
     }
-
-    /*
-    if (subject.model.position.y < obstacleY + 10) {
-
-    }
-
-    else if (subject.model.position.y > obstacleY) {
-        subject.isSupported = false;
-    }*/
 }
+
+Engine.assets.obstacles = {};
