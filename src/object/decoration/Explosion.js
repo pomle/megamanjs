@@ -6,28 +6,29 @@ Engine.assets.decorations.Explosion = function()
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
     var explosion = this.sprites.addSprite('explosion');
-    var d = .06;
-    explosion.addFrame(0,   0, d);
-    explosion.addFrame(48,  0, d);
-    explosion.addFrame(96,  0, d);
+    for (var i = 1; i <= 2; i++) {
+        explosion.addFrame(0,   0, .05);
+        explosion.addFrame(48,  0, .05);
+        explosion.addFrame(96,  0, .0333);
 
-    explosion.addFrame(0,  48, d);
-    explosion.addFrame(48, 48, d);
-    explosion.addFrame(96, 48, d);
+        explosion.addFrame(0,  48, .05);
+        explosion.addFrame(48, 48, .05);
+        explosion.addFrame(96, 48, .0333);
 
-    explosion.addFrame(0,  96, d);
-    explosion.addFrame(48, 96, d);
-    explosion.addFrame(96, 96, d);
+        explosion.addFrame(0,  96, .05);
+        explosion.addFrame(48, 96, .05);
+        explosion.addFrame(96, 96, .0333);
 
-    explosion.addFrame(0,  144, d);
-    explosion.addFrame(48, 144, d);
-    explosion.addFrame(96, 144, d);
-    explosion.addFrame(144, 144, d);
+        explosion.addFrame(0,  144, .05);
+        explosion.addFrame(48, 144, .05);
+        explosion.addFrame(96, 144, .0333);
+    }
+    explosion.addFrame(144, 144, .05);
 
     this.sprites.applySprite('explosion');
 
     this.damage = 50;
-    this.lifetime = d * 12;
+    this.lifetime = explosion.timeline.totalDuration;
     this.lifespan = 0;
 
     this.setModel(model);
