@@ -30,6 +30,23 @@ Engine.SpriteManager.prototype.addSprite = function(label, group)
     return this.getSprite(label);
 }
 
+Engine.SpriteManager.prototype.applySprite = function(time)
+{
+    time = time || 0;
+    var uvMap = this.sprite.timeline.getValueAtTime(time);
+    if (this.model.geometry.faceVertexUvs[0] == uvMap) {
+        return;
+    }
+
+    this.model.geometry.faceVertexUvs[0] = uvMap;
+    this.model.geometry.uvsNeedUpdate = true;
+}
+
+Engine.SpriteManager.prototype.getSprite = function(label)
+{
+    return this.sprites[label];
+}
+
 Engine.SpriteManager.prototype.selectSprite = function(label)
 {
     if (label == this.label) {
@@ -48,11 +65,6 @@ Engine.SpriteManager.prototype.selectSprite = function(label)
     this.label = label;
 }
 
-Engine.SpriteManager.prototype.getSprite = function(label)
-{
-    return this.sprites[label];
-}
-
 Engine.SpriteManager.prototype.setDirection = function(direction)
 {
     if (direction < 0) {
@@ -67,14 +79,7 @@ Engine.SpriteManager.prototype.timeShift = function(dt)
 {
     this.accumulatedTime += dt;
     this.sprite.time += dt;
-
-    var uvMap = this.sprite.timeline.getValueAtTime(this.sprite.time);
-    if (this.model.geometry.faceVertexUvs[0] == uvMap) {
-        return;
-    }
-
-    this.model.geometry.faceVertexUvs[0] = uvMap;
-    this.model.geometry.uvsNeedUpdate = true;
+    this.applySprite(this.sprite.time)
 }
 
 
