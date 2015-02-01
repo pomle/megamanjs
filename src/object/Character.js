@@ -151,6 +151,9 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     this.calculateMoveSpeed(dt);
 
     if (this.health.depleted()) {
+        var explosion = new Engine.assets.decorations.Explosion();
+        explosion.model.position.copy(this.model.position);
+        this.scene.addObject(explosion);
         this.scene.removeObject(this);
     }
 
