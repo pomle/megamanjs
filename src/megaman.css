@@ -11,7 +11,7 @@ body {
     font-size: 12px;
 }
 
-body > canvas {
+body > #screen {
     display: block;
     margin: 0 auto;
 }
@@ -19,4 +19,58 @@ body > canvas {
 input {
     background: transparent;
     border-width: 1px;
+}
+
+#screen {
+    margin: 0 auto;
+    height: 400px;
+    position: relative;
+    width: 600px;
+}
+
+#screen .overlay {
+}
+
+#screen .overlay .energy {
+    left: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+#screen .overlay .energy {
+    display: flex;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+#screen .overlay .energy > * {
+    background: #000;
+    height: 108px;
+    margin-right: 5px;
+    position: relative;
+    width: 16px;
+}
+
+#screen .overlay .energy > * > .amount {
+    background-image: url('sprites/meters.gif');
+    background-position: left -20px bottom -2px;
+    background-size: 200px 116px;
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#screen .overlay .energy > .weapon.p {
+    display: none;
+}
+#screen .overlay .energy > .weapon.c > .amount {
+    background-position-x: -38px;
+}
+#screen .overlay .energy > .weapon.m > .amount {
+    background-position-x: -92px;
+}
+#screen .overlay .energy > .weapon.h > .amount {
+    background-position-x: -182px;
 }

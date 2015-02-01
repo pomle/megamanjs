@@ -1,0 +1,56 @@
+var Hud = function(screen)
+{
+	screen = $(screen);
+
+	this.elements = {
+		'healthBar': screen.find('.health'),
+		'weaponBar': screen.find('.weapon'),
+	};
+
+	var character = undefined;
+	var weapon = undefined;
+
+	this.equipCharacter = function(newChar)
+	{
+		if (character) {
+			character.health.event = function(){};
+		}
+		character = newChar;
+		this.setHealthEnergy(character.health.fraction());
+		character.health.event = function(health) {
+			this.setHealthEnergy(health.fraction());
+		}.bind(this);
+	}
+
+	this.equipWeapon = function(newWeapon)
+	{
+		if (weapon) {
+			weapon.ammo.event = function(){};
+			this.elements.weaponBar.removeClass(weapon.code);
+		}
+		weapon = newWeapon;
+		this.elements.weaponBar.addClass(weapon.code);
+		this.setWeaponEnergy(weapon.ammo.fraction());
+		weapon.ammo.event = function(ammo) {
+			this.setWeaponEnergy(ammo.fraction());
+		}.bind(this);
+	}
+
+	this.setHealthEnergy = function(frac)
+	{
+		setEnergyQuantified(this.elements.healthBar, frac);
+	}
+
+	this.setWeaponEnergy = function(frac)
+	{
+		setEnergyQuantified(this.elements.weaponBar, frac);
+	}
+
+	function setEnergyQuantified(element, frac)
+	{
+		// Quantify to whole 1/27th increments (full energy bar).
+		var q = 1 / 27;
+		frac = (frac - (frac % q));
+		element.children('.amount').css('height', (frac * 100) + '%');
+	}
+}

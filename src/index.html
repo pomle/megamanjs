@@ -52,15 +52,31 @@
     <script type="text/javascript" src="object/Decoration.js"></script>
     <script type="text/javascript" src="object/decoration/Explosion.js"></script>
 
+    <script type="text/javascript" src="Hud.js"></script>
+
 </head>
 
 <body>
     <fieldset>
         <legend>Weapon</legend>
-        <button onclick="player.equipWeapon(weapons['p']);">Plasma</button>
-        <button onclick="player.equipWeapon(weapons['m']);">Metal Blade</button>
-        <button onclick="player.equipWeapon(weapons['c']);">Crash Bomb</button>
+        <button onclick="equipWeapon('p');">Plasma</button>
+        <button onclick="equipWeapon('m');">Metal Blade</button>
+        <button onclick="equipWeapon('c');">Crash Bomb</button>
     </fieldset>
+
+    <div id="screen">
+        <div class="overlay">
+            <div class="energy">
+                <div class="health">
+                    <div class="amount"></div>
+                </div>
+                <div class="weapon">
+                    <div class="amount"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <script type="text/javascript" src="main.js"></script>
 </body>

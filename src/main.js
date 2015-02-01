@@ -1,6 +1,8 @@
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(800, 532);
-document.body.appendChild(renderer.domElement);
+document.getElementById('screen').appendChild(renderer.domElement);
+
+var Hud = new Hud($('#screen'));
 
 var Game = new Engine(renderer);
 Game.timer = new Engine.Timer();
@@ -20,13 +22,22 @@ for (var c in weapons) {
 
 var player = new Engine.assets.objects.characters.Megaman();
 player.lifes = 0;
-player.equipWeapon(weapons['p']);
 
 var boss = new Engine.assets.objects.characters.Metalman();
 boss.equipWeapon(new Engine.assets.weapons.MetalBlade());
-//Game.run();
 
 var keyboard = new Engine.Keyboard();
+
+function equipWeapon(code)
+{
+	var weapon = weapons[code];
+	weapon.code = code;
+	player.equipWeapon(weapon);
+	Hud.equipWeapon(weapon);
+}
+
+equipWeapon('p');
+Hud.equipCharacter(player);
 
 keyboard.intermittent(65, function() { player.moveLeftStart(); }, function() { player.moveLeftEnd(); });
 keyboard.intermittent(68, function() { player.moveRightStart(); }, function() { player.moveRightEnd(); });
