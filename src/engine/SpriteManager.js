@@ -7,7 +7,7 @@ Engine.SpriteManager = function(model, spriteW, spriteH, textureW, textureH)
 
     this.accumulatedTime = 0;
 
-    this.model = model;
+    this.models = [model];
     this.sprites = {};
     this.label = undefined;
     this.group = undefined;
@@ -34,12 +34,15 @@ Engine.SpriteManager.prototype.applySprite = function(time)
 {
     time = time || 0;
     var uvMap = this.sprite.timeline.getValueAtTime(time);
-    if (this.model.geometry.faceVertexUvs[0] == uvMap) {
-        return;
+    var model;
+    for (var i in this.models) {
+        model = this.models[i];
+        if (model.geometry.faceVertexUvs[0] == uvMap) {
+            continue;
+        }
+        model.geometry.faceVertexUvs[0] = uvMap;
+        model.geometry.uvsNeedUpdate = true;
     }
-
-    this.model.geometry.faceVertexUvs[0] = uvMap;
-    this.model.geometry.uvsNeedUpdate = true;
 }
 
 Engine.SpriteManager.prototype.getSprite = function(label)
@@ -67,11 +70,10 @@ Engine.SpriteManager.prototype.selectSprite = function(label)
 
 Engine.SpriteManager.prototype.setDirection = function(direction)
 {
-    if (direction < 0) {
-        this.model.scale.x = -1;
-    }
-    else {
-        this.model.scale.x = 1;
+    var model;
+    var s = direction < 0 ? -1 : 1;
+    for (var i in this.models) {
+        this.models[i].scale.x = s;
     }
 }
 
