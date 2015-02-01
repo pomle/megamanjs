@@ -260,7 +260,6 @@ Engine.scenes.Level.Util = {
 
             var material = new THREE.MeshBasicMaterial();
             material.map = object.texture;
-            material.side = THREE.DoubleSide;
 
             var mesh = new THREE.Mesh(object.geometry, material);
             //materials.push(spriteIndex[id].material);

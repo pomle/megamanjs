@@ -115,7 +115,6 @@ Engine.SpriteManager.createSprite = function(location, w, h)
     var material = new THREE.MeshBasicMaterial({
         //color: 0xffffff,
         //wireframe: true,
-        side: THREE.DoubleSide,
         map: texture,
         transparent: true,
     });
