@@ -279,8 +279,6 @@
         </items>
 
         <obstacles>
-            <obstacle name="DestructibleWall" x="200" y="150" color="orange"/>
-
             <obstacle name="DestructibleWall" x="1112" y="144" color="orange"/>
             <obstacle name="DestructibleWall" x="1640" y="48" color="orange"/>
             <obstacle name="DestructibleWall" x="1688" y="48" color="orange"/>
