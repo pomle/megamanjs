@@ -220,6 +220,41 @@ Engine.scenes.Level.Util = {
         //level.scene.add(levelMesh);
         */
 
+        layoutXml.find('objects > object').each(function(i, objectXml) {
+            objectXml = $(objectXml);
+
+            var ref = objectXml.attr('ref');
+            var object = getObject(ref);
+
+            var material = new THREE.MeshBasicMaterial();
+            material.map = object.texture;
+            material.side = THREE.DoubleSide;
+
+            //materials.push(spriteIndex[id].material);
+            var rangeX = expandRange(objectXml.attr('x'));
+            var rangeY = expandRange(objectXml.attr('y'));
+
+            for (var i in rangeX) {
+                var mesh = new THREE.Mesh(object.geometry, material);
+                mesh.position.x = rangeX[i] + (object.size.w / 2);
+                mesh.position.y = -(rangeY[i] + (object.size.h / 2));
+                level.scene.add(mesh);
+            }
+
+            var rotate = parseFloat(objectXml.attr('rotate'));
+            if (isFinite(rotate)) {
+                mesh.rotation.z = -(Math.PI/180)*rotate;
+            }
+
+            var flip = objectXml.attr('flip');
+            if (flip == 'x') {
+                mesh.scale.x = -1;
+            }
+            if (flip == 'y') {
+                mesh.scale.y = -1;
+            }
+        });
+
         var layoutNodes = doc.evaluate('/level/layout/objects/object', doc, null, XPathResult.ANY_TYPE , null);
         //var materials = [];
         var objectNode;
