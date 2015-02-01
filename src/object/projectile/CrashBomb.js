@@ -23,6 +23,8 @@ Engine.assets.projectiles.CrashBomb = function()
     this.setVelocity(240);
 
     this.isAttached = false;
+
+    this.explosion = undefined;
 }
 
 Engine.assets.projectiles.CrashBomb.prototype = Object.create(Engine.assets.Projectile.prototype);
@@ -33,6 +35,7 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
     if (withObject instanceof Engine.assets.Solid) {
         this.speed = withObject.speed;
         this.isAttached = 0;
+        this.explosion = new Engine.assets.decorations.Explosion();
         this.dropCollision();
     }
 
@@ -49,9 +52,8 @@ Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
         this.sprites.selectSprite('flying');
     } else {
         if (this.isAttached > 2) {
-            var explosion = new Engine.assets.decorations.Explosion();
-            explosion.model.position.copy(this.model.position);
-            this.scene.addObject(explosion);
+            this.explosion.model.position.copy(this.model.position);
+            this.scene.addObject(this.explosion);
             this.scene.removeObject(this);
         }
         else if (this.isAttached > .25) {
