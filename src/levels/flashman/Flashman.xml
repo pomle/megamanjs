@@ -269,12 +269,14 @@
         </objects>
     </sprites>
     <layout>
-        <item name="ExtraLife" x="1368" y="56"/>
-        <item name="EnergyTank" x="712" y="153"/>
-        <item name="EnergyTank" x="1648" y="841"/>
-        <item name="EnergyTank" x="1768" y="1657"/>
-        <item name="WeaponTank" x="1624" y="1019"/>
-        <item name="EnergyCapsule" x="2504" y="1737"/>
+        <items>
+            <item name="ExtraLife" x="1368" y="56"/>
+            <item name="EnergyTank" x="712" y="153"/>
+            <item name="EnergyTank" x="1648" y="841"/>
+            <item name="EnergyTank" x="1768" y="1657"/>
+            <item name="WeaponTank" x="1624" y="1019"/>
+            <item name="EnergyCapsule" x="2504" y="1737"/>
+        </items>
         <objects>
             <object ref="sign-scaffold" x="2768" y="1680"/>
             <object ref="block-single-1" x="0" y="16"/>

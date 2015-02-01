@@ -252,7 +252,7 @@ Engine.scenes.Level.Util = {
             level.scene.add(mesh);
         }
 
-        var itemNodes = doc.evaluate('/level/layout/item', doc, null, XPathResult.ANY_TYPE , null);
+        var itemNodes = doc.evaluate('/level/layout//item', doc, null, XPathResult.ANY_TYPE , null);
         var itemNode;
         while (itemNode = itemNodes.iterateNext()) {
             var name = itemNode.attributes['name'].value;
