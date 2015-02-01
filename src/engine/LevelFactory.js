@@ -8,6 +8,8 @@ Engine.scenes.Level.Util = {
 
         var jXml = $(jQuery.parseXML(xml));
 
+        var levelXml = jXml.children('level');
+
         var level = new Engine.scenes.Level();
         level.animators = [];
 
@@ -153,6 +155,8 @@ Engine.scenes.Level.Util = {
 
         createObjects();
 
+        var layoutXml = levelXml.children('layout');
+
         var backgroundNodes = doc.evaluate('/level/layout/background', doc, null, XPathResult.ANY_TYPE , null);
         var backgroundNode;
         level.backgrounds = [];
@@ -264,6 +268,18 @@ Engine.scenes.Level.Util = {
             Item.model.position.y = -parseFloat(itemNode.attributes['y'].value);
             level.addObject(Item);
         }
+
+        layoutXml.find('obstacles > obstacle').each(function(i, obstacleXml) {
+            obstacleXml = $(obstacleXml);
+            var name = obstacleXml.attr('name');
+            if (!Engine.assets.obstacles[name]) {
+                throw new Error('Obstacle ' + name + ' does not exist');
+            }
+            var Obstacle = new Engine.assets.obstacles[name](obstacleXml.attr('color'));
+            Obstacle.model.position.x = parseFloat(obstacleXml.attr('x'));
+            Obstacle.model.position.y = -parseFloat(obstacleXml.attr('y'));
+            level.addObject(Obstacle);
+        });
 
         var exposeSolids = false;
         var solidNodes = doc.evaluate('/level/layout/solids/*', doc, null, XPathResult.ANY_TYPE , null);

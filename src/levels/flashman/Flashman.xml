@@ -277,6 +277,19 @@
             <item name="WeaponTank" x="1624" y="1019"/>
             <item name="EnergyCapsule" x="2504" y="1737"/>
         </items>
+
+        <obstacles>
+            <obstacle name="DestructibleWall" x="200" y="150" color="orange"/>
+
+            <obstacle name="DestructibleWall" x="1112" y="144" color="orange"/>
+            <obstacle name="DestructibleWall" x="1640" y="48" color="orange"/>
+            <obstacle name="DestructibleWall" x="1688" y="48" color="orange"/>
+            <obstacle name="DestructibleWall" x="1736" y="48" color="orange"/>
+
+            <obstacle name="DestructibleWall" x="1688" y="832" color="orange"/>
+            <obstacle name="DestructibleWall" x="2712" y="1728" color="purple"/>
+        </obstacles>
+
         <objects>
             <object ref="sign-scaffold" x="2768" y="1680"/>
             <object ref="block-single-1" x="0" y="16"/>
