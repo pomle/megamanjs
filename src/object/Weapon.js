@@ -5,7 +5,7 @@ Engine.assets.Weapon = function()
     this.coolDown = 0;
     this.isReady = true;
     this.isFiring = false;
-    this.projectileCost = 0;
+    this.projectileCost = 1;
     this.user = undefined;
 }
 
