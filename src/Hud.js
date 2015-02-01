@@ -48,9 +48,13 @@ var Hud = function(screen)
 
 	function setEnergyQuantified(element, frac)
 	{
-		// Quantify to whole 1/27th increments (full energy bar).
-		var q = 1 / 27;
-		frac = (frac - (frac % q));
-		element.children('.amount').css('height', (frac * 100) + '%');
+		// Quantify to whole 1/28th increments (full energy bar).
+		var s = 1/27;
+		var q = frac - (frac % s);
+		if (frac > 0 && q == 0) {
+			q = s;
+		}
+		element.children('.amount').css('height', (q * 100) + '%');
+		return q;
 	}
 }

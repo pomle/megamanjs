@@ -1,7 +1,7 @@
 Engine.assets.weapons.MetalBlade = function()
 {
     Engine.assets.Weapon.call(this);
-    this.ammo.max = 81;
+    this.ammo.max = 84;
     this.ammo.finite(this.ammo.max);
 }
 

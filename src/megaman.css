@@ -46,7 +46,7 @@ input {
 
 #screen .overlay .energy > * {
     background: #000;
-    height: 108px;
+    height: 112px;
     margin-right: 5px;
     position: relative;
     width: 16px;
@@ -54,8 +54,8 @@ input {
 
 #screen .overlay .energy > * > .amount {
     background-image: url('sprites/meters.gif');
-    background-position: left -20px bottom -2px;
-    background-size: 200px 116px;
+    background-position: 0 100%;
+    background-size: 160px 112px;
     position: absolute;
     bottom: 0;
     height: 100%;
@@ -65,12 +65,27 @@ input {
 #screen .overlay .energy > .weapon.p {
     display: none;
 }
+#screen .overlay .energy > .weapon.item > .amount {
+    background-position-x: -16px;
+}
 #screen .overlay .energy > .weapon.c > .amount {
-    background-position-x: -38px;
+    background-position-x: -32px;
+}
+#screen .overlay .energy > .weapon.f > .amount {
+    background-position-x: -48px;
 }
 #screen .overlay .energy > .weapon.m > .amount {
-    background-position-x: -92px;
+    background-position-x: -64px;
+}
+#screen .overlay .energy > .weapon.q > .amount {
+    background-position-x: -80px;
+}
+#screen .overlay .energy > .weapon.b > .amount {
+    background-position-x: -96px;
+}
+#screen .overlay .energy > .weapon.a > .amount {
+    background-position-x: -112px;
 }
 #screen .overlay .energy > .weapon.h > .amount {
-    background-position-x: -182px;
+    background-position-x: -144px;
 }
