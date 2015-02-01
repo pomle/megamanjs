@@ -2,6 +2,8 @@ Engine.assets.weapons.CrashBomb = function()
 {
     Engine.assets.Weapon.call(this);
     this.setCoolDown(1);
+    this.ammo.max = 8;
+    this.ammo.finite(this.ammo.max);
 }
 
 Engine.assets.weapons.CrashBomb.prototype = Object.create(Engine.assets.Weapon.prototype);
