@@ -157,60 +157,56 @@ Engine.scenes.Level.Util = {
 
         var layoutXml = levelXml.children('layout');
 
-        var backgroundNodes = doc.evaluate('/level/layout/background', doc, null, XPathResult.ANY_TYPE , null);
-        var backgroundNode;
-        level.backgrounds = [];
-        while (backgroundNode = backgroundNodes.iterateNext()) {
-            var prop = {
-                'x': parseFloat(backgroundNode.attributes['x'].value),
-                'y': parseFloat(backgroundNode.attributes['y'].value),
-                'w': parseFloat(backgroundNode.attributes['w'].value),
-                'h': parseFloat(backgroundNode.attributes['h'].value),
-                'wx': parseFloat(backgroundNode.attributes['w-segments'].value),
-                'hx': parseFloat(backgroundNode.attributes['h-segments'].value)
-            }
-            var geometry = new THREE.PlaneGeometry(prop.w, prop.h, prop.wx, prop.hx);
 
-            var spriteNodes = doc.evaluate('sprite', backgroundNode, null, XPathResult.ANY_TYPE , null);
-            var spriteNode;
-            level.uvMaps = [];
-            while (spriteNode = spriteNodes.iterateNext()) {
-                var ref = spriteNode.attributes['ref'].value;
+        var backgroundGeometry = new THREE.Geometry();
+        layoutXml.find('background').each(function(i, backgroundXml) {
+            backgroundXml = $(backgroundXml);
+            var prop = {
+                'x': parseFloat(backgroundXml.attr('x')),
+                'y': parseFloat(backgroundXml.attr('y')),
+                'w': parseFloat(backgroundXml.attr('w')),
+                'h': parseFloat(backgroundXml.attr('h')),
+                'wx': parseFloat(backgroundXml.attr('w-segments')),
+                'hx': parseFloat(backgroundXml.attr('h-segments')),
+            };
+            var geometry = new THREE.PlaneGeometry(prop.w, prop.h, prop.wx, prop.hx);
+            var material;
+            backgroundXml.find('sprite').each(function(i, spriteXml) {
+                spriteXml = $(spriteXml);
+                var ref = spriteXml.attr('ref');
                 var texture = getSprite(ref).texture;
-                var material = new THREE.MeshBasicMaterial({
+                material = new THREE.MeshBasicMaterial({
                     map: texture,
                     side: THREE.FrontSide,
                 });
                 var uvMap = getSprite(ref).uvMap;
 
-                var segmentNodes = doc.evaluate('segment', spriteNode, null, XPathResult.ANY_TYPE , null);
-                var segmentNode;
-                while (segmentNode = segmentNodes.iterateNext()) {
+                spriteXml.find('segment').each(function(i, segmentXml) {
+                    segmentXml = $(segmentXml);
                     var range = {
-                        x: expandRange(segmentNode.attributes['x'].value, prop.wx),
-                        y: expandRange(segmentNode.attributes['y'].value, prop.hx),
-                    }
+                        'x': expandRange(segmentXml.attr('x'), prop.wx),
+                        'y': expandRange(segmentXml.attr('y'), prop.hx),
+                    };
 
                     var i, j, x, y, faceIndex;
                     for (i in range.x) {
                         x = range.x[i] - 1;
                         for (j in range.y) {
                             y = range.y[j] - 1;
-
                             faceIndex = (x + (y * prop.wx)) * 2;
                             geometry.faceVertexUvs[0][faceIndex] = uvMap[0];
                             geometry.faceVertexUvs[0][faceIndex+1] = uvMap[1];
                         }
                     }
-                }
-            }
+                });
+            });
             var mesh = new THREE.Mesh(geometry, material);
             mesh.position.x = prop.x + (prop.w / 2);
             mesh.position.y = -(prop.y + (prop.h / 2));
             mesh.position.z = 0;
-            level.backgrounds.push(mesh);
+
             level.scene.add(mesh);
-        }
+        });
 
         /* FOR MERGING
         //var levelGeometry = new THREE.Geometry();
