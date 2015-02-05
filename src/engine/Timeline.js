@@ -53,7 +53,10 @@ Engine.Timeline.prototype.getIndexAtTime = function(time)
 
 Engine.Timeline.prototype.getLoopTime = function(time)
 {
-    return (time % this.totalDuration + this.totalDuration) % this.totalDuration;
+    if (isFinite(this.totalDuration)) {
+        return (time % this.totalDuration + this.totalDuration) % this.totalDuration;
+    }
+    return time;
 }
 
 Engine.Timeline.prototype.getValue = function()

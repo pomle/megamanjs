@@ -74,10 +74,9 @@ test.add(function() {
 		var weapon = new Engine.assets.Weapon();
 		this.assertEquals(0, weapon.ammo.min);
 		this.assertEquals(100, weapon.ammo.max);
-		this.assertEquals(undefined, weapon.ammo.value);
+		this.assertEquals(100, weapon.ammo.value);
 		this.assertEquals(0, weapon.projectileCost);
-		this.assertFalse(weapon.ammo.refill(100));
-		this.assertFalse(weapon.ammo.reduce(100));
+
 		weapon.ammo.value = 0;
 		this.assertTrue(weapon.ammo.refill(50));
 		this.assertEquals(50, weapon.ammo.value);
@@ -120,31 +119,18 @@ test.add(function() {
 		this.assertEquals(3, anim.frames.length);
 		this.assertEquals(7, anim.totalDuration);
 		this.assertEquals(0, anim.accumulatedTime);
-		this.assertEquals(0, anim.infiniteTime);
 		var len = anim.totalDuration;
 
-		anim.timeShift(-3);
-		this.assertEquals(4, anim.infiniteTime);
-		anim.timeShift(5);
-		this.assertEquals(2, anim.infiniteTime);
+		this.assertEquals(4, anim.getLoopTime(-3));
+		this.assertEquals(2, anim.getLoopTime(2));
 
 		// Big numbers
-		anim.timeShift(len * -4933);
-		this.assertEquals(2, anim.infiniteTime);
-		anim.timeShift(len * 6823);
-		this.assertEquals(2, anim.infiniteTime);
-		anim.timeShift((len * 6823) + 2);
-		this.assertEquals(4, anim.infiniteTime);
-		anim.timeShift(-4);
-		this.assertEquals(0, anim.infiniteTime);
+		this.assertEquals(2, anim.getLoopTime(2 + len * -4933));
+		this.assertEquals(2, anim.getLoopTime(2 + len * 6823));
 
 		// Floats
-		anim.timeShift(-3.2);
-		this.assertEqualFloats(3.8, anim.infiniteTime);
-		anim.timeShift(9.5);
-		this.assertEqualFloats(6.3, anim.infiniteTime);
-		anim.timeShift(-6.3);
-		this.assertEqualFloats(0, anim.infiniteTime);
+		this.assertEqualFloats(3.8, anim.getLoopTime(-3.2));
+		this.assertEqualFloats(6.3, anim.getLoopTime(6.3));
 	});
 
 	suite.add(function testFrameDig() {
@@ -180,17 +166,24 @@ test.add(function() {
 		anim.addFrame('A', 4);
 		anim.addFrame('B', 2);
 		anim.addFrame('C', 3);
-		this.assertEquals('A', anim.getValue());
-		this.assertEquals(0, anim.infiniteTime);
-		anim.frameShift(1);
-		this.assertEquals('B', anim.getValue());
-		this.assertEquals(4, anim.infiniteTime);
-		anim.frameShift(1);
-		this.assertEquals('C', anim.getValue());
-		this.assertEquals(6, anim.infiniteTime);
-		anim.frameShift(1);
-		this.assertEquals('A', anim.getValue());
-		this.assertEquals(0, anim.infiniteTime);
+		this.assertEquals('A', anim.getValueAtTime(0));
+		this.assertEquals('B', anim.getValueAtTime(4));
+		this.assertEquals('C', anim.getValueAtTime(6));
+		this.assertEquals('A', anim.getValueAtTime(9));
+	});
+
+
+	suite.add(function testHoldFrame() {
+		var anim = new Engine.Timeline();
+		anim.addFrame('A', 2);
+		anim.addFrame('B', 3);
+		anim.addFrame('C');
+		this.assertTrue(isNaN(anim.totalDuration));
+		this.assertEquals('A', anim.getValueAtTime(1));
+		this.assertEquals('B', anim.getValueAtTime(4));
+		this.assertEquals('C', anim.getValueAtTime(6));
+		this.assertEquals('C', anim.getValueAtTime(9));
+		this.assertEquals('C', anim.getValueAtTime(12515152));
 	});
 
 	return suite;
