@@ -22,6 +22,7 @@ for (var c in weapons) {
 
 var player = new Engine.assets.objects.characters.Megaman();
 player.lifes = 0;
+player.invincibilityDuration = 2;
 
 var boss = new Engine.assets.objects.characters.Metalman();
 boss.equipWeapon(new Engine.assets.weapons.MetalBlade());
