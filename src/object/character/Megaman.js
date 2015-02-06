@@ -6,7 +6,7 @@ Engine.assets.objects.characters.Megaman = function()
     this.RIGHT = 1;
 
     var model = Engine.Util.createSprite('megaman/tiles.gif', 48, 48);
-    this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 144);
+    this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 192);
 
     var idle = this.sprites.addSprite('idle');
     idle.addFrame(0, 0, 3.85);
@@ -36,6 +36,12 @@ Engine.assets.objects.characters.Megaman = function()
     runFire.addFrame(48, 96, .12);
     runFire.addFrame(96, 96, .12);
 
+    var teleport = this.sprites.addSprite('teleport');
+    teleport.addFrame(0,  144, .05);
+    teleport.addFrame(48, 144, .05);
+    teleport.addFrame(96, 144, .05);
+    teleport.addFrame(0,  144);
+
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
 
@@ -48,8 +54,13 @@ Engine.assets.objects.characters.Megaman = function()
 Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);
 Engine.assets.objects.characters.Megaman.constructor = Engine.assets.objects.characters.Megaman;
 
-Engine.assets.objects.characters.Megaman.prototype.selectSprite = function()
+Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
+    if (isFinite(this.isTeleporting)) {
+        this.isTeleporting += dt;
+        return this.sprites.selectSprite('teleport');
+    }
+
     if (this.walk != 0) {
         this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
         this.sprites.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
@@ -82,7 +93,7 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function()
 
 Engine.assets.objects.characters.Megaman.prototype.timeShift = function(dt)
 {
-    this.selectSprite();
+    this.selectSprite(dt);
     this.sprites.timeShift(dt);
     Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
 }
