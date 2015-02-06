@@ -269,6 +269,12 @@
         </objects>
     </sprites>
     <layout>
+        <enemies>
+            <enemy name="SillyCanon" x="644" y="192" />
+            <enemy name="SillyCanon" x="924" y="144" />
+            <enemy name="SillyCanon" x="1005" y="144" flip="x" />
+        </enemies>
+
         <items>
             <item name="ExtraLife" x="1368" y="56"/>
             <item name="EnergyTank" x="712" y="153"/>

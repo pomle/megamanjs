@@ -251,6 +251,30 @@ Engine.scenes.Level.Util = {
             }
         });
 
+        level.enemies = [];
+        layoutXml.find('enemies > enemy').each(function(i, enemyXml) {
+            enemyXml = $(enemyXml);
+
+            var name = enemyXml.attr('name');
+            if (!Engine.assets.objects.characters[name]) {
+                throw new Error('Item ' + name + ' does not exist');
+            }
+            var Enemy = new Engine.assets.objects.characters[name]();
+            var x = parseFloat(enemyXml.attr('x'));
+            var y = -parseFloat(enemyXml.attr('y'));
+
+            var flip = enemyXml.attr('flip');
+            if (flip == 'x') {
+                Enemy.model.scale.x = -1;
+            }
+            if (flip == 'y') {
+                Enemy.model.scale.y = -1;
+            }
+
+            level.addObject(Enemy, x, y);
+            level.enemies.push(Enemy);
+        });
+
         var layoutNodes = doc.evaluate('/level/layout/objects/object', doc, null, XPathResult.ANY_TYPE , null);
         //var materials = [];
         var objectNode;
