@@ -100,4 +100,6 @@ Engine.Util = {
     },
 }
 
+Math.RAD = Math.PI/180;
+
 Engine.assets = {};
