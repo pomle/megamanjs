@@ -121,3 +121,11 @@ Engine.SpriteManager.createSprite = function(location, w, h)
     var model = new THREE.Mesh(geometry, material);
     return model;
 }
+
+Engine.SpriteManager.createSingleTile = function(location, w, h, offsetX, offsetY, totalW, totalH)
+{
+    var model = Engine.SpriteManager.createSprite(location, w, h);
+    var uvMap = Engine.Util.createUVMap(offsetX, offsetY, w, h, totalW, totalH);
+    model.geometry.faceVertexUvs[0] = uvMap;
+    return model;
+}
