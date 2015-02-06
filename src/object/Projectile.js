@@ -21,13 +21,13 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
         return false;
     }
 
-    withObject.health.reduce(this.damage);
+    if (withObject.inflictDamage && !withObject.isInvincible) {
+        console.log('Inflicting %f damage on %s', this.damage, withObject);
+        withObject.inflictDamage(this.damage);
 
-    console.log('Inflicting %f damage on %s', this.damage, withObject);
-
-    // The object absorbed the projectile
-    if (!withObject.health.depleted()) {
-        this.scene.removeObject(this);
+        if (!withObject.health.depleted()) {
+            this.scene.removeObject(this);
+        }
     }
 
     return true;

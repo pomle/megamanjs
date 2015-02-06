@@ -9,6 +9,8 @@ Engine.assets.objects.Character = function()
     this.direction = undefined;
     this.health = new Engine.assets.Energy(100);
     this.isFiring = false;
+    this.isInvincible = false;
+    this.invincibilityDuration = 0;
     this.isSupported = false;
     this.isSupportedUntil = {x1: undefined, x2: undefined};
     this.movementInhibitor = {
@@ -106,6 +108,14 @@ Engine.assets.objects.Character.prototype.jumpEnd = function()
     this.jumpSpeed = 0;
 }
 
+Engine.assets.objects.Character.prototype.inflictDamage = function(points)
+{
+    if (!this.isInvincible) {
+        this.health.reduce(points);
+        this.isInvincible = this.invincibilityDuration;
+    }
+}
+
 Engine.assets.objects.Character.prototype.moveLeftStart = function()
 {
     this.walk--;
@@ -149,6 +159,14 @@ Engine.assets.objects.Character.prototype.setWalkspeed = function(speed)
 Engine.assets.objects.Character.prototype.timeShift = function(dt)
 {
     this.calculateMoveSpeed(dt);
+
+    if (this.isInvincible > 0) {
+        this.isInvincible -= dt;
+        this.model.visible = !this.model.visible;
+    } else if (this.isInvincible < 0) {
+        this.model.visible = true;
+        this.isInvincible = false;
+    }
 
     if (this.health.depleted()) {
         var explosion = new Engine.assets.decorations.Explosion();
