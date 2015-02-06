@@ -5,7 +5,7 @@ Engine.assets.projectiles.Plasma = function()
     var model = Engine.Util.createSprite('projectile/plasma.gif', 8, 8);
     this.setModel(model);
     this.addCollisionZone(4, 0, 0);
-    this.setDamage(10);
+    this.setDamage(3);
     this.setVelocity(240);
 }
 
