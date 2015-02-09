@@ -21,10 +21,16 @@ Engine.assets.objects.characters.SillyCanon = function(target)
 
     this.coolDown = .8;
     this.waitForShot = 0;
-    this.aimingAngle = -150;
     this.target = target;
 
     this.timeAIUpdated = null;
+
+    // Degrees
+    this.far = 200;
+    this.near = 0;
+    this.aimFar = 150;
+    this.aimNear = 95;
+    this.aimingAngle = null;
 }
 
 Engine.assets.objects.characters.SillyCanon.prototype = Object.create(Engine.assets.objects.Character.prototype);
@@ -59,10 +65,13 @@ Engine.assets.objects.characters.SillyCanon.prototype.updateAI = function()
             }
         }
 
-        var dX = this.target.model.position.x - this.model.position.x;
-        var dY = this.target.model.position.y - this.model.position.y;
-        var k = dX / dY;
-        console.log("dX: %f, dY: %f, k: %f", dX, dY, k);
+        var distanceRatio = Engine.Math.findRatio(this.target.model.position.x,
+            this.model.position.x - this.far,
+            this.model.position.x - this.near);
+
+        distanceRatio = Engine.Math.cap(distanceRatio, 0, 1);
+
+        this.aimingAngle = Engine.Math.applyRatio(distanceRatio, this.aimFar, this.aimNear);
 
         this.timeAIUpdated = this.time;
     }
