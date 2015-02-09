@@ -34,6 +34,23 @@ Engine.prototype.timeShift = function(timeElapsed)
     this.render();
 }
 
+Engine.Math = {
+    applyRatio: function(ratio, h, l)
+    {
+        return (h - l) * ratio + l;
+    },
+
+    'clamp': function(v, min, max)
+    {
+        return Math.min(max, Math.max(min, v));
+    },
+
+    'findRatio': function(pos, h, l)
+    {
+        return (pos - l) / (h - l);
+    },
+}
+
 Engine.Util = {
     createSprite: function(location, w, h)
     {
