@@ -68,14 +68,14 @@ Engine.assets.Projectile.prototype.setVelocity = function(v)
     this.velocity = v;
 }
 
-Engine.assets.Projectile.prototype.timeShift = function(t)
+Engine.assets.Projectile.prototype.timeShift = function(dt)
 {
     if (this.origin) {
         if (this.model.position.distanceTo(this.origin) > this.reach) {
             this.scene.removeObject(this);
         }
     }
-    Engine.assets.Object.prototype.timeShift.call(this, t);
+    Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
 
 Engine.assets.projectiles = {};
