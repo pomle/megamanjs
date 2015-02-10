@@ -184,10 +184,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
         }
     }
 
-    if (!this.isSupported) {
-        this.speed.y -= (this.gravityForce * dt);
-    }
-    else if (this.speed.y > 0
+    if (this.speed.y > 0
     || this.model.position.x < this.isSupportedUntil.x1
     || this.model.position.x > this.isSupportedUntil.x2) {
         this.isSupported = false;

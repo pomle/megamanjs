@@ -4,6 +4,7 @@ Engine.assets.Object = function()
     this.collision = [];
     this.gravityForce = 0;
     this.gravityPull = 0;
+    this.isSupported = false;
     this.speed = new THREE.Vector2();
     this.scene = undefined;
     this.time = 0;
@@ -74,6 +75,9 @@ Engine.assets.Object.prototype.setSpeed = function(x, y)
 Engine.assets.Object.prototype.timeShift = function(dt)
 {
     this.time += dt;
+    if (!this.isSupported) {
+        this.speed.y -= (this.gravityForce * dt);
+    }
     this.model.position.x += (this.speed.x * dt);
     this.model.position.y += (this.speed.y * dt);
 }
