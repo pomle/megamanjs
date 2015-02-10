@@ -51,6 +51,10 @@ Engine.Math = {
     },
 }
 
+Engine.TextureManager = {
+    'cache': {},
+}
+
 Engine.Util = {
     createSprite: function(location, w, h)
     {
@@ -99,21 +103,25 @@ Engine.Util = {
 
     getScaledTexture: function(url, scale)
     {
-        var canvas = document.createElement("canvas");
-        var texture = new THREE.Texture(canvas);
-        var image = new Image();
-        image.onload = function() {
-            var x = this.width * scale;
-            var y = this.height * scale;
-            canvas.width = x;
-            canvas.height = y;
-            var context = canvas.getContext("2d");
-            context.imageSmoothingEnabled = false;
-            context.drawImage(this, 0, 0, x, y);
-            texture.needsUpdate = true;
+        var cacheKey = url + '_' + scale;
+        if (!Engine.TextureManager.cache[cacheKey]) {
+            var canvas = document.createElement("canvas");
+            var texture = new THREE.Texture(canvas);
+            var image = new Image();
+            image.onload = function() {
+                var x = this.width * scale;
+                var y = this.height * scale;
+                canvas.width = x;
+                canvas.height = y;
+                var context = canvas.getContext("2d");
+                context.imageSmoothingEnabled = false;
+                context.drawImage(this, 0, 0, x, y);
+                texture.needsUpdate = true;
+            }
+            image.src = url;
+            Engine.TextureManager.cache[cacheKey] = texture;
         }
-        image.src = url;
-        return texture;
+        return Engine.TextureManager.cache[cacheKey];
     },
 }
 
