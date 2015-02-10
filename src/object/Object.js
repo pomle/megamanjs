@@ -74,7 +74,7 @@ Engine.assets.Object.prototype.setSpeed = function(x, y)
 Engine.assets.Object.prototype.timeShift = function(dt)
 {
     this.time += dt;
-    if (!this.isSupported) {
+    if (this.gravityForce && !this.isSupported) {
         this.speed.y -= (this.gravityForce * dt);
     }
     this.model.position.x += (this.speed.x * dt);
