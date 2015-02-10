@@ -50,6 +50,9 @@ Engine.assets.Projectile.prototype.setEmitter = function(character)
 
 Engine.assets.Projectile.prototype.setOrigin = function(vector)
 {
+    if (vector instanceof THREE.Vector3 === false) {
+        throw new Error('Require THREE.Vector3 for origin');
+    }
     this.model.position.x = vector.x;
     this.model.position.y = vector.y;
     this.origin = vector;
