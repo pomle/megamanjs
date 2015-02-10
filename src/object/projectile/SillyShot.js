@@ -8,7 +8,7 @@ Engine.assets.projectiles.SillyShot = function()
     this.addCollisionZone(4, 0, 0);
     this.setDamage(5);
     this.setVelocity(240);
-    this.setGravity(10);
+    this.setGravity(500);
 }
 
 Engine.assets.projectiles.SillyShot.prototype = Object.create(Engine.assets.Projectile.prototype);

@@ -5,10 +5,18 @@ Engine.assets.objects.characters.SillyCanon = function(target)
     var model = Engine.Util.createSprite('enemies/sillycanon.gif', 32, 32);
     this.sprites = new Engine.SpriteManager(model, 32, 32 , 192, 32);
 
-    var idle = this.sprites.addSprite('idle');
-    idle.addFrame(0, 0);
+    var deg0 = this.sprites.addSprite('deg0');
+    deg0.addFrame(32, 0, .25);
+    deg0.addFrame(0,  0, .24);
+    var deg22 = this.sprites.addSprite('deg22');
+    deg22.addFrame(96, 0, .25);
+    deg22.addFrame(64, 0, .25);
+    var deg45 = this.sprites.addSprite('deg45');
+    deg45.addFrame(160, 0, .25);
+    deg45.addFrame(128, 0, .25);
 
-    this.sprites.selectSprite('idle');
+
+    this.sprites.selectSprite('deg0');
     this.sprites.applySprite();
 
     this.setModel(model);
@@ -28,9 +36,11 @@ Engine.assets.objects.characters.SillyCanon = function(target)
     // Degrees
     this.far = 200;
     this.near = 0;
-    this.aimFar = 150;
-    this.aimNear = 95;
-    this.aimingAngle = null;
+    this.aimFar = 160;
+    this.aimNear = 92;
+    this.aimingAngle = this.aimFar;
+    this.aimingSpeed = 50;
+    this.shootingAngle = this.aimingAngle;
 }
 
 Engine.assets.objects.characters.SillyCanon.prototype = Object.create(Engine.assets.objects.Character.prototype);
@@ -44,8 +54,19 @@ Engine.assets.objects.characters.SillyCanon.prototype.fire = function()
 
     var projectile = new Engine.assets.projectiles.SillyShot();
     projectile.setEmitter(this);
-    projectile.speed.x = projectile.velocity * Math.cos(Math.RAD * this.aimingAngle);
-    projectile.speed.y = projectile.velocity * Math.sin(Math.RAD * this.aimingAngle);
+
+    var kX = Math.cos(Math.RAD * this.shootingAngle);
+    var kY = Math.sin(Math.RAD * this.shootingAngle);
+
+    var origin = new THREE.Vector3(
+        (this.model.position.x + 12 * kX) + (8 * this.direction),
+        this.model.position.y + 12 * kY,
+        0);
+
+    projectile.setOrigin(origin);
+
+    projectile.speed.x = projectile.velocity * kX;
+    projectile.speed.y = projectile.velocity * kY;
     this.scene.addObject(projectile);
     this.waitForShot = this.coolDown;
     return true;
@@ -69,7 +90,7 @@ Engine.assets.objects.characters.SillyCanon.prototype.updateAI = function()
             this.model.position.x - this.far,
             this.model.position.x - this.near);
 
-        distanceRatio = Engine.Math.cap(distanceRatio, 0, 1);
+        distanceRatio = Engine.Math.clamp(distanceRatio, 0, 1);
 
         this.aimingAngle = Engine.Math.applyRatio(distanceRatio, this.aimFar, this.aimNear);
 
@@ -86,7 +107,23 @@ Engine.assets.objects.characters.SillyCanon.prototype.timeShift = function(dt)
     }
 
     this.updateAI(dt);
-    //this.updateSprite();
-    this.sprites.timeShift(dt);
+    var aimingDiff = this.aimingAngle - this.shootingAngle;
+    this.shootingAngle += Engine.Math.clamp(aimingDiff, -this.aimingSpeed, this.aimingSpeed) * dt;
+
+    if (this.shootingAngle > 145) {
+        this.sprites.selectSprite('deg0');
+    }
+    else if (this.shootingAngle > 115) {
+        this.sprites.selectSprite('deg22');
+    }
+    else {
+        this.sprites.selectSprite('deg45');
+    }
+
+    if (Math.abs(this.shootingAngle - this.aimingAngle) > 2) {
+        this.sprites.applySprite();
+        this.sprites.timeShift(dt);
+    }
+
     Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
 }
