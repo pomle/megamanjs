@@ -3,7 +3,6 @@ Engine.assets.Object = function()
     this.uuid = THREE.Math.generateUUID();
     this.collision = [];
     this.gravityForce = 0;
-    this.gravityPull = 0;
     this.isSupported = false;
     this.speed = new THREE.Vector2();
     this.scene = undefined;
