@@ -2,6 +2,7 @@ Engine.assets.Object = function()
 {
     this.uuid = THREE.Math.generateUUID();
     this.collision = [];
+    this.emitter = undefined;
     this.gravityForce = 0;
     this.isSupported = false;
     this.speed = new THREE.Vector2();
@@ -45,6 +46,14 @@ Engine.assets.Object.prototype.collides = function(withObject, ourZone, theirZon
 Engine.assets.Object.prototype.dropCollision = function()
 {
     this.collision.length = 0;
+}
+
+Engine.assets.Object.prototype.setEmitter = function(character)
+{
+    if (character instanceof Engine.assets.objects.Character !== true) {
+        throw new Error('Invalid user');
+    }
+    this.emitter = character;
 }
 
 Engine.assets.Object.prototype.setGravity = function(force)

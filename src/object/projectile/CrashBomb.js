@@ -36,6 +36,7 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
         this.speed = withObject.speed;
         this.isAttached = 0;
         this.explosion = new Engine.assets.decorations.Explosion();
+        this.explosion.setEmitter(this.emitter);
         this.dropCollision();
     }
 

@@ -2,7 +2,6 @@ Engine.assets.Projectile = function()
 {
     Engine.assets.Object.call(this);
     this.damage = 0;
-    this.emitter = undefined;
     this.reach = 300;
     this.origin = undefined;
     this.velocity = 0;
@@ -40,10 +39,7 @@ Engine.assets.Projectile.prototype.setDamage = function(points)
 
 Engine.assets.Projectile.prototype.setEmitter = function(character)
 {
-    if (character instanceof Engine.assets.objects.Character !== true) {
-        throw new Error('Invalid user');
-    }
-    this.emitter = character;
+    Engine.assets.Object.prototype.setEmitter.call(this, character);
     var origin = this.emitter.model.position.clone();
     this.setOrigin(origin);
 }

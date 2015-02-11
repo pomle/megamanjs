@@ -42,6 +42,10 @@ Engine.assets.decorations.Explosion.constructor = Engine.assets.decorations.Expl
 
 Engine.assets.decorations.Explosion.prototype.collides = function(withObject, ourZone, theirZone)
 {
+    if (withObject == this.emitter) {
+        return;
+    }
+
     if (withObject.inflictDamage) {
         withObject.inflictDamage(this.damage);
     }
