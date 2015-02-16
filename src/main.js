@@ -69,5 +69,7 @@ Engine.scenes.Level.Util.loadFromXML('levels/flashman/Flashman.xml', function(le
 	level.addPlayer(player);
 	//level.addObject(boss, 300, -100);
 	Game.scene = level;
+	var initialCollisions = Game.scene.collision.detect();
+	console.log("Initial collisions: %d", initialCollisions);
 	Game.run();
 });
