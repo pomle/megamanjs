@@ -16,7 +16,7 @@ var weapons = {
 var weaponIndex = [];
 weaponIndex.selected = 0;
 for (var c in weapons) {
-	weaponIndex.push(weapons[c]);
+	weaponIndex.push(c);
 }
 
 
@@ -53,10 +53,10 @@ keyboard.hit(89, function() {
 });
 
 keyboard.hit(33, function() {
-	player.equipWeapon(weaponIndex[++weaponIndex.selected]);
+	equipWeapon(weaponIndex[++weaponIndex.selected]);
 });
 keyboard.hit(34, function() {
-	player.equipWeapon(weaponIndex[--weaponIndex.selected]);
+	equipWeapon(weaponIndex[--weaponIndex.selected]);
 });
 /*
 keyboard.intermittent(65, function() { boss.moveLeftStart(); }, function() { boss.moveLeftEnd(); });
