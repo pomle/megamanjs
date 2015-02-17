@@ -15,51 +15,69 @@ Engine.Collision.prototype.addObject = function(object)
 
 Engine.Collision.prototype.removeObject = function(object)
 {
-    var i;
-    for (i in this.objects) {
-        if (this.objects[i] === object) {
-            this.objects.splice(i, 1);
-            this.positionCache.splice(i, 1);
-        }
+    var i = this.objects.indexOf(object);
+    if (i > -1) {
+        this.objects[i] = undefined;
     }
+}
+
+Engine.Collision.prototype.objectNeedsRecheck = function(objectIndex)
+{
+    if (this.positionCache[objectIndex]
+    && this.positionCache[objectIndex].equals(this.objects[objectIndex].model.position)) {
+        return false;
+    }
+    this.positionCache[objectIndex] = this.objects[objectIndex].model.position.clone();
+    return true;
 }
 
 Engine.Collision.prototype.detect = function()
 {
-    var collisions = 0;
-    var i, j, o1, o2;
-    for (i in this.objects) {
-        o1 = this.objects[i];
-        // If object's position haven't changed.
-        if (this.positionCache[i] && this.positionCache[i].equals(o1.model.position)) {
+    var collisionCount = 0;
+    var i, j, l = this.objects.length;
+    for (i = 0; i < l; i++) {
+
+        if (this.objects[i] === undefined) {
+            this.objects.splice(i, 1);
+            this.positionCache.splice(i, 1);
+            l = this.objects.length;
+            i--;
             continue;
         }
-        this.positionCache[i] = o1.model.position.clone();
 
-        for (j in this.objects) {
-            // Don't check with self.
-            if (j == i) {
-                continue;
-            }
+        if (!this.objectNeedsRecheck(i)) {
+            continue;
+        }
 
-            o2 = this.objects[j];
-            /*if (o2 instanceof Engine.assets.Solid)o1.model.position.distanceTo(o2.model.position) > 200) {
-                continue;
-            }*/
-            if (this.objectsCollide(o1, o2)) {
-                collisions++;
+        for (j = 0; j < l; j++) {
+            if (this.objectsCollide(i, j)) {
+                collisionCount++;
             }
         }
     }
-    return collisions;
+    return collisionCount;
 }
 
-Engine.Collision.prototype.objectsCollide = function(o1, o2)
+Engine.Collision.prototype.objectsCollide = function(objectIndex1, objectIndex2)
 {
-    var i, j, z1, z2;
-    for (i in o1.collision) {
+    if (objectIndex1 == objectIndex2) {
+        return false;
+    }
+
+    var o1 = this.objects[objectIndex1];
+    var o2 = this.objects[objectIndex2];
+
+    if (!o1 || !o2) {
+        return false;
+    }
+
+    var i, j, z1, z2,
+        l = o1.collision.length,
+        m = o2.collision.length;
+
+    for (i = 0; i < l; i++) {
         z1 = o1.collision[i];
-        for (j in o2.collision) {
+        for (j = 0; j < m; j++) {
             z2 = o2.collision[j];
             if (this.zonesCollide(o1, z1, o2, z2)) {
                 o1.collides.call(o1, o2, z1, z2);
