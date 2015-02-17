@@ -32,30 +32,32 @@ Engine.Scene.prototype.removeObject = function(object)
     if (object instanceof Engine.assets.Object !== true) {
         throw new Error('Invalid object');
     }
-    var i, o, list = [];
-    for (i in this.objects) {
-        o = this.objects[i];
-        if (o.uuid === object.uuid) {
-            this.objects.splice(i, 1);
-            this.scene.remove(o.model);
-            list.push(o);
-        }
-    }
-    if (list.length == 0) {
-        throw new Error('Object not found ' + object.uuid);
+
+    var i = this.objects.indexOf(object);
+    if (i > -1) {
+        this.scene.remove(this.objects[i].model);
+        this.objects[i] = undefined;
     }
 }
 
 Engine.Scene.prototype.updateTime = function(timeElapsed)
 {
-    var i, o;
-    for (i in this.objects) {
-        o = this.objects[i];
-        o.timeShift(timeElapsed);
+    var i, l;
+
+    l = this.objects.length;
+    for (i = 0; i < l; i++) {
+        if (this.objects[i] === undefined) {
+            this.objects.splice(i, 1);
+            l--;
+            i--;
+            continue;
+        }
+        this.objects[i].timeShift(timeElapsed);
     }
-    for (i in this.timelines) {
-        o = this.timelines[i];
-        o.timeShift(timeElapsed);
+
+    l = this.timelines.length;
+    for (i = 0; i < l; i++) {
+        this.timelines[i].timeShift(timeElapsed);
     }
 }
 
