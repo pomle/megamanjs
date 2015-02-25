@@ -60,6 +60,9 @@ Engine.Scene.prototype.updateTime = function(td)
     for (i = 0; i < l; i++) {
         this.objects[i].timeShift(td);
     }
+    /* When objects get timeshifted they might decide to
+    remove themselves for various reasons. To ensure we're
+    not dirty before we return the objects, make a GC run. */
     this.garbageCollectObjects();
 
     l = this.timelines.length;
