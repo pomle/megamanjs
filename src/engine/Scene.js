@@ -40,7 +40,7 @@ Engine.Scene.prototype.removeObject = function(object)
     }
 }
 
-Engine.Scene.prototype.updateTime = function(timeElapsed)
+Engine.Scene.prototype.updateTime = function(td)
 {
     var i, l;
 
@@ -52,12 +52,12 @@ Engine.Scene.prototype.updateTime = function(timeElapsed)
             i--;
             continue;
         }
-        this.objects[i].timeShift(timeElapsed);
+        this.objects[i].timeShift(td);
     }
 
     l = this.timelines.length;
     for (i = 0; i < l; i++) {
-        this.timelines[i].timeShift(timeElapsed);
+        this.timelines[i].timeShift(td);
     }
 
     return this.objects;
