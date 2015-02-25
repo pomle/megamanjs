@@ -25,7 +25,6 @@ Engine.assets.objects.characters.SillyCanon = function(target)
     this.health = new Engine.assets.Energy(10);
 
     this.setDirection(-1);
-    this.setGravity(0);
 
     this.coolDown = .8;
     this.waitForShot = 0;

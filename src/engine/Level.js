@@ -3,6 +3,7 @@ Engine.scenes.Level = function()
     Engine.Scene.call(this);
     this.camera.camera.position.z = 120;
     this.collision = new Engine.Collision();
+    this.gravityForce = new THREE.Vector2();
     this.startPosition = new THREE.Vector2();
 }
 
@@ -37,9 +38,22 @@ Engine.scenes.Level.prototype.setStartPosition = function(x, y)
     this.camera.jumpTo(x, -y);
 }
 
-Engine.scenes.Level.prototype.updateTime = function(timeElapsed)
+Engine.scenes.Level.prototype.updateTime = function(dt)
 {
-    Engine.Scene.prototype.updateTime.call(this, timeElapsed);
+    var i, l, object;
+    var objects = Engine.Scene.prototype.updateTime.call(this, dt);
+
+    if (this.gravityForce.x || this.gravityForce.y) {
+        l = objects.length;
+        for (i = 0; i < l; i++) {
+            object = objects[i];
+            if (object.mass) {
+                object.momentumSpeed.x += -(this.gravityForce.x * dt);
+                object.momentumSpeed.y += -(this.gravityForce.y * dt);
+            }
+        }
+    }
+
     this.collision.detect();
     this.garbageCollectObjects();
 }

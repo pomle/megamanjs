@@ -67,6 +67,7 @@ keyboard.hit(67, function() { boss.fire(); });
 
 Engine.scenes.Level.Util.loadFromXML('levels/flashman/Flashman.xml', function(level) {
 	level.addPlayer(player);
+	level.gravityForce.y = 500;
 	//level.addObject(boss, 300, -100);
 	Game.scene = level;
 	var initialCollisions = Game.scene.collision.detect();

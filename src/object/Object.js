@@ -3,8 +3,9 @@ Engine.assets.Object = function()
     this.uuid = THREE.Math.generateUUID();
     this.collision = [];
     this.emitter = undefined;
-    this.gravityForce = 0;
+    this.mass = 0;
     this.isSupported = false;
+    this.momentumSpeed = new THREE.Vector2();
     this.speed = new THREE.Vector2();
     this.scene = undefined;
     this.time = 0;
@@ -56,11 +57,6 @@ Engine.assets.Object.prototype.setEmitter = function(character)
     this.emitter = character;
 }
 
-Engine.assets.Object.prototype.setGravity = function(force)
-{
-    this.gravityForce = force;
-}
-
 Engine.assets.Object.prototype.setModel = function(model)
 {
     this.model = model;
@@ -83,9 +79,8 @@ Engine.assets.Object.prototype.setSpeed = function(x, y)
 Engine.assets.Object.prototype.timeShift = function(dt)
 {
     this.time += dt;
-    if (this.gravityForce && !this.isSupported) {
-        this.speed.y -= (this.gravityForce * dt);
-    }
+
+    this.speed.add(this.momentumSpeed);
     this.model.position.x += (this.speed.x * dt);
     this.model.position.y += (this.speed.y * dt);
 }

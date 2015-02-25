@@ -11,6 +11,7 @@ Engine.assets.objects.Character = function()
     this.isFiring = false;
     this.isInvincible = false;
     this.invincibilityDuration = 0;
+    this.mass = 1;
     this.isSupported = false;
     this.isSupportedUntil = {x1: undefined, x2: undefined};
     this.movementInhibitor = {
@@ -28,8 +29,6 @@ Engine.assets.objects.Character = function()
     this.walkSpeed = 90;
     this.walk = 0;
     this.weapon = undefined;
-
-    this.setGravity(500);
 }
 
 Engine.assets.objects.Character.prototype = Object.create(Engine.assets.Object.prototype);
@@ -158,7 +157,14 @@ Engine.assets.objects.Character.prototype.setWalkspeed = function(speed)
 
 Engine.assets.objects.Character.prototype.timeShift = function(dt)
 {
+    /* Characters base speed is zero and calculated by the accumulative effects. */
+    this.speed.x = 0;
+    this.speed.y = 0;
     this.calculateMoveSpeed(dt);
+
+    this.momentumSpeed.x = (this.moveSpeed * this.walk);
+
+    this.mass = this.isSupported ? 0 : 1;
 
     if (this.isInvincible > 0) {
         this.isInvincible -= dt;
@@ -175,10 +181,8 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
         this.scene.removeObject(this);
     }
 
-    this.speed.x = (this.moveSpeed * this.walk);
-
     if (this.jumpSpeed > 0) {
-        this.speed.y = this.jumpSpeed;
+        this.momentumSpeed.y = Math.min(this.jumpSpeed, this.momentumSpeed.y + this.jumpSpeed);
         if (this.time - this.jumpTime > this.jumpDuration) {
             this.jumpEnd();
         }
@@ -189,8 +193,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     || this.model.position.x > this.isSupportedUntil.x2) {
         this.isSupported = false;
     }
-    //console.log('Move Speed: %f', this.moveSpeed);
-    //console.log('Jump Force: %f', this.jumpSpeed);
+
     Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
 
