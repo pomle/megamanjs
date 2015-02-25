@@ -189,3 +189,15 @@ Engine.Collision.prototype.convertPlaneToRectangle = function(geometry)
         'h': Math.abs(geometry.vertices[1].y - geometry.vertices[3].y),
     }
 }
+
+Engine.Collision.CollisionProperty = function(model, zone)
+{
+    this.x = model.position.x + zone.position.x;
+    this.y = model.position.y + zone.position.y;
+    this.w = zone.geometry.parameters.width;
+    this.h = zone.geometry.parameters.height;
+    this.l = this.x - (this.w / 2);
+    this.r = this.x + (this.w / 2);
+    this.t = this.y + (this.h / 2);
+    this.b = this.y - (this.h / 2);
+}

@@ -12,61 +12,36 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
         return;
     }
 
-    var our = {};
-    our.prop = {
-        x: this.model.position.x + ourZone.position.x,
-        y: this.model.position.y + ourZone.position.y,
-        w: ourZone.geometry.parameters.width,
-        h: ourZone.geometry.parameters.height,
-    };
-    our.bound = {
-        l: our.prop.x - (our.prop.w / 2),
-        r: our.prop.x + (our.prop.w / 2),
-        t: our.prop.y + (our.prop.h / 2),
-        b: our.prop.y - (our.prop.h / 2),
-    };
+    var our = new Engine.Collision.CollisionProperty(this.model, ourZone);
+    var their = new Engine.Collision.CollisionProperty(subject.model, theirZone);
 
-    var their = {};
-    their.prop = {
-        x: subject.model.position.x + theirZone.position.x,
-        y: subject.model.position.y + theirZone.position.y,
-        w: theirZone.geometry.parameters.width,
-        h: theirZone.geometry.parameters.height,
-    };
-    their.bound = {
-        l: their.prop.x - (their.prop.w / 2),
-        r: their.prop.x + (their.prop.w / 2),
-        t: their.prop.y + (their.prop.h / 2),
-        b: their.prop.y - (their.prop.h / 2),
-    };
-
-    if (subject.speed.y && their.bound.r > our.bound.l && their.bound.l < our.bound.r) {
+    if (subject.speed.y && their.r > our.l && their.l < our.r) {
         if (subject.speed.y < 0) {
-            subject.model.position.y = our.bound.t + (their.prop.h / 2);
+            subject.model.position.y = our.t + (their.h / 2);
             subject.speed.y = 0;
             subject.isSupported = true;
-            subject.isSupportedUntil.x1 = our.bound.l - (their.prop.w / 2);
-            subject.isSupportedUntil.x2 = our.bound.r + (their.prop.w / 2);
+            subject.isSupportedUntil.x1 = our.l - (their.w / 2);
+            subject.isSupportedUntil.x2 = our.r + (their.w / 2);
         }
         else {
-            subject.model.position.y = our.bound.b - (their.prop.h / 2);
+            subject.model.position.y = our.b - (their.h / 2);
             subject.jumpEnd();
             subject.speed.y = -(subject.speed.y / 5);
         }
     }
-    else if (subject.speed.x && their.bound.b < our.bound.t && their.bound.t > our.bound.b) {
+    else if (subject.speed.x && their.b < our.t && their.t > our.b) {
         var inhibitor = {
-            'y1': our.bound.t + (their.prop.h / 2),
-            'y2': our.bound.b - (their.prop.h / 2),
+            'y1': our.t + (their.h / 2),
+            'y2': our.b - (their.h / 2),
         };
         if (subject.speed.x > 0) {
             subject.moveSpeed = 0;
-            subject.model.position.x = our.bound.l - (their.prop.w / 2);
+            subject.model.position.x = our.l - (their.w / 2);
             subject.movementInhibitor.r = inhibitor;
         }
         else {
             subject.moveSpeed = 0;
-            subject.model.position.x = our.bound.r + (their.prop.w / 2);
+            subject.model.position.x = our.r + (their.w / 2);
             subject.movementInhibitor.l = inhibitor;
         }
     }
