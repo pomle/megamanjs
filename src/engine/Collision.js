@@ -96,16 +96,11 @@ Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone
         object2.model.position.clone().add(zone2.position)
     ];
 
-    var lookAheadX = (object1.speed.x / 40);
-    var lookAheadY = (object1.speed.y / 40);
-    //console.log('Look-a-head: x: %f, y: %f', lookAheadX, lookAheadY);
-    pos[0].x += lookAheadX;
-    pos[0].y += lookAheadY;
-
     var geo = [
         zone1.geometry,
         zone2.geometry
     ];
+
     if (geo[0] instanceof THREE.CircleGeometry && geo[1] instanceof THREE.CircleGeometry) {
         return this.circlesIntersect(geo[0].boundingSphere.radius, geo[1].boundingSphere.radius,
             pos[0].x, pos[1].x, pos[0].y, pos[1].y);
