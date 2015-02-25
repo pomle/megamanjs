@@ -27,6 +27,18 @@ Engine.Scene.prototype.addTimeline = function(timeline)
     this.timelines.push(timeline);
 }
 
+Engine.Scene.prototype.garbageCollectObjects = function()
+{
+    var i, l = this.objects.length;
+    for (i = 0; i < l; i++) {
+        if (this.objects[i] === undefined) {
+            this.objects.splice(i, 1);
+            l--;
+            i--;
+        }
+    }
+}
+
 Engine.Scene.prototype.removeObject = function(object)
 {
     if (object instanceof Engine.assets.Object !== true) {
@@ -46,14 +58,9 @@ Engine.Scene.prototype.updateTime = function(td)
 
     l = this.objects.length;
     for (i = 0; i < l; i++) {
-        if (this.objects[i] === undefined) {
-            this.objects.splice(i, 1);
-            l--;
-            i--;
-            continue;
-        }
         this.objects[i].timeShift(td);
     }
+    this.garbageCollectObjects();
 
     l = this.timelines.length;
     for (i = 0; i < l; i++) {

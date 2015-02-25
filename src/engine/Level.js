@@ -41,6 +41,7 @@ Engine.scenes.Level.prototype.updateTime = function(timeElapsed)
 {
     Engine.Scene.prototype.updateTime.call(this, timeElapsed);
     this.collision.detect();
+    this.garbageCollectObjects();
 }
 
 Engine.scenes.levels = {};
