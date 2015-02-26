@@ -5,10 +5,12 @@ Engine.assets.Object = function()
     this.emitter = undefined;
     this.mass = 0;
     this.isSupported = false;
+    this.frictionSpeed = new THREE.Vector2();
     this.momentumSpeed = new THREE.Vector2();
     this.speed = new THREE.Vector2();
     this.scene = undefined;
     this.time = 0;
+    this.deltaTime = 0;
 }
 
 Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
@@ -79,6 +81,7 @@ Engine.assets.Object.prototype.setSpeed = function(x, y)
 Engine.assets.Object.prototype.timeShift = function(dt)
 {
     this.time += dt;
+    this.deltaTime = dt;
 
     this.speed.add(this.momentumSpeed);
     this.model.position.x += (this.speed.x * dt);

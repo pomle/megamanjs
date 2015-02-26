@@ -13,17 +13,12 @@ Engine.assets.objects.Character = function()
     this.invincibilityDuration = 0;
     this.mass = 1;
     this.isSupported = false;
-    this.isSupportedUntil = {x1: undefined, x2: undefined};
-    this.movementInhibitor = {
-        t: undefined,
-        b: undefined,
-        l: undefined,
-        r: undefined,
-    };
+
     this.jumpForce = 155;
     this.jumpSpeed = 0;
     this.jumpTime = undefined;
     this.jumpDuration = .18;
+
     this.moveSpeed = 0;
     this.walkAcc = 600;
     this.walkSpeed = 90;
@@ -40,24 +35,6 @@ Engine.assets.objects.Character.prototype.calculateMoveSpeed = function(dt)
         this.moveSpeed = 0;
         return;
     }
-
-    if (this.movementInhibitor.r && this.walk > 0) {
-        if (this.movementInhibitor.r.y1 > this.model.position.y
-        && this.movementInhibitor.r.y2 < this.model.position.y) {
-            this.moveSpeed = 0;
-            return;
-        }
-    }
-    this.movementInhibitor.r = undefined;
-
-    if (this.movementInhibitor.l && this.walk < 0) {
-        if (this.movementInhibitor.l.y1 > this.model.position.y
-        && this.movementInhibitor.l.y2 < this.model.position.y) {
-            this.moveSpeed = 0;
-            return;
-        }
-    }
-    this.movementInhibitor.l = undefined;
 
     this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc * dt, this.walkSpeed);
 }
@@ -96,8 +73,9 @@ Engine.assets.objects.Character.prototype.fire = function()
 Engine.assets.objects.Character.prototype.jumpStart = function()
 {
     if (!this.isSupported) {
-        return false;
+        //return false;
     }
+    this.isSupported = false;
     this.jumpSpeed = this.jumpForce;
     this.jumpTime = this.time;
 }
@@ -133,6 +111,31 @@ Engine.assets.objects.Character.prototype.moveRightStart = function()
 Engine.assets.objects.Character.prototype.moveRightEnd = function()
 {
     this.walk--;
+}
+
+Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
+{
+    if (solid instanceof Engine.assets.Solid === false) {
+        throw new Error('Invalid solid');
+    }
+
+    switch (attack) {
+        case solid.TOP:
+            this.momentumSpeed.y = solid.speed.y;
+            this.speed.x = solid.speed.x;
+            this.isSupported = true;
+            break;
+
+        case solid.BOTTOM:
+            this.momentumSpeed.y = solid.speed.y;
+            this.jumpEnd();
+            break;
+
+        case solid.LEFT:
+        case solid.RIGHT:
+            this.moveSpeed = solid.speed.x;
+            break;
+    }
 }
 
 Engine.assets.objects.Character.prototype.setDirection = function(d)
@@ -188,11 +191,6 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
         }
     }
 
-    if (this.speed.y > 0
-    || this.model.position.x < this.isSupportedUntil.x1
-    || this.model.position.x > this.isSupportedUntil.x2) {
-        this.isSupported = false;
-    }
 
     Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
