@@ -85,5 +85,5 @@ Engine.scenes.Level.Util.loadFromXML('levels/flashman/Flashman.xml', function(le
 	Game.scene = level;
 	var initialCollisions = Game.scene.collision.detect();
 	console.log("Initial collisions: %d", initialCollisions);
-	Game.run();
+	setTimeout(Game.run.bind(Game), 200);
 });
