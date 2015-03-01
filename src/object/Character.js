@@ -160,9 +160,6 @@ Engine.assets.objects.Character.prototype.setWalkspeed = function(speed)
 
 Engine.assets.objects.Character.prototype.timeShift = function(dt)
 {
-    /* Characters base speed is zero and calculated by the accumulative effects. */
-    this.speed.x = 0;
-    this.speed.y = 0;
     this.calculateMoveSpeed(dt);
 
     this.momentumSpeed.x = (this.moveSpeed * this.walk);
@@ -193,6 +190,10 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
 
 
     Engine.assets.Object.prototype.timeShift.call(this, dt);
+
+    /* Characters base speed is zero and calculated by the accumulative effects. */
+    this.speed.x = 0;
+    this.speed.y = 0;
 }
 
 Engine.assets.objects.characters = {};
