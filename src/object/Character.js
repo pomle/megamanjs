@@ -149,8 +149,6 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
 
     this.momentumSpeed.x = (this.moveSpeed * this.walk);
 
-    this.mass = this.isSupported ? 0 : 1;
-
     if (this.isInvincible > 0) {
         this.isInvincible -= dt;
         this.model.visible = !this.model.visible;

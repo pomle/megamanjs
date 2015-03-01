@@ -27,7 +27,7 @@ Engine.Collision.prototype.objectNeedsRecheck = function(objectIndex)
     && this.positionCache[objectIndex].equals(this.objects[objectIndex].model.position)) {
         return false;
     }
-    this.positionCache[objectIndex] = this.objects[objectIndex].model.position.clone();
+    this.positionCache[objectIndex] = undefined;
     return true;
 }
 
@@ -55,6 +55,14 @@ Engine.Collision.prototype.detect = function()
             }
         }
     }
+
+    l = this.objects.length;
+    for (i = 0; i < l; i++) {
+        if (this.positionCache[i] === undefined) {
+            this.positionCache[i] = this.objects[i].model.position.clone();
+        }
+    }
+
     return collisionCount;
 }
 
