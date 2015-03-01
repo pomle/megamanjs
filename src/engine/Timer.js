@@ -9,26 +9,28 @@ Engine.Timer = function()
     this.timeStretch = 1;
 }
 
-Engine.Timer.prototype.eventLoop = function()
+Engine.Timer.prototype.eventLoop = function(timeElapsed)
 {
+    if (!this.running) {
+        return;
+    }
+
     if (this.frame++ % this.frameRateLimit == 0) {
-        var timeNow = new Date();
-        var timeElapsed = (timeNow.getTime() - this.timeLastEvent.getTime()) / 1000;
-        this.timeLastEvent = timeNow;
+        timeElapsed /= 1000;
 
-        if (!this.running) {
-            return;
-        }
+        if (this.timeLastEvent && this.callbacks.length) {
 
-        timeElapsed *= this.timeStretch;
+            var timeDiff = timeElapsed - this.timeLastEvent;
+            timeDiff *= this.timeStretch;
 
-        var i;
-        if (this.callbacks.length) {
-            for (i in this.callbacks) {
-                this.callbacks[i](timeElapsed);
+            for (var i in this.callbacks) {
+                this.callbacks[i](timeDiff);
             }
         }
+
+        this.timeLastEvent = timeElapsed;
     }
+
     requestAnimationFrame(this.eventLoop.bind(this));
 }
 
@@ -38,7 +40,7 @@ Engine.Timer.prototype.start = function()
         return true;
     }
 
-    this.timeLastEvent = new Date();
+    this.timeLastEvent = undefined;
     this.running = true;
     this.eventLoop();
 
