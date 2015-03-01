@@ -2,9 +2,6 @@ Engine.assets.objects.Character = function()
 {
     Engine.assets.Object.call(this);
 
-    this.fireTimer = undefined;
-    this.jumpTimer = undefined;
-
     this.fireTimeout = .25;
     this.direction = undefined;
     this.health = new Engine.assets.Energy(100);
