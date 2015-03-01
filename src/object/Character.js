@@ -8,7 +8,6 @@ Engine.assets.objects.Character = function()
     this.isFiring = false;
     this.isInvincible = false;
     this.invincibilityDuration = 0;
-    this.mass = 1;
     this.isSupported = false;
 
     this.jumpForce = 155;
@@ -16,6 +15,7 @@ Engine.assets.objects.Character = function()
     this.jumpTime = undefined;
     this.jumpDuration = .18;
 
+    this.mass = 1;
     this.moveSpeed = 0;
     this.walkAcc = 500;
     this.walkSpeed = 90;
