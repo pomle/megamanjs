@@ -46,6 +46,8 @@ Engine.assets.Projectile.prototype.setEmitter = function(character)
 {
     Engine.assets.Object.prototype.setEmitter.call(this, character);
     var origin = this.emitter.model.position.clone();
+    origin.x += this.emitter.projectileEmitOffset.x * this.emitter.direction;
+    origin.y += this.emitter.projectileEmitOffset.y;
     this.setOrigin(origin);
 }
 

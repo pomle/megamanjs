@@ -17,6 +17,9 @@ Engine.assets.objects.Character = function()
 
     this.mass = 1;
     this.moveSpeed = 0;
+
+    this.projectileEmitOffset = new THREE.Vector2();
+
     this.walkAcc = 500;
     this.walkSpeed = 90;
     this.walk = 0;

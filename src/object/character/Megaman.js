@@ -47,6 +47,8 @@ Engine.assets.objects.characters.Megaman = function()
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
 
+    this.projectileEmitOffset.set(17, 1);
+
     this.energyCapsules = 0;
 
     this.setModel(model);
