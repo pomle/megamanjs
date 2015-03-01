@@ -19,6 +19,19 @@ Engine.scenes.Level.prototype.addObject = function(o, x, y)
     o.setScene(this);
 }
 
+Engine.scenes.Level.prototype.applyGravity = function(x, y)
+{
+    if (this.gravityForce.x || this.gravityForce.y) {
+        var i, o, l = this.objects.length;
+        for (i = 0; i < l; i++) {
+            if (this.objects[i].mass) {
+                this.objects[i].momentumSpeed.x += -x;
+                this.objects[i].momentumSpeed.y += -y;
+            }
+        }
+    }
+}
+
 Engine.scenes.Level.prototype.removeObject = function(o)
 {
     Engine.Scene.prototype.removeObject.call(this, o);
@@ -40,19 +53,8 @@ Engine.scenes.Level.prototype.setStartPosition = function(x, y)
 
 Engine.scenes.Level.prototype.updateTime = function(dt)
 {
+    this.applyGravity(this.gravityForce.x * dt, this.gravityForce.y * dt);
     Engine.Scene.prototype.updateTime.call(this, dt);
-
-    /* We are applying gravity after every time step. This allows for
-    step of weightlessness. This is purely incidental as of now. */
-    if (this.gravityForce.x || this.gravityForce.y) {
-        var i, o, l = this.objects.length;
-        for (i = 0; i < l; i++) {
-            if (this.objects[i].mass) {
-                this.objects[i].momentumSpeed.x += -(this.gravityForce.x * dt);
-                this.objects[i].momentumSpeed.y += -(this.gravityForce.y * dt);
-            }
-        }
-    }
 
     this.collision.detect();
     /* After collision, some objects might have decided to remove
