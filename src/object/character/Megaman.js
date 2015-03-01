@@ -42,6 +42,8 @@ Engine.assets.objects.characters.Megaman = function()
     teleport.addFrame(96, 144, .05);
     teleport.addFrame(0,  144);
 
+    this.isTeleporting = undefined;
+
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
 
