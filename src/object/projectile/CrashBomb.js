@@ -32,6 +32,10 @@ Engine.assets.projectiles.CrashBomb.constructor = Engine.assets.Projectile;
 
 Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ourZone, theirZone)
 {
+    if (this.isAttached !== false) {
+        return false;
+    }
+
     if (withObject instanceof Engine.assets.Solid) {
         this.speed = withObject.speed;
         this.isAttached = 0;
