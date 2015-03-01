@@ -20,7 +20,7 @@ Engine.assets.objects.Character = function()
     this.jumpDuration = .18;
 
     this.moveSpeed = 0;
-    this.walkAcc = 600;
+    this.walkAcc = 500;
     this.walkSpeed = 90;
     this.walk = 0;
     this.weapon = undefined;
