@@ -35,13 +35,9 @@ Engine.Collision.prototype.detect = function()
 {
     var collisionCount = 0;
     var i, j, l = this.objects.length;
-    for (i = 0; i < l; i++) {
 
+    for (i = 0; i < l; i++) {
         if (this.objects[i] === undefined) {
-            this.objects.splice(i, 1);
-            this.positionCache.splice(i, 1);
-            l = this.objects.length;
-            i--;
             continue;
         }
 
@@ -58,6 +54,14 @@ Engine.Collision.prototype.detect = function()
 
     l = this.objects.length;
     for (i = 0; i < l; i++) {
+        if (this.objects[i] === undefined) {
+            this.objects.splice(i, 1);
+            this.positionCache.splice(i, 1);
+            l = this.objects.length;
+            i--;
+            continue;
+        }
+
         if (this.positionCache[i] === undefined) {
             this.positionCache[i] = this.objects[i].model.position.clone();
         }
