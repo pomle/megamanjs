@@ -58,14 +58,7 @@ Engine.assets.objects.Character.prototype.fire = function()
         return false;
     }
 
-    clearTimeout(this.fireTimer);
-    this.isFiring = true;
-
-    this.fireTimer = setTimeout(
-        function stopFire() {
-            this.isFiring = false;
-        }.bind(this),
-        this.fireTimeout * 1000);
+    this.isFiring = this.fireTimeout;
 
     return true;
 }
@@ -155,6 +148,13 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     } else if (this.isInvincible < 0) {
         this.model.visible = true;
         this.isInvincible = false;
+    }
+
+    if (this.isFiring > 0) {
+        this.isFiring -= dt;
+        if (this.isFiring <= 0) {
+            this.isFiring = false;
+        }
     }
 
     if (this.health.depleted()) {
