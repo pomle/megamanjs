@@ -2,7 +2,7 @@ Engine.assets.Projectile = function()
 {
     Engine.assets.Object.call(this);
     this.damage = 0;
-    this.reach = 300;
+    this.range = 300;
     this.origin = undefined;
     this.velocity = 0;
 }
@@ -32,6 +32,11 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
     return true;
 }
 
+Engine.assets.Projectile.prototype.rangeReached = function()
+{
+    this.scene.removeObject(this);
+}
+
 Engine.assets.Projectile.prototype.setDamage = function(points)
 {
     this.damage = points;
@@ -54,9 +59,9 @@ Engine.assets.Projectile.prototype.setOrigin = function(vector)
     this.origin = vector;
 }
 
-Engine.assets.Projectile.prototype.setReach = function(distance)
+Engine.assets.Projectile.prototype.setRange = function(distance)
 {
-    this.reach = distance;
+    this.range = distance;
 }
 
 Engine.assets.Projectile.prototype.setVelocity = function(v)
@@ -67,8 +72,8 @@ Engine.assets.Projectile.prototype.setVelocity = function(v)
 Engine.assets.Projectile.prototype.timeShift = function(dt)
 {
     if (this.origin) {
-        if (this.model.position.distanceTo(this.origin) > this.reach) {
-            this.scene.removeObject(this);
+        if (this.model.position.distanceTo(this.origin) > this.range) {
+            this.rangeReached();
         }
     }
     Engine.assets.Object.prototype.timeShift.call(this, dt);
