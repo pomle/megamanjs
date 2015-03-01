@@ -52,7 +52,7 @@ Engine.assets.objects.characters.Megaman = function()
     this.energyCapsules = 0;
 
     this.setModel(model);
-    this.addCollisionRect(10, 22, 0, 0);
+    this.addCollisionRect(14, 22, 0, 0);
 }
 
 Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);
