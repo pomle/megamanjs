@@ -72,12 +72,6 @@ Engine.assets.Object.prototype.setScene = function(scene)
     this.scene = scene;
 }
 
-Engine.assets.Object.prototype.setSpeed = function(x, y)
-{
-    this.speed.x = x;
-    this.speed.y = y;
-}
-
 Engine.assets.Object.prototype.timeShift = function(dt)
 {
     this.time += dt;
