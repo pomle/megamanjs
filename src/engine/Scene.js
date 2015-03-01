@@ -69,8 +69,6 @@ Engine.Scene.prototype.updateTime = function(td)
     for (i = 0; i < l; i++) {
         this.timelines[i].timeShift(td);
     }
-
-    return this.objects;
 }
 
 Engine.scenes = {};
