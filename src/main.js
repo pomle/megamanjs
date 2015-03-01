@@ -52,6 +52,19 @@ keyboard.hit(89, function() {
 	}
 });
 
+var gameRunningState;
+window.addEventListener('focus', function() {
+	if (gameRunningState) {
+		Game.run();
+	}
+});
+window.addEventListener('blur', function() {
+	gameRunningState = Game.isRunning;
+	if (gameRunningState) {
+		Game.pause();
+	}
+});
+
 keyboard.hit(33, function() {
 	equipWeapon(weaponIndex[++weaponIndex.selected]);
 });
