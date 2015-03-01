@@ -143,21 +143,6 @@ Engine.assets.objects.Character.prototype.setDirection = function(d)
     this.direction = d;
 }
 
-Engine.assets.objects.Character.prototype.setFireTimeout = function(seconds)
-{
-    this.fireTimeout = seconds;
-}
-
-Engine.assets.objects.Character.prototype.setJumpForce = function(force)
-{
-    this.jumpForce = force;
-}
-
-Engine.assets.objects.Character.prototype.setWalkspeed = function(speed)
-{
-    this.walkSpeed = speed;
-}
-
 Engine.assets.objects.Character.prototype.timeShift = function(dt)
 {
     this.calculateMoveSpeed(dt);

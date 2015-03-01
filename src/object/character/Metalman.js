@@ -31,12 +31,12 @@ Engine.assets.objects.characters.Metalman = function()
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
 
-    this.setFireTimeout(.2);
+    this.fireTimeout = .2;
 
     var material = new THREE.MeshLambertMaterial({});
     material.transparent = true;
 
-    this.setJumpForce(250);
+    this.jumpForce = 250;
 
     this.setModel(model);
     this.addCollisionRect(12, 24, 0, 0);
