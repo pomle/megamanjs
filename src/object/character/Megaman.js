@@ -70,7 +70,6 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
         this.sprites.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
     }
 
-    // If we have any vertical speed we are "falling".
     if (!this.isSupported) {
         if (this.isFiring) {
             return this.sprites.selectSprite('jump-fire');
