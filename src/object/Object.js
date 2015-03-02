@@ -7,6 +7,7 @@ Engine.assets.Object = function()
     this.isSupported = false;
     this.frictionSpeed = new THREE.Vector2();
     this.momentumSpeed = new THREE.Vector2();
+    this.position = undefined;
     this.speed = new THREE.Vector2();
     this.scene = undefined;
     this.time = 0;
@@ -60,6 +61,7 @@ Engine.assets.Object.prototype.setEmitter = function(character)
 Engine.assets.Object.prototype.setModel = function(model)
 {
     this.model = model;
+    this.position = this.model.position;
 }
 
 Engine.assets.Object.prototype.setScene = function(scene)
