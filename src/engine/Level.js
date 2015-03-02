@@ -21,7 +21,7 @@ Engine.scenes.Level.prototype.addObject = function(o, x, y)
 
 Engine.scenes.Level.prototype.applyGravity = function(x, y)
 {
-    if (this.gravityForce.x || this.gravityForce.y) {
+    if (x || y) {
         var i, o, l = this.objects.length;
         for (i = 0; i < l; i++) {
             if (this.objects[i].mass) {
