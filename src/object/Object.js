@@ -1,7 +1,6 @@
 Engine.assets.Object = function()
 {
     this.uuid = THREE.Math.generateUUID();
-    this.accumulativeSpeed = new THREE.Vector2();
     this.collision = [];
     this.emitter = undefined;
     this.mass = 0;
@@ -78,13 +77,13 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.time += dt;
     this.deltaTime = dt;
 
-    this.accumulativeSpeed.add(this.frictionSpeed);
-    this.accumulativeSpeed.add(this.momentumSpeed);
+    this.speed.set(0, 0);
+    this.speed.add(this.frictionSpeed);
+    this.speed.add(this.momentumSpeed);
+
     this.model.position.x += (this.speed.x * dt);
     this.model.position.y += (this.speed.y * dt);
 
-    this.speed.copy(this.accumulativeSpeed);
-    this.accumulativeSpeed.set(0, 0);
     this.frictionSpeed.set(0, 0);
 }
 
