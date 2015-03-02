@@ -114,14 +114,14 @@ Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
 
     switch (attack) {
         case solid.TOP:
-            this.frictionSpeed.x = solid.momentumSpeed.x;
-            this.momentumSpeed.y = solid.momentumSpeed.y;
+            this.frictionSpeed.x = solid.speed.x;
+            this.momentumSpeed.y = solid.speed.y;
             this.isSupported = true;
             break;
 
         case solid.BOTTOM:
-            this.frictionSpeed.x = solid.momentumSpeed.x;
-            this.momentumSpeed.y = solid.momentumSpeed.y;
+            this.frictionSpeed.x = solid.speed.x;
+            this.momentumSpeed.y = solid.speed.y;
             this.jumpEnd();
             break;
 
