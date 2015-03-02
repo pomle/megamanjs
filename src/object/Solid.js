@@ -38,16 +38,16 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
 
     switch (dir) {
         case this.TOP:
-            subject.model.position.y = our.t + (their.h / 2);
+            their.bottom(our.t);
             break;
         case this.BOTTOM:
-            subject.model.position.y = our.b - (their.h / 2);
+            their.top(our.b);
             break;
         case this.LEFT:
-            subject.model.position.x = our.l - (their.w / 2);
+            their.right(our.l);
             break;
         case this.RIGHT:
-            subject.model.position.x = our.r + (their.w / 2);
+            their.left(our.r);
             break;
     }
 

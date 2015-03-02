@@ -199,10 +199,47 @@ Engine.Collision.prototype.convertPlaneToRectangle = function(geometry)
 
 Engine.Collision.CollisionProperty = function(model, zone)
 {
-    this.x = model.position.x + zone.position.x;
-    this.y = model.position.y + zone.position.y;
-    this.w = zone.geometry.parameters.width;
-    this.h = zone.geometry.parameters.height;
+    this.model = model;
+    this.zone = zone;
+
+    this.x = undefined;
+    this.y = undefined;
+    this.w = undefined;
+    this.h = undefined;
+    this.l = undefined;
+    this.r = undefined;
+    this.t = undefined;
+    this.b = undefined;
+
+    this.updateBoundingBox();
+}
+
+Engine.Collision.CollisionProperty.prototype.bottom = function(value)
+{
+    this.model.position.y = value - (this.zone.position.y - (this.h / 2));
+}
+
+Engine.Collision.CollisionProperty.prototype.left = function(value)
+{
+    this.model.position.x = value - (this.zone.position.x - (this.w / 2));
+}
+
+Engine.Collision.CollisionProperty.prototype.right = function(value)
+{
+    this.model.position.x = value - (this.zone.position.x + (this.w / 2));
+}
+
+Engine.Collision.CollisionProperty.prototype.top = function(value)
+{
+    this.model.position.y = value - (this.zone.position.y + (this.h / 2));
+}
+
+Engine.Collision.CollisionProperty.prototype.updateBoundingBox = function()
+{
+    this.x = this.model.position.x + this.zone.position.x;
+    this.y = this.model.position.y + this.zone.position.y;
+    this.w = this.zone.geometry.parameters.width;
+    this.h = this.zone.geometry.parameters.height;
     this.l = this.x - (this.w / 2);
     this.r = this.x + (this.w / 2);
     this.t = this.y + (this.h / 2);
