@@ -6,6 +6,7 @@ Engine.Timer = function()
     this.frameRateLimit = 1;
     this.running = false;
     this.timeLastEvent = undefined;
+    this.timeMax = 1 / 60;
     this.timeStretch = 1;
 }
 
@@ -22,6 +23,9 @@ Engine.Timer.prototype.eventLoop = function(timeElapsed)
 
             var timeDiff = timeElapsed - this.timeLastEvent;
             timeDiff *= this.timeStretch;
+
+            /* Never let more time than 1/60th of a second pass per frame in game world. */
+            timeDiff = Math.min(timeDiff, this.timeMax);
 
             for (var i in this.callbacks) {
                 this.callbacks[i](timeDiff);
