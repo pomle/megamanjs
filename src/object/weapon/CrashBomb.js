@@ -16,7 +16,7 @@ Engine.assets.weapons.CrashBomb.prototype.fire = function()
     }
     var projectile = new Engine.assets.projectiles.CrashBomb();
     projectile.setEmitter(this.user);
-    projectile.speed.x = projectile.velocity * this.user.direction;
+    projectile.momentumSpeed.x = projectile.velocity * this.user.direction;
     this.user.scene.addObject(projectile);
     return true;
 }

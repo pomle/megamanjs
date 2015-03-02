@@ -49,8 +49,8 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
 
 Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
 {
-    if (this.speed.x) {
-        this.sprites.setDirection(this.speed.x > 0 ? 1 : -1);
+    if (this.momentumSpeed.x) {
+        this.sprites.setDirection(this.momentumSpeed.x > 0 ? 1 : -1);
     }
 
     if (this.isAttached === false) {
