@@ -85,8 +85,8 @@ Engine.Timeline.prototype.timeShift = function(diff)
 {
     this.accumulatedTime += diff;
     if (this.callbacks.length) {
-        var i, index, callback;
-        for (i in this.callbacks) {
+        var index, callback, i, l = this.callbacks.length;
+        for (i = 0; i < l; i++) {
             callback = this.callbacks[i];
             index = this.getIndexAtTime(this.accumulatedTime + callback.offset);
             if (index !== callback.lastIndex) {
