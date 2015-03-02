@@ -25,8 +25,8 @@ Engine.scenes.Level.prototype.applyGravity = function(x, y)
         var i, o, l = this.objects.length;
         for (i = 0; i < l; i++) {
             if (this.objects[i].mass) {
-                this.objects[i].momentumSpeed.x += -x;
-                this.objects[i].momentumSpeed.y += -y;
+                this.objects[i].gravitySpeed.x += -x;
+                this.objects[i].gravitySpeed.y += -y;
             }
         }
     }

@@ -6,6 +6,7 @@ Engine.assets.Object = function()
     this.mass = 0;
     this.isSupported = false;
     this.frictionSpeed = new THREE.Vector2();
+    this.gravitySpeed = new THREE.Vector2();
     this.momentumSpeed = new THREE.Vector2();
     this.position = undefined;
     this.speed = new THREE.Vector2();
@@ -80,6 +81,7 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.speed.set(0, 0);
     this.speed.add(this.frictionSpeed);
     this.speed.add(this.momentumSpeed);
+    this.speed.add(this.gravitySpeed);
 
     this.model.position.x += (this.speed.x * dt);
     this.model.position.y += (this.speed.y * dt);
