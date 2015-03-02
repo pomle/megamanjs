@@ -18,7 +18,7 @@ Engine.assets.projectiles.CrashBomb = function()
 
 
     this.setModel(model);
-    this.addCollisionZone(4, 0, -1);
+    this.addCollisionRect(8, 8, 0, -1);
     this.setDamage(20);
     this.setVelocity(240);
 
@@ -37,6 +37,17 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
     }
 
     if (withObject instanceof Engine.assets.Solid) {
+        var our = new Engine.Collision.BoundingBox(this.model, ourZone);
+        var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
+        var dir = withObject.attackDirection(our, their);
+
+        if (dir == withObject.LEFT) {
+            our.left(their.r);
+        } else if (dir == withObject.RIGHT) {
+            our.right(their.l);
+        }
+
+        this.momentumSpeed.set(0, 0);
         this.speed = withObject.speed;
         this.isAttached = 0;
         this.explosion = new Engine.assets.decorations.Explosion();
