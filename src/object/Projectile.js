@@ -73,12 +73,12 @@ Engine.assets.Projectile.prototype.setVelocity = function(v)
 
 Engine.assets.Projectile.prototype.timeShift = function(dt)
 {
+    Engine.assets.Object.prototype.timeShift.call(this, dt);
     if (this.origin) {
         if (this.model.position.distanceTo(this.origin) > this.range) {
             this.rangeReached();
         }
     }
-    Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
 
 Engine.assets.projectiles = {};
