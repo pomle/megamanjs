@@ -46,7 +46,15 @@ Engine.Collision.prototype.detect = function()
         }
 
         for (j = 0; j < l; j++) {
-            if (this.objectsCollide(i, j)) {
+            if (i == j) {
+                continue;
+            }
+
+            if (!this.objects[i] || !this.objects[j]) {
+                continue;
+            }
+
+            if (this.objectsCollide(this.objects[i], this.objects[j])) {
                 collisionCount++;
             }
         }
@@ -70,19 +78,8 @@ Engine.Collision.prototype.detect = function()
     return collisionCount;
 }
 
-Engine.Collision.prototype.objectsCollide = function(objectIndex1, objectIndex2)
+Engine.Collision.prototype.objectsCollide = function(o1, o2)
 {
-    if (objectIndex1 == objectIndex2) {
-        return false;
-    }
-
-    var o1 = this.objects[objectIndex1];
-    var o2 = this.objects[objectIndex2];
-
-    if (!o1 || !o2) {
-        return false;
-    }
-
     var i, j, z1, z2,
         l = o1.collision.length,
         m = o2.collision.length;
