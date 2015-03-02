@@ -18,8 +18,8 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
         return;
     }
 
-    var our = new Engine.Collision.CollisionProperty(this.model, ourZone);
-    var their = new Engine.Collision.CollisionProperty(subject.model, theirZone);
+    var our = new Engine.Collision.BoundingBox(this.model, ourZone);
+    var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
 
     var distances = [
         Math.abs(their.b - our.t),

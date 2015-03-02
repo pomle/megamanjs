@@ -197,7 +197,7 @@ Engine.Collision.prototype.convertPlaneToRectangle = function(geometry)
     }
 }
 
-Engine.Collision.CollisionProperty = function(model, zone)
+Engine.Collision.BoundingBox = function(model, zone)
 {
     this.model = model;
     this.zone = zone;
@@ -214,27 +214,27 @@ Engine.Collision.CollisionProperty = function(model, zone)
     this.updateBoundingBox();
 }
 
-Engine.Collision.CollisionProperty.prototype.bottom = function(value)
+Engine.Collision.BoundingBox.prototype.bottom = function(value)
 {
     this.model.position.y = value - (this.zone.position.y - (this.h / 2));
 }
 
-Engine.Collision.CollisionProperty.prototype.left = function(value)
+Engine.Collision.BoundingBox.prototype.left = function(value)
 {
     this.model.position.x = value - (this.zone.position.x - (this.w / 2));
 }
 
-Engine.Collision.CollisionProperty.prototype.right = function(value)
+Engine.Collision.BoundingBox.prototype.right = function(value)
 {
     this.model.position.x = value - (this.zone.position.x + (this.w / 2));
 }
 
-Engine.Collision.CollisionProperty.prototype.top = function(value)
+Engine.Collision.BoundingBox.prototype.top = function(value)
 {
     this.model.position.y = value - (this.zone.position.y + (this.h / 2));
 }
 
-Engine.Collision.CollisionProperty.prototype.updateBoundingBox = function()
+Engine.Collision.BoundingBox.prototype.updateBoundingBox = function()
 {
     this.x = this.model.position.x + this.zone.position.x;
     this.y = this.model.position.y + this.zone.position.y;
