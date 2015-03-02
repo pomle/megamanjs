@@ -79,6 +79,9 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
 
     if (this.moveSpeed) {
         if (this.moveSpeed < this.walkSpeed * .8) {
+            if (this.isFiring) {
+                return this.sprites.selectSprite('fire');
+            }
             return this.sprites.selectSprite('lean');
         }
         if (this.isFiring) {
