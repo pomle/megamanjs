@@ -65,8 +65,8 @@ Engine.assets.objects.characters.SillyCanon.prototype.fire = function()
 
     projectile.setOrigin(origin);
 
-    projectile.momentumSpeed.x = projectile.velocity * kX;
-    projectile.momentumSpeed.y = projectile.velocity * kY;
+    projectile.inertia.x = projectile.velocity * kX;
+    projectile.inertia.y = projectile.velocity * kY;
     this.scene.addObject(projectile);
     this.waitForShot = this.coolDown;
     return true;

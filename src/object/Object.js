@@ -5,9 +5,8 @@ Engine.assets.Object = function()
     this.emitter = undefined;
     this.mass = 0;
     this.isSupported = false;
-    this.frictionSpeed = new THREE.Vector2();
-    this.gravitySpeed = new THREE.Vector2();
-    this.momentumSpeed = new THREE.Vector2();
+    this.inertia = new THREE.Vector2();
+    this.momentum = new THREE.Vector2();
     this.position = undefined;
     this.speed = new THREE.Vector2();
     this.scene = undefined;
@@ -51,6 +50,30 @@ Engine.assets.Object.prototype.dropCollision = function()
     this.collision.length = 0;
 }
 
+Engine.assets.Object.prototype.obstruct = function(solid, attack)
+{
+    if (solid instanceof Engine.assets.Solid === false) {
+        throw new Error('Invalid solid');
+    }
+
+    switch (attack) {
+        case solid.TOP:
+            this.inertia.copy(solid.speed);
+            this.isSupported = true;
+            break;
+
+        case solid.BOTTOM:
+            this.inertia.copy(solid.speed);
+            this.jumpEnd();
+            break;
+
+        case solid.LEFT:
+        case solid.RIGHT:
+            this.moveSpeed = Math.abs(solid.speed.x);
+            break;
+    }
+}
+
 Engine.assets.Object.prototype.setEmitter = function(character)
 {
     if (character instanceof Engine.assets.objects.Character !== true) {
@@ -79,14 +102,11 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.deltaTime = dt;
 
     this.speed.set(0, 0);
-    this.speed.add(this.frictionSpeed);
-    this.speed.add(this.momentumSpeed);
-    this.speed.add(this.gravitySpeed);
+    this.speed.add(this.inertia);
+    this.speed.add(this.momentum);
 
     this.model.position.x += (this.speed.x * dt);
     this.model.position.y += (this.speed.y * dt);
-
-    this.frictionSpeed.set(0, 0);
 }
 
 // Set up a default model.

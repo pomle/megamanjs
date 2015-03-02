@@ -15,7 +15,7 @@ Engine.assets.weapons.MetalBlade.prototype.fire = function()
     }
     var projectile = new Engine.assets.projectiles.MetalBlade();
     projectile.setEmitter(this.user);
-    projectile.momentumSpeed.x = projectile.velocity * this.user.direction;
+    projectile.inertia.x = projectile.velocity * this.user.direction;
     this.user.scene.addObject(projectile);
     return true;
 }

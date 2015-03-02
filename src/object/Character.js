@@ -10,10 +10,10 @@ Engine.assets.objects.Character = function()
     this.invincibilityDuration = 0;
     this.isSupported = false;
 
-    this.jumpForce = 155;
-    this.jumpSpeed = 0;
-    this.jumpTime = undefined;
     this.jumpDuration = .18;
+    this.jumpForce = 150;
+    this.jumpInertia = 0;
+    this.jumpTime = undefined;
 
     this.mass = 1;
     this.moveSpeed = 0;
@@ -69,13 +69,13 @@ Engine.assets.objects.Character.prototype.jumpStart = function()
         return false;
     }
     this.isSupported = false;
-    this.jumpSpeed = this.jumpForce;
+    this.jumpInertia = this.inertia.y + this.jumpForce;
     this.jumpTime = this.time;
 }
 
 Engine.assets.objects.Character.prototype.jumpEnd = function()
 {
-    this.jumpSpeed = 0;
+    this.jumpInertia = 0;
 }
 
 Engine.assets.objects.Character.prototype.inflictDamage = function(points)
@@ -106,32 +106,6 @@ Engine.assets.objects.Character.prototype.moveRightEnd = function()
     this.walk--;
 }
 
-Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
-{
-    if (solid instanceof Engine.assets.Solid === false) {
-        throw new Error('Invalid solid');
-    }
-
-    switch (attack) {
-        case solid.TOP:
-            this.frictionSpeed.x = solid.speed.x;
-            this.momentumSpeed.y = solid.speed.y;
-            this.isSupported = true;
-            break;
-
-        case solid.BOTTOM:
-            this.frictionSpeed.x = solid.speed.x;
-            this.momentumSpeed.y = solid.speed.y;
-            this.jumpEnd();
-            break;
-
-        case solid.LEFT:
-        case solid.RIGHT:
-            this.moveSpeed = solid.speed.x;
-            break;
-    }
-}
-
 Engine.assets.objects.Character.prototype.setDirection = function(d)
 {
     this.direction = d;
@@ -139,9 +113,11 @@ Engine.assets.objects.Character.prototype.setDirection = function(d)
 
 Engine.assets.objects.Character.prototype.timeShift = function(dt)
 {
+    this.momentum.set(0, 0);
+
     this.calculateMoveSpeed(dt);
 
-    this.momentumSpeed.x = (this.moveSpeed * this.walk);
+    this.momentum.x = (this.moveSpeed * this.walk);
 
     if (this.isInvincible > 0) {
         this.isInvincible -= dt;
@@ -165,8 +141,8 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
         this.scene.removeObject(this);
     }
 
-    if (this.jumpSpeed > 0) {
-        this.momentumSpeed.y = Math.min(this.jumpSpeed, this.momentumSpeed.y + this.jumpSpeed);
+    if (this.jumpInertia) {
+        this.inertia.y = this.jumpInertia;
         if (this.time - this.jumpTime > this.jumpDuration) {
             this.jumpEnd();
         }

@@ -40,8 +40,8 @@ Engine.assets.obstacles.DestructibleWall.prototype.collides = function(withObjec
             return;
         }
 
-        withObject.momentumSpeed.x = -withObject.momentumSpeed.x;
-        withObject.momentumSpeed.y = 100;
+        withObject.inertia.x = -withObject.momentumSpeed.x;
+        withObject.inertia.y = 100;
     }
 
     Engine.assets.Solid.prototype.collides.call(this, withObject, ourZone, theirZone);

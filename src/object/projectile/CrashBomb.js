@@ -47,7 +47,7 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
             our.right(their.l);
         }
 
-        this.momentumSpeed.set(0, 0);
+        this.inertia.set(0, 0);
         this.speed = withObject.speed;
         this.isAttached = 0;
         this.explosion = new Engine.assets.decorations.Explosion();
@@ -60,8 +60,8 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
 
 Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
 {
-    if (this.momentumSpeed.x) {
-        this.sprites.setDirection(this.momentumSpeed.x > 0 ? 1 : -1);
+    if (this.inertia.x) {
+        this.sprites.setDirection(this.inertia.x > 0 ? 1 : -1);
     }
 
     if (this.isAttached === false) {
