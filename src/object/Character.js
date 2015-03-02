@@ -66,7 +66,7 @@ Engine.assets.objects.Character.prototype.fire = function()
 Engine.assets.objects.Character.prototype.jumpStart = function()
 {
     if (!this.isSupported) {
-        //return false;
+        return false;
     }
     this.isSupported = false;
     this.jumpSpeed = this.jumpForce;
