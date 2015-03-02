@@ -28,6 +28,7 @@ Engine.assets.objects.characters.SillyCanon = function(target)
 
     this.coolDown = .8;
     this.waitForShot = 0;
+    this.mass = 0;
     this.target = target;
 
     this.timeAIUpdated = null;
