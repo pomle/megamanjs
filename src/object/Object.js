@@ -82,8 +82,7 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.model.position.x += (this.speed.x * dt);
     this.model.position.y += (this.speed.y * dt);
 
-    this.speed.x = 0;
-    this.speed.y = 0;
+    this.speed.set(0, 0);
     this.frictionSpeed.set(0, 0);
 }
 
