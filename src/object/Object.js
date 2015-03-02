@@ -42,8 +42,6 @@ Engine.assets.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 
 Engine.assets.Object.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    console.log('%s collides with %s', this.uuid, withObject.uuid);
-    //console.log(withObject, ourZone, theirZone);
 }
 
 Engine.assets.Object.prototype.dropCollision = function()
