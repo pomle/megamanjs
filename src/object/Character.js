@@ -120,7 +120,8 @@ Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
             break;
 
         case solid.BOTTOM:
-            this.momentumSpeed.y = solid.speed.y;
+            this.frictionSpeed.x = solid.momentumSpeed.x;
+            this.momentumSpeed.y = solid.momentumSpeed.y;
             this.jumpEnd();
             break;
 
