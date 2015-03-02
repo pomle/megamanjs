@@ -174,10 +174,6 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
 
     Engine.assets.Object.prototype.timeShift.call(this, dt);
 
-    /* Characters base speed is zero and calculated by the accumulative effects. */
-    this.speed.x = 0;
-    this.speed.y = 0;
-
     this.isSupported = false;
 }
 

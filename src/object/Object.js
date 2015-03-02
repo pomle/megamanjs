@@ -78,6 +78,9 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.speed.add(this.momentumSpeed);
     this.model.position.x += (this.speed.x * dt);
     this.model.position.y += (this.speed.y * dt);
+
+    this.speed.x = 0;
+    this.speed.y = 0;
 }
 
 // Set up a default model.
