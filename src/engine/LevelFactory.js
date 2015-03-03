@@ -335,7 +335,7 @@ Engine.scenes.Level.Util = {
             level.addObject(Obstacle);
         });
 
-        var exposeSolids = false;
+        var exposeSolids = true;
         var solidNodes = doc.evaluate('/level/layout/solids/*', doc, null, XPathResult.ANY_TYPE , null);
         var solidNode;
         var material = new THREE.MeshBasicMaterial({

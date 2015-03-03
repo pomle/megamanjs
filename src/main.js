@@ -78,12 +78,34 @@ keyboard.intermittent(86, function() { boss.jumpStart(); }, function() { boss.ju
 keyboard.hit(67, function() { boss.fire(); });
 */
 
-Engine.scenes.Level.Util.loadFromXML('levels/flashman/Flashman.xml', function(level) {
+
+var pendelum = function(dt)
+{
+	this.momentum.x = Math.sin(this.time) * 20;
+	Engine.assets.Object.prototype.timeShift.call(this, dt);
+}
+
+var circle = function(dt)
+{
+	var speed = 100;
+	//this.momentum.x = Math.sin(this.time) * speed;
+	this.momentum.y = Math.cos(this.time) * speed;
+	//this.momentum.x += dt * 100;
+	//this.momentum.y += dt;
+	Engine.assets.Object.prototype.timeShift.call(this, dt);
+}
+
+
+Engine.scenes.Level.Util.loadFromXML('levels/test/Collision.xml', function(level) {
 	level.addPlayer(player);
 	level.gravityForce.y = 500;
 	//level.addObject(boss, 300, -100);
 	Game.scene = level;
+	Game.scene.objects[1].timeShift = circle;
+	Game.scene.objects[2].timeShift = pendelum;
 	var initialCollisions = Game.scene.collision.detect();
 	console.log("Initial collisions: %d", initialCollisions);
 	setTimeout(Game.run.bind(Game), 200);
 });
+
+
