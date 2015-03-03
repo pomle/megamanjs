@@ -5,7 +5,6 @@ document.getElementById('screen').appendChild(renderer.domElement);
 var Hud = new Hud($('#screen'));
 
 var Game = new Engine(renderer);
-Game.timer = new Engine.Timer();
 
 var weapons = {
 	'p': new Engine.assets.weapons.Plasma(),
@@ -45,11 +44,7 @@ keyboard.intermittent(68, function() { player.moveRightStart(); }, function() { 
 keyboard.intermittent(80, function() { player.jumpStart(); }, function() { player.jumpEnd(); });
 keyboard.hit(79, function() { player.fire(); });
 keyboard.hit(89, function() {
-	if (Game.isRunning) {
-		Game.pause();
-	} else {
-		Game.run();
-	}
+	Game.isSimulating = !Game.isSimulating;
 });
 
 var gameRunningState;

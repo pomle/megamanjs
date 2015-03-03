@@ -2,25 +2,43 @@ var Engine = function(renderer)
 {
     this.renderer = renderer;
     this.isRunning = false;
-    this.frame = 0;
-    this.frameRate = 1;
+    this.isSimulating = true;
+    this.simulationSpeed = 1;
+    this.timeMax = 1/60;
+    this.timeStretch = 1;
     this.scene = undefined;
-    this.timer = undefined;
 }
 
-Engine.prototype.run = function()
+Engine.prototype.loop = function(timeElapsed)
 {
-    if (this.scene) {
-        this.timer.callbacks.push(this.timeShift.bind(this));
+    if (!this.isRunning) {
+        return false;
     }
-    this.timer.start();
-    this.isRunning = true;
+
+    if (timeElapsed) {
+        timeElapsed /= 1000;
+        if (this.timeLastEvent) {
+            var timeDiff = timeElapsed - this.timeLastEvent;
+            timeDiff *= this.timeStretch;
+
+            /* Never let more time than 1/60th of a second pass per frame in game world. */
+            timeDiff = Math.min(timeDiff, this.timeMax);
+
+            if (this.isSimulating && this.simulationSpeed) {
+                var simTimeDiff = timeDiff * this.simulationSpeed;
+                this.scene.updateTime(simTimeDiff);
+                this.scene.camera.updateTime(simTimeDiff);
+            }
+        }
+        this.render();
+        this.timeLastEvent = timeElapsed;
+    }
+
+    requestAnimationFrame(this.loop.bind(this));
 }
 
 Engine.prototype.pause = function()
 {
-    this.timer.stop();
-    this.timer.callbacks = [];
     this.isRunning = false;
 }
 
@@ -30,13 +48,14 @@ Engine.prototype.render = function()
                     this.scene.camera.camera);
 }
 
-Engine.prototype.timeShift = function(timeElapsed)
+Engine.prototype.run = function()
 {
-    if (this.frame++ % this.frameRate == 0) {
-        this.scene.updateTime(timeElapsed);
-        this.scene.camera.updateTime(timeElapsed);
-        this.render();
+    if (this.isRunning) {
+        throw new Error('Already running');
     }
+    this.isRunning = true;
+    this.timeLastEvent = undefined;
+    this.loop();
 }
 
 Engine.Math = {
