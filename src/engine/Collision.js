@@ -13,6 +13,21 @@ Engine.Collision.prototype.addObject = function(object)
     this.positionCache.push(undefined);
 }
 
+Engine.Collision.prototype.garbageCollectObjects = function()
+{
+    var i, l = this.objects.length;
+
+    for (i = 0; i < l; i++) {
+        if (this.objects[i] === undefined) {
+            this.objects.splice(i, 1);
+            this.positionCache.splice(i, 1);
+            l--;
+            i--;
+            continue;
+        }
+    }
+}
+
 Engine.Collision.prototype.removeObject = function(object)
 {
     var i = this.objects.indexOf(object);
@@ -60,16 +75,10 @@ Engine.Collision.prototype.detect = function()
         }
     }
 
+    this.garbageCollectObjects();
+
     l = this.objects.length;
     for (i = 0; i < l; i++) {
-        if (this.objects[i] === undefined) {
-            this.objects.splice(i, 1);
-            this.positionCache.splice(i, 1);
-            l = this.objects.length;
-            i--;
-            continue;
-        }
-
         if (this.positionCache[i] === undefined) {
             this.positionCache[i] = this.objects[i].model.position.clone();
         }
