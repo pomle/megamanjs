@@ -113,6 +113,8 @@ Engine.assets.objects.Character.prototype.setDirection = function(d)
 
 Engine.assets.objects.Character.prototype.timeShift = function(dt)
 {
+    this.isSupported = false;
+
     this.momentum.set(0, 0);
 
     this.calculateMoveSpeed(dt);
@@ -150,8 +152,6 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
 
 
     Engine.assets.Object.prototype.timeShift.call(this, dt);
-
-    this.isSupported = false;
 }
 
 Engine.assets.objects.characters = {};
