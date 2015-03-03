@@ -89,7 +89,7 @@ Engine.Collision.prototype.objectsCollide = function(o1, o2)
         for (j = 0; j < m; j++) {
             z2 = o2.collision[j];
             if (this.zonesCollide(o1, z1, o2, z2)) {
-                o1.collides.call(o1, o2, z1, z2);
+                //o1.collides.call(o1, o2, z1, z2);
                 o2.collides.call(o2, o1, z2, z1);
                 return true;
             }
