@@ -58,7 +58,7 @@ Engine.Scene.prototype.updateTime = function(td)
 
     l = this.objects.length;
     for (i = 0; i < l; i++) {
-        this.objects[i].timeShift(td);
+        this.objects[i].timeShift(td * this.objects[i].timeStretch);
     }
     /* When objects get timeshifted they might decide to
     remove themselves for various reasons. To ensure we're

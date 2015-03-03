@@ -12,6 +12,7 @@ Engine.assets.Object = function()
     this.speed = new THREE.Vector2();
     this.scene = undefined;
     this.time = 0;
+    this.timeStretch = 1;
 }
 
 Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
