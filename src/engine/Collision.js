@@ -11,8 +11,8 @@ Engine.Collision.prototype.addObject = function(object)
         throw new Error('Collidable wrong type');
     }
     this.objects.push(object);
-    this.positionCache.push(undefined);
     this.collisionIndex.push([]);
+    this.positionCache.push(object.model.position.clone());
 }
 
 Engine.Collision.prototype.garbageCollectObjects = function()
@@ -45,7 +45,7 @@ Engine.Collision.prototype.objectNeedsRecheck = function(objectIndex)
     && this.positionCache[objectIndex].equals(this.objects[objectIndex].model.position)) {
         return false;
     }
-    this.positionCache[objectIndex] = undefined;
+    this.positionCache[objectIndex].x = undefined;
     return true;
 }
 
@@ -78,8 +78,8 @@ Engine.Collision.prototype.detect = function()
 
     l = this.objects.length;
     for (i = 0; i < l; i++) {
-        if (this.positionCache[i] === undefined) {
-            this.positionCache[i] = this.objects[i].model.position.clone();
+        if (this.positionCache[i].x === undefined) {
+            this.positionCache[i].copy(this.objects[i].model.position);
         }
     }
 
