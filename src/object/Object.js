@@ -2,6 +2,7 @@ Engine.assets.Object = function()
 {
     this.uuid = THREE.Math.generateUUID();
     this.collision = [];
+    this.deltaTime = 0;
     this.emitter = undefined;
     this.mass = 0;
     this.isSupported = false;
@@ -11,7 +12,6 @@ Engine.assets.Object = function()
     this.speed = new THREE.Vector2();
     this.scene = undefined;
     this.time = 0;
-    this.deltaTime = 0;
 }
 
 Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
