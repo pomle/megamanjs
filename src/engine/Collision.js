@@ -1,6 +1,7 @@
 Engine.Collision = function()
 {
     this.objects = [];
+    this.collisionIndex = [];
     this.positionCache = [];
 }
 
@@ -11,6 +12,7 @@ Engine.Collision.prototype.addObject = function(object)
     }
     this.objects.push(object);
     this.positionCache.push(undefined);
+    this.collisionIndex.push([]);
 }
 
 Engine.Collision.prototype.garbageCollectObjects = function()
@@ -20,6 +22,7 @@ Engine.Collision.prototype.garbageCollectObjects = function()
     for (i = 0; i < l; i++) {
         if (this.objects[i] === undefined) {
             this.objects.splice(i, 1);
+            this.collisionIndex.splice(i, 1);
             this.positionCache.splice(i, 1);
             l--;
             i--;
@@ -65,11 +68,7 @@ Engine.Collision.prototype.detect = function()
                 continue;
             }
 
-            if (!this.objects[i] || !this.objects[j]) {
-                continue;
-            }
-
-            if (this.objectsCollide(this.objects[i], this.objects[j])) {
+            if (this.objectIndexesCollide(i, j)) {
                 collisionCount++;
             }
         }
@@ -85,6 +84,34 @@ Engine.Collision.prototype.detect = function()
     }
 
     return collisionCount;
+}
+
+Engine.Collision.prototype.objectIndexesCollide = function(i, j)
+{
+    var ix;
+
+    if (!this.objects[i] || !this.objects[j]) {
+        return false;
+    }
+
+    var o1 = this.objects[i],
+        o2 = this.objects[j];
+
+    if (this.objectsCollide(o1, o2)) {
+        if (this.collisionIndex[i].indexOf(o2) < 0) {
+            this.collisionIndex[i].push(o2);
+        }
+        return true;
+    }
+    else {
+        ix = this.collisionIndex[i].indexOf(o2);
+        if (ix > -1) {
+            o2 = this.collisionIndex[i].splice(ix, 1)[0];
+            o1.uncollides(o2);
+            o2.uncollides(o1);
+        }
+        return false;
+    }
 }
 
 Engine.Collision.prototype.objectsCollide = function(o1, o2)

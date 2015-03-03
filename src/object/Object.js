@@ -109,6 +109,11 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.model.position.y += (this.speed.y * dt);
 }
 
+Engine.assets.Object.prototype.uncollides = function(withObject)
+{
+    console.log('%s detaches from %s', withObject, this);
+}
+
 // Set up a default model.
 Engine.assets.Object.prototype.model = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(10, 10),
