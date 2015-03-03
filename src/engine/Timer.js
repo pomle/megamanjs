@@ -2,8 +2,6 @@ Engine.Timer = function()
 {
     this.animationCycleId = undefined;
     this.callbacks = [];
-    this.frame = 0;
-    this.frameRateLimit = 1;
     this.running = false;
     this.timeLastEvent = undefined;
     this.timeMax = 1 / 60;
@@ -16,24 +14,22 @@ Engine.Timer.prototype.eventLoop = function(timeElapsed)
         return;
     }
 
-    if (this.frame++ % this.frameRateLimit == 0) {
-        timeElapsed /= 1000;
+    timeElapsed /= 1000;
 
-        if (this.timeLastEvent && this.callbacks.length) {
+    if (this.timeLastEvent && this.callbacks.length) {
 
-            var timeDiff = timeElapsed - this.timeLastEvent;
-            timeDiff *= this.timeStretch;
+        var timeDiff = timeElapsed - this.timeLastEvent;
+        timeDiff *= this.timeStretch;
 
-            /* Never let more time than 1/60th of a second pass per frame in game world. */
-            timeDiff = Math.min(timeDiff, this.timeMax);
+        /* Never let more time than 1/60th of a second pass per frame in game world. */
+        timeDiff = Math.min(timeDiff, this.timeMax);
 
-            for (var i in this.callbacks) {
-                this.callbacks[i](timeDiff);
-            }
+        for (var i in this.callbacks) {
+            this.callbacks[i](timeDiff);
         }
-
-        this.timeLastEvent = timeElapsed;
     }
+
+    this.timeLastEvent = timeElapsed;
 
     requestAnimationFrame(this.eventLoop.bind(this));
 }

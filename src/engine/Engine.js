@@ -2,6 +2,8 @@ var Engine = function(renderer)
 {
     this.renderer = renderer;
     this.isRunning = false;
+    this.frame = 0;
+    this.frameRate = 1;
     this.scene = undefined;
     this.timer = undefined;
 }
@@ -30,9 +32,11 @@ Engine.prototype.render = function()
 
 Engine.prototype.timeShift = function(timeElapsed)
 {
-    this.scene.updateTime(timeElapsed);
-    this.scene.camera.updateTime(timeElapsed);
-    this.render();
+    if (this.frame++ % this.frameRate == 0) {
+        this.scene.updateTime(timeElapsed);
+        this.scene.camera.updateTime(timeElapsed);
+        this.render();
+    }
 }
 
 Engine.Math = {
