@@ -5,6 +5,7 @@ Engine.Scene = function()
     this.scene = new THREE.Scene();
     var ambientLight = new THREE.AmbientLight(0xffffff);
     this.scene.add(ambientLight);
+    this.events = [];
     this.objects = [];
     this.timelines = [];
 }
@@ -16,7 +17,10 @@ Engine.Scene.prototype.addObject = function(object)
     }
     this.objects.push(object);
     this.scene.add(object.model);
-    //console.log('Added object', object.uuid, object);
+
+    if (object instanceof Engine.assets.Event === true) {
+        this.events.push(object);
+    }
 }
 
 Engine.Scene.prototype.addTimeline = function(timeline)
@@ -49,6 +53,15 @@ Engine.Scene.prototype.removeObject = function(object)
     if (i > -1) {
         this.scene.remove(this.objects[i].model);
         this.objects[i] = undefined;
+    }
+}
+
+Engine.Scene.prototype.updateEvents = function(dt)
+{
+    var i, l;
+    l = this.events.length;
+    for (i = 0; i < l; i++) {
+        this.events[i].timeShift(dt);
     }
 }
 

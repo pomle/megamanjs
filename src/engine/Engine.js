@@ -29,6 +29,8 @@ Engine.prototype.loop = function(timeElapsed)
                 this.scene.updateTime(simTimeDiff);
                 this.scene.camera.updateTime(simTimeDiff);
             }
+
+            this.scene.updateEvents(timeDiff);
         }
         this.render();
         this.timeLastEvent = timeElapsed;

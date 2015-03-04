@@ -90,14 +90,17 @@ var circle = function(dt)
 	Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
 
+var pauseEvent = new Engine.assets.Event();
+pauseEvent.engine = Game;
+pauseEvent.addCollisionRect(100, 100);
 
 Engine.scenes.Level.Util.loadFromXML('levels/test/Collision.xml', function(level) {
 	level.addPlayer(player);
 	level.gravityForce.y = 500;
-	//level.addObject(boss, 300, -100);
+	level.addObject(pauseEvent, 300, -100);
 	Game.scene = level;
-	Game.scene.objects[1].timeShift = circle;
-	Game.scene.objects[2].timeShift = pendelum;
+	//Game.scene.objects[1].timeShift = circle;
+	//Game.scene.objects[2].timeShift = pendelum;
 	var initialCollisions = Game.scene.collision.detect();
 	console.log("Initial collisions: %d", initialCollisions);
 	setTimeout(Game.run.bind(Game), 200);
