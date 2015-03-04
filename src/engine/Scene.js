@@ -11,7 +11,7 @@ Engine.Scene = function()
 
 Engine.Scene.prototype.addObject = function(object)
 {
-    if (object instanceof Engine.assets.Object !== true) {
+    if (object instanceof Engine.assets.Object === false) {
         throw new Error('Invalid object');
     }
     this.objects.push(object);
