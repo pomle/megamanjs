@@ -52,13 +52,13 @@ Engine.Scene.prototype.removeObject = function(object)
     }
 }
 
-Engine.Scene.prototype.updateTime = function(td)
+Engine.Scene.prototype.updateTime = function(dt)
 {
     var i, l;
 
     l = this.objects.length;
     for (i = 0; i < l; i++) {
-        this.objects[i].timeShift(td * this.objects[i].timeStretch);
+        this.objects[i].timeShift(dt * this.objects[i].timeStretch);
     }
     /* When objects get timeshifted they might decide to
     remove themselves for various reasons. To ensure we're
@@ -67,7 +67,7 @@ Engine.Scene.prototype.updateTime = function(td)
 
     l = this.timelines.length;
     for (i = 0; i < l; i++) {
-        this.timelines[i].timeShift(td);
+        this.timelines[i].timeShift(dt);
     }
 }
 
