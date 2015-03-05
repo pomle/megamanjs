@@ -131,6 +131,7 @@ Engine.Util = {
         if (!Engine.TextureManager.cache[cacheKey]) {
             var canvas = document.createElement("canvas");
             var texture = new THREE.Texture(canvas);
+            texture.sourceFile = cacheKey;
             var image = new Image();
             image.onload = function() {
                 var x = this.width * scale;
