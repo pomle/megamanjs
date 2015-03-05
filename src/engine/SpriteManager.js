@@ -59,7 +59,7 @@ Engine.SpriteManager.prototype.selectSprite = function(label)
     this.sprite = this.getSprite(label);
 
     // Reset timeline unless same group.
-    if (this.sprite.group != this.group) {
+    if (!this.sprite.group || this.sprite.group != this.group) {
         this.sprite.rewind();
     }
 
