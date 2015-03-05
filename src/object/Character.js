@@ -2,12 +2,12 @@ Engine.assets.objects.Character = function()
 {
     Engine.assets.Object.call(this);
 
-    this.fireTimeout = .25;
     this.direction = undefined;
+    this.fireTimeout = .25;
     this.health = new Engine.assets.Energy(100);
+    this.invincibilityDuration = 0;
     this.isFiring = false;
     this.isInvincible = false;
-    this.invincibilityDuration = 0;
     this.isSupported = false;
 
     this.jumpDuration = .18;
@@ -156,7 +156,6 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
             this.jumpEnd();
         }
     }
-
 
     Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
