@@ -39,6 +39,15 @@ Engine.assets.objects.characters.Megaman = function()
     teleport.addFrame(96, 144, .05);
     teleport.addFrame(0,  144);
 
+    var stunned = this.sprites.addSprite('stunned');
+    stunned.addFrame(192, 48, .08);
+    stunned.addFrame(192, 96, .04);
+
+    this.decorations = {
+        'sweat': new Engine.assets.decorations.Sweat(),
+    };
+
+
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
 
@@ -58,11 +67,39 @@ Engine.assets.objects.characters.Megaman = function()
 Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);
 Engine.assets.objects.characters.Megaman.constructor = Engine.assets.objects.characters.Megaman;
 
+Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(points, direction)
+{
+    if (!Engine.assets.objects.Character.prototype.inflictDamage.call(this, points)) {
+        return false;
+    }
+
+    this.momentum.set(40, 60);
+    if (direction) {
+        this.momentum.x *= direction.x > 0 ? -1 : 1;
+    }
+    else {
+        this.momentum.x *= this.direction > 0 ? -1 : 1;
+    }
+
+    this.decorations['sweat'].position.copy(this.position);
+    this.decorations['sweat'].position.y += 12;
+    this.decorations['sweat'].sprites.sprite.rewind();
+    this.decorations['sweat'].lifespan = 0;
+
+    this.scene.addObject(this.decorations['sweat']);
+
+    return true;
+}
+
 Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
     if (isFinite(this.isTeleporting)) {
         this.isTeleporting += dt;
         return this.sprites.selectSprite('teleport');
+    }
+
+    if (this.stunnedTime > 0) {
+        return this.sprites.selectSprite('stunned');
     }
 
     if (this.walk) {
