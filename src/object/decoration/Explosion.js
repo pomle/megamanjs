@@ -2,7 +2,7 @@ Engine.assets.decorations.Explosion = function()
 {
     Engine.assets.Object.call(this);
 
-    var model = Engine.Util.createSprite('explosions.gif', 48, 48);
+    var model = Engine.Util.createSprite('explosions.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
     var explosion = this.sprites.addSprite('explosion');
