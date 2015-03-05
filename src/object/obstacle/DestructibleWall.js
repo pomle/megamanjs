@@ -40,7 +40,7 @@ Engine.assets.obstacles.DestructibleWall.prototype.collides = function(withObjec
             return;
         }
 
-        withObject.inertia.x = -withObject.momentumSpeed.x;
+        withObject.inertia.x = -withObject.inertia.x;
         withObject.inertia.y = 100;
     }
 
