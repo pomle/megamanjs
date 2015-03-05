@@ -20,6 +20,9 @@ Engine.assets.objects.Character = function()
 
     this.projectileEmitOffset = new THREE.Vector2();
 
+    this.stunnedDuration = .5;
+    this.stunnedTime = false;
+
     this.walkAcc = 500;
     this.walkSpeed = 90;
     this.walk = 0;
@@ -81,12 +84,15 @@ Engine.assets.objects.Character.prototype.jumpEnd = function()
     this.jumpInertia = 0;
 }
 
-Engine.assets.objects.Character.prototype.inflictDamage = function(points)
+Engine.assets.objects.Character.prototype.inflictDamage = function(points, direction)
 {
-    if (!this.isInvincible) {
-        this.health.reduce(points);
-        this.isInvincible = this.invincibilityDuration;
+    if (this.isInvincible) {
+        return false;
     }
+    this.health.reduce(points);
+    this.isInvincible = this.invincibilityDuration;
+    this.stunnedTime = this.stunnedDuration;
+    return true;
 }
 
 Engine.assets.objects.Character.prototype.moveLeftStart = function()
@@ -118,15 +124,17 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
 {
     this.isSupported = false;
 
-    this.momentum.set(0, 0);
-
-    if (this.walk) {
-        this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
+    if (this.stunnedTime > 0) {
+        this.stunnedTime -= dt;
     }
-
-    this.calculateMoveSpeed(dt);
-
-    this.momentum.x = (this.moveSpeed * this.walk);
+    else {
+        this.momentum.set(0, 0);
+        if (this.walk) {
+            this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
+        }
+        this.calculateMoveSpeed(dt);
+        this.momentum.x = (this.moveSpeed * this.walk);
+    }
 
     if (this.isInvincible > 0) {
         this.isInvincible -= dt;
