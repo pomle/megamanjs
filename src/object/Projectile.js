@@ -20,12 +20,12 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
         return false;
     }
 
-    if (withObject.inflictDamage && !withObject.isInvincible) {
+    if (withObject.inflictDamage) {
         console.log('Inflicting %f damage on %s', this.damage, withObject);
-        withObject.inflictDamage(this.damage);
-
-        if (!withObject.health.depleted()) {
-            this.scene.removeObject(this);
+        if (withObject.inflictDamage(this.damage, this.position.clone().sub(withObject.position))) {
+            if (!withObject.health.depleted()) {
+                this.scene.removeObject(this);
+            }
         }
     }
 
