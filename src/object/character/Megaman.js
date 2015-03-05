@@ -5,8 +5,8 @@ Engine.assets.objects.characters.Megaman = function()
     this.LEFT = -1;
     this.RIGHT = 1;
 
-    var model = Engine.Util.createSprite('megaman/tiles.gif', 48, 48);
-    this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 192);
+    var model = Engine.Util.createSprite('megaman/tiles.png', 48, 48);
+    this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
     var idle = this.sprites.addSprite('idle');
     idle.addFrame(0, 0, 3.85);
