@@ -2,8 +2,8 @@ Engine.assets.objects.characters.Metalman = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    var model = Engine.Util.createSprite('bosses/metalman/tiles.gif', 48, 48);
-    this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 96);
+    var model = Engine.Util.createSprite('bosses/metalman.png', 48, 48);
+    this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
     var idle = this.sprites.addSprite('idle');
     idle.addFrame(0, 0);
