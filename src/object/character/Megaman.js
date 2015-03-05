@@ -2,7 +2,7 @@ Engine.assets.objects.characters.Megaman = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    var model = Engine.Util.createSprite('megaman/tiles.png', 48, 48);
+    var model = Engine.Util.createSprite('megaman/megaman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
     var idle = this.sprites.addSprite('idle');
