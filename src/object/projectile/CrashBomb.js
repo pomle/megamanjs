@@ -16,13 +16,14 @@ Engine.assets.projectiles.CrashBomb = function()
     ticking.addFrame(2, 68, .12);
     ticking.addFrame(2, 52, .12);
 
+    this.attachOffset = undefined;
+    this.attachPosition = undefined;
+    this.attachTime = false;
 
-    this.setModel(model);
     this.addCollisionRect(8, 8, 0, -1);
     this.setDamage(20);
+    this.setModel(model);
     this.setVelocity(240);
-
-    this.isAttached = false;
 
     this.explosion = undefined;
 }
@@ -32,7 +33,7 @@ Engine.assets.projectiles.CrashBomb.constructor = Engine.assets.Projectile;
 
 Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    if (this.isAttached !== false) {
+    if (this.attachTime !== false) {
         return false;
     }
 
@@ -48,8 +49,10 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
         }
 
         this.inertia.set(0, 0);
-        this.speed = withObject.speed;
-        this.isAttached = 0;
+        this.attachPosition = withObject.position;
+        this.attachOffset = this.position.clone().sub(this.attachPosition);
+        this.attachTime = 0;
+
         this.explosion = new Engine.assets.decorations.Explosion();
         this.explosion.setEmitter(this.emitter);
         this.dropCollision();
@@ -64,24 +67,29 @@ Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
         this.sprites.setDirection(this.inertia.x > 0 ? 1 : -1);
     }
 
-    if (this.isAttached === false) {
+    if (this.attachTime === false) {
         this.sprites.selectSprite('flying');
     } else {
-        if (this.isAttached > 2) {
+        if (this.attachTime > 2) {
             this.explosion.model.position.copy(this.model.position);
             this.scene.addObject(this.explosion);
             this.scene.removeObject(this);
         }
-        else if (this.isAttached > .25) {
+        else if (this.attachTime > .25) {
             this.sprites.selectSprite('ticking');
         }
         else {
             this.sprites.selectSprite('gripping');
         }
-        this.isAttached += dt;
+        this.attachTime += dt;
     }
 
     this.sprites.timeShift(dt);
 
     Engine.assets.Projectile.prototype.timeShift.call(this, dt);
+
+    if (this.attachPosition) {
+        this.position.copy(this.attachPosition);
+        this.position.add(this.attachOffset);
+    }
 }
