@@ -2,9 +2,6 @@ Engine.assets.objects.characters.Megaman = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    this.LEFT = -1;
-    this.RIGHT = 1;
-
     var model = Engine.Util.createSprite('megaman/tiles.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
@@ -68,9 +65,8 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
         return this.sprites.selectSprite('teleport');
     }
 
-    if (this.walk != 0) {
-        this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
-        this.sprites.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
+    if (this.walk) {
+        this.sprites.setDirection(this.direction);
     }
 
     if (!this.isSupported) {

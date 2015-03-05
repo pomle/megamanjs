@@ -2,9 +2,6 @@ Engine.assets.objects.characters.Flashman = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    this.LEFT = -1;
-    this.RIGHT = 1;
-
     var model = Engine.Util.createSprite('bosses/flashman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
@@ -49,8 +46,7 @@ Engine.assets.objects.characters.Flashman.constructor = Engine.assets.objects.ch
 Engine.assets.objects.characters.Flashman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
-        this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
-        this.sprites.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
+        this.sprites.setDirection(this.direction);
     }
 
     if (this.isFiring) {

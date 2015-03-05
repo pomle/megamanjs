@@ -2,9 +2,6 @@ Engine.assets.objects.characters.Metalman = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    this.LEFT = -1;
-    this.RIGHT = 1;
-
     var model = Engine.Util.createSprite('bosses/metalman/tiles.gif', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 96);
 
@@ -65,8 +62,7 @@ Engine.assets.objects.characters.Metalman.prototype.updateAI = function()
 Engine.assets.objects.characters.Metalman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
-        this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
-        this.sprites.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
+        this.sprites.setDirection(this.direction);
     }
 
     if (!this.isSupported) {

@@ -29,6 +29,9 @@ Engine.assets.objects.Character = function()
 Engine.assets.objects.Character.prototype = Object.create(Engine.assets.Object.prototype);
 Engine.assets.objects.Character.constructor = Engine.assets.objects.Character;
 
+Engine.assets.objects.Character.prototype.LEFT = -1;
+Engine.assets.objects.Character.prototype.RIGHT = 1;
+
 Engine.assets.objects.Character.prototype.calculateMoveSpeed = function(dt)
 {
     if (this.walk == 0) {
@@ -116,6 +119,10 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     this.isSupported = false;
 
     this.momentum.set(0, 0);
+
+    if (this.walk) {
+        this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
+    }
 
     this.calculateMoveSpeed(dt);
 
