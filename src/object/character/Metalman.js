@@ -18,7 +18,6 @@ Engine.assets.objects.characters.Metalman = function()
     fire.addFrame(48, 0);
 
     var jumpFire = this.sprites.addSprite('jump-fire');
-    jumpFire.rewind = Engine.SpriteManager.REWIND_ALWAYS;
     jumpFire.addFrame(96, 0, .05);
     jumpFire.addFrame(144, 0, 5);
 
