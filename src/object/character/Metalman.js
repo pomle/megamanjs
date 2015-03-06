@@ -25,39 +25,17 @@ Engine.assets.objects.characters.Metalman = function()
     run.addFrame(144, 48, .12);
 
     this.setDirection(this.RIGHT);
-    this.sprites.setDirection(this.RIGHT);
 
     this.fireTimeout = .2;
-
-    var material = new THREE.MeshLambertMaterial({});
-    material.transparent = true;
 
     this.jumpForce = 250;
 
     this.setModel(model);
     this.addCollisionRect(12, 24, 0, 0);
-
-    this.timeAIUpdated = null;
 }
 
 Engine.assets.objects.characters.Metalman.prototype = Object.create(Engine.assets.objects.Character.prototype);
 Engine.assets.objects.characters.Metalman.constructor = Engine.assets.objects.characters.Metalman;
-
-Engine.assets.objects.characters.Metalman.prototype.updateAI = function()
-{
-    if (Math.abs(this.time - this.timeAIUpdated) > 2) {
-        var o;
-        for (var i in this.scene.objects) {
-            o = this.scene.objects[i];
-            if (o instanceof Engine.assets.objects.characters.Megaman) {
-                this.walk = this.model.position.x > o.model.position.x ? -1 : 1;
-                break;
-            }
-        }
-
-        this.timeAIUpdated = this.time;
-    }
-}
 
 Engine.assets.objects.characters.Metalman.prototype.updateSprite = function()
 {
