@@ -25,7 +25,9 @@ Engine.assets.projectiles.CrashBomb = function()
     this.setModel(model);
     this.setVelocity(240);
 
-    this.explosion = undefined;
+    this.range = 200;
+
+    this.explosion = new Engine.assets.decorations.Explosion();
 }
 
 Engine.assets.projectiles.CrashBomb.prototype = Object.create(Engine.assets.Projectile.prototype);
@@ -61,6 +63,19 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
     Engine.assets.Projectile.prototype.collides.call(this, withObject, ourZone, theirZone);
 }
 
+Engine.assets.projectiles.CrashBomb.prototype.explode = function()
+{
+    this.explosion.model.position.copy(this.model.position);
+    this.explosion.setEmitter(this.emitter);
+    this.scene.addObject(this.explosion);
+    this.scene.removeObject(this);
+}
+
+Engine.assets.projectiles.CrashBomb.prototype.rangeReached = function()
+{
+    this.explode();
+}
+
 Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
 {
     if (this.inertia.x) {
@@ -71,9 +86,7 @@ Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
         this.sprites.selectSprite('flying');
     } else {
         if (this.attachTime > 2) {
-            this.explosion.model.position.copy(this.model.position);
-            this.scene.addObject(this.explosion);
-            this.scene.removeObject(this);
+            this.explode();
         }
         else if (this.attachTime > .25) {
             this.sprites.selectSprite('ticking');
