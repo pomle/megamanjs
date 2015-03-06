@@ -44,20 +44,25 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
         var dir = withObject.attackDirection(our, their);
 
-        if (dir == withObject.LEFT) {
-            our.left(their.r);
-        } else if (dir == withObject.RIGHT) {
-            our.right(their.l);
+        if (dir === withObject.TOP) {
+            our.top(their.b);
         }
+        else if (dir === withObject.BOTTOM) {
+            our.bottom(their.t);
+        }
+        else {
+            if (dir == withObject.LEFT) {
+                our.left(their.r);
+            } else if (dir == withObject.RIGHT) {
+                our.right(their.l);
+            }
 
-        this.inertia.set(0, 0);
-        this.attachPosition = withObject.position;
-        this.attachOffset = this.position.clone().sub(this.attachPosition);
-        this.attachTime = 0;
-
-        this.explosion = new Engine.assets.decorations.Explosion();
-        this.explosion.setEmitter(this.emitter);
-        this.dropCollision();
+            this.inertia.set(0, 0);
+            this.attachPosition = withObject.position;
+            this.attachOffset = this.position.clone().sub(this.attachPosition);
+            this.attachTime = 0;
+            this.dropCollision();
+        }
     }
 
     Engine.assets.Projectile.prototype.collides.call(this, withObject, ourZone, theirZone);
