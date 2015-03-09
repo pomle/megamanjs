@@ -14,7 +14,7 @@ Engine.assets.weapons.CrashBomber.prototype.fire = function()
     if (!Engine.assets.Weapon.prototype.fire.call(this)) {
         return false;
     }
-    var projectile = new Engine.assets.projectiles.CrashBomber();
+    var projectile = new Engine.assets.projectiles.CrashBomb();
     projectile.setEmitter(this.user);
     projectile.inertia.x = projectile.velocity * this.user.direction;
     this.user.scene.addObject(projectile);
