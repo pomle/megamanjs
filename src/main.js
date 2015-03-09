@@ -8,6 +8,7 @@ var Game = new Engine(renderer);
 
 var weapons = {
 	'p': new Engine.assets.weapons.Plasma(),
+	'a': new Engine.assets.weapons.AirShooter(),
 	'm': new Engine.assets.weapons.MetalBlade(),
 	'c': new Engine.assets.weapons.CrashBomber()
 };
