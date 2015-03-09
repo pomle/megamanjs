@@ -13,6 +13,12 @@ Engine.scenes.Level.Util = {
         var level = new Engine.scenes.Level();
         level.animators = [];
 
+        levelXml.children('gravity').each(function() {
+            var gravityXml = $(this);
+            level.gravityForce.x = parseFloat(gravityXml.attr('x'));
+            level.gravityForce.y = parseFloat(gravityXml.attr('y'));
+        });
+
         var spriteIndex = {};
         var objectIndex = {};
         var animationIndex = {};
