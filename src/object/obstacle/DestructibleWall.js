@@ -29,7 +29,6 @@ Engine.assets.obstacles.DestructibleWall.constructor = Engine.assets.obstacles.D
 
 Engine.assets.obstacles.DestructibleWall.prototype.collides = function(withObject, ourZone, theirZone)
 {
-
     if (withObject instanceof Engine.assets.decorations.Explosion) {
         this.scene.removeObject(this);
         return;
