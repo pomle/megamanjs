@@ -9,7 +9,7 @@ var Game = new Engine(renderer);
 var weapons = {
 	'p': new Engine.assets.weapons.Plasma(),
 	'm': new Engine.assets.weapons.MetalBlade(),
-	'c': new Engine.assets.weapons.CrashBomb()
+	'c': new Engine.assets.weapons.CrashBomber()
 };
 
 var weaponIndex = [];

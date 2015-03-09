@@ -1,4 +1,4 @@
-Engine.assets.weapons.CrashBomb = function()
+Engine.assets.weapons.CrashBomber = function()
 {
     Engine.assets.Weapon.call(this);
     this.setCoolDown(1);
@@ -6,15 +6,15 @@ Engine.assets.weapons.CrashBomb = function()
     this.ammo.finite(this.ammo.max);
 }
 
-Engine.assets.weapons.CrashBomb.prototype = Object.create(Engine.assets.Weapon.prototype);
-Engine.assets.weapons.CrashBomb.constructor = Engine.assets.Weapon;
+Engine.assets.weapons.CrashBomber.prototype = Object.create(Engine.assets.Weapon.prototype);
+Engine.assets.weapons.CrashBomber.constructor = Engine.assets.Weapon;
 
-Engine.assets.weapons.CrashBomb.prototype.fire = function()
+Engine.assets.weapons.CrashBomber.prototype.fire = function()
 {
     if (!Engine.assets.Weapon.prototype.fire.call(this)) {
         return false;
     }
-    var projectile = new Engine.assets.projectiles.CrashBomb();
+    var projectile = new Engine.assets.projectiles.CrashBomber();
     projectile.setEmitter(this.user);
     projectile.inertia.x = projectile.velocity * this.user.direction;
     this.user.scene.addObject(projectile);
