@@ -2,77 +2,115 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(800, 532);
 document.getElementById('screen').appendChild(renderer.domElement);
 
-var Hud = new Hud($('#screen'));
+var Megaman2 = function()
+{
+	this.engine = undefined;
+	this.player = undefined;
 
-var Game = new Engine(renderer);
+	var gameRunningState;
+	window.addEventListener('focus', function() {
+		if (this.engine && gameRunningState) {
+			this.engine.run();
+		}
+	}.bind(this));
+	window.addEventListener('blur', function() {
+		gameRunningState = this.engine.isRunning;
+		if (this.engine && gameRunningState) {
+			this.engine.pause();
+		}
+	}.bind(this));
 
-var weapons = {
+	this.levelLoadTimeout = undefined;
+}
+
+Megaman2.prototype.loadLevel = function(xmlUrl)
+{
+	window.clearTimeout(this.levelLoadTimeout);
+	this.engine.pause();
+	this.engine.scene = undefined;
+	Engine.scenes.Level.Util.loadFromXML(xmlUrl, function(level) {
+		this.engine.scene = level;
+		this.engine.scene.addPlayer(this.player.character);
+		this.engine.scene.gravityForce.y = 500;
+		var initialCollisions = this.engine.scene.collision.detect();
+		console.log("Initial collisions: %d", initialCollisions);
+		this.levelLoadTimeout = window.setTimeout(this.engine.run.bind(this.engine), 200);
+	}.bind(this));
+}
+
+Megaman2.Player = function()
+{
+	this.character = undefined;
+	this.hud = undefined;
+	this.input = undefined;
+	this.lifes = 0;
+	this.weapons = {};
+}
+
+Megaman2.Player.prototype.equipWeapon = function(code)
+{
+	var weapon = this.weapons[code];
+	weapon.code = code;
+	this.character.equipWeapon(weapon);
+	this.hud.equipWeapon(weapon);
+}
+
+var game = new Megaman2();
+game.engine = new Engine(renderer);
+
+game.player = new Megaman2.Player();
+game.player.hud = new Hud($('#screen'));
+game.player.weapons = {
 	'p': new Engine.assets.weapons.Plasma(),
 	'a': new Engine.assets.weapons.AirShooter(),
 	'm': new Engine.assets.weapons.MetalBlade(),
 	'c': new Engine.assets.weapons.CrashBomber()
 };
+game.player.character = new Engine.assets.objects.characters.Megaman();
+game.player.hud.equipCharacter(game.player.character);
+game.player.character.invincibilityDuration = 2;
+game.player.input = new Engine.Keyboard();
+game.player.equipWeapon('p');
 
-var weaponIndex = [];
-weaponIndex.selected = 0;
-for (var c in weapons) {
-	weaponIndex.push(c);
-}
+game.player.input.intermittent(65,
+	function() {
+		game.player.character.moveLeftStart();
+	},
+	function() {
+		game.player.character.moveLeftEnd();
+	});
+game.player.input.intermittent(68,
+	function() {
+		game.player.character.moveRightStart();
+	},
+	function() {
+		game.player.character.moveRightEnd();
+	});
 
+game.player.input.intermittent(80,
+	function() {
+		game.player.character.jumpStart();
+	},
+	function() {
+		game.player.character.jumpEnd();
+	});
+game.player.input.hit(79,
+	function() {
+		game.player.character.fire();
+	});
+game.player.input.hit(89,
+	function() {
+		game.engine.isSimulating = !game.engine.isSimulating;
+	});
 
-var player = new Engine.assets.objects.characters.Megaman();
-player.lifes = 0;
-player.invincibilityDuration = 2;
-
-var boss = new Engine.assets.objects.characters.Metalman();
-boss.equipWeapon(new Engine.assets.weapons.MetalBlade());
-
-var keyboard = new Engine.Keyboard();
-
-function equipWeapon(code)
-{
-	var weapon = weapons[code];
-	weapon.code = code;
-	player.equipWeapon(weapon);
-	Hud.equipWeapon(weapon);
-}
-
-equipWeapon('p');
-Hud.equipCharacter(player);
-
-keyboard.intermittent(65, function() { player.moveLeftStart(); }, function() { player.moveLeftEnd(); });
-keyboard.intermittent(68, function() { player.moveRightStart(); }, function() { player.moveRightEnd(); });
-keyboard.intermittent(80, function() { player.jumpStart(); }, function() { player.jumpEnd(); });
-keyboard.hit(79, function() { player.fire(); });
-keyboard.hit(89, function() {
-	Game.isSimulating = !Game.isSimulating;
-});
-
-var gameRunningState;
-window.addEventListener('focus', function() {
-	if (gameRunningState) {
-		Game.run();
-	}
-});
-window.addEventListener('blur', function() {
-	gameRunningState = Game.isRunning;
-	if (gameRunningState) {
-		Game.pause();
-	}
-});
-
-keyboard.hit(33, function() {
+game.player.input.hit(33, function() {
 	equipWeapon(weaponIndex[++weaponIndex.selected]);
 });
-keyboard.hit(34, function() {
+game.player.input.hit(34, function() {
 	equipWeapon(weaponIndex[--weaponIndex.selected]);
 });
-/*
-keyboard.intermittent(65, function() { boss.moveLeftStart(); }, function() { boss.moveLeftEnd(); });
-keyboard.intermittent(68, function() { boss.moveRightStart(); }, function() { boss.moveRightEnd(); });
-keyboard.intermittent(86, function() { boss.jumpStart(); }, function() { boss.jumpEnd(); });
-keyboard.hit(67, function() { boss.fire(); });
-*/
+
+game.loadLevel('levels/flashman/Flashman.xml');
 
 
 var pendelum = function(dt)
@@ -90,18 +128,3 @@ var circle = function(dt)
 	//this.momentum.y += dt;
 	Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
-
-
-Engine.scenes.Level.Util.loadFromXML('levels/test/Collision.xml', function(level) {
-	level.addPlayer(player);
-	level.gravityForce.y = 500;
-	//level.addObject(boss, 300, -100);
-	Game.scene = level;
-	Game.scene.objects[1].timeShift = circle;
-	Game.scene.objects[2].timeShift = pendelum;
-	var initialCollisions = Game.scene.collision.detect();
-	console.log("Initial collisions: %d", initialCollisions);
-	setTimeout(Game.run.bind(Game), 200);
-});
-
-
