@@ -3,9 +3,6 @@ Engine.scenes.Level.Util = {
     {
         var baseUrl = baseUrl || '';
 
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(xml, "application/xml");
-
         var jXml = $(jQuery.parseXML(xml));
 
         var levelXml = jXml.children('level');
@@ -281,28 +278,25 @@ Engine.scenes.Level.Util = {
             level.enemies.push(Enemy);
         });
 
-        var layoutNodes = doc.evaluate('/level/layout/objects/object', doc, null, XPathResult.ANY_TYPE , null);
-        //var materials = [];
-        var objectNode;
-        while (objectNode = layoutNodes.iterateNext()) {
-            var ref = objectNode.attributes['ref'].value;
+        layoutXml.find('> objects > object').each(function() {
+            var objectXml = $(this);
+            var ref = objectXml.attr('ref');
             var object = getObject(ref);
 
             var material = new THREE.MeshBasicMaterial();
             material.map = object.texture;
 
             var mesh = new THREE.Mesh(object.geometry, material);
-            //materials.push(spriteIndex[id].material);
             var pos = {
-                'x': parseFloat(objectNode.attributes['x'].value),
-                'y': parseFloat(objectNode.attributes['y'].value)
+                'x': parseFloat(objectXml.attr('x')),
+                'y': parseFloat(objectXml.attr('y'))
             };
 
             mesh.position.x = pos.x + (object.size.w / 2);
             mesh.position.y = -(pos.y + (object.size.h / 2));
 
-            var rotate = doc.evaluate('@rotate', objectNode, null, XPathResult.NUMBER_TYPE, null).numberValue;
-            var flip = doc.evaluate('@flip', objectNode, null, XPathResult.STRING_TYPE, null).stringValue;
+            var rotate = parseFloat(objectXml.attr('rotate'));
+            var flip = objectXml.attr('flip');
             if (isFinite(rotate)) {
                 mesh.rotation.z = -(Math.PI/180)*rotate;
             }
@@ -314,20 +308,19 @@ Engine.scenes.Level.Util = {
             }
 
             level.scene.add(mesh);
-        }
+        });
 
-        var itemNodes = doc.evaluate('/level/layout//item', doc, null, XPathResult.ANY_TYPE , null);
-        var itemNode;
-        while (itemNode = itemNodes.iterateNext()) {
-            var name = itemNode.attributes['name'].value;
+        layoutXml.find('> items > item').each(function() {
+            var itemXml = $(this);
+            var name = itemXml.attr('name');
             if (!Engine.assets.objects.items[name]) {
                 throw new Error('Item ' + name + ' does not exist');
             }
             var Item = new Engine.assets.objects.items[name]();
-            Item.model.position.x = parseFloat(itemNode.attributes['x'].value);
-            Item.model.position.y = -parseFloat(itemNode.attributes['y'].value);
+            Item.model.position.x = parseFloat(itemXml.attr('x'));
+            Item.model.position.y = -parseFloat(itemXml.attr('y'));
             level.addObject(Item);
-        }
+        });
 
         layoutXml.find('obstacles > obstacle').each(function(i, obstacleXml) {
             obstacleXml = $(obstacleXml);
@@ -341,42 +334,45 @@ Engine.scenes.Level.Util = {
             level.addObject(Obstacle);
         });
 
-        var exposeSolids = true;
-        var solidNodes = doc.evaluate('/level/layout/solids/*', doc, null, XPathResult.ANY_TYPE , null);
-        var solidNode;
-        var material = new THREE.MeshBasicMaterial({
-            color: 'white',
-            wireframe: true,
-            visible: exposeSolids,
+        levelXml.find('> layout > solids').each(function() {
+            var solidsXml = $(this);
+            var expose = (solidsXml.attr('expose') == 'true');
+
+            var material = new THREE.MeshBasicMaterial({
+                color: 'white',
+                wireframe: true,
+                visible: expose,
+            });
+
+            solidsXml.children().each(function() {
+                var solidXml = $(this);
+                var prop = {
+                    'x': parseFloat(solidXml.attr('x')),
+                    'y': parseFloat(solidXml.attr('y')),
+                    'w': parseFloat(solidXml.attr('w')),
+                    'h': parseFloat(solidXml.attr('h')),
+                }
+
+                var geometry = new THREE.PlaneGeometry(prop.w, prop.h);
+                var mesh = new THREE.Mesh(geometry, material);
+                mesh.position.x = prop.x + (prop.w / 2);
+                mesh.position.y = -(prop.y + (prop.h / 2));
+                mesh.position.z = expose ? 1 : -1;
+
+                var solid = new Engine.assets.Solid();
+                solid.setModel(mesh);
+                solid.addCollisionGeometry(geometry);
+
+                level.addObject(solid);
+            });
         });
 
-        while (solidNode = solidNodes.iterateNext()) {
-            var prop = {
-                'x': parseFloat(solidNode.attributes['x'].value),
-                'y': parseFloat(solidNode.attributes['y'].value),
-                'w': parseFloat(solidNode.attributes['w'].value),
-                'h': parseFloat(solidNode.attributes['h'].value),
-            }
-
-            var geometry = new THREE.PlaneGeometry(prop.w, prop.h);
-            var mesh = new THREE.Mesh(geometry, material);
-            mesh.position.x = prop.x + (prop.w / 2);
-            mesh.position.y = -(prop.y + (prop.h / 2));
-            mesh.position.z = exposeSolids ? 1 : -1;
-
-            var solid = new Engine.assets.Solid();
-            solid.setModel(mesh);
-            solid.addCollisionGeometry(geometry);
-
-            level.addObject(solid);
-        }
-
-        var checkpoint = doc.evaluate('/level/checkpoints/checkpoint[1]', doc, null, XPathResult.ANY_TYPE , null).iterateNext();
-        if (checkpoint) {
-            var x = doc.evaluate('@x', checkpoint, null, XPathResult.NUMBER_TYPE, null).numberValue;
-            var y = doc.evaluate('@y', checkpoint, null, XPathResult.NUMBER_TYPE, null).numberValue;
+        levelXml.find('> checkpoints > checkpoint').each(function() {
+            var checkpointXml = $(this);
+            var x = parseFloat(checkpointXml.attr('x'));
+            var y = parseFloat(checkpointXml.attr('y'));
             level.setStartPosition(x, y);
-        }
+        });
 
         return level;
     },
