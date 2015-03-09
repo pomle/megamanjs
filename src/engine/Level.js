@@ -61,5 +61,3 @@ Engine.scenes.Level.prototype.updateTime = function(dt)
     themselves from the pool, so we make a GC. */
     this.garbageCollectObjects();
 }
-
-Engine.scenes.levels = {};
