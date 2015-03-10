@@ -2,7 +2,7 @@ Engine.assets.projectiles.Plasma = function()
 {
     Engine.assets.Projectile.call(this);
 
-    var model = Engine.Util.createSprite('projectile/plasma.gif', 8, 8);
+    var model = Engine.SpriteManager.createSingleTile('projectiles.png', 8, 8, 4, 4, 128, 128);
     this.setModel(model);
     this.addCollisionZone(4, 0, 0);
     this.setDamage(3);
