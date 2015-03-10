@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
-    <gravity x="0" y="500" />
+    <gravity x="0" y="983" />
 
     <checkpoints>
         <checkpoint x="100" y="64"/>
