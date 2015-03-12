@@ -84,17 +84,17 @@ Engine.assets.objects.characters.SillyCanon.prototype.updateAI = function()
                     break;
                 }
             }
+        } else {
+            var distanceRatio = Engine.Math.findRatio(this.target.model.position.x,
+                this.model.position.x - this.far,
+                this.model.position.x - this.near);
+
+            distanceRatio = Engine.Math.clamp(distanceRatio, 0, 1);
+
+            this.aimingAngle = Engine.Math.applyRatio(distanceRatio, this.aimFar, this.aimNear);
+
+            this.timeAIUpdated = this.time;
         }
-
-        var distanceRatio = Engine.Math.findRatio(this.target.model.position.x,
-            this.model.position.x - this.far,
-            this.model.position.x - this.near);
-
-        distanceRatio = Engine.Math.clamp(distanceRatio, 0, 1);
-
-        this.aimingAngle = Engine.Math.applyRatio(distanceRatio, this.aimFar, this.aimNear);
-
-        this.timeAIUpdated = this.time;
     }
 }
 
