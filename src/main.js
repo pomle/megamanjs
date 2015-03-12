@@ -65,7 +65,7 @@ game.player.weapons = {
 	'm': new Engine.assets.weapons.MetalBlade(),
 	'c': new Engine.assets.weapons.CrashBomber()
 };
-game.player.character = new Engine.assets.objects.characters.Megaman();
+game.player.character = new Engine.assets.objects.characters.Astrogoat();
 game.player.hud.equipCharacter(game.player.character);
 game.player.character.invincibilityDuration = 2;
 game.player.input = new Engine.Keyboard();
