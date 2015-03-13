@@ -56,7 +56,7 @@ Engine.scenes.Level.prototype.updateTime = function(dt)
     this.applyGravity(this.gravityForce.x * dt, this.gravityForce.y * dt);
     Engine.Scene.prototype.updateTime.call(this, dt);
 
-    this.collision.detect();
+    this.collision.detectQuad();
     /* After collision, some objects might have decided to remove
     themselves from the pool, so we make a GC. */
     this.garbageCollectObjects();
