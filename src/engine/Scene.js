@@ -1,9 +1,14 @@
 Engine.Scene = function()
 {
+    var ambientLight = new THREE.AmbientLight(0xffffff);
+
     this.camera = new Engine.Camera(new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000));
     this.camera.camera.position.z = 100;
     this.scene = new THREE.Scene();
-    var ambientLight = new THREE.AmbientLight(0xffffff);
+
+    this.simulationDistance = undefined;
+    this.simulationOrigin = undefined;
+
     this.scene.add(ambientLight);
     this.objects = [];
     this.timelines = [];
@@ -52,12 +57,24 @@ Engine.Scene.prototype.removeObject = function(object)
     }
 }
 
+Engine.Scene.prototype.setSimulationDistance = function(d)
+{
+    this.simulationDistance = d;
+    this.simulationDistanceSquared = d * d;
+}
+
 Engine.Scene.prototype.updateTime = function(dt)
 {
-    var i, l;
+    var i, l, o;
 
     l = this.objects.length;
     for (i = 0; i < l; i++) {
+        o = this.objects[i];
+        if (this.simulationDistance) {
+            if (Engine.Math.squaredDistance(o.position, this.simulationOrigin) > this.simulationDistanceSquared) {
+                continue;
+            }
+        }
         this.objects[i].timeShift(dt * this.objects[i].timeStretch);
     }
     /* When objects get timeshifted they might decide to

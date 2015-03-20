@@ -11,7 +11,7 @@ Engine.assets.objects.Character = function()
     this.isSupported = false;
 
     this.jumpDuration = .18;
-    this.jumpForce = 150;
+    this.jumpForce = 180;
     this.jumpInertia = 0;
     this.jumpTime = undefined;
 

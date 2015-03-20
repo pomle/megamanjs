@@ -1,9 +1,11 @@
 Engine.Collision = function()
 {
     this.objects = [];
-    this.quadTree = new Engine.Collision.QuadTree(0, {'x': -1000, 'y': -1000, 'w': 2000, 'h': 2000});
     this.collisionIndex = [];
     this.positionCache = [];
+
+    this.collisionCount = undefined;
+    this.collisionTests = undefined;
 }
 
 Engine.Collision.prototype.addObject = function(object)
@@ -12,8 +14,8 @@ Engine.Collision.prototype.addObject = function(object)
         throw new Error('Collidable wrong type');
     }
     this.objects.push(object);
-    this.positionCache.push(undefined);
     this.collisionIndex.push([]);
+    this.positionCache.push(undefined);
 }
 
 Engine.Collision.prototype.garbageCollectObjects = function()
@@ -89,51 +91,50 @@ Engine.Collision.prototype.detect = function()
     return collisionCount;
 }
 
-Engine.Collision.prototype.detectQuad = function()
+Engine.Collision.prototype.detectQuad = function(origin, maxDistance)
 {
-    var collisionCount = 0;
-    var collisionTests = 0;
-    var i, j, l = this.objects.length;
+    this.collisionCount = 0;
+    this.collisionTests = 0;
 
-    this.quadTree.clear();
+    var o, i, j, l = this.objects.length;
+    var maxDistanceSquared = maxDistance * maxDistance;
+
+    var quadTree = new Engine.Collision.QuadTree(origin.x - maxDistance,
+                                                 origin.y - maxDistance,
+                                                 maxDistance * 2,
+                                                 maxDistance * 2,
+                                                 4);
+
+    var affectedObjects = [];
     for (i = 0; i < l; i++) {
-        if (!this.objects[i] || !this.objects[i].collision[0]) {
+        o = this.objects[i];
+        if (o === undefined) {
             continue;
         }
-        this.objects[i].collision[0].updateBoundingBox();
-        this.quadTree.insert(this.objects[i], i);
+        if (Engine.Math.squaredDistance(o.position, origin) < maxDistanceSquared) {
+            quadTree.insert(o);
+            affectedObjects.push(o);
+        }
     }
 
+    l = affectedObjects.length;
+    var o1, o2;
     for (i = 0; i < l; i++) {
-        if (this.objects[i] === undefined) {
-            continue;
-        }
-        if (!this.objectNeedsRecheck(i)) {
-            continue;
-        }
-        var possibleCollisionIndexes = [];
-        this.quadTree.retrieve(this.objects[i], possibleCollisionIndexes);
-        for (j in possibleCollisionIndexes) {
-            if (i == possibleCollisionIndexes[j]) {
+        o1 = affectedObjects[i];
+        var testObjects = quadTree.retrieve(o1);
+        for (j in testObjects) {
+            o2 = testObjects[j];
+            if (o1 === o2) {
                 continue;
             }
-            collisionTests++;
-            if (this.objectIndexesCollide(i, possibleCollisionIndexes[j])) {
-                collisionCount++;
+            this.collisionTests++;
+            if (this.objectsCollide(o1, o2)) {
+                this.collisionCount++;
             }
         }
     }
 
     this.garbageCollectObjects();
-
-    l = this.objects.length;
-    for (i = 0; i < l; i++) {
-        if (this.positionCache[i].x === undefined) {
-            this.positionCache[i].copy(this.objects[i].model.position);
-        }
-    }
-
-    return collisionCount;
 }
 
 Engine.Collision.prototype.objectIndexesCollide = function(i, j)
@@ -333,49 +334,71 @@ Engine.Collision.BoundingBox.prototype.updateBoundingBox = function()
 
 
 
-Engine.Collision.QuadTree = function(level, bounds)
+Engine.Collision.QuadTree = function(x, y, w, h, maxDepth)
 {
-   this.level = level;
-   this.bounds = bounds;
-   this.objects = [];
-   this.nodes = [];
-}
+    this.bounds = {
+        'x': x,
+        'y': y,
+        'w': w,
+        'h': h,
+    };
 
-Engine.Collision.QuadTree.prototype.MAX_OBJECTS = 5;
-Engine.Collision.QuadTree.prototype.MAX_LEVELS = 10;
+    this.maxDepth = maxDepth || 5;
+    this.maxObjects = 10;
 
-Engine.Collision.QuadTree.prototype.clear = function()
-{
-    for (var i in this.nodes) {
-        this.nodes[i].clear();
-    }
+    this.nodes = undefined;
     this.objects = [];
-    this.nodes = [];
 }
 
-Engine.Collision.QuadTree.prototype.insert = function(object, objectIndex)
+Engine.Collision.QuadTree.prototype.getIndex = function(object)
 {
-    if (this.nodes.length) {
-        var index = this.getIndex(object);
+    var rect = object.collision[0],
+        hMid = this.bounds.x + this.bounds.w / 2,
+        vMid = this.bounds.y + this.bounds.h / 2;
+
+    if (rect.b < hMid) {
+        if (rect.r < vMid) {
+            return 0;
+        }
+        if (rect.l > vMid) {
+            return 1;
+        }
+    }
+    else if (rect.t > hMid) {
+        if (rect.r < vMid) {
+            return 2;
+        }
+        if (rect.l > vMid) {
+            return 3;
+        }
+    }
+
+    return -1;
+}
+
+Engine.Collision.QuadTree.prototype.insert = function(object)
+{
+    var index;
+    if (this.nodes) {
+        index = this.getIndex(object);
         if (index > -1) {
-            this.nodes[index].insert(object, objectIndex);
+            this.nodes[index].insert(object);
             return;
         }
     }
 
-    this.objects.push({'object': object, 'index': objectIndex});
+    this.objects.push(object);
 
-    if (this.objects.length > this.MAX_OBJECTS && this.level < this.MAX_LEVELS) {
-        if (this.nodes.length == 0) {
+    if (this.objects.length > this.maxObjects && this.maxDepth == 0) {
+        if (!this.nodes) {
             this.split();
         }
 
         var i = 0;
         while (i < this.objects.length) {
-            var index = this.getIndex(this.objects[i].object);
+            index = this.getIndex(this.objects[i]);
             if (index > -1) {
-                var f = this.objects.splice(i, 1)[0];
-                this.nodes[index].insert(f.object, f.objectIndex);
+                this.nodes[index].insert(this.objects.splice(i, 1)[0]);
             }
             else {
                 i++;
@@ -384,68 +407,41 @@ Engine.Collision.QuadTree.prototype.insert = function(object, objectIndex)
     }
 }
 
-Engine.Collision.QuadTree.prototype.getIndex = function(object)
+Engine.Collision.QuadTree.prototype.retrieve = function(object)
 {
-    var rect = object.collision[0];
+    var index = this.getIndex(object),
+    returnObjects = this.objects;
 
-    var index = -1;
-    var verticalMidpoint = this.bounds.x + (this.bounds.w / 2);
-    var horizontalMidpoint = this.bounds.y + (this.bounds.h / 2);
-
-    var topQuadrant = (rect.b > horizontalMidpoint);
-    var bottomQuadrant = (rect.t < horizontalMidpoint);
-
-    // Object can completely fit within the left quadrants
-    if (rect.l < verticalMidpoint && rect.r < verticalMidpoint) {
-      if (topQuadrant) {
-        index = 1;
-      }
-      else if (bottomQuadrant) {
-        index = 2;
-      }
-    }
-    // Object can completely fit within the right quadrants
-    else if (rect.l > verticalMidpoint) {
-        if (topQuadrant) {
-            index = 0;
+    if (this.nodes) {
+       if (index > -1) {
+            returnObjects = returnObjects.concat(this.nodes[index].retrieve(object));
         }
-        else if (bottomQuadrant) {
-            index = 3;
+        else {
+            var i, l = this.nodes.length;
+            for(var i = 0; i < l; i++) {
+                returnObjects = returnObjects.concat(this.nodes[i].retrieve(object));
+            }
         }
     }
 
-    return index;
-}
-
-Engine.Collision.QuadTree.prototype.retrieve = function(object, listOfIndexes)
-{
-    var index = this.getIndex(object);
-    if (index > -1 && this.nodes.length) {
-        this.nodes[index].retrieve(object, listOfIndexes);
-    }
-    for (var i in this.objects) {
-        listOfIndexes.push(this.objects[i].index);
-    }
+    return returnObjects;
 }
 
 Engine.Collision.QuadTree.prototype.split = function()
 {
-    var x = this.bounds.x;
-    var y = this.bounds.y;
-    var w = this.bounds.w / 2;
-    var h = this.bounds.h / 2;
-
-    this.nodes[0] = new Engine.Collision.QuadTree(this.level + 1, {'x': x + w, 'y': y, 'w': w, 'h': h});
-    this.nodes[1] = new Engine.Collision.QuadTree(this.level + 1, {'x': x, 'y': y, 'w': w, 'h': h});
-    this.nodes[2] = new Engine.Collision.QuadTree(this.level + 1, {'x': x, 'y': y + h, 'w': w, 'h': h});
-    this.nodes[3] = new Engine.Collision.QuadTree(this.level + 1, {'x': x + w, 'y': y + h, 'w': w, 'h': h});
-}
-
-Engine.Collision.QuadTree.QuadItem = function(x, y, w, h, value)
-{
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-    this.value = value;
+    if (this.maxDepth == 0) {
+        return false;
+    }
+    var depth = this.maxDepth - 1,
+        x = this.bounds.x,
+        y = this.bounds.y,
+        w = this.bounds.w / 2;
+        h = this.bounds.h / 2;
+    this.nodes = [
+        new Engine.Collision.QuadTree(x, y, w, h, depth),
+        new Engine.Collision.QuadTree(x + w, y, w, h, depth),
+        new Engine.Collision.QuadTree(x, y + h, w, h, depth),
+        new Engine.Collision.QuadTree(x + w, y + h, w, h, depth),
+    ];
+    return true;
 }

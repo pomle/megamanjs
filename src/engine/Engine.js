@@ -64,14 +64,21 @@ Engine.Math = {
         return (h - l) * ratio + l;
     },
 
-    'clamp': function(v, min, max)
+    clamp: function(v, min, max)
     {
         return Math.min(max, Math.max(min, v));
     },
 
-    'findRatio': function(pos, h, l)
+    findRatio: function(pos, h, l)
     {
         return (pos - l) / (h - l);
+    },
+
+    squaredDistance: function(v1, v2)
+    {
+        var dx = v1.x - v2.x,
+            dy = v1.y - v2.y;
+        return dx * dx + dy * dy;
     },
 }
 

@@ -31,8 +31,6 @@ Megaman2.prototype.loadLevel = function(xmlUrl)
 	Engine.scenes.Level.Util.loadFromXML(xmlUrl, function(level) {
 		this.engine.scene = level;
 		this.engine.scene.addPlayer(this.player.character);
-		var initialCollisions = this.engine.scene.collision.detect();
-		console.log("Initial collisions: %d", initialCollisions);
 		this.levelLoadTimeout = window.setTimeout(this.engine.run.bind(this.engine), 200);
 	}.bind(this));
 }
