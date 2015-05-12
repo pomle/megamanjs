@@ -275,7 +275,11 @@
         <enemies>
             <enemy name="SillyCanon" x="644" y="192" />
             <enemy name="SillyCanon" x="924" y="144" />
-            <enemy name="SillyCanon" x="1005" y="144" flip="x" />
+            <enemy name="SillyCanon" x="1005" y="144" direction="right" />
+            <enemy name="SillyCanon" x="1054" y="48" direction="right" />
+            <enemy name="SillyCanon" x="1228" y="144" direction="left" />
+            <enemy name="SillyCanon" x="1604" y="144" direction="right" />
+            <enemy name="SillyCanon" x="1644" y="620" direction="left" />
         </enemies>
 
         <items>
