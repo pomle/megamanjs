@@ -52,6 +52,12 @@ Megaman2.Player.prototype.equipWeapon = function(code)
 	this.hud.equipWeapon(weapon);
 }
 
+Megaman2.Player.prototype.setCharacter = function(character)
+{
+	this.character = character;
+	this.character.isPlayer = true;
+}
+
 var game = new Megaman2();
 game.engine = new Engine(renderer);
 
@@ -63,7 +69,7 @@ game.player.weapons = {
 	'm': new Engine.assets.weapons.MetalBlade(),
 	'c': new Engine.assets.weapons.CrashBomber()
 };
-game.player.character = new Engine.assets.objects.characters.Megaman();
+game.player.setCharacter(new Engine.assets.objects.characters.Megaman());
 game.player.hud.equipCharacter(game.player.character);
 game.player.character.invincibilityDuration = 2;
 game.player.input = new Engine.Keyboard();
