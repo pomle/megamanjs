@@ -2,8 +2,8 @@ Engine.assets.objects.characters.SillyCanon = function(target)
 {
     Engine.assets.objects.Character.call(this);
 
-    var model = Engine.Util.createSprite('enemies/sillycanon.gif', 32, 32);
-    this.sprites = new Engine.SpriteManager(model, 32, 32 , 192, 32);
+    var model = Engine.Util.createSprite('enemies/sillycanon.png', 32, 32);
+    this.sprites = new Engine.SpriteManager(model, 32, 32 , 256, 32);
 
     var deg0 = this.sprites.addSprite('deg0');
     deg0.addFrame(32, 0, .25);
