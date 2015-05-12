@@ -262,20 +262,20 @@ Engine.scenes.Level.Util = {
             if (!Engine.assets.objects.characters[name]) {
                 throw new Error('Item ' + name + ' does not exist');
             }
-            var Enemy = new Engine.assets.objects.characters[name]();
+            var enemy = new Engine.assets.objects.characters[name]();
             var x = parseFloat(enemyXml.attr('x'));
             var y = -parseFloat(enemyXml.attr('y'));
 
-            var flip = enemyXml.attr('flip');
-            if (flip == 'x') {
-                Enemy.model.scale.x = -1;
+            var direction = enemyXml.attr('direction');
+            if (direction == 'right') {
+                enemy.setDirection(enemy.RIGHT);
             }
-            if (flip == 'y') {
-                Enemy.model.scale.y = -1;
+            else if (direction == 'left') {
+                enemy.setDirection(enemy.LEFT);
             }
 
-            level.addObject(Enemy, x, y);
-            level.enemies.push(Enemy);
+            level.addObject(enemy, x, y);
+            level.enemies.push(enemy);
         });
 
         layoutXml.find('> objects > object').each(function() {
