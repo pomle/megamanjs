@@ -111,7 +111,7 @@ Engine.Collision.prototype.detectQuad = function(origin, maxDistance)
         if (o === undefined) {
             continue;
         }
-        if (Engine.Math.squaredDistance(o.position, origin) < maxDistanceSquared) {
+        if (o.collision.length && Engine.Math.squaredDistance(o.position, origin) < maxDistanceSquared) {
             quadTree.insert(o);
             affectedObjects.push(o);
         }
@@ -121,10 +121,13 @@ Engine.Collision.prototype.detectQuad = function(origin, maxDistance)
     var o1, o2;
     for (i = 0; i < l; i++) {
         o1 = affectedObjects[i];
+        if (!o1.collision.length) {
+            continue;
+        }
         var testObjects = quadTree.retrieve(o1);
         for (j in testObjects) {
             o2 = testObjects[j];
-            if (o1 === o2) {
+            if (o1 === o2 || !o2.collision.length) {
                 continue;
             }
             this.collisionTests++;
