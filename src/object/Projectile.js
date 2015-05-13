@@ -27,6 +27,13 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
     return true;
 }
 
+Engine.assets.Projectile.prototype.deflect = function()
+{
+    this.dropCollision();
+    this.inertia.x = -this.inertia.x;
+    this.inertia.y = 100;
+}
+
 Engine.assets.Projectile.prototype.rangeReached = function()
 {
     this.scene.removeObject(this);
