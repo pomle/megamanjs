@@ -3,7 +3,7 @@ Engine.assets.objects.characters.SillyCanon = function(target)
     Engine.assets.objects.Character.call(this);
 
     var model = Engine.Util.createSprite('enemies/sillycanon.png', 32, 32);
-    this.sprites = new Engine.SpriteManager(model, 32, 32 , 256, 32);
+    this.sprites = new Engine.SpriteManager(model, 32, 32, 256, 32);
 
     var deg0 = this.sprites.addSprite('deg0');
     deg0.addFrame(32, 0, .25);
@@ -24,7 +24,7 @@ Engine.assets.objects.characters.SillyCanon = function(target)
 
     this.health = new Engine.assets.Energy(10);
 
-    this.setDirection(-1);
+    this.setDirection(this.LEFT);
 
     this.coolDown = .8;
     this.waitForShot = 0;
@@ -33,7 +33,7 @@ Engine.assets.objects.characters.SillyCanon = function(target)
 
     this.timeAIUpdated = null;
 
-    // Degrees
+
     this.far = 200;
     this.near = 0;
     this.aimFar = 160;
@@ -119,6 +119,7 @@ Engine.assets.objects.characters.SillyCanon.prototype.timeShift = function(dt)
     else {
         this.sprites.selectSprite('deg45');
     }
+    this.sprites.setDirection(this.direction);
 
     if (Math.abs(this.shootingAngle - this.aimingAngle) > 2) {
         this.sprites.applySprite();
