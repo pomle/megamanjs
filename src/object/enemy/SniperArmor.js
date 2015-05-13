@@ -26,6 +26,9 @@ Engine.assets.objects.characters.SniperArmor = function(target)
 
     this.jumpForce = new THREE.Vector2(130, 300);
 
+    this.passenger = new Engine.assets.objects.characters.SniperJoe();
+
+
     this.target = undefined;
     this.isJumpCharged = false;
     this.jumpCoolDown = 0;
@@ -107,7 +110,6 @@ Engine.assets.objects.characters.SniperArmor.prototype.timeShift = function(dt)
         this.inertia.set(this.jumpForce.x * this.direction,
                           this.jumpForce.y);
         this.jumpCoolDown = 2.5;
-        console.log(this.inertia);
         this.jumpEnd();
     }
 

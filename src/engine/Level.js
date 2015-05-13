@@ -22,17 +22,24 @@ Engine.scenes.Level.prototype.addObject = function(o, x, y)
     o.setScene(this);
 }
 
-Engine.scenes.Level.prototype.applyGravity = function(x, y)
+Engine.scenes.Level.prototype.applyGravity = function(object, dt)
 {
-    if (x || y) {
-        var i, o, l = this.objects.length;
-        for (i = 0; i < l; i++) {
-            if (this.objects[i].mass) {
-                this.objects[i].inertia.x += -x;
-                this.objects[i].inertia.y += -y;
-            }
-        }
+    if (this.gravityForce.x == 0 && this.gravityForce.y == 0) {
+        return;
     }
+
+    if (object.mass == 0) {
+        return;
+    }
+
+    object.inertia.x += -this.gravityForce.x * dt * object.timeStretch;
+    object.inertia.y += -this.gravityForce.y * dt * object.timeStretch;
+}
+
+Engine.scenes.Level.prototype.applyModifiers = function(object, dt)
+{
+    this.applyGravity(object, dt);
+    Engine.Scene.prototype.applyModifiers.call(this, object, dt);
 }
 
 Engine.scenes.Level.prototype.removeObject = function(o)
@@ -56,7 +63,6 @@ Engine.scenes.Level.prototype.setStartPosition = function(x, y)
 
 Engine.scenes.Level.prototype.updateTime = function(dt)
 {
-    this.applyGravity(this.gravityForce.x * dt, this.gravityForce.y * dt);
     Engine.Scene.prototype.updateTime.call(this, dt);
 
     this.collision.detectQuad(this.simulationOrigin,

@@ -52,15 +52,19 @@ Engine.assets.objects.characters.SillyCanon.prototype.fire = function()
         return;
     }
 
-    var projectile = new Engine.assets.projectiles.SillyShot();
+    var projectile = new Engine.assets.projectiles.EnemyPlasma();
+    projectile.mass = 1;
     projectile.setEmitter(this);
 
     var kX = Math.cos(Math.RAD * this.shootingAngle);
     var kY = Math.sin(Math.RAD * this.shootingAngle);
 
+    var originXOffset = 16 * kX;
+    var originYOffset = kY;
+
     var origin = new THREE.Vector3(
-        (this.model.position.x + 12 * kX) + (8 * this.direction),
-        this.model.position.y + 12 * kY,
+        this.model.position.x + originXOffset,
+        this.model.position.y + originYOffset,
         0);
 
     projectile.setOrigin(origin);

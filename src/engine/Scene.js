@@ -32,6 +32,11 @@ Engine.Scene.prototype.addTimeline = function(timeline)
     this.timelines.push(timeline);
 }
 
+Engine.Scene.prototype.applyModifiers = function(object, dt)
+{
+
+}
+
 Engine.Scene.prototype.garbageCollectObjects = function()
 {
     var i, l = this.objects.length;
@@ -60,7 +65,7 @@ Engine.Scene.prototype.removeObject = function(object)
 Engine.Scene.prototype.setSimulationDistance = function(d)
 {
     this.simulationDistance = d;
-    this.simulationDistanceSquared = d * d;
+    this.simulationDistanceSq = d * d;
 }
 
 Engine.Scene.prototype.updateTime = function(dt)
@@ -70,12 +75,8 @@ Engine.Scene.prototype.updateTime = function(dt)
     l = this.objects.length;
     for (i = 0; i < l; i++) {
         o = this.objects[i];
-        if (this.simulationDistance) {
-            if (Engine.Math.squaredDistance(o.position, this.simulationOrigin) > this.simulationDistanceSquared) {
-                continue;
-            }
-        }
-        this.objects[i].timeShift(dt * this.objects[i].timeStretch);
+        this.applyModifiers(o, dt);
+        o.timeShift(dt * o.timeStretch);
     }
     /* When objects get timeshifted they might decide to
     remove themselves for various reasons. To ensure we're
