@@ -151,6 +151,10 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
         }
     }
 
+    if (this.weapon) {
+        this.weapon.timeShift(dt);
+    }
+
     if (this.health.depleted()) {
         var explosion = new Engine.assets.decorations.Explosion();
         explosion.model.position.copy(this.model.position);

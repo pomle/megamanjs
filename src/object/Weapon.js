@@ -1,10 +1,9 @@
 Engine.assets.Weapon = function()
 {
-    this.coolDownTimer;
     this.ammo = new Engine.assets.Energy();
     this.coolDown = 0;
+    this.coolDownDelay = undefined;
     this.isReady = true;
-    this.isFiring = false;
     this.projectileCost = 1;
     this.user = undefined;
 }
@@ -24,15 +23,10 @@ Engine.assets.Weapon.prototype.fire = function()
 
     if (this.coolDown > 0) {
         this.isReady = false;
-        coolDownTimer = setTimeout(this.ready.bind(this), this.coolDown * 1000);
+        this.coolDownDelay = this.coolDown;
     }
 
     return true;
-}
-
-Engine.assets.Weapon.prototype.ready = function()
-{
-    this.isReady = true;
 }
 
 Engine.assets.Weapon.prototype.setCoolDown = function(duration)
@@ -46,6 +40,17 @@ Engine.assets.Weapon.prototype.setUser = function(user)
         throw new Error('Invalid user');
     }
     this.user = user;
+}
+
+Engine.assets.Weapon.prototype.timeShift = function(dt)
+{
+    if (this.coolDownDelay) {
+        this.coolDownDelay -= dt;
+        if (this.coolDownDelay <= 0) {
+            this.isReady = true;
+            this.coolDownDelay = undefined;
+        }
+    }
 }
 
 Engine.assets.weapons = {};
