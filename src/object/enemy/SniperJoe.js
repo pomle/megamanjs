@@ -8,7 +8,7 @@ Engine.assets.objects.characters.SniperJoe = function(target)
     var shielding = this.sprites.addSprite('shielding');
     shielding.addFrame(0, 0);
     var shooting = this.sprites.addSprite('shooting');
-    shooting.addFrame(0, 0);
+    shooting.addFrame(32, 0);
 
     this.sprites.selectSprite('shielding');
     this.sprites.applySprite();
@@ -20,50 +20,43 @@ Engine.assets.objects.characters.SniperJoe = function(target)
 
     this.setDirection(this.LEFT);
 
-    this.walkSpeed = 0;
+    var weapon = new Engine.assets.weapons.EnemyPlasma();
+    weapon.setCoolDown(.8);
+    this.equipWeapon(weapon);
 
-    this.jumpForce = new THREE.Vector2(130, 300);
+    this.projectileEmitOffset.set(9, -2);
 
-    this.passenger = new Engine.assets.objects.characters.SniperJoe();
-
-
+    this.ai = new Engine.AI(this);
+    this.firingLoop = -1;
     this.target = undefined;
-    this.isJumpCharged = false;
-    this.jumpCoolDown = 0;
-    this.isJumpCharged = 0;
-    this.jumpProgression = null;
-    this.timeLastJump = null;
-    this.timeAIUpdated = null;
+    this.isShielding = true;
 }
 
 Engine.assets.objects.characters.SniperJoe.prototype = Object.create(Engine.assets.objects.Character.prototype);
 Engine.assets.objects.characters.SniperJoe.constructor = Engine.assets.objects.characters.SniperJoe;
 
-Engine.assets.objects.characters.SniperJoe.prototype.jumpStart = function(dt)
+Engine.assets.objects.characters.SniperJoe.prototype.impactProjectile = function(projectile)
 {
-    if (this.jumpCoolDown > 0) {
-        return false;
+    // Is the shield pointing towards the projectile
+    if (this.isShielding) {
+        var relativeXSpeed = this.speed.x - projectile.speed.x;
+        var impactDirection = relativeXSpeed < 0 ? this.LEFT : this.RIGHT;
+        if (impactDirection == this.direction) {
+            projectile.deflect();
+            return false;
+        }
     }
-    this.jumpCoolDown = 4;
-    this.jumpCharging = .5;
-    this.isJumpCharged = false;
-}
 
-Engine.assets.objects.characters.SniperJoe.prototype.jumpEnd = function(dt)
-{
-    this.isJumpCharged = false;
+    return Engine.assets.objects.Character.prototype.impactProjectile.call(this, projectile);
 }
 
 Engine.assets.objects.characters.SniperJoe.prototype.selectSprite = function(dt)
 {
     this.sprites.setDirection(this.direction);
-    if (!this.isSupported) {
-        return this.sprites.selectSprite('jumping');
+    if (this.isShielding) {
+        return this.sprites.selectSprite('shielding');
     }
-    if (this.jumpCharging) {
-        return this.sprites.selectSprite('charging');
-    }
-    return this.sprites.selectSprite('idle');
+    return this.sprites.selectSprite('shooting');
 }
 
 Engine.assets.objects.characters.SniperJoe.prototype.updateAI = function()
@@ -73,49 +66,34 @@ Engine.assets.objects.characters.SniperJoe.prototype.updateAI = function()
     }
     this.timeAIUpdated = this.time;
 
-    if (!this.target) {
-        var o;
-        for (var i in this.scene.objects) {
-            o = this.scene.objects[i];
-            if (o.isPlayer) {
-                this.target = o;
-                break;
-            }
-        }
-    }
+    this.ai.findPlayer();
 
-    if (this.target.position.distanceTo(this.position) > 300) {
+    if (this.ai.target.position.distanceTo(this.position) > 200) {
+        this.firingLoop = -1;
         return;
     }
 
-    this.setDirection(this.target.position.x > this.position.x ? this.RIGHT : this.LEFT);
-    this.jumpStart();
+    this.ai.faceTarget();
+    if (this.firingLoop < 0) {
+        this.firingLoop = 0;
+    }
 }
 
 Engine.assets.objects.characters.SniperJoe.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
 
-    if (this.jumpCharging) {
-        this.jumpCharging -= dt;
-        if (this.jumpCharging <= 0) {
-            this.jumpCharging = false;
-            this.isJumpCharged = 1;
+    if (this.firingLoop >= 0) {
+        this.firingLoop += dt;
+        var fireLoopDelta = this.firingLoop % 4;
+        if (fireLoopDelta <= 2) {
+            this.isShielding = true;
         }
-    }
-
-    if (this.isJumpCharged) {
-        this.inertia.set(this.jumpForce.x * this.direction,
-                          this.jumpForce.y);
-        this.jumpCoolDown = 2.5;
-        console.log(this.inertia);
-        this.jumpEnd();
-    }
-
-    if (this.jumpCoolDown > 0) {
-        this.jumpCoolDown -= dt;
-        if (this.jumpCoolDown <= 0) {
-            this.jumpCoolDown = 0;
+        else {
+            this.isShielding = false;
+            if (fireLoopDelta > 2.5) {
+                this.fire();
+            }
         }
     }
 
