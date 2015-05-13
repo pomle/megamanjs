@@ -84,6 +84,21 @@ Engine.assets.objects.Character.prototype.jumpEnd = function()
     this.jumpInertia = 0;
 }
 
+Engine.assets.objects.Character.prototype.impactProjectile = function(projectile)
+{
+    if (projectile instanceof Engine.assets.Projectile !== true) {
+        throw new Error('Invalid projectile');
+    }
+
+    if (this.inflictDamage(projectile.damage,
+                           projectile.position.clone()
+                               .sub(this.position))) {
+        if (!this.health.depleted()) {
+            this.scene.removeObject(projectile);
+        }
+    }
+}
+
 Engine.assets.objects.Character.prototype.inflictDamage = function(points, direction)
 {
     if (this.isInvincible) {

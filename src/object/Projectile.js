@@ -20,13 +20,8 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
         return false;
     }
 
-    if (withObject.inflictDamage) {
-        console.log('Inflicting %f damage on %s', this.damage, withObject);
-        if (withObject.inflictDamage(this.damage, this.position.clone().sub(withObject.position))) {
-            if (!withObject.health.depleted()) {
-                this.scene.removeObject(this);
-            }
-        }
+    if (withObject.impactProjectile) {
+        withObject.impactProjectile(this);
     }
 
     return true;
