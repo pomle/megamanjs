@@ -16,6 +16,13 @@ Engine.scenes.Level.Util = {
             level.gravityForce.y = parseFloat(gravityXml.attr('y'));
         });
 
+        var collisionRadius = undefined;
+        levelXml.children('collision-radius').each(function() {
+            var colXml = $(this);
+            collisionRadius = parseFloat(colXml.attr('units'));
+            level.collision.setCollisionRadius(collisionRadius);
+        });
+
         var spriteIndex = {};
         var objectIndex = {};
         var animationIndex = {};
@@ -351,6 +358,11 @@ Engine.scenes.Level.Util = {
                     'y': parseFloat(solidXml.attr('y')),
                     'w': parseFloat(solidXml.attr('w')),
                     'h': parseFloat(solidXml.attr('h')),
+                }
+
+                var c2 = collisionRadius * 2;
+                if (prop.w > c2 || prop.h > c2) {
+                    console.error('Solid beyond collision radius %f.', collisionRadius, prop);
                 }
 
                 var geometry = new THREE.PlaneGeometry(prop.w, prop.h);

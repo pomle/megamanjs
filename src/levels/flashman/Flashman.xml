@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
     <gravity x="0" y="983" />
+    <collision-radius units="360"></collision-radius>
 
     <checkpoints>
         <checkpoint x="100" y="64"/>
