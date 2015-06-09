@@ -112,7 +112,6 @@ Engine.assets.Object.prototype.timeShift = function(dt)
 
 Engine.assets.Object.prototype.uncollides = function(withObject)
 {
-    console.log('%s detaches from %s', withObject, this);
 }
 
 // Set up a default model.
