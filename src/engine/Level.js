@@ -5,9 +5,6 @@ Engine.scenes.Level = function()
     this.collision = new Engine.Collision();
     this.gravityForce = new THREE.Vector2();
     this.startPosition = new THREE.Vector2();
-
-    this.simulationOrigin = this.camera.camera.position;
-    this.setSimulationDistance(500);
 }
 
 Engine.scenes.Level.prototype = Object.create(Engine.Scene.prototype);
@@ -65,8 +62,8 @@ Engine.scenes.Level.prototype.updateTime = function(dt)
 {
     Engine.Scene.prototype.updateTime.call(this, dt);
 
-    this.collision.detectQuad(this.simulationOrigin,
-                              this.simulationDistance);
+    this.collision.detect();
+
     /* After collision, some objects might have decided to remove
     themselves from the pool, so we make a GC. */
     this.garbageCollectObjects();

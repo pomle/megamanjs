@@ -4,8 +4,9 @@ Engine.Collision = function()
     this.collisionIndex = [];
     this.positionCache = [];
 
-    this.collisionCount = undefined;
-    this.collisionTests = undefined;
+    this.collisionCount = 0;
+    this.collisionTests = 0;
+    this.collisionMaxDistanceSq = undefined;
 }
 
 Engine.Collision.prototype.addObject = function(object)
@@ -54,8 +55,8 @@ Engine.Collision.prototype.objectNeedsRecheck = function(objectIndex)
 
 Engine.Collision.prototype.detect = function()
 {
-    var collisionCount = 0;
-    var collisionTests = 0;
+    this.collisionTests = 0;
+    this.collisionCount = 0;
     var i, j, l = this.objects.length;
 
     for (i = 0; i < l; i++) {
@@ -71,11 +72,7 @@ Engine.Collision.prototype.detect = function()
             if (i == j) {
                 continue;
             }
-
-            collisionTests++;
-            if (this.objectIndexesCollide(i, j)) {
-                collisionCount++;
-            }
+            this.objectIndexesCollide(i, j);
         }
     }
 
@@ -84,60 +81,9 @@ Engine.Collision.prototype.detect = function()
     l = this.objects.length;
     for (i = 0; i < l; i++) {
         if (this.positionCache[i] === undefined) {
-            this.positionCache[i] = this.objects[i].model.position.clone();
+            this.positionCache[i] = this.objects[i].position.clone();
         }
     }
-
-    return collisionCount;
-}
-
-Engine.Collision.prototype.detectQuad = function(origin, maxDistance)
-{
-    this.collisionCount = 0;
-    this.collisionTests = 0;
-
-    var o, i, j, l = this.objects.length;
-    var maxDistanceSquared = maxDistance * maxDistance;
-
-    var quadTree = new Engine.Collision.QuadTree(origin.x - maxDistance,
-                                                 origin.y - maxDistance,
-                                                 maxDistance * 2,
-                                                 maxDistance * 2,
-                                                 4);
-
-    var affectedObjects = [];
-    for (i = 0; i < l; i++) {
-        o = this.objects[i];
-        if (o === undefined) {
-            continue;
-        }
-        if (o.collision.length && Engine.Math.squaredDistance(o.position, origin) < maxDistanceSquared) {
-            quadTree.insert(o);
-            affectedObjects.push(o);
-        }
-    }
-
-    l = affectedObjects.length;
-    var o1, o2;
-    for (i = 0; i < l; i++) {
-        o1 = affectedObjects[i];
-        if (!o1.collision.length) {
-            continue;
-        }
-        var testObjects = quadTree.retrieve(o1);
-        for (j in testObjects) {
-            o2 = testObjects[j];
-            if (o1 === o2 || !o2.collision.length) {
-                continue;
-            }
-            this.collisionTests++;
-            if (this.objectsCollide(o1, o2)) {
-                this.collisionCount++;
-            }
-        }
-    }
-
-    this.garbageCollectObjects();
 }
 
 Engine.Collision.prototype.objectIndexesCollide = function(i, j)
@@ -150,6 +96,10 @@ Engine.Collision.prototype.objectIndexesCollide = function(i, j)
 
     var o1 = this.objects[i],
         o2 = this.objects[j];
+
+    if (o1.position.distanceToSquared(o2.position) > this.collisionMaxDistanceSq) {
+        return false;
+    }
 
     if (this.objectsCollide(o1, o2)) {
         if (this.collisionIndex[i].indexOf(o2) < 0) {
@@ -174,6 +124,7 @@ Engine.Collision.prototype.objectsCollide = function(o1, o2)
         l = o1.collision.length,
         m = o2.collision.length;
 
+    this.collisionTests++;
     for (i = 0; i < l; i++) {
         z1 = o1.collision[i];
         for (j = 0; j < m; j++) {
@@ -181,11 +132,17 @@ Engine.Collision.prototype.objectsCollide = function(o1, o2)
             if (this.zonesCollide(o1, z1, o2, z2)) {
                 o1.collides.call(o1, o2, z1.zone, z2.zone);
                 o2.collides.call(o2, o1, z2.zone, z1.zone);
+                this.collisionCount++;
                 return true;
             }
         }
     }
     return false;
+}
+
+Engine.Collision.prototype.setCollisionRadius = function(units)
+{
+    this.collisionMaxDistanceSq = units * units;
 }
 
 Engine.Collision.prototype.zonesCollide = function(object1, boundingBox1, object2, boundingBox2)
@@ -333,118 +290,4 @@ Engine.Collision.BoundingBox.prototype.updateBoundingBox = function()
     this.r = this.x + (this.w / 2);
     this.t = this.y + (this.h / 2);
     this.b = this.y - (this.h / 2);
-}
-
-
-
-Engine.Collision.QuadTree = function(x, y, w, h, maxDepth)
-{
-    this.bounds = {
-        'x': x,
-        'y': y,
-        'w': w,
-        'h': h,
-    };
-
-    this.maxDepth = maxDepth || 5;
-    this.maxObjects = 10;
-
-    this.nodes = undefined;
-    this.objects = [];
-}
-
-Engine.Collision.QuadTree.prototype.getIndex = function(object)
-{
-    var rect = object.collision[0],
-        hMid = this.bounds.x + this.bounds.w / 2,
-        vMid = this.bounds.y + this.bounds.h / 2;
-
-    if (rect.b < hMid) {
-        if (rect.r < vMid) {
-            return 0;
-        }
-        if (rect.l > vMid) {
-            return 1;
-        }
-    }
-    else if (rect.t > hMid) {
-        if (rect.r < vMid) {
-            return 2;
-        }
-        if (rect.l > vMid) {
-            return 3;
-        }
-    }
-
-    return -1;
-}
-
-Engine.Collision.QuadTree.prototype.insert = function(object)
-{
-    var index;
-    if (this.nodes) {
-        index = this.getIndex(object);
-        if (index > -1) {
-            this.nodes[index].insert(object);
-            return;
-        }
-    }
-
-    this.objects.push(object);
-
-    if (this.objects.length > this.maxObjects && this.maxDepth == 0) {
-        if (!this.nodes) {
-            this.split();
-        }
-
-        var i = 0;
-        while (i < this.objects.length) {
-            index = this.getIndex(this.objects[i]);
-            if (index > -1) {
-                this.nodes[index].insert(this.objects.splice(i, 1)[0]);
-            }
-            else {
-                i++;
-            }
-        }
-    }
-}
-
-Engine.Collision.QuadTree.prototype.retrieve = function(object)
-{
-    var index = this.getIndex(object),
-    returnObjects = this.objects;
-
-    if (this.nodes) {
-       if (index > -1) {
-            returnObjects = returnObjects.concat(this.nodes[index].retrieve(object));
-        }
-        else {
-            var i, l = this.nodes.length;
-            for(var i = 0; i < l; i++) {
-                returnObjects = returnObjects.concat(this.nodes[i].retrieve(object));
-            }
-        }
-    }
-
-    return returnObjects;
-}
-
-Engine.Collision.QuadTree.prototype.split = function()
-{
-    if (this.maxDepth == 0) {
-        return false;
-    }
-    var depth = this.maxDepth - 1,
-        x = this.bounds.x,
-        y = this.bounds.y,
-        w = this.bounds.w / 2;
-        h = this.bounds.h / 2;
-    this.nodes = [
-        new Engine.Collision.QuadTree(x, y, w, h, depth),
-        new Engine.Collision.QuadTree(x + w, y, w, h, depth),
-        new Engine.Collision.QuadTree(x, y + h, w, h, depth),
-        new Engine.Collision.QuadTree(x + w, y + h, w, h, depth),
-    ];
-    return true;
 }

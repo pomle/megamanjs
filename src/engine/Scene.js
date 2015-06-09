@@ -6,9 +6,6 @@ Engine.Scene = function()
     this.camera.camera.position.z = 100;
     this.scene = new THREE.Scene();
 
-    this.simulationDistance = undefined;
-    this.simulationOrigin = undefined;
-
     this.scene.add(ambientLight);
     this.objects = [];
     this.timelines = [];
@@ -60,12 +57,6 @@ Engine.Scene.prototype.removeObject = function(object)
         this.scene.remove(this.objects[i].model);
         this.objects[i] = undefined;
     }
-}
-
-Engine.Scene.prototype.setSimulationDistance = function(d)
-{
-    this.simulationDistance = d;
-    this.simulationDistanceSq = d * d;
 }
 
 Engine.Scene.prototype.updateTime = function(dt)
