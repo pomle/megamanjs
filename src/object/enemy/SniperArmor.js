@@ -41,6 +41,12 @@ Engine.assets.objects.characters.SniperArmor = function(target)
 Engine.assets.objects.characters.SniperArmor.prototype = Object.create(Engine.assets.objects.Character.prototype);
 Engine.assets.objects.characters.SniperArmor.constructor = Engine.assets.objects.characters.SniperArmor;
 
+
+Engine.assets.objects.characters.SniperArmor.prototype.getDeathObject = function()
+{
+    return this.passenger;
+}
+
 Engine.assets.objects.characters.SniperArmor.prototype.jumpStart = function(dt)
 {
     if (this.jumpCoolDown > 0) {
