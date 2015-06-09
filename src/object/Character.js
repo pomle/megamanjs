@@ -69,6 +69,11 @@ Engine.assets.objects.Character.prototype.fire = function()
     return true;
 }
 
+Engine.assets.objects.Character.prototype.getDeathObject = function()
+{
+    return new Engine.assets.decorations.TinyExplosion();
+}
+
 Engine.assets.objects.Character.prototype.jumpStart = function()
 {
     if (!this.isSupported) {
@@ -171,7 +176,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     }
 
     if (this.health.depleted()) {
-        var explosion = new Engine.assets.decorations.TinyExplosion();
+        var explosion = this.getDeathObject();
         explosion.model.position.copy(this.model.position);
         this.scene.addObject(explosion);
         this.scene.removeObject(this);
