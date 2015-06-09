@@ -171,7 +171,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     }
 
     if (this.health.depleted()) {
-        var explosion = new Engine.assets.decorations.Explosion();
+        var explosion = new Engine.assets.decorations.TinyExplosion();
         explosion.model.position.copy(this.model.position);
         this.scene.addObject(explosion);
         this.scene.removeObject(this);
