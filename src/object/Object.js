@@ -4,6 +4,7 @@ Engine.assets.Object = function()
     this.collision = [];
     this.deltaTime = 0;
     this.emitter = undefined;
+    this.events = {};
     this.mass = 0;
     this.isSupported = false;
     this.inertia = new THREE.Vector2();
@@ -40,6 +41,14 @@ Engine.assets.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 {
     var circle = new THREE.CircleGeometry(r, 8);
     return this.addCollisionGeometry(circle, offsetX, offsetY);
+}
+
+Engine.assets.Object.prototype.bind = function(name, callback)
+{
+    if (!this.events[name]) {
+        this.events[name] = [];
+    }
+    this.events[name].push(callback);
 }
 
 Engine.assets.Object.prototype.collides = function(withObject, ourZone, theirZone)
@@ -108,6 +117,21 @@ Engine.assets.Object.prototype.timeShift = function(dt)
 
     this.model.position.x += (this.speed.x * dt);
     this.model.position.y += (this.speed.y * dt);
+}
+
+Engine.assets.Object.prototype.trigger = function(event)
+{
+    if (!this.events[name]) {
+        return;
+    }
+
+    var i,
+        l = this.events[name].length,
+        args = arguments.slice(1);
+
+    for (i = 0; i < l; i++) {
+        this.events[name][i].apply(this, args);
+    }
 }
 
 Engine.assets.Object.prototype.uncollides = function(withObject)
