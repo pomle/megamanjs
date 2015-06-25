@@ -383,7 +383,8 @@ Engine.scenes.Level.Util = {
             var checkpointXml = $(this);
             var x = parseFloat(checkpointXml.attr('x'));
             var y = parseFloat(checkpointXml.attr('y'));
-            level.setStartPosition(x, y);
+            var r = parseFloat(checkpointXml.attr('radius'));
+            level.addCheckPoint(x, -y, r || undefined);
         });
 
         return level;

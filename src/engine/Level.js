@@ -2,13 +2,21 @@ Engine.scenes.Level = function()
 {
     Engine.Scene.call(this);
     this.camera.camera.position.z = 120;
+    this.checkPoints = [];
     this.collision = new Engine.Collision();
     this.gravityForce = new THREE.Vector2();
-    this.startPosition = new THREE.Vector2();
 }
 
 Engine.scenes.Level.prototype = Object.create(Engine.Scene.prototype);
 Engine.scenes.Level.prototype.constructor = Engine.scenes.Level;
+
+Engine.scenes.Level.prototype.addCheckPoint = function(x, y, r)
+{
+    this.checkPoints.push({
+        'pos': new THREE.Vector2(x, y),
+        'radius': r || 100,
+    });
+}
 
 Engine.scenes.Level.prototype.addObject = function(o, x, y)
 {
@@ -43,19 +51,6 @@ Engine.scenes.Level.prototype.removeObject = function(o)
 {
     Engine.Scene.prototype.removeObject.call(this, o);
     this.collision.removeObject(o);
-}
-
-Engine.scenes.Level.prototype.addPlayer = function(player)
-{
-    this.addObject(player, this.startPosition.x, -this.startPosition.y);
-    this.camera.follow(player);
-}
-
-Engine.scenes.Level.prototype.setStartPosition = function(x, y)
-{
-    this.startPosition.x = x;
-    this.startPosition.y = y;
-    this.camera.jumpTo(x, -y);
 }
 
 Engine.scenes.Level.prototype.updateTime = function(dt)

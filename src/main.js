@@ -29,8 +29,9 @@ Megaman2.prototype.loadLevel = function(xmlUrl)
 	this.engine.pause();
 	this.engine.scene = undefined;
 	Engine.scenes.Level.Util.loadFromXML(xmlUrl, function(level) {
+		level.addObject(this.player.character, level.checkPoints[0].pos.x, level.checkPoints[0].pos.y);
+		level.camera.follow(this.player.character);
 		this.engine.scene = level;
-		this.engine.scene.addPlayer(this.player.character);
 		this.levelLoadTimeout = window.setTimeout(this.engine.run.bind(this.engine), 200);
 	}.bind(this));
 }
