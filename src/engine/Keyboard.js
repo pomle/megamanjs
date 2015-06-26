@@ -5,7 +5,16 @@ Engine.Keyboard = function()
         'up': {}
     };
     this.keystate = {};
+}
 
+Engine.Keyboard.prototype.disable = function()
+{
+    window.removeEventListener('keydown', this.keyDownEvent.bind(this));
+    window.removeEventListener('keyup', this.keyUpEvent.bind(this));
+}
+
+Engine.Keyboard.prototype.enable = function()
+{
     window.addEventListener('keydown', this.keyDownEvent.bind(this));
     window.addEventListener('keyup', this.keyUpEvent.bind(this));
 }
