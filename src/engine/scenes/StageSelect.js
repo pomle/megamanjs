@@ -138,9 +138,19 @@ Engine.scenes.StageSelect.prototype.setFrame = function(model)
 
 Engine.scenes.StageSelect.prototype.steer = function(x, y)
 {
-    var desiredIndex = this.currentIndex + x + y * this.rowLength;
-    var len = this.stages.length;
-    var newIndex = (desiredIndex % len + len) % len;
+    var newIndex = this.currentIndex;
+    var d = (this.currentIndex % this.rowLength) + x;
+    if (d >= 0 && d < this.rowLength) {
+        newIndex += x;
+    }
+    d = newIndex + y * this.rowLength;
+    if (d >= 0 && d < this.stages.length) {
+        newIndex = d;
+    }
+
+    if (newIndex === this.currentIndex) {
+        return;
+    }
     this.selectIndex(newIndex);
 }
 
