@@ -159,6 +159,8 @@ Engine.scenes.StageSelect.prototype.selectIndex = function(index)
     var avatar = this.stages[index].avatar;
     this.indicator.position.x = avatar.position.x;
     this.indicator.position.y = avatar.position.y;
+    this.indicator.visible = true;
+    this.indicatorStateTimer = 0;
     //this.cameraDesiredPosition.copy(this.indicator.position);
     //this.cameraDesiredPosition.z = 140;
     this.currentIndex = index;
