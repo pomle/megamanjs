@@ -4,6 +4,7 @@ var Engine = function(renderer)
     this.isRunning = false;
     this.isSimulating = true;
     this.simulationSpeed = 1;
+    this.timeElapsedTotal = 0;
     this.timeMax = 1/60;
     this.timeStretch = 1;
     this.scene = undefined;
@@ -23,6 +24,7 @@ Engine.prototype.loop = function(timeElapsed)
 
             /* Never let more time than 1/60th of a second pass per frame in game world. */
             timeDiff = Math.min(timeDiff, this.timeMax);
+            this.timeElapsedTotal += timeDiff;
 
             if (this.isSimulating && this.simulationSpeed) {
                 var simTimeDiff = timeDiff * this.simulationSpeed;
