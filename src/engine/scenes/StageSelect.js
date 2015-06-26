@@ -20,6 +20,30 @@ Engine.scenes.StageSelect = function()
             color: 'blue'
         }));
     this.scene.add(this.background);
+
+    this.input = new Engine.Keyboard();
+
+    this.input.hit(37,
+        function() {
+            this.steer(-1, 0);
+        }.bind(this));
+
+    this.input.hit(39,
+        function() {
+            this.steer(1, 0);
+        }.bind(this));
+
+    this.input.hit(38,
+        function() {
+            this.steer(0, -1);
+        }.bind(this));
+
+    this.input.hit(40,
+        function() {
+            this.steer(0, 1);
+        }.bind(this));
+
+    this.input.enable();
 }
 
 Engine.scenes.StageSelect.loadFromXml = function(url, callback)
