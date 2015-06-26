@@ -100,6 +100,8 @@ Engine.assets.objects.Character.prototype.impactProjectile = function(projectile
     if (this.inflictDamage(projectile.damage,
                            projectile.position.clone()
                                .sub(this.position))) {
+
+        // Absorb projectile if not deadly hit.
         if (!this.health.depleted()) {
             this.scene.removeObject(projectile);
         }
