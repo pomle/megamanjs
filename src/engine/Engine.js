@@ -44,8 +44,8 @@ Engine.prototype.pause = function()
 
 Engine.prototype.render = function()
 {
-    renderer.render(this.scene.scene,
-                    this.scene.camera.camera);
+    this.renderer.render(this.scene.scene,
+                         this.scene.camera.camera);
 }
 
 Engine.prototype.run = function()
