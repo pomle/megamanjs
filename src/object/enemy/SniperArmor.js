@@ -79,25 +79,16 @@ Engine.assets.objects.characters.SniperArmor.prototype.updateAI = function()
     if (Math.abs(this.time - this.timeAIUpdated) < 2) {
         return;
     }
+
     this.timeAIUpdated = this.time;
 
-    if (!this.target) {
-        var o;
-        for (var i in this.scene.objects) {
-            o = this.scene.objects[i];
-            if (o.isPlayer) {
-                this.target = o;
-                break;
-            }
+    if (this.ai.findPlayer()) {
+        if (this.ai.target.position.distanceTo(this.position) > 300) {
+            return;
         }
+        this.setDirection(this.ai.target.position.x > this.position.x ? this.RIGHT : this.LEFT);
+        this.jumpStart();
     }
-
-    if (this.target.position.distanceTo(this.position) > 300) {
-        return;
-    }
-
-    this.setDirection(this.target.position.x > this.position.x ? this.RIGHT : this.LEFT);
-    this.jumpStart();
 }
 
 Engine.assets.objects.characters.SniperArmor.prototype.timeShift = function(dt)

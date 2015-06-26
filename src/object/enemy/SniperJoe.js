@@ -26,7 +26,6 @@ Engine.assets.objects.characters.SniperJoe = function(target)
 
     this.projectileEmitOffset.set(9, -2);
 
-    this.ai = new Engine.AI(this);
     this.firingLoop = -1;
     this.target = undefined;
     this.isShielding = true;
@@ -66,16 +65,16 @@ Engine.assets.objects.characters.SniperJoe.prototype.updateAI = function()
     }
     this.timeAIUpdated = this.time;
 
-    this.ai.findPlayer();
+    if (this.ai.findPlayer()) {
+        if (this.ai.target.position.distanceTo(this.position) > 200) {
+            this.firingLoop = -1;
+            return;
+        }
 
-    if (this.ai.target.position.distanceTo(this.position) > 200) {
-        this.firingLoop = -1;
-        return;
-    }
-
-    this.ai.faceTarget();
-    if (this.firingLoop < 0) {
-        this.firingLoop = 0;
+        this.ai.faceTarget();
+        if (this.firingLoop < 0) {
+            this.firingLoop = 0;
+        }
     }
 }
 
