@@ -2,6 +2,8 @@ Engine.assets.objects.Character = function()
 {
     Engine.assets.Object.call(this);
 
+    this.ai = new Engine.AI(this);
+
     this.direction = undefined;
     this.fireTimeout = .25;
     this.health = new Engine.assets.Energy(100);
