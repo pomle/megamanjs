@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stage-select url="stageselect.png" w="256" h="256">
+    <background color="0x0064ff"/>
+    <indicator w="48" h="48" x="48" y="0"/>
+    <frame w="48" h="48" x="0" y="0"/>
+    <stage index="1" name="Bubble Man" src="levels/BubbleMan.xml" w="48" h="48" x="0" y="48"/>
+    <stage index="2" name="Air Man" src="levels/AirMan.xml" w="48" h="48" x="48" y="48"/>
+    <stage index="3" name="Quick Man" src="levels/QuickMan.xml" w="48" h="48" x="96" y="48"/>
+    <stage index="4" name="Heat Man" src="levels/HeatMan.xml" w="48" h="48" x="48" y="96"/>
+    <stage index="5" name="Dr. Wily" src="levels/DrWily.xml" w="48" h="48" x="144" y="0"/>
+    <stage index="6" name="Wood Man" src="levels/WoodMan.xml" w="48" h="48" x="144" y="48"/>
+    <stage index="7" name="Metal Man" src="levels/MetalMan.xml" w="48" h="48" x="144" y="96"/>
+    <stage index="8" name="Flash Man" src="levels/FlashMan.xml" w="48" h="48" x="96" y="96"/>
+    <stage index="9" name="Crash Man" src="levels/CrashMan.xml" w="48" h="48" x="0" y="96"/>
+</stage-select>
