@@ -12,22 +12,12 @@ Engine.assets.Energy.prototype.change = function(diff)
     if (diff != 0 && !isFinite(this.value)) {
         return false;
     }
-    var change = this.value;
-    if (diff > 0) {
-        this.value = Math.min(this.max, this.value + diff);
-    }
-    else {
-        this.value = Math.max(this.min, this.value + diff);
-    }
-    if (this.value != change) {
-        this.event(this);
-    }
-    return true;
+    return this.set(this.value + diff);
 }
 
 Engine.assets.Energy.prototype.depleted = function()
 {
-    return this.fraction() == 0;
+    return this.value <= this.min;
 }
 
 Engine.assets.Energy.prototype.finite = function(value)
@@ -53,4 +43,13 @@ Engine.assets.Energy.prototype.reduce = function(points)
 Engine.assets.Energy.prototype.refill = function(points)
 {
     return this.change(points);
+}
+
+Engine.assets.Energy.prototype.set = function(points)
+{
+    if (this.value === points) {
+        return;
+    }
+    this.value = Math.min(this.max, Math.max(this.min, points));
+    this.event(this);
 }
