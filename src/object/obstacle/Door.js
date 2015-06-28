@@ -1,9 +1,10 @@
 Engine.assets.obstacles.Door = function()
 {
     Engine.assets.Solid.call(this);
-    this.oneWay = true;
     this.doorSpeed = 1;
     this.doorPosition = undefined;
+    this.enabled = true;
+    this.oneWay = true;
     this.toggleDelay = .5;
     this.traverseStep = -1;
     this.traverseSpeed = .5;
@@ -51,7 +52,7 @@ Engine.assets.obstacles.Door.prototype.release = function()
 
 Engine.assets.obstacles.Door.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    if (withObject.isPlayer && this.traverseObject === undefined) {
+    if (this.enabled && withObject.isPlayer && this.traverseObject === undefined) {
         // Ignore collisions with currently handled object.
         if (withObject === this.traverseObject) {
             return;
@@ -61,6 +62,9 @@ Engine.assets.obstacles.Door.prototype.collides = function(withObject, ourZone, 
         var traverseWidth = our.w + their.w;
         var dest = new THREE.Vector2(withObject.position.x + (this.position.x > withObject.position.x ? traverseWidth : -traverseWidth),
                                      withObject.position.y);
+        if (this.oneWay) {
+            this.enabled = false;
+        }
         this.detain(withObject, dest);
     }
     else {
