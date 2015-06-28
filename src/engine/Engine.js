@@ -97,6 +97,7 @@ Engine.Math = {
 }
 
 Engine.TextureManager = {
+    'scale': 4,
     'cache': {},
 }
 
@@ -158,7 +159,7 @@ Engine.Util = {
     getTexture: function(url)
     {
         /* Default to 4x the sprite size before loading to memory. */
-        return Engine.Util.getScaledTexture(url, 4);
+        return Engine.Util.getScaledTexture(url, Engine.TextureManager.scale);
     },
 
     getScaledTexture: function(url, scale)
