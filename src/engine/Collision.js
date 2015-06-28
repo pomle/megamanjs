@@ -73,10 +73,9 @@ Engine.Collision.prototype.detect = function()
         }
 
         for (j = 0; j < l; j++) {
-            if (i == j) {
-                continue;
+            if (i != j && this.objects[i] && this.objects[j]) {
+                this.objectIndexesCollide(i, j);
             }
-            this.objectIndexesCollide(i, j);
         }
     }
 
@@ -93,11 +92,6 @@ Engine.Collision.prototype.detect = function()
 Engine.Collision.prototype.objectIndexesCollide = function(i, j)
 {
     var ix;
-
-    if (!this.objects[i] || !this.objects[j]) {
-        return false;
-    }
-
     var o1 = this.objects[i],
         o2 = this.objects[j];
 
