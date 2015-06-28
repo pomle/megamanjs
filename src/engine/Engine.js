@@ -16,7 +16,7 @@ var Engine = function(renderer)
 
 Engine.prototype.loop = function(timeElapsed)
 {
-    if (!this.isRunning) {
+    if (!this.isRunning || !this.scene) {
         return false;
     }
 
