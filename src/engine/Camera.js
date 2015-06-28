@@ -2,7 +2,6 @@ Engine.Camera = function(camera)
 {
     this.camera = camera;
     this.followObject = undefined;
-    this.followTween = undefined;
     this.followOffset = new THREE.Vector2(0, 25);
     this.followLookAhead = new THREE.Vector2(.5, .2);
 }
