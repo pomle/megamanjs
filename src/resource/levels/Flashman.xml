@@ -288,8 +288,6 @@
     </sprites>
     <layout>
         <enemies>
-            <enemy name="SniperJoe" x="200" y="100" direction="right" />
-
             <enemy name="SillyCanon" x="644" y="192" />
             <enemy name="SillyCanon" x="924" y="144" />
             <enemy name="SillyCanon" x="1005" y="144" direction="right" />
