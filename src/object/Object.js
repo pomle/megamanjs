@@ -10,6 +10,7 @@ Engine.assets.Object = function()
     this.isSupported = false;
     this.inertia = new THREE.Vector2();
     this.momentum = new THREE.Vector2();
+    this.physics = true;
     this.position = undefined;
     this.speed = new THREE.Vector2();
     this.scene = undefined;
@@ -112,12 +113,14 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.time += dt;
     this.deltaTime = dt;
 
-    this.speed.set(0, 0);
-    this.speed.add(this.inertia);
-    this.speed.add(this.momentum);
+    if (this.physics) {
+        this.speed.set(0, 0);
+        this.speed.add(this.inertia);
+        this.speed.add(this.momentum);
 
-    this.model.position.x += (this.speed.x * dt);
-    this.model.position.y += (this.speed.y * dt);
+        this.model.position.x += (this.speed.x * dt);
+        this.model.position.y += (this.speed.y * dt);
+    }
 }
 
 Engine.assets.Object.prototype.trigger = function(event)

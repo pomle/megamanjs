@@ -52,6 +52,9 @@
         <sprite id="truss-vert" x="112" y="16" w="16" h="16"/>
         <sprite id="truss-hori" x="112" y="32" w="16" h="16"/>
 
+        <sprite id="door-blue" x="80" y="0" w="16" h="16" />
+        <sprite id="door-cyan" x="80" y="48" w="16" h="16" />
+
         <animation name="dr-wily-sign">
             <frame sprite="drwily-sign-cyan" duration=".5"/>
             <frame sprite="drwily-sign-blue" duration=".5"/>
@@ -77,6 +80,10 @@
             <frame sprite="sign-scaffold-s-blue" duration=".5"/>
         </animation>
 
+        <animation name="door">
+            <frame sprite="door-cyan" duration=".5"/>
+            <frame sprite="door-blue" duration="1"/>
+        </animation>
 
 
         <!-- Single block -->
@@ -124,6 +131,13 @@
                 <animation ref="sign-scaffold-sw" />
                 <animation ref="sign-scaffold-s" />
                 <animation ref="sign-scaffold-s" />
+            </object>
+
+            <object id="door" w="16" h="64" segments-h="4">
+                <animation ref="door"/>
+                <animation ref="door"/>
+                <animation ref="door"/>
+                <animation ref="door"/>
             </object>
 
             <object id="dr-wily-sign" w="32" h="32">
@@ -299,6 +313,9 @@
         </items>
 
         <obstacles>
+            <obstacle name="Door" ref="door" x="2808" y="1776" />
+            <obstacle name="Door" ref="door" x="3080" y="1776" />
+
             <obstacle name="DestructibleWall" x="1112" y="144" color="orange"/>
             <obstacle name="DestructibleWall" x="1640" y="48" color="orange"/>
             <obstacle name="DestructibleWall" x="1688" y="48" color="orange"/>

@@ -33,7 +33,7 @@ Engine.scenes.Level.prototype.applyGravity = function(object, dt)
         return;
     }
 
-    if (object.mass == 0) {
+    if (!object.physics || object.mass == 0) {
         return;
     }
 
