@@ -58,6 +58,10 @@ Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
 
 Engine.assets.objects.Character.prototype.fire = function()
 {
+    if (this.stunnedTime > 0) {
+        return false;
+    }
+
     if (!this.weapon) {
         return false;
     }
@@ -78,6 +82,10 @@ Engine.assets.objects.Character.prototype.getDeathObject = function()
 
 Engine.assets.objects.Character.prototype.jumpStart = function()
 {
+    if (this.stunnedTime > 0) {
+        return false;
+    }
+
     if (!this.isSupported) {
         return false;
     }
