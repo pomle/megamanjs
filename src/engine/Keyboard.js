@@ -9,6 +9,15 @@ Engine.Keyboard = function()
     this.down = this.keyDownEvent.bind(this);
 }
 
+Engine.Keyboard.prototype.LEFT = 65;
+Engine.Keyboard.prototype.RIGHT = 68;
+Engine.Keyboard.prototype.UP = 87;
+Engine.Keyboard.prototype.DOWN = 83;
+Engine.Keyboard.prototype.A = 80;
+Engine.Keyboard.prototype.B = 79;
+Engine.Keyboard.prototype.SELECT = 81;
+Engine.Keyboard.prototype.START = 69;
+
 Engine.Keyboard.prototype.disable = function()
 {
     window.removeEventListener('keydown', this.down);
