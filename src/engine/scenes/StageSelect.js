@@ -21,95 +21,75 @@ Engine.scenes.StageSelect = function()
         }));
     this.scene.add(this.background);
 
-    this.input = new Engine.Keyboard();
+    var input = new Engine.Keyboard();
 
-    this.input.hit(37,
+    input.hit(input.LEFT,
         function() {
             this.steer(-1, 0);
         }.bind(this));
 
-    this.input.hit(39,
+    input.hit(input.RIGHT,
         function() {
             this.steer(1, 0);
         }.bind(this));
 
-    this.input.hit(38,
+    input.hit(input.UP,
         function() {
             this.steer(0, -1);
         }.bind(this));
 
-    this.input.hit(40,
+    input.hit(input.DOWN,
         function() {
             this.steer(0, 1);
         }.bind(this));
 
-    this.input.enable();
-}
+    input.hit(input.START,
+        function() {
+            this.enter();
+        }.bind(this));
 
-Engine.scenes.StageSelect.loadFromXml = function(url, callback)
-{
-    Engine.Util.asyncLoadXml(url, function(xml, baseUrl) {
-        var sceneXml = xml.children('stage-select');
-        var scene = new Engine.scenes.StageSelect();
+    input.enable();
 
-        var spriteUrl = sceneXml.attr('url');
-        var spriteW = parseFloat(sceneXml.attr('w'));
-        var spriteH = parseFloat(sceneXml.attr('h'));
-
-        var backgroundXml = sceneXml.children('background');
-        scene.setBackgroundColor(backgroundXml.attr('color'));
-
-        var indicatorXml = sceneXml.children('indicator');
-        scene.setIndicator(Engine.SpriteManager.createSingleTile(
-            spriteUrl,
-            parseFloat(indicatorXml.attr('w')), parseFloat(indicatorXml.attr('h')),
-            parseFloat(indicatorXml.attr('x')), parseFloat(indicatorXml.attr('y')),
-            spriteW, spriteH));
-
-        var frameXml = sceneXml.children('frame');
-        scene.setFrame(Engine.SpriteManager.createSingleTile(
-            spriteUrl,
-            parseFloat(frameXml.attr('w')), parseFloat(frameXml.attr('h')),
-            parseFloat(frameXml.attr('x')), parseFloat(frameXml.attr('y')),
-            spriteW, spriteH));
-
-        sceneXml.find('> stage').each(function() {
-            var stageXml = $(this);
-            var avatar = Engine.SpriteManager.createSingleTile(
-                spriteUrl,
-                parseFloat(stageXml.attr('w')), parseFloat(stageXml.attr('h')),
-                parseFloat(stageXml.attr('x')), parseFloat(stageXml.attr('y')),
-                spriteW, spriteH);
-            var index = parseFloat(stageXml.attr('index'));
-            var name = stageXml.attr('name');
-            var src = stageXml.attr('src');
-            scene.addStage(avatar, name, src);
-        });
-
-        scene.equalize();
-        callback(scene);
-    });
+    this.input = input;
 }
 
 Engine.scenes.StageSelect.prototype = Object.create(Engine.Scene.prototype);
 Engine.scenes.StageSelect.prototype.constructor = Engine.scenes.StageSelect;
 
-Engine.scenes.StageSelect.prototype.addStage = function(avatar, name, src)
+Engine.scenes.StageSelect.prototype.__destroy = function()
+{
+    this.input.disable();
+}
+
+
+Engine.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
 {
     var x = this.stages.length % this.rowLength;
     var y = Math.floor(this.stages.length / this.rowLength);
 
     var pos = new THREE.Vector2(this.spacing.x * x, this.spacing.y * y);
     var frame = this.frame.clone();
+
+    name = name.split(" ");
+    name[1] = Engine.Util.string.fill(" ", 6 - name[1].length) + name[1];
+    name = name.join("\n");
+
+    var caption = Engine.Util.createTextSprite(name);
+
     this.stages.push({
         "avatar": avatar,
         "name": name,
-        "src": src,
+        "scene": scene,
+        "caption": caption,
+        "frame": frame,
     });
+
     frame.position.set(pos.x, pos.y, 0);
     avatar.position.set(pos.x, pos.y, .1);
+    caption.position.set(pos.x, pos.y - 32, .2);
     this.scene.add(frame);
     this.scene.add(avatar);
+    this.scene.add(caption);
 }
 
 Engine.scenes.StageSelect.prototype.equalize = function()
@@ -126,6 +106,24 @@ Engine.scenes.StageSelect.prototype.equalize = function()
     this.background.position.z -= 10;
 }
 
+Engine.scenes.StageSelect.prototype.enter = function()
+{
+    var stage = this.stages[this.currentIndex];
+    this.exit(stage.scene);
+}
+
+Engine.scenes.StageSelect.prototype.selectIndex = function(index)
+{
+    var avatar = this.stages[index].avatar;
+    this.indicator.position.x = avatar.position.x;
+    this.indicator.position.y = avatar.position.y;
+    this.indicator.visible = true;
+    this.indicatorStateTimer = 0;
+    //this.cameraDesiredPosition.copy(this.indicator.position);
+    //this.cameraDesiredPosition.z = 140;
+    this.currentIndex = index;
+}
+
 Engine.scenes.StageSelect.prototype.setBackgroundColor = function(hexcolor)
 {
     this.background.material.color.setHex(hexcolor);
@@ -134,6 +132,13 @@ Engine.scenes.StageSelect.prototype.setBackgroundColor = function(hexcolor)
 Engine.scenes.StageSelect.prototype.setFrame = function(model)
 {
     this.frame = model;
+}
+
+Engine.scenes.StageSelect.prototype.setIndicator = function(model)
+{
+    this.indicator = model;
+    this.indicator.position.z = .1;
+    this.scene.add(model);
 }
 
 Engine.scenes.StageSelect.prototype.steer = function(x, y)
@@ -152,25 +157,6 @@ Engine.scenes.StageSelect.prototype.steer = function(x, y)
         return;
     }
     this.selectIndex(newIndex);
-}
-
-Engine.scenes.StageSelect.prototype.selectIndex = function(index)
-{
-    var avatar = this.stages[index].avatar;
-    this.indicator.position.x = avatar.position.x;
-    this.indicator.position.y = avatar.position.y;
-    this.indicator.visible = true;
-    this.indicatorStateTimer = 0;
-    //this.cameraDesiredPosition.copy(this.indicator.position);
-    //this.cameraDesiredPosition.z = 140;
-    this.currentIndex = index;
-}
-
-Engine.scenes.StageSelect.prototype.setIndicator = function(model)
-{
-    this.indicator = model;
-    this.indicator.position.z = .1;
-    this.scene.add(model);
 }
 
 Engine.scenes.StageSelect.prototype.updateTime = function(dt)
