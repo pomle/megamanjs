@@ -104,7 +104,7 @@ Engine.TextureManager = {
 Engine.Util = {
     asyncLoadXml: function(url, callback)
     {
-        var baseUrl = url.split('/').slice(0, -1).join('/');
+        var baseUrl = url.split('/').slice(0, -1).join('/') + '/';
         xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function()
         {
