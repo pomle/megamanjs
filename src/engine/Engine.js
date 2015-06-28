@@ -35,10 +35,10 @@ Engine.prototype.loop = function(timeElapsed)
                 var simTimeDiff = timeDiff * this.simulationSpeed;
                 this.scene.updateTime(simTimeDiff);
                 this.scene.camera.updateTime(simTimeDiff);
-            }
 
-            for (i in this.events.simulate) {
-                this.events.simulate[i].call();
+                for (i in this.events.simulate) {
+                    this.events.simulate[i].call();
+                }
             }
         }
         this.render();
