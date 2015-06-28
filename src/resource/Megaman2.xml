@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game name="Megaman 2">
+    <scenes>
+        <!-- <scene type="cutscene" name="Intro" src="./Intro.xml" /> -->
+        <scene type="stage-select" name="StageSelect" src="./StageSelect.xml" />
+        <scene type="level" name="Flashman" src="./levels/Flashman.xml" />
+    </scenes>
+
     <entrypoint>
-        <scene name="StageSelect" src="StageSelect.xml"/>
+        <scene name="StageSelect" />
     </entrypoint>
 
     <player>
+        <character name="Megaman"/>
         <invincibility duration="2"/>
     </player>
+
     <bosses>
-        <boss name="AirMan" code="a">
+        <boss name="Air Man" code="a">
+            <character name="Airman"/>
         </boss>
         <boss name="Bubble Man" code="b">
         </boss>
         <boss name="Crash Man" code="c">
         </boss>
         <boss name="Flash Man" code="f">
+            <character name="Flashman"/>
         </boss>
         <boss name="Heat Man" code="h">
         </boss>
