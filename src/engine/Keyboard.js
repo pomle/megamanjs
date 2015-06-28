@@ -5,18 +5,20 @@ Engine.Keyboard = function()
         'up': {}
     };
     this.keystate = {};
+    this.up = this.keyUpEvent.bind(this);
+    this.down = this.keyDownEvent.bind(this);
 }
 
 Engine.Keyboard.prototype.disable = function()
 {
-    window.removeEventListener('keydown', this.keyDownEvent.bind(this));
-    window.removeEventListener('keyup', this.keyUpEvent.bind(this));
+    window.removeEventListener('keydown', this.down);
+    window.removeEventListener('keyup', this.up);
 }
 
 Engine.Keyboard.prototype.enable = function()
 {
-    window.addEventListener('keydown', this.keyDownEvent.bind(this));
-    window.addEventListener('keyup', this.keyUpEvent.bind(this));
+    window.addEventListener('keydown', this.down);
+    window.addEventListener('keyup', this.up);
 }
 
 Engine.Keyboard.prototype.hit = function(code, callback)
