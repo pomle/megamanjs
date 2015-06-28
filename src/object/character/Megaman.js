@@ -88,6 +88,8 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
         return false;
     }
 
+    this.jumpInertia = 0;
+    this.inertia.set(0, 0);
     this.momentum.set(40, 60);
     if (direction) {
         this.momentum.x *= direction.x > 0 ? -1 : 1;
