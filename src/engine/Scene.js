@@ -4,9 +4,10 @@ Engine.Scene = function()
 
     this.camera = new Engine.Camera(new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000));
     this.camera.camera.position.z = 100;
-    this.scene = new THREE.Scene();
 
+    this.scene = new THREE.Scene();
     this.scene.add(ambientLight);
+
     this.objects = [];
     this.timelines = [];
 }
