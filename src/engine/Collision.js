@@ -64,6 +64,10 @@ Engine.Collision.prototype.detect = function()
             continue;
         }
 
+        if (!this.objects[i].collidable) {
+            continue;
+        }
+
         if (!this.objectNeedsRecheck(i)) {
             continue;
         }

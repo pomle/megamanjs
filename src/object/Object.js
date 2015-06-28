@@ -1,6 +1,7 @@
 Engine.assets.Object = function()
 {
     this.uuid = THREE.Math.generateUUID();
+    this.collidable = true;
     this.collision = [];
     this.deltaTime = 0;
     this.emitter = undefined;
