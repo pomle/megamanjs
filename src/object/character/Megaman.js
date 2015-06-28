@@ -34,10 +34,19 @@ Engine.assets.objects.characters.Megaman = function()
     runFire.addFrame(96, 96, .12);
 
     var teleport = this.sprites.addSprite('teleport');
-    teleport.addFrame(0,  144, .05);
-    teleport.addFrame(48, 144, .05);
-    teleport.addFrame(96, 144, .05);
     teleport.addFrame(0,  144);
+
+    var teleportEnd = this.sprites.addSprite('teleport-in');
+    teleportEnd.addFrame(48, 144, .05);
+    teleportEnd.addFrame(96, 144, .05);
+    teleportEnd.addFrame(0,  144, .05);
+    teleportEnd.addFrame(0,  0);
+
+    var teleportStart = this.sprites.addSprite('teleport-out');
+    teleportStart.addFrame(0,  144, .05);
+    teleportStart.addFrame(48, 144, .05);
+    teleportStart.addFrame(96, 144, .05);
+    teleportStart.addFrame(0,  144);
 
     var stunned = this.sprites.addSprite('stunned');
     stunned.addFrame(192, 48, .08);
@@ -51,7 +60,13 @@ Engine.assets.objects.characters.Megaman = function()
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
 
-    this.isTeleporting = undefined;
+    this.isTeleporting = false;
+    this.teleportEndDelay = .15;
+    this.teleportEndDuration = 0;
+    this.teleportStartDelay = .15;
+    this.teleportStartDuration = 0;
+    this.teleportSpeed = 10;
+    this.teleportPos = new THREE.Vector2();
 
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
@@ -93,8 +108,13 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
 
 Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
-    if (isFinite(this.isTeleporting)) {
-        this.isTeleporting += dt;
+    if (this.isTeleporting) {
+        if (this.teleportStartDuration) {
+            return this.sprites.selectSprite('teleport-out');
+        }
+        else if (this.teleportEndDuration) {
+            return this.sprites.selectSprite('teleport-in');
+        }
         return this.sprites.selectSprite('teleport');
     }
 
@@ -133,9 +153,66 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
     return this.sprites.selectSprite('idle');
 }
 
+Engine.assets.objects.characters.Megaman.prototype.teleportTo = function(pos)
+{
+    this.teleportPos = pos;
+    this.teleportStart();
+}
+
+Engine.assets.objects.characters.Megaman.prototype.teleportStart = function()
+{
+    this.teleportStartDuration = this.teleportStartDelay;
+    this.collidable = false;
+    this.isTeleporting = true;
+    this.mass = 0;
+}
+
+Engine.assets.objects.characters.Megaman.prototype.teleportEnd = function()
+{
+    this.teleportEndDuration = this.teleportEndDelay;
+    this.collidable = true;
+    this.isSupported = true;
+    this.momentum.multiplyScalar(0);
+    this.inertia.multiplyScalar(0);
+    this.mass = 1;
+}
+
+Engine.assets.objects.characters.Megaman.prototype.teleportHandle = function(dt)
+{
+    if (this.teleportStartDuration) {
+        this.teleportStartDuration = Math.max(0, this.teleportStartDuration - dt);
+    }
+    else if (this.teleportEndDuration) {
+        this.teleportEndDuration = Math.max(0, this.teleportEndDuration - dt);
+        if (this.teleportEndDuration == 0) {
+            this.isTeleporting = false;
+        }
+    }
+    else {
+        var diff = new THREE.Vector2(
+            this.teleportPos.x - this.position.x,
+            this.teleportPos.y - this.position.y);
+        diff.clamp(new THREE.Vector2(-this.teleportSpeed, -this.teleportSpeed),
+                   new THREE.Vector2(this.teleportSpeed, this.teleportSpeed));
+        if (diff.x == 0 && diff.y == 0) {
+            this.teleportEnd();
+        }
+        else {
+            this.position.x += diff.x;
+            this.position.y += diff.y;
+        }
+    }
+}
+
 Engine.assets.objects.characters.Megaman.prototype.timeShift = function(dt)
 {
     this.selectSprite(dt);
     this.sprites.timeShift(dt);
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+
+    if (this.isTeleporting) {
+        this.teleportHandle(dt);
+    }
+    else {
+        Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    }
 }
