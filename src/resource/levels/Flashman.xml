@@ -4,7 +4,7 @@
     <collision-radius units="360"></collision-radius>
 
     <checkpoints>
-        <checkpoint x="100" y="64"/>
+        <checkpoint x="136" y="149"/>
     </checkpoints>
 
     <sprites url="./flashman/tiles.gif" w="128" h="96">
