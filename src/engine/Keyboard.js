@@ -62,7 +62,7 @@ Engine.Keyboard.prototype.keyUpEvent = function(event)
     }
     var start = this.keystate[k];
     var stop = new Date();
-    var duration = (stop.getTime() - start.getTime()) / 1000;;
+    var duration = (stop.getTime() - start.getTime()) / 1000;
     console.log('Key Up: %d, %f', k, duration);
     delete this.keystate[k];
     if (this.bindings.up[k]) {
