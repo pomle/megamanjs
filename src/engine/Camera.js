@@ -41,7 +41,10 @@ Engine.Camera.prototype.unfollow = function()
 Engine.Camera.prototype.updateTime = function(timeElapsed)
 {
     if (this.desiredPosition) {
-        var move = this.desiredPosition.clone().sub(this.camera.position).divideScalar(this.smoothing);
+        var move = this.desiredPosition.clone().sub(this.camera.position);
+        if (this.smoothing) {
+            move.divideScalar(this.smoothing);
+        }
         this.camera.position.x += move.x;
         this.camera.position.y += move.y;
     }
