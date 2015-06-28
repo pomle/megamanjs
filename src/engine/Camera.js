@@ -11,11 +11,11 @@ Engine.Camera.prototype.follow = function(object, distance)
     this.followObject = object;
 }
 
-Engine.Camera.prototype.jumpTo = function(x, y)
+Engine.Camera.prototype.jumpTo = function(pos)
 {
     this.unfollow();
-    this.camera.position.x = x;
-    this.camera.position.y = y;
+    this.camera.position.x = pos.x;
+    this.camera.position.y = pos.y;
 }
 
 Engine.Camera.prototype.panTo = function(x, y)
