@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level name="Flashman">
+    <gravity x="0" y="983" />
+    <collision-radius units="360"></collision-radius>
+
+    <checkpoints>
+        <checkpoint x="136" y="165"/>
+    </checkpoints>
+
+    <sprites url="./heatman/tiles.png" w="128" h="128">
+        <!-- Decorations -->
+        <sprite id="darkness" x="96" y="80" w="16" h="16"/>
+
+        <sprite id="pillar" x="32" y="112" w="16" h="16"/>
+
+        <sprite id="bricks-small" x="48" y="112" w="16" h="16"/>
+
+        <sprite id="concrete-center" x="16" y="48" w="16" h="16"/>
+        <sprite id="concrete-top-open" x="48" y="48" w="16" h="16"/>
+        <sprite id="concrete-top-closed" x="0" y="48" w="16" h="16"/>
+        <sprite id="concrete-bottom-open" x="64" y="48" w="16" h="16"/>
+        <sprite id="concrete-bottom-closed" x="32" y="48" w="16" h="16"/>
+
+        <sprite id="mortar-1" x="0" y="0" w="16" h="16"/>
+        <sprite id="mortar-2" x="16" y="0" w="16" h="16"/>
+        <sprite id="mortar-3" x="32" y="0" w="16" h="16"/>
+        <sprite id="mortar-4" x="48" y="0" w="16" h="16"/>
+        <sprite id="mortar-5" x="64" y="0" w="16" h="16"/>
+        <sprite id="mortar-6" x="80" y="0" w="16" h="16"/>
+        <sprite id="mortar-7" x="96" y="0" w="16" h="16"/>
+        <sprite id="mortar-8" x="0" y="16" w="16" h="16"/>
+        <sprite id="mortar-9" x="16" y="16" w="16" h="16"/>
+        <sprite id="mortar-10" x="32" y="16" w="16" h="16"/>
+
+        <sprite id="lave-hori-1-1" x="0" y="64" w="16" h="16"/>
+        <sprite id="lave-hori-1-2" x="0" y="80" w="16" h="16"/>
+        <sprite id="lave-hori-1-3" x="0" y="96" w="16" h="16"/>
+
+        <sprite id="lave-hori-2-1" x="16" y="64" w="16" h="16"/>
+        <sprite id="lave-hori-2-2" x="16" y="80" w="16" h="16"/>
+        <sprite id="lave-hori-2-3" x="16" y="96" w="16" h="16"/>
+
+        <sprite id="lave-vert-1-1" x="48" y="64" w="16" h="16"/>
+        <sprite id="lave-vert-1-2" x="48" y="80" w="16" h="16"/>
+        <sprite id="lave-vert-1-3" x="48" y="96" w="16" h="16"/>
+
+        <sprite id="lave-vert-2-1" x="64" y="64" w="16" h="16"/>
+        <sprite id="lave-vert-2-2" x="64" y="80" w="16" h="16"/>
+        <sprite id="lave-vert-2-3" x="64" y="96" w="16" h="16"/>
+
+
+        <sprite id="lave-edge-1" x="32" y="64" w="16" h="16"/>
+        <sprite id="lave-edge-2" x="32" y="80" w="16" h="16"/>
+        <sprite id="lave-edge-3" x="32" y="96" w="16" h="16"/>
+
+
+        <animation name="lava-hori-1">
+            <frame sprite="lave-hori-1-1" duration=".11"/>
+            <frame sprite="lave-hori-1-2" duration=".11"/>
+            <frame sprite="lave-hori-1-3" duration=".11"/>
+        </animation>
+
+        <animation name="lava-hori-2">
+            <frame sprite="lave-hori-2-1" duration=".11"/>
+            <frame sprite="lave-hori-2-2" duration=".11"/>
+            <frame sprite="lave-hori-2-3" duration=".11"/>
+        </animation>
+
+        <animation name="lava-vert-1">
+            <frame sprite="lave-vert-1-1" duration=".11"/>
+            <frame sprite="lave-vert-1-2" duration=".11"/>
+            <frame sprite="lave-vert-1-3" duration=".11"/>
+        </animation>
+
+        <animation name="lava-vert-2">
+            <frame sprite="lave-vert-2-1" duration=".11"/>
+            <frame sprite="lave-vert-2-2" duration=".11"/>
+            <frame sprite="lave-vert-2-3" duration=".11"/>
+        </animation>
+
+        <animation name="lava-edge">
+            <frame sprite="lave-edge-1" duration=".11"/>
+            <frame sprite="lave-edge-2" duration=".11"/>
+            <frame sprite="lave-edge-3" duration=".11"/>
+        </animation>
+
+
+        <objects>
+            <!--
+            <object id="sign-scaffold" w="48" h="64" segments-w="3" segments-h="4">
+                <animation ref="sign-scaffold-w" />
+                <animation ref="sign-scaffold-n" />
+                <animation ref="sign-scaffold-n" />
+                <animation ref="sign-scaffold-w" />
+                <empty />
+                <empty />
+                <animation ref="sign-scaffold-w" />
+                <empty />
+                <empty />
+                <animation ref="sign-scaffold-sw" />
+                <animation ref="sign-scaffold-s" />
+                <animation ref="sign-scaffold-s" />
+            </object>
+
+            <object id="door" w="16" h="64" segments-h="4">
+                <animation ref="door"/>
+                <animation ref="door"/>
+                <animation ref="door"/>
+                <animation ref="door"/>
+            </object>-->
+
+        </objects>
+    </sprites>
+    <layout>
+        <enemies>
+
+        </enemies>
+
+        <!--
+        <items>
+            <item name="ExtraLife" x="1368" y="56"/>
+            <item name="EnergyTank" x="712" y="153"/>
+            <item name="EnergyTank" x="1648" y="841"/>
+            <item name="EnergyTank" x="1768" y="1657"/>
+            <item name="WeaponTank" x="1624" y="1019"/>
+            <item name="EnergyCapsule" x="2504" y="1737"/>
+        </items>
+
+        <obstacles>
+            <obstacle name="Door" ref="door" x="2808" y="1776" />
+            <obstacle name="Door" ref="door" x="3080" y="1776" />
+
+            <obstacle name="DestructibleWall" x="1112" y="144" color="orange"/>
+            <obstacle name="DestructibleWall" x="1640" y="48" color="orange"/>
+            <obstacle name="DestructibleWall" x="1688" y="48" color="orange"/>
+            <obstacle name="DestructibleWall" x="1736" y="48" color="orange"/>
+
+            <obstacle name="DestructibleWall" x="1688" y="832" color="orange"/>
+            <obstacle name="DestructibleWall" x="2712" y="1728" color="purple"/>
+        </obstacles>
+
+        <objects>
+        </objects>-->
+
+        <solids><rect x="16" y="176" w="240" h="16"></rect><rect x="304" y="176" w="80" h="16"></rect><rect x="432" y="176" w="80" h="16"></rect><rect x="560" y="176" w="192" h="16"></rect><rect x="784" y="176" w="32" h="16"></rect><rect x="848" y="144" w="32" h="48"></rect><rect x="912" y="176" w="16" h="16"></rect><rect x="944" y="128" w="16" h="64"></rect><rect x="960" y="176" w="16" h="16"></rect><rect x="1008" y="128" w="16" h="64"></rect><rect x="1072" y="160" w="16" h="32"></rect><rect x="1120" y="128" w="16" h="64"></rect><rect x="1184" y="160" w="16" h="32"></rect><rect x="1232" y="160" w="16" h="32"></rect><rect x="1280" y="160" w="16" h="32"></rect><rect x="1328" y="160" w="16" h="32"></rect><rect x="1376" y="160" w="16" h="32"></rect><rect x="1424" y="160" w="16" h="32"></rect><rect x="1488" y="160" w="16" h="32"></rect><rect x="16" y="0" w="16" h="192"></rect><rect x="1792" y="128" w="64" h="16"></rect><rect x="1824" y="80" w="64" h="16"></rect><rect x="1920" y="96" w="64" h="16"></rect><rect x="1952" y="96" w="32" h="112"></rect><rect x="1760" y="192" w="240" h="16"></rect><rect x="1888" y="160" w="96" h="48"></rect><rect x="2016" y="16" w="16" h="272"></rect><rect x="2016" y="272" w="16" h="192"></rect><rect x="1840" y="304" w="16" h="160"></rect><rect x="1840" y="448" w="192" h="16"></rect><rect x="1808" y="192" w="16" h="272"></rect><rect x="1808" y="448" w="16" h="240"></rect><rect x="2400" y="416" w="128" h="16"></rect><rect x="1808" y="672" w="256" h="16"></rect><rect x="2048" y="672" w="80" h="48"></rect><rect x="2112" y="608" w="16" h="80"></rect><rect x="2224" y="560" w="16" h="128"></rect><rect x="2160" y="672" w="80" h="48"></rect><rect x="2272" y="672" w="160" h="48"></rect><rect x="2464" y="672" w="128" h="48"></rect><rect x="2624" y="672" w="112" h="48"></rect><rect x="2784" y="672" w="64" h="48"></rect><rect x="2640" y="640" w="16" h="48"></rect><rect x="2640" y="560" w="16" h="48"></rect><rect x="2784" y="608" w="16" h="32"></rect><rect x="2480" y="608" w="16" h="32"></rect><rect x="3104" y="624" w="160" h="16"></rect><rect x="3168" y="608" w="96" h="32"></rect><rect x="2880" y="672" w="64" h="48"></rect><rect x="2976" y="672" w="256" h="48"></rect><rect x="3216" y="672" w="256" h="48"></rect><rect x="3456" y="672" w="112" h="48"></rect><rect x="3552" y="656" w="16" h="64"></rect><rect x="4016" y="656" w="16" h="64"></rect><rect x="4352" y="672" w="208" h="112"></rect><rect x="4576" y="496" w="32" h="256"></rect><rect x="4576" y="736" w="32" h="208"></rect><rect x="4352" y="784" w="48" h="256"></rect><rect x="4416" y="896" w="64" h="112"></rect><rect x="4416" y="896" w="192" h="48"></rect><rect x="4352" y="1024" w="48" h="144"></rect><rect x="4384" y="1120" w="256" h="48"></rect><rect x="4624" y="1120" w="256" h="48"></rect><rect x="4560" y="960" w="320" h="96"></rect><rect x="4864" y="960" w="256" h="32"></rect><rect x="5104" y="976" w="16" h="192"></rect><rect x="4864" y="1152" w="256" h="48"></rect></solids>
+
+        <background x="0" y="0" w="2048" h="240" w-segments="128" h-segments="15">
+            <sprite ref="darkness">
+                <segment x="*" y="*"/>
+            </sprite>
+
+            <sprite ref="mortar-1">
+                <segment x="*" y="2"/>
+            </sprite>
+            <sprite ref="mortar-2">
+                <segment x="*" y="3"/>
+            </sprite>
+            <sprite ref="mortar-3">
+                <segment x="*" y="4"/>
+            </sprite>
+            <sprite ref="mortar-4">
+                <segment x="*" y="5"/>
+            </sprite>
+            <sprite ref="mortar-5">
+                <segment x="*" y="6-8"/>
+            </sprite>
+            <sprite ref="mortar-6">
+                <segment x="*" y="9"/>
+            </sprite>
+            <sprite ref="mortar-7">
+                <segment x="*" y="10"/>
+            </sprite>
+            <sprite ref="mortar-8">
+                <segment x="*" y="11"/>
+            </sprite>
+            <sprite ref="mortar-9">
+                <segment x="*" y="12"/>
+            </sprite>
+            <sprite ref="mortar-10">
+                <segment x="*" y="13"/>
+            </sprite>
+
+            <sprite ref="bricks-small">
+                <segment x="1-2,11-22,25-30,33-40,43-96,113-128" y="1"/>
+                <segment x="1-2" y="1-10"/>
+                <segment x="127-128" y="*"/>
+            </sprite>
+
+            <animation ref="lava-hori-1">
+                <segment x="1,5,7,11,16,18,20,22,24,26,28,32,34,36,39-49/2,52-94/2" y="13"/>
+            </animation>
+            <animation ref="lava-hori-2">
+                <segment x="2,6,8,12,15,17,19,23,25,27,29,33,35,40,44,48,53-93/2" y="13"/>
+            </animation>
+            <animation ref="lava-edge">
+                <segment x="95" y="13"/>
+            </animation>
+
+            <animation ref="lava-vert-1">
+                <segment x="95" y="14"/>
+            </animation>
+            <animation ref="lava-vert-2">
+                <segment x="95" y="15"/>
+            </animation>
+
+
+            <sprite ref="concrete-top-open">
+                <segment x="1-16,20-24,28-32,36-47,50-51" y="12"/>
+            </sprite>
+            <sprite ref="concrete-bottom-open">
+                <segment x="1-94" y="14"/>
+            </sprite>
+            <sprite ref="concrete-top-closed">
+                <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="12"/>
+            </sprite>
+            <sprite ref="concrete-center">
+                <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="13"/>
+            </sprite>
+            <sprite ref="concrete-bottom-closed">
+                <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="14"/>
+                <segment x="111-125" y="13"/>
+            </sprite>
+
+            <sprite ref="pillar">
+                <segment x="60,64,71" y="9"/>
+                <segment x="54-55,60,64,71" y="10"/>
+                <segment x="54-55,60,64,68,71,75,78,81,84,87,90,94" y="11"/>
+                <segment x="54-55,58,60-61,64,68,71,75,78,81,84,87,90,94" y="12"/>
+            </sprite>
+
+        </background>
+    </layout>
+</level>
