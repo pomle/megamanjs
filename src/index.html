@@ -119,7 +119,7 @@
             game.adjustSize();
         }
 
-        document.addEventListener('resize', on_fullscreen_change);
+        window.addEventListener('resize', on_fullscreen_change);
         document.addEventListener('mozfullscreenchange', on_fullscreen_change);
         document.addEventListener('webkitfullscreenchange', on_fullscreen_change);
 
