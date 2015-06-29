@@ -17,7 +17,6 @@ Engine.UVAnimator = function(timeline, geometry, offset)
 
 Engine.UVAnimator.prototype.addFaceIndex = function(index)
 {
-    index = (index * 2) || 0;
     this.faceIndices.push(index);
 }
 
