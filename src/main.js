@@ -711,6 +711,20 @@ Megaman.LevelRunner.prototype.simulateListener = function()
     }
 }
 
+Megaman.LevelRunner.prototype.spawnCharacter = function(name)
+{
+    var character = new Engine.assets.objects.characters[name]();
+    var player = this.game.player.character;
+    var distance = {
+        x: 32,
+        y: 32,
+    }
+    this.level.addObject(character,
+                         player.position.x + (player.direction > 0 ? distance.x : -distance.x),
+                         player.position.y + distance.y);
+    return character;
+}
+
 Megaman.LevelRunner.prototype.startGamePlay = function()
 {
     this.game.engine.run();
