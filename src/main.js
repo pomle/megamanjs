@@ -455,7 +455,7 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
             if (!Engine.assets.obstacles[name]) {
                 throw new Error('Obstacle ' + name + ' does not exist');
             }
-            if (name == 'DesturcibleWall') {
+            if (name == 'DestructibleWall') {
                 var obstacle = new Engine.assets.obstacles[name](obstacleXml.attr('color'));
             }
             else {
