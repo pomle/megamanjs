@@ -30,11 +30,11 @@ Engine.assets.objects.characters.SniperArmor = function(target)
 
 
     this.target = undefined;
-    this.isJumpCharged = false;
+    this.airTime = 0;
+    this.groundTime = 0;
     this.jumpCoolDown = 0;
     this.isJumpCharged = 0;
     this.jumpProgression = null;
-    this.timeLastJump = null;
     this.timeAIUpdated = null;
 }
 
@@ -68,7 +68,7 @@ Engine.assets.objects.characters.SniperArmor.prototype.selectSprite = function(d
     if (!this.isSupported) {
         return this.sprites.selectSprite('jumping');
     }
-    if (this.jumpCharging) {
+    if (this.jumpCharging || this.groundTime < .1) {
         return this.sprites.selectSprite('charging');
     }
     return this.sprites.selectSprite('idle');
@@ -115,6 +115,15 @@ Engine.assets.objects.characters.SniperArmor.prototype.timeShift = function(dt)
         if (this.jumpCoolDown <= 0) {
             this.jumpCoolDown = 0;
         }
+    }
+
+    if (this.isSupported) {
+        this.groundTime += dt;
+        this.airTime = 0;
+    }
+    else {
+        this.airTime += dt;
+        this.groundTime = 0;
     }
 
     this.selectSprite();
