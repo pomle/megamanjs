@@ -7,49 +7,80 @@ Engine.assets.Energy = function(max, min)
     this.event = function() {};
 }
 
-Engine.assets.Energy.prototype.change = function(diff)
+Engine.assets.Energy.prototype.deplete = function()
 {
-    if (diff != 0 && !isFinite(this.value)) {
-        return false;
-    }
-    return this.set(this.value + diff);
+    this.setTo(this.min);
 }
 
-Engine.assets.Energy.prototype.depleted = function()
+Engine.assets.Energy.prototype.fill = function()
+{
+    this.setTo(this.max);
+}
+
+Engine.assets.Energy.prototype.getAmount = function()
+{
+    return this.value;
+}
+
+Engine.assets.Energy.prototype.getFraction = function()
+{
+    if (this.value === undefined || this.max === this.min) {
+        return 1;
+    }
+    else {
+        return Math.abs(this.value - this.min) / Math.abs(this.max - this.min);
+    }
+}
+
+Engine.assets.Energy.prototype.increase = function(points)
+{
+    return this.setTo(this.value + points);
+}
+
+Engine.assets.Energy.prototype.isDepleted = function()
 {
     return this.value <= this.min;
 }
 
-Engine.assets.Energy.prototype.finite = function(value)
+Engine.assets.Energy.prototype.isFinite = function()
 {
-    if (isFinite(value)) {
-        this.value = value;
-    }
-    else {
-        this.value = undefined;
-    }
-}
-
-Engine.assets.Energy.prototype.fraction = function()
-{
-    return isFinite(this.value) ? this.value / this.max : 1;
+    return this.value !== undefined;
 }
 
 Engine.assets.Energy.prototype.reduce = function(points)
 {
-    return this.change(-points);
+    return this.setTo(this.value - points);
 }
 
-Engine.assets.Energy.prototype.refill = function(points)
+Engine.assets.Energy.prototype.setFinite = function(value)
 {
-    return this.change(points);
+    this.value = 0;
+    this.setTo(value || 0);
 }
 
-Engine.assets.Energy.prototype.set = function(points)
+Engine.assets.Energy.prototype.setInfinite = function()
 {
-    if (this.value === points) {
-        return;
+    this.value = undefined;
+}
+
+Engine.assets.Energy.prototype.setMax = function(points)
+{
+    this.max = points;
+    this.setTo(this.value);
+}
+
+Engine.assets.Energy.prototype.setMin = function(points)
+{
+    this.min = points;
+    this.setTo(this.value);
+}
+
+Engine.assets.Energy.prototype.setTo = function(points)
+{
+    if (this.value === undefined || this.value === points) {
+        return false;
     }
     this.value = Math.min(this.max, Math.max(this.min, points));
     this.event(this);
+    return true;
 }

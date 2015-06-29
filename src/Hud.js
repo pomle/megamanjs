@@ -16,9 +16,9 @@ var Hud = function(screen)
 			character.health.event = function(){};
 		}
 		character = newChar;
-		this.setHealthEnergy(character.health.fraction());
+		this.setHealthEnergy(character.health.getFraction());
 		character.health.event = function(health) {
-			this.setHealthEnergy(health.fraction());
+			this.setHealthEnergy(health.getFraction());
 		}.bind(this);
 	}
 
@@ -30,9 +30,9 @@ var Hud = function(screen)
 		}
 		weapon = newWeapon;
 		this.elements.weaponBar.addClass(weapon.code);
-		this.setWeaponEnergy(weapon.ammo.fraction());
+		this.setWeaponEnergy(weapon.ammo.getFraction());
 		weapon.ammo.event = function(ammo) {
-			this.setWeaponEnergy(ammo.fraction());
+			this.setWeaponEnergy(ammo.getFraction());
 		}.bind(this);
 	}
 

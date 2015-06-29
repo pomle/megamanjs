@@ -14,8 +14,8 @@ Engine.assets.Weapon.prototype.fire = function()
         return false;
     }
 
-    if (isFinite(this.ammo.value) && this.projectileCost !== 0) {
-        if (this.ammo.value < this.projectileCost) {
+    if (this.ammo.isFinite() && this.projectileCost > 0) {
+        if (this.ammo.getAmount() < this.projectileCost) {
             return false;
         }
         this.ammo.reduce(this.projectileCost);

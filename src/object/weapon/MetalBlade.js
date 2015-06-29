@@ -1,8 +1,7 @@
 Engine.assets.weapons.MetalBlade = function()
 {
     Engine.assets.Weapon.call(this);
-    this.ammo.max = 84;
-    this.ammo.finite(this.ammo.max);
+    this.ammo.setMax(84);
 }
 
 Engine.assets.weapons.MetalBlade.prototype = Object.create(Engine.assets.Weapon.prototype);

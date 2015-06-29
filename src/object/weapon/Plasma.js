@@ -1,6 +1,7 @@
 Engine.assets.weapons.Plasma = function()
 {
     Engine.assets.Weapon.call(this);
+    this.ammo.setInfinite();
 }
 
 Engine.assets.weapons.Plasma.prototype = Object.create(Engine.assets.Weapon.prototype);

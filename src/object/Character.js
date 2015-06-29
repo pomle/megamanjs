@@ -110,7 +110,7 @@ Engine.assets.objects.Character.prototype.impactProjectile = function(projectile
                                .sub(this.position))) {
 
         // Absorb projectile if not deadly hit.
-        if (!this.health.depleted()) {
+        if (!this.health.isDepleted()) {
             this.scene.removeObject(projectile);
         }
     }
@@ -187,7 +187,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
         this.weapon.timeShift(dt);
     }
 
-    if (this.health.depleted()) {
+    if (this.health.isDepleted()) {
         var explosion = this.getDeathObject();
         explosion.model.position.copy(this.model.position);
         this.scene.addObject(explosion);

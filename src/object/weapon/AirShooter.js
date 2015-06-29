@@ -2,8 +2,7 @@ Engine.assets.weapons.AirShooter = function()
 {
     Engine.assets.Weapon.call(this);
     this.setCoolDown(1);
-    this.ammo.max = 16;
-    this.ammo.finite(this.ammo.max);
+    this.ammo.setMax(16);
 }
 
 Engine.assets.weapons.AirShooter.prototype = Object.create(Engine.assets.Weapon.prototype);

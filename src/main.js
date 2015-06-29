@@ -697,7 +697,7 @@ Megaman.LevelRunner.prototype.renderListener = function()
 
 Megaman.LevelRunner.prototype.simulateListener = function()
 {
-    if (this.deathCountdown === 0 && this.game.player.character.health.depleted()) {
+    if (this.deathCountdown === 0 && this.game.player.character.health.isDepleted()) {
         this.game.player.lifes--;
         this.deathCountdown = this.game.engine.timeElapsedTotal + this.deathRespawnTime;
     }
@@ -762,7 +762,7 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
     this.game.player.equipWeapon('p');
     var character = this.game.player.character;
     character.isPlayer = true;
-    character.health.set(character.health.max);
+    character.health.fill();
     this.level.removeObject(character);
 
     var checkpoint = this.level.checkPoints[this.checkPointIndex];
