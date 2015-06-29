@@ -1,7 +1,6 @@
 Engine.assets.Solid = function()
 {
     Engine.assets.Object.call(this);
-    this.buffer = new THREE.Vector2();
 }
 
 Engine.assets.Solid.prototype = Object.create(Engine.assets.Object.prototype);
