@@ -273,7 +273,10 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                         timeline.addFrame(getSprite(frame.attr('sprite')).uvMap, parseFloat(frame.attr('duration')));
                     });
                     level.addTimeline(timeline);
-                    animationIndex[anim.attr('name')] = timeline;
+                    animationIndex[anim.attr('name')] = {
+                        "timeline": timeline,
+                        "texture": texture,
+                    };
                 });
 
 
@@ -294,8 +297,8 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                         var ref = face.attr('ref');
                         if (face.is('animation')) {
                             var offset = parseFloat(face.attr('offset')) || 0;
-                            var animator = new Engine.UVAnimator(animationIndex[ref], geometry, offset);
-                            animator.addFaceIndex(i*2);
+                            var animator = new Engine.UVAnimator(animationIndex[ref].timeline, geometry, offset);
+                            animator.addFaceIndex(i);
                         }
                         else if (face.is('sprite')) {
                             geometry.faceVertexUvs[i] = getSprite(ref).uvMap;
@@ -334,18 +337,24 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                 'hx': parseFloat(backgroundXml.attr('h-segments')),
             };
             var geometry = new THREE.PlaneGeometry(prop.w, prop.h, prop.wx, prop.hx);
-            var material;
-            backgroundXml.find('sprite').each(function(i, spriteXml) {
-                spriteXml = $(spriteXml);
-                var ref = spriteXml.attr('ref');
-                var texture = getSprite(ref).texture;
-                material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    side: THREE.FrontSide,
-                });
-                var uvMap = getSprite(ref).uvMap;
+            var texture;
+            backgroundXml.children().each(function(i, faceXml) {
+                faceXml = $(faceXml);
+                var ref = faceXml.attr('ref');
+                if (faceXml.is('animation')) {
+                    var offset = parseFloat(faceXml.attr('offset')) || 0;
+                    texture = animationIndex[ref].texture;
+                    var animator = new Engine.UVAnimator(animationIndex[ref].timeline, geometry, offset);
+                }
+                else if (faceXml.is('sprite')) {
+                    texture = getSprite(ref).texture;
+                    var uvMap = getSprite(ref).uvMap;
+                }
+                else {
+                    throw new Error('Unsupported face ' + faceXml[0].localName);
+                }
 
-                spriteXml.find('segment').each(function(i, segmentXml) {
+                faceXml.find('segment').each(function(i, segmentXml) {
                     segmentXml = $(segmentXml);
                     var range = {
                         'x': expandRange(segmentXml.attr('x'), prop.wx),
@@ -358,12 +367,23 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                         for (j in range.y) {
                             y = range.y[j] - 1;
                             faceIndex = (x + (y * prop.wx)) * 2;
-                            geometry.faceVertexUvs[0][faceIndex] = uvMap[0];
-                            geometry.faceVertexUvs[0][faceIndex+1] = uvMap[1];
+                            if (animator) {
+                                animator.addFaceIndex(faceIndex);
+                            }
+                            else {
+                                geometry.faceVertexUvs[0][faceIndex] = uvMap[0];
+                                geometry.faceVertexUvs[0][faceIndex+1] = uvMap[1];
+                            }
                         }
                     }
                 });
             });
+
+            var material = new THREE.MeshBasicMaterial({
+                map: texture,
+                side: THREE.FrontSide,
+            });
+
             var mesh = new THREE.Mesh(geometry, material);
             mesh.position.x = prop.x + (prop.w / 2);
             mesh.position.y = -(prop.y + (prop.h / 2));
