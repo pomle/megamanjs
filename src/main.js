@@ -615,7 +615,7 @@ Megaman.LevelRunner = function(game, level)
 
     this.cameraFollowOffset = new THREE.Vector2(0, 25);
     this.checkPointIndex = 0;
-    this.checkPointOffset = new THREE.Vector2(0, 150);
+    this.checkPointOffset = new THREE.Vector2(0, 200);
     this.game = game;
     this.level = level;
 
