@@ -4,14 +4,14 @@ Engine.assets.objects.items.WeaponTank = function()
 
     this.capacity = 30;
 
-    var model = Engine.Util.createSprite('powerup/tiles.gif', 16, 12);
+    var model = Engine.Util.createSprite('powerup.png', 16, 12);
+    this.sprites = new Engine.SpriteManager(model, 16, 12 , 64, 64);
 
-    var timeline = new Engine.Timeline();
-    timeline.addFrame(Engine.Util.createUVMap(0, 20, 16, 12, 48, 48), .1);
-    timeline.addFrame(Engine.Util.createUVMap(16, 20, 16, 12, 48, 48), .1);
-
-    var uvAnimator = new Engine.UVAnimator(timeline, model.geometry, 0, 0);
-    this.timeShift = timeline.timeShift.bind(timeline);
+    var anim = this.sprites.addSprite('idle');
+    anim.addFrame(0, 20, .1);
+    anim.addFrame(16, 20, .1);
+    this.sprites.selectSprite('idle');
+    this.sprites.applySprite();
 
     this.setModel(model);
     this.addCollisionRect(16, 12);
@@ -26,4 +26,9 @@ Engine.assets.objects.items.WeaponTank.prototype.collides = function(withObject,
         withObject.weapon.ammo.increase(this.capacity);
         this.scene.removeObject(this);
     }
+}
+
+Engine.assets.objects.items.WeaponTank.prototype.timeShift = function(dt)
+{
+    this.sprites.timeShift(dt);
 }

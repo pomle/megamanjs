@@ -4,14 +4,14 @@ Engine.assets.objects.items.EnergyTank = function()
 
     this.capacity = 30;
 
-    var model = Engine.Util.createSprite('powerup/tiles.gif', 16, 16);
+    var model = Engine.Util.createSprite('powerup.png', 16, 16);
+    this.sprites = new Engine.SpriteManager(model, 16, 16 , 64, 64);
 
-    var timeline = new Engine.Timeline();
-    timeline.addFrame(Engine.Util.createUVMap(0, 0, 16, 16, 48, 48), .1);
-    timeline.addFrame(Engine.Util.createUVMap(16, 0, 16, 16, 48, 48), .1);
-
-    var uvAnimator = new Engine.UVAnimator(timeline, model.geometry, 0, 0);
-    this.timeShift = timeline.timeShift.bind(timeline);
+    var anim = this.sprites.addSprite('idle');
+    anim.addFrame(0, 0, .1);
+    anim.addFrame(16, 0, .1);
+    this.sprites.selectSprite('idle');
+    this.sprites.applySprite();
 
     this.setModel(model);
     this.addCollisionZone(8, 0, 0);
@@ -26,4 +26,9 @@ Engine.assets.objects.items.EnergyTank.prototype.collides = function(withObject,
         withObject.health.increase(this.capacity);
         this.scene.removeObject(this);
     }
+}
+
+Engine.assets.objects.items.EnergyTank.prototype.timeShift = function(dt)
+{
+    this.sprites.timeShift(dt);
 }
