@@ -294,7 +294,8 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                         var ref = face.attr('ref');
                         if (face.is('animation')) {
                             var offset = parseFloat(face.attr('offset')) || 0;
-                            var animator = new Engine.UVAnimator(animationIndex[ref], geometry, i, offset);
+                            var animator = new Engine.UVAnimator(animationIndex[ref], geometry, offset);
+                            animator.addFaceIndex(i);
                         }
                         else if (face.is('sprite')) {
                             geometry.faceVertexUvs[i] = getSprite(ref).uvMap;

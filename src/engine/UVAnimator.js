@@ -1,4 +1,4 @@
-Engine.UVAnimator = function(timeline, geometry, faceIndex, offset)
+Engine.UVAnimator = function(timeline, geometry, offset)
 {
     if (timeline instanceof Engine.Timeline === false) {
         throw new Error('Invalid timeline');
@@ -8,16 +8,26 @@ Engine.UVAnimator = function(timeline, geometry, faceIndex, offset)
         throw new Error('Invalid geometry');
     }
 
+    this.faceIndices = [];
     this.geometry = geometry;
     this.timeline = timeline;
-    this.faceIndex = (faceIndex * 2) || 0;
     this.update(timeline.getValueAtIndex(0));
     this.timeline.addCallback(this.update.bind(this), offset);
 }
 
+Engine.UVAnimator.prototype.addFaceIndex = function(index)
+{
+    index = (index * 2) || 0;
+    this.faceIndices.push(index);
+}
+
 Engine.UVAnimator.prototype.update = function(uvMap)
 {
-    this.geometry.faceVertexUvs[0][this.faceIndex+0] = uvMap[0];
-    this.geometry.faceVertexUvs[0][this.faceIndex+1] = uvMap[1];
+    var i, faceIndex;
+    for (i in this.faceIndices) {
+        faceIndex = this.faceIndices[i];
+        this.geometry.faceVertexUvs[0][faceIndex+0] = uvMap[0];
+        this.geometry.faceVertexUvs[0][faceIndex+1] = uvMap[1];
+    }
     this.geometry.uvsNeedUpdate = true;
 }
