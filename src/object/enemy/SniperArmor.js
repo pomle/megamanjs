@@ -16,7 +16,8 @@ Engine.assets.objects.characters.SniperArmor = function(target)
     this.sprites.applySprite();
 
     this.setModel(model);
-    this.addCollisionRect(36, 56, 0, -4);
+    this.addCollisionRect(24, 56, -4, -4);
+    this.addCollisionRect(28, 28, 0, 10);
 
     this.health = new Engine.assets.Energy(20);
 
