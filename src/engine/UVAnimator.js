@@ -25,8 +25,8 @@ Engine.UVAnimator.prototype.update = function(uvMap)
     var i, faceIndex;
     for (i in this.faceIndices) {
         faceIndex = this.faceIndices[i];
-        this.geometry.faceVertexUvs[0][faceIndex+0] = uvMap[0];
-        this.geometry.faceVertexUvs[0][faceIndex+1] = uvMap[1];
+        this.geometry.faceVertexUvs[0][faceIndex + 0] = uvMap[0];
+        this.geometry.faceVertexUvs[0][faceIndex + 1] = uvMap[1];
     }
     this.geometry.uvsNeedUpdate = true;
 }
