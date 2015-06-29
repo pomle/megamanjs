@@ -553,14 +553,26 @@ Megaman.prototype.setScene = function(scene)
         this.loadScene(name);
     }.bind(this);
 
+    var start;
     if (scene instanceof Engine.scenes.Level) {
         this.level = new Megaman.LevelRunner(this, scene);
-        this.level.startGamePlay();
+        start = function() {
+            this.level.startGamePlay();
+        }.bind(this)
     }
     else {
         this.engine.scene = scene;
-        this.engine.run();
+        start = function() {
+            this.engine.run();
+        }.bind(this);
     }
+
+    /*
+        For some reason, if we start the engine immediately,
+        the performance is sluggish. Deferring it to end of call queue
+        fixes it.
+    */
+    setTimeout(start, 0);
 }
 
 Megaman.Player = function()
