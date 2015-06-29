@@ -1,4 +1,4 @@
-Engine.assets.objects.characters.SniperArmor = function(target)
+Engine.assets.objects.characters.SniperArmor = function()
 {
     Engine.assets.objects.Character.call(this);
 
