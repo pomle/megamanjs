@@ -778,7 +778,6 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
 
 var game = Megaman.createGame('resource/Megaman2.xml', function() {
     console.log('Loading game done', game);
-    game.run();
     game.attachToElement(document.getElementById('screen'));
 });
 
