@@ -62,12 +62,26 @@ $(function() {
         return level;
     }
 
+    function clearAssets()
+    {
+        assets.find('> div').each(function() {
+            var panel = $(this);
+            if (!panel.hasClass('collision')) {
+                panel.html('');
+            }
+        });
+    }
+
     function loadXML(xmlUrl)
     {
         var urlBase = xmlUrl.split('/').slice(0, -1).join('/');
+        clearAssets();
         $.ajax({
             url: xmlUrl,
             dataType: "xml",
+            error: function() {
+                alert("Could not load " + xmlUrl);
+            },
             success: function(response) {
                 var level = $(response);
 
@@ -188,6 +202,9 @@ $(function() {
             workspace.scrollLeft(w);
             workspace.scrollTop(h);
         }
+        img.onerror = function() {
+            alert("Could not load " + this.src);
+        }
         img.src = url;
     }
 
@@ -293,20 +310,32 @@ $(function() {
     var solids = assets.find('.solid');
     assetApplyDraggable(assets.find('.solid'));
 
-    $('#xml').submit(function(e) {
+    var controlPanelForm = $('form#controlpanel');
+    controlpanel.on("click", "button", function(e) {
         e.preventDefault();
-        var xmlUrl = $('input[name=xml]').val();
-        if (xmlUrl)
-            loadXML(xmlUrl);
+        var form = controlPanelForm;
+        switch(this.name) {
+            case "loadXml":
+                if (confirm("Sure you want to load XML?")) {
+                    var xmlUrl = form.find('input[name=xmlUrl]').val();
+                    if (xmlUrl) {
+                        loadXML(xmlUrl);
+                    }
+                }
+                break;
+            case "loadTemplate":
+                var input = form.find('input[name=templateUrl]');
+                var templateUrl = input.val();
+                if (templateUrl) {
+                    updateTemplate(templateUrl);
+                }
+                else {
+                    alert("No template defined");
+                }
+                break;
+        }
     });
 
-    $('#template').submit(function(e) {
-        e.preventDefault();
-        var template = $('input[name=template]').val();
-
-        if (template)
-            updateTemplate(template);
-    });
 
     var keyboard = new KeyboardHelper();
     keyboard.intermittent(71,
@@ -380,7 +409,8 @@ $(function() {
         keyboard.enabled = true;
     });
 
-    $('button#generateXml').on('click', function() {
+    $('button#generateXml').on('click', function(e) {
+        e.preventDefault();
         var items = workspace.items;
         var level = $('<level></level>');
 
@@ -409,14 +439,6 @@ $(function() {
 
         $('#console').val(level[0].outerHTML);
     });
-
-
-
-    $('input[name=template').val(baseUrl + '/templates/flashman.png');
-    $('#template').submit();
-    $('input[name=xml').val(baseUrl + '/../src/levels/flashman/Flashman.xml');
-    $('#xml').submit();
-
 });
 var levelEdit = {};
 

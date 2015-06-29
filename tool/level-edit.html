@@ -51,43 +51,44 @@
         </div>
     </div>
 
-    <div class="controlpanel">
-        <div>
-            <fieldset class="zoom">
-                <legend>Zoom</legend>
-                <button data-mag=".5"> - </button>
-                <button data-mag="2"> + </button>
-            </fieldset>
-            <fieldset class="snap">
-                <legend>Snap</legend>
-                <input type="radio" name="snap" value="1"><label>1</label>
-                <input type="radio" name="snap" value="16"><label>16</label>
-                <input type="radio" name="snap" value="32"><label>32</label>
-            </fieldset>
-            <fieldset class="layers">
-                <legend>Layers</legend>
-                <input type="checkbox" name="solid"><label>Solids</label>
-                <input type="checkbox" name="object"><label>Objects</label>
-                <input type="checkbox" name="grid"><label>Grid</label>
-                <input type="checkbox" name="template"><label>Template</label>
-            </fieldset>
-        <table>
-            <form id="template">
-            <tr>
-                <td>Template</td>
-                <td><input type="text" name="template"></td>
-                <td><button type="submit">Update</td>
-            </tr>
-            </form>
-            <form id="xml">
-            <tr>
-                <td>XML</td>
-                <td><input type="text" name="xml"></td>
-                <td><button type="submit">Load</td>
-            </tr>
-            </form>
-        </table>
-    </div>
+    <form id="controlpanel">
+        <div class="controlpanel">
+            <div>
+                <fieldset class="zoom">
+                    <legend>Zoom</legend>
+                    <button data-mag=".5"> - </button>
+                    <button data-mag="2"> + </button>
+                </fieldset>
+                <fieldset class="snap">
+                    <legend>Snap</legend>
+                    <input type="radio" name="snap" value="1"><label>1</label>
+                    <input type="radio" name="snap" value="16"><label>16</label>
+                    <input type="radio" name="snap" value="32"><label>32</label>
+                </fieldset>
+                <fieldset class="layers">
+                    <legend>Layers</legend>
+                    <input type="checkbox" name="solid"><label>Solids</label>
+                    <input type="checkbox" name="object"><label>Objects</label>
+                    <input type="checkbox" name="grid"><label>Grid</label>
+                    <input type="checkbox" name="template"><label>Template</label>
+                </fieldset>
+            </div>
+            <table>
+                <tr>
+                    <td>Template</td>
+                    <td><input type="text" name="templateUrl"></td>
+                    <td><button type="submit" name="loadTemplate">Update</button></td>
+                </tr>
+                </form>
+
+                <tr>
+                    <td>XML</td>
+                    <td><input type="text" name="xmlUrl"></td>
+                    <td><button type="submit" name="loadXml">Load</button></td>
+                </tr>
+            </table>
+        </div>
+    </form>
 
     <div>
         <div>
