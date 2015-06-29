@@ -34,7 +34,7 @@ Engine.assets.decorations.Explosion = function()
 
     this.setModel(model);
 
-    this.addCollisionZone(22);
+    this.addCollisionZone(26);
 }
 
 Engine.assets.decorations.Explosion.prototype = Object.create(Engine.assets.Decoration.prototype);
