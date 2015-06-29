@@ -31,9 +31,6 @@ Megaman.prototype.addScene = function(type, name, src)
 Megaman.createGame = function(xmlUrl, callback)
 {
     var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(800, 532);
-    document.getElementById('screen').appendChild(renderer.domElement);
-
     var game = new Megaman();
     game.engine = new Engine(renderer);
 
@@ -79,6 +76,23 @@ Megaman.createGame = function(xmlUrl, callback)
         callback();
     });
     return game;
+}
+
+Megaman.prototype.attachToElement = function(element)
+{
+    this.element = element;
+    this.adjustSize();
+    this.element.appendChild(this.engine.renderer.domElement);
+}
+
+Megaman.prototype.adjustSize = function()
+{
+    if (!this.element) {
+        throw new Error("No element");
+    }
+    var rect = this.element.getBoundingClientRect();
+    this.engine.renderer.setSize(rect.width, rect.height);
+    //this.game.engine.scene.camera.camera.setAspect(rect.width / rect.height);
 }
 
 Megaman.prototype.createScene = function(type, xmlUrl)
@@ -751,6 +765,7 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
 var game = Megaman.createGame('resource/Megaman2.xml', function() {
     console.log('Loading game done', game);
     game.run();
+    game.attachToElement(document.getElementById('screen'));
 });
 
 

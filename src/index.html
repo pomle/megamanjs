@@ -84,6 +84,11 @@
         <button onclick="game.player.equipWeapon('c');">Crash Bomber</button>
     </fieldset>
 
+    <fieldset>
+        <legend>Fullscreen</legend>
+        <button onclick="toggle_fullscreen();">Fullscreen</button>
+    </fieldset>
+
     <div id="screen">
         <div class="overlay">
             <div class="energy">
@@ -99,6 +104,30 @@
     </div>
 
     <script type="text/javascript" src="main.js"></script>
+
+    <script type="text/javascript">
+        var scrn = document.getElementById('screen');
+
+        function on_fullscreen_change() {
+            if(document.mozFullScreen || document.webkitIsFullScreen) {
+                $(scrn).addClass('fullscreen');
+            }
+            else {
+                $(scrn).removeClass('fullscreen');
+            }
+
+            game.adjustSize();
+        }
+
+        document.addEventListener('resize', on_fullscreen_change);
+        document.addEventListener('mozfullscreenchange', on_fullscreen_change);
+        document.addEventListener('webkitfullscreenchange', on_fullscreen_change);
+
+        function toggle_fullscreen()
+        {
+            scrn.webkitRequestFullScreen();
+        }
+    </script>
 </body>
 </html>
 

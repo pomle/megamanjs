@@ -23,9 +23,14 @@ input {
 
 #screen {
     margin: 0 auto;
-    height: 400px;
+    height: 532px;
     position: relative;
-    width: 600px;
+    width: 800px;
+}
+
+#screen.fullscreen {
+    height: 100%;
+    width: 100%;
 }
 
 #screen .overlay {
