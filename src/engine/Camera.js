@@ -50,6 +50,13 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
     }
 
     if (this.followObject) {
-        this.desiredPosition = this.followObject.position.clone().add(this.followOffset);
+        if (!this.desiredPosition) {
+            this.desiredPosition = new THREE.Vector2();
+        }
+
+        this.desiredPosition.x = this.followObject.position.x + this.followOffset.x;
+        if (this.followObject.isSupported) {
+            this.desiredPosition.y = this.followObject.position.y + this.followOffset.y;
+        }
     }
 }
