@@ -478,23 +478,35 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
             }
             if (name == 'DestructibleWall') {
                 var obstacle = new Engine.assets.obstacles[name](obstacleXml.attr('color'));
+                obstacle.model.position.x = parseFloat(obstacleXml.attr('x'));
+                obstacle.model.position.y = -parseFloat(obstacleXml.attr('y'));
+            }
+            else if (name == 'DeathZone') {
+                var obstacle = new Engine.assets.obstacles[name]();
+                var prop = {
+                    'x': parseFloat(obstacleXml.attr('x')),
+                    'y': parseFloat(obstacleXml.attr('y')),
+                    'w': parseFloat(obstacleXml.attr('w')),
+                    'h': parseFloat(obstacleXml.attr('h')),
+                };
+                obstacle.addCollisionRect(prop.w, prop.h);
+                obstacle.model.position.x = prop.x + (prop.w/2);
+                obstacle.model.position.y = -(prop.y + (prop.h/2));
             }
             else {
+                var obstacle = new Engine.assets.obstacles[name]();
                 var ref = obstacleXml.attr('ref');
                 var object = getObject(ref);
-
                 var material = new THREE.MeshBasicMaterial();
                 material.map = object.texture;
                 material.side = THREE.DoubleSide;
-
-                var obstacle = new Engine.assets.obstacles[name]();
                 var model = new THREE.Mesh(object.geometry, material);
                 obstacle.setModel(model);
                 obstacle.addCollisionRect(object.size.w, object.size.h);
+                obstacle.model.position.x = parseFloat(obstacleXml.attr('x'));
+                obstacle.model.position.y = -parseFloat(obstacleXml.attr('y'));
             }
 
-            obstacle.model.position.x = parseFloat(obstacleXml.attr('x'));
-            obstacle.model.position.y = -parseFloat(obstacleXml.attr('y'));
             level.addObject(obstacle);
         });
 

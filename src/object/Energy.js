@@ -55,7 +55,7 @@ Engine.assets.Energy.prototype.reduce = function(points)
 Engine.assets.Energy.prototype.setFinite = function(value)
 {
     this.value = 0;
-    this.setTo(value || 0);
+    this.setTo(this.max);
 }
 
 Engine.assets.Energy.prototype.setInfinite = function()

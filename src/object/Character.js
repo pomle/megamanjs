@@ -127,6 +127,17 @@ Engine.assets.objects.Character.prototype.inflictDamage = function(points, direc
     return true;
 }
 
+Engine.assets.objects.Character.prototype.kill = function()
+{
+    this.health.setFinite();
+    this.health.deplete();
+    var explosion = this.getDeathObject();
+    explosion.position.copy(this.position);
+    this.scene.addObject(explosion);
+    this.scene.removeObject(this);
+    this.trigger('die');
+}
+
 Engine.assets.objects.Character.prototype.moveLeftStart = function()
 {
     this.walk--;
@@ -188,10 +199,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     }
 
     if (this.health.isDepleted()) {
-        var explosion = this.getDeathObject();
-        explosion.model.position.copy(this.model.position);
-        this.scene.addObject(explosion);
-        this.scene.removeObject(this);
+        this.kill();
     }
 
     if (this.jumpInertia) {
