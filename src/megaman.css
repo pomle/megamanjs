@@ -9,6 +9,7 @@ body {
     background: #101010;
     font-family: sans-serif;
     font-size: 12px;
+    text-align: center;
 }
 
 body > #screen {
