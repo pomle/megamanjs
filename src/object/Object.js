@@ -132,18 +132,30 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     }
 }
 
-Engine.assets.Object.prototype.trigger = function(event)
+Engine.assets.Object.prototype.trigger = function(name)
 {
-    if (!this.events[name]) {
-        return;
+    if (this.events[name]) {
+        var i,
+            l = this.events[name].length,
+            event;
+
+        for (i = 0; i < l; i++) {
+            event = this.events[name][i];
+            if (event) {
+                event(this, arguments);
+            }
+        }
     }
+}
 
-    var i,
-        l = this.events[name].length,
-        args = arguments.slice(1);
 
-    for (i = 0; i < l; i++) {
-        this.events[name][i].apply(this, args);
+Engine.assets.Object.prototype.unbind = function(name, callback)
+{
+    if (this.events[name]) {
+        var index = this.events[name].indexOf(callback);
+        if (index > -1) {
+            this.events[name].splice(index, 1);
+        }
     }
 }
 
