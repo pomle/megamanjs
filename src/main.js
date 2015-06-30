@@ -807,8 +807,6 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
     this.pauseGamePlay();
     this.game.player.equipWeapon('p');
     var character = this.game.player.character;
-    character.isPlayer = true;
-    character.health.fill();
     this.level.removeObject(character);
 
     var checkpoint = this.level.checkPoints[this.checkPointIndex];
@@ -821,6 +819,9 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
     };
     character.bind('teleport-end', startFollow);
 
+    character.isPlayer = true;
+    character.health.fill();
+    character.stunnedTime = 0;
     character.teleportTo(checkpoint.pos);
     this.level.addObject(character,
                     checkpoint.pos.x + this.checkPointOffset.x,
