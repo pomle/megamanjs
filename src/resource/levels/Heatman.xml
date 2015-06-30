@@ -15,7 +15,11 @@
         <sprite id="hole" x="80" y="16" w="16" h="16"/>
 
         <sprite id="bricks-small" x="48" y="112" w="16" h="16"/>
+        <sprite id="bricks-big" x="16" y="112" w="16" h="16"/>
+        <sprite id="bricks-big-top" x="0" y="112" w="16" h="16"/>
+        <sprite id="bricks-big-bottom" x="64" y="112" w="16" h="16"/>
 
+        <sprite id="concrete-single" x="64" y="48" w="16" h="16"/>
         <sprite id="concrete-center" x="16" y="48" w="16" h="16"/>
         <sprite id="concrete-top-open" x="48" y="48" w="16" h="16"/>
         <sprite id="concrete-top-closed" x="0" y="48" w="16" h="16"/>
@@ -26,11 +30,17 @@
         <sprite id="mortar-2" x="16" y="0" w="16" h="16"/>
         <sprite id="mortar-3" x="32" y="0" w="16" h="16"/>
         <sprite id="mortar-4" x="48" y="0" w="16" h="16"/>
+        <sprite id="mortar-4-shaded" x="96" y="16" w="16" h="16"/>
         <sprite id="mortar-5" x="64" y="0" w="16" h="16"/>
+        <sprite id="mortar-5-shaded" x="0" y="32" w="16" h="16"/>
         <sprite id="mortar-6" x="80" y="0" w="16" h="16"/>
+        <sprite id="mortar-6-shaded" x="16" y="32" w="16" h="16"/>
         <sprite id="mortar-7" x="96" y="0" w="16" h="16"/>
+        <sprite id="mortar-7-shaded" x="32" y="32" w="16" h="16"/>
         <sprite id="mortar-8" x="0" y="16" w="16" h="16"/>
+        <sprite id="mortar-8-shaded" x="48" y="16" w="16" h="16"/>
         <sprite id="mortar-9" x="16" y="16" w="16" h="16"/>
+        <sprite id="mortar-9-shaded" x="64" y="16" w="16" h="16"/>
         <sprite id="mortar-10" x="32" y="16" w="16" h="16"/>
 
         <sprite id="lave-hori-1-1" x="0" y="64" w="16" h="16"/>
@@ -154,7 +164,7 @@
         <objects>
         </objects>-->
 
-        <solids><rect x="16" y="176" w="240" h="16"></rect><rect x="304" y="176" w="80" h="16"></rect><rect x="432" y="176" w="80" h="16"></rect><rect x="560" y="176" w="192" h="16"></rect><rect x="784" y="176" w="32" h="16"></rect><rect x="848" y="144" w="32" h="48"></rect><rect x="912" y="176" w="16" h="16"></rect><rect x="944" y="128" w="16" h="64"></rect><rect x="960" y="176" w="16" h="16"></rect><rect x="1008" y="128" w="16" h="64"></rect><rect x="1072" y="160" w="16" h="32"></rect><rect x="1120" y="128" w="16" h="64"></rect><rect x="1184" y="160" w="16" h="32"></rect><rect x="1232" y="160" w="16" h="32"></rect><rect x="1280" y="160" w="16" h="32"></rect><rect x="1328" y="160" w="16" h="32"></rect><rect x="1376" y="160" w="16" h="32"></rect><rect x="1424" y="160" w="16" h="32"></rect><rect x="1488" y="160" w="16" h="32"></rect><rect x="16" y="0" w="16" h="192"></rect><rect x="1792" y="128" w="64" h="16"></rect><rect x="1824" y="80" w="64" h="16"></rect><rect x="1920" y="96" w="64" h="16"></rect><rect x="1952" y="96" w="32" h="112"></rect><rect x="1760" y="192" w="240" h="16"></rect><rect x="1888" y="160" w="96" h="48"></rect><rect x="2016" y="16" w="16" h="272"></rect><rect x="2016" y="272" w="16" h="192"></rect><rect x="1840" y="304" w="16" h="160"></rect><rect x="1840" y="448" w="192" h="16"></rect><rect x="1808" y="192" w="16" h="272"></rect><rect x="1808" y="448" w="16" h="240"></rect><rect x="2400" y="416" w="128" h="16"></rect><rect x="1808" y="672" w="256" h="16"></rect><rect x="2048" y="672" w="80" h="48"></rect><rect x="2112" y="608" w="16" h="80"></rect><rect x="2224" y="560" w="16" h="128"></rect><rect x="2160" y="672" w="80" h="48"></rect><rect x="2272" y="672" w="160" h="48"></rect><rect x="2464" y="672" w="128" h="48"></rect><rect x="2624" y="672" w="112" h="48"></rect><rect x="2784" y="672" w="64" h="48"></rect><rect x="2640" y="640" w="16" h="48"></rect><rect x="2640" y="560" w="16" h="48"></rect><rect x="2784" y="608" w="16" h="32"></rect><rect x="2480" y="608" w="16" h="32"></rect><rect x="3104" y="624" w="160" h="16"></rect><rect x="3168" y="608" w="96" h="32"></rect><rect x="2880" y="672" w="64" h="48"></rect><rect x="2976" y="672" w="256" h="48"></rect><rect x="3216" y="672" w="256" h="48"></rect><rect x="3456" y="672" w="112" h="48"></rect><rect x="3552" y="656" w="16" h="64"></rect><rect x="4016" y="656" w="16" h="64"></rect><rect x="4352" y="672" w="208" h="112"></rect><rect x="4576" y="496" w="32" h="256"></rect><rect x="4576" y="736" w="32" h="208"></rect><rect x="4352" y="784" w="48" h="256"></rect><rect x="4416" y="896" w="64" h="112"></rect><rect x="4416" y="896" w="192" h="48"></rect><rect x="4352" y="1024" w="48" h="144"></rect><rect x="4384" y="1120" w="256" h="48"></rect><rect x="4624" y="1120" w="256" h="48"></rect><rect x="4560" y="960" w="320" h="96"></rect><rect x="4864" y="960" w="256" h="32"></rect><rect x="5104" y="976" w="16" h="192"></rect><rect x="4864" y="1152" w="256" h="48"></rect></solids>
+        <solids><rect x="16" y="176" w="240" h="16"></rect><rect x="304" y="176" w="80" h="16"></rect><rect x="432" y="176" w="80" h="16"></rect><rect x="560" y="176" w="192" h="16"></rect><rect x="784" y="176" w="32" h="16"></rect><rect x="848" y="144" w="32" h="48"></rect><rect x="912" y="176" w="16" h="16"></rect><rect x="944" y="128" w="16" h="64"></rect><rect x="960" y="176" w="16" h="16"></rect><rect x="1008" y="128" w="16" h="64"></rect><rect x="1072" y="160" w="16" h="32"></rect><rect x="1120" y="128" w="16" h="64"></rect><rect x="1184" y="160" w="16" h="32"></rect><rect x="1232" y="160" w="16" h="32"></rect><rect x="1280" y="160" w="16" h="32"></rect><rect x="1328" y="160" w="16" h="32"></rect><rect x="1376" y="160" w="16" h="32"></rect><rect x="1424" y="160" w="16" h="32"></rect><rect x="1488" y="160" w="16" h="32"></rect><rect x="16" y="0" w="16" h="192"></rect><rect x="1792" y="128" w="64" h="16"></rect><rect x="1824" y="80" w="64" h="16"></rect><rect x="1920" y="96" w="64" h="16"></rect><rect x="1952" y="96" w="32" h="112"></rect><rect x="1760" y="192" w="240" h="16"></rect><rect x="1888" y="160" w="96" h="48"></rect><rect x="2016" y="16" w="16" h="272"></rect><rect x="2016" y="272" w="16" h="192"></rect><rect x="1840" y="304" w="16" h="160"></rect><rect x="1840" y="448" w="192" h="16"></rect><rect x="1808" y="192" w="16" h="272"></rect><rect x="1808" y="448" w="16" h="240"></rect><rect x="2400" y="416" w="128" h="16"></rect><rect x="1808" y="672" w="256" h="16"></rect><rect x="2048" y="672" w="80" h="48"></rect><rect x="2112" y="608" w="16" h="80"></rect><rect x="2224" y="560" w="16" h="128"></rect><rect x="2160" y="672" w="80" h="48"></rect><rect x="2272" y="672" w="160" h="48"></rect><rect x="2464" y="672" w="128" h="48"></rect><rect x="2624" y="672" w="112" h="48"></rect><rect x="2784" y="672" w="64" h="48"></rect><rect x="2640" y="640" w="16" h="48"></rect><rect x="2640" y="560" w="16" h="48"></rect><rect x="2784" y="608" w="16" h="32"></rect><rect x="2480" y="608" w="16" h="32"></rect><rect x="3104" y="624" w="160" h="16"></rect><rect x="3168" y="608" w="96" h="32"></rect><rect x="2880" y="672" w="64" h="48"></rect><rect x="2976" y="672" w="256" h="48"></rect><rect x="3216" y="672" w="256" h="48"></rect><rect x="3456" y="672" w="112" h="48"></rect><rect x="3552" y="656" w="16" h="64"></rect><rect x="4016" y="656" w="16" h="64"></rect><rect x="4352" y="672" w="208" h="112"></rect><rect x="4576" y="496" w="32" h="256"></rect><rect x="4576" y="736" w="32" h="208"></rect><rect x="4352" y="784" w="48" h="256"></rect><rect x="4416" y="896" w="64" h="112"></rect><rect x="4416" y="896" w="192" h="48"></rect><rect x="4352" y="1024" w="48" h="144"></rect><rect x="4384" y="1120" w="256" h="48"></rect><rect x="4624" y="1120" w="256" h="48"></rect><rect x="4560" y="960" w="320" h="96"></rect><rect x="4864" y="960" w="256" h="32"></rect><rect x="5104" y="976" w="16" h="192"></rect><rect x="4864" y="1152" w="256" h="48"></rect><rect x="1536" y="160" w="16" h="16"></rect><rect x="1584" y="144" w="16" h="16"></rect><rect x="1600" y="96" w="16" h="16"></rect><rect x="1664" y="176" w="16" h="16"></rect><rect x="1696" y="144" w="16" h="16"></rect></solids>
 
         <background x="0" y="0" w="2048" h="240" w-segments="128" h-segments="15">
             <sprite ref="darkness">
@@ -176,17 +186,33 @@
             <sprite ref="mortar-5">
                 <segment x="*" y="6-8"/>
             </sprite>
+            <sprite ref="mortar-5-shaded">
+                <segment x="101,121-124" y="6"/>
+                <segment x="60,64,71,113-116" y="8"/>
+            </sprite>
             <sprite ref="mortar-6">
                 <segment x="*" y="9"/>
+            </sprite>
+            <sprite ref="mortar-6-shaded">
+                <segment x="54-55,100,107" y="9"/>
             </sprite>
             <sprite ref="mortar-7">
                 <segment x="*" y="10"/>
             </sprite>
+            <sprite ref="mortar-7-shaded">
+                <segment x="68,75,78,81,84,87,90,94,97,119-122" y="10"/>
+            </sprite>
             <sprite ref="mortar-8">
                 <segment x="*" y="11"/>
             </sprite>
+            <sprite ref="mortar-8-shaded">
+                <segment x="1-16,20-24,28-32,36-47,50-51,58,61,105" y="11"/>
+            </sprite>
             <sprite ref="mortar-9">
                 <segment x="*" y="12"/>
+            </sprite>
+            <sprite ref="mortar-9-shaded">
+                <segment x="111-118,125" y="12"/>
             </sprite>
             <sprite ref="mortar-10">
                 <segment x="*" y="13"/>
@@ -199,12 +225,6 @@
                 <segment x="57" y="7"/>
                 <segment x="47" y="8"/>
                 <segment x="62" y="10"/>
-            </sprite>
-
-            <sprite ref="bricks-small">
-                <segment x="1-2,11-22,25-30,33-40,43-96,113-128" y="1"/>
-                <segment x="1-2" y="1-10"/>
-                <segment x="127-128" y="*"/>
             </sprite>
 
             <animation ref="lava-hori-1">
@@ -225,6 +245,12 @@
             </animation>
 
 
+            <sprite ref="concrete-single">
+                <segment x="111-125" y="13"/>
+            </sprite>
+            <sprite ref="concrete-center">
+                <segment x="119-124" y="12"/>
+            </sprite>
             <sprite ref="concrete-top-open">
                 <segment x="1-16,20-24,28-32,36-47,50-51" y="12"/>
             </sprite>
@@ -232,22 +258,49 @@
                 <segment x="1-94" y="14"/>
             </sprite>
             <sprite ref="concrete-top-closed">
+                <segment x="119-124" y="11"/>
                 <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="12"/>
             </sprite>
             <sprite ref="concrete-center">
                 <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="13"/>
             </sprite>
             <sprite ref="concrete-bottom-closed">
+                <segment x="119-124" y="13"/>
                 <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="14"/>
-                <segment x="111-125" y="13"/>
             </sprite>
 
             <sprite ref="pillar">
+                <segment x="101" y="7"/>
                 <segment x="60,64,71" y="9"/>
-                <segment x="54-55,60,64,71" y="10"/>
-                <segment x="54-55,60,64,68,71,75,78,81,84,87,90,94" y="11"/>
-                <segment x="54-55,58,60-61,64,68,71,75,78,81,84,87,90,94" y="12"/>
+                <segment x="54-55,60,64,71,100,107" y="10"/>
+                <segment x="54-55,60,64,68,71,75,78,81,84,87,90,94,97" y="11"/>
+                <segment x="54-55,58,60-61,64,68,71,75,78,81,84,87,90,94,105" y="12"/>
             </sprite>
+
+            <sprite ref="bricks-small">
+                <segment x="1-2,11-22,25-30,33-40,43-96,113-128" y="1"/>
+                <segment x="1-2" y="1-10"/>
+                <segment x="127-128" y="*"/>
+                <segment x="123-124" y="8-9"/>
+            </sprite>
+
+            <sprite ref="bricks-big">
+                <segment x="115-118" y="6"/>
+                <segment x="121-122" y="7"/>
+                <segment x="113-116" y="9"/>
+
+            </sprite>
+
+            <sprite ref="bricks-big-bottom">
+                <segment x="11-22,25-30,33-40,43-96,113-126" y="2"/>
+                <segment x="1-2" y="11"/>
+                <segment x="123-124" y="10"/>
+            </sprite>
+
+            <sprite ref="bricks-big-top">
+                <segment x="123-124" y="7"/>
+            </sprite>
+
 
         </background>
     </layout>
