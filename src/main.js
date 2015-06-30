@@ -85,6 +85,16 @@ Megaman.prototype.attachToElement = function(element)
     this.element.appendChild(this.engine.renderer.domElement);
 }
 
+Megaman.prototype.adjustCamera = function()
+{
+    var rect = this.element.getBoundingClientRect();
+    if (this.engine.scene) {
+        var cam = this.engine.scene.camera.camera;
+        cam.aspect = rect.width / rect.height;
+        cam.updateProjectionMatrix();
+    }
+}
+
 Megaman.prototype.adjustSize = function()
 {
     if (!this.element) {
@@ -92,7 +102,7 @@ Megaman.prototype.adjustSize = function()
     }
     var rect = this.element.getBoundingClientRect();
     this.engine.renderer.setSize(rect.width, rect.height);
-    //this.game.engine.scene.camera.camera.setAspect(rect.width / rect.height);
+    this.adjustCamera();
 }
 
 Megaman.prototype.createScene = function(type, xmlUrl)
@@ -599,6 +609,8 @@ Megaman.prototype.setScene = function(scene)
             this.engine.run();
         }.bind(this);
     }
+
+    this.adjustCamera();
 
     /*
         For some reason, if we start the engine immediately,
