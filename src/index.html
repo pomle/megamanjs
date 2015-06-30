@@ -78,34 +78,6 @@
 </head>
 
 <body>
-    <fieldset>
-        <legend>Weapon</legend>
-        <button onclick="game.player.equipWeapon('p');">Plasma</button>
-        <button onclick="game.player.equipWeapon('a');">Air Shooter</button>
-        <button onclick="game.player.equipWeapon('m');">Metal Blade</button>
-        <button onclick="game.player.equipWeapon('c');">Crash Bomber</button>
-    </fieldset>
-    <fieldset>
-        <legend>Boss</legend>
-        <button onclick="game.level.spawnCharacter('Airman');">Air Man</button>
-        <button onclick="game.level.spawnCharacter('Crashman');">Crash Man</button>
-        <button onclick="game.level.spawnCharacter('Flashman');">Flash Man</button>
-        <button onclick="game.level.spawnCharacter('Heatman');">Heat Man</button>
-        <button onclick="game.level.spawnCharacter('Metalman');">Metal Man</button>
-    </fieldset>
-    <fieldset>
-        <legend>Enemy</legend>
-        <button onclick="game.level.spawnCharacter('SniperArmor');">SniperArmor</button>
-        <button onclick="game.level.spawnCharacter('SniperJoe');">SniperJoe</button>
-        <button onclick="game.level.spawnCharacter('SillyCanon');">SillyCanon</button>
-    </fieldset>
-
-
-    <fieldset>
-        <legend>Fullscreen</legend>
-        <button onclick="toggle_fullscreen();">Fullscreen</button>
-    </fieldset>
-
     <div id="screen">
         <div class="overlay">
             <div class="energy">
@@ -133,6 +105,32 @@
     <div>
         <pre>[WASD] - [Q/E] - [O/P]</pre>
     </div>
+
+    <fieldset>
+        <legend>Weapon</legend>
+        <button onclick="game.player.equipWeapon('p');">Plasma</button>
+        <button onclick="game.player.equipWeapon('a');">Air Shooter</button>
+        <button onclick="game.player.equipWeapon('m');">Metal Blade</button>
+        <button onclick="game.player.equipWeapon('c');">Crash Bomber</button>
+    </fieldset>
+    <fieldset>
+        <legend>Boss</legend>
+        <button onclick="game.level.spawnCharacter('Airman');">Air Man</button>
+        <button onclick="game.level.spawnCharacter('Crashman');">Crash Man</button>
+        <button onclick="game.level.spawnCharacter('Flashman');">Flash Man</button>
+        <button onclick="game.level.spawnCharacter('Heatman');">Heat Man</button>
+        <button onclick="game.level.spawnCharacter('Metalman');">Metal Man</button>
+    </fieldset>
+    <fieldset>
+        <legend>Enemy</legend>
+        <button onclick="game.level.spawnCharacter('SniperArmor');">SniperArmor</button>
+        <button onclick="game.level.spawnCharacter('SniperJoe');">SniperJoe</button>
+        <button onclick="game.level.spawnCharacter('SillyCanon');">SillyCanon</button>
+    </fieldset>
+    <fieldset>
+        <legend>Fullscreen</legend>
+        <button onclick="toggle_fullscreen();">Fullscreen</button>
+    </fieldset>
 
     <script type="text/javascript" src="main.js"></script>
 
