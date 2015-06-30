@@ -6,6 +6,7 @@ Engine.Camera = function(camera)
     this.followOffset = new THREE.Vector2(0, 25);
     this.followLookAhead = new THREE.Vector2(.5, .2);
     this.smoothing = 20;
+    this.velocity = new THREE.Vector2(0, 0);
 
 }
 
@@ -35,20 +36,12 @@ Engine.Camera.prototype.panTo = function(pos)
 
 Engine.Camera.prototype.unfollow = function()
 {
+    this.desiredPosition = undefined;
     this.followObject = undefined;
 }
 
 Engine.Camera.prototype.updateTime = function(timeElapsed)
 {
-    if (this.desiredPosition) {
-        var move = this.desiredPosition.clone().sub(this.camera.position);
-        if (this.smoothing) {
-            move.divideScalar(this.smoothing);
-        }
-        this.camera.position.x += move.x;
-        this.camera.position.y += move.y;
-    }
-
     if (this.followObject) {
         if (!this.desiredPosition) {
             this.desiredPosition = new THREE.Vector2();
@@ -59,4 +52,14 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
             this.desiredPosition.y = this.followObject.position.y + this.followOffset.y;
         }
     }
+
+    if (this.desiredPosition) {
+        this.velocity = this.desiredPosition.clone().sub(this.camera.position);
+        if (this.smoothing) {
+            this.velocity.divideScalar(this.smoothing);
+        }
+    }
+
+    this.camera.position.x += this.velocity.x;
+    this.camera.position.y += this.velocity.y;
 }
