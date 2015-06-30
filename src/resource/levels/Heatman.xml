@@ -12,6 +12,7 @@
         <sprite id="darkness" x="96" y="80" w="16" h="16"/>
 
         <sprite id="pillar" x="32" y="112" w="16" h="16"/>
+        <sprite id="hole" x="80" y="16" w="16" h="16"/>
 
         <sprite id="bricks-small" x="48" y="112" w="16" h="16"/>
 
@@ -189,6 +190,15 @@
             </sprite>
             <sprite ref="mortar-10">
                 <segment x="*" y="13"/>
+            </sprite>
+
+            <sprite ref="hole">
+                <segment x="79" y="4"/>
+                <segment x="53" y="5"/>
+                <segment x="43,67,73,85,93" y="6"/>
+                <segment x="57" y="7"/>
+                <segment x="47" y="8"/>
+                <segment x="62" y="10"/>
             </sprite>
 
             <sprite ref="bricks-small">
