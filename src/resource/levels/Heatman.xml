@@ -125,8 +125,19 @@
             <item name="WeaponTank" x="1624" y="1019"/>
             <item name="EnergyCapsule" x="2504" y="1737"/>
         </items>
-
+        -->
         <obstacles>
+            <obstacle name="DeathZone" x="224" y="192" w="96" h="16"/>
+            <obstacle name="DeathZone" x="336" y="192" w="128" h="16"/>
+            <obstacle name="DeathZone" x="496" y="192" w="80" h="16"/>
+            <obstacle name="DeathZone" x="736" y="192" w="48" h="16"/>
+            <obstacle name="DeathZone" x="800" y="192" w="256" h="16"/>
+            <obstacle name="DeathZone" x="1040" y="192" w="256" h="16"/>
+            <obstacle name="DeathZone" x="1280" y="192" w="240" h="16"/>
+            <obstacle name="DeathZone" x="1504" y="240" w="304" h="16"/>
+        </obstacles>
+
+            <!--
             <obstacle name="Door" ref="door" x="2808" y="1776" />
             <obstacle name="Door" ref="door" x="3080" y="1776" />
 
