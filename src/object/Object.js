@@ -17,7 +17,9 @@ Engine.assets.Object = function()
     this.time = 0;
     this.timeStretch = 1;
 
-    this.setModel(new THREE.Mesh(this.defaultGeometry, this.defaultMaterial));
+    var model = new THREE.Mesh(this.defaultGeometry, this.defaultMaterial);
+    model.visible = false;
+    this.setModel(model);
 }
 
 // Set up a default model.
