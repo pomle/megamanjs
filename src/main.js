@@ -721,6 +721,12 @@ Megaman.LevelRunner.prototype.createMenuInput = function()
     return input;
 }
 
+Megaman.LevelRunner.prototype.followPlayer = function()
+{
+    this.level.camera.follow(this.game.player.character,
+                             this.cameraFollowOffset);
+}
+
 Megaman.LevelRunner.prototype.renderListener = function()
 {
     if (this.readyCountdown > 0) {
@@ -732,11 +738,6 @@ Megaman.LevelRunner.prototype.renderListener = function()
             this.resumeGamePlay();
             this.readyCountdown = 0;
         }
-    }
-
-    if (!this.game.player.character.isTeleporting) {
-        this.level.camera.follow(this.game.player.character,
-                                 this.cameraFollowOffset);
     }
 }
 
@@ -812,6 +813,14 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
 
     var checkpoint = this.level.checkPoints[this.checkPointIndex];
     this.level.camera.jumpTo(checkpoint.pos.clone().add(this.cameraFollowOffset));
+
+    var game = this.game;
+    var startFollow = function(character) {
+        game.level.followPlayer();
+        character.unbind('teleport-end', arguments.callee);
+    };
+    character.bind('teleport-end', startFollow);
+
     character.teleportTo(checkpoint.pos);
     this.level.addObject(character,
                     checkpoint.pos.x + this.checkPointOffset.x,
