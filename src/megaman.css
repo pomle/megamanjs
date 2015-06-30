@@ -94,3 +94,76 @@ input {
 #screen .overlay .energy > .weapon.h > .amount {
     background-position-x: -144px;
 }
+
+#nes-controller {
+    background: url('nes-controller.png');
+    background-size: contain;
+    margin: 10px auto;
+    height: 345px;
+    position: relative;
+    width: 792px;
+    zoom: .5;
+}
+#nes-controller > a {
+    cursor: pointer;
+    display: block;
+    height: 20px;
+    position: absolute;
+    width: 20px;
+}
+
+#nes-controller > .left {
+    left: 72px;
+    top: 177px;
+    height: 44px;
+    width: 44px;
+}
+
+#nes-controller > .right {
+    left: 164px;
+    top: 177px;
+    height: 44px;
+    width: 44px;
+}
+
+#nes-controller > .up {
+    left: 118px;
+    top: 131px;
+    height: 44px;
+    width: 44px;
+}
+
+#nes-controller > .down {
+    left: 118px;
+    top: 224px;
+    height: 44px;
+    width: 44px;
+}
+
+#nes-controller > .a {
+    left: 621px;
+    top: 203px;
+    height: 80px;
+    width: 80px;
+}
+
+#nes-controller > .b {
+    left: 517px;
+    top: 203px;
+    height: 80px;
+    width: 80px;
+}
+
+#nes-controller > .select {
+    left: 285px;
+    top: 224px;
+    height: 25px;
+    width: 65px;
+}
+
+#nes-controller > .start {
+    left: 396px;
+    top: 224px;
+    height: 25px;
+    width: 65px;
+}

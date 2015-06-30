@@ -864,3 +864,20 @@ var circle = function(dt)
     //this.momentum.y += dt;
     Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
+
+
+var keyBoardEvent = function(event) {
+    var map = {
+        "mousedown": "keydown",
+        "mouseup": "keyup",
+    };
+    var name = map[event.type]
+    var event = document.createEvent("Event");
+    event.initEvent(name, true, true);
+    event.keyCode = Engine.Keyboard.prototype[this.rel];
+    window.dispatchEvent(event);
+}
+
+$('#nes-controller > a')
+    .on('mousedown', keyBoardEvent)
+    .on('mouseup', keyBoardEvent);
