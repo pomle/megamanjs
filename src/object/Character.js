@@ -80,25 +80,6 @@ Engine.assets.objects.Character.prototype.getDeathObject = function()
     return new Engine.assets.decorations.TinyExplosion();
 }
 
-Engine.assets.objects.Character.prototype.jumpStart = function()
-{
-    if (this.stunnedTime > 0) {
-        return false;
-    }
-
-    if (!this.isSupported) {
-        return false;
-    }
-    this.isSupported = false;
-    this.jumpInertia = this.inertia.y + this.jumpForce;
-    this.jumpTime = this.time;
-}
-
-Engine.assets.objects.Character.prototype.jumpEnd = function()
-{
-    this.jumpInertia = 0;
-}
-
 Engine.assets.objects.Character.prototype.impactProjectile = function(projectile)
 {
     if (projectile instanceof Engine.assets.Projectile !== true) {
@@ -125,6 +106,25 @@ Engine.assets.objects.Character.prototype.inflictDamage = function(points, direc
     this.isInvincible = this.invincibilityDuration;
     this.stunnedTime = this.stunnedDuration;
     return true;
+}
+
+Engine.assets.objects.Character.prototype.jumpStart = function()
+{
+    if (this.stunnedTime > 0) {
+        return false;
+    }
+
+    if (!this.isSupported) {
+        return false;
+    }
+    this.isSupported = false;
+    this.jumpInertia = this.inertia.y + this.jumpForce;
+    this.jumpTime = this.time;
+}
+
+Engine.assets.objects.Character.prototype.jumpEnd = function()
+{
+    this.jumpInertia = 0;
 }
 
 Engine.assets.objects.Character.prototype.kill = function()
