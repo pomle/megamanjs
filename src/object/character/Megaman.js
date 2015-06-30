@@ -167,6 +167,7 @@ Engine.assets.objects.characters.Megaman.prototype.teleportStart = function()
     this.collidable = false;
     this.isTeleporting = true;
     this.mass = 0;
+    this.trigger('teleport-start');
 }
 
 Engine.assets.objects.characters.Megaman.prototype.teleportEnd = function()
@@ -177,6 +178,7 @@ Engine.assets.objects.characters.Megaman.prototype.teleportEnd = function()
     this.momentum.multiplyScalar(0);
     this.inertia.multiplyScalar(0);
     this.mass = 1;
+    this.trigger('teleport-end');
 }
 
 Engine.assets.objects.characters.Megaman.prototype.teleportHandle = function(dt)
