@@ -87,8 +87,8 @@ Megaman.prototype.attachToElement = function(element)
 
 Megaman.prototype.adjustCamera = function()
 {
-    var rect = this.element.getBoundingClientRect();
     if (this.engine.scene) {
+        var rect = this.element.getBoundingClientRect();
         var cam = this.engine.scene.camera.camera;
         cam.aspect = rect.width / rect.height;
         cam.updateProjectionMatrix();
