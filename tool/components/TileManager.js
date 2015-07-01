@@ -8,9 +8,17 @@ TileManager.prototype.createTile = function(src, name, offsetX, offsetY, width, 
     if (this.tiles[name]) {
         throw new Error("Tile " + name + " already defined");
     }
-    var tile = new this.Tile(src, offsetX, offsetY, width, height);
+    var tile = new TileManager.Tile(src, offsetX, offsetY, width, height);
     this.tiles[name] = tile;
     return tile;
+}
+
+TileManager.prototype.getTile = function(name)
+{
+    if (!this.tiles[name]) {
+        throw new Error("Tile " + name + " does not exist");
+    }
+    return this.tiles[name];
 }
 
 
@@ -33,4 +41,18 @@ TileManager.Tile.prototype.createElement = function()
             'height': this.h,
             'width': this.w,
         });
+}
+
+
+TileManager.TileAnimation = function()
+{
+    this.frames = [];
+}
+
+TileManager.TileAnimation.prototype.addFrame = function(tile, duration)
+{
+    this.frames.push({
+        "tile": tile,
+        "duration": duration,
+    });
 }

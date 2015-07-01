@@ -72,6 +72,43 @@ $(function() {
         });
     }
 
+    function expandRange(input, total)
+    {
+        var values = [];
+        var groups, group, ranges, range, mod, upper, lower, i;
+
+        groups = input.split(',');
+
+        while (group = groups.shift()) {
+
+            mod = parseFloat(group.split('/')[1]) || 1;
+            ranges = group.split('-');
+
+            if (ranges.length == 2) {
+                lower = parseFloat(ranges[0]);
+                upper = parseFloat(ranges[1]);
+            }
+            else if (ranges[0] == '*') {
+                lower = 1;
+                upper = total;
+            }
+            else {
+                lower = parseFloat(ranges[0]);
+                upper = lower;
+            }
+
+            i = 0;
+            while (lower <= upper) {
+                if (i++ % mod === 0) {
+                    values.push(lower);
+                }
+                lower++
+            }
+        }
+
+        return values;
+    }
+
     function loadXML(xmlUrl)
     {
         var urlBase = xmlUrl.split('/').slice(0, -1).join('/');
@@ -88,18 +125,18 @@ $(function() {
                 var spriteIndex = {};
                 var objectIndex = {};
 
+                levelEdit.backgroundManager = new BackgroundManager();
+                levelEdit.tileManager = new TileManager();
+
+
                 level.find('level > sprites').each(function(i, sprites) {
                     sprites = $(sprites);
                     var spriteImageUrl = urlBase + '/' + sprites.attr('url');
 
-                    sprites.children('sprite').each(function(i, sprite) {
-                        sprite = $(sprite);
-                        spriteIndex[sprite.attr('id')] = {
-                            x: parseFloat(sprite.attr('x')),
-                            y: parseFloat(sprite.attr('y')),
-                            w: parseFloat(sprite.attr('w')),
-                            h: parseFloat(sprite.attr('h')),
-                        };
+                    sprites.children('sprite').each(function(i, spriteXml) {
+                        spriteXml = $(spriteXml)
+                        var tile = levelEdit.tileManager.createTile(spriteImageUrl, spriteXml.attr('id'),
+                            parseFloat(spriteXml.attr('x')), parseFloat(spriteXml.attr('y')), parseFloat(spriteXml.attr('w')), parseFloat(spriteXml.attr('h')));
                     });
                     var animationSpriteIndex = {};
                     sprites.children('animation').each(function(i, anim) {
@@ -149,23 +186,23 @@ $(function() {
                     });
                 });
 
-                level.find('level > layout').each(function(i, layout) {
-                    layout = $(layout);
-                    layout.find('solids > rect').each(function(i, solid) {
-                        solid = $(solid);
+                level.find('level > layout').each(function(i, layoutXml) {
+                    layoutXml = $(layoutXml);
+                    layoutXml.find('solids > rect').each(function(i, solidXml) {
+                        solidXml = $(solidXml);
                         var asset = createAsset('solid');
                         asset
                             .addClass('solid rect')
                             .css({
-                                'left': solid.attr('x') + 'px',
-                                'top': solid.attr('y') + 'px',
-                                'width': solid.attr('w') + 'px',
-                                'height': solid.attr('h') + 'px',
+                                'left': solidXml.attr('x') + 'px',
+                                'top': solidXml.attr('y') + 'px',
+                                'width': solidXml.attr('w') + 'px',
+                                'height': solidXml.attr('h') + 'px',
                             });
                         workspace.items.addItem(asset);
                     });
 
-                    layout.find('object').each(function(i, object) {
+                    layoutXml.find('object').each(function(i, object) {
                         object = $(object);
                         var objectRef = object.attr('ref');
                         var clone = objectIndex[objectRef].clone();
@@ -174,7 +211,43 @@ $(function() {
                             'top': object.attr('y') + 'px',
                         });
                         workspace.items.addItem(clone);
-                    })
+                    });
+
+                    layoutXml.find('> background').each(function(i, backgroundXml) {
+                        backgroundXml = $(backgroundXml);
+                        var x = parseFloat(backgroundXml.attr('x'));
+                        var y = parseFloat(backgroundXml.attr('y'));
+                        var w = parseFloat(backgroundXml.attr('w'));
+                        var h = parseFloat(backgroundXml.attr('h'));
+                        var background = new BackgroundManager.Background(x, y, w, h,
+                            w / parseFloat(backgroundXml.attr('w-segments')),
+                            h / parseFloat(backgroundXml.attr('h-segments')));
+
+                        backgroundXml.find('> sprite').each(function(i, tileXml) {
+                            tileXml = $(tileXml);
+                            var ref = tileXml.attr('ref');
+                            var tile = levelEdit.tileManager.getTile(ref);
+                            tileXml.find('> segment').each(function(i, segmentXml) {
+                                segmentXml = $(segmentXml);
+                                var range = {
+                                    'x': expandRange(segmentXml.attr('x'), background.getWidthSegs()),
+                                    'y': expandRange(segmentXml.attr('y'), background.getHeightSegs()),
+                                };
+
+                                var i, j, x, y, faceIndex;
+                                for (j in range.y) {
+                                    y = range.y[j] - 1;
+                                    for (i in range.x) {
+                                        x = range.x[i] - 1;
+                                        background.setTile(x, y, tile);
+                                    }
+                                }
+                            });
+                        });
+
+                        levelEdit.backgroundManager.addBackground(x, y, background);
+                        workspace.items.addItem(background.createElement());
+                    });
                 });
             },
         });
@@ -208,8 +281,9 @@ $(function() {
         img.src = url;
     }
 
-    var objectMani = new ObjectManipulator();
-    levelEdit.objectManipulator = objectMani;
+    levelEdit.tileManager = new TileManager();
+
+    levelEdit.objectManipulator = new ObjectManipulator();
     levelEdit.objectManipulator.quantizer = 16;
 
 
@@ -350,56 +424,56 @@ $(function() {
     });
     // Up
     keyboard.hit(38, function(event) {
-        switch (objectMani.mode) {
+        switch (levelEdit.objectManipulator.mode) {
             case 'size':
-                objectMani.nudgeSize(0, -16);
+                levelEdit.objectManipulator.nudgeSize(0, -16);
                 break;
             default:
-                objectMani.nudge(0, -16);
+                levelEdit.objectManipulator.nudge(0, -16);
                 break;
         }
     });
     // Down
     keyboard.hit(40, function() {
-        switch (objectMani.mode) {
+        switch (levelEdit.objectManipulator.mode) {
             case 'size':
-                objectMani.nudgeSize(0, 16);
+                levelEdit.objectManipulator.nudgeSize(0, 16);
                 break;
             default:
-                objectMani.nudge(0, 16);
+                levelEdit.objectManipulator.nudge(0, 16);
                 break;
         }
     });
     // Left
     keyboard.hit(37, function() {
-        switch (objectMani.mode) {
+        switch (levelEdit.objectManipulator.mode) {
             case 'size':
-                objectMani.nudgeSize(-16, 0);
+                levelEdit.objectManipulator.nudgeSize(-16, 0);
                 break;
             default:
-                objectMani.nudge(-16, 0);
+                levelEdit.objectManipulator.nudge(-16, 0);
                 break;
         }
     });
     // Right
     keyboard.hit(39, function() {
-        switch (objectMani.mode) {
+        switch (levelEdit.objectManipulator.mode) {
             case 'size':
-                objectMani.nudgeSize(16, 0);
+                levelEdit.objectManipulator.nudgeSize(16, 0);
                 break;
             default:
-                objectMani.nudge(16, 0);
+                levelEdit.objectManipulator.nudge(16, 0);
                 break;
         }
     });
     keyboard.hit(46, function() {
-        objectMani.remove();
+        levelEdit.objectManipulator.remove();
     });
     keyboard.hit(77, function() {
-        objectMani.mode = 'move';
+        levelEdit.objectManipulator.mode = 'move';
     });
     keyboard.hit(83, function() {
-        objectMani.mode = 'size';
+        levelEdit.objectManipulator.mode = 'size';
     })
 
 
