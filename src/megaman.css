@@ -47,6 +47,14 @@ input {
 #screen .overlay {
 }
 
+#screen > canvas {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
 #screen .overlay .energy {
     left: 20px;
     position: absolute;
@@ -124,58 +132,129 @@ input {
     width: 20px;
 }
 
+#nes-controller .direction {
+    height: 155px;
+    left: 62px;
+    position: absolute;
+    top: 122px;
+    width: 155px;
+}
+
 #nes-controller .left {
-    left: 72px;
-    top: 177px;
+    left: 10px;
+    top: 55px;
     height: 44px;
     width: 44px;
 }
 
 #nes-controller .right {
-    left: 164px;
-    top: 177px;
+    left: 102px;
+    top: 55px;
     height: 44px;
     width: 44px;
 }
 
 #nes-controller .up {
-    left: 118px;
-    top: 131px;
+    left: 56px;
+    top: 9px;
     height: 44px;
     width: 44px;
 }
 
 #nes-controller .down {
-    left: 118px;
-    top: 224px;
+    left: 56px;
+    top: 102px;
     height: 44px;
     width: 44px;
 }
 
+#nes-controller .action {
+    height: 86px;
+    left: 514px;
+    position: absolute;
+    top: 201px;
+    width: 189px;
+}
+
 #nes-controller .a {
-    left: 621px;
-    top: 203px;
-    height: 80px;
-    width: 80px;
+    height: 79px;
+    right: 3px;
+    top: 3px;
+    width: 79px;
 }
 
 #nes-controller .b {
-    left: 517px;
-    top: 203px;
-    height: 80px;
-    width: 80px;
+    left: 3px;
+    top: 3px;
+    height: 79px;
+    width: 79px;
+}
+
+#nes-controller .operation {
+    height: 40px;
+    left: 278px;
+    position: absolute;
+    top: 217px;
+    width: 191px;
 }
 
 #nes-controller .select {
-    left: 285px;
-    top: 224px;
+    left: 7px;
+    top: 7px;
     height: 25px;
     width: 65px;
 }
 
 #nes-controller .start {
-    left: 396px;
-    top: 224px;
     height: 25px;
+    right: 7px;
+    top: 7px;
     width: 65px;
+}
+
+#game.fullscreen #nes-controller {
+    background: transparent;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    zoom: 1;
+}
+
+#game.fullscreen #nes-controller .b,
+#game.fullscreen #nes-controller .a,
+#game.fullscreen #nes-controller .start,
+#game.fullscreen #nes-controller .select,
+#game.fullscreen #nes-controller .direction {
+    background: url('nes-controller-transparent.png');
+}
+#game.fullscreen #nes-controller .direction {
+    background-position: -62px -122px;
+    bottom: 40px;
+    left: 40px;
+    top: auto;
+}
+#game.fullscreen #nes-controller .action {
+    left: auto;
+    bottom: 40px;
+    right: 40px;
+}
+#game.fullscreen #nes-controller .operation {
+    bottom: 0;
+    left: auto;
+    right: 50%;
+    top: auto;
+}
+#game.fullscreen #nes-controller .a {
+    background-position: -621px -203px;
+}
+#game.fullscreen #nes-controller .b {
+    background-position: -517px -203px;
+}
+#game.fullscreen #nes-controller .select {
+    background-position: -285px -224px;
+}
+#game.fullscreen #nes-controller .start {
+    background-position: -396px -224px;
 }
