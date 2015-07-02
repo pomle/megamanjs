@@ -880,7 +880,7 @@ var keyBoardEvent = function(event) {
     window.dispatchEvent(event);
 }
 
-$('#nes-controller > a')
+$('#nes-controller a')
     .on('touchstart', keyBoardEvent)
     .on('touchend', keyBoardEvent)
     .on('mousedown', keyBoardEvent)

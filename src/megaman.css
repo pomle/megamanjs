@@ -12,7 +12,7 @@ body {
     text-align: center;
 }
 
-body > #screen {
+body #screen {
     display: block;
     margin: 0 auto;
 }
@@ -22,14 +22,24 @@ input {
     border-width: 1px;
 }
 
-#screen {
+#game {
+    background: inherit;
     margin: 0 auto;
-    height: 532px;
     position: relative;
+}
+
+#game.fullscreen {
+    height: 100%;
+    width: 100%;
+}
+
+#game #screen {
+    position: relative;
+    height: 532px;
     width: 800px;
 }
 
-#screen.fullscreen {
+#game.fullscreen #screen {
     height: 100%;
     width: 100%;
 }
@@ -105,7 +115,8 @@ input {
     width: 792px;
     zoom: .5;
 }
-#nes-controller > a {
+
+#nes-controller a {
     cursor: pointer;
     display: block;
     height: 20px;
@@ -113,56 +124,56 @@ input {
     width: 20px;
 }
 
-#nes-controller > .left {
+#nes-controller .left {
     left: 72px;
     top: 177px;
     height: 44px;
     width: 44px;
 }
 
-#nes-controller > .right {
+#nes-controller .right {
     left: 164px;
     top: 177px;
     height: 44px;
     width: 44px;
 }
 
-#nes-controller > .up {
+#nes-controller .up {
     left: 118px;
     top: 131px;
     height: 44px;
     width: 44px;
 }
 
-#nes-controller > .down {
+#nes-controller .down {
     left: 118px;
     top: 224px;
     height: 44px;
     width: 44px;
 }
 
-#nes-controller > .a {
+#nes-controller .a {
     left: 621px;
     top: 203px;
     height: 80px;
     width: 80px;
 }
 
-#nes-controller > .b {
+#nes-controller .b {
     left: 517px;
     top: 203px;
     height: 80px;
     width: 80px;
 }
 
-#nes-controller > .select {
+#nes-controller .select {
     left: 285px;
     top: 224px;
     height: 25px;
     width: 65px;
 }
 
-#nes-controller > .start {
+#nes-controller .start {
     left: 396px;
     top: 224px;
     height: 25px;

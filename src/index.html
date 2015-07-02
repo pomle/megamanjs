@@ -78,29 +78,37 @@
 </head>
 
 <body>
-    <div id="screen">
-        <div class="overlay">
-            <div class="energy">
-                <div class="health">
-                    <div class="amount"></div>
+    <div id="game">
+        <div id="screen">
+            <div class="overlay">
+                <div class="energy">
+                    <div class="health">
+                        <div class="amount"></div>
+                    </div>
+                    <div class="weapon">
+                        <div class="amount"></div>
+                    </div>
                 </div>
-                <div class="weapon">
-                    <div class="amount"></div>
-                </div>
+
             </div>
-
         </div>
-    </div>
 
-    <div id="nes-controller">
-        <a class="up" rel="UP"/>
-        <a class="down" rel="DOWN"/>
-        <a class="left" rel="LEFT"/>
-        <a class="right" rel="RIGHT"/>
-        <a class="b" rel="B"/>
-        <a class="a" rel="A"/>
-        <a class="select" rel="SELECT"/>
-        <a class="start" rel="START"/>
+        <div id="nes-controller">
+            <div class="direction">
+                <a class="up" rel="UP"/>
+                <a class="down" rel="DOWN"/>
+                <a class="left" rel="LEFT"/>
+                <a class="right" rel="RIGHT"/>
+            </div>
+            <div class="action">
+                <a class="b" rel="B"/>
+                <a class="a" rel="A"/>
+            </div>
+            <div class="operation">
+                <a class="select" rel="SELECT"/>
+                <a class="start" rel="START"/>
+            </div>
+        </div>
     </div>
     <div>
         <pre>[WASD] - [Q/E] - [O/P]</pre>
@@ -135,14 +143,13 @@
     <script type="text/javascript" src="main.js"></script>
 
     <script type="text/javascript">
-        var scrn = document.getElementById('screen');
-
+        var gameElement = document.getElementById('game');
         function on_fullscreen_change() {
             if(document.mozFullScreen || document.webkitIsFullScreen) {
-                $(scrn).addClass('fullscreen');
+                $(gameElement).addClass('fullscreen');
             }
             else {
-                $(scrn).removeClass('fullscreen');
+                $(gameElement).removeClass('fullscreen');
             }
 
             game.adjustSize();
@@ -154,7 +161,7 @@
 
         function toggle_fullscreen()
         {
-            scrn.webkitRequestFullScreen();
+            gameElement.webkitRequestFullScreen();
         }
     </script>
 </body>
