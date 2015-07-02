@@ -97,7 +97,7 @@ input {
 }
 
 #nes-controller {
-    background: url('nes-controller.png');
+    background: #eae9de url('nes-controller.png');
     background-size: contain;
     margin: 10px auto;
     height: 345px;
