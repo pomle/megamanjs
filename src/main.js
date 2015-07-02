@@ -867,6 +867,7 @@ var circle = function(dt)
 
 
 var keyBoardEvent = function(event) {
+    event.stopPropagation();
     var map = {
         "touchstart": "keydown",
         "touchend": "keyup",
