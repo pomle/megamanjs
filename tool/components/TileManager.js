@@ -3,13 +3,12 @@ var TileManager = function()
     this.tiles = {};
 }
 
-TileManager.prototype.createTile = function(src, name, offsetX, offsetY, width, height)
+TileManager.prototype.addTile = function(tile)
 {
-    if (this.tiles[name]) {
-        throw new Error("Tile " + name + " already defined");
+    if (this.tiles[tile.name]) {
+        throw new Error("Tile " + tile.name + " already defined");
     }
-    var tile = new TileManager.Tile(src, offsetX, offsetY, width, height);
-    this.tiles[name] = tile;
+    this.tiles[tile.name] = tile;
     return tile;
 }
 
@@ -22,8 +21,9 @@ TileManager.prototype.getTile = function(name)
 }
 
 
-TileManager.Tile = function(src, x, y, w, h)
+TileManager.Tile = function(src, name, x, y, w, h)
 {
+    this.name = name;
     this.src = src;
     this.x = x;
     this.y = y;

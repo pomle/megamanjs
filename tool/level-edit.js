@@ -135,8 +135,9 @@ $(function() {
 
                     sprites.children('sprite').each(function(i, spriteXml) {
                         spriteXml = $(spriteXml)
-                        var tile = levelEdit.tileManager.createTile(spriteImageUrl, spriteXml.attr('id'),
+                        var tile = new TileManager.Tile(spriteImageUrl, spriteXml.attr('id'),
                             parseFloat(spriteXml.attr('x')), parseFloat(spriteXml.attr('y')), parseFloat(spriteXml.attr('w')), parseFloat(spriteXml.attr('h')));
+                        levelEdit.tileManager.addTile(tile);
                     });
                     var animationSpriteIndex = {};
                     sprites.children('animation').each(function(i, anim) {
