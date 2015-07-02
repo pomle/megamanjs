@@ -868,6 +868,8 @@ var circle = function(dt)
 
 var keyBoardEvent = function(event) {
     var map = {
+        "touchstart": "keydown",
+        "touchend": "keyup",
         "mousedown": "keydown",
         "mouseup": "keyup",
     };
@@ -879,5 +881,7 @@ var keyBoardEvent = function(event) {
 }
 
 $('#nes-controller > a')
+    .on('touchstart', keyBoardEvent)
+    .on('touchend', keyBoardEvent)
     .on('mousedown', keyBoardEvent)
     .on('mouseup', keyBoardEvent);
