@@ -216,10 +216,11 @@ input {
     background: transparent;
     bottom: 0;
     left: 0;
+    margin: 0;
     position: absolute;
     right: 0;
     width: 100%;
-    zoom: 1;
+    zoom: .75;
 }
 
 #game.fullscreen #nes-controller .b,
@@ -231,19 +232,21 @@ input {
 }
 #game.fullscreen #nes-controller .direction {
     background-position: -62px -122px;
-    bottom: 40px;
-    left: 40px;
+    bottom: 10px;
+    left: 10px;
     top: auto;
 }
 #game.fullscreen #nes-controller .action {
     left: auto;
-    bottom: 40px;
-    right: 40px;
+    bottom: 10px;
+    right: 10px;
+    top: auto;
 }
 #game.fullscreen #nes-controller .operation {
     bottom: 0;
-    left: auto;
-    right: 50%;
+    left: 0;
+    margin: 0 auto;
+    right: 0;
     top: auto;
 }
 #game.fullscreen #nes-controller .a {
