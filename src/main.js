@@ -865,9 +865,16 @@ var circle = function(dt)
     Engine.assets.Object.prototype.timeShift.call(this, dt);
 }
 
+var isTouchDevice = false;
 
 var keyBoardEvent = function(event) {
     event.stopPropagation();
+    if (isTouchDevice && ["mousedown", "mouseup"].indexOf(event.type) > -1) {
+        return;
+    } else if (!isTouchDevice && ["touchstart", "touchend"].indexOf(event.type) > -1) {
+        isTouchDevice = true;
+    }
+
     var map = {
         "touchstart": "keydown",
         "touchend": "keyup",
