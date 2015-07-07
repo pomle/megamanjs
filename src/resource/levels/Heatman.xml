@@ -13,6 +13,8 @@
 
         <sprite id="pillar" x="32" y="112" w="16" h="16"/>
         <sprite id="hole" x="80" y="16" w="16" h="16"/>
+        <sprite id="ladder" x="80" y="32" w="16" h="16"/>
+        <sprite id="door" x="96" y="48" w="16" h="16"/>
 
         <sprite id="bricks-small" x="48" y="112" w="16" h="16"/>
         <sprite id="bricks-big" x="16" y="112" w="16" h="16"/>
