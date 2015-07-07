@@ -8,6 +8,8 @@ Engine.assets.Solid = function()
         this.LEFT,
         this.RIGHT
     ];
+
+    this.ignore = [];
 }
 
 Engine.assets.Solid.prototype = Object.create(Engine.assets.Object.prototype);
@@ -44,6 +46,9 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     if (subject instanceof Engine.assets.objects.Character === false) {
         return false;
     }
+    if (this.ignore.indexOf(subject) > -1) {
+        return false;
+    }
 
     var our = new Engine.Collision.BoundingBox(this.model, ourZone);
     var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
@@ -51,6 +56,12 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     const attack = this.attackDirection(our, their);
 
     if (this.attackAccept.indexOf(attack) < 0) {
+        /*
+        Collision is detected on a surface that should not obstruct.
+        This puts this object in the ignore list until uncollides callback
+        has been reached.
+        */
+        this.ignore.push(subject);
         return false;
     }
 
@@ -72,6 +83,14 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     }
 
     return true;
+}
+
+Engine.assets.Solid.prototype.uncollides = function(subject, ourZone, theirZone)
+{
+    var i = this.ignore.indexOf(subject);
+    if (i > -1) {
+        this.ignore.splice(i, 1);
+    }
 }
 
 Engine.assets.obstacles = {};
