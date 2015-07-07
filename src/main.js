@@ -541,8 +541,8 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                 visible: expose,
             });
 
-            solidsXml.children().each(function() {
-                var solidXml = $(this);
+            solidsXml.children().each(function(i, solidXml) {
+                solidXml = $(solidXml);
                 var prop = {
                     'x': parseFloat(solidXml.attr('x')),
                     'y': parseFloat(solidXml.attr('y')),
@@ -564,6 +564,15 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                 var solid = new Engine.assets.Solid();
                 solid.setModel(mesh);
                 solid.addCollisionGeometry(geometry);
+
+                var attackXmls = solidXml.find('> attack');
+                if (attackXmls.length) {
+                    solid.attackAccept = [];
+                    attackXmls.each(function(i, attackXml) {
+                        var direction = $(attackXml).attr('direction');
+                        solid.attackAccept.push(solid[direction.toUpperCase()]);
+                    });
+                }
 
                 level.addObject(solid);
             });
