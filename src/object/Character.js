@@ -164,6 +164,21 @@ Engine.assets.objects.Character.prototype.moveRightEnd = function()
     this.walk--;
 }
 
+Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
+{
+    Engine.assets.Object.prototype.obstruct.call(this, solid, attack);
+
+    switch (attack) {
+        case solid.TOP:
+            this.isSupported = true;
+            break;
+
+        case solid.BOTTOM:
+            this.jumpEnd();
+            break;
+    }
+}
+
 Engine.assets.objects.Character.prototype.setDirection = function(d)
 {
     this.direction = d;

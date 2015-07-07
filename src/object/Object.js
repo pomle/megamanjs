@@ -7,7 +7,6 @@ Engine.assets.Object = function()
     this.emitter = undefined;
     this.events = {};
     this.mass = 0;
-    this.isSupported = false;
     this.inertia = new THREE.Vector2();
     this.momentum = new THREE.Vector2();
     this.physics = true;
