@@ -48,28 +48,28 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     var our = new Engine.Collision.BoundingBox(this.model, ourZone);
     var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
 
-    var attack = this.attackDirection(our, their);
+    const attack = this.attackDirection(our, their);
 
     if (this.attackAccept.indexOf(attack) < 0) {
         return false;
     }
 
-    switch (attack) {
-        case this.TOP:
-            their.bottom(our.t);
-            break;
-        case this.BOTTOM:
-            their.top(our.b);
-            break;
-        case this.LEFT:
-            their.right(our.l);
-            break;
-        case this.RIGHT:
-            their.left(our.r);
-            break;
+    if (attack === this.TOP && subject.velocity.y < this.velocity.y) {
+        their.bottom(our.t);
+        subject.obstruct(this, attack);
     }
-
-    subject.obstruct(this, attack);
+    else if (attack === this.BOTTOM && subject.velocity.y > this.velocity.y) {
+        their.top(our.b);
+        subject.obstruct(this, attack);
+    }
+    else if (attack === this.LEFT && subject.velocity.x > this.velocity.x) {
+        their.right(our.l);
+        subject.obstruct(this, attack);
+    }
+    else if (attack === this.RIGHT && subject.velocity.x < this.velocity.x) {
+        their.left(our.r);
+        subject.obstruct(this, attack);
+    }
 
     return true;
 }
