@@ -1,6 +1,13 @@
 Engine.assets.Solid = function()
 {
     Engine.assets.Object.call(this);
+
+    this.attackAccept = [
+        this.TOP,
+        this.BOTTOM,
+        this.LEFT,
+        this.RIGHT
+    ];
 }
 
 Engine.assets.Solid.prototype = Object.create(Engine.assets.Object.prototype);
@@ -35,13 +42,17 @@ Engine.assets.Solid.prototype.attackDirection = function(ourBoundingBox, theirBo
 Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
 {
     if (subject instanceof Engine.assets.objects.Character === false) {
-        return;
+        return false;
     }
 
     var our = new Engine.Collision.BoundingBox(this.model, ourZone);
     var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
 
     var attack = this.attackDirection(our, their);
+
+    if (this.attackAccept.indexOf(attack) < 0) {
+        return false;
+    }
 
     switch (attack) {
         case this.TOP:
@@ -59,6 +70,8 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     }
 
     subject.obstruct(this, attack);
+
+    return true;
 }
 
 Engine.assets.obstacles = {};
