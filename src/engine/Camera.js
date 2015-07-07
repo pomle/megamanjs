@@ -51,7 +51,7 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
 
     if (this.desiredPosition) {
         this.velocity = this.desiredPosition.clone().sub(this.camera.position);
-        if (this.smoothing) {
+        if (this.smoothing > 0) {
             this.velocity.divideScalar(this.smoothing);
         }
     }
