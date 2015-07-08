@@ -333,8 +333,84 @@
             <sprite ref="bricks-big-top">
                 <segment x="123-124" y="7"/>
             </sprite>
+        </background>
 
+        <background x="1792" y="240" w="256" h="240" w-segments="16" h-segments="15">
+            <sprite ref="darkness">
+                <segment x="*" y="*"/>
+            </sprite>
 
+            <sprite ref="mortar-1">
+                <segment x="*" y="2"/>
+            </sprite>
+            <sprite ref="mortar-2">
+                <segment x="*" y="3"/>
+            </sprite>
+            <sprite ref="mortar-3">
+                <segment x="*" y="4"/>
+            </sprite>
+            <sprite ref="mortar-4">
+                <segment x="*" y="5"/>
+            </sprite>
+            <sprite ref="mortar-5">
+                <segment x="*" y="6-8"/>
+            </sprite>
+            <sprite ref="mortar-5-shaded">
+                <segment x="101,121-124" y="6"/>
+                <segment x="60,64,71,113-116" y="8"/>
+            </sprite>
+            <sprite ref="mortar-6">
+                <segment x="*" y="9"/>
+            </sprite>
+            <sprite ref="mortar-6-shaded">
+                <segment x="54-55,100,107" y="9"/>
+            </sprite>
+            <sprite ref="mortar-7">
+                <segment x="*" y="10"/>
+            </sprite>
+            <sprite ref="mortar-7-shaded">
+                <segment x="68,75,78,81,84,87,90,94,97,119-122" y="10"/>
+            </sprite>
+            <sprite ref="mortar-8">
+                <segment x="*" y="11"/>
+            </sprite>
+            <sprite ref="mortar-8-shaded">
+                <segment x="1-16,20-24,28-32,36-47,50-51,58,61,105" y="11"/>
+            </sprite>
+            <sprite ref="mortar-9">
+                <segment x="*" y="12"/>
+            </sprite>
+            <sprite ref="mortar-9-shaded">
+                <segment x="111-118,125" y="12"/>
+            </sprite>
+            <sprite ref="mortar-10">
+                <segment x="*" y="13"/>
+            </sprite>
+
+            <sprite ref="pillar">
+                <segment x="6,9,12,14" y="11"/>
+            </sprite>
+
+            <sprite ref="bricks-small">
+                <segment x="1-2" y="*"/>
+                <segment x="13" y="1"/>
+                <segment x="15-16" y="*"/>
+                <segment x="4" y="7-14"/>
+                <segment x="4-16" y="15"/>
+            </sprite>
+
+            <sprite ref="bricks-big-top">
+                <segment x="5-14" y="14"/>
+            </sprite>
+
+            <sprite ref="bricks-big-bottom">
+                <segment x="13" y="2"/>
+            </sprite>
+
+            <sprite ref="ladder">
+                <segment x="14" y="1-10"/>
+                <segment x="3" y="5-15"/>
+            </sprite>
         </background>
     </layout>
 </level>
