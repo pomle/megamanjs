@@ -2,6 +2,7 @@ Engine.assets.Projectile = function()
 {
     Engine.assets.Object.call(this);
     this.damage = 0;
+    this.distanceCovered = 0;
     this.range = 300;
     this.origin = undefined;
     this.velocity = 0;
@@ -76,10 +77,9 @@ Engine.assets.Projectile.prototype.setVelocity = function(v)
 Engine.assets.Projectile.prototype.timeShift = function(dt)
 {
     Engine.assets.Object.prototype.timeShift.call(this, dt);
-    if (this.origin) {
-        if (this.model.position.distanceTo(this.origin) > this.range) {
-            this.rangeReached();
-        }
+    this.distanceCovered += (this.speed.length() * dt);
+    if (this.distanceCovered > this.range) {
+        this.rangeReached();
     }
 }
 
