@@ -462,7 +462,8 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                 object.spawnCount = parseFloat(spawnXml.attr('count')) || undefined;
                 object.maxSimultaneousSpawns = parseFloat(spawnXml.attr('simultaneous')) || 1;
                 object.spawnInterval = parseFloat(spawnXml.attr('interval')) || 1;
-                object.suppressDistance = parseFloat(spawnXml.attr('suppress-distance')) || 0;
+                object.minDistance = parseFloat(spawnXml.attr('min-distance')) || object.minDistance;
+                object.maxDistance = parseFloat(spawnXml.attr('max-distance')) || object.maxDistance;
             }
             else {
                 var object = new Engine.assets.objects.characters[name]();

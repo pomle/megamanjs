@@ -48,9 +48,7 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
         }
 
         this.desiredPosition.x = this.followObject.position.x + this.followOffset.x;
-        if (this.followObject.isSupported) {
-            this.desiredPosition.y = this.followObject.position.y + this.followOffset.y;
-        }
+        this.desiredPosition.y = this.followObject.position.y + this.followOffset.y;
     }
 
     if (this.desiredPosition) {

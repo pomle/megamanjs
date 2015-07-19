@@ -124,10 +124,12 @@
     </sprites>
     <layout>
         <enemies>
-            <enemy name="SniperJoe" x="200" y="150">
-                <spawn interval="5" simultaneous="1" />
+            <enemy name="Telly" x="680" y="88">
+                <spawn interval="3" simultaneous="2" min-distance="32" />
             </enemy>
-
+            <enemy name="Telly" x="744" y="120">
+                <spawn interval="3" simultaneous="2" min-distance="32" />
+            </enemy>
         </enemies>
 
         <!--
