@@ -452,20 +452,30 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
             if (!Engine.assets.objects.characters[name]) {
                 throw new Error('Item ' + name + ' does not exist');
             }
-            var enemy = new Engine.assets.objects.characters[name]();
+
+            var spawnXml = enemyXml.find('> spawn');
             var x = parseFloat(enemyXml.attr('x'));
             var y = -parseFloat(enemyXml.attr('y'));
-
-            var direction = enemyXml.attr('direction');
-            if (direction == 'right') {
-                enemy.setDirection(enemy.RIGHT);
+            if (spawnXml.length) {
+                var object = new Engine.assets.Spawner();
+                object.spawnSource.push(Engine.assets.objects.characters[name]);
+                object.spawnCount = parseFloat(spawnXml.attr('count')) || undefined;
+                object.maxSimultaneousSpawns = parseFloat(spawnXml.attr('simultaneous')) || 1;
+                object.spawnInterval = parseFloat(spawnXml.attr('interval')) || 1;
+                object.suppressDistance = parseFloat(spawnXml.attr('suppress-distance')) || 0;
             }
-            else if (direction == 'left') {
-                enemy.setDirection(enemy.LEFT);
+            else {
+                var object = new Engine.assets.objects.characters[name]();
+                var direction = enemyXml.attr('direction');
+                if (direction == 'right') {
+                    object.setDirection(object.RIGHT);
+                }
+                else if (direction == 'left') {
+                    object.setDirection(object.LEFT);
+                }
             }
 
-            level.addObject(enemy, x, y);
-            level.enemies.push(enemy);
+            level.addObject(object, x, y);
         });
 
         layoutXml.find('> items > item').each(function() {

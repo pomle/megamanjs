@@ -124,6 +124,9 @@
     </sprites>
     <layout>
         <enemies>
+            <enemy name="SniperJoe" x="200" y="150">
+                <spawn interval="5" simultaneous="1" />
+            </enemy>
 
         </enemies>
 
