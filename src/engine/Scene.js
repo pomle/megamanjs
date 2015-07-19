@@ -10,6 +10,8 @@ Engine.Scene = function()
 
     this.objects = [];
     this.timelines = [];
+
+    this.timeTotal = 0;
 }
 
 Engine.Scene.prototype.addObject = function(object)
@@ -63,13 +65,14 @@ Engine.Scene.prototype.removeObject = function(object)
 Engine.Scene.prototype.updateTime = function(dt)
 {
     var i, l, o;
+    this.timeTotal += dt;
 
     l = this.objects.length;
     for (i = 0; i < l; i++) {
         if (this.objects[i]) {
             o = this.objects[i];
             this.applyModifiers(o, dt);
-            o.timeShift(dt * o.timeStretch);
+            o.timeShift(dt * o.timeStretch, this.timeTotal);
         }
     }
     /* When objects get timeshifted they might decide to
