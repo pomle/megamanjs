@@ -12,10 +12,10 @@ Engine.assets.Object = function()
     this.momentum = new THREE.Vector2();
     this.physics = true;
     this.position = undefined;
-    this.speed = new THREE.Vector2();
     this.scene = undefined;
     this.time = 0;
     this.timeStretch = 1;
+    this.velocity = new THREE.Vector2();
 
     var model = new THREE.Mesh(this.defaultGeometry, this.defaultMaterial);
     model.visible = false;
@@ -81,18 +81,18 @@ Engine.assets.Object.prototype.obstruct = function(solid, attack)
 
     switch (attack) {
         case solid.TOP:
-            this.inertia.copy(solid.speed);
+            this.inertia.copy(solid.velocity);
             this.isSupported = true;
             break;
 
         case solid.BOTTOM:
-            this.inertia.copy(solid.speed);
+            this.inertia.copy(solid.velocity);
             this.jumpEnd();
             break;
 
         case solid.LEFT:
         case solid.RIGHT:
-            this.moveSpeed = Math.abs(solid.speed.x);
+            this.moveSpeed = Math.abs(solid.velocity.x);
             break;
     }
 }
@@ -125,12 +125,12 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.deltaTime = dt;
 
     if (this.physics) {
-        this.speed.set(0, 0);
-        this.speed.add(this.inertia);
-        this.speed.add(this.momentum);
+        this.velocity.set(0, 0);
+        this.velocity.add(this.inertia);
+        this.velocity.add(this.momentum);
 
-        this.model.position.x += (this.speed.x * dt);
-        this.model.position.y += (this.speed.y * dt);
+        this.model.position.x += (this.velocity.x * dt);
+        this.model.position.y += (this.velocity.y * dt);
     }
 }
 

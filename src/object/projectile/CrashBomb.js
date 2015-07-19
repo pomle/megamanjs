@@ -23,7 +23,7 @@ Engine.assets.projectiles.CrashBomb = function()
     this.addCollisionRect(8, 8, 0, -1);
     this.setDamage(20);
     this.setModel(model);
-    this.setVelocity(240);
+    this.setSpeed(240);
 
     this.range = 200;
 

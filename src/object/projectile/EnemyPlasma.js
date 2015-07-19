@@ -8,7 +8,7 @@ Engine.assets.projectiles.EnemyPlasma = function()
     this.setModel(model);
     this.addCollisionZone(4, 0, 0);
     this.setDamage(5);
-    this.setVelocity(240);
+    this.setSpeed(240);
 }
 
 Engine.assets.projectiles.EnemyPlasma.prototype = Object.create(Engine.assets.Projectile.prototype);

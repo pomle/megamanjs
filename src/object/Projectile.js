@@ -5,7 +5,7 @@ Engine.assets.Projectile = function()
     this.distanceCovered = 0;
     this.range = 300;
     this.origin = undefined;
-    this.velocity = 0;
+    this.speed = 0;
 }
 
 Engine.assets.Projectile.prototype = Object.create(Engine.assets.Object.prototype);
@@ -69,15 +69,15 @@ Engine.assets.Projectile.prototype.setRange = function(distance)
     this.range = distance;
 }
 
-Engine.assets.Projectile.prototype.setVelocity = function(v)
+Engine.assets.Projectile.prototype.setSpeed = function(v)
 {
-    this.velocity = v;
+    this.speed = v;
 }
 
 Engine.assets.Projectile.prototype.timeShift = function(dt)
 {
     Engine.assets.Object.prototype.timeShift.call(this, dt);
-    this.distanceCovered += (this.speed.length() * dt);
+    this.distanceCovered += (this.velocity.length() * dt);
     if (this.distanceCovered > this.range) {
         this.rangeReached();
     }

@@ -13,7 +13,7 @@ Engine.assets.weapons.EnemyPlasma.prototype.fire = function()
     }
     var projectile = new Engine.assets.projectiles.EnemyPlasma();
     projectile.setEmitter(this.user);
-    projectile.inertia.x = projectile.velocity * this.user.direction;
+    projectile.inertia.x = projectile.speed * this.user.direction;
     this.user.scene.addObject(projectile);
     return true;
 }

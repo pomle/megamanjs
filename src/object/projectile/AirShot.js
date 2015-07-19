@@ -15,7 +15,7 @@ Engine.assets.projectiles.AirShot = function()
 
     this.setDamage(20);
     this.setModel(model);
-    this.setVelocity(80);
+    this.setSpeed(80);
 
     this.addCollisionRect(7, 8, 0, 0);
 }

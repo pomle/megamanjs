@@ -38,7 +38,7 @@ Engine.assets.objects.characters.SniperJoe.prototype.impactProjectile = function
 {
     // Is the shield pointing towards the projectile
     if (this.isShielding) {
-        var relativeXSpeed = this.speed.x - projectile.speed.x;
+        var relativeXSpeed = this.velocity.x - projectile.velocity.x;
         var impactDirection = relativeXSpeed < 0 ? this.LEFT : this.RIGHT;
         if (impactDirection == this.direction) {
             projectile.deflect();

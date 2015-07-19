@@ -25,7 +25,7 @@ Engine.assets.weapons.AirShooter.prototype.fire = function()
     for (var i in projectiles) {
         projectile = projectiles[i];
         projectile.setEmitter(this.user);
-        projectile.inertia.x = projectile.velocity
+        projectile.inertia.x = projectile.speed
                              * Math.pow(velocityMultiplier, i)
                              * this.user.direction;
         this.user.scene.addObject(projectile);
