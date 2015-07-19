@@ -7,7 +7,6 @@ Engine.Camera = function(camera)
     this.followLookAhead = new THREE.Vector2(.5, .2);
     this.smoothing = 20;
     this.velocity = new THREE.Vector2(0, 0);
-
 }
 
 Engine.Camera.prototype.follow = function(object, offset)
@@ -18,7 +17,6 @@ Engine.Camera.prototype.follow = function(object, offset)
     } else {
         this.followOffset = new THREE.Vector2(0, 0);
     }
-
 }
 
 Engine.Camera.prototype.jumpTo = function(pos)
