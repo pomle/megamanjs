@@ -3,6 +3,7 @@ Engine.assets.Projectile = function()
     Engine.assets.Object.call(this);
     this.damage = 0;
     this.distanceCovered = 0;
+    this.penetratingForce = false;
     this.range = 300;
     this.origin = undefined;
     this.speed = 0;
@@ -23,6 +24,9 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
 
     if (withObject.impactProjectile) {
         withObject.impactProjectile(this);
+        if (!this.penetratingForce || !withObject.health.isDepleted()) {
+            this.scene.removeObject(this);
+        }
     }
 
     return true;

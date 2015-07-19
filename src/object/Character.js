@@ -98,12 +98,9 @@ Engine.assets.objects.Character.prototype.impactProjectile = function(projectile
     if (this.inflictDamage(projectile.damage,
                            projectile.position.clone()
                                .sub(this.position))) {
-
-        // Absorb projectile if not deadly hit.
-        if (!this.health.isDepleted()) {
-            this.scene.removeObject(projectile);
-        }
+        return true;
     }
+    return false;
 }
 
 Engine.assets.objects.Character.prototype.inflictDamage = function(points, direction)

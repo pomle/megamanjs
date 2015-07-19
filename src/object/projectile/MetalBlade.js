@@ -15,7 +15,7 @@ Engine.assets.projectiles.MetalBlade = function()
     this.addCollisionZone(8, 0, 0);
     this.setDamage(20);
     this.setSpeed(240);
-
+    this.penetratingForce = true;
     this.rotationSpeed = 10;
 }
 
