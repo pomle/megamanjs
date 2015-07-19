@@ -125,10 +125,34 @@
     <layout>
         <enemies>
             <enemy name="Telly" x="680" y="88">
-                <spawn interval="3" simultaneous="2" min-distance="32" />
+                <spawn interval="4" simultaneous="2" min-distance="32" />
             </enemy>
             <enemy name="Telly" x="744" y="120">
-                <spawn interval="3" simultaneous="2" min-distance="32" />
+                <spawn interval="4" simultaneous="2" min-distance="32" />
+            </enemy>
+            <enemy name="Telly" x="840" y="72">
+                <spawn interval="4" simultaneous="2" min-distance="32" />
+            </enemy>
+            <enemy name="Telly" x="904" y="104">
+                <spawn interval="4" simultaneous="2" min-distance="32" />
+            </enemy>
+            <enemy name="Telly" x="984" y="152">
+                <spawn interval="4" simultaneous="2" min-distance="32" />
+            </enemy>
+            <enemy name="Telly" x="1064" y="88">
+                <spawn interval="4" simultaneous="2" min-distance="32" />
+            </enemy>
+            <enemy name="Telly" x="1160" y="88">
+                <spawn interval="4" simultaneous="2" min-distance="32" />
+            </enemy>
+            <enemy name="Telly" x="1256" y="56">
+                <spawn interval="4" simultaneous="2" min-distance="32" />
+            </enemy>
+            <enemy name="Telly" x="1352" y="88">
+                <spawn interval="4" simultaneous="2" min-distance="32" />
+            </enemy>
+            <enemy name="Telly" x="1480" y="88">
+                <spawn interval="4" simultaneous="2" min-distance="32" />
             </enemy>
         </enemies>
 
