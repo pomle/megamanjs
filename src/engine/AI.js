@@ -28,7 +28,7 @@ Engine.AI.prototype.findPlayer = function()
     var o;
     for (var i in this.object.scene.objects) {
         o = this.object.scene.objects[i];
-        if (o.isPlayer) {
+        if (o && o.isPlayer) {
             this.setTarget(o);
             return true;
         }
