@@ -16,6 +16,7 @@ Engine.assets.objects.characters.SniperJoe = function(target)
     this.setModel(model);
     this.addCollisionRect(20, 24);
 
+    this.contactDamage = 4;
     this.health = new Engine.assets.Energy(10);
 
     this.setDirection(this.LEFT);

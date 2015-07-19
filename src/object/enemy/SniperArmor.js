@@ -19,6 +19,7 @@ Engine.assets.objects.characters.SniperArmor = function()
     this.addCollisionRect(24, 56, -4, -4);
     this.addCollisionRect(28, 28, 0, 10);
 
+    this.contactDamage = 8;
     this.health = new Engine.assets.Energy(20);
 
     this.setDirection(this.LEFT);

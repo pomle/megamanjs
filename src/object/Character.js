@@ -4,6 +4,7 @@ Engine.assets.objects.Character = function()
 
     this.ai = new Engine.AI(this);
 
+    this.contactDamage = 0;
     this.direction = undefined;
     this.fireTimeout = .25;
     this.health = new Engine.assets.Energy(100);
@@ -45,6 +46,14 @@ Engine.assets.objects.Character.prototype.calculateMoveSpeed = function(dt)
     }
 
     this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc * dt, this.walkSpeed);
+}
+
+Engine.assets.objects.Character.prototype.collides = function(withObject, ourZone, theirZone)
+{
+    if (this.contactDamage > 0 && withObject.health) {
+        withObject.inflictDamage(this.contactDamage);
+    }
+    Engine.assets.Object.prototype.collides.call(this, withObject, ourZone, theirZone);
 }
 
 Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
