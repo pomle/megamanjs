@@ -31,8 +31,8 @@ Engine.Camera.prototype.alignToPath = function(pos)
 
     for (var i = 0, l = this.paths.length; i < l; i++) {
         var path = this.paths[i];
-        distances[i] = howMuchInsideAmI(x, path[0].x, path[1].x)
-                     + howMuchInsideAmI(y, path[0].y, path[1].y);
+        distances[i] = Engine.Math.close(x, path[0].x, path[1].x)
+                     + Engine.Math.close(y, path[0].y, path[1].y);
     }
 
     var minIndex = 0,
@@ -103,18 +103,4 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
 
     this.camera.position.x += this.velocity.x;
     this.camera.position.y += this.velocity.y;
-}
-
-function howMuchInsideAmI(x, x1, x2) {
-    if (x1 > x2) {
-        x1 = x1 + x2;
-        x2 = x1 - x2;
-        x1 = x1 - x2;
-    }
-    var val = Math.abs(x1 - x) + Math.abs(x - x2);
-    val -= Math.abs(x2 - x1);
-    if (val == 0) {
-        val -= Math.min(x2 - x, x - x1);
-    }
-    return val;
 }
