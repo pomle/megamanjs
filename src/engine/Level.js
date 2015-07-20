@@ -1,7 +1,7 @@
 Engine.scenes.Level = function()
 {
     Engine.Scene.call(this);
-    this.camera.camera.position.z = 156;
+    this.camera.camera.position.z = 150;
     this.checkPoints = [];
     this.collision = new Engine.Collision();
     this.gravityForce = new THREE.Vector2();
