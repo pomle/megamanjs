@@ -19,9 +19,41 @@ Engine.Camera.prototype.addPath = function(x1, y1, x2, y2)
     ]);
 }
 
+Engine.Camera.prototype.alignToPath = function(pos)
+{
+    if (this.paths.length == 0) {
+        return false;
+    }
+
+    var distances = [],
+        x = pos.x,
+        y = pos.y;
+
+    for (var i = 0, l = this.paths.length; i < l; i++) {
+        var path = this.paths[i];
+        distances[i] = howMuchInsideAmI(x, path[0].x, path[1].x)
+                     + howMuchInsideAmI(y, path[0].y, path[1].y);
+    }
+
+    var minIndex = 0,
+        min = distances[minIndex];
+    for (var l = i, i = 1; i <= l; i++) {
+        if (distances[i] < min) {
+            minIndex = i;
+            min = distances[i];
+        }
+    }
+
+    pos.x = Engine.Math.clamp(x, this.paths[minIndex][0].x, this.paths[minIndex][1].x);
+    pos.y = Engine.Math.clamp(y, this.paths[minIndex][1].y, this.paths[minIndex][0].y);
+
+    return true;
+}
+
 Engine.Camera.prototype.follow = function(object, offset)
 {
     this.followObject = object;
+    this.desiredPosition = new THREE.Vector2();
     if (offset) {
         this.followOffset = offset;
     } else {
@@ -31,10 +63,14 @@ Engine.Camera.prototype.follow = function(object, offset)
 
 Engine.Camera.prototype.jumpTo = function(pos)
 {
-    this.unfollow();
-    this.desiredPosition = undefined;
     this.camera.position.x = pos.x;
     this.camera.position.y = pos.y;
+}
+
+Engine.Camera.prototype.jumpToPath = function(pos)
+{
+    this.jumpTo(pos);
+    this.alignToPath(this.camera.position);
 }
 
 Engine.Camera.prototype.panTo = function(pos)
@@ -44,51 +80,21 @@ Engine.Camera.prototype.panTo = function(pos)
 
 Engine.Camera.prototype.unfollow = function()
 {
-    this.desiredPosition = undefined;
     this.followObject = undefined;
+    this.desiredPosition = undefined;
 }
 
 Engine.Camera.prototype.updateTime = function(timeElapsed)
 {
     if (this.followObject) {
-        if (!this.desiredPosition) {
-            this.desiredPosition = new THREE.Vector2();
-        }
-
         this.desiredPosition.x = this.followObject.position.x + this.followOffset.x;
         this.desiredPosition.y = this.followObject.position.y + this.followOffset.y;
     }
 
     if (this.desiredPosition) {
-        if (this.obeyPaths && this.paths.length) {
-            var distances = {x:[], y:[]};
-            var x = this.desiredPosition.x;
-            var y = this.desiredPosition.y;
-            for (var i in this.paths) {
-                var path = this.paths[i];
-                distances.x[i] = howMuchInsideAmI(x, path[0].x, path[1].x);
-                distances.y[i] = howMuchInsideAmI(y, path[0].y, path[1].y);
-                distances.x[i] += distances.y[i];
-                distances.y[i] = distances.x[i];
-            }
-            var xMinIndex = 0,
-                xMin = distances.x[xMinIndex],
-                yMinIndex = 0,
-                yMin = distances.y[yMinIndex];
-            for (var l = i, i = 1; i <= l; i++) {
-                if (distances.x[i] < xMin) {
-                    xMinIndex = i;
-                    xMin = distances.x[i];
-                }
-                if (distances.y[i] < yMin) {
-                    yMinIndex = i;
-                    yMin = distances.x[i];
-                }
-            }
-            this.desiredPosition.x = Engine.Math.clamp(this.desiredPosition.x, this.paths[xMinIndex][0].x, this.paths[xMinIndex][1].x);
-            this.desiredPosition.y = Engine.Math.clamp(this.desiredPosition.y, this.paths[yMinIndex][1].y, this.paths[yMinIndex][0].y);
+        if (this.obeyPaths) {
+            this.alignToPath(this.desiredPosition);
         }
-
         this.velocity = this.desiredPosition.clone().sub(this.camera.position);
         if (this.smoothing > 0) {
             this.velocity.divideScalar(this.smoothing);
