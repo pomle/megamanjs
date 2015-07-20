@@ -66,8 +66,11 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
             var y = this.desiredPosition.y;
             for (var i in this.paths) {
                 var path = this.paths[i];
-                distances[i] = Math.min(Math.abs(x - path[0].x), Math.abs(x - path[1].x))
-                             + Math.min(Math.abs(y - path[0].y), Math.abs(y - path[1].y));
+                distances[i] = Math.min(
+                    Math.abs(x - path[0].x),
+                    Math.abs(x - path[1].x),
+                    Math.abs(y - path[0].y),
+                    Math.abs(y - path[1].y));
             }
             var minIndex = 0, min = distances[minIndex];
             for (var i = 1, l = distances.length; i < l; i++) {
