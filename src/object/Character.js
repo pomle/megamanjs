@@ -109,9 +109,20 @@ Engine.assets.objects.Character.prototype.inflictDamage = function(points, direc
         return false;
     }
     this.health.reduce(points);
-    this.isInvincible = this.invincibilityDuration;
+    this.invincibilityStart();
     this.stunnedTime = this.stunnedDuration;
     return true;
+}
+
+Engine.assets.objects.Character.prototype.invincibilityStart = function()
+{
+    this.isInvincible = this.invincibilityDuration;
+}
+
+Engine.assets.objects.Character.prototype.invincibilityEnd = function()
+{
+    this.model.visible = true;
+    this.isInvincible = false;
 }
 
 Engine.assets.objects.Character.prototype.jumpStart = function()
@@ -203,9 +214,8 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     if (this.isInvincible > 0) {
         this.isInvincible -= dt;
         this.model.visible = !this.model.visible;
-    } else if (this.isInvincible < 0) {
-        this.model.visible = true;
-        this.isInvincible = false;
+    } else if (this.isInvincible <= 0) {
+        this.invincibilityEnd();
     }
 
     if (this.isFiring > 0) {
