@@ -182,8 +182,6 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
     Engine.Util.asyncLoadXml(xmlUrl, function(xml, baseUrl) {
         var levelXml = xml.children('level');
 
-        level.animators = [];
-
         levelXml.children('gravity').each(function() {
             var gravityXml = $(this);
             level.gravityForce.x = parseFloat(gravityXml.attr('x'));
@@ -462,7 +460,6 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
             }
         });
 
-        level.enemies = [];
         layoutXml.find('enemies > enemy').each(function(i, enemyXml) {
             enemyXml = $(enemyXml);
 
