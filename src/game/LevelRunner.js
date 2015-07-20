@@ -112,7 +112,7 @@ Megaman.LevelRunner.prototype.renderListener = function()
 Megaman.LevelRunner.prototype.simulateListener = function()
 {
     if (this.deathCountdown === 0 && this.game.player.character.health.isDepleted()) {
-        this.game.player.lifes--;
+        --this.game.player.lifes;
         this.deathCountdown = this.game.engine.timeElapsedTotal + this.deathRespawnTime;
     }
     if (this.deathCountdown > 0 && this.game.engine.timeElapsedTotal > this.deathCountdown) {
