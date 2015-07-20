@@ -188,6 +188,7 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
     character.bind('teleport-end', startFollow);
 
     character.isPlayer = true;
+    character.invincibilityEnd();
     character.health.fill();
     character.stunnedTime = 0;
     character.teleportTo(checkpoint.pos);
