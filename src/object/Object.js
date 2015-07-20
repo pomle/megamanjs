@@ -9,6 +9,7 @@ Engine.assets.Object = function()
     this.mass = 0;
     this.inertia = new THREE.Vector2();
     this.momentum = new THREE.Vector2();
+    this.obstructible = true;
     this.physics = true;
     this.position = undefined;
     this.scene = undefined;

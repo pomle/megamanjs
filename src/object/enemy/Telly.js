@@ -21,6 +21,7 @@ Engine.assets.objects.characters.Telly = function()
     this.addCollisionRect(16, 16, 0, 0);
 
     this.contactDamage = 1;
+    this.obstructible = false;
     this.mass = 0;
     this.health = new Engine.assets.Energy(1);
     this.setDirection(this.LEFT);

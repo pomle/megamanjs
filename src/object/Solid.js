@@ -46,6 +46,9 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     if (subject instanceof Engine.assets.objects.Character === false) {
         return false;
     }
+    if (!subject.obstructible) {
+        return false;
+    }
     if (this.ignore.indexOf(subject) > -1) {
         return false;
     }
