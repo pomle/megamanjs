@@ -178,7 +178,7 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
     this.level.removeObject(character);
 
     var checkpoint = this.level.checkPoints[this.checkPointIndex];
-    this.level.camera.jumpTo(checkpoint.pos.clone().add(this.cameraFollowOffset));
+    this.level.camera.jumpToPath(checkpoint.pos.clone().add(this.cameraFollowOffset));
 
     var game = this.game;
     var startFollow = function(character) {
