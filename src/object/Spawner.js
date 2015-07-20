@@ -3,6 +3,7 @@ Engine.assets.Spawner = function()
     Engine.assets.Object.call(this);
 
     this.maxSimultaneousSpawns = 1;
+    this.roamingLimit = undefined;
     this.spawnCount = undefined;
     this.spawnInterval = undefined;
     this.spawnSource = [];
@@ -19,6 +20,16 @@ Engine.assets.Spawner.prototype.cleanReferences = function()
 {
     for (var i in this.spawnedObjects) {
         if (this.scene.objects.indexOf(this.spawnedObjects[i]) == -1) {
+            this.spawnedObjects.splice(i, 1);
+        }
+    }
+}
+
+Engine.assets.Spawner.prototype.killOffRoaming = function()
+{
+    for (var i in this.spawnedObjects) {
+        if (this.spawnedObjects[i].position.distanceTo(this.position) > this.roamingLimit) {
+            this.spawnedObjects[i].kill();
             this.spawnedObjects.splice(i, 1);
         }
     }
@@ -60,6 +71,10 @@ Engine.assets.Spawner.prototype.spawnObject = function()
 Engine.assets.Spawner.prototype.timeShift = function(dt)
 {
     this.timeSinceLastSpawn += dt;
+    if (this.roamingLimit) {
+        this.killOffRoaming();
+    }
+
     if (this.timeSinceLastSpawn >= this.spawnInterval) {
         if (this.spawnObject()) {
             this.timeSinceLastSpawn = 0;
