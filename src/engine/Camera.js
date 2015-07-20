@@ -70,5 +70,23 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
     this.camera.position.y += this.velocity.y;
 
     if (this.obeyPaths && this.paths.length) {
+        var distances = [];
+        var x = this.camera.position.x;
+        var y = this.camera.position.y;
+        for (var i in this.paths) {
+            var path = this.paths[i];
+            distances[i] = Math.min(Math.abs(x - path[0].x), Math.abs(x - path[1].x))
+                         + Math.min(Math.abs(y - path[0].y), Math.abs(y - path[1].y));
+        }
+        var minIndex = 0, min = distances[minIndex];
+        for (var i = 1, l = distances.length; i < l; i++) {
+            if (distances[i] < min) {
+                minIndex = i;
+                min = distances[i];
+            }
+        }
+        var path = this.paths[minIndex];
+        this.camera.position.x = Engine.Math.clamp(this.camera.position.x, path[0].x, path[1].x);
+        this.camera.position.y = Engine.Math.clamp(this.camera.position.y, path[0].y, path[1].y);
     }
 }
