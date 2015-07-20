@@ -91,7 +91,6 @@ Engine.Collision.prototype.detect = function()
 
 Engine.Collision.prototype.objectIndexesCollide = function(i, j)
 {
-    var ix;
     var o1 = this.objects[i],
         o2 = this.objects[j];
 
@@ -106,11 +105,11 @@ Engine.Collision.prototype.objectIndexesCollide = function(i, j)
         return true;
     }
     else {
-        ix = this.collisionIndex[i].indexOf(o2);
+        var ix = this.collisionIndex[i].indexOf(o2);
         if (ix > -1) {
-            o2 = this.collisionIndex[i].splice(ix, 1)[0];
             o1.uncollides(o2);
             o2.uncollides(o1);
+            this.collisionIndex[i].splice(ix, 1);
         }
         return false;
     }
