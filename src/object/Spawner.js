@@ -3,14 +3,14 @@ Engine.assets.Spawner = function()
     Engine.assets.Object.call(this);
 
     this.lifetime = undefined;
+    this.minDistance = undefined;
+    this.maxDistance = 256;
     this.maxSimultaneousSpawns = 1;
     this.roamingLimit = undefined;
     this.spawnCount = undefined;
     this.spawnInterval = undefined;
     this.spawnSource = [];
     this.spawnedObjects = [];
-    this.minDistance = undefined;
-    this.maxDistance = 256;
     this.timeSinceLastSpawn = 0;
 }
 
