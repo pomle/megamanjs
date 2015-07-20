@@ -7,6 +7,12 @@
         <checkpoint x="136" y="165"/>
     </checkpoints>
 
+    <camera>
+        <path x1="140" x2="1920" y1="120" y2="120" />
+        <path x1="1920" x2="1920" y1="120" y2="600" />
+        <path x1="1920" x2="4480" y1="600" y2="600" />
+    </camera>
+
     <sprites url="./heatman/tiles.png" w="128" h="128">
         <!-- Decorations -->
         <sprite id="darkness" x="96" y="80" w="16" h="16"/>
