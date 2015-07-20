@@ -27,5 +27,5 @@ Engine.assets.projectiles.MetalBlade.prototype.timeShift = function(dt)
 {
     this.sprites.timeShift(dt);
     Engine.assets.Projectile.prototype.timeShift.call(this, dt);
-    //this.model.rotation.z += ((this.speed.x > 0 ? this.rotationSpeed : -this.rotationSpeed) * dt);
+    //this.model.rotation.z += ((this.velocity.x > 0 ? this.rotationSpeed : -this.rotationSpeed) * dt);
 }
