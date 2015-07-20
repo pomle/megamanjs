@@ -5,8 +5,18 @@ Engine.Camera = function(camera)
     this.followObject = undefined;
     this.followOffset = new THREE.Vector2(0, 25);
     this.followLookAhead = new THREE.Vector2(.5, .2);
+    this.obeyPaths = true;
+    this.paths = [];
     this.smoothing = 20;
     this.velocity = new THREE.Vector2(0, 0);
+}
+
+Engine.Camera.prototype.addPath = function(x1, x2, y1, y2)
+{
+    this.paths.push([
+        new THREE.Vector2(x1, x2),
+        new THREE.Vector2(y1, y2),
+    ]);
 }
 
 Engine.Camera.prototype.follow = function(object, offset)
@@ -58,4 +68,7 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
 
     this.camera.position.x += this.velocity.x;
     this.camera.position.y += this.velocity.y;
+
+    if (this.obeyPaths && this.paths.length) {
+    }
 }
