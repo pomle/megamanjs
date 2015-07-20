@@ -197,6 +197,17 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
             level.collision.setCollisionRadius(collisionRadius);
         });
 
+        levelXml.find('> camera > path').each(function() {
+            var pathXml = $(this);
+            var coords = {
+                'x1': parseFloat(pathXml.attr('x1')),
+                'x2': parseFloat(pathXml.attr('x2')),
+                'y1': -parseFloat(pathXml.attr('y1')),
+                'y2': -parseFloat(pathXml.attr('y2')),
+            };
+            level.camera.addPath(coords.x1, coords.y1, coords.x2, coords.y2);
+        });
+
         var spriteIndex = {};
         var objectIndex = {};
         var animationIndex = {};
