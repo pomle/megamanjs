@@ -19,7 +19,7 @@ Engine.Collision.prototype.addObject = function(object)
     this.positionCache.push(undefined);
 }
 
-Engine.Collision.prototype.garbageCollectObjects = function()
+Engine.Collision.prototype.garbageCollect = function()
 {
     var i, l = this.objects.length;
 
@@ -57,32 +57,18 @@ Engine.Collision.prototype.detect = function()
 {
     this.collisionTests = 0;
     this.collisionCount = 0;
-    var i, j, l = this.objects.length;
-
-    for (i = 0; i < l; i++) {
-        if (this.objects[i] === undefined) {
-            continue;
-        }
-
-        if (!this.objects[i].collidable) {
-            continue;
-        }
-
-        if (!this.objectNeedsRecheck(i)) {
-            continue;
-        }
-
-        for (j = 0; j < l; j++) {
-            if (i != j && this.objects[i] && this.objects[j]) {
-                this.objectIndexesCollide(i, j);
+    for (var i = 0, l = this.objects.length; i < l; i++) {
+        if (this.objects[i] && this.objects[i].collidable && this.objectNeedsRecheck(i)) {
+            for (var j = 0; j < l; j++) {
+                if (i != j && this.objects[i] && this.objects[j]) {
+                    this.objectIndexesCollide(i, j);
+                }
             }
         }
     }
 
-    this.garbageCollectObjects();
-
-    l = this.objects.length;
-    for (i = 0; i < l; i++) {
+    this.garbageCollect();
+    for (var i = 0, l = this.objects.length; i < l; i++) {
         if (this.positionCache[i] === undefined) {
             this.positionCache[i] = this.objects[i].position.clone();
         }
@@ -93,10 +79,6 @@ Engine.Collision.prototype.objectIndexesCollide = function(i, j)
 {
     var o1 = this.objects[i],
         o2 = this.objects[j];
-
-    if (o1.position.distanceToSquared(o2.position) > this.collisionMaxDistanceSq) {
-        return false;
-    }
 
     if (this.objectsCollide(o1, o2)) {
         if (this.collisionIndex[i].indexOf(o2) < 0) {
@@ -117,19 +99,19 @@ Engine.Collision.prototype.objectIndexesCollide = function(i, j)
 
 Engine.Collision.prototype.objectsCollide = function(o1, o2)
 {
-    var i, j, z1, z2,
-        l = o1.collision.length,
-        m = o2.collision.length;
+    if (o1.position.distanceToSquared(o2.position) > this.collisionMaxDistanceSq) {
+        return false;
+    }
 
-    this.collisionTests++;
-    for (i = 0; i < l; i++) {
-        z1 = o1.collision[i];
-        for (j = 0; j < m; j++) {
-            z2 = o2.collision[j];
+    ++this.collisionTests;
+    for (var i = 0, l = o1.collision.length; i < l; ++i) {
+        var z1 = o1.collision[i];
+        for (var j = 0, m = o2.collision.length; j < m; ++j) {
+            var z2 = o2.collision[j];
             if (this.zonesCollide(o1, z1, o2, z2)) {
                 o1.collides.call(o1, o2, z1.zone, z2.zone);
                 o2.collides.call(o2, o1, z2.zone, z1.zone);
-                this.collisionCount++;
+                ++this.collisionCount;
                 return true;
             }
         }
