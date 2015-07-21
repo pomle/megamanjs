@@ -56,10 +56,5 @@ Engine.scenes.Level.prototype.removeObject = function(o)
 Engine.scenes.Level.prototype.updateTime = function(dt)
 {
     Engine.Scene.prototype.updateTime.call(this, dt);
-
     this.collision.detect();
-
-    /* After collision, some objects might have decided to remove
-    themselves from the pool, so we make a GC. */
-    this.garbageCollectObjects();
 }

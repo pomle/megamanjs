@@ -20,7 +20,7 @@ Engine.assets.Spawner.constructor = Engine.assets.Spawner;
 Engine.assets.Spawner.prototype.cleanReferences = function()
 {
     for (var i in this.spawnedObjects) {
-        if (this.scene.objects.indexOf(this.spawnedObjects[i]) == -1) {
+        if (this.scene.objects.has(this.spawnedObjects[i])) {
             this.spawnedObjects.splice(i, 1);
         }
     }
@@ -55,10 +55,9 @@ Engine.assets.Spawner.prototype.spawnObject = function()
 
     if (this.minDistance || this.maxDistance) {
         var dist = undefined;
-        for (var o, i = 0, l = this.scene.objects.length; i < l; i++) {
-            o = this.scene.objects[i];
-            if (o.isPlayer) {
-                dist = o.position.distanceTo(this.position);
+        for (var object of this.scene.objects) {
+            if (object.isPlayer) {
+                dist = object.position.distanceTo(this.position);
                 if (dist > this.maxDistance || dist < this.minDistance) {
                     return false;
                 }
