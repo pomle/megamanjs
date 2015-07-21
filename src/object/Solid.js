@@ -56,7 +56,7 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     var our = new Engine.Collision.BoundingBox(this.model, ourZone);
     var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
 
-    const attack = this.attackDirection(our, their);
+    var attack = this.attackDirection(our, their);
 
     if (this.attackAccept.indexOf(attack) < 0) {
         /*
