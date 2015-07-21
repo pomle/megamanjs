@@ -136,30 +136,13 @@ Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone
         zone2.geometry
     ];
 
-    if (geo[0] instanceof THREE.CircleGeometry && geo[1] instanceof THREE.CircleGeometry) {
-        return this.circlesIntersect(geo[0].boundingSphere.radius, geo[1].boundingSphere.radius,
-            pos[0].x, pos[1].x, pos[0].y, pos[1].y);
-    }
-    else if (geo[0] instanceof THREE.PlaneGeometry && geo[1] instanceof THREE.PlaneGeometry) {
-        var rect = [
-            this.convertPlaneToRectangle(geo[0]),
-            this.convertPlaneToRectangle(geo[1]),
-        ];
-        return this.rectanglesIntersect(
-            pos[0].x, pos[0].y, rect[0].w, rect[0].h,
-            pos[1].x, pos[1].y, rect[1].w, rect[1].h);
-    }
-    else {
-        if (geo[0] instanceof THREE.PlaneGeometry) {
-            geo = [geo[1], geo[0]];
-            pos = [pos[1], pos[0]];
-        }
-        return this.circleInRectangle(geo[0].boundingSphere.radius, pos[0].x, pos[0].y,
-            pos[1].x, pos[1].y,
-            Math.abs(geo[1].vertices[0].x - geo[1].vertices[1].x),
-            Math.abs(geo[1].vertices[1].y - geo[1].vertices[3].y));
-    }
-    return false;
+    var rect = [
+        this.convertPlaneToRectangle(geo[0]),
+        this.convertPlaneToRectangle(geo[1]),
+    ];
+    return this.rectanglesIntersect(
+        pos[0].x, pos[0].y, rect[0].w, rect[0].h,
+        pos[1].x, pos[1].y, rect[1].w, rect[1].h);
 }
 
 Engine.Collision.prototype.circlesIntersect = function(r1, r2, x1, x2, y1, y2)
