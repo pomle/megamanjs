@@ -79,24 +79,14 @@ Engine.assets.objects.characters.SillyCanon.prototype.fire = function()
 Engine.assets.objects.characters.SillyCanon.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) > 2) {
-        if (!this.target) {
-            var o;
-            for (var i in this.scene.objects) {
-                o = this.scene.objects[i];
-                if (o instanceof Engine.assets.objects.characters.Megaman) {
-                    this.target = o;
-                    break;
-                }
-            }
-        } else {
-            var distanceRatio = Engine.Math.findRatio(this.target.model.position.x,
-                this.model.position.x - this.far,
-                this.model.position.x - this.near);
+        var target = this.ai.findPlayer();
+        if (target) {
+            var distanceRatio = Engine.Math.findRatio(target.position.x,
+                target.position.x - this.far,
+                target.position.x - this.near);
 
             distanceRatio = Engine.Math.clamp(distanceRatio, 0, 1);
-
             this.aimingAngle = Engine.Math.applyRatio(distanceRatio, this.aimFar, this.aimNear);
-
             this.timeAIUpdated = this.time;
         }
     }
