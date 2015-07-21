@@ -126,23 +126,15 @@ Engine.Collision.prototype.setCollisionRadius = function(units)
 
 Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone2)
 {
-    var pos = [
-        object1.model.position.clone().add(zone1.position),
-        object2.model.position.clone().add(zone2.position)
-    ];
+    var pos1 = object1.model.position.clone().add(zone1.position);
+    var pos2 = object2.model.position.clone().add(zone2.position);
 
-    var geo = [
-        zone1.geometry,
-        zone2.geometry
-    ];
+    var rect1 = this.convertPlaneToRectangle(zone1.geometry);
+    var rect2 = this.convertPlaneToRectangle(zone2.geometry);
 
-    var rect = [
-        this.convertPlaneToRectangle(geo[0]),
-        this.convertPlaneToRectangle(geo[1]),
-    ];
     return this.rectanglesIntersect(
-        pos[0].x, pos[0].y, rect[0].w, rect[0].h,
-        pos[1].x, pos[1].y, rect[1].w, rect[1].h);
+        pos1.x, pos1.y, rect1.w, rect1.h,
+        pos2.x, pos2.y, rect2.w, rect2.h);
 }
 
 Engine.Collision.prototype.circlesIntersect = function(r1, r2, x1, x2, y1, y2)
