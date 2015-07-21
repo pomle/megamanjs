@@ -40,7 +40,7 @@ Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX
     mesh.position.x = offsetX || 0;
     mesh.position.y = offsetY || 0;
     mesh.position.z = .01;
-    this.collision.push(new Engine.Collision.BoundingBox(this.model, mesh));
+    this.collision.push(mesh);
     //this.model.add(mesh); // Show collision zone.
 }
 

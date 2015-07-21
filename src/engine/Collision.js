@@ -109,8 +109,8 @@ Engine.Collision.prototype.objectsCollide = function(o1, o2)
         for (var j = 0, m = o2.collision.length; j < m; ++j) {
             var z2 = o2.collision[j];
             if (this.zonesCollide(o1, z1, o2, z2)) {
-                o1.collides.call(o1, o2, z1.zone, z2.zone);
-                o2.collides.call(o2, o1, z2.zone, z1.zone);
+                o1.collides.call(o1, o2, z1, z2);
+                o2.collides.call(o2, o1, z2, z1);
                 ++this.collisionCount;
                 return true;
             }
@@ -124,11 +124,8 @@ Engine.Collision.prototype.setCollisionRadius = function(units)
     this.collisionMaxDistanceSq = units * units;
 }
 
-Engine.Collision.prototype.zonesCollide = function(object1, boundingBox1, object2, boundingBox2)
+Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone2)
 {
-    var zone1 = boundingBox1.zone;
-    var zone2 = boundingBox2.zone;
-
     var pos = [
         object1.model.position.clone().add(zone1.position),
         object2.model.position.clone().add(zone2.position)
