@@ -7,6 +7,14 @@
         <checkpoint x="136" y="149"/>
     </checkpoints>
 
+    <camera>
+        <path x1="174" x2="1664" y1="120" y2="120" />
+        <path x1="1664" x2="1664" y1="240" y2="1568" />
+        <path x1="1664" x2="2656" y1="1808" y2="1808" />
+        <path x1="2944" x2="2944" y1="1808" y2="1808" />
+        <path x1="3200" x2="3200" y1="1808" y2="1808" />
+    </camera>
+
     <sprites url="./flashman/tiles.png" w="128" h="128">
         <!-- Decorations -->
         <sprite id="drwily-sign-blue" x="64" y="16" w="32" h="32"/>
