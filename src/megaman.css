@@ -12,11 +12,6 @@ body {
     text-align: center;
 }
 
-body #screen {
-    display: block;
-    margin: 0 auto;
-}
-
 input {
     background: transparent;
     border-width: 1px;
@@ -34,6 +29,8 @@ input {
 }
 
 #game #screen {
+    display: block;
+    margin: 0 auto;
     position: relative;
     height: 532px;
     width: 800px;
@@ -44,15 +41,18 @@ input {
     width: 100%;
 }
 
-#screen .overlay {
-}
-
 #screen > canvas {
     bottom: 0;
     left: 0;
     position: absolute;
     right: 0;
     top: 0;
+    z-index: 1;
+}
+
+#screen .overlay {
+    position: absolute;
+    z-index: 2;
 }
 
 #screen .overlay .energy {
