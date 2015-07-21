@@ -21,9 +21,7 @@ Engine.Collision.prototype.addObject = function(object)
 
 Engine.Collision.prototype.garbageCollect = function()
 {
-    var i, l = this.objects.length;
-
-    for (i = 0; i < l; i++) {
+    for (var i = 0, l = this.objects.length; i !== l; i++) {
         if (this.objects[i] === undefined) {
             this.objects.splice(i, 1);
             this.collisionIndex.splice(i, 1);
@@ -57,7 +55,7 @@ Engine.Collision.prototype.detect = function()
 {
     this.collisionTests = 0;
     this.collisionCount = 0;
-    for (var i = 0, l = this.objects.length; i < l; i++) {
+    for (var i = 0, l = this.objects.length; i !== l; i++) {
         if (this.objects[i] && this.objects[i].collidable && this.objectNeedsRecheck(i)) {
             for (var j = 0; j < l; j++) {
                 if (i != j && this.objects[i] && this.objects[j]) {
@@ -68,7 +66,7 @@ Engine.Collision.prototype.detect = function()
     }
 
     this.garbageCollect();
-    for (var i = 0, l = this.objects.length; i < l; i++) {
+    for (var i = 0, l = this.objects.length; i !== l; i++) {
         if (this.positionCache[i] === undefined) {
             this.positionCache[i] = this.objects[i].position.clone();
         }
@@ -104,9 +102,9 @@ Engine.Collision.prototype.objectsCollide = function(o1, o2)
     }
 
     ++this.collisionTests;
-    for (var i = 0, l = o1.collision.length; i < l; ++i) {
+    for (var i = 0, l = o1.collision.length; i !== l; ++i) {
         var z1 = o1.collision[i];
-        for (var j = 0, m = o2.collision.length; j < m; ++j) {
+        for (var j = 0, m = o2.collision.length; j !== m; ++j) {
             var z2 = o2.collision[j];
             if (this.zonesCollide(o1, z1, o2, z2)) {
                 o1.collides.call(o1, o2, z1, z2);
