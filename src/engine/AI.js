@@ -22,13 +22,13 @@ Engine.AI.prototype.faceTarget = function()
 Engine.AI.prototype.findPlayer = function()
 {
     if (this.target && this.target.isPlayer) {
-        return true;
+        return this.target;
     }
 
     for (var o of this.object.scene.objects) {
         if (o.isPlayer) {
             this.setTarget(o);
-            return true;
+            return o;
         }
     }
     return false;
