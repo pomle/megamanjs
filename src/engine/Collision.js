@@ -129,69 +129,12 @@ Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone
     var pos1 = object1.model.position.clone().add(zone1.position);
     var pos2 = object2.model.position.clone().add(zone2.position);
 
-    var rect1 = this.convertPlaneToRectangle(zone1.geometry);
-    var rect2 = this.convertPlaneToRectangle(zone2.geometry);
+    var rect1 = Engine.Math.Geometry.convertPlaneToRectangle(zone1.geometry);
+    var rect2 = Engine.Math.Geometry.convertPlaneToRectangle(zone2.geometry);
 
-    return this.rectanglesIntersect(
+    return Engine.Math.Geometry.rectanglesIntersect(
         pos1.x, pos1.y, rect1.w, rect1.h,
         pos2.x, pos2.y, rect2.w, rect2.h);
-}
-
-Engine.Collision.prototype.circlesIntersect = function(r1, r2, x1, x2, y1, y2)
-{
-    var dx = x2 - x1;
-    var dy = y2 - y1;
-    var radii = r1 + r2;
-    if (dx * dx + dy * dy < radii * radii) {
-        return true;
-    }
-    return false;
-}
-
-Engine.Collision.prototype.circleInRectangle = function(r, x, y, a, b, w, h)
-{
-    var circle = {
-        x: Math.abs(x - a),
-        y: Math.abs(y - b),
-    }
-
-    if (circle.x > (w / 2 + r) || circle.y > (h / 2 + r)) {
-        return false;
-    }
-
-    if (circle.x <= (w / 2) || circle.y <= (h / 2)) {
-        return true;
-    }
-
-    var cornerDistanceSq = Math.pow(circle.x - w / 2, 2) +
-                           Math.pow(circle.y - h / 2, 2);
-
-    if (cornerDistanceSq <= Math.pow(r, 2)) {
-        return true;
-    }
-
-    return false;
-}
-
-Engine.Collision.prototype.rectanglesIntersect = function(x1, y1, w1, h1, x2, y2, w2, h2)
-{
-    w1 /= 2;
-    w2 /= 2;
-    h1 /= 2;
-    h2 /= 2;
-    if (x1 + w1 > x2 - w2 && x1 - w1 < x2 + w2 &&
-        y1 + h1 > y2 - h2 && y1 - h1 < y2 + h2) {
-        return true;
-    }
-    return false;
-}
-
-Engine.Collision.prototype.convertPlaneToRectangle = function(geometry)
-{
-    return {
-        'w': Math.abs(geometry.vertices[0].x - geometry.vertices[1].x),
-        'h': Math.abs(geometry.vertices[1].y - geometry.vertices[3].y),
-    }
 }
 
 Engine.Collision.BoundingBox = function(model, zone)
