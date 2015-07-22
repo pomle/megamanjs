@@ -3,7 +3,7 @@ Megaman.Player = function()
     this.character = undefined;
     this.hud = undefined;
     this.input = undefined;
-    this.lifes = 3;
+    this.lives = 3;
     this.weapons = {};
 }
 
