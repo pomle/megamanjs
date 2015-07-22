@@ -21,14 +21,8 @@ Engine.assets.weapons.AirShooter.prototype.fire = function()
     ];
 
     var velocityMultiplier = 1.2;
-    var projectile;
     for (var i in projectiles) {
-        projectile = projectiles[i];
-        projectile.setEmitter(this.user);
-        projectile.inertia.x = projectile.speed
-                             * Math.pow(velocityMultiplier, i)
-                             * this.user.direction;
-        this.user.scene.addObject(projectile);
+        this.emit(projectiles[i], projectiles[i].speed * Math.pow(velocityMultiplier, i), 0);
     }
     return true;
 }

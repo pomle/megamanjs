@@ -8,6 +8,17 @@ Engine.assets.Weapon = function()
     this.user = undefined;
 }
 
+Engine.assets.Weapon.prototype.emit = function(projectile, x, y)
+{
+    if (projectile instanceof Engine.assets.Projectile !== true) {
+        throw new Error('Invalid projectile');
+    }
+    projectile.inertia.x = x * this.user.direction;
+    projectile.inertia.y = y;
+    projectile.setEmitter(this.user);
+    this.user.scene.addObject(projectile);
+}
+
 Engine.assets.Weapon.prototype.fire = function()
 {
     if (!this.isReady) {
