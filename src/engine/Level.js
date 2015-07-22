@@ -18,13 +18,13 @@ Engine.scenes.Level.prototype.addCheckPoint = function(x, y, r)
     });
 }
 
-Engine.scenes.Level.prototype.addObject = function(o, x, y)
+Engine.scenes.Level.prototype.addObject = function(object, x, y)
 {
-    o.model.position.x = x === undefined ? o.model.position.x : x;
-    o.model.position.y = y === undefined ? o.model.position.y : y;
-    Engine.Scene.prototype.addObject.call(this, o);
-    this.collision.addObject(o);
-    o.setScene(this);
+    object.model.position.x = x === undefined ? object.model.position.x : x;
+    object.model.position.y = y === undefined ? object.model.position.y : y;
+    Engine.Scene.prototype.addObject.call(this, object);
+    this.collision.addObject(object);
+    object.setScene(this);
 }
 
 Engine.scenes.Level.prototype.applyGravity = function(object, dt)
