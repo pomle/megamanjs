@@ -175,26 +175,36 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
     this.pauseGamePlay();
     this.game.player.equipWeapon('p');
     var character = this.game.player.character;
+
     this.level.removeObject(character);
-
-    var checkpoint = this.level.checkPoints[this.checkPointIndex];
-    this.level.camera.jumpToPath(checkpoint.pos.clone().add(this.cameraFollowOffset));
-
-    var game = this.game;
-    var startFollow = function(character) {
-        game.level.followPlayer();
-        character.unbind('teleport-end', arguments.callee);
-    };
-    character.bind('teleport-end', startFollow);
 
     character.isPlayer = true;
     character.invincibilityEnd();
     character.health.fill();
     character.stunnedTime = 0;
-    character.teleportTo(checkpoint.pos);
-    this.level.addObject(character,
-                    checkpoint.pos.x + this.checkPointOffset.x,
-                    checkpoint.pos.y + this.checkPointOffset.y);
 
-    this.resetCheckpoint();
+    var checkpoint = this.level.checkPoints[this.checkPointIndex];
+    if (checkpoint) {
+        var startPosition = checkpoint.pos.clone();
+        var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
+        var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
+        character.moveTo(playerPosition);
+        character.teleportTo(startPosition);
+        this.level.camera.jumpToPath(cameraPosition);
+
+        var game = this.game;
+        var startFollow = function(character) {
+            game.level.followPlayer();
+            character.unbind('teleport-end', arguments.callee);
+        };
+        character.bind('teleport-end', startFollow);
+        this.resetCheckpoint();
+    }
+    else {
+        character.moveTo(new THREE.Vector2(0, 0));
+        this.level.camera.follow(character);
+        this.resumeGamePlay();
+    }
+
+    this.level.addObject(character);
 }
