@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level name="Flashman">
     <gravity x="0" y="983" />
-    <collision-radius units="360"></collision-radius>
+    <collision radius="360" />
 
     <checkpoints>
         <checkpoint x="1840" y="260"/>

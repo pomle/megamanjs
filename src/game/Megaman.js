@@ -189,10 +189,12 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
         });
 
         var collisionRadius = undefined;
-        levelXml.children('collision-radius').each(function() {
-            var colXml = $(this);
-            collisionRadius = parseFloat(colXml.attr('units'));
-            level.collision.setCollisionRadius(collisionRadius);
+        levelXml.children('collision').each(function() {
+            var collisionXml = $(this);
+            var radius = parseFloat(collisionXml.attr('radius'));
+            if (isFinite(radius)) {
+                level.collision.setCollisionRadius(radius);
+            }
         });
 
         levelXml.find('> camera > path').each(function() {
