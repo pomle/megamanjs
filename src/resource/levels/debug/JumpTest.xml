@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+    <gravity x="0" y="983" />
+
+    <layout>
+        <solids expose="true">
+            <rect x="-16" y="32" w="64" h="16"/>
+            <rect x="96" y="32" w="64" h="16"/>
+            <rect x="96" y="-32" w="16" h="32"/>
+        </solids>
+    </layout>
+</level>

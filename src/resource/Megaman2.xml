@@ -5,6 +5,10 @@
         <scene type="stage-select" name="StageSelect" src="./StageSelect.xml" />
         <scene type="level" name="Flashman" src="./levels/Flashman.xml" />
         <scene type="level" name="Heatman" src="./levels/Heatman.xml" />
+
+        <!-- Debug Levels -->
+            <scene type="level" name="JumpTest" src="./levels/debug/JumpTest.xml" />
+        <!-- End Debug Levels -->
     </scenes>
 
     <entrypoint>
