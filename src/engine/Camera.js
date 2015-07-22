@@ -8,14 +8,15 @@ Engine.Camera = function(camera)
     this.obeyPaths = true;
     this.paths = [];
     this.smoothing = 20;
-    this.velocity = new THREE.Vector2(0, 0);
+    this.velocity = new THREE.Vector3(0, 0, 0);
 }
 
-Engine.Camera.prototype.addPath = function(x1, y1, x2, y2)
+Engine.Camera.prototype.addPath = function(x1, y1, x2, y2, z)
 {
     this.paths.push([
         new THREE.Vector2(x1, y1),
         new THREE.Vector2(x2, y2),
+        z || this.camera.position.z,
     ]);
 }
 
@@ -46,6 +47,7 @@ Engine.Camera.prototype.alignToPath = function(pos)
 
     pos.x = Engine.Math.clamp(x, this.paths[minIndex][0].x, this.paths[minIndex][1].x);
     pos.y = Engine.Math.clamp(y, this.paths[minIndex][1].y, this.paths[minIndex][0].y);
+    pos.z = this.paths[minIndex][2];
 
     return true;
 }
@@ -53,7 +55,8 @@ Engine.Camera.prototype.alignToPath = function(pos)
 Engine.Camera.prototype.follow = function(object, offset)
 {
     this.followObject = object;
-    this.desiredPosition = new THREE.Vector2();
+    this.desiredPosition = object.position.clone();
+    this.desiredPosition.z = this.camera.position.z;
     if (offset) {
         this.followOffset = offset;
     } else {
@@ -65,6 +68,7 @@ Engine.Camera.prototype.jumpTo = function(vec)
 {
     this.camera.position.x = vec.x;
     this.camera.position.y = vec.y;
+    this.camera.position.z = vec.z || this.camera.position.z;
 }
 
 Engine.Camera.prototype.jumpToPath = function(vec)
@@ -103,4 +107,5 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
 
     this.camera.position.x += this.velocity.x;
     this.camera.position.y += this.velocity.y;
+    this.camera.position.z += this.velocity.z;
 }

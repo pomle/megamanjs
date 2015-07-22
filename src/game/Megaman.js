@@ -202,8 +202,9 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                 'x2': parseFloat(pathXml.attr('x2')),
                 'y1': -parseFloat(pathXml.attr('y1')),
                 'y2': -parseFloat(pathXml.attr('y2')),
+                'z': parseFloat(pathXml.attr('z')) || undefined,
             };
-            level.camera.addPath(coords.x1, coords.y1, coords.x2, coords.y2);
+            level.camera.addPath(coords.x1, coords.y1, coords.x2, coords.y2, coords.z);
         });
 
         var spriteIndex = {};
