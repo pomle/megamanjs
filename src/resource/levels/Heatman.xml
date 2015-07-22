@@ -4,6 +4,7 @@
     <collision-radius units="360"></collision-radius>
 
     <checkpoints>
+        <checkpoint x="1840" y="260"/>
         <checkpoint x="136" y="165"/>
     </checkpoints>
 
