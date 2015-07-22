@@ -61,21 +61,21 @@ Engine.Camera.prototype.follow = function(object, offset)
     }
 }
 
-Engine.Camera.prototype.jumpTo = function(pos)
+Engine.Camera.prototype.jumpTo = function(vec)
 {
-    this.camera.position.x = pos.x;
-    this.camera.position.y = pos.y;
+    this.camera.position.x = vec.x;
+    this.camera.position.y = vec.y;
 }
 
-Engine.Camera.prototype.jumpToPath = function(pos)
+Engine.Camera.prototype.jumpToPath = function(vec)
 {
-    this.jumpTo(pos);
+    this.jumpTo(vec);
     this.alignToPath(this.camera.position);
 }
 
-Engine.Camera.prototype.panTo = function(pos)
+Engine.Camera.prototype.panTo = function(vec)
 {
-    this.desiredPosition = pos.clone();
+    this.desiredPosition.copy(vec);
 }
 
 Engine.Camera.prototype.unfollow = function()
