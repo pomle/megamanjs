@@ -4,12 +4,11 @@
     <collision radius="360" />
 
     <checkpoints>
-        <checkpoint x="1840" y="260"/>
         <checkpoint x="136" y="165"/>
     </checkpoints>
 
     <camera>
-        <path x1="140" x2="1920" y1="120" y2="120" />
+        <path x1="180" x2="1920" y1="120" y2="120" />
         <path x1="1920" x2="1920" y1="120" y2="600" />
         <path x1="1920" x2="4480" y1="600" y2="600" />
     </camera>
