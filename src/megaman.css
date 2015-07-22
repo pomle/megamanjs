@@ -32,8 +32,8 @@ input {
     display: block;
     margin: 0 auto;
     position: relative;
-    height: 532px;
-    width: 800px;
+    height: 480px;
+    width: 850px;
 }
 
 #game.fullscreen #screen {
