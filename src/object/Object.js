@@ -73,6 +73,12 @@ Engine.assets.Object.prototype.dropCollision = function()
     this.collision.length = 0;
 }
 
+Engine.assets.Object.prototype.moveTo = function(vec)
+{
+    this.position.x = vec.x;
+    this.position.y = vec.y;
+}
+
 Engine.assets.Object.prototype.obstruct = function(solid, attack)
 {
     if (solid instanceof Engine.assets.Solid === false) {
