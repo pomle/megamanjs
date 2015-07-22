@@ -9,7 +9,7 @@ Engine.assets.Solid = function()
         this.RIGHT
     ];
 
-    this.ignore = [];
+    this.ignore = new Set();
 }
 
 Engine.assets.Solid.prototype = Object.create(Engine.assets.Object.prototype);
@@ -49,7 +49,7 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     if (!subject.obstructible) {
         return false;
     }
-    if (this.ignore.indexOf(subject) > -1) {
+    if (this.ignore.has(subject)) {
         return false;
     }
 
@@ -64,7 +64,7 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
         This puts this object in the ignore list until uncollides callback
         has been reached.
         */
-        this.ignore.push(subject);
+        this.ignore.add(subject);
         return false;
     }
 
@@ -90,10 +90,7 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
 
 Engine.assets.Solid.prototype.uncollides = function(subject, ourZone, theirZone)
 {
-    var i = this.ignore.indexOf(subject);
-    if (i > -1) {
-        this.ignore.splice(i, 1);
-    }
+    this.ignore.delete(subject);
 }
 
 Engine.assets.obstacles = {};
