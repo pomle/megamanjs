@@ -113,6 +113,12 @@ Megaman.prototype.adjustAspectRatio = function()
     }
 }
 
+Megaman.prototype.adjustResolution = function()
+{
+    var rect = this.element.getBoundingClientRect();
+    this.engine.renderer.setSize(rect.width, rect.height);
+}
+
 Megaman.prototype.createScene = function(type, xmlUrl)
 {
     var scene;
