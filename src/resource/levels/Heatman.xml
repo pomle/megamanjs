@@ -517,7 +517,7 @@
             <sprite ref="pillar">
                 <segment x="21" y="9-12"/>
                 <segment x="28" y="6-12"/>
-                <segment x="45,63" y="9-10"/>
+                <segment x="44,63" y="9-10"/>
                 <segment x="54" y="6-8,11-12"/>
             </sprite>
             <sprite ref="mortar-4-shaded">
