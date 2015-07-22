@@ -37,7 +37,10 @@ Megaman.prototype.queueScene = function(name)
 
 Megaman.createGame = function(xmlUrl, callback)
 {
-    var renderer = new THREE.WebGLRenderer();
+    var renderer = new THREE.WebGLRenderer({
+        'antialias': false,
+    });
+
     var game = new Megaman();
     game.engine = new Engine(renderer);
 
@@ -88,11 +91,13 @@ Megaman.createGame = function(xmlUrl, callback)
 Megaman.prototype.attachToElement = function(element)
 {
     this.element = element;
-    this.adjustSize();
+    var rect = this.element.getBoundingClientRect();
+    this.engine.renderer.setSize(rect.width, rect.height);
+    this.engine.renderer.domElement.removeAttribute("style");
     this.element.appendChild(this.engine.renderer.domElement);
 }
 
-Megaman.prototype.adjustCamera = function()
+Megaman.prototype.adjustAspectRatio = function()
 {
     if (this.engine.scene) {
         var rect = this.element.getBoundingClientRect();
@@ -100,16 +105,6 @@ Megaman.prototype.adjustCamera = function()
         cam.aspect = rect.width / rect.height;
         cam.updateProjectionMatrix();
     }
-}
-
-Megaman.prototype.adjustSize = function()
-{
-    if (!this.element) {
-        throw new Error("No element");
-    }
-    var rect = this.element.getBoundingClientRect();
-    this.engine.renderer.setSize(rect.width, rect.height);
-    this.adjustCamera();
 }
 
 Megaman.prototype.createScene = function(type, xmlUrl)
@@ -656,7 +651,7 @@ Megaman.prototype.setScene = function(scene)
         }.bind(this);
     }
 
-    this.adjustCamera();
+    this.adjustAspectRatio();
 
     /*
         For some reason, if we start the engine immediately,
