@@ -570,7 +570,85 @@
                 <segment x="3" y="1-2"/>
                 <segment x="174" y="13-15"/>
             </sprite>
+        </background>
 
+        <!-- Vertical 2 -->
+        <background x="4352" y="720" w="256" h="240" w-segments="16" h-segments="15">
+            <sprite ref="darkness">
+                <segment x="*" y="*"/>
+            </sprite>
+
+            <sprite ref="mortar-1">
+                <segment x="*" y="2"/>
+            </sprite>
+            <sprite ref="mortar-2">
+                <segment x="*" y="3"/>
+            </sprite>
+            <sprite ref="mortar-3">
+                <segment x="*" y="4"/>
+            </sprite>
+            <sprite ref="mortar-4">
+                <segment x="*" y="5"/>
+            </sprite>
+            <sprite ref="mortar-5">
+                <segment x="*" y="6-8"/>
+            </sprite>
+            <sprite ref="mortar-6">
+                <segment x="*" y="9"/>
+            </sprite>
+            <sprite ref="mortar-7">
+                <segment x="*" y="10"/>
+            </sprite>
+            <sprite ref="mortar-8">
+                <segment x="*" y="11"/>
+            </sprite>
+            <sprite ref="mortar-8-shaded">
+                <segment x="5-13" y="11"/>
+            </sprite>
+
+            <sprite ref="bricks-small">
+                <segment x="1-3,15-16" y="6-10"/>
+            </sprite>
+            <sprite ref="bricks-big-top">
+                <segment x="1-3,15-16" y="5"/>
+                <segment x="1-8" y="15"/>
+            </sprite>
+            <sprite ref="bricks-big-bottom">
+                <segment x="*" y="1"/>
+                <segment x="1-3,15-16" y="11"/>
+            </sprite>
+
+            <sprite ref="concrete-center">
+                <segment x="*" y="3,13"/>
+            </sprite>
+            <sprite ref="concrete-top-closed">
+                <segment x="*" y="2,12"/>
+            </sprite>
+            <sprite ref="concrete-bottom-closed">
+                <segment x="*" y="4,14"/>
+            </sprite>
+            <sprite ref="concrete-top-open">
+                <segment x="3-7,11-12" y="2"/>
+                <segment x="1-2,7-8,10-14" y="12"/>
+            </sprite>
+            <sprite ref="concrete-bottom-open">
+                <segment x="3-7,11-12" y="4"/>
+                <segment x="1-2,7-8,10-14" y="14"/>
+            </sprite>
+
+            <animation ref="lava-hori-1">
+                <segment x="3-7/2,11" y="3"/>
+                <segment x="1,7,10-14/2" y="13"/>
+            </animation>
+            <animation ref="lava-hori-2">
+                <segment x="4-7/2,12" y="3"/>
+                <segment x="2,8,11-14/2" y="13"/>
+            </animation>
+
+            <sprite ref="ladder">
+                <segment x="14" y="1-11"/>
+                <segment x="4" y="12-15"/>
+            </sprite>
         </background>
     </layout>
 </level>
