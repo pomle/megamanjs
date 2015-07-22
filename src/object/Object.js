@@ -17,17 +17,15 @@ Engine.assets.Object = function()
     this.timeStretch = 1;
     this.velocity = new THREE.Vector2();
 
-    var model = new THREE.Mesh(this.defaultGeometry, this.defaultMaterial);
-    model.visible = false;
+    var model = new THREE.Mesh(Engine.assets.Object.defaultGeometry,
+                               Engine.assets.Object.defaultMaterial);
+    model.visible = Engine.assets.Object.exposeCollisionGeometry;
     this.setModel(model);
 }
 
-// Set up a default model.
-Engine.assets.Object.prototype.defaultGeometry = new THREE.PlaneBufferGeometry(10, 10);
-Engine.assets.Object.prototype.defaultMaterial = new THREE.MeshBasicMaterial({
-    color: 'blue',
-    wireframe: true,
-});
+Engine.assets.Object.defaultGeometry = new THREE.PlaneBufferGeometry(10, 10);
+Engine.assets.Object.defaultMaterial = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
+Engine.assets.Object.exposeCollisionGeometry = false;
 
 Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
 {
@@ -39,9 +37,15 @@ Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = offsetX || 0;
     mesh.position.y = offsetY || 0;
-    mesh.position.z = .01;
+    mesh.position.z = -.1;
     this.collision.push(mesh);
-    //this.model.add(mesh); // Show collision zone.
+
+    if (Engine.assets.Object.exposeCollisionGeometry) {
+        mesh.position.z = .1;
+        this.model.add(mesh);
+    }
+
+    return mesh;
 }
 
 Engine.assets.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)

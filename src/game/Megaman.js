@@ -47,6 +47,12 @@ Megaman.createGame = function(xmlUrl, callback)
     Engine.Util.asyncLoadXml(xmlUrl, function(xml, baseUrl) {
         var gameXml = xml.children('game');
 
+        gameXml.find('> debug').each(function(i, debugXml) {
+            debugXml = $(debugXml);
+            Engine.assets.Object.exposeCollisionGeometry = debugXml.attr('expose-collision') === 'true';
+        });
+
+
         game.player = new Megaman.Player();
         game.player.hud = new Hud($('#screen'));
 
@@ -577,13 +583,10 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
                 }
 
                 var geometry = new THREE.PlaneGeometry(prop.w, prop.h);
-                var mesh = new THREE.Mesh(geometry, material);
-                mesh.position.x = prop.x + (prop.w / 2);
-                mesh.position.y = -(prop.y + (prop.h / 2));
-                mesh.position.z = expose ? 1 : -1;
 
                 var solid = new Engine.assets.Solid();
-                solid.setModel(mesh);
+                solid.position.x = prop.x + (prop.w / 2);
+                solid.position.y = -(prop.y + (prop.h / 2));
                 solid.addCollisionGeometry(geometry);
 
                 var attackXmls = solidXml.find('> attack');
