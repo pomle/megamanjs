@@ -83,7 +83,7 @@ Engine.assets.obstacles.Door.prototype.timeShift = function(dt)
             this.traverseStep = -1;
         }
         else if (this.traverseSteps[this.traverseStep].call(this, dt)) {
-            this.traverseStep++;
+            ++this.traverseStep;
         }
     }
 }
