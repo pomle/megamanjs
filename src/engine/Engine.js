@@ -230,6 +230,8 @@ Engine.Util = {
                 context.imageSmoothingEnabled = false;
                 context.drawImage(this, 0, 0, x, y);
                 texture.needsUpdate = true;
+                texture.magFilter = THREE.NearestFilter;
+                texture.minFilter = THREE.LinearMipMapLinearFilter;
             }
             image.src = url;
             Engine.TextureManager.cache[cacheKey] = texture;
