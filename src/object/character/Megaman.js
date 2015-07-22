@@ -193,17 +193,8 @@ Engine.assets.objects.characters.Megaman.prototype.teleportHandle = function(dt)
         }
     }
     else {
-        var diff = new THREE.Vector2(
-            this.teleportPos.x - this.position.x,
-            this.teleportPos.y - this.position.y);
-        diff.clamp(new THREE.Vector2(-this.teleportSpeed, -this.teleportSpeed),
-                   new THREE.Vector2(this.teleportSpeed, this.teleportSpeed));
-        if (diff.x == 0 && diff.y == 0) {
+        if (Engine.Animation.vectorTraverse(this.position, this.teleportPos, this.teleportSpeed) == 0) {
             this.teleportEnd();
-        }
-        else {
-            this.position.x += diff.x;
-            this.position.y += diff.y;
         }
     }
 }
