@@ -21,7 +21,6 @@ Engine.Scene.prototype.addObject = function(object)
     }
     this.objects.add(object);
     this.scene.add(object.model);
-    //console.log('Added object', object.uuid, object);
 }
 
 Engine.Scene.prototype.addTimeline = function(timeline)
