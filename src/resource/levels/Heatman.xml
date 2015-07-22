@@ -349,6 +349,7 @@
             <sprite ref="bricks-big-top">
                 <segment x="123-124" y="7"/>
                 <segment x="113-114,125" y="14"/>
+                <segment x="1-6" y="15"/>
             </sprite>
 
             <sprite ref="ladder">
