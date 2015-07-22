@@ -182,6 +182,14 @@ Megaman.prototype.createLevel = function(xmlUrl, callback)
     Engine.Util.asyncLoadXml(xmlUrl, function(xml, baseUrl) {
         var levelXml = xml.children('level');
 
+        levelXml.children('camera').each(function() {
+            var cameraXml = $(this);
+            var smoothing = parseFloat(cameraXml.attr('smoothing'));
+            if (isFinite(smoothing)) {
+                level.camera.smoothing = smoothing;
+            }
+        });
+
         levelXml.children('gravity').each(function() {
             var gravityXml = $(this);
             level.gravityForce.x = parseFloat(gravityXml.attr('x'));
