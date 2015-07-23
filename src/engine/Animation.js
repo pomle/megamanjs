@@ -7,7 +7,7 @@ Engine.Animation = {
         var diff, axis;
         for (var i in Engine.Animation.units) {
             var axis = Engine.Animation.units[i];
-            if (subject[axis] && desired[axis]) {
+            if (subject[axis] !== undefined && desired[axis] !== undefined) {
                 diff = Engine.Math.clamp(desired[axis] - subject[axis], -speed, speed);
                 subject[axis] += diff;
                 distance += Math.abs(subject[axis] - desired[axis]);
