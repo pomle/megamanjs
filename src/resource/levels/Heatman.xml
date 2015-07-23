@@ -202,6 +202,10 @@
             <obstacle name="DeathZone" x="1040" y="192" w="256" h="16"/>
             <obstacle name="DeathZone" x="1280" y="192" w="240" h="16"/>
             <obstacle name="DeathZone" x="1504" y="240" w="304" h="16"/>
+
+            <obstacle name="DestructibleWall" x="2488" y="656" color="pink"/>
+            <obstacle name="DestructibleWall" x="2648" y="624" color="pink"/>
+            <obstacle name="DestructibleWall" x="2792" y="656" color="pink"/>
         </obstacles>
 
             <!--
