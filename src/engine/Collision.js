@@ -62,7 +62,8 @@ Engine.Collision.prototype.detect = function()
             for (var j = 0; j < l; j++) {
                 if (i != j
                 && this.objects[i]
-                && this.objects[j]) {
+                && this.objects[j]
+                && this.objects[j].collidable) {
                     this.objectIndexesCollide(i, j);
                 }
             }
