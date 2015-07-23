@@ -88,14 +88,21 @@ Megaman.XMLUtil = {
 
             levelXml.find('> camera > path').each(function() {
                 var pathXml = $(this);
-                var coords = {
-                    'x1': parseFloat(pathXml.attr('x1')),
-                    'x2': parseFloat(pathXml.attr('x2')),
-                    'y1': -parseFloat(pathXml.attr('y1')),
-                    'y2': -parseFloat(pathXml.attr('y2')),
-                    'z': parseFloat(pathXml.attr('z')) || undefined,
-                };
-                level.camera.addPath(coords.x1, coords.y1, coords.x2, coords.y2, coords.z);
+                var path = new Engine.Camera.Path();
+                /* y1 and y2 is swapped because they are negative. */
+                var windowXml = pathXml.children('window');
+                path.window[0].x = parseFloat(windowXml.attr('x1'));
+                path.window[1].x = parseFloat(windowXml.attr('x2'));
+                path.window[0].y = -parseFloat(windowXml.attr('y2'));
+                path.window[1].y = -parseFloat(windowXml.attr('y1'));
+                var constraintXml = pathXml.children('constraint');
+                path.constraint[0].x = parseFloat(constraintXml.attr('x1'));
+                path.constraint[1].x = parseFloat(constraintXml.attr('x2'));
+                path.constraint[0].y = -parseFloat(constraintXml.attr('y2'));
+                path.constraint[1].y = -parseFloat(constraintXml.attr('y1'));
+                path.constraint[0].z = parseFloat(constraintXml.attr('z1')) || undefined;
+                path.constraint[1].z = parseFloat(constraintXml.attr('z2')) || undefined;
+                level.camera.addPath(path);
             });
 
             var spriteIndex = {};

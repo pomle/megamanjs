@@ -7,17 +7,17 @@ Engine.Camera = function(camera)
     this.followLookAhead = new THREE.Vector2(.5, .2);
     this.obeyPaths = true;
     this.paths = [];
+    this.pathIndex = -1;
     this.smoothing = 20;
     this.velocity = new THREE.Vector3(0, 0, 0);
 }
 
-Engine.Camera.prototype.addPath = function(x1, y1, x2, y2, z)
+Engine.Camera.prototype.addPath = function(path)
 {
-    this.paths.push([
-        new THREE.Vector2(x1, y1),
-        new THREE.Vector2(x2, y2),
-        z || this.camera.position.z,
-    ]);
+    if (path instanceof Engine.Camera.Path === false) {
+        throw new Error("Invalid camera path");
+    }
+    this.paths.push(path);
 }
 
 Engine.Camera.prototype.alignToPath = function(pos)
@@ -26,29 +26,19 @@ Engine.Camera.prototype.alignToPath = function(pos)
         return false;
     }
 
-    var distances = [],
-        x = pos.x,
-        y = pos.y;
-
     for (var i = 0, l = this.paths.length; i < l; i++) {
         var path = this.paths[i];
-        distances[i] = Engine.Math.close(x, path[0].x, path[1].x)
-                     + Engine.Math.close(y, path[0].y, path[1].y);
-    }
-
-    var minIndex = 0,
-        min = distances[minIndex];
-    for (var l = i, i = 1; i <= l; i++) {
-        if (distances[i] < min) {
-            minIndex = i;
-            min = distances[i];
+        if (path.inWindow(pos)) {
+            this.pathIndex = i;
+            break;
         }
     }
 
-    pos.x = Engine.Math.clamp(x, this.paths[minIndex][0].x, this.paths[minIndex][1].x);
-    pos.y = Engine.Math.clamp(y, this.paths[minIndex][1].y, this.paths[minIndex][0].y);
-    pos.z = this.paths[minIndex][2];
+    if (this.pathIndex < 0) {
+        return false;
+    }
 
+    this.paths[this.pathIndex].constrain(pos);
     return true;
 }
 
@@ -108,4 +98,38 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
     this.camera.position.x += this.velocity.x;
     this.camera.position.y += this.velocity.y;
     this.camera.position.z += this.velocity.z;
+}
+
+
+Engine.Camera.Path = function()
+{
+    this.constraint = [
+        new THREE.Vector3(),
+        new THREE.Vector3(),
+    ];
+    this.window = [
+        new THREE.Vector2(),
+        new THREE.Vector2(),
+    ];
+}
+
+Engine.Camera.Path.prototype.constrain = function(vec)
+{
+    for (var u of ['x', 'y', 'z']) {
+        if (vec[u] < this.constraint[0][u]) {
+            vec[u] = this.constraint[0][u];
+        }
+        else if (vec[u] > this.constraint[1][u]) {
+            vec[u] = this.constraint[1][u];
+        }
+    }
+    return vec;
+}
+
+Engine.Camera.Path.prototype.inWindow = function(vec)
+{
+    return vec.x > this.window[0].x
+        && vec.x < this.window[1].x
+        && vec.y > this.window[0].y
+        && vec.y < this.window[1].y;
 }
