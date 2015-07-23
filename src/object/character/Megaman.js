@@ -165,6 +165,7 @@ Engine.assets.objects.characters.Megaman.prototype.teleportStart = function()
 {
     this.teleportStartDuration = this.teleportStartDelay;
     this.collidable = false;
+    this.isSupported = false;
     this.isTeleporting = true;
     this.mass = 0;
     this.trigger('teleport-start');
@@ -193,7 +194,8 @@ Engine.assets.objects.characters.Megaman.prototype.teleportHandle = function(dt)
         }
     }
     else {
-        if (Engine.Animation.vectorTraverse(this.position, this.teleportPos, this.teleportSpeed) == 0) {
+        var teleportDistance = Engine.Animation.vectorTraverse(this.position, this.teleportPos, this.teleportSpeed);
+        if (teleportDistance === 0) {
             this.teleportEnd();
         }
     }
