@@ -11,11 +11,6 @@ Megaman.XMLUtil = {
         Engine.Util.asyncLoadXml(xmlUrl, function(xml, baseUrl) {
             var gameXml = xml.children('game');
 
-            gameXml.find('> debug').each(function(i, debugXml) {
-                debugXml = $(debugXml);
-                Engine.assets.Object.exposeCollisionGeometry = debugXml.attr('expose-collision') === 'true';
-            });
-
             game.player = new Megaman.Player();
             game.player.hud = new Hud($('#screen'));
 

@@ -19,7 +19,6 @@ Engine.assets.Object = function()
 
     var model = new THREE.Mesh(Engine.assets.Object.defaultGeometry,
                                Engine.assets.Object.defaultMaterial);
-    model.visible = Engine.assets.Object.exposeCollisionGeometry;
     this.setModel(model);
 }
 
@@ -37,14 +36,8 @@ Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = offsetX || 0;
     mesh.position.y = offsetY || 0;
-    mesh.position.z = -.1;
+    mesh.position.z = 0;
     this.collision.push(mesh);
-
-    if (Engine.assets.Object.exposeCollisionGeometry) {
-        mesh.position.z = .1;
-        this.model.add(mesh);
-    }
-
     return mesh;
 }
 

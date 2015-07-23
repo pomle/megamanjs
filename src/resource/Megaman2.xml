@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game name="Megaman 2">
-    <debug expose-collision="false" />
-
     <scenes>
         <!-- <scene type="cutscene" name="Intro" src="./Intro.xml" /> -->
         <scene type="stage-select" name="StageSelect" src="./StageSelect.xml" />
