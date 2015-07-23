@@ -3,6 +3,7 @@ var game = Megaman.XMLUtil.createGame('resource/Megaman2.xml', function() {
     game.attachToElement(document.getElementById('screen'));
 });
 
+var dbg = new Engine.Debug(game.engine);
 
 var pendelum = function(dt)
 {
