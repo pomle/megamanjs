@@ -179,8 +179,8 @@ Megaman.LevelRunner.prototype.resetPlayer = function()
     this.level.removeObject(character);
 
     character.isPlayer = true;
+    character.resurrect();
     character.invincibilityEnd();
-    character.health.fill();
     character.stunnedTime = 0;
 
     var checkpoint = this.level.checkPoints[this.checkPointIndex];
