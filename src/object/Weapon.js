@@ -4,7 +4,7 @@ Engine.assets.Weapon = function()
     this.coolDown = 0;
     this.coolDownDelay = undefined;
     this.isReady = true;
-    this.projectileCost = 1;
+    this.cost = 1;
     this.user = undefined;
 }
 
@@ -25,11 +25,11 @@ Engine.assets.Weapon.prototype.fire = function()
         return false;
     }
 
-    if (this.ammo.isFinite() && this.projectileCost > 0) {
-        if (this.ammo.getAmount() < this.projectileCost) {
+    if (this.ammo.isFinite() && this.cost > 0) {
+        if (this.ammo.getAmount() < this.cost) {
             return false;
         }
-        this.ammo.reduce(this.projectileCost);
+        this.ammo.reduce(this.cost);
     }
 
     if (this.coolDown > 0) {
