@@ -3,7 +3,9 @@ Engine.scenes.StageSelect = function()
     Engine.Scene.call(this);
     this.camera.camera.position.z = 120;
     this.cameraDesiredPosition = new THREE.Vector3();
+    this.cameraDistance = 140;
     this.cameraSmoothing = 20;
+    this.captionOffset = new THREE.Vector3(0, -32, .2);
     this.currentIndex = undefined;
     this.stages = [];
     this.rowLength = 3;
@@ -86,22 +88,36 @@ Engine.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
 
     frame.position.set(pos.x, pos.y, 0);
     avatar.position.set(pos.x, pos.y, .1);
-    caption.position.set(pos.x, pos.y - 32, .2);
+    caption.position.copy(avatar.position);
+    caption.position.add(this.captionOffset);
     this.scene.add(frame);
     this.scene.add(avatar);
     this.scene.add(caption);
 }
 
-Engine.scenes.StageSelect.prototype.equalize = function()
+Engine.scenes.StageSelect.prototype.equalize = function(index)
 {
-    var centerIndex = 4;
-    var center = this.stages[centerIndex].avatar.position;
-    this.camera.camera.position.copy(center);
-    this.camera.camera.position.z = 100;
-    this.cameraDesiredPosition.copy(center);
-    this.cameraDesiredPosition.z = 140;
+    if (!this.stages[index]) {
+        index = 0;
+    }
 
-    this.selectIndex(centerIndex);
+    var center = new THREE.Vector3();
+    center.x = this.stages[0].avatar.position.x
+             + this.stages[this.rowLength - 1].avatar.position.x;
+    center.x /= 2;
+
+    center.y = this.stages[0].avatar.position.y
+             + this.stages[this.stages.length - 1].avatar.position.y;
+    center.y /= 2;
+    center.y -= 8; // Adjust for caption.
+
+    this.cameraDesiredPosition.copy(center);
+    this.cameraDesiredPosition.z += this.cameraDistance;
+    this.camera.camera.position.copy(center);
+    this.camera.camera.position.z = this.cameraDesiredPosition.z - 100;
+
+
+    this.selectIndex(index);
     this.background.position.copy(center);
     this.background.position.z -= 10;
 }
@@ -114,6 +130,9 @@ Engine.scenes.StageSelect.prototype.enter = function()
 
 Engine.scenes.StageSelect.prototype.selectIndex = function(index)
 {
+    if (!this.stages[index]) {
+        return false;
+    }
     var avatar = this.stages[index].avatar;
     this.indicator.position.x = avatar.position.x;
     this.indicator.position.y = avatar.position.y;
@@ -122,6 +141,7 @@ Engine.scenes.StageSelect.prototype.selectIndex = function(index)
     //this.cameraDesiredPosition.copy(this.indicator.position);
     //this.cameraDesiredPosition.z = 140;
     this.currentIndex = index;
+    return this.currentIndex;
 }
 
 Engine.scenes.StageSelect.prototype.setBackgroundColor = function(hexcolor)

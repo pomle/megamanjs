@@ -511,12 +511,18 @@ Megaman.XMLUtil = {
             var backgroundXml = sceneXml.children('background');
             scene.setBackgroundColor(backgroundXml.attr('color'));
 
+            var cameraXml = sceneXml.children('camera');
+            scene.cameraDistance = parseFloat(cameraXml.attr('distance')) || scene.cameraDistance;
+
+
             var indicatorXml = sceneXml.children('indicator');
             scene.setIndicator(Engine.SpriteManager.createSingleTile(
                 spriteUrl,
                 parseFloat(indicatorXml.attr('w')), parseFloat(indicatorXml.attr('h')),
                 parseFloat(indicatorXml.attr('x')), parseFloat(indicatorXml.attr('y')),
                 spriteW, spriteH));
+
+            scene.indicatorInterval = parseFloat(indicatorXml.attr('blink-interval')) || scene.indicatorInterval;
 
             var frameXml = sceneXml.children('frame');
             scene.setFrame(Engine.SpriteManager.createSingleTile(
@@ -525,7 +531,9 @@ Megaman.XMLUtil = {
                 parseFloat(frameXml.attr('x')), parseFloat(frameXml.attr('y')),
                 spriteW, spriteH));
 
-            sceneXml.find('> stage').each(function() {
+            var stagesXml = sceneXml.find('> stage');
+            scene.rowLength = Math.ceil(Math.sqrt(stagesXml.length));
+            stagesXml.each(function() {
                 var stageXml = $(this);
                 var avatar = Engine.SpriteManager.createSingleTile(
                     spriteUrl,
@@ -538,7 +546,7 @@ Megaman.XMLUtil = {
                 scene.addStage(avatar, caption, name);
             });
 
-            scene.equalize();
+            scene.equalize(parseFloat(indicatorXml.attr('initial-index')));
             callback();
         });
         return scene;
