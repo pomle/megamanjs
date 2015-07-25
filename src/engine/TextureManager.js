@@ -77,12 +77,12 @@ Engine.TextureManager = {
         return Engine.TextureManager.cache[cacheKey];
     },
 
-    getTexture: function(url)
+    getTexture: function(url, callback)
     {
-        return Engine.TextureManager.getScaledTexture(url, this.scale);
+        return Engine.TextureManager.getScaledTexture(url, this.scale, callback);
     },
 
-    getScaledTexture: function(url, scale)
+    getScaledTexture: function(url, scale, callback)
     {
         var cacheKey = url + '_' + scale;
         if (!Engine.TextureManager.cache[cacheKey]) {
@@ -98,6 +98,9 @@ Engine.TextureManager = {
                 context.imageSmoothingEnabled = false;
                 context.drawImage(this, 0, 0, x, y);
                 texture.needsUpdate = true;
+                if (callback) {
+                    callback(texture);
+                }
             }
             image.src = url;
             Engine.TextureManager.cache[cacheKey] = texture;
