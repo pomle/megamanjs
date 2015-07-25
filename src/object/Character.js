@@ -67,6 +67,7 @@ Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
     }
     this.weapon = weapon;
     this.weapon.setUser(this);
+    return true;
 }
 
 Engine.assets.objects.Character.prototype.fire = function()
