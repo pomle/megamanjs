@@ -3,8 +3,8 @@ Engine.assets.Weapon = function()
     this.ammo = new Engine.assets.Energy();
     this.coolDown = 0;
     this.coolDownDelay = undefined;
-    this.isReady = true;
     this.cost = 1;
+    this.isReady = true;
     this.user = undefined;
 }
 
