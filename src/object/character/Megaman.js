@@ -65,7 +65,7 @@ Engine.assets.objects.characters.Megaman = function()
     this.teleportEndDuration = 0;
     this.teleportStartDelay = .15;
     this.teleportStartDuration = 0;
-    this.teleportSpeed = 10;
+    this.teleportSpeed = 600;
     this.teleportPos = new THREE.Vector2();
 
     this.setDirection(this.RIGHT);
@@ -194,7 +194,8 @@ Engine.assets.objects.characters.Megaman.prototype.teleportHandle = function(dt)
         }
     }
     else {
-        var teleportDistance = Engine.Animation.vectorTraverse(this.position, this.teleportPos, this.teleportSpeed);
+        var teleportDistance = Engine.Animation.vectorTraverse(
+            this.position, this.teleportPos, this.teleportSpeed * dt);
         if (teleportDistance === 0) {
             this.teleportEnd();
         }
