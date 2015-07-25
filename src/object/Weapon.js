@@ -1,6 +1,7 @@
 Engine.assets.Weapon = function()
 {
     this.ammo = new Engine.assets.Energy();
+    this.code = undefined;
     this.coolDown = 0;
     this.coolDownDelay = undefined;
     this.cost = 1;
