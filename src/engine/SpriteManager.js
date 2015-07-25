@@ -133,13 +133,16 @@ Engine.SpriteManager.createSingleTile = function(location, w, h, offsetX, offset
 
 Engine.SpriteManager.createTextSprite = function(string, align)
 {
-    var texture = Engine.TextureManager.createText(string, align);
-    var geometry = new THREE.PlaneGeometry(texture.w, texture.h);
+    var text = Engine.TextureManager.createText(string, align);
+    var geometry = new THREE.PlaneGeometry(text.textSize.x, text.textSize.y);
     var material = new THREE.MeshBasicMaterial({
         side: THREE.FrontSide,
-        map: texture.texture,
+        map: text.texture,
         transparent: true,
     });
+    var uvMap = this.createUVMap(0, 0, text.textSize.x, text.textSize.y, text.textureSize.x, text.textureSize.y);
+    geometry.faceVertexUvs[0] = uvMap;
+    geometry.faceVertexUvs[1] = uvMap;
     return new THREE.Mesh(geometry, material);
 }
 
