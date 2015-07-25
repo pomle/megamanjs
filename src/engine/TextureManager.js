@@ -2,6 +2,16 @@ Engine.TextureManager = {
     scale: 4,
     cache: {},
 
+    cloneCanvas: function(oldCanvas)
+    {
+        var newCanvas = document.createElement('canvas');
+        var context = newCanvas.getContext('2d');
+        newCanvas.width = oldCanvas.width;
+        newCanvas.height = oldCanvas.height;
+        context.drawImage(oldCanvas, 0, 0);
+        return newCanvas;
+    },
+
     createCanvasTexture: function(canvas)
     {
         var texture = new THREE.Texture(canvas);
@@ -107,4 +117,25 @@ Engine.TextureManager = {
         }
         return Engine.TextureManager.cache[cacheKey];
     },
+
+    replaceCanvasColors: function(canvas, swaps)
+    {
+        var context = canvas.getContext("2d");
+        var pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+
+        for (var i = 0, l = pixels.data.length; i < l; i += 4) {
+            for (var j = 0; j < swaps.length; ++j) {
+                var rgbIn = swaps[j][0];
+                var rgbOut = swaps[j][1];
+                if (pixels.data[i] == rgbIn.x
+                && pixels.data[i+1] == rgbIn.y
+                && pixels.data[i+2] == rgbIn.z) {
+                    pixels.data[i] = rgbOut.x;
+                    pixels.data[i+1] = rgbOut.y;
+                    pixels.data[i+2] = rgbOut.z;
+                }
+            }
+        }
+        context.putImageData(pixels, 0, 0);
+    }
 }
