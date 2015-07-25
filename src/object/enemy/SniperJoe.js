@@ -2,7 +2,7 @@ Engine.assets.objects.characters.SniperJoe = function(target)
 {
     Engine.assets.objects.Character.call(this);
 
-    var model = Engine.Util.createSprite('enemies/sniperjoe.png', 32, 32);
+    var model = Engine.SpriteManager.createSprite('enemies/sniperjoe.png', 32, 32);
     this.sprites = new Engine.SpriteManager(model, 32, 32, 64, 32);
 
     var shielding = this.sprites.addSprite('shielding');

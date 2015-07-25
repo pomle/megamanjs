@@ -4,7 +4,7 @@ Engine.assets.objects.items.WeaponTank = function()
 
     this.capacity = 30;
 
-    var model = Engine.Util.createSprite('powerup.png', 16, 12);
+    var model = Engine.SpriteManager.createSprite('powerup.png', 16, 12);
     this.sprites = new Engine.SpriteManager(model, 16, 12 , 64, 64);
 
     var anim = this.sprites.addSprite('idle');

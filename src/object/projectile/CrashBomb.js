@@ -2,7 +2,7 @@ Engine.assets.projectiles.CrashBomb = function()
 {
     Engine.assets.Projectile.call(this);
 
-    var model = Engine.Util.createSprite('projectiles.png', 20, 16);
+    var model = Engine.SpriteManager.createSprite('projectiles.png', 20, 16);
     this.sprites = new Engine.SpriteManager(model, 20, 16 , 128, 128);
 
     var flying = this.sprites.addSprite('flying');

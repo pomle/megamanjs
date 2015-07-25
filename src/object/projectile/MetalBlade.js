@@ -2,7 +2,7 @@ Engine.assets.projectiles.MetalBlade = function()
 {
     Engine.assets.Projectile.call(this);
 
-    var model = Engine.Util.createSprite('projectiles.png', 16, 16);
+    var model = Engine.SpriteManager.createSprite('projectiles.png', 16, 16);
     this.sprites = new Engine.SpriteManager(model, 16, 16 , 128, 128);
 
     var spinning = this.sprites.addSprite('spinning');

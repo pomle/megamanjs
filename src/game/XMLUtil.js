@@ -177,7 +177,7 @@ Megaman.XMLUtil = {
                             'h': parseFloat(sprite.attr('h')),
                         };
 
-                        var uvMap = Engine.Util.createUVMap(bounds.x, bounds.y, bounds.w, bounds.h, size.w, size.h);
+                        var uvMap = Engine.SpriteManager.createUVMap(bounds.x, bounds.y, bounds.w, bounds.h, size.w, size.h);
                         spriteIndex[sprite.attr('id')] = {
                             'uvMap': uvMap,
                             'texture': texture,

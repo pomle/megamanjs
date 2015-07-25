@@ -3,7 +3,7 @@ Engine.assets.objects.items.ExtraLife = function()
     Engine.assets.objects.Item.call(this);
 
 
-    var model = Engine.Util.createSprite('powerup.png', 16, 16);
+    var model = Engine.SpriteManager.createSprite('powerup.png', 16, 16);
     this.sprites = new Engine.SpriteManager(model, 16, 16 , 64, 64);
 
     var anim = this.sprites.addSprite('idle');

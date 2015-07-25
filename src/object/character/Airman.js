@@ -2,7 +2,7 @@ Engine.assets.objects.characters.Airman = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    var model = Engine.Util.createSprite('bosses/airman.png', 48, 48);
+    var model = Engine.SpriteManager.createSprite('bosses/airman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
     var idle = this.sprites.addSprite('idle');

@@ -99,7 +99,7 @@ Engine.SpriteManager.UVAnimator = function(timeline, spriteW, spriteH, textureW,
 
 Engine.SpriteManager.UVAnimator.prototype.addFrame = function(x, y, duration)
 {
-    var uvMap = Engine.Util.createUVMap(x, y, this.spriteW, this.spriteH, this.textureW, this.textureH);
+    var uvMap = Engine.SpriteManager.createUVMap(x, y, this.spriteW, this.spriteH, this.textureW, this.textureH);
     this.timeline.addFrame(uvMap, duration);
 }
 
@@ -110,11 +110,12 @@ Engine.SpriteManager.UVAnimator.prototype.rewind = function()
 
 Engine.SpriteManager.createSprite = function(location, w, h)
 {
-    var texture = Engine.Util.getTexture('sprites/' + location);
+    var texture = Engine.TextureManager.getTexture('sprites/' + location);
     var geometry = new THREE.PlaneGeometry(w, h);
     var material = new THREE.MeshBasicMaterial({
         //color: 0xffffff,
         //wireframe: true,
+        side: THREE.DoubleSide,
         map: texture,
         transparent: true,
     });
@@ -125,7 +126,43 @@ Engine.SpriteManager.createSprite = function(location, w, h)
 Engine.SpriteManager.createSingleTile = function(location, w, h, offsetX, offsetY, totalW, totalH)
 {
     var model = Engine.SpriteManager.createSprite(location, w, h);
-    var uvMap = Engine.Util.createUVMap(offsetX, offsetY, w, h, totalW, totalH);
+    var uvMap = Engine.SpriteManager.createUVMap(offsetX, offsetY, w, h, totalW, totalH);
     model.geometry.faceVertexUvs[0] = uvMap;
     return model;
+}
+
+Engine.SpriteManager.createTextSprite = function(string, align)
+{
+    var texture = Engine.TextureManager.createText(string, align);
+    var geometry = new THREE.PlaneGeometry(texture.w, texture.h);
+    var material = new THREE.MeshBasicMaterial({
+        side: THREE.FrontSide,
+        map: texture.texture,
+        transparent: true,
+    });
+    return new THREE.Mesh(geometry, material);
+}
+
+Engine.SpriteManager.createUVMap = function(x, y, w, h, totalW, totalH)
+{
+    /* Shave of a tiny bit from the UVMaps to avoid neighbor pixel shine-thru. */
+    xc = .1;
+    yc = .1;
+
+    x += xc;
+    y += yc;
+    w -= xc*2;
+    h -= yc*2;
+
+    var uvs = [
+        new THREE.Vector2(x / totalW, (totalH - y) / totalH),
+        new THREE.Vector2(x / totalW, (totalH - (y + h)) / totalH),
+        new THREE.Vector2((x + w) / totalW, (totalH - (y + h)) / totalH),
+        new THREE.Vector2((x + w) / totalW, (totalH - y) / totalH),
+    ];
+    var uvMap = [
+        [uvs[0], uvs[1], uvs[3]],
+        [uvs[1], uvs[2], uvs[3]]
+    ];
+    return uvMap;
 }

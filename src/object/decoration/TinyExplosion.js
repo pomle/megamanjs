@@ -2,7 +2,7 @@ Engine.assets.decorations.TinyExplosion = function()
 {
     Engine.assets.Object.call(this);
 
-    var model = Engine.Util.createSprite('explosions.png', 16, 16);
+    var model = Engine.SpriteManager.createSprite('explosions.png', 16, 16);
     this.sprites = new Engine.SpriteManager(model, 16, 16 , 256, 256);
 
     var explosion = this.sprites.addSprite('explosion');

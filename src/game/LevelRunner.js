@@ -9,7 +9,7 @@ Megaman.LevelRunner = function(game, level)
 
 
     this.assets = {
-        "ready": Engine.Util.createTextSprite("READY"),
+        "ready": Engine.SpriteManager.createTextSprite("READY"),
     };
 
 

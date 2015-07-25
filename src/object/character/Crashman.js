@@ -2,7 +2,7 @@ Engine.assets.objects.characters.Crashman = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    var model = Engine.Util.createSprite('bosses/crashman.png', 48, 48);
+    var model = Engine.SpriteManager.createSprite('bosses/crashman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
     var taunt = this.sprites.addSprite('taunt');

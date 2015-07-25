@@ -4,7 +4,7 @@ Engine.assets.objects.items.EnergyTank = function()
 
     this.capacity = 30;
 
-    var model = Engine.Util.createSprite('powerup.png', 16, 16);
+    var model = Engine.SpriteManager.createSprite('powerup.png', 16, 16);
     this.sprites = new Engine.SpriteManager(model, 16, 16 , 64, 64);
 
     var anim = this.sprites.addSprite('idle');

@@ -76,7 +76,7 @@ Engine.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
     name[1] = Engine.Util.string.fill(" ", 6 - name[1].length) + name[1];
     name = name.join("\n");
 
-    var caption = Engine.Util.createTextSprite(name);
+    var caption = Engine.SpriteManager.createTextSprite(name);
 
     this.stages.push({
         "avatar": avatar,

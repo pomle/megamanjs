@@ -2,7 +2,7 @@ Engine.assets.objects.characters.SniperArmor = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    var model = Engine.Util.createSprite('enemies/sniperarmor.png', 64, 64);
+    var model = Engine.SpriteManager.createSprite('enemies/sniperarmor.png', 64, 64);
     this.sprites = new Engine.SpriteManager(model, 64, 64, 256, 64);
 
     var idle = this.sprites.addSprite('idle');
