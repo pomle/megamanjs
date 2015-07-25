@@ -19,6 +19,12 @@ Engine.Math = {
         return (pos - l) / (h - l);
     },
 
+    nextPowerOf: function(x, size)
+    {
+        size = size || 2;
+        return Math.pow(size, Math.ceil(Math.log(x)/Math.log(size)));
+    },
+
     squaredDistance: function(v1, v2)
     {
         var dx = v1.x - v2.x,
