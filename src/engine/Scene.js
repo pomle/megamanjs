@@ -11,6 +11,7 @@ Engine.Scene = function()
     this.objects = new Set();
     this.timelines = [];
 
+    this.timeStretch = 1;
     this.timeTotal = 0;
 }
 
@@ -48,6 +49,7 @@ Engine.Scene.prototype.removeObject = function(object)
 
 Engine.Scene.prototype.updateTime = function(dt)
 {
+    dt *= this.timeStretch;
     this.timeTotal += dt;
     for (var object of this.objects) {
         this.applyModifiers(object, dt);

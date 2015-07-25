@@ -47,6 +47,7 @@
         <weapon name="AirShooter" code="a">Air Shooter</weapon>
         <weapon name="CrashBomber" code="c">Crash Bomber</weapon>
         <weapon name="MetalBlade" code="m">Metal Blade</weapon>
+        <weapon name="TimeStopper" code="f">Time Stopper</weapon>
         <!--
             <weapon name="Atomic Fire" object="AtomicFire" code="h"/>
             <weapon name="Bubble Lead" object="BubbleLead" code="b"/>

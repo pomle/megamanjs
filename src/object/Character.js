@@ -5,6 +5,7 @@ Engine.assets.objects.Character = function()
     this.ai = new Engine.AI(this);
 
     this.contactDamage = 0;
+    this.dead = false;
     this.direction = undefined;
     this.fireTimeout = .25;
     this.health = new Engine.assets.Energy(100);
@@ -31,6 +32,9 @@ Engine.assets.objects.Character = function()
     this.walk = 0;
     this.weapon = undefined;
 }
+
+Engine.assets.objects.Character.prototype.EVENT_DEATH = 'death';
+Engine.assets.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
 
 Engine.assets.objects.Character.prototype = Object.create(Engine.assets.Object.prototype);
 Engine.assets.objects.Character.constructor = Engine.assets.objects.Character;
@@ -146,13 +150,18 @@ Engine.assets.objects.Character.prototype.jumpEnd = function()
 
 Engine.assets.objects.Character.prototype.kill = function()
 {
+    this.dead = true;
     this.health.setFinite();
     this.health.deplete();
+
+    /* Notify weapon that something happened. */
+    this.weapon.timeShift(0);
+
     var explosion = this.getDeathObject();
     explosion.position.copy(this.position);
     this.scene.addObject(explosion);
     this.scene.removeObject(this);
-    this.trigger('die');
+    this.trigger(this.EVENT_DEATH);
 }
 
 Engine.assets.objects.Character.prototype.moveLeftStart = function()
@@ -188,6 +197,13 @@ Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
             this.jumpEnd();
             break;
     }
+}
+
+Engine.assets.objects.Character.prototype.resurrect = function()
+{
+    this.dead = false;
+    this.health.fill();
+    this.trigger(this.EVENT_RESURRECT);
 }
 
 Engine.assets.objects.Character.prototype.setDirection = function(d)
