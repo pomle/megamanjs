@@ -2,7 +2,44 @@ Engine.assets.objects.characters.Megaman = function()
 {
     Engine.assets.objects.Character.call(this);
 
-    var model = Engine.SpriteManager.createSprite('megaman/megaman.png', 48, 48);
+    this.textures = {};
+
+    var model = Engine.SpriteManager.createSprite('megaman/megaman.png', 48, 48, function populateTextures() {
+        this.textures['p'] = model.material.map;
+        var sourceColors = [new THREE.Vector3(0,115,247), new THREE.Vector3(0,255,255)];
+        var colorMap = {
+            'a': [new THREE.Vector3(0,120,248),
+                  new THREE.Vector3(248,248,248)],
+            'b': [new THREE.Vector3(124,124,124),
+                  new THREE.Vector3(248,248,248)],
+            'c': [new THREE.Vector3(248,120,88),
+                  new THREE.Vector3(248,248,248)],
+            'f': [new THREE.Vector3(216,0,204),
+                  new THREE.Vector3(248,184,248)],
+            'h': [new THREE.Vector3(228,0,88),
+                  new THREE.Vector3(248,184,0)],
+            'm': [new THREE.Vector3(172,175,0),
+                  new THREE.Vector3(255,224,168)],
+            'q': [new THREE.Vector3(248,88,152),
+                  new THREE.Vector3(248,184,248)],
+            'w': [new THREE.Vector3(0,184,0),
+                  new THREE.Vector3(248,248,248)],
+            'item': [new THREE.Vector3(248,56,0),
+                     new THREE.Vector3(248,248,248)],
+        }
+        for (var code in colorMap) {
+            var canvas = Engine.TextureManager.cloneCanvas(model.material.map.image);
+            var swaps = [
+                [sourceColors[0], colorMap[code][0]],
+                [sourceColors[1], colorMap[code][1]],
+            ];
+            Engine.TextureManager.replaceCanvasColors(canvas, swaps);
+            this.textures[code] = Engine.TextureManager.createCanvasTexture(canvas);
+            this.textures[code].needsUpdate = true;
+        }
+    }.bind(this));
+
+
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
 
     var idle = this.sprites.addSprite('idle');
@@ -81,6 +118,20 @@ Engine.assets.objects.characters.Megaman = function()
 
 Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);
 Engine.assets.objects.characters.Megaman.constructor = Engine.assets.objects.characters.Megaman;
+
+Engine.assets.objects.characters.Megaman.prototype.equipWeapon = function(weapon)
+{
+    if (!Engine.assets.objects.Character.prototype.equipWeapon.call(this, weapon)) {
+        return false;
+    }
+
+    if (this.textures[weapon.code]) {
+        this.model.material.map = this.textures[weapon.code];
+        this.model.material.needsUpdate = true;
+    }
+
+    return true;
+}
 
 Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(points, direction)
 {
