@@ -16,6 +16,7 @@ Engine.assets.Weapon.prototype.emit = function(projectile, x, y)
     projectile.inertia.x = x * this.user.direction;
     projectile.inertia.y = y;
     projectile.setEmitter(this.user);
+    projectile.timeStretch = this.user.timeStretch;
     this.user.scene.addObject(projectile);
 }
 
