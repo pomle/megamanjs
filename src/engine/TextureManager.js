@@ -6,69 +6,72 @@ Engine.TextureManager = {
     {
         align = align || 0;
 
-        var charSize = {
-            w: 8,
-            h: 8,
-        }
-        var scale = this.scale;
-
-        var charMap = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-
-        var lines = string.split("\n");
-        var lengths = [];
-        for (var i in lines) {
-            lengths.push(lines[i].length);
-        }
-        var totalLen = Math.max.apply(Math, lengths);
-        var textureSize = {
-            w: charSize.w * totalLen,
-            h: charSize.h * lines.length,
-        }
-
-        var canvas = document.createElement("canvas");
-        var texture = new THREE.Texture(canvas);
-
-        var image = new Image();
-        image.onload = function() {
-            var cursorPos;
-            var charMapMod = this.width / charSize.w;
-            canvas.width = textureSize.w * scale;
-            canvas.height = textureSize.h * scale;
-            var context = canvas.getContext("2d");
-            context.imageSmoothingEnabled = false;
-            for (var i in lines) {
-                var chars = lines[i].split('');
-                switch (align) {
-                    case 0:
-                        cursorPos = 0;
-                        break;
-                }
-                for (var j in chars) {
-                    var charPos = charMap.indexOf(chars[j]);
-                    var co = {
-                        dx: charSize.w * j * scale,
-                        dy: charSize.h * i * scale,
-                        dw: charSize.w * scale,
-                        dh: charSize.h * scale,
-                        sx: (charPos % charMapMod) * charSize.w,
-                        sy: Math.floor(charPos / charMapMod) * charSize.h,
-                        sw: charSize.w,
-                        sh: charSize.h,
-                    }
-                    context.drawImage(this,
-                                      co.sx, co.sy, co.sw, co.sh,
-                                      co.dx, co.dy, co.dw, co.dh);
-                }
+        var cacheKey = 'text://' + string + '_' + align;
+        if (!Engine.TextureManager.cache[cacheKey]) {
+            var charSize = {
+                w: 8,
+                h: 8,
             }
-            texture.needsUpdate = true;
-        }
-        image.src = 'sprites/font.png';
+            var scale = this.scale;
 
-        return {
-            'texture': texture,
-            'w': textureSize.w,
-            'h': textureSize.h,
-        };
+            var charMap = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+
+            var lines = string.split("\n");
+            var lengths = [];
+            for (var i in lines) {
+                lengths.push(lines[i].length);
+            }
+            var totalLen = Math.max.apply(Math, lengths);
+            var textureSize = {
+                w: charSize.w * totalLen,
+                h: charSize.h * lines.length,
+            }
+
+            var canvas = document.createElement("canvas");
+            var texture = new THREE.Texture(canvas);
+
+            var image = new Image();
+            image.onload = function() {
+                var cursorPos;
+                var charMapMod = this.width / charSize.w;
+                canvas.width = textureSize.w * scale;
+                canvas.height = textureSize.h * scale;
+                var context = canvas.getContext("2d");
+                context.imageSmoothingEnabled = false;
+                for (var i in lines) {
+                    var chars = lines[i].split('');
+                    switch (align) {
+                        case 0:
+                            cursorPos = 0;
+                            break;
+                    }
+                    for (var j in chars) {
+                        var charPos = charMap.indexOf(chars[j]);
+                        var co = {
+                            dx: charSize.w * j * scale,
+                            dy: charSize.h * i * scale,
+                            dw: charSize.w * scale,
+                            dh: charSize.h * scale,
+                            sx: (charPos % charMapMod) * charSize.w,
+                            sy: Math.floor(charPos / charMapMod) * charSize.h,
+                            sw: charSize.w,
+                            sh: charSize.h,
+                        }
+                        context.drawImage(this,
+                                          co.sx, co.sy, co.sw, co.sh,
+                                          co.dx, co.dy, co.dw, co.dh);
+                    }
+                }
+                texture.needsUpdate = true;
+            }
+            image.src = 'sprites/font.png';
+            Engine.TextureManager.cache[cacheKey] = {
+                'texture': texture,
+                'w': textureSize.w,
+                'h': textureSize.h,
+            };
+        }
+        return Engine.TextureManager.cache[cacheKey];
     },
 
     getTexture: function(url)
