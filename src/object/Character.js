@@ -154,8 +154,10 @@ Engine.assets.objects.Character.prototype.kill = function()
     this.health.setFinite();
     this.health.deplete();
 
-    /* Notify weapon that something happened. */
-    this.weapon.timeShift(0);
+    /* Notify object that something happened. */
+    if (this.weapon) {
+        this.weapon.timeShift(0);
+    }
 
     var explosion = this.getDeathObject();
     explosion.position.copy(this.position);
