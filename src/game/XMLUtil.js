@@ -167,7 +167,7 @@ Megaman.XMLUtil = {
                         'h': parseFloat(sprites.attr('h')),
                     };
 
-                    var texture = Engine.Util.getTexture(url);
+                    var texture = Engine.TextureManager.getTexture(url);
                     sprites.children('sprite').each(function(i, sprite) {
                         sprite = $(sprite);
                         var bounds = {
