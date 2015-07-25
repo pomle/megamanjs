@@ -2,6 +2,14 @@ Engine.TextureManager = {
     scale: 4,
     cache: {},
 
+    createCanvasTexture: function(canvas)
+    {
+        var texture = new THREE.Texture(canvas);
+        texture.magFilter = THREE.NearestFilter;
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+        return texture;
+    },
+
     createText: function(string, align)
     {
         align = align || 0;
@@ -79,7 +87,7 @@ Engine.TextureManager = {
         var cacheKey = url + '_' + scale;
         if (!Engine.TextureManager.cache[cacheKey]) {
             var canvas = document.createElement("canvas");
-            var texture = new THREE.Texture(canvas);
+            var texture = this.createCanvasTexture(canvas);
             var image = new Image();
             image.onload = function() {
                 var x = this.width * scale;
@@ -90,8 +98,6 @@ Engine.TextureManager = {
                 context.imageSmoothingEnabled = false;
                 context.drawImage(this, 0, 0, x, y);
                 texture.needsUpdate = true;
-                texture.magFilter = THREE.NearestFilter;
-                texture.minFilter = THREE.LinearMipMapLinearFilter;
             }
             image.src = url;
             Engine.TextureManager.cache[cacheKey] = texture;
