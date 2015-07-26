@@ -152,7 +152,7 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
     this.decorations['sweat'].position.copy(this.position);
     this.decorations['sweat'].position.y += 12;
     this.decorations['sweat'].sprites.sprite.rewind();
-    this.decorations['sweat'].lifespan = 0;
+    this.decorations['sweat'].lifetime = 0;
 
     this.scene.addObject(this.decorations['sweat']);
 
