@@ -77,7 +77,7 @@ Engine.assets.Energy.prototype.setMin = function(points)
 
 Engine.assets.Energy.prototype.setTo = function(points)
 {
-    if (this.value === undefined || this.value === points) {
+    if (this.value === undefined) {
         return false;
     }
     this.value = Math.min(this.max, Math.max(this.min, points));
