@@ -149,12 +149,12 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
         this.momentum.x *= this.direction > 0 ? -1 : 1;
     }
 
-    this.decorations['sweat'].position.copy(this.position);
-    this.decorations['sweat'].position.y += 12;
-    this.decorations['sweat'].sprites.sprite.rewind();
-    this.decorations['sweat'].lifetime = 0;
-
-    this.scene.addObject(this.decorations['sweat']);
+    var sweat = this.decorations['sweat']
+    sweat.position.copy(this.position);
+    sweat.position.y += 12;
+    sweat.sprites.sprite.time = 0;
+    sweat.lifetime = 0;
+    this.scene.addObject(sweat);
 
     return true;
 }
