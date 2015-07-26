@@ -4,7 +4,6 @@ Engine.Camera = function(camera)
     this.desiredPosition = undefined;
     this.followObject = undefined;
     this.followOffset = new THREE.Vector2(0, 25);
-    this.followLookAhead = new THREE.Vector2(.5, .2);
     this.obeyPaths = true;
     this.paths = [];
     this.pathIndex = -1;
