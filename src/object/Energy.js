@@ -80,7 +80,13 @@ Engine.assets.Energy.prototype.setTo = function(points)
     if (this.value === undefined) {
         return false;
     }
-    this.value = Math.min(this.max, Math.max(this.min, points));
+    if (points > this.max) {
+        points = this.max;
+    }
+    else if (points < this.min) {
+        points = this.min;
+    }
+    this.value = points;
     this.event(this);
     return true;
 }
