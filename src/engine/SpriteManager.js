@@ -108,9 +108,9 @@ Engine.SpriteManager.UVAnimator.prototype.rewind = function()
     this.time = 0;
 }
 
-Engine.SpriteManager.createSprite = function(location, w, h)
+Engine.SpriteManager.createSprite = function(location, w, h, callback)
 {
-    var texture = Engine.TextureManager.getTexture('sprites/' + location);
+    var texture = Engine.TextureManager.getTexture('sprites/' + location, callback);
     var geometry = new THREE.PlaneGeometry(w, h);
     var material = new THREE.MeshBasicMaterial({
         //color: 0xffffff,

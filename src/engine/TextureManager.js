@@ -2,6 +2,24 @@ Engine.TextureManager = {
     scale: 4,
     cache: {},
 
+    cloneCanvas: function(oldCanvas)
+    {
+        var newCanvas = document.createElement('canvas');
+        var context = newCanvas.getContext('2d');
+        newCanvas.width = oldCanvas.width;
+        newCanvas.height = oldCanvas.height;
+        context.drawImage(oldCanvas, 0, 0);
+        return newCanvas;
+    },
+
+    createCanvasTexture: function(canvas)
+    {
+        var texture = new THREE.Texture(canvas);
+        texture.magFilter = THREE.NearestFilter;
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+        return texture;
+    },
+
     createText: function(string, align)
     {
         align = align || 0;
@@ -69,17 +87,17 @@ Engine.TextureManager = {
         return Engine.TextureManager.cache[cacheKey];
     },
 
-    getTexture: function(url)
+    getTexture: function(url, callback)
     {
-        return Engine.TextureManager.getScaledTexture(url, this.scale);
+        return Engine.TextureManager.getScaledTexture(url, this.scale, callback);
     },
 
-    getScaledTexture: function(url, scale)
+    getScaledTexture: function(url, scale, callback)
     {
         var cacheKey = url + '_' + scale;
         if (!Engine.TextureManager.cache[cacheKey]) {
             var canvas = document.createElement("canvas");
-            var texture = new THREE.Texture(canvas);
+            var texture = this.createCanvasTexture(canvas);
             var image = new Image();
             image.onload = function() {
                 var x = this.width * scale;
@@ -90,12 +108,34 @@ Engine.TextureManager = {
                 context.imageSmoothingEnabled = false;
                 context.drawImage(this, 0, 0, x, y);
                 texture.needsUpdate = true;
-                texture.magFilter = THREE.NearestFilter;
-                texture.minFilter = THREE.LinearMipMapLinearFilter;
+                if (callback) {
+                    callback(texture);
+                }
             }
             image.src = url;
             Engine.TextureManager.cache[cacheKey] = texture;
         }
         return Engine.TextureManager.cache[cacheKey];
     },
+
+    replaceCanvasColors: function(canvas, swaps)
+    {
+        var context = canvas.getContext("2d");
+        var pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+
+        for (var i = 0, l = pixels.data.length; i < l; i += 4) {
+            for (var j = 0; j < swaps.length; ++j) {
+                var rgbIn = swaps[j][0];
+                var rgbOut = swaps[j][1];
+                if (pixels.data[i] == rgbIn.x
+                && pixels.data[i+1] == rgbIn.y
+                && pixels.data[i+2] == rgbIn.z) {
+                    pixels.data[i] = rgbOut.x;
+                    pixels.data[i+1] = rgbOut.y;
+                    pixels.data[i+2] = rgbOut.z;
+                }
+            }
+        }
+        context.putImageData(pixels, 0, 0);
+    }
 }
