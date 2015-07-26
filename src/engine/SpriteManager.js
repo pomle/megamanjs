@@ -149,13 +149,12 @@ Engine.SpriteManager.createTextSprite = function(string, align)
 Engine.SpriteManager.createUVMap = function(x, y, w, h, totalW, totalH)
 {
     /* Shave of a tiny bit from the UVMaps to avoid neighbor pixel shine-thru. */
-    xc = .1;
-    yc = .1;
+    shave = .1;
 
-    x += xc;
-    y += yc;
-    w -= xc*2;
-    h -= yc*2;
+    x += shave;
+    y += shave;
+    w -= shave * 2;
+    h -= shave * 2;
 
     var uvs = [
         new THREE.Vector2(x / totalW, (totalH - y) / totalH),
