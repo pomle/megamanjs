@@ -10,7 +10,6 @@ Engine.SpriteManager = function(model, spriteW, spriteH, textureW, textureH)
     this.models = [model];
     this.sprites = {};
     this.label = undefined;
-    this.group = undefined;
     this.sprite = undefined;
 }
 
@@ -56,15 +55,16 @@ Engine.SpriteManager.prototype.selectSprite = function(label)
         return;
     }
 
-    this.sprite = this.getSprite(label);
+    var sprite = this.getSprite(label);
 
-    // Reset timeline unless same group.
-    if (!this.sprite.group || this.sprite.group != this.group) {
-        this.sprite.rewind();
+    // If same group, copy time position.
+    if (sprite.group && sprite.group === this.sprite.group) {
+        sprite.time = this.sprite.time;
+    } else {
+        sprite.time = 0;
     }
 
-    this.group = this.sprite.group;
-
+    this.sprite = sprite;
     this.label = label;
 }
 
@@ -101,11 +101,6 @@ Engine.SpriteManager.UVAnimator.prototype.addFrame = function(x, y, duration)
 {
     var uvMap = Engine.SpriteManager.createUVMap(x, y, this.spriteW, this.spriteH, this.textureW, this.textureH);
     this.timeline.addFrame(uvMap, duration);
-}
-
-Engine.SpriteManager.UVAnimator.prototype.rewind = function()
-{
-    this.time = 0;
 }
 
 Engine.SpriteManager.createSprite = function(location, w, h, callback)
