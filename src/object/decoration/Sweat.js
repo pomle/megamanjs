@@ -13,8 +13,8 @@ Engine.assets.decorations.Sweat = function()
     this.sprites.selectSprite('sweat');
     this.sprites.applySprite();
 
-    this.lifetime = .45;
-    this.lifespan = 0;
+    this.lifetime = 0;
+    this.lifespan = .45;
 
     this.setModel(model);
     this.inertia.set(0, 10);
@@ -25,12 +25,12 @@ Engine.assets.decorations.Sweat.constructor = Engine.assets.decorations.Sweat;
 
 Engine.assets.decorations.Sweat.prototype.timeShift = function(dt)
 {
-    if (this.lifespan > this.lifetime) {
+    if (this.lifetime > this.lifespan) {
         this.scene.removeObject(this);
         return;
     }
 
     this.sprites.timeShift(dt);
     Engine.assets.Decoration.prototype.timeShift.call(this, dt);
-    this.lifespan += dt;
+    this.lifetime += dt;
 }
