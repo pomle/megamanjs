@@ -58,7 +58,6 @@ Engine.assets.objects.characters.Heatman.constructor = Engine.assets.objects.cha
 Engine.assets.objects.characters.Heatman.prototype.updateSprite = function()
 {
     if (this.walk) {
-        console.log(this.direction);
         this.sprites.setDirection(this.direction);
     }
 
@@ -94,6 +93,7 @@ Engine.assets.objects.characters.Heatman.prototype.updateSprite = function()
 Engine.assets.objects.characters.Heatman.prototype.timeShift = function(dt)
 {
     this.updateSprite();
+    this.mass = this.moveSpeed ? 0 : 1;
     Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
     this.sprites.timeShift(dt);
 }
