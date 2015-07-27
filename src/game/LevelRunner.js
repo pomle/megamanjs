@@ -43,33 +43,33 @@ Game.LevelRunner.prototype.createCharacterInput = function()
 {
     var input = new Engine.Keyboard();
     var game = this.game;
-    var character = this.game.player.character;
+    var player = this.game.player;
     var levelrunner = this;
     input.intermittent(input.LEFT,
         function() {
-            character.moveLeftStart();
+            player.character.moveLeftStart();
         },
         function() {
-            character.moveLeftEnd();
+            player.character.moveLeftEnd();
         });
     input.intermittent(input.RIGHT,
         function() {
-            character.moveRightStart();
+            player.character.moveRightStart();
         },
         function() {
-            character.moveRightEnd();
+            player.character.moveRightEnd();
         });
 
     input.intermittent(input.A,
         function() {
-            character.jumpStart();
+            player.character.jumpStart();
         },
         function() {
-            character.jumpEnd();
+            player.character.jumpEnd();
         });
     input.hit(input.B,
         function() {
-            character.fire();
+            player.character.fire();
         });
     input.hit(input.START,
         function() {
