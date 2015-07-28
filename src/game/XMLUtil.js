@@ -1,17 +1,17 @@
-Megaman.XMLUtil = {
+Game.XMLUtil = {
     createGame: function(xmlUrl, callback)
     {
         var renderer = new THREE.WebGLRenderer({
             'antialias': false,
         });
 
-        var game = new Megaman();
+        var game = new Game();
         game.engine = new Engine(renderer);
 
         Engine.Util.asyncLoadXml(xmlUrl, function(xml, baseUrl) {
             var gameXml = xml.children('game');
 
-            game.player = new Megaman.Player();
+            game.player = new Game.Player();
             game.player.hud = new Hud($('#screen'));
 
             gameXml.find('> weapons > weapon').each(function() {

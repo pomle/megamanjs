@@ -1,4 +1,4 @@
-Megaman.Player = function()
+Game.Player = function()
 {
     this.character = undefined;
     this.hud = undefined;
@@ -7,7 +7,7 @@ Megaman.Player = function()
     this.weapons = {};
 }
 
-Megaman.Player.prototype.equipWeapon = function(code)
+Game.Player.prototype.equipWeapon = function(code)
 {
     var weapon = this.weapons[code];
     weapon.code = code;
@@ -15,7 +15,7 @@ Megaman.Player.prototype.equipWeapon = function(code)
     this.hud.equipWeapon(weapon);
 }
 
-Megaman.Player.prototype.setCharacter = function(character)
+Game.Player.prototype.setCharacter = function(character)
 {
     this.character = character;
 }
