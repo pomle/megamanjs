@@ -1,6 +1,6 @@
-Megaman.LevelRunner = function(game, level)
+Game.LevelRunner = function(game, level)
 {
-    if (game instanceof Megaman === false) {
+    if (game instanceof Game === false) {
         throw new Error('Invalid game');
     }
     if (level instanceof Engine.scenes.Level === false) {
@@ -39,7 +39,7 @@ Megaman.LevelRunner = function(game, level)
     this.resetPlayer();
 }
 
-Megaman.LevelRunner.prototype.createCharacterInput = function()
+Game.LevelRunner.prototype.createCharacterInput = function()
 {
     var input = new Engine.Keyboard();
     var game = this.game;
@@ -83,19 +83,19 @@ Megaman.LevelRunner.prototype.createCharacterInput = function()
     return input;
 }
 
-Megaman.LevelRunner.prototype.createMenuInput = function()
+Game.LevelRunner.prototype.createMenuInput = function()
 {
     var input = new Engine.Keyboard();
     return input;
 }
 
-Megaman.LevelRunner.prototype.followPlayer = function()
+Game.LevelRunner.prototype.followPlayer = function()
 {
     this.level.camera.follow(this.game.player.character,
                              this.cameraFollowOffset);
 }
 
-Megaman.LevelRunner.prototype.renderListener = function()
+Game.LevelRunner.prototype.renderListener = function()
 {
     if (this.readyCountdown > 0) {
         var readyElapsedTime = this.readyCountdown - this.game.engine.timeElapsedTotal;
@@ -109,7 +109,7 @@ Megaman.LevelRunner.prototype.renderListener = function()
     }
 }
 
-Megaman.LevelRunner.prototype.simulateListener = function()
+Game.LevelRunner.prototype.simulateListener = function()
 {
     if (this.deathCountdown === 0 && this.game.player.character.health.isDepleted()) {
         --this.game.player.lives;
@@ -125,7 +125,7 @@ Megaman.LevelRunner.prototype.simulateListener = function()
     }
 }
 
-Megaman.LevelRunner.prototype.spawnCharacter = function(name)
+Game.LevelRunner.prototype.spawnCharacter = function(name)
 {
     var character = new Engine.assets.objects.characters[name]();
     var player = this.game.player.character;
@@ -139,26 +139,26 @@ Megaman.LevelRunner.prototype.spawnCharacter = function(name)
     return character;
 }
 
-Megaman.LevelRunner.prototype.startGamePlay = function()
+Game.LevelRunner.prototype.startGamePlay = function()
 {
     this.game.engine.run();
 }
 
-Megaman.LevelRunner.prototype.pauseGamePlay = function()
+Game.LevelRunner.prototype.pauseGamePlay = function()
 {
     this.inputs.character.disable();
     this.inputs.menu.enable();
     this.game.engine.isSimulating = false;
 }
 
-Megaman.LevelRunner.prototype.resumeGamePlay = function()
+Game.LevelRunner.prototype.resumeGamePlay = function()
 {
     this.inputs.menu.disable();
     this.inputs.character.enable();
     this.game.engine.isSimulating = true;
 }
 
-Megaman.LevelRunner.prototype.resetCheckpoint = function()
+Game.LevelRunner.prototype.resetCheckpoint = function()
 {
     this.readyCountdown = this.game.engine.timeElapsedTotal + this.readySpawnTime;
 
@@ -169,7 +169,7 @@ Megaman.LevelRunner.prototype.resetCheckpoint = function()
     this.game.engine.scene.updateTime(0);
 }
 
-Megaman.LevelRunner.prototype.resetPlayer = function()
+Game.LevelRunner.prototype.resetPlayer = function()
 {
     this.deathCountdown = 0;
     this.pauseGamePlay();
