@@ -13,6 +13,7 @@ Engine.assets.Object = function()
     this.physics = true;
     this.position = undefined;
     this.scene = undefined;
+    this.traits = [];
     this.time = 0;
     this.timeStretch = 1;
     this.velocity = new THREE.Vector2();
@@ -53,6 +54,19 @@ Engine.assets.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
     return this.addCollisionGeometry(circle, offsetX, offsetY);
 }
 
+Engine.assets.Object.prototype.applyTrait = function(trait)
+{
+    if (trait instanceof Engine.Trait === false || !trait.NAME) {
+        throw new Error('Invalid trait or trait name');
+    }
+    if (this[trait.NAME]) {
+        throw new Error('Trait "' + trait.NAME + '" property occupied');
+    }
+    trait.object = this;
+    this.traits.push(trait);
+    this[trait.NAME] = trait;
+}
+
 Engine.assets.Object.prototype.bind = function(name, callback)
 {
     if (!this.events[name]) {
@@ -63,6 +77,12 @@ Engine.assets.Object.prototype.bind = function(name, callback)
 
 Engine.assets.Object.prototype.collides = function(withObject, ourZone, theirZone)
 {
+    for (var i in this.traits) {
+        if (this.traits[i].__collides) {
+            var trait = this.traits[i];
+            trait.__collides.apply(trait, arguments);
+        }
+    }
 }
 
 Engine.assets.Object.prototype.dropCollision = function()
@@ -126,6 +146,13 @@ Engine.assets.Object.prototype.timeShift = function(dt)
 {
     this.time += dt;
     this.deltaTime = dt;
+
+    for (var i in this.traits) {
+        if (this.traits[i].__timeshift) {
+            var trait = this.traits[i];
+            trait.__timeshift.apply(trait, arguments);
+        }
+    }
 
     if (this.physics) {
         this.velocity.set(0, 0);
