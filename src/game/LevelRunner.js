@@ -189,7 +189,7 @@ Game.LevelRunner.prototype.resetPlayer = function()
         var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
         var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
         character.moveTo(playerPosition);
-        character.teleportTo(startPosition);
+        character.teleport.to(startPosition);
         this.level.camera.jumpToPath(cameraPosition);
 
         var game = this.game;

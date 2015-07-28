@@ -97,14 +97,6 @@ Engine.assets.objects.characters.Megaman = function()
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
 
-    this.isTeleporting = false;
-    this.teleportEndDelay = .15;
-    this.teleportEndDuration = 0;
-    this.teleportStartDelay = .15;
-    this.teleportStartDuration = 0;
-    this.teleportSpeed = 600;
-    this.teleportPos = new THREE.Vector2();
-
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
 
@@ -114,6 +106,8 @@ Engine.assets.objects.characters.Megaman = function()
 
     this.setModel(model);
     this.addCollisionRect(14, 22, 0, 0);
+
+    this.applyTrait(new Game.traits.Teleport());
 }
 
 Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);
@@ -161,11 +155,11 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
 
 Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
-    if (this.isTeleporting) {
-        if (this.teleportStartDuration) {
+    if (this.teleport.state) {
+        if (this.teleport.state == this.teleport.STATE_OUT) {
             return this.sprites.selectSprite('teleport-out');
         }
-        else if (this.teleportEndDuration) {
+        else if (this.teleport.state == this.teleport.STATE_IN) {
             return this.sprites.selectSprite('teleport-in');
         }
         return this.sprites.selectSprite('teleport');
@@ -206,61 +200,10 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
     return this.sprites.selectSprite('idle');
 }
 
-Engine.assets.objects.characters.Megaman.prototype.teleportTo = function(pos)
-{
-    this.teleportPos = pos;
-    this.teleportStart();
-}
-
-Engine.assets.objects.characters.Megaman.prototype.teleportStart = function()
-{
-    this.teleportStartDuration = this.teleportStartDelay;
-    this.collidable = false;
-    this.isSupported = false;
-    this.isTeleporting = true;
-    this.physics.mass = 0;
-    this.trigger('teleport-start');
-}
-
-Engine.assets.objects.characters.Megaman.prototype.teleportEnd = function()
-{
-    this.teleportEndDuration = this.teleportEndDelay;
-    this.collidable = true;
-    this.isSupported = true;
-    this.physics.zero();
-    this.physics.mass = 1;
-    this.trigger('teleport-end');
-}
-
-Engine.assets.objects.characters.Megaman.prototype.teleportHandle = function(dt)
-{
-    if (this.teleportStartDuration) {
-        this.teleportStartDuration = Math.max(0, this.teleportStartDuration - dt);
-    }
-    else if (this.teleportEndDuration) {
-        this.teleportEndDuration = Math.max(0, this.teleportEndDuration - dt);
-        if (this.teleportEndDuration == 0) {
-            this.isTeleporting = false;
-        }
-    }
-    else {
-        var teleportDistance = Engine.Animation.vectorTraverse(
-            this.position, this.teleportPos, this.teleportSpeed * dt);
-        if (teleportDistance === 0) {
-            this.teleportEnd();
-        }
-    }
-}
-
 Engine.assets.objects.characters.Megaman.prototype.timeShift = function(dt)
 {
     this.selectSprite(dt);
     this.sprites.timeShift(dt);
 
-    if (this.isTeleporting) {
-        this.teleportHandle(dt);
-    }
-    else {
-        Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
-    }
+    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
 }
