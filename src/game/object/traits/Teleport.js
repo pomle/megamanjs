@@ -33,7 +33,8 @@ Game.traits.Teleport.prototype._start = function()
     this._startProgress = this.startDuration;
     this.object.collidable = false;
     this.object.isSupported = false;
-    this.object.mass = 0;
+    this.object.physics.zero();
+    this.object.physics.mass = 0;
     this.object.trigger('teleport-start');
 }
 
@@ -43,8 +44,8 @@ Game.traits.Teleport.prototype._end = function()
     this._endProgress = this.endDuration;
     this.object.collidable = true;
     this.object.isSupported = true;
-    this.object.physics.zero()
-    this.object.mass = 1;
+    this.object.physics.zero();
+    this.object.physics.mass = 1;
     this.object.trigger('teleport-end');
 }
 
