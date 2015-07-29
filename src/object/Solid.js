@@ -43,7 +43,7 @@ Engine.assets.Solid.prototype.attackDirection = function(ourBoundingBox, theirBo
 
 Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
 {
-    if (subject instanceof Engine.assets.objects.Character === false) {
+    if (!subject.physics) {
         return false;
     }
     if (!subject.obstructible) {

@@ -35,8 +35,8 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
 Engine.assets.Projectile.prototype.deflect = function()
 {
     this.dropCollision();
-    this.inertia.x = -this.inertia.x;
-    this.inertia.y = 100;
+    this.physics.inertia.x = -this.physics.inertia.x;
+    this.physics.inertia.y = 100;
 }
 
 Engine.assets.Projectile.prototype.rangeReached = function()

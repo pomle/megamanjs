@@ -57,7 +57,7 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
                 our.right(their.l);
             }
 
-            this.inertia.set(0, 0);
+            this.physics.zero();
             this.attachPosition = withObject.position;
             this.attachOffset = this.position.clone().sub(this.attachPosition);
             this.attachTime = 0;
@@ -83,8 +83,8 @@ Engine.assets.projectiles.CrashBomb.prototype.rangeReached = function()
 
 Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
 {
-    if (this.inertia.x) {
-        this.sprites.setDirection(this.inertia.x > 0 ? 1 : -1);
+    if (this.velocity.x) {
+        this.sprites.setDirection(this.velocity.x > 0 ? 1 : -1);
     }
 
     if (this.attachTime === false) {

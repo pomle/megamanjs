@@ -4,7 +4,7 @@ Engine.assets.projectiles.SillyShot = function()
 
     var model = Engine.SpriteManager.createSingleTile('projectile/tiles.gif', 8, 8, 48, 0, 128, 128);
 
-    this.mass = 1;
+    this.physics.mass = 1;
     this.setModel(model);
     this.addCollisionZone(4, 0, 0);
     this.setDamage(5);

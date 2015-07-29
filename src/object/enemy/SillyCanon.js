@@ -28,7 +28,7 @@ Engine.assets.objects.characters.SillyCanon = function(target)
 
     this.coolDown = .8;
     this.waitForShot = 0;
-    this.mass = 0;
+    this.physics.mass = 0;
     this.target = target;
 
     this.timeAIUpdated = null;
@@ -53,7 +53,7 @@ Engine.assets.objects.characters.SillyCanon.prototype.fire = function()
     }
 
     var projectile = new Engine.assets.projectiles.EnemyPlasma();
-    projectile.mass = 1;
+    projectile.physics.mass = 1;
     projectile.setEmitter(this);
 
     var kX = Math.cos(Math.RAD * this.shootingAngle);

@@ -106,7 +106,7 @@ Engine.assets.objects.characters.SniperArmor.prototype.timeShift = function(dt)
     }
 
     if (this.isJumpCharged) {
-        this.inertia.set(this.jumpForce.x * this.direction,
+        this.physics.bump(this.jumpForce.x * this.direction,
                           this.jumpForce.y);
         this.jumpCoolDown = 2.5;
         this.jumpEnd();

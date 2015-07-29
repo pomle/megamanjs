@@ -14,8 +14,8 @@ Engine.assets.Weapon.prototype.emit = function(projectile, x, y)
     if (projectile instanceof Engine.assets.Projectile !== true) {
         throw new Error('Invalid projectile');
     }
-    projectile.inertia.x = x * this.user.direction;
-    projectile.inertia.y = y;
+    projectile.physics.inertia.x = x * this.user.direction;
+    projectile.physics.inertia.y = y;
     projectile.setEmitter(this.user);
     projectile.timeStretch = this.user.timeStretch;
     this.user.scene.addObject(projectile);

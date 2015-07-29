@@ -6,17 +6,15 @@ Engine.assets.Object = function()
     this.deltaTime = 0;
     this.emitter = undefined;
     this.events = {};
-    this.inertia = new THREE.Vector2();
-    this.mass = 0;
-    this.momentum = new THREE.Vector2();
     this.obstructible = true;
-    this.physics = true;
     this.position = undefined;
     this.scene = undefined;
-    this.traits = [];
     this.time = 0;
     this.timeStretch = 1;
+    this.traits = [];
     this.velocity = new THREE.Vector2();
+
+    this.applyTrait(new Engine.traits.Physics());
 
     var model = new THREE.Mesh(Engine.assets.Object.defaultGeometry,
                                Engine.assets.Object.defaultMaterial);
@@ -104,12 +102,12 @@ Engine.assets.Object.prototype.obstruct = function(solid, attack)
 
     switch (attack) {
         case solid.TOP:
-            this.inertia.copy(solid.velocity);
+            this.physics.inertia.copy(solid.velocity);
             this.isSupported = true;
             break;
 
         case solid.BOTTOM:
-            this.inertia.copy(solid.velocity);
+            this.physics.inertia.copy(solid.velocity);
             this.jumpEnd();
             break;
 
@@ -154,14 +152,8 @@ Engine.assets.Object.prototype.timeShift = function(dt)
         }
     }
 
-    if (this.physics) {
-        this.velocity.set(0, 0);
-        this.velocity.add(this.inertia);
-        this.velocity.add(this.momentum);
-
-        this.model.position.x += (this.velocity.x * dt);
-        this.model.position.y += (this.velocity.y * dt);
-    }
+    this.position.x += (this.velocity.x * dt);
+    this.position.y += (this.velocity.y * dt);
 }
 
 Engine.assets.Object.prototype.trigger = function(name)

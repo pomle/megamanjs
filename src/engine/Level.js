@@ -33,12 +33,12 @@ Engine.scenes.Level.prototype.applyGravity = function(object, dt)
         return;
     }
 
-    if (!object.physics || object.mass == 0) {
+    if (!object.physics || object.physics.mass === 0) {
         return;
     }
 
-    object.inertia.x += -this.gravityForce.x * dt * object.timeStretch;
-    object.inertia.y += -this.gravityForce.y * dt * object.timeStretch;
+    object.physics.inertia.x += -this.gravityForce.x * dt * object.timeStretch;
+    object.physics.inertia.y += -this.gravityForce.y * dt * object.timeStretch;
 }
 
 Engine.scenes.Level.prototype.applyModifiers = function(object, dt)
