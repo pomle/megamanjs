@@ -52,7 +52,7 @@ Engine.assets.Projectile.prototype.setDamage = function(points)
 Engine.assets.Projectile.prototype.setEmitter = function(character)
 {
     Engine.assets.Object.prototype.setEmitter.call(this, character);
-    var origin = this.emitter.model.position.clone();
+    var origin = this.emitter.position.clone();
     origin.x += this.emitter.projectileEmitOffset.x * this.emitter.direction;
     origin.y += this.emitter.projectileEmitOffset.y;
     this.setOrigin(origin);
