@@ -11,7 +11,7 @@ Engine.Collision = function()
 
 Engine.Collision.prototype.addObject = function(object)
 {
-    if (object instanceof Engine.assets.Object !== true) {
+    if (object instanceof Engine.Object !== true) {
         throw new Error('Collidable wrong type');
     }
     this.objects.push(object);

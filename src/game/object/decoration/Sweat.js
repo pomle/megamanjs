@@ -1,6 +1,6 @@
 Engine.assets.decorations.Sweat = function()
 {
-    Engine.assets.Object.call(this);
+    Engine.Object.call(this);
 
     var model = Engine.SpriteManager.createSprite('explosions.png', 32, 16);
     this.sprites = new Engine.SpriteManager(model, 32, 16 , 256, 256);

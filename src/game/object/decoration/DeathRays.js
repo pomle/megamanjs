@@ -1,6 +1,6 @@
 Engine.assets.decorations.DeathRays = function()
 {
-    Engine.assets.Object.call(this);
+    Engine.Object.call(this);
 
     this.origin = new THREE.Vector3();
     this.lifetime = 2;

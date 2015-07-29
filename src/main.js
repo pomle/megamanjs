@@ -8,7 +8,7 @@ var dbg = new Engine.Debug(game.engine);
 var pendelum = function(dt)
 {
     this.momentum.x = Math.sin(this.time) * 20;
-    Engine.assets.Object.prototype.timeShift.call(this, dt);
+    Engine.Object.prototype.timeShift.call(this, dt);
 }
 
 var circle = function(dt)
@@ -18,7 +18,7 @@ var circle = function(dt)
     this.momentum.y = Math.cos(this.time) * speed;
     //this.momentum.x += dt * 100;
     //this.momentum.y += dt;
-    Engine.assets.Object.prototype.timeShift.call(this, dt);
+    Engine.Object.prototype.timeShift.call(this, dt);
 }
 
 var isTouchDevice = false;

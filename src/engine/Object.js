@@ -1,4 +1,4 @@
-Engine.assets.Object = function()
+Engine.Object = function()
 {
     this.uuid = THREE.Math.generateUUID();
     this.collidable = true;
@@ -16,15 +16,15 @@ Engine.assets.Object = function()
 
     this.applyTrait(new Engine.traits.Physics());
 
-    var model = new THREE.Mesh(Engine.assets.Object.defaultGeometry,
-                               Engine.assets.Object.defaultMaterial);
+    var model = new THREE.Mesh(Engine.Object.defaultGeometry,
+                               Engine.Object.defaultMaterial);
     this.setModel(model);
 }
 
-Engine.assets.Object.defaultGeometry = new THREE.PlaneBufferGeometry(10, 10);
-Engine.assets.Object.defaultMaterial = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
+Engine.Object.defaultGeometry = new THREE.PlaneBufferGeometry(10, 10);
+Engine.Object.defaultMaterial = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
 
-Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
+Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
 {
     var material = new THREE.MeshBasicMaterial({
         color: 'white',
@@ -39,19 +39,19 @@ Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX
     return mesh;
 }
 
-Engine.assets.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
+Engine.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
 {
     var rect = new THREE.PlaneGeometry(w, h, 1, 1);
     return this.addCollisionGeometry(rect, offsetX, offsetY);
 }
 
-Engine.assets.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
+Engine.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 {
     var circle = new THREE.CircleGeometry(r, 8);
     return this.addCollisionGeometry(circle, offsetX, offsetY);
 }
 
-Engine.assets.Object.prototype.applyTrait = function(trait)
+Engine.Object.prototype.applyTrait = function(trait)
 {
     if (trait instanceof Engine.Trait === false || !trait.NAME) {
         throw new Error('Invalid trait or trait name');
@@ -64,7 +64,7 @@ Engine.assets.Object.prototype.applyTrait = function(trait)
     this[trait.NAME] = trait;
 }
 
-Engine.assets.Object.prototype.bind = function(name, callback)
+Engine.Object.prototype.bind = function(name, callback)
 {
     if (!this.events[name]) {
         this.events[name] = [];
@@ -72,7 +72,7 @@ Engine.assets.Object.prototype.bind = function(name, callback)
     this.events[name].push(callback);
 }
 
-Engine.assets.Object.prototype.collides = function(withObject, ourZone, theirZone)
+Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
 {
     for (var i in this.traits) {
         if (this.traits[i].__collides) {
@@ -82,18 +82,18 @@ Engine.assets.Object.prototype.collides = function(withObject, ourZone, theirZon
     }
 }
 
-Engine.assets.Object.prototype.dropCollision = function()
+Engine.Object.prototype.dropCollision = function()
 {
     this.collision.length = 0;
 }
 
-Engine.assets.Object.prototype.moveTo = function(vec)
+Engine.Object.prototype.moveTo = function(vec)
 {
     this.position.x = vec.x;
     this.position.y = vec.y;
 }
 
-Engine.assets.Object.prototype.obstruct = function(solid, attack)
+Engine.Object.prototype.obstruct = function(solid, attack)
 {
     if (solid instanceof Engine.assets.Solid === false) {
         throw new Error('Invalid solid');
@@ -117,7 +117,7 @@ Engine.assets.Object.prototype.obstruct = function(solid, attack)
     }
 }
 
-Engine.assets.Object.prototype.setEmitter = function(character)
+Engine.Object.prototype.setEmitter = function(character)
 {
     if (character instanceof Engine.assets.objects.Character !== true) {
         throw new Error('Invalid user');
@@ -125,13 +125,13 @@ Engine.assets.Object.prototype.setEmitter = function(character)
     this.emitter = character;
 }
 
-Engine.assets.Object.prototype.setModel = function(model)
+Engine.Object.prototype.setModel = function(model)
 {
     this.model = model;
     this.position = this.model.position;
 }
 
-Engine.assets.Object.prototype.setScene = function(scene)
+Engine.Object.prototype.setScene = function(scene)
 {
     if (scene instanceof Engine.Scene !== true) {
         throw new Error('Invalid scene');
@@ -139,7 +139,7 @@ Engine.assets.Object.prototype.setScene = function(scene)
     this.scene = scene;
 }
 
-Engine.assets.Object.prototype.timeShift = function(dt)
+Engine.Object.prototype.timeShift = function(dt)
 {
     this.time += dt;
     this.deltaTime = dt;
@@ -155,7 +155,7 @@ Engine.assets.Object.prototype.timeShift = function(dt)
     this.position.y += (this.velocity.y * dt);
 }
 
-Engine.assets.Object.prototype.trigger = function(name)
+Engine.Object.prototype.trigger = function(name)
 {
     if (this.events[name]) {
         var i,
@@ -172,7 +172,7 @@ Engine.assets.Object.prototype.trigger = function(name)
 }
 
 
-Engine.assets.Object.prototype.unbind = function(name, callback)
+Engine.Object.prototype.unbind = function(name, callback)
 {
     if (this.events[name]) {
         var index = this.events[name].indexOf(callback);
@@ -182,7 +182,7 @@ Engine.assets.Object.prototype.unbind = function(name, callback)
     }
 }
 
-Engine.assets.Object.prototype.uncollides = function(withObject)
+Engine.Object.prototype.uncollides = function(withObject)
 {
 }
 
