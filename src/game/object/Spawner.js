@@ -1,6 +1,6 @@
 Engine.assets.Spawner = function()
 {
-    Engine.assets.Object.call(this);
+    Engine.Object.call(this);
     this.ai = new Engine.AI(this);
     this.lifetime = undefined;
     this.minDistance = undefined;
@@ -14,7 +14,7 @@ Engine.assets.Spawner = function()
     this.timeSinceLastSpawn = 0;
 }
 
-Engine.assets.Spawner.prototype = Object.create(Engine.assets.Object.prototype);
+Engine.assets.Spawner.prototype = Object.create(Engine.Object.prototype);
 Engine.assets.Spawner.constructor = Engine.assets.Spawner;
 
 Engine.assets.Spawner.prototype.cleanReferences = function()

@@ -1,6 +1,6 @@
 Engine.assets.objects.Character = function()
 {
-    Engine.assets.Object.call(this);
+    Engine.Object.call(this);
 
     this.ai = new Engine.AI(this);
 
@@ -36,7 +36,7 @@ Engine.assets.objects.Character = function()
 Engine.assets.objects.Character.prototype.EVENT_DEATH = 'death';
 Engine.assets.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
 
-Engine.assets.objects.Character.prototype = Object.create(Engine.assets.Object.prototype);
+Engine.assets.objects.Character.prototype = Object.create(Engine.Object.prototype);
 Engine.assets.objects.Character.constructor = Engine.assets.objects.Character;
 
 Engine.assets.objects.Character.prototype.LEFT = -1;
@@ -57,7 +57,7 @@ Engine.assets.objects.Character.prototype.collides = function(withObject, ourZon
     if (this.contactDamage > 0 && withObject.health) {
         withObject.inflictDamage(this.contactDamage);
     }
-    Engine.assets.Object.prototype.collides.call(this, withObject, ourZone, theirZone);
+    Engine.Object.prototype.collides.call(this, withObject, ourZone, theirZone);
 }
 
 Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
@@ -189,7 +189,7 @@ Engine.assets.objects.Character.prototype.moveRightEnd = function()
 
 Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
 {
-    Engine.assets.Object.prototype.obstruct.call(this, solid, attack);
+    Engine.Object.prototype.obstruct.call(this, solid, attack);
 
     switch (attack) {
         case solid.TOP:
@@ -259,7 +259,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
         }
     }
 
-    Engine.assets.Object.prototype.timeShift.call(this, dt);
+    Engine.Object.prototype.timeShift.call(this, dt);
 }
 
 Engine.assets.objects.characters = {};

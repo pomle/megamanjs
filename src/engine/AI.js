@@ -36,7 +36,7 @@ Engine.AI.prototype.findPlayer = function()
 
 Engine.AI.prototype.setTarget = function(object)
 {
-    if (object instanceof Engine.assets.Object !== true) {
+    if (object instanceof Engine.Object !== true) {
         throw new Error("Target must be object");
     }
     this.target = object;

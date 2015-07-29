@@ -1,6 +1,6 @@
 Engine.assets.Solid = function()
 {
-    Engine.assets.Object.call(this);
+    Engine.Object.call(this);
 
     this.attackAccept = [
         this.TOP,
@@ -12,7 +12,7 @@ Engine.assets.Solid = function()
     this.ignore = new Set();
 }
 
-Engine.assets.Solid.prototype = Object.create(Engine.assets.Object.prototype);
+Engine.assets.Solid.prototype = Object.create(Engine.Object.prototype);
 Engine.assets.Solid.constructor = Engine.assets.Solid;
 
 Engine.assets.Solid.prototype.TOP = 0;

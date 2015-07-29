@@ -17,7 +17,7 @@ Engine.Scene = function()
 
 Engine.Scene.prototype.addObject = function(object)
 {
-    if (object instanceof Engine.assets.Object === false) {
+    if (object instanceof Engine.Object === false) {
         throw new Error('Invalid object');
     }
     this.objects.add(object);
@@ -34,7 +34,7 @@ Engine.Scene.prototype.addTimeline = function(timeline)
 
 Engine.Scene.prototype.removeObject = function(object)
 {
-    if (object instanceof Engine.assets.Object !== true) {
+    if (object instanceof Engine.Object !== true) {
         throw new Error('Invalid object');
     }
     if (this.objects.delete(object)) {
