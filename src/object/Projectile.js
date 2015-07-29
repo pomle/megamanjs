@@ -35,8 +35,8 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
 Engine.assets.Projectile.prototype.deflect = function()
 {
     this.dropCollision();
-    this.inertia.x = -this.inertia.x;
-    this.inertia.y = 100;
+    this.physics.inertia.x = -this.physics.inertia.x;
+    this.physics.inertia.y = 100;
 }
 
 Engine.assets.Projectile.prototype.rangeReached = function()
@@ -52,7 +52,7 @@ Engine.assets.Projectile.prototype.setDamage = function(points)
 Engine.assets.Projectile.prototype.setEmitter = function(character)
 {
     Engine.assets.Object.prototype.setEmitter.call(this, character);
-    var origin = this.emitter.model.position.clone();
+    var origin = this.emitter.position.clone();
     origin.x += this.emitter.projectileEmitOffset.x * this.emitter.direction;
     origin.y += this.emitter.projectileEmitOffset.y;
     this.setOrigin(origin);

@@ -1,4 +1,4 @@
-var Megaman = function()
+var Game = function()
 {
     this.engine = undefined;
     this.player = undefined;
@@ -21,7 +21,9 @@ var Megaman = function()
     this.sceneQueue = [];
 }
 
-Megaman.prototype.addScene = function(type, name, src)
+Game.traits = {};
+
+Game.prototype.addScene = function(type, name, src)
 {
     this.scenes[name] = {
         type: type,
@@ -30,12 +32,12 @@ Megaman.prototype.addScene = function(type, name, src)
     };
 }
 
-Megaman.prototype.queueScene = function(name)
+Game.prototype.queueScene = function(name)
 {
     this.sceneQueue.push(name);
 }
 
-Megaman.prototype.attachToElement = function(element)
+Game.prototype.attachToElement = function(element)
 {
     this.element = element;
     var rect = this.element.getBoundingClientRect();
@@ -44,7 +46,7 @@ Megaman.prototype.attachToElement = function(element)
     this.element.appendChild(this.engine.renderer.domElement);
 }
 
-Megaman.prototype.adjustAspectRatio = function()
+Game.prototype.adjustAspectRatio = function()
 {
     if (this.engine.scene) {
         var rect = this.element.getBoundingClientRect();
@@ -54,13 +56,13 @@ Megaman.prototype.adjustAspectRatio = function()
     }
 }
 
-Megaman.prototype.adjustResolution = function()
+Game.prototype.adjustResolution = function()
 {
     var rect = this.element.getBoundingClientRect();
     this.engine.renderer.setSize(rect.width, rect.height);
 }
 
-Megaman.prototype.createScene = function(type, xmlUrl)
+Game.prototype.createScene = function(type, xmlUrl)
 {
     var scene;
     var callback = function() {
@@ -69,15 +71,15 @@ Megaman.prototype.createScene = function(type, xmlUrl)
 
     switch (type) {
         case 'level':
-            scene = Megaman.XMLUtil.createLevel(xmlUrl, callback);
+            scene = Game.XMLUtil.createLevel(xmlUrl, callback);
             break;
         case 'stage-select':
-            scene = Megaman.XMLUtil.createStageSelect(xmlUrl, callback);
+            scene = Game.XMLUtil.createStageSelect(xmlUrl, callback);
             break;
     }
 }
 
-Megaman.prototype.loadScene = function(name)
+Game.prototype.loadScene = function(name)
 {
     if (!this.scenes[name]) {
         throw new Error("Scene " + name + " not defined");
@@ -86,7 +88,7 @@ Megaman.prototype.loadScene = function(name)
     return this.createScene(this.scenes[name].type, this.scenes[name].src);
 }
 
-Megaman.prototype.setScene = function(scene)
+Game.prototype.setScene = function(scene)
 {
     if (scene instanceof Engine.Scene === false) {
         throw new Error('Invalid scene');
@@ -103,7 +105,7 @@ Megaman.prototype.setScene = function(scene)
 
     var start;
     if (scene instanceof Engine.scenes.Level) {
-        this.level = new Megaman.LevelRunner(this, scene);
+        this.level = new Game.LevelRunner(this, scene);
         start = function() {
             this.level.startGamePlay();
         }.bind(this)

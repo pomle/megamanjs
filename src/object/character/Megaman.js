@@ -97,14 +97,6 @@ Engine.assets.objects.characters.Megaman = function()
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
 
-    this.isTeleporting = false;
-    this.teleportEndDelay = .15;
-    this.teleportEndDuration = 0;
-    this.teleportStartDelay = .15;
-    this.teleportStartDuration = 0;
-    this.teleportSpeed = 600;
-    this.teleportPos = new THREE.Vector2();
-
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
 
@@ -114,6 +106,8 @@ Engine.assets.objects.characters.Megaman = function()
 
     this.setModel(model);
     this.addCollisionRect(14, 22, 0, 0);
+
+    this.applyTrait(new Game.traits.Teleport());
 }
 
 Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);
@@ -140,32 +134,32 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
     }
 
     this.jumpInertia = 0;
-    this.inertia.set(0, 0);
-    this.momentum.set(40, 60);
+    this.physics.inertia.set(0, 0);
+    this.physics.momentum.set(40, 60);
     if (direction) {
-        this.momentum.x *= direction.x > 0 ? -1 : 1;
+        this.physics.momentum.x *= direction.x > 0 ? -1 : 1;
     }
     else {
-        this.momentum.x *= this.direction > 0 ? -1 : 1;
+        this.physics.momentum.x *= this.direction > 0 ? -1 : 1;
     }
 
-    this.decorations['sweat'].position.copy(this.position);
-    this.decorations['sweat'].position.y += 12;
-    this.decorations['sweat'].sprites.sprite.rewind();
-    this.decorations['sweat'].lifespan = 0;
-
-    this.scene.addObject(this.decorations['sweat']);
+    var sweat = this.decorations['sweat']
+    sweat.position.copy(this.position);
+    sweat.position.y += 12;
+    sweat.sprites.sprite.time = 0;
+    sweat.lifetime = 0;
+    this.scene.addObject(sweat);
 
     return true;
 }
 
 Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
-    if (this.isTeleporting) {
-        if (this.teleportStartDuration) {
+    if (this.teleport.state) {
+        if (this.teleport.state == this.teleport.STATE_OUT) {
             return this.sprites.selectSprite('teleport-out');
         }
-        else if (this.teleportEndDuration) {
+        else if (this.teleport.state == this.teleport.STATE_IN) {
             return this.sprites.selectSprite('teleport-in');
         }
         return this.sprites.selectSprite('teleport');
@@ -206,62 +200,10 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
     return this.sprites.selectSprite('idle');
 }
 
-Engine.assets.objects.characters.Megaman.prototype.teleportTo = function(pos)
-{
-    this.teleportPos = pos;
-    this.teleportStart();
-}
-
-Engine.assets.objects.characters.Megaman.prototype.teleportStart = function()
-{
-    this.teleportStartDuration = this.teleportStartDelay;
-    this.collidable = false;
-    this.isSupported = false;
-    this.isTeleporting = true;
-    this.mass = 0;
-    this.trigger('teleport-start');
-}
-
-Engine.assets.objects.characters.Megaman.prototype.teleportEnd = function()
-{
-    this.teleportEndDuration = this.teleportEndDelay;
-    this.collidable = true;
-    this.isSupported = true;
-    this.momentum.multiplyScalar(0);
-    this.inertia.multiplyScalar(0);
-    this.mass = 1;
-    this.trigger('teleport-end');
-}
-
-Engine.assets.objects.characters.Megaman.prototype.teleportHandle = function(dt)
-{
-    if (this.teleportStartDuration) {
-        this.teleportStartDuration = Math.max(0, this.teleportStartDuration - dt);
-    }
-    else if (this.teleportEndDuration) {
-        this.teleportEndDuration = Math.max(0, this.teleportEndDuration - dt);
-        if (this.teleportEndDuration == 0) {
-            this.isTeleporting = false;
-        }
-    }
-    else {
-        var teleportDistance = Engine.Animation.vectorTraverse(
-            this.position, this.teleportPos, this.teleportSpeed * dt);
-        if (teleportDistance === 0) {
-            this.teleportEnd();
-        }
-    }
-}
-
 Engine.assets.objects.characters.Megaman.prototype.timeShift = function(dt)
 {
     this.selectSprite(dt);
     this.sprites.timeShift(dt);
 
-    if (this.isTeleporting) {
-        this.teleportHandle(dt);
-    }
-    else {
-        Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
-    }
+    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
 }

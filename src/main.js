@@ -1,4 +1,4 @@
-var game = Megaman.XMLUtil.createGame('resource/Megaman2.xml', function() {
+var game = Game.XMLUtil.createGame('resource/Megaman2.xml', function() {
     console.log('Loading game done', game);
     game.attachToElement(document.getElementById('screen'));
 });

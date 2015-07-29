@@ -26,6 +26,8 @@ Engine.assets.objects.characters.Telly = function()
     this.health = new Engine.assets.Energy(1);
     this.setDirection(this.LEFT);
     this.speed = 12;
+
+    this.physics.enabled = false;
 }
 
 Engine.assets.objects.characters.Telly.prototype = Object.create(Engine.assets.objects.Character.prototype);
@@ -44,13 +46,13 @@ Engine.assets.objects.characters.Telly.prototype.updateAI = function()
             return;
         }
         this.ai.faceTarget();
-        this.inertia.x = 0;
-        this.inertia.y = 0;
+        this.velocity.x = 0;
+        this.velocity.y = 0;
         var distX = this.position.x - this.ai.target.position.x;
         var distY = this.position.y - this.ai.target.position.y;
-        this.inertia.x = distX > 0 ? -this.speed : this.speed;
+        this.velocity.x = distX > 0 ? -this.speed : this.speed;
         if (Math.abs(distY) > 16 || Math.random() < .25) {
-            this.inertia.y = distY > 0 ? -this.speed : this.speed;
+            this.velocity.y = distY > 0 ? -this.speed : this.speed;
         }
     }
 }

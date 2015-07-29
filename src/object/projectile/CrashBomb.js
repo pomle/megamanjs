@@ -44,12 +44,14 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
         var dir = withObject.attackDirection(our, their);
 
+        /* If we are pushing Crash Bomb from the top or below, just nudge. */
         if (dir === withObject.TOP) {
             our.top(their.b);
         }
         else if (dir === withObject.BOTTOM) {
             our.bottom(their.t);
         }
+        /* If we hit something from left or right, we attach. */
         else {
             if (dir == withObject.LEFT) {
                 our.left(their.r);
@@ -57,7 +59,7 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
                 our.right(their.l);
             }
 
-            this.inertia.set(0, 0);
+            this.physics.zero();
             this.attachPosition = withObject.position;
             this.attachOffset = this.position.clone().sub(this.attachPosition);
             this.attachTime = 0;
@@ -83,8 +85,8 @@ Engine.assets.projectiles.CrashBomb.prototype.rangeReached = function()
 
 Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
 {
-    if (this.inertia.x) {
-        this.sprites.setDirection(this.inertia.x > 0 ? 1 : -1);
+    if (this.velocity.x) {
+        this.sprites.setDirection(this.velocity.x > 0 ? 1 : -1);
     }
 
     if (this.attachTime === false) {

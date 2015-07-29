@@ -13,8 +13,8 @@ Engine.assets.projectiles.AirShot = function()
     this.sprites.selectSprite('twirling');
     this.sprites.applySprite();
 
-    this.setDamage(20);
     this.setModel(model);
+    this.setDamage(20);
     this.setSpeed(80);
     this.penetratingForce = true;
     this.addCollisionRect(7, 8, 0, 0);
@@ -25,10 +25,10 @@ Engine.assets.projectiles.AirShot.constructor = Engine.assets.Projectile;
 
 Engine.assets.projectiles.AirShot.prototype.timeShift = function(dt)
 {
-    if (this.inertia.x) {
-        this.sprites.setDirection(this.inertia.x > 0 ? 1 : -1);
+    if (this.velocity.x) {
+        this.sprites.setDirection(this.velocity.x > 0 ? 1 : -1);
     }
-    this.inertia.y += 150 * dt;
+    this.physics.inertia.y += 150 * dt;
 
     this.sprites.timeShift(dt);
     Engine.assets.Projectile.prototype.timeShift.call(this, dt);
