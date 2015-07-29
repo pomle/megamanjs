@@ -1,6 +1,6 @@
-Engine.assets.projectiles.AirShot = function()
+Game.objects.projectiles.AirShot = function()
 {
-    Engine.assets.Projectile.call(this);
+    Game.objects.Projectile.call(this);
 
     var model = Engine.SpriteManager.createSprite('projectiles.png', 16, 16);
     this.sprites = new Engine.SpriteManager(model, 16, 16 , 128, 128);
@@ -20,10 +20,10 @@ Engine.assets.projectiles.AirShot = function()
     this.addCollisionRect(7, 8, 0, 0);
 }
 
-Engine.assets.projectiles.AirShot.prototype = Object.create(Engine.assets.Projectile.prototype);
-Engine.assets.projectiles.AirShot.constructor = Engine.assets.Projectile;
+Game.objects.projectiles.AirShot.prototype = Object.create(Game.objects.Projectile.prototype);
+Game.objects.projectiles.AirShot.constructor = Game.objects.Projectile;
 
-Engine.assets.projectiles.AirShot.prototype.timeShift = function(dt)
+Game.objects.projectiles.AirShot.prototype.timeShift = function(dt)
 {
     if (this.velocity.x) {
         this.sprites.setDirection(this.velocity.x > 0 ? 1 : -1);
@@ -31,5 +31,5 @@ Engine.assets.projectiles.AirShot.prototype.timeShift = function(dt)
     this.physics.inertia.y += 150 * dt;
 
     this.sprites.timeShift(dt);
-    Engine.assets.Projectile.prototype.timeShift.call(this, dt);
+    Game.objects.Projectile.prototype.timeShift.call(this, dt);
 }

@@ -95,7 +95,7 @@ Engine.Object.prototype.moveTo = function(vec)
 
 Engine.Object.prototype.obstruct = function(solid, attack)
 {
-    if (solid instanceof Engine.assets.Solid === false) {
+    if (solid instanceof Game.objects.Solid === false) {
         throw new Error('Invalid solid');
     }
 
@@ -185,5 +185,3 @@ Engine.Object.prototype.unbind = function(name, callback)
 Engine.Object.prototype.uncollides = function(withObject)
 {
 }
-
-Engine.assets.objects = {};

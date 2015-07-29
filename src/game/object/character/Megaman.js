@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.Megaman = function()
+Game.objects.characters.Megaman = function()
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     this.textures = {};
 
@@ -90,7 +90,7 @@ Engine.assets.objects.characters.Megaman = function()
     stunned.addFrame(192, 96, .04);
 
     this.decorations = {
-        'sweat': new Engine.assets.decorations.Sweat(),
+        'sweat': new Game.objects.decorations.Sweat(),
     };
 
 
@@ -110,12 +110,12 @@ Engine.assets.objects.characters.Megaman = function()
     this.applyTrait(new Game.traits.Teleport());
 }
 
-Engine.assets.objects.characters.Megaman.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.Megaman.constructor = Engine.assets.objects.characters.Megaman;
+Game.objects.characters.Megaman.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.Megaman.constructor = Game.objects.characters.Megaman;
 
-Engine.assets.objects.characters.Megaman.prototype.equipWeapon = function(weapon)
+Game.objects.characters.Megaman.prototype.equipWeapon = function(weapon)
 {
-    if (!Engine.assets.objects.Character.prototype.equipWeapon.call(this, weapon)) {
+    if (!Game.objects.Character.prototype.equipWeapon.call(this, weapon)) {
         return false;
     }
 
@@ -127,9 +127,9 @@ Engine.assets.objects.characters.Megaman.prototype.equipWeapon = function(weapon
     return true;
 }
 
-Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(points, direction)
+Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direction)
 {
-    if (!Engine.assets.objects.Character.prototype.inflictDamage.call(this, points)) {
+    if (!Game.objects.Character.prototype.inflictDamage.call(this, points)) {
         return false;
     }
 
@@ -153,7 +153,7 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
     return true;
 }
 
-Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
+Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
     if (this.teleport.state) {
         if (this.teleport.state == this.teleport.STATE_OUT) {
@@ -200,10 +200,10 @@ Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
     return this.sprites.selectSprite('idle');
 }
 
-Engine.assets.objects.characters.Megaman.prototype.timeShift = function(dt)
+Game.objects.characters.Megaman.prototype.timeShift = function(dt)
 {
     this.selectSprite(dt);
     this.sprites.timeShift(dt);
 
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

@@ -1,18 +1,18 @@
-Engine.assets.weapons.TimeStopper = function()
+Game.objects.weapons.TimeStopper = function()
 {
-    Engine.assets.Weapon.call(this);
+    Game.objects.Weapon.call(this);
     this.ammo.setMax(30); // Seconds of real time it lasts.
     this.cost = 1;
     this.timeFraction = 0.01;
     this.timeDistorted = false;
 }
 
-Engine.assets.weapons.TimeStopper.prototype = Object.create(Engine.assets.Weapon.prototype);
-Engine.assets.weapons.TimeStopper.constructor = Engine.assets.Weapon;
+Game.objects.weapons.TimeStopper.prototype = Object.create(Game.objects.Weapon.prototype);
+Game.objects.weapons.TimeStopper.constructor = Game.objects.Weapon;
 
-Engine.assets.weapons.TimeStopper.prototype.fire = function()
+Game.objects.weapons.TimeStopper.prototype.fire = function()
 {
-    if (!Engine.assets.Weapon.prototype.fire.call(this)) {
+    if (!Game.objects.Weapon.prototype.fire.call(this)) {
         return false;
     }
     if (this.timeDistorted) {
@@ -24,14 +24,14 @@ Engine.assets.weapons.TimeStopper.prototype.fire = function()
     return true;
 }
 
-Engine.assets.weapons.TimeStopper.prototype.distortTime = function()
+Game.objects.weapons.TimeStopper.prototype.distortTime = function()
 {
     this.user.scene.timeStretch *= this.timeFraction;
     this.user.timeStretch /= this.timeFraction;
     this.timeDistorted = true;
 }
 
-Engine.assets.weapons.TimeStopper.prototype.resetTime = function()
+Game.objects.weapons.TimeStopper.prototype.resetTime = function()
 {
     this.user.scene.timeStretch /= this.timeFraction;
     this.user.timeStretch *= this.timeFraction;
@@ -39,7 +39,7 @@ Engine.assets.weapons.TimeStopper.prototype.resetTime = function()
 }
 
 
-Engine.assets.weapons.TimeStopper.prototype.timeShift = function(dt)
+Game.objects.weapons.TimeStopper.prototype.timeShift = function(dt)
 {
     if (this.timeDistorted) {
         this.ammo.reduce(this.cost * this.user.deltaTime);
@@ -47,5 +47,5 @@ Engine.assets.weapons.TimeStopper.prototype.timeShift = function(dt)
             this.resetTime();
         }
     }
-    Engine.assets.Weapon.prototype.timeShift.apply(this, arguments);
+    Game.objects.Weapon.prototype.timeShift.apply(this, arguments);
 }

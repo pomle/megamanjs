@@ -1,6 +1,6 @@
-Engine.assets.objects.items.WeaponTank = function()
+Game.objects.items.WeaponTank = function()
 {
-    Engine.assets.objects.Item.call(this);
+    Game.objects.Item.call(this);
 
     this.capacity = 30;
 
@@ -17,10 +17,10 @@ Engine.assets.objects.items.WeaponTank = function()
     this.addCollisionRect(16, 12);
 }
 
-Engine.assets.objects.items.WeaponTank.prototype = Object.create(Engine.assets.objects.Item.prototype);
-Engine.assets.objects.items.WeaponTank.constructor = Engine.assets.objects.items.WeaponTank;
+Game.objects.items.WeaponTank.prototype = Object.create(Game.objects.Item.prototype);
+Game.objects.items.WeaponTank.constructor = Game.objects.items.WeaponTank;
 
-Engine.assets.objects.items.WeaponTank.prototype.collides = function(withObject, theirZone, ourZone)
+Game.objects.items.WeaponTank.prototype.collides = function(withObject, theirZone, ourZone)
 {
     if (withObject.weapon && withObject.weapon.ammo) {
         withObject.weapon.ammo.increase(this.capacity);
@@ -28,7 +28,7 @@ Engine.assets.objects.items.WeaponTank.prototype.collides = function(withObject,
     }
 }
 
-Engine.assets.objects.items.WeaponTank.prototype.timeShift = function(dt)
+Game.objects.items.WeaponTank.prototype.timeShift = function(dt)
 {
     this.sprites.timeShift(dt);
 }

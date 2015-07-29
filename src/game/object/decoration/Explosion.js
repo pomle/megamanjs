@@ -1,4 +1,4 @@
-Engine.assets.decorations.Explosion = function()
+Game.objects.decorations.Explosion = function()
 {
     Engine.Object.call(this);
 
@@ -37,10 +37,10 @@ Engine.assets.decorations.Explosion = function()
     this.addCollisionZone(32);
 }
 
-Engine.assets.decorations.Explosion.prototype = Object.create(Engine.assets.Decoration.prototype);
-Engine.assets.decorations.Explosion.constructor = Engine.assets.decorations.Explosion;
+Game.objects.decorations.Explosion.prototype = Object.create(Game.objects.Decoration.prototype);
+Game.objects.decorations.Explosion.constructor = Game.objects.decorations.Explosion;
 
-Engine.assets.decorations.Explosion.prototype.collides = function(withObject, ourZone, theirZone)
+Game.objects.decorations.Explosion.prototype.collides = function(withObject, ourZone, theirZone)
 {
     if (withObject == this.emitter) {
         return;
@@ -51,7 +51,7 @@ Engine.assets.decorations.Explosion.prototype.collides = function(withObject, ou
     }
 }
 
-Engine.assets.decorations.Explosion.prototype.timeShift = function(dt)
+Game.objects.decorations.Explosion.prototype.timeShift = function(dt)
 {
     if (this.lifespan > this.lifetime) {
         this.scene.removeObject(this);
@@ -60,7 +60,7 @@ Engine.assets.decorations.Explosion.prototype.timeShift = function(dt)
 
     this.sprites.timeShift(dt);
 
-    Engine.assets.Decoration.prototype.timeShift.call(this, dt);
+    Game.objects.Decoration.prototype.timeShift.call(this, dt);
 
     this.lifespan += dt;
 }

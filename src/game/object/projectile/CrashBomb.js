@@ -1,6 +1,6 @@
-Engine.assets.projectiles.CrashBomb = function()
+Game.objects.projectiles.CrashBomb = function()
 {
-    Engine.assets.Projectile.call(this);
+    Game.objects.Projectile.call(this);
 
     var model = Engine.SpriteManager.createSprite('projectiles.png', 20, 16);
     this.sprites = new Engine.SpriteManager(model, 20, 16 , 128, 128);
@@ -27,19 +27,19 @@ Engine.assets.projectiles.CrashBomb = function()
     this.penetratingForce = true;
     this.range = 200;
 
-    this.explosion = new Engine.assets.decorations.Explosion();
+    this.explosion = new Game.objects.decorations.Explosion();
 }
 
-Engine.assets.projectiles.CrashBomb.prototype = Object.create(Engine.assets.Projectile.prototype);
-Engine.assets.projectiles.CrashBomb.constructor = Engine.assets.Projectile;
+Game.objects.projectiles.CrashBomb.prototype = Object.create(Game.objects.Projectile.prototype);
+Game.objects.projectiles.CrashBomb.constructor = Game.objects.Projectile;
 
-Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ourZone, theirZone)
+Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, ourZone, theirZone)
 {
     if (this.attachTime !== false) {
         return false;
     }
 
-    if (withObject instanceof Engine.assets.Solid) {
+    if (withObject instanceof Game.objects.Solid) {
         var our = new Engine.Collision.BoundingBox(this.model, ourZone);
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
         var dir = withObject.attackDirection(our, their);
@@ -67,10 +67,10 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
         }
     }
 
-    Engine.assets.Projectile.prototype.collides.call(this, withObject, ourZone, theirZone);
+    Game.objects.Projectile.prototype.collides.call(this, withObject, ourZone, theirZone);
 }
 
-Engine.assets.projectiles.CrashBomb.prototype.explode = function()
+Game.objects.projectiles.CrashBomb.prototype.explode = function()
 {
     this.explosion.model.position.copy(this.model.position);
     this.explosion.setEmitter(this.emitter);
@@ -78,12 +78,12 @@ Engine.assets.projectiles.CrashBomb.prototype.explode = function()
     this.scene.removeObject(this);
 }
 
-Engine.assets.projectiles.CrashBomb.prototype.rangeReached = function()
+Game.objects.projectiles.CrashBomb.prototype.rangeReached = function()
 {
     this.explode();
 }
 
-Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
+Game.objects.projectiles.CrashBomb.prototype.timeShift = function(dt)
 {
     if (this.velocity.x) {
         this.sprites.setDirection(this.velocity.x > 0 ? 1 : -1);
@@ -106,7 +106,7 @@ Engine.assets.projectiles.CrashBomb.prototype.timeShift = function(dt)
 
     this.sprites.timeShift(dt);
 
-    Engine.assets.Projectile.prototype.timeShift.call(this, dt);
+    Game.objects.Projectile.prototype.timeShift.call(this, dt);
 
     if (this.attachPosition) {
         this.position.copy(this.attachPosition);

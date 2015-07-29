@@ -1,18 +1,18 @@
-Engine.assets.weapons.Plasma = function()
+Game.objects.weapons.Plasma = function()
 {
-    Engine.assets.Weapon.call(this);
+    Game.objects.Weapon.call(this);
     this.ammo.setInfinite();
 }
 
-Engine.assets.weapons.Plasma.prototype = Object.create(Engine.assets.Weapon.prototype);
-Engine.assets.weapons.Plasma.constructor = Engine.assets.Weapon;
+Game.objects.weapons.Plasma.prototype = Object.create(Game.objects.Weapon.prototype);
+Game.objects.weapons.Plasma.constructor = Game.objects.Weapon;
 
-Engine.assets.weapons.Plasma.prototype.fire = function()
+Game.objects.weapons.Plasma.prototype.fire = function()
 {
-    if (!Engine.assets.Weapon.prototype.fire.call(this)) {
+    if (!Game.objects.Weapon.prototype.fire.call(this)) {
         return false;
     }
-    var projectile = new Engine.assets.projectiles.Plasma();
+    var projectile = new Game.objects.projectiles.Plasma();
     this.emit(projectile, projectile.speed, 0);
     return true;
 }

@@ -1,17 +1,17 @@
-Engine.assets.weapons.EnemyPlasma = function()
+Game.objects.weapons.EnemyPlasma = function()
 {
-    Engine.assets.Weapon.call(this);
+    Game.objects.Weapon.call(this);
 }
 
-Engine.assets.weapons.EnemyPlasma.prototype = Object.create(Engine.assets.Weapon.prototype);
-Engine.assets.weapons.EnemyPlasma.constructor = Engine.assets.Weapon;
+Game.objects.weapons.EnemyPlasma.prototype = Object.create(Game.objects.Weapon.prototype);
+Game.objects.weapons.EnemyPlasma.constructor = Game.objects.Weapon;
 
-Engine.assets.weapons.EnemyPlasma.prototype.fire = function()
+Game.objects.weapons.EnemyPlasma.prototype.fire = function()
 {
-    if (!Engine.assets.Weapon.prototype.fire.call(this)) {
+    if (!Game.objects.Weapon.prototype.fire.call(this)) {
         return false;
     }
-    var projectile = new Engine.assets.projectiles.EnemyPlasma();
+    var projectile = new Game.objects.projectiles.EnemyPlasma();
     this.emit(projectile, projectile.speed);
     return true;
 }

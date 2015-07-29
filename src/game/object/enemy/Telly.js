@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.Telly = function()
+Game.objects.characters.Telly = function()
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     var model = Engine.SpriteManager.createSprite('enemies/telly.png', 16, 16);
     this.sprites = new Engine.SpriteManager(model, 16, 16, 128, 16);
@@ -22,18 +22,20 @@ Engine.assets.objects.characters.Telly = function()
 
     this.contactDamage = 1;
     this.obstructible = false;
+
     this.physics.mass = 0;
-    this.health = new Engine.assets.Energy(1);
+    this.health = new Game.objects.Energy(1);
+
     this.setDirection(this.LEFT);
     this.speed = 12;
 
     this.physics.enabled = false;
 }
 
-Engine.assets.objects.characters.Telly.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.Telly.constructor = Engine.assets.objects.characters.Telly;
+Game.objects.characters.Telly.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.Telly.constructor = Game.objects.characters.Telly;
 
-Engine.assets.objects.characters.Telly.prototype.updateAI = function()
+Game.objects.characters.Telly.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) < 1) {
         return;
@@ -57,10 +59,10 @@ Engine.assets.objects.characters.Telly.prototype.updateAI = function()
     }
 }
 
-Engine.assets.objects.characters.Telly.prototype.timeShift = function(dt)
+Game.objects.characters.Telly.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
     this.sprites.setDirection(this.direction);
     this.sprites.timeShift(dt);
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

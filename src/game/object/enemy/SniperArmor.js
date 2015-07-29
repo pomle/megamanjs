@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.SniperArmor = function()
+Game.objects.characters.SniperArmor = function()
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     var model = Engine.SpriteManager.createSprite('enemies/sniperarmor.png', 64, 64);
     this.sprites = new Engine.SpriteManager(model, 64, 64, 256, 64);
@@ -20,7 +20,7 @@ Engine.assets.objects.characters.SniperArmor = function()
     this.addCollisionRect(28, 28, 0, 10);
 
     this.contactDamage = 8;
-    this.health = new Engine.assets.Energy(20);
+    this.health = new Game.objects.Energy(20);
 
     this.setDirection(this.LEFT);
 
@@ -28,7 +28,7 @@ Engine.assets.objects.characters.SniperArmor = function()
 
     this.jumpForce = new THREE.Vector2(130, 300);
 
-    this.passenger = new Engine.assets.objects.characters.SniperJoe();
+    this.passenger = new Game.objects.characters.SniperJoe();
 
 
     this.target = undefined;
@@ -40,16 +40,16 @@ Engine.assets.objects.characters.SniperArmor = function()
     this.timeAIUpdated = null;
 }
 
-Engine.assets.objects.characters.SniperArmor.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.SniperArmor.constructor = Engine.assets.objects.characters.SniperArmor;
+Game.objects.characters.SniperArmor.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.SniperArmor.constructor = Game.objects.characters.SniperArmor;
 
 
-Engine.assets.objects.characters.SniperArmor.prototype.getDeathObject = function()
+Game.objects.characters.SniperArmor.prototype.getDeathObject = function()
 {
     return this.passenger;
 }
 
-Engine.assets.objects.characters.SniperArmor.prototype.jumpStart = function(dt)
+Game.objects.characters.SniperArmor.prototype.jumpStart = function(dt)
 {
     if (this.jumpCoolDown > 0) {
         return false;
@@ -59,12 +59,12 @@ Engine.assets.objects.characters.SniperArmor.prototype.jumpStart = function(dt)
     this.isJumpCharged = false;
 }
 
-Engine.assets.objects.characters.SniperArmor.prototype.jumpEnd = function(dt)
+Game.objects.characters.SniperArmor.prototype.jumpEnd = function(dt)
 {
     this.isJumpCharged = false;
 }
 
-Engine.assets.objects.characters.SniperArmor.prototype.selectSprite = function(dt)
+Game.objects.characters.SniperArmor.prototype.selectSprite = function(dt)
 {
     this.sprites.setDirection(this.direction);
     if (!this.isSupported) {
@@ -76,7 +76,7 @@ Engine.assets.objects.characters.SniperArmor.prototype.selectSprite = function(d
     return this.sprites.selectSprite('idle');
 }
 
-Engine.assets.objects.characters.SniperArmor.prototype.updateAI = function()
+Game.objects.characters.SniperArmor.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) < 2) {
         return;
@@ -93,7 +93,7 @@ Engine.assets.objects.characters.SniperArmor.prototype.updateAI = function()
     }
 }
 
-Engine.assets.objects.characters.SniperArmor.prototype.timeShift = function(dt)
+Game.objects.characters.SniperArmor.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
 
@@ -130,5 +130,5 @@ Engine.assets.objects.characters.SniperArmor.prototype.timeShift = function(dt)
 
     this.selectSprite();
     this.sprites.applySprite();
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

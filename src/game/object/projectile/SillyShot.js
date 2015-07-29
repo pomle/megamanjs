@@ -1,6 +1,6 @@
-Engine.assets.projectiles.SillyShot = function()
+Game.objects.projectiles.SillyShot = function()
 {
-    Engine.assets.Projectile.call(this);
+    Game.objects.Projectile.call(this);
 
     var model = Engine.SpriteManager.createSingleTile('projectile/tiles.gif', 8, 8, 48, 0, 128, 128);
 
@@ -11,7 +11,7 @@ Engine.assets.projectiles.SillyShot = function()
     this.setSpeed(240);
 }
 
-Engine.assets.projectiles.SillyShot.prototype = Object.create(Engine.assets.Projectile.prototype);
-Engine.assets.projectiles.SillyShot.constructor = Engine.assets.Projectile;
+Game.objects.projectiles.SillyShot.prototype = Object.create(Game.objects.Projectile.prototype);
+Game.objects.projectiles.SillyShot.constructor = Game.objects.Projectile;
 
 

@@ -1,6 +1,6 @@
-Engine.assets.obstacles.Door = function()
+Game.objects.obstacles.Door = function()
 {
-    Engine.assets.Solid.call(this);
+    Game.objects.Solid.call(this);
     this.doorSpeed = 1;
     this.doorPosition = undefined;
     this.enabled = true;
@@ -31,10 +31,10 @@ Engine.assets.obstacles.Door = function()
     ];
 }
 
-Engine.assets.obstacles.Door.prototype = Object.create(Engine.assets.Solid.prototype);
-Engine.assets.obstacles.Door.constructor = Engine.assets.obstacles.Door;
+Game.objects.obstacles.Door.prototype = Object.create(Game.objects.Solid.prototype);
+Game.objects.obstacles.Door.constructor = Game.objects.obstacles.Door;
 
-Engine.assets.obstacles.Door.prototype.detain = function(object, destination)
+Game.objects.obstacles.Door.prototype.detain = function(object, destination)
 {
     this.traverseObject = object;
     this.traverseObject.collidable = false;
@@ -43,14 +43,14 @@ Engine.assets.obstacles.Door.prototype.detain = function(object, destination)
     this.traverseStep = 0;
 }
 
-Engine.assets.obstacles.Door.prototype.release = function()
+Game.objects.obstacles.Door.prototype.release = function()
 {
     this.traverseObject.collidable = true;
     this.traverseObject.physics = true;
     this.traverseObject = undefined;
 }
 
-Engine.assets.obstacles.Door.prototype.collides = function(withObject, ourZone, theirZone)
+Game.objects.obstacles.Door.prototype.collides = function(withObject, ourZone, theirZone)
 {
     if (this.enabled && withObject.isPlayer && this.traverseObject === undefined) {
         // Ignore collisions with currently handled object.
@@ -68,15 +68,15 @@ Engine.assets.obstacles.Door.prototype.collides = function(withObject, ourZone, 
         this.detain(withObject, dest);
     }
     else {
-        Engine.assets.Solid.prototype.collides.call(this, withObject, ourZone, theirZone);
+        Game.objects.Solid.prototype.collides.call(this, withObject, ourZone, theirZone);
     }
 }
 
-Engine.assets.obstacles.Door.prototype.uncollides = function(withObject, ourZone, theirZone)
+Game.objects.obstacles.Door.prototype.uncollides = function(withObject, ourZone, theirZone)
 {
 }
 
-Engine.assets.obstacles.Door.prototype.timeShift = function(dt)
+Game.objects.obstacles.Door.prototype.timeShift = function(dt)
 {
     if (this.traverseStep > -1) {
         if (!this.traverseSteps[this.traverseStep]) {

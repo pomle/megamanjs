@@ -21,8 +21,10 @@ var Game = function()
     this.sceneQueue = [];
 }
 
-Game.traits = {};
+Game.objects = {};
 Game.scenes = {};
+Game.traits = {};
+
 
 Game.prototype.addScene = function(type, name, src)
 {

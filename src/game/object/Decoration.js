@@ -1,11 +1,11 @@
-Engine.assets.Decoration = function()
+Game.objects.Decoration = function()
 {
     Engine.Object.call(this);
 }
 
-Engine.assets.Decoration.prototype = Object.create(Engine.Object.prototype);
-Engine.assets.Decoration.constructor = Engine.assets.Decoration;
+Game.objects.Decoration.prototype = Object.create(Engine.Object.prototype);
+Game.objects.Decoration.constructor = Game.objects.Decoration;
 
-Engine.assets.Decoration.prototype.collides = function() {}
+Game.objects.Decoration.prototype.collides = function() {}
 
-Engine.assets.decorations = {};
+Game.objects.decorations = {};
