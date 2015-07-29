@@ -117,12 +117,12 @@ Engine.Object.prototype.obstruct = function(solid, attack)
     }
 }
 
-Engine.Object.prototype.setEmitter = function(character)
+Engine.Object.prototype.setEmitter = function(object)
 {
-    if (character instanceof Engine.assets.objects.Character !== true) {
-        throw new Error('Invalid user');
+    if (object instanceof Engine.Object !== true) {
+        throw new Error('Invalid emitter');
     }
-    this.emitter = character;
+    this.emitter = object;
 }
 
 Engine.Object.prototype.setModel = function(model)
