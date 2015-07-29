@@ -23,7 +23,6 @@ Engine.assets.Object = function()
 
 Engine.assets.Object.defaultGeometry = new THREE.PlaneBufferGeometry(10, 10);
 Engine.assets.Object.defaultMaterial = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
-Engine.assets.Object.exposeCollisionGeometry = false;
 
 Engine.assets.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
 {
