@@ -500,7 +500,7 @@ Game.XMLUtil = {
 
     createStageSelect: function(xmlUrl, callback)
     {
-        var scene = new Engine.scenes.StageSelect();
+        var scene = new Game.scenes.StageSelect();
         Engine.Util.asyncLoadXml(xmlUrl, function(xml, baseUrl) {
             var sceneXml = xml.children('stage-select');
 

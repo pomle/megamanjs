@@ -1,4 +1,4 @@
-Engine.scenes.StageSelect = function()
+Game.scenes.StageSelect = function()
 {
     Engine.Scene.call(this);
     this.camera.camera.position.z = 120;
@@ -55,16 +55,16 @@ Engine.scenes.StageSelect = function()
     this.input = input;
 }
 
-Engine.scenes.StageSelect.prototype = Object.create(Engine.Scene.prototype);
-Engine.scenes.StageSelect.prototype.constructor = Engine.scenes.StageSelect;
+Game.scenes.StageSelect.prototype = Object.create(Engine.Scene.prototype);
+Game.scenes.StageSelect.prototype.constructor = Game.scenes.StageSelect;
 
-Engine.scenes.StageSelect.prototype.__destroy = function()
+Game.scenes.StageSelect.prototype.__destroy = function()
 {
     this.input.disable();
 }
 
 
-Engine.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
+Game.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
 {
     var x = this.stages.length % this.rowLength;
     var y = Math.floor(this.stages.length / this.rowLength);
@@ -95,7 +95,7 @@ Engine.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
     this.scene.add(caption);
 }
 
-Engine.scenes.StageSelect.prototype.equalize = function(index)
+Game.scenes.StageSelect.prototype.equalize = function(index)
 {
     if (!this.stages[index]) {
         index = 0;
@@ -122,13 +122,13 @@ Engine.scenes.StageSelect.prototype.equalize = function(index)
     this.background.position.z -= 10;
 }
 
-Engine.scenes.StageSelect.prototype.enter = function()
+Game.scenes.StageSelect.prototype.enter = function()
 {
     var stage = this.stages[this.currentIndex];
     this.exit(stage.scene);
 }
 
-Engine.scenes.StageSelect.prototype.selectIndex = function(index)
+Game.scenes.StageSelect.prototype.selectIndex = function(index)
 {
     if (!this.stages[index]) {
         return false;
@@ -144,24 +144,24 @@ Engine.scenes.StageSelect.prototype.selectIndex = function(index)
     return this.currentIndex;
 }
 
-Engine.scenes.StageSelect.prototype.setBackgroundColor = function(hexcolor)
+Game.scenes.StageSelect.prototype.setBackgroundColor = function(hexcolor)
 {
     this.background.material.color.setHex(hexcolor);
 }
 
-Engine.scenes.StageSelect.prototype.setFrame = function(model)
+Game.scenes.StageSelect.prototype.setFrame = function(model)
 {
     this.frame = model;
 }
 
-Engine.scenes.StageSelect.prototype.setIndicator = function(model)
+Game.scenes.StageSelect.prototype.setIndicator = function(model)
 {
     this.indicator = model;
     this.indicator.position.z = .1;
     this.scene.add(model);
 }
 
-Engine.scenes.StageSelect.prototype.steer = function(x, y)
+Game.scenes.StageSelect.prototype.steer = function(x, y)
 {
     var newIndex = this.currentIndex;
     var d = (this.currentIndex % this.rowLength) + x;
@@ -179,7 +179,7 @@ Engine.scenes.StageSelect.prototype.steer = function(x, y)
     this.selectIndex(newIndex);
 }
 
-Engine.scenes.StageSelect.prototype.updateTime = function(dt)
+Game.scenes.StageSelect.prototype.updateTime = function(dt)
 {
     this.indicatorStateTimer += dt;
     if (this.indicatorStateTimer >= this.indicatorInterval) {
