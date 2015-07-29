@@ -32,11 +32,6 @@ Engine.Scene.prototype.addTimeline = function(timeline)
     this.timelines.push(timeline);
 }
 
-Engine.Scene.prototype.applyModifiers = function(object, dt)
-{
-
-}
-
 Engine.Scene.prototype.removeObject = function(object)
 {
     if (object instanceof Engine.assets.Object !== true) {
@@ -52,7 +47,6 @@ Engine.Scene.prototype.updateTime = function(dt)
     dt *= this.timeStretch;
     this.timeTotal += dt;
     for (var object of this.objects) {
-        this.applyModifiers(object, dt);
         object.timeShift(dt * object.timeStretch, this.timeTotal);
     }
 
