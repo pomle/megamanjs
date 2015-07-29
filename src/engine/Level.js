@@ -27,26 +27,6 @@ Engine.scenes.Level.prototype.addObject = function(object, x, y)
     object.setScene(this);
 }
 
-Engine.scenes.Level.prototype.applyGravity = function(object, dt)
-{
-    if (this.gravityForce.x == 0 && this.gravityForce.y == 0) {
-        return;
-    }
-
-    if (!object.physics || object.physics.mass === 0) {
-        return;
-    }
-
-    object.physics.inertia.x += -this.gravityForce.x * dt * object.timeStretch;
-    object.physics.inertia.y += -this.gravityForce.y * dt * object.timeStretch;
-}
-
-Engine.scenes.Level.prototype.applyModifiers = function(object, dt)
-{
-    this.applyGravity(object, dt);
-    Engine.Scene.prototype.applyModifiers.call(this, object, dt);
-}
-
 Engine.scenes.Level.prototype.removeObject = function(o)
 {
     Engine.Scene.prototype.removeObject.call(this, o);
