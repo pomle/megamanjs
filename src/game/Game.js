@@ -22,6 +22,7 @@ var Game = function()
 }
 
 Game.traits = {};
+Game.scenes = {};
 
 Game.prototype.addScene = function(type, name, src)
 {
