@@ -97,7 +97,6 @@ Engine.assets.objects.characters.Megaman = function()
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
 
-
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
 
@@ -156,11 +155,11 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
 
 Engine.assets.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
-    if (this.isTeleporting) {
-        if (this.teleportStartDuration) {
+    if (this.teleport.state) {
+        if (this.teleport.state == this.teleport.STATE_OUT) {
             return this.sprites.selectSprite('teleport-out');
         }
-        else if (this.teleportEndDuration) {
+        else if (this.teleport.state == this.teleport.STATE_IN) {
             return this.sprites.selectSprite('teleport-in');
         }
         return this.sprites.selectSprite('teleport');
