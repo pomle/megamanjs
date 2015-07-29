@@ -127,7 +127,7 @@ Game.LevelRunner.prototype.simulateListener = function()
 
 Game.LevelRunner.prototype.spawnCharacter = function(name)
 {
-    var character = new Engine.assets.objects.characters[name]();
+    var character = new Game.objects.characters[name]();
     var player = this.game.player.character;
     var distance = {
         x: 32,

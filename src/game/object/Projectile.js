@@ -1,4 +1,4 @@
-Engine.assets.Projectile = function()
+Game.objects.Projectile = function()
 {
     Engine.Object.call(this);
     this.damage = 0;
@@ -9,10 +9,10 @@ Engine.assets.Projectile = function()
     this.speed = 0;
 }
 
-Engine.assets.Projectile.prototype = Object.create(Engine.Object.prototype);
-Engine.assets.Projectile.constructor = Engine.assets.Projectile;
+Game.objects.Projectile.prototype = Object.create(Engine.Object.prototype);
+Game.objects.Projectile.constructor = Game.objects.Projectile;
 
-Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, theirZone)
+Game.objects.Projectile.prototype.collides = function(withObject, ourZone, theirZone)
 {
     if (!withObject.health) {
         return false;
@@ -32,24 +32,24 @@ Engine.assets.Projectile.prototype.collides = function(withObject, ourZone, thei
     return true;
 }
 
-Engine.assets.Projectile.prototype.deflect = function()
+Game.objects.Projectile.prototype.deflect = function()
 {
     this.dropCollision();
     this.physics.inertia.x = -this.physics.inertia.x;
     this.physics.inertia.y = 100;
 }
 
-Engine.assets.Projectile.prototype.rangeReached = function()
+Game.objects.Projectile.prototype.rangeReached = function()
 {
     this.scene.removeObject(this);
 }
 
-Engine.assets.Projectile.prototype.setDamage = function(points)
+Game.objects.Projectile.prototype.setDamage = function(points)
 {
     this.damage = points;
 }
 
-Engine.assets.Projectile.prototype.setEmitter = function(character)
+Game.objects.Projectile.prototype.setEmitter = function(character)
 {
     Engine.Object.prototype.setEmitter.call(this, character);
     var origin = this.emitter.position.clone();
@@ -58,23 +58,23 @@ Engine.assets.Projectile.prototype.setEmitter = function(character)
     this.setOrigin(origin);
 }
 
-Engine.assets.Projectile.prototype.setOrigin = function(vec)
+Game.objects.Projectile.prototype.setOrigin = function(vec)
 {
     this.moveTo(vec);
     this.origin = vec;
 }
 
-Engine.assets.Projectile.prototype.setRange = function(distance)
+Game.objects.Projectile.prototype.setRange = function(distance)
 {
     this.range = distance;
 }
 
-Engine.assets.Projectile.prototype.setSpeed = function(v)
+Game.objects.Projectile.prototype.setSpeed = function(v)
 {
     this.speed = v;
 }
 
-Engine.assets.Projectile.prototype.timeShift = function(dt)
+Game.objects.Projectile.prototype.timeShift = function(dt)
 {
     Engine.Object.prototype.timeShift.call(this, dt);
     this.distanceCovered += (this.velocity.length() * dt);
@@ -83,4 +83,4 @@ Engine.assets.Projectile.prototype.timeShift = function(dt)
     }
 }
 
-Engine.assets.projectiles = {};
+Game.objects.projectiles = {};

@@ -1,6 +1,6 @@
-Engine.assets.objects.items.EnergyTank = function()
+Game.objects.items.EnergyTank = function()
 {
-    Engine.assets.objects.Item.call(this);
+    Game.objects.Item.call(this);
 
     this.capacity = 30;
 
@@ -17,18 +17,18 @@ Engine.assets.objects.items.EnergyTank = function()
     this.addCollisionZone(8, 0, 0);
 }
 
-Engine.assets.objects.items.EnergyTank.prototype = Object.create(Engine.assets.objects.Item.prototype);
-Engine.assets.objects.items.EnergyTank.constructor = Engine.assets.objects.items.EnergyTank;
+Game.objects.items.EnergyTank.prototype = Object.create(Game.objects.Item.prototype);
+Game.objects.items.EnergyTank.constructor = Game.objects.items.EnergyTank;
 
-Engine.assets.objects.items.EnergyTank.prototype.collides = function(withObject, theirZone, ourZone)
+Game.objects.items.EnergyTank.prototype.collides = function(withObject, theirZone, ourZone)
 {
-    if (withObject instanceof Engine.assets.objects.Character) {
+    if (withObject instanceof Game.objects.Character) {
         withObject.health.increase(this.capacity);
         this.scene.removeObject(this);
     }
 }
 
-Engine.assets.objects.items.EnergyTank.prototype.timeShift = function(dt)
+Game.objects.items.EnergyTank.prototype.timeShift = function(dt)
 {
     this.sprites.timeShift(dt);
 }

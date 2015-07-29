@@ -1,12 +1,12 @@
-Engine.assets.obstacles.DeathZone = function()
+Game.objects.obstacles.DeathZone = function()
 {
-    Engine.assets.Solid.call(this);
+    Game.objects.Solid.call(this);
 }
 
-Engine.assets.obstacles.DeathZone.prototype = Object.create(Engine.assets.Solid.prototype);
-Engine.assets.obstacles.DeathZone.constructor = Engine.assets.obstacles.DeathZone;
+Game.objects.obstacles.DeathZone.prototype = Object.create(Game.objects.Solid.prototype);
+Game.objects.obstacles.DeathZone.constructor = Game.objects.obstacles.DeathZone;
 
-Engine.assets.obstacles.DeathZone.prototype.collides = function(withObject, ourZone, theirZone)
+Game.objects.obstacles.DeathZone.prototype.collides = function(withObject, ourZone, theirZone)
 {
     if (withObject.health && !withObject.health.isDepleted()) {
         withObject.kill();

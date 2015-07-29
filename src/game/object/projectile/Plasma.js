@@ -1,6 +1,6 @@
-Engine.assets.projectiles.Plasma = function()
+Game.objects.projectiles.Plasma = function()
 {
-    Engine.assets.Projectile.call(this);
+    Game.objects.Projectile.call(this);
 
     var model = Engine.SpriteManager.createSingleTile('projectiles.png', 8, 8, 4, 4, 128, 128);
     this.setModel(model);
@@ -9,5 +9,5 @@ Engine.assets.projectiles.Plasma = function()
     this.setSpeed(240);
 }
 
-Engine.assets.projectiles.Plasma.prototype = Object.create(Engine.assets.Projectile.prototype);
-Engine.assets.projectiles.Plasma.constructor = Engine.assets.Projectile;
+Game.objects.projectiles.Plasma.prototype = Object.create(Game.objects.Projectile.prototype);
+Game.objects.projectiles.Plasma.constructor = Game.objects.Projectile;

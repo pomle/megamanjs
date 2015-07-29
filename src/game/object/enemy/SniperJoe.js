@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.SniperJoe = function(target)
+Game.objects.characters.SniperJoe = function(target)
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     var model = Engine.SpriteManager.createSprite('enemies/sniperjoe.png', 32, 32);
     this.sprites = new Engine.SpriteManager(model, 32, 32, 64, 32);
@@ -17,11 +17,11 @@ Engine.assets.objects.characters.SniperJoe = function(target)
     this.addCollisionRect(20, 24);
 
     this.contactDamage = 4;
-    this.health = new Engine.assets.Energy(10);
+    this.health = new Game.objects.Energy(10);
 
     this.setDirection(this.LEFT);
 
-    var weapon = new Engine.assets.weapons.EnemyPlasma();
+    var weapon = new Game.objects.weapons.EnemyPlasma();
     weapon.setCoolDown(.8);
     this.equipWeapon(weapon);
 
@@ -32,10 +32,10 @@ Engine.assets.objects.characters.SniperJoe = function(target)
     this.isShielding = true;
 }
 
-Engine.assets.objects.characters.SniperJoe.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.SniperJoe.constructor = Engine.assets.objects.characters.SniperJoe;
+Game.objects.characters.SniperJoe.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.SniperJoe.constructor = Game.objects.characters.SniperJoe;
 
-Engine.assets.objects.characters.SniperJoe.prototype.impactProjectile = function(projectile)
+Game.objects.characters.SniperJoe.prototype.impactProjectile = function(projectile)
 {
     // Is the shield pointing towards the projectile
     if (this.isShielding) {
@@ -47,10 +47,10 @@ Engine.assets.objects.characters.SniperJoe.prototype.impactProjectile = function
         }
     }
 
-    return Engine.assets.objects.Character.prototype.impactProjectile.call(this, projectile);
+    return Game.objects.Character.prototype.impactProjectile.call(this, projectile);
 }
 
-Engine.assets.objects.characters.SniperJoe.prototype.selectSprite = function(dt)
+Game.objects.characters.SniperJoe.prototype.selectSprite = function(dt)
 {
     this.sprites.setDirection(this.direction);
     if (this.isShielding) {
@@ -59,7 +59,7 @@ Engine.assets.objects.characters.SniperJoe.prototype.selectSprite = function(dt)
     return this.sprites.selectSprite('shooting');
 }
 
-Engine.assets.objects.characters.SniperJoe.prototype.updateAI = function()
+Game.objects.characters.SniperJoe.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) < 2) {
         return;
@@ -79,7 +79,7 @@ Engine.assets.objects.characters.SniperJoe.prototype.updateAI = function()
     }
 }
 
-Engine.assets.objects.characters.SniperJoe.prototype.timeShift = function(dt)
+Game.objects.characters.SniperJoe.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
 
@@ -99,5 +99,5 @@ Engine.assets.objects.characters.SniperJoe.prototype.timeShift = function(dt)
 
     this.selectSprite();
     this.sprites.applySprite();
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

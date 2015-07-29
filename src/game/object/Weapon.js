@@ -1,6 +1,6 @@
-Engine.assets.Weapon = function()
+Game.objects.Weapon = function()
 {
-    this.ammo = new Engine.assets.Energy();
+    this.ammo = new Game.objects.Energy();
     this.code = undefined;
     this.coolDown = 0;
     this.coolDownDelay = undefined;
@@ -9,9 +9,9 @@ Engine.assets.Weapon = function()
     this.user = undefined;
 }
 
-Engine.assets.Weapon.prototype.emit = function(projectile, x, y)
+Game.objects.Weapon.prototype.emit = function(projectile, x, y)
 {
-    if (projectile instanceof Engine.assets.Projectile !== true) {
+    if (projectile instanceof Game.objects.Projectile !== true) {
         throw new Error('Invalid projectile');
     }
     projectile.physics.inertia.x = x * this.user.direction;
@@ -21,7 +21,7 @@ Engine.assets.Weapon.prototype.emit = function(projectile, x, y)
     this.user.scene.addObject(projectile);
 }
 
-Engine.assets.Weapon.prototype.fire = function()
+Game.objects.Weapon.prototype.fire = function()
 {
     if (!this.isReady) {
         return false;
@@ -42,20 +42,20 @@ Engine.assets.Weapon.prototype.fire = function()
     return true;
 }
 
-Engine.assets.Weapon.prototype.setCoolDown = function(duration)
+Game.objects.Weapon.prototype.setCoolDown = function(duration)
 {
     this.coolDown = duration;
 }
 
-Engine.assets.Weapon.prototype.setUser = function(user)
+Game.objects.Weapon.prototype.setUser = function(user)
 {
-    if (user instanceof Engine.assets.objects.Character !== true) {
+    if (user instanceof Game.objects.Character !== true) {
         throw new Error('Invalid user');
     }
     this.user = user;
 }
 
-Engine.assets.Weapon.prototype.timeShift = function(dt)
+Game.objects.Weapon.prototype.timeShift = function(dt)
 {
     if (this.coolDownDelay) {
         this.coolDownDelay -= dt;
@@ -66,4 +66,4 @@ Engine.assets.Weapon.prototype.timeShift = function(dt)
     }
 }
 
-Engine.assets.weapons = {};
+Game.objects.weapons = {};

@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.Heatman = function()
+Game.objects.characters.Heatman = function()
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     var model = Engine.SpriteManager.createSprite('bosses/heatman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -52,10 +52,10 @@ Engine.assets.objects.characters.Heatman = function()
     this.walkSpeed = 300;
 }
 
-Engine.assets.objects.characters.Heatman.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.Heatman.constructor = Engine.assets.objects.characters.Heatman;
+Game.objects.characters.Heatman.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.Heatman.constructor = Game.objects.characters.Heatman;
 
-Engine.assets.objects.characters.Heatman.prototype.updateSprite = function()
+Game.objects.characters.Heatman.prototype.updateSprite = function()
 {
     if (this.walk) {
         this.sprites.setDirection(this.direction);
@@ -90,10 +90,10 @@ Engine.assets.objects.characters.Heatman.prototype.updateSprite = function()
     }
 }
 
-Engine.assets.objects.characters.Heatman.prototype.timeShift = function(dt)
+Game.objects.characters.Heatman.prototype.timeShift = function(dt)
 {
     this.updateSprite();
-    this.mass = this.moveSpeed ? 0 : 1;
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    this.physics.mass = this.moveSpeed ? 0 : 1;
+    Game.objects.Character.prototype.timeShift.call(this, dt);
     this.sprites.timeShift(dt);
 }

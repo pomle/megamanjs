@@ -1,23 +1,23 @@
-Engine.assets.weapons.AirShooter = function()
+Game.objects.weapons.AirShooter = function()
 {
-    Engine.assets.Weapon.call(this);
+    Game.objects.Weapon.call(this);
     this.setCoolDown(1);
     this.ammo.setMax(16);
 }
 
-Engine.assets.weapons.AirShooter.prototype = Object.create(Engine.assets.Weapon.prototype);
-Engine.assets.weapons.AirShooter.constructor = Engine.assets.Weapon;
+Game.objects.weapons.AirShooter.prototype = Object.create(Game.objects.Weapon.prototype);
+Game.objects.weapons.AirShooter.constructor = Game.objects.Weapon;
 
-Engine.assets.weapons.AirShooter.prototype.fire = function()
+Game.objects.weapons.AirShooter.prototype.fire = function()
 {
-    if (!Engine.assets.Weapon.prototype.fire.call(this)) {
+    if (!Game.objects.Weapon.prototype.fire.call(this)) {
         return false;
     }
 
     var projectiles = [
-        new Engine.assets.projectiles.AirShot(),
-        new Engine.assets.projectiles.AirShot(),
-        new Engine.assets.projectiles.AirShot(),
+        new Game.objects.projectiles.AirShot(),
+        new Game.objects.projectiles.AirShot(),
+        new Game.objects.projectiles.AirShot(),
     ];
 
     var velocityMultiplier = 1.2;

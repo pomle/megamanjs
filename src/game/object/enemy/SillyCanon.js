@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.SillyCanon = function(target)
+Game.objects.characters.SillyCanon = function(target)
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     var model = Engine.SpriteManager.createSprite('enemies/sillycanon.png', 32, 32);
     this.sprites = new Engine.SpriteManager(model, 32, 32, 256, 32);
@@ -22,7 +22,7 @@ Engine.assets.objects.characters.SillyCanon = function(target)
     this.setModel(model);
     this.addCollisionRect(16, 20, 0, -5);
 
-    this.health = new Engine.assets.Energy(10);
+    this.health = new Game.objects.Energy(10);
 
     this.setDirection(this.LEFT);
 
@@ -43,16 +43,16 @@ Engine.assets.objects.characters.SillyCanon = function(target)
     this.shootingAngle = this.aimingAngle;
 }
 
-Engine.assets.objects.characters.SillyCanon.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.SillyCanon.constructor = Engine.assets.objects.characters.SillyCanon;
+Game.objects.characters.SillyCanon.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.SillyCanon.constructor = Game.objects.characters.SillyCanon;
 
-Engine.assets.objects.characters.SillyCanon.prototype.fire = function()
+Game.objects.characters.SillyCanon.prototype.fire = function()
 {
     if (this.waitForShot > 0) {
         return;
     }
 
-    var projectile = new Engine.assets.projectiles.EnemyPlasma();
+    var projectile = new Game.objects.projectiles.EnemyPlasma();
     projectile.mass = 1;
     projectile.setEmitter(this);
 
@@ -76,7 +76,7 @@ Engine.assets.objects.characters.SillyCanon.prototype.fire = function()
     return true;
 }
 
-Engine.assets.objects.characters.SillyCanon.prototype.updateAI = function()
+Game.objects.characters.SillyCanon.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) > 2) {
         var target = this.ai.findPlayer();
@@ -92,7 +92,7 @@ Engine.assets.objects.characters.SillyCanon.prototype.updateAI = function()
     }
 }
 
-Engine.assets.objects.characters.SillyCanon.prototype.timeShift = function(dt)
+Game.objects.characters.SillyCanon.prototype.timeShift = function(dt)
 {
     this.waitForShot -= dt;
 
@@ -120,5 +120,5 @@ Engine.assets.objects.characters.SillyCanon.prototype.timeShift = function(dt)
         this.sprites.timeShift(dt);
     }
 
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

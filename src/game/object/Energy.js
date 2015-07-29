@@ -1,4 +1,4 @@
-Engine.assets.Energy = function(max, min)
+Game.objects.Energy = function(max, min)
 {
     this.min = min || 0;
     this.max = max || 100;
@@ -7,22 +7,22 @@ Engine.assets.Energy = function(max, min)
     this.event = function() {};
 }
 
-Engine.assets.Energy.prototype.deplete = function()
+Game.objects.Energy.prototype.deplete = function()
 {
     this.setTo(this.min);
 }
 
-Engine.assets.Energy.prototype.fill = function()
+Game.objects.Energy.prototype.fill = function()
 {
     this.setTo(this.max);
 }
 
-Engine.assets.Energy.prototype.getAmount = function()
+Game.objects.Energy.prototype.getAmount = function()
 {
     return this.value;
 }
 
-Engine.assets.Energy.prototype.getFraction = function()
+Game.objects.Energy.prototype.getFraction = function()
 {
     if (this.value === undefined || this.max === this.min) {
         return 1;
@@ -32,50 +32,50 @@ Engine.assets.Energy.prototype.getFraction = function()
     }
 }
 
-Engine.assets.Energy.prototype.increase = function(points)
+Game.objects.Energy.prototype.increase = function(points)
 {
     return this.setTo(this.value + points);
 }
 
-Engine.assets.Energy.prototype.isDepleted = function()
+Game.objects.Energy.prototype.isDepleted = function()
 {
     return this.value <= this.min;
 }
 
-Engine.assets.Energy.prototype.isFinite = function()
+Game.objects.Energy.prototype.isFinite = function()
 {
     return this.value !== undefined;
 }
 
-Engine.assets.Energy.prototype.reduce = function(points)
+Game.objects.Energy.prototype.reduce = function(points)
 {
     return this.setTo(this.value - points);
 }
 
-Engine.assets.Energy.prototype.setFinite = function(value)
+Game.objects.Energy.prototype.setFinite = function(value)
 {
     this.value = 0;
     this.setTo(this.max);
 }
 
-Engine.assets.Energy.prototype.setInfinite = function()
+Game.objects.Energy.prototype.setInfinite = function()
 {
     this.value = undefined;
 }
 
-Engine.assets.Energy.prototype.setMax = function(points)
+Game.objects.Energy.prototype.setMax = function(points)
 {
     this.max = points;
     this.setTo(this.value);
 }
 
-Engine.assets.Energy.prototype.setMin = function(points)
+Game.objects.Energy.prototype.setMin = function(points)
 {
     this.min = points;
     this.setTo(this.value);
 }
 
-Engine.assets.Energy.prototype.setTo = function(points)
+Game.objects.Energy.prototype.setTo = function(points)
 {
     if (this.value === undefined) {
         return false;

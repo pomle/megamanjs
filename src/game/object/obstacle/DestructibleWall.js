@@ -1,6 +1,6 @@
-Engine.assets.obstacles.DestructibleWall = function(color)
+Game.objects.obstacles.DestructibleWall = function(color)
 {
-    Engine.assets.Solid.call(this);
+    Game.objects.Solid.call(this);
 
     var colors = {
         'orange': 0,
@@ -24,18 +24,18 @@ Engine.assets.obstacles.DestructibleWall = function(color)
     this.addCollisionRect(16, 32)
 }
 
-Engine.assets.obstacles.DestructibleWall.prototype = Object.create(Engine.assets.Solid.prototype);
-Engine.assets.obstacles.DestructibleWall.constructor = Engine.assets.obstacles.DestructibleWall;
+Game.objects.obstacles.DestructibleWall.prototype = Object.create(Game.objects.Solid.prototype);
+Game.objects.obstacles.DestructibleWall.constructor = Game.objects.obstacles.DestructibleWall;
 
-Engine.assets.obstacles.DestructibleWall.prototype.collides = function(withObject, ourZone, theirZone)
+Game.objects.obstacles.DestructibleWall.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    if (withObject instanceof Engine.assets.decorations.Explosion) {
+    if (withObject instanceof Game.objects.decorations.Explosion) {
         this.scene.removeObject(this);
         return;
     }
 
-    if (withObject instanceof Engine.assets.Projectile) {
-        if (withObject instanceof Engine.assets.projectiles.CrashBomb) {
+    if (withObject instanceof Game.objects.Projectile) {
+        if (withObject instanceof Game.objects.projectiles.CrashBomb) {
             return;
         }
 
@@ -43,5 +43,5 @@ Engine.assets.obstacles.DestructibleWall.prototype.collides = function(withObjec
         withObject.inertia.y = 100;
     }
 
-    Engine.assets.Solid.prototype.collides.call(this, withObject, ourZone, theirZone);
+    Game.objects.Solid.prototype.collides.call(this, withObject, ourZone, theirZone);
 }

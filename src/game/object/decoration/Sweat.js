@@ -1,4 +1,4 @@
-Engine.assets.decorations.Sweat = function()
+Game.objects.decorations.Sweat = function()
 {
     Engine.Object.call(this);
 
@@ -20,10 +20,10 @@ Engine.assets.decorations.Sweat = function()
     this.setModel(model);
 }
 
-Engine.assets.decorations.Sweat.prototype = Object.create(Engine.assets.Decoration.prototype);
-Engine.assets.decorations.Sweat.constructor = Engine.assets.decorations.Sweat;
+Game.objects.decorations.Sweat.prototype = Object.create(Game.objects.Decoration.prototype);
+Game.objects.decorations.Sweat.constructor = Game.objects.decorations.Sweat;
 
-Engine.assets.decorations.Sweat.prototype.timeShift = function(dt)
+Game.objects.decorations.Sweat.prototype.timeShift = function(dt)
 {
     if (this.lifetime > this.lifespan) {
         this.scene.removeObject(this);

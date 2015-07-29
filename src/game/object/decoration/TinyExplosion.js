@@ -1,4 +1,4 @@
-Engine.assets.decorations.TinyExplosion = function()
+Game.objects.decorations.TinyExplosion = function()
 {
     Engine.Object.call(this);
 
@@ -20,10 +20,10 @@ Engine.assets.decorations.TinyExplosion = function()
     this.setModel(model);
 }
 
-Engine.assets.decorations.TinyExplosion.prototype = Object.create(Engine.assets.Decoration.prototype);
-Engine.assets.decorations.TinyExplosion.constructor = Engine.assets.decorations.TinyExplosion;
+Game.objects.decorations.TinyExplosion.prototype = Object.create(Game.objects.Decoration.prototype);
+Game.objects.decorations.TinyExplosion.constructor = Game.objects.decorations.TinyExplosion;
 
-Engine.assets.decorations.TinyExplosion.prototype.timeShift = function(dt)
+Game.objects.decorations.TinyExplosion.prototype.timeShift = function(dt)
 {
     if (this.lifespan > this.lifetime) {
         this.scene.removeObject(this);
@@ -32,7 +32,7 @@ Engine.assets.decorations.TinyExplosion.prototype.timeShift = function(dt)
 
     this.sprites.timeShift(dt);
 
-    Engine.assets.Decoration.prototype.timeShift.call(this, dt);
+    Game.objects.Decoration.prototype.timeShift.call(this, dt);
 
     this.lifespan += dt;
 }

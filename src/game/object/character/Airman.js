@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.Airman = function()
+Game.objects.characters.Airman = function()
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     var model = Engine.SpriteManager.createSprite('bosses/airman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -28,10 +28,10 @@ Engine.assets.objects.characters.Airman = function()
     this.jumpForce = 260;
 }
 
-Engine.assets.objects.characters.Airman.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.Airman.constructor = Engine.assets.objects.characters.Airman;
+Game.objects.characters.Airman.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.Airman.constructor = Game.objects.characters.Airman;
 
-Engine.assets.objects.characters.Airman.prototype.updateSprite = function()
+Game.objects.characters.Airman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
         this.sprites.setDirection(this.direction);
@@ -52,9 +52,9 @@ Engine.assets.objects.characters.Airman.prototype.updateSprite = function()
     return this.sprites.selectSprite('idle');
 }
 
-Engine.assets.objects.characters.Airman.prototype.timeShift = function(dt)
+Game.objects.characters.Airman.prototype.timeShift = function(dt)
 {
     this.updateSprite();
     this.sprites.timeShift(dt);
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

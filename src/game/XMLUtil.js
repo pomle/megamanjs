@@ -19,17 +19,16 @@ Game.XMLUtil = {
                 var code = weaponXml.attr('code');
                 var name = weaponXml.attr('name');
 
-                if (!Engine.assets.weapons[name]) {
+                if (!Game.objects.weapons[name]) {
                     throw new Error('Weapon ' + name + ' does not exist');
                 }
-                var weapon = new Engine.assets.weapons[name]();
+                var weapon = new Game.objects.weapons[name]();
                 weapon.code = code;
                 game.player.weapons[code] = weapon;
             });
 
             var playerXml = gameXml.children('player');
-            var character = new Engine.assets.objects
-                .characters[playerXml.children('character').attr('name')]();
+            var character = new Game.objects.characters[playerXml.children('character').attr('name')]();
             character.invincibilityDuration = parseFloat(playerXml.children('invincibility').attr('duration'));
 
             game.player.setCharacter(character);
@@ -358,7 +357,7 @@ Game.XMLUtil = {
                 enemyXml = $(enemyXml);
 
                 var name = enemyXml.attr('name');
-                if (!Engine.assets.objects.characters[name]) {
+                if (!Game.objects.characters[name]) {
                     throw new Error('Item ' + name + ' does not exist');
                 }
 
@@ -366,8 +365,8 @@ Game.XMLUtil = {
                 var x = parseFloat(enemyXml.attr('x'));
                 var y = -parseFloat(enemyXml.attr('y'));
                 if (spawnXml.length) {
-                    var object = new Engine.assets.Spawner();
-                    object.spawnSource.push(Engine.assets.objects.characters[name]);
+                    var object = new Game.objects.Spawner();
+                    object.spawnSource.push(Game.objects.characters[name]);
                     object.spawnCount = parseFloat(spawnXml.attr('count')) || undefined;
                     object.maxSimultaneousSpawns = parseFloat(spawnXml.attr('simultaneous')) || 1;
                     object.spawnInterval = parseFloat(spawnXml.attr('interval')) || 1;
@@ -375,7 +374,7 @@ Game.XMLUtil = {
                     object.maxDistance = parseFloat(spawnXml.attr('max-distance')) || object.maxDistance;
                 }
                 else {
-                    var object = new Engine.assets.objects.characters[name]();
+                    var object = new Game.objects.characters[name]();
                     var direction = enemyXml.attr('direction');
                     if (direction == 'right') {
                         object.setDirection(object.RIGHT);
@@ -391,10 +390,10 @@ Game.XMLUtil = {
             layoutXml.find('> items > item').each(function() {
                 var itemXml = $(this);
                 var name = itemXml.attr('name');
-                if (!Engine.assets.objects.items[name]) {
+                if (!Game.objects.items[name]) {
                     throw new Error('Item ' + name + ' does not exist');
                 }
-                var Item = new Engine.assets.objects.items[name]();
+                var Item = new Game.objects.items[name]();
                 Item.model.position.x = parseFloat(itemXml.attr('x'));
                 Item.model.position.y = -parseFloat(itemXml.attr('y'));
                 level.addObject(Item);
@@ -403,16 +402,16 @@ Game.XMLUtil = {
             layoutXml.find('obstacles > obstacle').each(function(i, obstacleXml) {
                 obstacleXml = $(obstacleXml);
                 var name = obstacleXml.attr('name');
-                if (!Engine.assets.obstacles[name]) {
+                if (!Game.objects.obstacles[name]) {
                     throw new Error('Obstacle ' + name + ' does not exist');
                 }
                 if (name == 'DestructibleWall') {
-                    var obstacle = new Engine.assets.obstacles[name](obstacleXml.attr('color'));
+                    var obstacle = new Game.objects.obstacles[name](obstacleXml.attr('color'));
                     obstacle.model.position.x = parseFloat(obstacleXml.attr('x'));
                     obstacle.model.position.y = -parseFloat(obstacleXml.attr('y'));
                 }
                 else if (name == 'DeathZone') {
-                    var obstacle = new Engine.assets.obstacles[name]();
+                    var obstacle = new Game.objects.obstacles[name]();
                     var prop = {
                         'x': parseFloat(obstacleXml.attr('x')),
                         'y': parseFloat(obstacleXml.attr('y')),
@@ -424,7 +423,7 @@ Game.XMLUtil = {
                     obstacle.model.position.y = -(prop.y + (prop.h/2));
                 }
                 else {
-                    var obstacle = new Engine.assets.obstacles[name]();
+                    var obstacle = new Game.objects.obstacles[name]();
                     var ref = obstacleXml.attr('ref');
                     var object = getObject(ref);
                     var material = new THREE.MeshBasicMaterial();
@@ -466,7 +465,7 @@ Game.XMLUtil = {
 
                     var geometry = new THREE.PlaneGeometry(prop.w, prop.h);
 
-                    var solid = new Engine.assets.Solid();
+                    var solid = new Game.objects.Solid();
                     solid.position.x = prop.x + (prop.w / 2);
                     solid.position.y = -(prop.y + (prop.h / 2));
                     solid.addCollisionGeometry(geometry);

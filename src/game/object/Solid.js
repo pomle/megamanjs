@@ -1,4 +1,4 @@
-Engine.assets.Solid = function()
+Game.objects.Solid = function()
 {
     Engine.Object.call(this);
 
@@ -12,16 +12,16 @@ Engine.assets.Solid = function()
     this.ignore = new Set();
 }
 
-Engine.assets.Solid.prototype = Object.create(Engine.Object.prototype);
-Engine.assets.Solid.constructor = Engine.assets.Solid;
+Game.objects.Solid.prototype = Object.create(Engine.Object.prototype);
+Game.objects.Solid.constructor = Game.objects.Solid;
 
-Engine.assets.Solid.prototype.TOP = 0;
-Engine.assets.Solid.prototype.BOTTOM = 1;
-Engine.assets.Solid.prototype.LEFT = 2;
-Engine.assets.Solid.prototype.RIGHT = 3;
+Game.objects.Solid.prototype.TOP = 0;
+Game.objects.Solid.prototype.BOTTOM = 1;
+Game.objects.Solid.prototype.LEFT = 2;
+Game.objects.Solid.prototype.RIGHT = 3;
 
 
-Engine.assets.Solid.prototype.attackDirection = function(ourBoundingBox, theirBoundingBox)
+Game.objects.Solid.prototype.attackDirection = function(ourBoundingBox, theirBoundingBox)
 {
     var distances = [
         Math.abs(theirBoundingBox.b - ourBoundingBox.t),
@@ -41,7 +41,7 @@ Engine.assets.Solid.prototype.attackDirection = function(ourBoundingBox, theirBo
     return dir;
 }
 
-Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
+Game.objects.Solid.prototype.collides = function(subject, ourZone, theirZone)
 {
     if (!subject.physics) {
         return false;
@@ -88,9 +88,9 @@ Engine.assets.Solid.prototype.collides = function(subject, ourZone, theirZone)
     return true;
 }
 
-Engine.assets.Solid.prototype.uncollides = function(subject, ourZone, theirZone)
+Game.objects.Solid.prototype.uncollides = function(subject, ourZone, theirZone)
 {
     this.ignore.delete(subject);
 }
 
-Engine.assets.obstacles = {};
+Game.objects.obstacles = {};

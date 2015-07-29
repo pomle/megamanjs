@@ -73,5 +73,3 @@ Engine.prototype.run = function()
 }
 
 Math.RAD = Math.PI/180;
-
-Engine.assets = {};

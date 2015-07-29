@@ -1,4 +1,4 @@
-Engine.assets.objects.Character = function()
+Game.objects.Character = function()
 {
     Engine.Object.call(this);
 
@@ -8,7 +8,7 @@ Engine.assets.objects.Character = function()
     this.dead = false;
     this.direction = undefined;
     this.fireTimeout = .25;
-    this.health = new Engine.assets.Energy(100);
+    this.health = new Game.objects.Energy(100);
     this.invincibilityDuration = 0;
     this.isFiring = false;
     this.isInvincible = false;
@@ -33,16 +33,16 @@ Engine.assets.objects.Character = function()
     this.weapon = undefined;
 }
 
-Engine.assets.objects.Character.prototype.EVENT_DEATH = 'death';
-Engine.assets.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
+Game.objects.Character.prototype.EVENT_DEATH = 'death';
+Game.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
 
-Engine.assets.objects.Character.prototype = Object.create(Engine.Object.prototype);
-Engine.assets.objects.Character.constructor = Engine.assets.objects.Character;
+Game.objects.Character.prototype = Object.create(Engine.Object.prototype);
+Game.objects.Character.constructor = Game.objects.Character;
 
-Engine.assets.objects.Character.prototype.LEFT = -1;
-Engine.assets.objects.Character.prototype.RIGHT = 1;
+Game.objects.Character.prototype.LEFT = -1;
+Game.objects.Character.prototype.RIGHT = 1;
 
-Engine.assets.objects.Character.prototype.calculateMoveSpeed = function(dt)
+Game.objects.Character.prototype.calculateMoveSpeed = function(dt)
 {
     if (this.walk == 0) {
         this.moveSpeed = 0;
@@ -52,7 +52,7 @@ Engine.assets.objects.Character.prototype.calculateMoveSpeed = function(dt)
     this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc * dt, this.walkSpeed);
 }
 
-Engine.assets.objects.Character.prototype.collides = function(withObject, ourZone, theirZone)
+Game.objects.Character.prototype.collides = function(withObject, ourZone, theirZone)
 {
     if (this.contactDamage > 0 && withObject.health) {
         withObject.inflictDamage(this.contactDamage);
@@ -60,9 +60,9 @@ Engine.assets.objects.Character.prototype.collides = function(withObject, ourZon
     Engine.Object.prototype.collides.call(this, withObject, ourZone, theirZone);
 }
 
-Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
+Game.objects.Character.prototype.equipWeapon = function(weapon)
 {
-    if (weapon instanceof Engine.assets.Weapon !== true) {
+    if (weapon instanceof Game.objects.Weapon !== true) {
         throw new Error('Invalid weapon');
     }
     this.weapon = weapon;
@@ -70,7 +70,7 @@ Engine.assets.objects.Character.prototype.equipWeapon = function(weapon)
     return true;
 }
 
-Engine.assets.objects.Character.prototype.fire = function()
+Game.objects.Character.prototype.fire = function()
 {
     if (this.stunnedTime > 0) {
         return false;
@@ -89,14 +89,14 @@ Engine.assets.objects.Character.prototype.fire = function()
     return true;
 }
 
-Engine.assets.objects.Character.prototype.getDeathObject = function()
+Game.objects.Character.prototype.getDeathObject = function()
 {
-    return new Engine.assets.decorations.TinyExplosion();
+    return new Game.objects.decorations.TinyExplosion();
 }
 
-Engine.assets.objects.Character.prototype.impactProjectile = function(projectile)
+Game.objects.Character.prototype.impactProjectile = function(projectile)
 {
-    if (projectile instanceof Engine.assets.Projectile !== true) {
+    if (projectile instanceof Game.objects.Projectile !== true) {
         throw new Error('Invalid projectile');
     }
 
@@ -108,7 +108,7 @@ Engine.assets.objects.Character.prototype.impactProjectile = function(projectile
     return false;
 }
 
-Engine.assets.objects.Character.prototype.inflictDamage = function(points, direction)
+Game.objects.Character.prototype.inflictDamage = function(points, direction)
 {
     if (this.isInvincible) {
         return false;
@@ -119,18 +119,18 @@ Engine.assets.objects.Character.prototype.inflictDamage = function(points, direc
     return true;
 }
 
-Engine.assets.objects.Character.prototype.invincibilityStart = function()
+Game.objects.Character.prototype.invincibilityStart = function()
 {
     this.isInvincible = this.invincibilityDuration;
 }
 
-Engine.assets.objects.Character.prototype.invincibilityEnd = function()
+Game.objects.Character.prototype.invincibilityEnd = function()
 {
     this.model.visible = true;
     this.isInvincible = false;
 }
 
-Engine.assets.objects.Character.prototype.jumpStart = function()
+Game.objects.Character.prototype.jumpStart = function()
 {
     if (this.stunnedTime > 0) {
         return false;
@@ -144,12 +144,12 @@ Engine.assets.objects.Character.prototype.jumpStart = function()
     this.jumpTime = this.time;
 }
 
-Engine.assets.objects.Character.prototype.jumpEnd = function()
+Game.objects.Character.prototype.jumpEnd = function()
 {
     this.jumpInertia = 0;
 }
 
-Engine.assets.objects.Character.prototype.kill = function()
+Game.objects.Character.prototype.kill = function()
 {
     this.dead = true;
     this.health.setFinite();
@@ -167,27 +167,27 @@ Engine.assets.objects.Character.prototype.kill = function()
     this.trigger(this.EVENT_DEATH);
 }
 
-Engine.assets.objects.Character.prototype.moveLeftStart = function()
+Game.objects.Character.prototype.moveLeftStart = function()
 {
     this.walk--;
 }
 
-Engine.assets.objects.Character.prototype.moveLeftEnd = function()
+Game.objects.Character.prototype.moveLeftEnd = function()
 {
     this.walk++;
 }
 
-Engine.assets.objects.Character.prototype.moveRightStart = function()
+Game.objects.Character.prototype.moveRightStart = function()
 {
     this.walk++;
 }
 
-Engine.assets.objects.Character.prototype.moveRightEnd = function()
+Game.objects.Character.prototype.moveRightEnd = function()
 {
     this.walk--;
 }
 
-Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
+Game.objects.Character.prototype.obstruct = function(solid, attack)
 {
     Engine.Object.prototype.obstruct.call(this, solid, attack);
 
@@ -202,19 +202,19 @@ Engine.assets.objects.Character.prototype.obstruct = function(solid, attack)
     }
 }
 
-Engine.assets.objects.Character.prototype.resurrect = function()
+Game.objects.Character.prototype.resurrect = function()
 {
     this.dead = false;
     this.health.fill();
     this.trigger(this.EVENT_RESURRECT);
 }
 
-Engine.assets.objects.Character.prototype.setDirection = function(d)
+Game.objects.Character.prototype.setDirection = function(d)
 {
     this.direction = d;
 }
 
-Engine.assets.objects.Character.prototype.timeShift = function(dt)
+Game.objects.Character.prototype.timeShift = function(dt)
 {
     this.isSupported = false;
 
@@ -262,4 +262,4 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     Engine.Object.prototype.timeShift.call(this, dt);
 }
 
-Engine.assets.objects.characters = {};
+Game.objects.characters = {};

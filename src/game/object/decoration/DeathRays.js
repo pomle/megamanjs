@@ -1,4 +1,4 @@
-Engine.assets.decorations.DeathRays = function()
+Game.objects.decorations.DeathRays = function()
 {
     Engine.Object.call(this);
 
@@ -6,5 +6,5 @@ Engine.assets.decorations.DeathRays = function()
     this.lifetime = 2;
 }
 
-Engine.assets.decorations.DeathRays.prototype = Object.create(Engine.assets.Decoration.prototype);
-Engine.assets.decorations.DeathRays.constructor = Engine.assets.decorations.DeathRays;
+Game.objects.decorations.DeathRays.prototype = Object.create(Game.objects.Decoration.prototype);
+Game.objects.decorations.DeathRays.constructor = Game.objects.decorations.DeathRays;

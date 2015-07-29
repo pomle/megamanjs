@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.Metalman = function()
+Game.objects.characters.Metalman = function()
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     var model = Engine.SpriteManager.createSprite('bosses/metalman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -34,10 +34,10 @@ Engine.assets.objects.characters.Metalman = function()
     this.addCollisionRect(12, 24, 0, 0);
 }
 
-Engine.assets.objects.characters.Metalman.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.Metalman.constructor = Engine.assets.objects.characters.Metalman;
+Game.objects.characters.Metalman.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.Metalman.constructor = Game.objects.characters.Metalman;
 
-Engine.assets.objects.characters.Metalman.prototype.updateSprite = function()
+Game.objects.characters.Metalman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
         this.sprites.setDirection(this.direction);
@@ -64,10 +64,10 @@ Engine.assets.objects.characters.Metalman.prototype.updateSprite = function()
     return this.sprites.selectSprite('idle');
 }
 
-Engine.assets.objects.characters.Metalman.prototype.timeShift = function(dt)
+Game.objects.characters.Metalman.prototype.timeShift = function(dt)
 {
     //this.updateAI(dt);
     this.updateSprite();
     this.sprites.timeShift(dt);
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

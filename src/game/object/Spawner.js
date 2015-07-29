@@ -1,4 +1,4 @@
-Engine.assets.Spawner = function()
+Game.objects.Spawner = function()
 {
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
@@ -14,10 +14,10 @@ Engine.assets.Spawner = function()
     this.timeSinceLastSpawn = 0;
 }
 
-Engine.assets.Spawner.prototype = Object.create(Engine.Object.prototype);
-Engine.assets.Spawner.constructor = Engine.assets.Spawner;
+Game.objects.Spawner.prototype = Object.create(Engine.Object.prototype);
+Game.objects.Spawner.constructor = Game.objects.Spawner;
 
-Engine.assets.Spawner.prototype.cleanReferences = function()
+Game.objects.Spawner.prototype.cleanReferences = function()
 {
     for (var object of this.spawnedObjects) {
         if (!this.scene.objects.has(object)) {
@@ -26,7 +26,7 @@ Engine.assets.Spawner.prototype.cleanReferences = function()
     }
 }
 
-Engine.assets.Spawner.prototype.killOffElderly = function()
+Game.objects.Spawner.prototype.killOffElderly = function()
 {
     for (var object of this.spawnedObjects) {
         if (object.time >= this.lifetime) {
@@ -36,7 +36,7 @@ Engine.assets.Spawner.prototype.killOffElderly = function()
     }
 }
 
-Engine.assets.Spawner.prototype.killOffRoaming = function()
+Game.objects.Spawner.prototype.killOffRoaming = function()
 {
     for (var object of this.spawnedObjects) {
         if (object.position.distanceTo(this.position) > this.roamingLimit) {
@@ -46,7 +46,7 @@ Engine.assets.Spawner.prototype.killOffRoaming = function()
     }
 }
 
-Engine.assets.Spawner.prototype.spawnObject = function()
+Game.objects.Spawner.prototype.spawnObject = function()
 {
     this.cleanReferences();
     if (this.spawnedObjects.size >= this.maxSimultaneousSpawns) {
@@ -75,7 +75,7 @@ Engine.assets.Spawner.prototype.spawnObject = function()
     return object;
 }
 
-Engine.assets.Spawner.prototype.timeShift = function(dt)
+Game.objects.Spawner.prototype.timeShift = function(dt)
 {
     this.timeSinceLastSpawn += dt;
     if (this.lifetime) {

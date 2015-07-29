@@ -1,6 +1,6 @@
-Engine.assets.objects.characters.Crashman = function()
+Game.objects.characters.Crashman = function()
 {
-    Engine.assets.objects.Character.call(this);
+    Game.objects.Character.call(this);
 
     var model = Engine.SpriteManager.createSprite('bosses/crashman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -32,10 +32,10 @@ Engine.assets.objects.characters.Crashman = function()
     this.addCollisionRect(12, 24, 0, 0);
 }
 
-Engine.assets.objects.characters.Crashman.prototype = Object.create(Engine.assets.objects.Character.prototype);
-Engine.assets.objects.characters.Crashman.constructor = Engine.assets.objects.characters.Crashman;
+Game.objects.characters.Crashman.prototype = Object.create(Game.objects.Character.prototype);
+Game.objects.characters.Crashman.constructor = Game.objects.characters.Crashman;
 
-Engine.assets.objects.characters.Crashman.prototype.updateSprite = function()
+Game.objects.characters.Crashman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
         this.sprites.setDirection(this.direction);
@@ -55,9 +55,9 @@ Engine.assets.objects.characters.Crashman.prototype.updateSprite = function()
     return this.sprites.selectSprite('idle');
 }
 
-Engine.assets.objects.characters.Crashman.prototype.timeShift = function(dt)
+Game.objects.characters.Crashman.prototype.timeShift = function(dt)
 {
     this.updateSprite();
     this.sprites.timeShift(dt);
-    Engine.assets.objects.Character.prototype.timeShift.call(this, dt);
+    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

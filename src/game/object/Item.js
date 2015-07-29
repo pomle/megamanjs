@@ -1,9 +1,9 @@
-Engine.assets.objects.Item = function()
+Game.objects.Item = function()
 {
     Engine.Object.call(this);
 }
 
-Engine.assets.objects.Item.prototype = Object.create(Engine.Object.prototype);
-Engine.assets.objects.Item.constructor = Engine.assets.objects.Item;
+Game.objects.Item.prototype = Object.create(Engine.Object.prototype);
+Game.objects.Item.constructor = Game.objects.Item;
 
-Engine.assets.objects.items = {};
+Game.objects.items = {};

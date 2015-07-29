@@ -1,6 +1,6 @@
-Engine.assets.objects.items.EnergyCapsule = function()
+Game.objects.items.EnergyCapsule = function()
 {
-    Engine.assets.objects.Item.call(this);
+    Game.objects.Item.call(this);
 
     var model = Engine.SpriteManager.createSprite('powerup.png', 16, 16);
     this.sprites = new Engine.SpriteManager(model, 16, 16 , 64, 64);
@@ -15,18 +15,18 @@ Engine.assets.objects.items.EnergyCapsule = function()
     this.addCollisionRect(16, 16);
 }
 
-Engine.assets.objects.items.EnergyCapsule.prototype = Object.create(Engine.assets.objects.Item.prototype);
-Engine.assets.objects.items.EnergyCapsule.constructor = Engine.assets.objects.items.EnergyCapsule;
+Game.objects.items.EnergyCapsule.prototype = Object.create(Game.objects.Item.prototype);
+Game.objects.items.EnergyCapsule.constructor = Game.objects.items.EnergyCapsule;
 
-Engine.assets.objects.items.EnergyCapsule.prototype.collides = function(withObject, theirZone, ourZone)
+Game.objects.items.EnergyCapsule.prototype.collides = function(withObject, theirZone, ourZone)
 {
-    if (withObject instanceof Engine.assets.objects.characters.Megaman) {
+    if (withObject instanceof Game.objects.characters.Megaman) {
         withObject.energyCapsules++;
         this.scene.removeObject(this);
     }
 }
 
-Engine.assets.objects.items.EnergyCapsule.prototype.timeShift = function(dt)
+Game.objects.items.EnergyCapsule.prototype.timeShift = function(dt)
 {
     this.sprites.timeShift(dt);
 }
