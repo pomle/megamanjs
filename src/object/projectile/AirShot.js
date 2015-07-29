@@ -13,8 +13,8 @@ Engine.assets.projectiles.AirShot = function()
     this.sprites.selectSprite('twirling');
     this.sprites.applySprite();
 
-    this.setDamage(20);
     this.setModel(model);
+    this.setDamage(20);
     this.setSpeed(80);
     this.penetratingForce = true;
     this.addCollisionRect(7, 8, 0, 0);

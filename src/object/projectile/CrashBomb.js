@@ -44,12 +44,14 @@ Engine.assets.projectiles.CrashBomb.prototype.collides = function(withObject, ou
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
         var dir = withObject.attackDirection(our, their);
 
+        /* If we are pushing Crash Bomb from the top or below, just nudge. */
         if (dir === withObject.TOP) {
             our.top(their.b);
         }
         else if (dir === withObject.BOTTOM) {
             our.bottom(their.t);
         }
+        /* If we hit something from left or right, we attach. */
         else {
             if (dir == withObject.LEFT) {
                 our.left(their.r);
