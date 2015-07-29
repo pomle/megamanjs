@@ -15,9 +15,9 @@ Engine.assets.decorations.Sweat = function()
 
     this.lifetime = 0;
     this.lifespan = .45;
+    this.speed = 10;
 
     this.setModel(model);
-    this.inertia.set(0, 10);
 }
 
 Engine.assets.decorations.Sweat.prototype = Object.create(Engine.assets.Decoration.prototype);
@@ -31,6 +31,6 @@ Engine.assets.decorations.Sweat.prototype.timeShift = function(dt)
     }
 
     this.sprites.timeShift(dt);
-    Engine.assets.Decoration.prototype.timeShift.call(this, dt);
+    this.position.y += this.speed * dt;
     this.lifetime += dt;
 }
