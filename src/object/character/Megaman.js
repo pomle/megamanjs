@@ -135,13 +135,13 @@ Engine.assets.objects.characters.Megaman.prototype.inflictDamage = function(poin
     }
 
     this.jumpInertia = 0;
-    this.inertia.set(0, 0);
-    this.momentum.set(40, 60);
+    this.physics.inertia.set(0, 0);
+    this.physics.momentum.set(40, 60);
     if (direction) {
-        this.momentum.x *= direction.x > 0 ? -1 : 1;
+        this.physics.momentum.x *= direction.x > 0 ? -1 : 1;
     }
     else {
-        this.momentum.x *= this.direction > 0 ? -1 : 1;
+        this.physics.momentum.x *= this.direction > 0 ? -1 : 1;
     }
 
     var sweat = this.decorations['sweat']

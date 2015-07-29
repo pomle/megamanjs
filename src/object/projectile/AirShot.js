@@ -25,10 +25,10 @@ Engine.assets.projectiles.AirShot.constructor = Engine.assets.Projectile;
 
 Engine.assets.projectiles.AirShot.prototype.timeShift = function(dt)
 {
-    if (this.inertia.x) {
-        this.sprites.setDirection(this.inertia.x > 0 ? 1 : -1);
+    if (this.velocity.x) {
+        this.sprites.setDirection(this.velocity.x > 0 ? 1 : -1);
     }
-    this.inertia.y += 150 * dt;
+    this.physics.inertia.y += 150 * dt;
 
     this.sprites.timeShift(dt);
     Engine.assets.Projectile.prototype.timeShift.call(this, dt);

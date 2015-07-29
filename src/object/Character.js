@@ -19,7 +19,7 @@ Engine.assets.objects.Character = function()
     this.jumpInertia = 0;
     this.jumpTime = undefined;
 
-    this.mass = 1;
+    this.physics.mass = 1;
     this.moveSpeed = 0;
 
     this.projectileEmitOffset = new THREE.Vector2();
@@ -140,7 +140,7 @@ Engine.assets.objects.Character.prototype.jumpStart = function()
         return false;
     }
     this.isSupported = false;
-    this.jumpInertia = this.inertia.y + this.jumpForce;
+    this.jumpInertia = this.physics.inertia.y + this.jumpForce;
     this.jumpTime = this.time;
 }
 
@@ -222,12 +222,12 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
         this.stunnedTime -= dt;
     }
     else {
-        this.momentum.set(0, 0);
+        this.physics.momentum.set(0, 0);
         if (this.walk) {
             this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
         }
         this.calculateMoveSpeed(dt);
-        this.momentum.x = (this.moveSpeed * this.walk);
+        this.physics.momentum.x = (this.moveSpeed * this.walk);
     }
 
     if (this.isInvincible > 0) {
@@ -253,7 +253,7 @@ Engine.assets.objects.Character.prototype.timeShift = function(dt)
     }
 
     if (this.jumpInertia) {
-        this.inertia.y = this.jumpInertia;
+        this.physics.inertia.y = this.jumpInertia;
         if (this.time - this.jumpTime > this.jumpDuration) {
             this.jumpEnd();
         }
