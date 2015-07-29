@@ -46,7 +46,7 @@ Game.XMLUtil = {
 
             game.loadScene(gameXml.find('> entrypoint > scene').attr('name'));
 
-            callback();
+            callback(game);
         });
         return game;
     },
@@ -491,7 +491,7 @@ Game.XMLUtil = {
                 level.addCheckPoint(x, -y, r || undefined);
             });
 
-            callback();
+            callback(level);
         });
 
         return level;
@@ -546,7 +546,7 @@ Game.XMLUtil = {
             });
 
             scene.equalize(parseFloat(indicatorXml.attr('initial-index')));
-            callback();
+            callback(scene);
         });
         return scene;
     }
