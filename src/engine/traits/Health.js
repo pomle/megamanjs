@@ -11,7 +11,7 @@ Engine.traits.Health.prototype.NAME = 'health';
 
 Engine.traits.Health.prototype.__timeshift = function(dt)
 {
-    if (this.isDepleted()) {
+    if (this.depleted) {
         this.object.kill();
     }
 }
