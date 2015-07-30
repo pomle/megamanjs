@@ -248,10 +248,6 @@ Game.objects.Character.prototype.timeShift = function(dt)
         this.weapon.timeShift(dt);
     }
 
-    if (this.health.isDepleted()) {
-        this.kill();
-    }
-
     if (this.jumpInertia) {
         this.physics.inertia.y = this.jumpInertia;
         if (this.time - this.jumpTime > this.jumpDuration) {

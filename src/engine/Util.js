@@ -17,7 +17,7 @@ Engine.Util = {
     extend: function(child, parent)
     {
         child.prototype = Object.create(parent.prototype);
-        child.constructor = parent;
+        child.constructor = child;
     },
 
     mixin: function()
