@@ -22,12 +22,13 @@ Engine.Util = {
 
     mixin: function()
     {
-        var subject = arguments[0];
+        var subject = arguments[0].prototype;
         for (var i = 1, l = arguments.length; i < l; ++i) {
-            var source = arguments[i];
-            for (var prop in source.prototype) {
-                if (source.prototype.hasOwnProperty(prop)) {
-                    subject.prototype[prop] = source.prototype[prop];
+            var source = arguments[i].prototype;
+            for (var prop in source) {
+                if (source.hasOwnProperty(prop)) {
+                    var descriptor = Object.getOwnPropertyDescriptor(source, prop);
+                    Object.defineProperty(subject, prop, descriptor);
                 }
             }
         }
