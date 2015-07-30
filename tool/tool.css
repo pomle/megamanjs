@@ -1,0 +1,91 @@
+* {
+    color: #666666;
+    border-color: #303030;
+    border-style: solid;
+    border-width: 0;
+}
+
+body {
+    background: #101010;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+input, textarea {
+    background: transparent;
+    border-width: 1px;
+}
+
+.workspace {
+    border-width: 1px;
+    height: 500px;
+    image-rendering: pixelated;
+    overflow: auto;
+}
+.workspace > .zoom {
+
+}
+
+.workspace .grid {
+    position: relative;
+}
+.workspace .grid > .template {
+    opacity: .5;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+.workspace .grid > .overlay {
+    background: url('gfx/grid.png');
+    opacity: .3;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.workspace .grid .items {
+    position: relative;
+}
+
+.asset.solid {
+    background: url('gfx/solid.png');
+    border: dotted 1px #fff;
+    box-sizing: border-box;
+    height: 16px;
+    width: 16px;
+}
+.asset.solid.selected {
+    margin: 0;
+}
+
+.asset.selected {
+    border: dotted 1px #00aeef;
+    margin: -1px;
+    z-index: 2;
+}
+
+.assets {
+    background: rgba(0,0,0,.8);
+    border: solid 1px rgba(255,255,255,.15);
+    box-shadow: 0 0 20px rgba(0,0,0,1);
+    overflow: scroll;
+    padding: 5px;
+    position: absolute;
+    right: 50px;
+    top: 50px;
+    height: 400px;
+    width: 300px;
+    z-index: 3;
+}
+
+.assets .asset {
+    margin: 5px;
+}
+
+
+.controlpanel {
+}

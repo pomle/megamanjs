@@ -1,0 +1,22 @@
+.workspace {
+    position: relative;
+}
+
+.workspace .zoom {
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.workspace .slice {
+    border: dotted 1px #fff;
+    box-sizing: border-box;
+    display: block;
+    height: 16px;
+    position: absolute;
+    width: 16px;
+}
+
+.workspace .slice.selected {
+    border: solid 1px cyan;
+}
+
