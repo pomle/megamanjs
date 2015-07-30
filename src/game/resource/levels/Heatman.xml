@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<level name="Flashman">
+<level name="Heatman">
     <gravity x="0" y="983" />
     <collision radius="360" />
 
@@ -45,99 +45,88 @@
         </path>
     </camera>
 
-    <sprites url="./heatman/tiles.png" w="128" h="128">
-        <!-- Decorations -->
-        <sprite id="darkness" x="96" y="80" w="16" h="16"/>
+    <sprites url="./heatman/tiles.png" w="256" h="128">
+        <sprite id="bricks-big" x="145" y="55" w="16" h="16"/>
+        <sprite id="bricks-big-bottom" x="199" y="55" w="16" h="16"/>
+        <sprite id="bricks-big-top" x="127" y="55" w="16" h="16"/>
+        <sprite id="bricks-small" x="181" y="55" w="16" h="16"/>
+        <sprite id="concrete-bottom" x="37" y="55" w="16" h="16"/>
+        <sprite id="concrete-fill" x="19" y="55" w="16" h="16"/>
+        <sprite id="concrete-lower" x="73" y="55" w="16" h="16"/>
+        <sprite id="concrete-top" x="1" y="55" w="16" h="16"/>
+        <sprite id="concrete-upper" x="55" y="55" w="16" h="16"/>
+        <sprite id="darkness" x="235" y="19" w="16" h="16"/>
+        <sprite id="door" x="109" y="55" w="16" h="16"/>
+        <sprite id="dr-wily-sign" x="217" y="39" w="32" h="30"/>
+        <sprite id="hole" x="91" y="19" w="16" h="16"/>
+        <sprite id="ladder" x="91" y="37" w="16" h="16"/>
+        <sprite id="lava-edge-1" x="163" y="1" w="16" h="16"/>
+        <sprite id="lava-edge-2" x="163" y="19" w="16" h="16"/>
+        <sprite id="lava-edge-3" x="163" y="37" w="16" h="16"/>
+        <sprite id="lava-hori-1-1" x="127" y="1" w="16" h="16"/>
+        <sprite id="lava-hori-1-2" x="127" y="19" w="16" h="16"/>
+        <sprite id="lava-hori-1-3" x="127" y="37" w="16" h="16"/>
+        <sprite id="lava-hori-2-1" x="145" y="1" w="16" h="16"/>
+        <sprite id="lava-hori-2-2" x="145" y="19" w="16" h="16"/>
+        <sprite id="lava-hori-2-3" x="145" y="37" w="16" h="16"/>
+        <sprite id="lava-vert-1-1" x="181" y="1" w="16" h="16"/>
+        <sprite id="lava-vert-1-2" x="181" y="19" w="16" h="16"/>
+        <sprite id="lava-vert-1-3" x="181" y="37" w="16" h="16"/>
+        <sprite id="lava-vert-2-1" x="199" y="1" w="16" h="16"/>
+        <sprite id="lava-vert-2-2" x="199" y="19" w="16" h="16"/>
+        <sprite id="lava-vert-2-3" x="199" y="37" w="16" h="16"/>
+        <sprite id="mortar-1" x="1" y="1" w="16" h="16"/>
+        <sprite id="mortar-10" x="37" y="19" w="16" h="16"/>
+        <sprite id="mortar-2" x="19" y="1" w="16" h="16"/>
+        <sprite id="mortar-3" x="37" y="1" w="16" h="16"/>
+        <sprite id="mortar-3-shaded" x="55" y="37" w="16" h="16"/>
+        <sprite id="mortar-4" x="55" y="1" w="16" h="16"/>
+        <sprite id="mortar-4-shaded" x="109" y="19" w="16" h="16"/>
+        <sprite id="mortar-5" x="73" y="1" w="16" h="16"/>
+        <sprite id="mortar-5-shaded" x="1" y="37" w="16" h="16"/>
+        <sprite id="mortar-6" x="91" y="1" w="16" h="16"/>
+        <sprite id="mortar-6-shaded" x="19" y="37" w="16" h="16"/>
+        <sprite id="mortar-7" x="109" y="1" w="16" h="16"/>
+        <sprite id="mortar-7-shaded" x="37" y="37" w="16" h="16"/>
+        <sprite id="mortar-8" x="1" y="19" w="16" h="16"/>
+        <sprite id="mortar-8-shaded" x="55" y="19" w="16" h="16"/>
+        <sprite id="mortar-9" x="19" y="19" w="16" h="16"/>
+        <sprite id="mortar-9-shaded" x="73" y="19" w="16" h="16"/>
+        <sprite id="pillar" x="163" y="55" w="16" h="16"/>
+        <sprite id="sign-n" x="109" y="37" w="16" h="16"/>
+        <sprite id="sign-s" x="217" y="19" w="16" h="16"/>
+        <sprite id="sign-sw" x="235" y="1" w="16" h="16"/>
+        <sprite id="sign-w" x="217" y="1" w="16" h="16"/>
 
-        <sprite id="pillar" x="32" y="112" w="16" h="16"/>
-        <sprite id="hole" x="80" y="16" w="16" h="16"/>
-        <sprite id="ladder" x="80" y="32" w="16" h="16"/>
-        <sprite id="door" x="96" y="48" w="16" h="16"/>
-
-        <sprite id="bricks-small" x="48" y="112" w="16" h="16"/>
-        <sprite id="bricks-big" x="16" y="112" w="16" h="16"/>
-        <sprite id="bricks-big-top" x="0" y="112" w="16" h="16"/>
-        <sprite id="bricks-big-bottom" x="64" y="112" w="16" h="16"/>
-
-        <sprite id="concrete-single" x="64" y="48" w="16" h="16"/>
-        <sprite id="concrete-center" x="16" y="48" w="16" h="16"/>
-        <sprite id="concrete-top-open" x="48" y="48" w="16" h="16"/>
-        <sprite id="concrete-top-closed" x="0" y="48" w="16" h="16"/>
-        <sprite id="concrete-bottom-open" x="64" y="48" w="16" h="16"/>
-        <sprite id="concrete-bottom-closed" x="32" y="48" w="16" h="16"/>
-
-        <sprite id="mortar-1" x="0" y="0" w="16" h="16"/>
-        <sprite id="mortar-2" x="16" y="0" w="16" h="16"/>
-        <sprite id="mortar-3" x="32" y="0" w="16" h="16"/>
-        <sprite id="mortar-3-shaded" x="48" y="32" w="16" h="16"/>
-        <sprite id="mortar-4" x="48" y="0" w="16" h="16"/>
-        <sprite id="mortar-4-shaded" x="96" y="16" w="16" h="16"/>
-        <sprite id="mortar-5" x="64" y="0" w="16" h="16"/>
-        <sprite id="mortar-5-shaded" x="0" y="32" w="16" h="16"/>
-        <sprite id="mortar-6" x="80" y="0" w="16" h="16"/>
-        <sprite id="mortar-6-shaded" x="16" y="32" w="16" h="16"/>
-        <sprite id="mortar-7" x="96" y="0" w="16" h="16"/>
-        <sprite id="mortar-7-shaded" x="32" y="32" w="16" h="16"/>
-        <sprite id="mortar-8" x="0" y="16" w="16" h="16"/>
-        <sprite id="mortar-8-shaded" x="48" y="16" w="16" h="16"/>
-        <sprite id="mortar-9" x="16" y="16" w="16" h="16"/>
-        <sprite id="mortar-9-shaded" x="64" y="16" w="16" h="16"/>
-        <sprite id="mortar-10" x="32" y="16" w="16" h="16"/>
-
-        <sprite id="lave-hori-1-1" x="0" y="64" w="16" h="16"/>
-        <sprite id="lave-hori-1-2" x="0" y="80" w="16" h="16"/>
-        <sprite id="lave-hori-1-3" x="0" y="96" w="16" h="16"/>
-
-        <sprite id="lave-hori-2-1" x="16" y="64" w="16" h="16"/>
-        <sprite id="lave-hori-2-2" x="16" y="80" w="16" h="16"/>
-        <sprite id="lave-hori-2-3" x="16" y="96" w="16" h="16"/>
-
-        <sprite id="lave-vert-1-1" x="48" y="64" w="16" h="16"/>
-        <sprite id="lave-vert-1-2" x="48" y="80" w="16" h="16"/>
-        <sprite id="lave-vert-1-3" x="48" y="96" w="16" h="16"/>
-
-        <sprite id="lave-vert-2-1" x="64" y="64" w="16" h="16"/>
-        <sprite id="lave-vert-2-2" x="64" y="80" w="16" h="16"/>
-        <sprite id="lave-vert-2-3" x="64" y="96" w="16" h="16"/>
-
-        <sprite id="lave-edge-1" x="32" y="64" w="16" h="16"/>
-        <sprite id="lave-edge-2" x="32" y="80" w="16" h="16"/>
-        <sprite id="lave-edge-3" x="32" y="96" w="16" h="16"/>
-
-        <sprite id="dr-wily-sign" x="80" y="96" w="32" h="32"/>
-        <sprite id="sign-n" x="96" y="32" w="16" h="16"/>
-        <sprite id="sign-w" x="80" y="64" w="16" h="16"/>
-        <sprite id="sign-sw" x="96" y="64" w="16" h="16"/>
-        <sprite id="sign-s" x="80" y="80" w="16" h="16"/>
 
         <animation name="lava-hori-1">
-            <frame sprite="lave-hori-1-1" duration=".11"/>
-            <frame sprite="lave-hori-1-2" duration=".11"/>
-            <frame sprite="lave-hori-1-3" duration=".11"/>
+            <frame sprite="lava-hori-1-1" duration=".11"/>
+            <frame sprite="lava-hori-1-2" duration=".11"/>
+            <frame sprite="lava-hori-1-3" duration=".11"/>
         </animation>
 
         <animation name="lava-hori-2">
-            <frame sprite="lave-hori-2-1" duration=".11"/>
-            <frame sprite="lave-hori-2-2" duration=".11"/>
-            <frame sprite="lave-hori-2-3" duration=".11"/>
+            <frame sprite="lava-hori-2-1" duration=".11"/>
+            <frame sprite="lava-hori-2-2" duration=".11"/>
+            <frame sprite="lava-hori-2-3" duration=".11"/>
         </animation>
 
         <animation name="lava-vert-1">
-            <frame sprite="lave-vert-1-1" duration=".11"/>
-            <frame sprite="lave-vert-1-2" duration=".11"/>
-            <frame sprite="lave-vert-1-3" duration=".11"/>
+            <frame sprite="lava-vert-1-1" duration=".11"/>
+            <frame sprite="lava-vert-1-2" duration=".11"/>
+            <frame sprite="lava-vert-1-3" duration=".11"/>
         </animation>
 
         <animation name="lava-vert-2">
-            <frame sprite="lave-vert-2-1" duration=".11"/>
-            <frame sprite="lave-vert-2-2" duration=".11"/>
-            <frame sprite="lave-vert-2-3" duration=".11"/>
+            <frame sprite="lava-vert-2-1" duration=".11"/>
+            <frame sprite="lava-vert-2-2" duration=".11"/>
+            <frame sprite="lava-vert-2-3" duration=".11"/>
         </animation>
 
         <animation name="lava-edge">
-            <frame sprite="lave-edge-1" duration=".11"/>
-            <frame sprite="lave-edge-2" duration=".11"/>
-            <frame sprite="lave-edge-3" duration=".11"/>
+            <frame sprite="lava-edge-1" duration=".11"/>
+            <frame sprite="lava-edge-2" duration=".11"/>
+            <frame sprite="lava-edge-3" duration=".11"/>
         </animation>
 
 
@@ -339,26 +328,26 @@
             </animation>
 
 
-            <sprite ref="concrete-single">
+            <sprite ref="concrete-lower">
                 <segment x="111-125" y="13"/>
             </sprite>
-            <sprite ref="concrete-center">
+            <sprite ref="concrete-fill">
                 <segment x="119-124" y="12"/>
             </sprite>
-            <sprite ref="concrete-top-open">
+            <sprite ref="concrete-upper">
                 <segment x="1-16,20-24,28-32,36-47,50-51" y="12"/>
             </sprite>
-            <sprite ref="concrete-bottom-open">
+            <sprite ref="concrete-lower">
                 <segment x="1-94" y="14"/>
             </sprite>
-            <sprite ref="concrete-top-closed">
+            <sprite ref="concrete-top">
                 <segment x="119-124" y="11"/>
                 <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="12"/>
             </sprite>
-            <sprite ref="concrete-center">
+            <sprite ref="concrete-fill">
                 <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="13"/>
             </sprite>
-            <sprite ref="concrete-bottom-closed">
+            <sprite ref="concrete-bottom">
                 <segment x="119-124" y="13"/>
                 <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="14"/>
             </sprite>
@@ -581,19 +570,19 @@
             </sprite>
 
             <!-- Lava pit -->
-            <sprite ref="concrete-top-closed">
+            <sprite ref="concrete-top">
                 <segment x="111,140" y="12"/>
             </sprite>
             <sprite ref="mortar-8-shaded">
                 <segment x="111,140" y="11"/>
             </sprite>
-            <sprite ref="concrete-bottom-closed">
+            <sprite ref="concrete-bottom">
                 <segment x="111,140" y="14"/>
             </sprite>
-            <sprite ref="concrete-bottom-open">
+            <sprite ref="concrete-lower">
                 <segment x="112-139" y="14"/>
             </sprite>
-            <sprite ref="concrete-center">
+            <sprite ref="concrete-fill">
                 <segment x="111,140" y="13"/>
             </sprite>
             <animation ref="lava-hori-1">
@@ -664,20 +653,20 @@
                 <segment x="1-3,15-16" y="11"/>
             </sprite>
 
-            <sprite ref="concrete-center">
+            <sprite ref="concrete-fill">
                 <segment x="*" y="3,13"/>
             </sprite>
-            <sprite ref="concrete-top-closed">
+            <sprite ref="concrete-top">
                 <segment x="*" y="2,12"/>
             </sprite>
-            <sprite ref="concrete-bottom-closed">
+            <sprite ref="concrete-bottom">
                 <segment x="*" y="4,14"/>
             </sprite>
-            <sprite ref="concrete-top-open">
+            <sprite ref="concrete-upper">
                 <segment x="3-7,11-12" y="2"/>
                 <segment x="1-2,7-8,10-14" y="12"/>
             </sprite>
-            <sprite ref="concrete-bottom-open">
+            <sprite ref="concrete-lower">
                 <segment x="3-7,11-12" y="4"/>
                 <segment x="1-2,7-8,10-14" y="14"/>
             </sprite>
@@ -766,19 +755,19 @@
                 <segment x="4" y="1-3"/>
             </sprite>
 
-            <sprite ref="concrete-top-closed">
+            <sprite ref="concrete-top">
                 <segment x="33-48" y="13"/>
             </sprite>
-            <sprite ref="concrete-center">
+            <sprite ref="concrete-fill">
                 <segment x="33-48" y="14"/>
             </sprite>
-            <sprite ref="concrete-bottom-closed">
+            <sprite ref="concrete-bottom">
                 <segment x="33-48" y="15"/>
             </sprite>
-            <sprite ref="concrete-top-open">
+            <sprite ref="concrete-upper">
                 <segment x="34-35,38-43,46-47" y="13"/>
             </sprite>
-            <sprite ref="concrete-bottom-open">
+            <sprite ref="concrete-lower">
                 <segment x="34-35,38-43,46-47" y="15"/>
             </sprite>
             <animation ref="lava-hori-1">
