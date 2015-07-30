@@ -15,6 +15,12 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
             if (this._value === undefined) {
                 return;
             }
+            if (!isFinite(v)) {
+                throw new TypeError('Value not a number');
+            }
+
+            v = parseFloat(v);
+
             if (v > this._max) {
                 this._value = this._max;
             }
@@ -66,7 +72,13 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
             return this._max;
         },
         set: function(v) {
+            if (!isFinite(v)) {
+                throw new TypeError('Value not a number');
+            }
+
             this._max = parseFloat(v);
+
+            /* Trigger amount setter to clamp value to new max. */
             this.value = this._value;
         },
     },
@@ -76,7 +88,13 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
             return this._min;
         },
         set: function(v) {
+            if (!isFinite(v)) {
+                throw new TypeError('Value not a number');
+            }
+
             this._min = parseFloat(v);
+
+            /* Trigger amount setter to clamp value to new min. */
             this.value = this._value;
         },
     },
