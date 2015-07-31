@@ -8,7 +8,7 @@ Game.objects.Character = function()
     this.dead = false;
     this.direction = undefined;
     this.fireTimeout = .25;
-    this.health = new Game.objects.Energy(100);
+    this.applyTrait(new Engine.traits.Health(100));
     this.invincibilityDuration = 0;
     this.isFiring = false;
     this.isInvincible = false;
@@ -113,7 +113,7 @@ Game.objects.Character.prototype.inflictDamage = function(points, direction)
     if (this.isInvincible) {
         return false;
     }
-    this.health.reduce(points);
+    this.health.amount -= points;
     this.invincibilityStart();
     this.stunnedTime = this.stunnedDuration;
     return true;
@@ -152,7 +152,6 @@ Game.objects.Character.prototype.jumpEnd = function()
 Game.objects.Character.prototype.kill = function()
 {
     this.dead = true;
-    this.health.setFinite();
     this.health.deplete();
 
     /* Notify object that something happened. */
