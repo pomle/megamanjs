@@ -90,28 +90,8 @@ Engine.Object.prototype.moveTo = function(vec)
     this.position.y = vec.y;
 }
 
-Engine.Object.prototype.obstruct = function(solid, attack)
+Engine.Object.prototype.obstruct = function(object, attack)
 {
-    if (solid instanceof Game.objects.Solid === false) {
-        throw new Error('Invalid solid');
-    }
-
-    switch (attack) {
-        case solid.TOP:
-            this.physics.inertia.copy(solid.velocity);
-            this.isSupported = true;
-            break;
-
-        case solid.BOTTOM:
-            this.physics.inertia.copy(solid.velocity);
-            this.jumpEnd();
-            break;
-
-        case solid.LEFT:
-        case solid.RIGHT:
-            this.moveSpeed = Math.abs(solid.velocity.x);
-            break;
-    }
 }
 
 Engine.Object.prototype.setEmitter = function(object)
