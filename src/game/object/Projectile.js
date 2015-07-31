@@ -27,7 +27,7 @@ Game.objects.Projectile.prototype.collides = function(withObject, ourZone, their
 
     if (withObject.impactProjectile) {
         withObject.impactProjectile(this);
-        if (!this.penetratingForce || !withObject.health.isDepleted()) {
+        if (!this.penetratingForce || !withObject.health.depleted) {
             this.scene.removeObject(this);
         }
     }

@@ -23,7 +23,7 @@ Game.objects.items.EnergyTank.constructor = Game.objects.items.EnergyTank;
 Game.objects.items.EnergyTank.prototype.collides = function(withObject, theirZone, ourZone)
 {
     if (withObject instanceof Game.objects.Character) {
-        withObject.health.increase(this.capacity);
+        withObject.health.amount += this.capacity;
         this.scene.removeObject(this);
     }
 }

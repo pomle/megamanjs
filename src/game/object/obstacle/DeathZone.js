@@ -8,7 +8,7 @@ Game.objects.obstacles.DeathZone.constructor = Game.objects.obstacles.DeathZone;
 
 Game.objects.obstacles.DeathZone.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    if (withObject.health && !withObject.health.isDepleted()) {
+    if (withObject.health && !withObject.health.depleted) {
         withObject.kill();
     }
 }
