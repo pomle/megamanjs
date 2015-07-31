@@ -1,5 +1,7 @@
 Engine.Object = function()
 {
+    Engine.Events.call(this);
+
     this.uuid = THREE.Math.generateUUID();
     this.collidable = true;
     this.collision = [];
@@ -17,6 +19,8 @@ Engine.Object = function()
     var model = new THREE.Mesh(this.geometry, this.material);
     this.setModel(model);
 }
+
+Engine.Util.mixin(Engine.Object, Engine.Events);
 
 Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
 Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
@@ -59,14 +63,6 @@ Engine.Object.prototype.applyTrait = function(trait)
     trait.object = this;
     this.traits.push(trait);
     this[trait.NAME] = trait;
-}
-
-Engine.Object.prototype.bind = function(name, callback)
-{
-    if (!this.events[name]) {
-        this.events[name] = [];
-    }
-    this.events[name].push(callback);
 }
 
 Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
@@ -130,33 +126,6 @@ Engine.Object.prototype.timeShift = function(dt)
 
     this.position.x += (this.velocity.x * dt);
     this.position.y += (this.velocity.y * dt);
-}
-
-Engine.Object.prototype.trigger = function(name)
-{
-    if (this.events[name]) {
-        var i,
-            l = this.events[name].length,
-            event;
-
-        for (i = 0; i < l; i++) {
-            event = this.events[name][i];
-            if (event) {
-                event(this, arguments);
-            }
-        }
-    }
-}
-
-
-Engine.Object.prototype.unbind = function(name, callback)
-{
-    if (this.events[name]) {
-        var index = this.events[name].indexOf(callback);
-        if (index > -1) {
-            this.events[name].splice(index, 1);
-        }
-    }
 }
 
 Engine.Object.prototype.uncollides = function(withObject)
