@@ -19,11 +19,11 @@ Game.objects.Character = function()
     this.jumpInertia = 0;
     this.jumpTime = undefined;
 
-    this.physics.mass = 1;
     this.moveSpeed = 0;
 
+    this.applyTrait(new Engine.traits.Physics());
+    this.physics.mass = 1;
     this.projectileEmitOffset = new THREE.Vector2();
-
     this.stunnedDuration = .5;
     this.stunnedTime = false;
 

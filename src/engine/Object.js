@@ -14,8 +14,6 @@ Engine.Object = function()
     this.traits = [];
     this.velocity = new THREE.Vector2();
 
-    this.applyTrait(new Engine.traits.Physics());
-
     var model = new THREE.Mesh(this.geometry, this.material);
     this.setModel(model);
 }
