@@ -19,11 +19,11 @@ Game.objects.Character = function()
     this.jumpInertia = 0;
     this.jumpTime = undefined;
 
-    this.physics.mass = 1;
     this.moveSpeed = 0;
 
+    this.applyTrait(new Engine.traits.Physics());
+    this.physics.mass = 1;
     this.projectileEmitOffset = new THREE.Vector2();
-
     this.stunnedDuration = .5;
     this.stunnedTime = false;
 
@@ -186,16 +186,31 @@ Game.objects.Character.prototype.moveRightEnd = function()
     this.walk--;
 }
 
-Game.objects.Character.prototype.obstruct = function(solid, attack)
+Game.objects.Character.prototype.obstruct = function(object, attack)
 {
-    Engine.Object.prototype.obstruct.call(this, solid, attack);
+    Engine.Object.prototype.obstruct.call(this, object, attack);
 
     switch (attack) {
-        case solid.TOP:
+        case object.solid.TOP:
+            this.physics.inertia.copy(object.velocity);
+            break;
+
+        case object.solid.BOTTOM:
+            this.physics.inertia.copy(object.velocity);
+            break;
+
+        case object.solid.LEFT:
+        case object.solid.RIGHT:
+            this.moveSpeed = Math.abs(object.velocity.x);
+            break;
+    }
+
+    switch (attack) {
+        case object.solid.TOP:
             this.isSupported = true;
             break;
 
-        case solid.BOTTOM:
+        case object.solid.BOTTOM:
             this.jumpEnd();
             break;
     }
