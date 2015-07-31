@@ -16,9 +16,9 @@ var Hud = function(screen)
 			character.health.event = function(){};
 		}
 		character = newChar;
-		this.setHealthEnergy(character.health.getFraction());
+		this.setHealthEnergy(character.health.fraction);
 		character.health.event = function(health) {
-			this.setHealthEnergy(health.getFraction());
+			this.setHealthEnergy(character.health.fraction);
 		}.bind(this);
 	}
 
