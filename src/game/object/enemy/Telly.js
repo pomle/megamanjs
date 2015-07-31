@@ -24,7 +24,7 @@ Game.objects.characters.Telly = function()
     this.obstructible = false;
 
     this.physics.mass = 0;
-    this.health = new Game.objects.Energy(1);
+    this.health.max = 1;
 
     this.setDirection(this.LEFT);
     this.speed = 12;

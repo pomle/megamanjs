@@ -2,6 +2,8 @@ Game.objects.characters.Megaman = function()
 {
     Game.objects.Character.call(this);
 
+    this.health.max = 28;
+
     this.textures = {};
 
     var model = Engine.SpriteManager.createSprite('megaman/megaman.png', 48, 48, function populateTextures() {

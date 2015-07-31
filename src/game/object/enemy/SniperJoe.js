@@ -17,7 +17,7 @@ Game.objects.characters.SniperJoe = function(target)
     this.addCollisionRect(20, 24);
 
     this.contactDamage = 4;
-    this.health = new Game.objects.Energy(10);
+    this.health.max = 10;
 
     this.setDirection(this.LEFT);
 

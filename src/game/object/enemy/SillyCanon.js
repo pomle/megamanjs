@@ -22,7 +22,7 @@ Game.objects.characters.SillyCanon = function(target)
     this.setModel(model);
     this.addCollisionRect(16, 20, 0, -5);
 
-    this.health = new Game.objects.Energy(10);
+    this.health.max = 10;
 
     this.setDirection(this.LEFT);
 
