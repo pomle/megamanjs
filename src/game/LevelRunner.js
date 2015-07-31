@@ -111,7 +111,7 @@ Game.LevelRunner.prototype.renderListener = function()
 
 Game.LevelRunner.prototype.simulateListener = function()
 {
-    if (this.deathCountdown === 0 && this.game.player.character.health.isDepleted()) {
+    if (this.deathCountdown === 0 && this.game.player.character.health.depleted) {
         --this.game.player.lives;
         this.deathCountdown = this.game.engine.timeElapsedTotal + this.deathRespawnTime;
     }
