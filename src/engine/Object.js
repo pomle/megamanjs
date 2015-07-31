@@ -16,13 +16,12 @@ Engine.Object = function()
 
     this.applyTrait(new Engine.traits.Physics());
 
-    var model = new THREE.Mesh(Engine.Object.defaultGeometry,
-                               Engine.Object.defaultMaterial);
+    var model = new THREE.Mesh(this.geometry, this.material);
     this.setModel(model);
 }
 
-Engine.Object.defaultGeometry = new THREE.PlaneBufferGeometry(10, 10);
-Engine.Object.defaultMaterial = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
+Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
+Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
 
 Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
 {
