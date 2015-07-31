@@ -20,7 +20,7 @@ Game.objects.characters.SniperArmor = function()
     this.addCollisionRect(28, 28, 0, 10);
 
     this.contactDamage = 8;
-    this.health = new Game.objects.Energy(20);
+    this.health.max = 20;
 
     this.setDirection(this.LEFT);
 

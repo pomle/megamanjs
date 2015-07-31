@@ -32,38 +32,37 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
             }
         },
     },
-    fraction: {
+    depleted: {
         enumerable: true,
         get: function() {
-            if (this._value === undefined || this._max === this._min) {
-                return 1;
-            }
-            else {
-                var total = Math.abs(this._max - this._min);
-                var left = Math.abs(this._value - this._min);
-                return left / total;
-            }
+            return this._value <= this._min;
         },
     },
     finite: {
         enumerable: true,
         get: function() {
-            return this._value === undefined;
+            return this._value !== undefined;
         },
-        set: function(v) {
-            if (v === true) {
-                this._value = undefined;
+        set: function(b) {
+            if (b == true && this._value === undefined) {
+                this._value = this._max;
             }
             else {
-                this._value = 0;
-                this.value = this._max;
+                this._value = undefined;
             }
         },
     },
-    depleted: {
+    fraction: {
         enumerable: true,
         get: function() {
-            return this._value <= this._min;
+            if (this.finite === false || this._max === this._min) {
+                return 1;
+            }
+            else {
+                var total = Math.abs(this._max - this._min);
+                var rest = Math.abs(this._value - this._min);
+                return rest / total;
+            }
         },
     },
     max: {
@@ -79,7 +78,7 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
             this._max = parseFloat(v);
 
             /* Trigger amount setter to clamp value to new max. */
-            this.value = this._value;
+            this.amount = this._value;
         },
     },
     min: {
@@ -95,7 +94,17 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
             this._min = parseFloat(v);
 
             /* Trigger amount setter to clamp value to new min. */
-            this.value = this._value;
+            this.amount = this._value;
         },
     },
 });
+
+Engine.traits._Energy.prototype.deplete = function()
+{
+    this._value = this._min;
+}
+
+Engine.traits._Energy.prototype.fill = function()
+{
+    this._value = this._max;
+}

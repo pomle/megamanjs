@@ -8,7 +8,7 @@ Game.objects.Character = function()
     this.dead = false;
     this.direction = undefined;
     this.fireTimeout = .25;
-    this.health = new Game.objects.Energy(100);
+    this.applyTrait(new Engine.traits.Health(100));
     this.invincibilityDuration = 0;
     this.isFiring = false;
     this.isInvincible = false;
@@ -19,11 +19,11 @@ Game.objects.Character = function()
     this.jumpInertia = 0;
     this.jumpTime = undefined;
 
-    this.physics.mass = 1;
     this.moveSpeed = 0;
 
+    this.applyTrait(new Engine.traits.Physics());
+    this.physics.mass = 1;
     this.projectileEmitOffset = new THREE.Vector2();
-
     this.stunnedDuration = .5;
     this.stunnedTime = false;
 
@@ -113,7 +113,7 @@ Game.objects.Character.prototype.inflictDamage = function(points, direction)
     if (this.isInvincible) {
         return false;
     }
-    this.health.reduce(points);
+    this.health.amount -= points;
     this.invincibilityStart();
     this.stunnedTime = this.stunnedDuration;
     return true;
@@ -152,7 +152,6 @@ Game.objects.Character.prototype.jumpEnd = function()
 Game.objects.Character.prototype.kill = function()
 {
     this.dead = true;
-    this.health.setFinite();
     this.health.deplete();
 
     /* Notify object that something happened. */
@@ -187,16 +186,31 @@ Game.objects.Character.prototype.moveRightEnd = function()
     this.walk--;
 }
 
-Game.objects.Character.prototype.obstruct = function(solid, attack)
+Game.objects.Character.prototype.obstruct = function(object, attack)
 {
-    Engine.Object.prototype.obstruct.call(this, solid, attack);
+    Engine.Object.prototype.obstruct.call(this, object, attack);
 
     switch (attack) {
-        case solid.TOP:
+        case object.solid.TOP:
+            this.physics.inertia.copy(object.velocity);
+            break;
+
+        case object.solid.BOTTOM:
+            this.physics.inertia.copy(object.velocity);
+            break;
+
+        case object.solid.LEFT:
+        case object.solid.RIGHT:
+            this.moveSpeed = Math.abs(object.velocity.x);
+            break;
+    }
+
+    switch (attack) {
+        case object.solid.TOP:
             this.isSupported = true;
             break;
 
-        case solid.BOTTOM:
+        case object.solid.BOTTOM:
             this.jumpEnd();
             break;
     }
