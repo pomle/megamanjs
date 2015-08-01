@@ -190,11 +190,11 @@ Game.LevelRunner.prototype.resetPlayer = function()
         character.teleport.to(startPosition);
         this.world.camera.jumpToPath(cameraPosition);
 
-        var game = this.game;
+        var level = this;
         var startFollow = function() {
-            game.level.followPlayer();
+            level.followPlayer();
             this.unbind(this.teleport.EVENT_END, arguments.callee);
-        };
+        }
         character.bind(character.teleport.EVENT_END, startFollow);
         this.resetCheckpoint();
     }
