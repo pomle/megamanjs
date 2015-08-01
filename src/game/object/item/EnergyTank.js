@@ -24,7 +24,7 @@ Game.objects.items.EnergyTank.prototype.collides = function(withObject, theirZon
 {
     if (withObject instanceof Game.objects.Character) {
         withObject.health.amount += this.capacity;
-        this.scene.removeObject(this);
+        this.world.removeObject(this);
     }
 }
 

@@ -10,11 +10,11 @@ Engine.Object = function()
     this.events = {};
     this.obstructible = true;
     this.position = undefined;
-    this.scene = undefined;
     this.time = 0;
     this.timeStretch = 1;
     this.traits = [];
     this.velocity = new THREE.Vector2();
+    this.world = undefined;
 
     var model = new THREE.Mesh(this.geometry, this.material);
     this.setModel(model);
@@ -104,12 +104,12 @@ Engine.Object.prototype.setModel = function(model)
     this.position = this.model.position;
 }
 
-Engine.Object.prototype.setScene = function(scene)
+Engine.Object.prototype.setWorld = function(world)
 {
-    if (scene instanceof Engine.World !== true) {
-        throw new Error('Invalid scene');
+    if (world instanceof Engine.World === false) {
+        throw new Error('Invalid world');
     }
-    this.scene = scene;
+    this.world = world;
 }
 
 Engine.Object.prototype.timeShift = function(dt)

@@ -22,7 +22,7 @@ Game.objects.items.EnergyCapsule.prototype.collides = function(withObject, their
 {
     if (withObject instanceof Game.objects.characters.Megaman) {
         withObject.energyCapsules++;
-        this.scene.removeObject(this);
+        this.world.removeObject(this);
     }
 }
 

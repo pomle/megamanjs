@@ -162,7 +162,7 @@ Game.objects.Character.prototype.kill = function()
     var explosion = this.getDeathObject();
     explosion.position.copy(this.position);
     this.scene.addObject(explosion);
-    this.scene.removeObject(this);
+    this.world.removeObject(this);
     this.trigger(this.EVENT_DEATH);
 }
 

@@ -75,7 +75,7 @@ Game.objects.projectiles.CrashBomb.prototype.explode = function()
     this.explosion.model.position.copy(this.model.position);
     this.explosion.setEmitter(this.emitter);
     this.scene.addObject(this.explosion);
-    this.scene.removeObject(this);
+    this.world.removeObject(this);
 }
 
 Game.objects.projectiles.CrashBomb.prototype.rangeReached = function()

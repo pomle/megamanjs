@@ -22,6 +22,6 @@ Game.objects.items.ExtraLife.prototype.collides = function(withObject, theirZone
 {
     if (withObject instanceof Game.objects.characters.Megaman) {
         withObject.lifes++;
-        this.scene.removeObject(this);
+        this.world.removeObject(this);
     }
 }

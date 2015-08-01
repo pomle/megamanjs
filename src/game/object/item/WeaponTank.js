@@ -24,7 +24,7 @@ Game.objects.items.WeaponTank.prototype.collides = function(withObject, theirZon
 {
     if (withObject.weapon && withObject.weapon.ammo) {
         withObject.weapon.ammo.increase(this.capacity);
-        this.scene.removeObject(this);
+        this.world.removeObject(this);
     }
 }
 
