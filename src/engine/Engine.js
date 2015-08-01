@@ -21,7 +21,6 @@ Engine.prototype.loop = function(timeElapsed)
     }
 
     if (timeElapsed) {
-        var i = 0;
         timeElapsed /= 1000;
         if (this.timeLastEvent) {
             var timeDiff = timeElapsed - this.timeLastEvent;
@@ -36,13 +35,13 @@ Engine.prototype.loop = function(timeElapsed)
                 this.scene.updateTime(simTimeDiff);
                 this.scene.camera.updateTime(simTimeDiff);
 
-                for (i in this.events.simulate) {
+                for (var i in this.events.simulate) {
                     this.events.simulate[i].call();
                 }
             }
         }
         this.render();
-        for (i in this.events.render) {
+        for (var i in this.events.render) {
             this.events.render[i].call();
         }
         this.timeLastEvent = timeElapsed;
@@ -71,5 +70,3 @@ Engine.prototype.run = function()
     this.timeLastEvent = undefined;
     this.loop();
 }
-
-Math.RAD = Math.PI/180;
