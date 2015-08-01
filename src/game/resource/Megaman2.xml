@@ -14,6 +14,8 @@
         <!-- End Debug Levels -->
     </scenes>
 
+    <level start-caption="READY" />
+
     <entrypoint>
         <scene name="StageSelect" />
     </entrypoint>

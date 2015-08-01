@@ -4,10 +4,6 @@ Game.scenes.Level = function(game, world)
 
     this.world.camera.camera.position.z = 150;
 
-    this.assets = {
-        "ready": Engine.SpriteManager.createTextSprite("READY"),
-    };
-
     this.cameraFollowOffset = new THREE.Vector2(0, 25);
     this.checkPoints = [];
     this.checkPointIndex = 0;
@@ -33,6 +29,7 @@ Game.scenes.Level = function(game, world)
 
 Engine.Util.extend(Game.scenes.Level, Game.Scene);
 
+Game.scenes.Level.prototype.assets = {};
 
 Game.scenes.Level.prototype.addCheckPoint = function(x, y, r)
 {
@@ -103,9 +100,9 @@ Game.scenes.Level.prototype.renderListener = function()
     if (this.readyCountdown > 0) {
         var readyElapsedTime = this.readyCountdown - this.game.engine.timeElapsedTotal;
         var f = readyElapsedTime % this.readyBlinkInterval;
-        this.assets.ready.visible = f >= this.readyBlinkInterval / 2;
+        this.assets['level-start-text'].visible = f >= this.readyBlinkInterval / 2;
         if (this.game.engine.timeElapsedTotal > this.readyCountdown) {
-            this.game.engine.world.scene.remove(this.assets.ready);
+            this.game.engine.world.scene.remove(this.assets['level-start-text']);
             this.resumeGamePlay();
             this.readyCountdown = 0;
         }
@@ -160,10 +157,10 @@ Game.scenes.Level.prototype.resetCheckpoint = function()
 {
     this.readyCountdown = this.game.engine.timeElapsedTotal + this.readySpawnTime;
 
-    this.assets.ready.position.x = this.world.camera.camera.position.x;
-    this.assets.ready.position.y = this.world.camera.camera.position.y;
+    this.assets['level-start-text'].position.x = this.world.camera.camera.position.x;
+    this.assets['level-start-text'].position.y = this.world.camera.camera.position.y;
 
-    this.game.engine.world.scene.add(this.assets.ready);
+    this.game.engine.world.scene.add(this.assets['level-start-text']);
     this.game.engine.world.updateTime(0);
 }
 

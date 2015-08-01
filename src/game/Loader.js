@@ -72,6 +72,11 @@ Game.Loader.prototype.parseGame = function(xmlResponse)
         };
     });
 
+    gameNode.find('> level').each(function() {
+        levelNode = $(this);
+        Game.scenes.Level.prototype.assets['level-start-text'] = Engine.SpriteManager.createTextSprite(levelNode.attr('start-caption'));
+    });
+
     var entrySceneName = gameNode.find('> entrypoint > scene').attr('name');
     loader.startScene(entrySceneName);
 
