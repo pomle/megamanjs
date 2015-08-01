@@ -15,11 +15,14 @@ Engine.Events.prototype.bind = function(name, callback)
     this.events[name].add(callback);
 }
 
-Engine.Events.prototype.trigger = function(name)
+Engine.Events.prototype.trigger = function(name, values)
 {
     if (this.events[name]) {
+        /* Notice that this method expects to
+           get the arguments to be passed as an
+           array as second argument. */
         for (var event of this.events[name]) {
-            event.apply(this, arguments);
+            events[i].apply(this, values);
         }
         return true;
     }

@@ -123,7 +123,7 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
 
 Game.scenes.StageSelect.prototype.enter = function()
 {
-    this.trigger(this.EVENT_STAGE_SELECTED, this.stages[this.currentIndex], this.currentIndex);
+    this.trigger(this.EVENT_STAGE_SELECTED, [this.stages[this.currentIndex], this.currentIndex]);
 }
 
 Game.scenes.StageSelect.prototype.selectIndex = function(index)

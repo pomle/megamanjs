@@ -607,7 +607,7 @@ Game.Loader.prototype.parseStageSelect = function(xmlResponse)
 
     scene.equalize(parseFloat(indicatorNode.attr('initial-index')));
 
-    scene.bind(scene.EVENT_STAGE_SELECTED, function(eventName, stage, index) {
+    scene.bind(scene.EVENT_STAGE_SELECTED, function(stage, index) {
         loader.startScene(stage.name);
     });
 
