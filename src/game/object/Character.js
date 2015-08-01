@@ -14,10 +14,7 @@ Game.objects.Character = function()
     this.isInvincible = false;
     this.isSupported = false;
 
-    this.jumpDuration = .18;
-    this.jumpForce = 180;
-    this.jumpInertia = 0;
-    this.jumpTime = undefined;
+    this.jump = this.applyTrait(new Engine.traits.Jump());
 
     this.moveSpeed = 0;
 
@@ -131,25 +128,6 @@ Game.objects.Character.prototype.invincibilityEnd = function()
     this.isInvincible = false;
 }
 
-Game.objects.Character.prototype.jumpStart = function()
-{
-    if (this.stunnedTime > 0) {
-        return false;
-    }
-
-    if (!this.isSupported) {
-        return false;
-    }
-    this.isSupported = false;
-    this.jumpInertia = this.physics.inertia.y + this.jumpForce;
-    this.jumpTime = this.time;
-}
-
-Game.objects.Character.prototype.jumpEnd = function()
-{
-    this.jumpInertia = 0;
-}
-
 Game.objects.Character.prototype.kill = function()
 {
     this.dead = true;
@@ -193,6 +171,7 @@ Game.objects.Character.prototype.obstruct = function(object, attack)
 
     switch (attack) {
         case object.solid.TOP:
+            this.isSupported = true;
             this.physics.inertia.copy(object.velocity);
             break;
 
@@ -203,16 +182,6 @@ Game.objects.Character.prototype.obstruct = function(object, attack)
         case object.solid.LEFT:
         case object.solid.RIGHT:
             this.moveSpeed = Math.abs(object.velocity.x);
-            break;
-    }
-
-    switch (attack) {
-        case object.solid.TOP:
-            this.isSupported = true;
-            break;
-
-        case object.solid.BOTTOM:
-            this.jumpEnd();
             break;
     }
 }
@@ -261,13 +230,6 @@ Game.objects.Character.prototype.timeShift = function(dt)
 
     if (this.weapon) {
         this.weapon.timeShift(dt);
-    }
-
-    if (this.jumpInertia) {
-        this.physics.inertia.y = this.jumpInertia;
-        if (this.time - this.jumpTime > this.jumpDuration) {
-            this.jumpEnd();
-        }
     }
 
     Engine.Object.prototype.timeShift.call(this, dt);
