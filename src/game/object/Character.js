@@ -9,7 +9,6 @@ Game.objects.Character = function()
     this.direction = undefined;
     this.fireTimeout = .25;
     this.health = this.applyTrait(new Engine.traits.Health(100));
-    this.invincibilityDuration = 0;
     this.isFiring = false;
     this.isSupported = false;
 
