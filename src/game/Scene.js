@@ -19,7 +19,6 @@ Game.Scene.prototype.EVENT_DESTROY = 'destroy';
 Game.Scene.prototype.EVENT_END = 'end';
 Game.Scene.prototype.EVENT_START = 'start';
 
-
 Game.Scene.prototype.__create = function()
 {
     this.trigger(this.EVENT_CREATE);
