@@ -106,7 +106,7 @@ Engine.Object.prototype.setModel = function(model)
 
 Engine.Object.prototype.setScene = function(scene)
 {
-    if (scene instanceof Engine.Scene !== true) {
+    if (scene instanceof Engine.World !== true) {
         throw new Error('Invalid scene');
     }
     this.scene = scene;

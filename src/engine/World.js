@@ -1,4 +1,4 @@
-Engine.Scene = function()
+Engine.World = function()
 {
     var ambientLight = new THREE.AmbientLight(0xffffff);
 
@@ -19,7 +19,7 @@ Engine.Scene = function()
     this.timeTotal = 0;
 }
 
-Engine.Scene.prototype.addObject = function(object, x, y)
+Engine.World.prototype.addObject = function(object, x, y)
 {
     if (object instanceof Engine.Object === false) {
         throw new Error('Invalid object');
@@ -34,7 +34,7 @@ Engine.Scene.prototype.addObject = function(object, x, y)
     object.setScene(this);
 }
 
-Engine.Scene.prototype.addTimeline = function(timeline)
+Engine.World.prototype.addTimeline = function(timeline)
 {
     if (timeline instanceof Engine.Timeline === false) {
         throw new Error('Invalid timeline');
@@ -42,7 +42,7 @@ Engine.Scene.prototype.addTimeline = function(timeline)
     this.timelines.push(timeline);
 }
 
-Engine.Scene.prototype.removeObject = function(object)
+Engine.World.prototype.removeObject = function(object)
 {
     if (object instanceof Engine.Object === false) {
         throw new Error('Invalid object');
@@ -53,7 +53,7 @@ Engine.Scene.prototype.removeObject = function(object)
     }
 }
 
-Engine.Scene.prototype.updateTime = function(dt)
+Engine.World.prototype.updateTime = function(dt)
 {
     dt *= this.timeStretch;
     this.timeTotal += dt;

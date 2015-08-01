@@ -88,7 +88,7 @@ Game.Loader.prototype.parseLevel = function(xmlResponse)
         throw new TypeError('Node not <scene type="level">');
     }
 
-    var level = new Engine.Scene();
+    var level = new Engine.World();
     var levelRunner = new Game.LevelRunner(this.game, level);
 
     levelNode.children('camera').each(function() {
@@ -556,7 +556,7 @@ Game.Loader.prototype.parseStageSelect = function(xmlResponse)
         throw new TypeError('Node not <scene type="stage-select">');
     }
 
-    var scene = new Game.scenes.StageSelect(this.game, new Engine.Scene());
+    var scene = new Game.scenes.StageSelect(this.game, new Engine.World());
 
     var spriteUrl = sceneNode.attr('url');
     var spriteW = parseFloat(sceneNode.attr('w'));

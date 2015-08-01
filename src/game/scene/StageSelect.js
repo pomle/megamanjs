@@ -190,5 +190,5 @@ Game.scenes.StageSelect.prototype.updateTime = function(dt)
         this.world.camera.camera.position.add(intermediate);
     }
 
-    Engine.Scene.prototype.updateTime.call(this.world, dt);
+    Engine.World.prototype.updateTime.call(this.world, dt);
 }

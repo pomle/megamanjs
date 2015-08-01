@@ -5,8 +5,8 @@ Game.Scene = function(game, world)
     if (game instanceof Game === false) {
         throw new Error("game instance of Game");
     }
-    if (world instanceof Engine.Scene === false) {
-        throw new Error("world not instance of Engine.Scene");
+    if (world instanceof Engine.World === false) {
+        throw new Error("world not instance of Engine.World");
     }
     this.game = game;
     this.world = world;
