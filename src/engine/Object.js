@@ -59,25 +59,16 @@ Engine.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 
 Engine.Object.prototype.applyTrait = function(trait)
 {
-    if (trait instanceof Engine.Trait === false || !trait.NAME) {
-        throw new Error('Invalid trait or trait name');
+    if (trait instanceof Engine.Trait === false) {
+        throw new Error('Invalid trait');
     }
-    if (this[trait.NAME]) {
-        throw new Error('Trait "' + trait.NAME + '" property occupied');
-    }
-    trait.object = this;
-    this.traits.push(trait);
-    this[trait.NAME] = trait;
+    trait.__attach(this);
+    return trait;
 }
 
 Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    for (var i in this.traits) {
-        if (this.traits[i].__collides) {
-            var trait = this.traits[i];
-            trait.__collides.apply(trait, arguments);
-        }
-    }
+    this.trigger(this.EVENT_COLLIDE, [withObject, ourZone, theirZone]);
 }
 
 Engine.Object.prototype.dropCollision = function()
@@ -93,6 +84,7 @@ Engine.Object.prototype.moveTo = function(vec)
 
 Engine.Object.prototype.obstruct = function(object, attack)
 {
+    this.trigger(this.EVENT_OBSTRUCT, [object, attack]);
 }
 
 Engine.Object.prototype.setEmitter = function(object)
@@ -117,22 +109,18 @@ Engine.Object.prototype.setWorld = function(world)
     this.world = world;
 }
 
-Engine.Object.prototype.timeShift = function(dt)
+Engine.Object.prototype.timeShift = function(deltaTime)
 {
-    this.time += dt;
-    this.deltaTime = dt;
+    this.time += deltaTime;
+    this.deltaTime = deltaTime;
 
-    for (var i in this.traits) {
-        if (this.traits[i].__timeshift) {
-            var trait = this.traits[i];
-            trait.__timeshift.apply(trait, arguments);
-        }
-    }
+    this.trigger(this.EVENT_TIMESHIFT, [deltaTime]);
 
-    this.position.x += (this.velocity.x * dt);
-    this.position.y += (this.velocity.y * dt);
+    this.position.x += (this.velocity.x * deltaTime);
+    this.position.y += (this.velocity.y * deltaTime);
 }
 
 Engine.Object.prototype.uncollides = function(withObject)
 {
+    this.trigger(this.EVENT_UNCOLLIDE, [withObject]);
 }

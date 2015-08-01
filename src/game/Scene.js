@@ -21,23 +21,23 @@ Game.Scene.prototype.EVENT_START = 'start';
 
 Game.Scene.prototype.__create = function()
 {
-    this.trigger(this.EVENT_CREATE);
+    this.trigger(this.EVENT_CREATE, arguments);
 }
 
 Game.Scene.prototype.__destroy = function()
 {
     this.game.engine.pause();
-    this.trigger(this.EVENT_DESTROY);
+    this.trigger(this.EVENT_DESTROY, arguments);
 }
 
 Game.Scene.prototype.__end = function()
 {
     this.__destroy();
-    this.trigger(this.EVENT_END);
+    this.trigger(this.EVENT_END, arguments);
 }
 
 Game.Scene.prototype.__start = function()
 {
-    this.trigger(this.EVENT_START);
+    this.trigger(this.EVENT_START, arguments);
     this.game.engine.run();
 }

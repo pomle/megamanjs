@@ -12,7 +12,7 @@ Engine.Util.mixin(Engine.traits.Health, Engine.traits._Energy);
 
 Engine.traits.Health.prototype.NAME = 'health';
 
-Engine.traits.Health.prototype.__timeshift = function(dt)
+Engine.traits.Health.prototype.__timeshift = function healthUpdate(dt)
 {
     if (this._cached_value !== this._value) {
         this.event();

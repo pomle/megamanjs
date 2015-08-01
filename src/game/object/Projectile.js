@@ -1,7 +1,7 @@
 Game.objects.Projectile = function()
 {
     Engine.Object.call(this);
-    this.applyTrait(new Engine.traits.Physics());
+    this.physics = this.applyTrait(new Engine.traits.Physics());
     this.physics.mass = 0;
 
     this.damage = 0;
