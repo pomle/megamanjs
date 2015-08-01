@@ -1,5 +1,7 @@
 var Game = function()
 {
+    this.resources = new Game.ResourceManager();
+
     this.engine = undefined;
     this.player = undefined;
 
@@ -25,19 +27,21 @@ Game.objects = {};
 Game.scenes = {};
 Game.traits = {};
 
-
-Game.prototype.addScene = function(type, name, src)
+Game.createFromXml = function(url, callback)
 {
-    this.scenes[name] = {
-        type: type,
-        name: name,
-        src: src,
-    };
-}
+    var renderer = new THREE.WebGLRenderer({
+        'antialias': false,
+    });
 
-Game.prototype.queueScene = function(name)
-{
-    this.sceneQueue.push(name);
+    var game = new Game();
+    game.engine = new Engine(renderer);
+    game.player = new Game.Player();
+    game.player.hud = new Hud($('#screen'));
+
+    var loader = new Game.Loader(game);
+    loader.loadGame(url, callback);
+
+    return game;
 }
 
 Game.prototype.attachToElement = function(element)
@@ -65,68 +69,35 @@ Game.prototype.adjustResolution = function()
     this.engine.renderer.setSize(rect.width, rect.height);
 }
 
-Game.prototype.createScene = function(type, xmlUrl)
-{
-    var scene;
-    var callback = function() {
-        this.setScene(scene);
-    }.bind(this);
-
-    switch (type) {
-        case 'level':
-            scene = Game.XMLUtil.createLevel(xmlUrl, callback);
-            break;
-        case 'stage-select':
-            scene = Game.XMLUtil.createStageSelect(xmlUrl, callback);
-            break;
-    }
-}
-
-Game.prototype.loadScene = function(name)
-{
-    if (!this.scenes[name]) {
-        throw new Error("Scene " + name + " not defined");
-    }
-
-    return this.createScene(this.scenes[name].type, this.scenes[name].src);
-}
-
 Game.prototype.setScene = function(scene)
 {
-    if (scene instanceof Engine.Scene === false) {
+    if (scene instanceof Game.Scene === false) {
         throw new Error('Invalid scene');
     }
-    this.engine.pause();
 
-    if (this.engine.scene) {
-        this.engine.scene.__destroy();
+    if (this.scene) {
+        this.scene.__destroy();
+        this.scene = undefined;
+        this.engine.scene = undefined;
     }
 
-    scene.exit = function(name) {
-        this.loadScene(name);
-    }.bind(this);
+    scene.__create();
+    this.scene = scene;
+    this.engine.scene = this.scene.world;
 
-    var start;
-    if (scene instanceof Engine.scenes.Level) {
-        this.level = new Game.LevelRunner(this, scene);
-        start = function() {
-            this.level.startGamePlay();
-        }.bind(this)
-    }
-    else {
-        this.engine.scene = scene;
-        start = function() {
-            this.engine.run();
-        }.bind(this);
-    }
-
+    /* Because the camera is instantiated per scene,
+       we make sure the aspect ratio is correct before
+       we roll. */
     this.adjustAspectRatio();
 
-    /*
-        For some reason, if we start the engine immediately,
-        the performance is sluggish. Deferring it to end of call queue
-        fixes it.
-    */
+    /* For some reason, if we start the engine immediately,
+       the performance is sluggish. Deferring it to end of call queue
+       fixes it. */
+    var game = this;
+    function start() {
+        game.scene.__start();
+    }
+
     setTimeout(start, 0);
 }
 

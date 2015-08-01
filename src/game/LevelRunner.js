@@ -1,31 +1,20 @@
-Game.LevelRunner = function(game, level)
+Game.LevelRunner = function(game, world)
 {
-    if (game instanceof Game === false) {
-        throw new Error('Invalid game');
-    }
-    if (level instanceof Engine.scenes.Level === false) {
-        throw new Error('Invalid level');
-    }
-
+    Game.Scene.apply(this, arguments);
 
     this.assets = {
         "ready": Engine.SpriteManager.createTextSprite("READY"),
     };
 
-
     this.cameraFollowOffset = new THREE.Vector2(0, 25);
     this.checkPoints = [];
     this.checkPointIndex = 0;
     this.checkPointOffset = new THREE.Vector2(0, 200);
-    this.game = game;
-    this.level = level;
 
     this.inputs = {
         character: this.createCharacterInput(),
         menu: this.createMenuInput(),
     };
-
-    this.game.engine.scene = this.level;
 
     this.deathCountdown = 0;
     this.deathRespawnTime = 4;
@@ -37,8 +26,11 @@ Game.LevelRunner = function(game, level)
     this.game.engine.events.simulate.push(this.simulateListener.bind(this));
     this.game.engine.events.render.push(this.renderListener.bind(this));
 
-    this.resetPlayer();
+    this.bind(this.EVENT_START, this.resetPlayer);
 }
+
+Engine.Util.extend(Game.LevelRunner, Game.Scene);
+
 
 Game.LevelRunner.prototype.addCheckPoint = function(x, y, r)
 {
@@ -86,7 +78,7 @@ Game.LevelRunner.prototype.createCharacterInput = function()
         });
     input.hit(input.SELECT,
         function() {
-            game.setScene()
+            levelrunner.__end();
         });
 
     return input;
@@ -100,7 +92,7 @@ Game.LevelRunner.prototype.createMenuInput = function()
 
 Game.LevelRunner.prototype.followPlayer = function()
 {
-    this.level.camera.follow(this.game.player.character,
+    this.world.camera.follow(this.game.player.character,
                              this.cameraFollowOffset);
 }
 
@@ -126,7 +118,7 @@ Game.LevelRunner.prototype.simulateListener = function()
     }
     if (this.deathCountdown > 0 && this.game.engine.timeElapsedTotal > this.deathCountdown) {
         if (this.game.player.lives == 0) {
-            this.game.endLevel();
+            this.__end();
         }
         else {
             this.resetPlayer();
@@ -142,15 +134,10 @@ Game.LevelRunner.prototype.spawnCharacter = function(name)
         x: 32,
         y: 32,
     }
-    this.level.addObject(character,
-                         player.position.x + (player.direction > 0 ? distance.x : -distance.x),
-                         player.position.y + distance.y);
+    character.position.x = player.position.x + (player.direction > 0 ? distance.x : -distance.x);
+    character.position.y = player.position.y + distance.y;
+    this.world.addObject(character);
     return character;
-}
-
-Game.LevelRunner.prototype.startGamePlay = function()
-{
-    this.game.engine.run();
 }
 
 Game.LevelRunner.prototype.pauseGamePlay = function()
@@ -171,8 +158,8 @@ Game.LevelRunner.prototype.resetCheckpoint = function()
 {
     this.readyCountdown = this.game.engine.timeElapsedTotal + this.readySpawnTime;
 
-    this.assets.ready.position.x = this.level.camera.camera.position.x;
-    this.assets.ready.position.y = this.level.camera.camera.position.y;
+    this.assets.ready.position.x = this.world.camera.camera.position.x;
+    this.assets.ready.position.y = this.world.camera.camera.position.y;
 
     this.game.engine.scene.scene.add(this.assets.ready);
     this.game.engine.scene.updateTime(0);
@@ -185,35 +172,35 @@ Game.LevelRunner.prototype.resetPlayer = function()
     this.game.player.equipWeapon('p');
     var character = this.game.player.character;
 
-    this.level.removeObject(character);
+    this.world.removeObject(character);
 
     character.isPlayer = true;
     character.resurrect();
     character.invincibilityEnd();
     character.stunnedTime = 0;
 
-    var checkpoint = this.level.checkPoints[this.checkPointIndex];
+    var checkpoint = this.checkPoints[this.checkPointIndex];
     if (checkpoint) {
         var startPosition = checkpoint.pos.clone();
         var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
         var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
         character.moveTo(playerPosition);
         character.teleport.to(startPosition);
-        this.level.camera.jumpToPath(cameraPosition);
+        this.world.camera.jumpToPath(cameraPosition);
 
         var game = this.game;
-        var startFollow = function(character) {
+        var startFollow = function() {
             game.level.followPlayer();
-            character.unbind('teleport-end', arguments.callee);
+            this.unbind(this.teleport.EVENT_END, arguments.callee);
         };
-        character.bind('teleport-end', startFollow);
+        character.bind(character.teleport.EVENT_END, startFollow);
         this.resetCheckpoint();
     }
     else {
         character.moveTo(new THREE.Vector2(0, 0));
-        this.level.camera.follow(character);
+        this.world.camera.follow(character);
         this.resumeGamePlay();
     }
 
-    this.level.addObject(character);
+    this.world.addObject(character);
 }

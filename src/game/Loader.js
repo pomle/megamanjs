@@ -52,9 +52,8 @@ Game.Loader.prototype.parseGame = function(xmlResponse)
     this.game.resources.textureScale = parseFloat(configNode.attr('texture-scale')) || this.game.resources.textureScale;
 
     gameNode.find('> weapons > weapon').each(function() {
-        var Weapon = loader.parseWeapon(xmlResponse.branch(this));
-        weapon = new Weapon();
-        loader.game.resources.addWeapon(weapon.name, Weapon);
+        var weapon = loader.parseWeapon(xmlResponse.branch(this));
+        loader.game.resources.addWeapon(weapon.name, weapon);
         game.player.weapons[weapon.code] = weapon;
     });
 
@@ -625,9 +624,9 @@ Game.Loader.prototype.parseWeapon = function(xmlResponse)
     if (!Game.objects.weapons[name]) {
         throw new Error('Weapon ' + name + ' does not exist');
     }
-    var weapon = Game.objects.weapons[name];
-    weapon.prototype.code = code;
-    weapon.prototype.name = name;
+    var weapon = new Game.objects.weapons[name]();
+    weapon.code = code;
+    weapon.name = name;
     return weapon;
 }
 
