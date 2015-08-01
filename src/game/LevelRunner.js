@@ -105,7 +105,7 @@ Game.LevelRunner.prototype.renderListener = function()
         var f = readyElapsedTime % this.readyBlinkInterval;
         this.assets.ready.visible = f >= this.readyBlinkInterval / 2;
         if (this.game.engine.timeElapsedTotal > this.readyCountdown) {
-            this.game.engine.scene.scene.remove(this.assets.ready);
+            this.game.engine.world.scene.remove(this.assets.ready);
             this.resumeGamePlay();
             this.readyCountdown = 0;
         }
@@ -163,8 +163,8 @@ Game.LevelRunner.prototype.resetCheckpoint = function()
     this.assets.ready.position.x = this.world.camera.camera.position.x;
     this.assets.ready.position.y = this.world.camera.camera.position.y;
 
-    this.game.engine.scene.scene.add(this.assets.ready);
-    this.game.engine.scene.updateTime(0);
+    this.game.engine.world.scene.add(this.assets.ready);
+    this.game.engine.world.updateTime(0);
 }
 
 Game.LevelRunner.prototype.resetPlayer = function()

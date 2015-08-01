@@ -150,7 +150,7 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
     sweat.position.y += 12;
     sweat.sprites.sprite.time = 0;
     sweat.lifetime = 0;
-    this.scene.addObject(sweat);
+    this.world.addObject(sweat);
 
     return true;
 }

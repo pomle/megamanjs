@@ -67,6 +67,3 @@ Engine.World.prototype.updateTime = function(dt)
         this.timelines[i].timeShift(dt);
     }
 }
-
-
-Engine.scenes = {};

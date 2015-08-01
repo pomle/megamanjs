@@ -11,12 +11,12 @@ var Engine = function(renderer)
     this.timeElapsedTotal = 0;
     this.timeMax = 1/60;
     this.timeStretch = 1;
-    this.scene = undefined;
+    this.world = undefined;
 }
 
 Engine.prototype.loop = function(timeElapsed)
 {
-    if (!this.isRunning || !this.scene) {
+    if (!this.isRunning || this.world === undefined) {
         return false;
     }
 
@@ -32,8 +32,8 @@ Engine.prototype.loop = function(timeElapsed)
 
             if (this.isSimulating && this.simulationSpeed) {
                 var simTimeDiff = timeDiff * this.simulationSpeed;
-                this.scene.updateTime(simTimeDiff);
-                this.scene.camera.updateTime(simTimeDiff);
+                this.world.updateTime(simTimeDiff);
+                this.world.camera.updateTime(simTimeDiff);
 
                 for (var i in this.events.simulate) {
                     this.events.simulate[i].call();
@@ -57,8 +57,8 @@ Engine.prototype.pause = function()
 
 Engine.prototype.render = function()
 {
-    this.renderer.render(this.scene.scene,
-                         this.scene.camera.camera);
+    this.renderer.render(this.world.scene,
+                         this.world.camera.camera);
 }
 
 Engine.prototype.run = function()
@@ -69,4 +69,17 @@ Engine.prototype.run = function()
     this.isRunning = true;
     this.timeLastEvent = undefined;
     this.loop();
+}
+
+Engine.prototype.setWorld = function(world)
+{
+    if (world instanceof Engine.World === false) {
+        throw new TypeError('Invalid world');
+    }
+    this.world = world;
+}
+
+Engine.prototype.unsetWorld = function()
+{
+    this.world = undefined;
 }

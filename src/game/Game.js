@@ -55,9 +55,9 @@ Game.prototype.attachToElement = function(element)
 
 Game.prototype.adjustAspectRatio = function()
 {
-    if (this.engine.scene) {
+    if (this.scene.world) {
         var rect = this.element.getBoundingClientRect();
-        var cam = this.engine.scene.camera.camera;
+        var cam = this.scene.world.camera.camera;
         cam.aspect = rect.width / rect.height;
         cam.updateProjectionMatrix();
     }
@@ -78,12 +78,12 @@ Game.prototype.setScene = function(scene)
     if (this.scene) {
         this.scene.__destroy();
         this.scene = undefined;
-        this.engine.scene = undefined;
+        this.engine.unsetWorld();
     }
 
     scene.__create();
     this.scene = scene;
-    this.engine.scene = this.scene.world;
+    this.engine.setWorld(this.scene.world);
 
     /* Because the camera is instantiated per scene,
        we make sure the aspect ratio is correct before

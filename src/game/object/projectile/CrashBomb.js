@@ -74,7 +74,7 @@ Game.objects.projectiles.CrashBomb.prototype.explode = function()
 {
     this.explosion.model.position.copy(this.model.position);
     this.explosion.setEmitter(this.emitter);
-    this.scene.addObject(this.explosion);
+    this.world.addObject(this.explosion);
     this.world.removeObject(this);
 }
 
