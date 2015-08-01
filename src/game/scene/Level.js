@@ -175,7 +175,7 @@ Game.scenes.Level.prototype.resetPlayer = function()
 
     character.isPlayer = true;
     character.resurrect();
-    character.invincibilityEnd();
+    character.invincibility.disengage();
     character.stunnedTime = 0;
 
     var checkpoint = this.checkPoints[this.checkPointIndex];

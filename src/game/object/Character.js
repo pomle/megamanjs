@@ -11,8 +11,9 @@ Game.objects.Character = function()
     this.health = this.applyTrait(new Engine.traits.Health(100));
     this.invincibilityDuration = 0;
     this.isFiring = false;
-    this.isInvincible = false;
     this.isSupported = false;
+
+    this.invincibility = this.applyTrait(new Engine.traits.Invincibility());
 
     this.jump = this.applyTrait(new Engine.traits.Jump());
 
@@ -108,24 +109,12 @@ Game.objects.Character.prototype.impactProjectile = function(projectile)
 
 Game.objects.Character.prototype.inflictDamage = function(points, direction)
 {
-    if (this.isInvincible) {
+    if (this.health.infinite) {
         return false;
     }
     this.health.amount -= points;
-    this.invincibilityStart();
     this.stunnedTime = this.stunnedDuration;
     return true;
-}
-
-Game.objects.Character.prototype.invincibilityStart = function()
-{
-    this.isInvincible = this.invincibilityDuration;
-}
-
-Game.objects.Character.prototype.invincibilityEnd = function()
-{
-    this.model.visible = true;
-    this.isInvincible = false;
 }
 
 Game.objects.Character.prototype.kill = function()
@@ -212,13 +201,6 @@ Game.objects.Character.prototype.timeShift = function(dt)
         }
         this.calculateMoveSpeed(dt);
         this.physics.momentum.x = (this.moveSpeed * this.walk);
-    }
-
-    if (this.isInvincible > 0) {
-        this.isInvincible -= dt;
-        this.model.visible = !this.model.visible;
-    } else if (this.isInvincible <= 0) {
-        this.invincibilityEnd();
     }
 
     if (this.isFiring > 0) {
