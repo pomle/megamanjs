@@ -1,4 +1,4 @@
-Game.LevelRunner = function(game, world)
+Game.scenes.Level = function(game, world)
 {
     Game.Scene.apply(this, arguments);
 
@@ -31,10 +31,10 @@ Game.LevelRunner = function(game, world)
     this.bind(this.EVENT_START, this.resetPlayer);
 }
 
-Engine.Util.extend(Game.LevelRunner, Game.Scene);
+Engine.Util.extend(Game.scenes.Level, Game.Scene);
 
 
-Game.LevelRunner.prototype.addCheckPoint = function(x, y, r)
+Game.scenes.Level.prototype.addCheckPoint = function(x, y, r)
 {
     this.checkPoints.push({
         'pos': new THREE.Vector2(x, y),
@@ -42,7 +42,7 @@ Game.LevelRunner.prototype.addCheckPoint = function(x, y, r)
     });
 }
 
-Game.LevelRunner.prototype.createCharacterInput = function()
+Game.scenes.Level.prototype.createCharacterInput = function()
 {
     var input = new Engine.Keyboard();
     var game = this.game;
@@ -86,19 +86,19 @@ Game.LevelRunner.prototype.createCharacterInput = function()
     return input;
 }
 
-Game.LevelRunner.prototype.createMenuInput = function()
+Game.scenes.Level.prototype.createMenuInput = function()
 {
     var input = new Engine.Keyboard();
     return input;
 }
 
-Game.LevelRunner.prototype.followPlayer = function()
+Game.scenes.Level.prototype.followPlayer = function()
 {
     this.world.camera.follow(this.game.player.character,
                              this.cameraFollowOffset);
 }
 
-Game.LevelRunner.prototype.renderListener = function()
+Game.scenes.Level.prototype.renderListener = function()
 {
     if (this.readyCountdown > 0) {
         var readyElapsedTime = this.readyCountdown - this.game.engine.timeElapsedTotal;
@@ -112,7 +112,7 @@ Game.LevelRunner.prototype.renderListener = function()
     }
 }
 
-Game.LevelRunner.prototype.simulateListener = function()
+Game.scenes.Level.prototype.simulateListener = function()
 {
     if (this.deathCountdown === 0 && this.game.player.character.health.depleted) {
         --this.game.player.lives;
@@ -128,7 +128,7 @@ Game.LevelRunner.prototype.simulateListener = function()
     }
 }
 
-Game.LevelRunner.prototype.spawnCharacter = function(name)
+Game.scenes.Level.prototype.spawnCharacter = function(name)
 {
     var character = new Game.objects.characters[name]();
     var player = this.game.player.character;
@@ -142,21 +142,21 @@ Game.LevelRunner.prototype.spawnCharacter = function(name)
     return character;
 }
 
-Game.LevelRunner.prototype.pauseGamePlay = function()
+Game.scenes.Level.prototype.pauseGamePlay = function()
 {
     this.inputs.character.disable();
     this.inputs.menu.enable();
     this.game.engine.isSimulating = false;
 }
 
-Game.LevelRunner.prototype.resumeGamePlay = function()
+Game.scenes.Level.prototype.resumeGamePlay = function()
 {
     this.inputs.menu.disable();
     this.inputs.character.enable();
     this.game.engine.isSimulating = true;
 }
 
-Game.LevelRunner.prototype.resetCheckpoint = function()
+Game.scenes.Level.prototype.resetCheckpoint = function()
 {
     this.readyCountdown = this.game.engine.timeElapsedTotal + this.readySpawnTime;
 
@@ -167,7 +167,7 @@ Game.LevelRunner.prototype.resetCheckpoint = function()
     this.game.engine.world.updateTime(0);
 }
 
-Game.LevelRunner.prototype.resetPlayer = function()
+Game.scenes.Level.prototype.resetPlayer = function()
 {
     this.deathCountdown = 0;
     this.pauseGamePlay();

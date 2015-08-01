@@ -89,7 +89,7 @@ Game.Loader.prototype.parseLevel = function(xmlResponse)
     }
 
     var level = new Engine.World();
-    var levelRunner = new Game.LevelRunner(this.game, level);
+    var levelRunner = new Game.scenes.Level(this.game, level);
 
     levelNode.children('camera').each(function() {
         var cameraNode = $(this);
