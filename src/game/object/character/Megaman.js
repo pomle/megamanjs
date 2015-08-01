@@ -135,7 +135,7 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
         return false;
     }
 
-    this.jumpInertia = 0;
+    this.jump.end();
     this.physics.inertia.set(0, 0);
     this.physics.momentum.set(40, 60);
     if (direction) {
