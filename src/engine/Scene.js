@@ -3,7 +3,6 @@ Engine.Scene = function()
     var ambientLight = new THREE.AmbientLight(0xffffff);
 
     this.camera = new Engine.Camera(new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000));
-    this.camera.camera.position.z = 100;
 
     this.collision = new Engine.Collision();
 

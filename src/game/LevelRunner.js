@@ -2,6 +2,8 @@ Game.LevelRunner = function(game, world)
 {
     Game.Scene.apply(this, arguments);
 
+    this.world.camera.camera.position.z = 150;
+
     this.assets = {
         "ready": Engine.SpriteManager.createTextSprite("READY"),
     };
