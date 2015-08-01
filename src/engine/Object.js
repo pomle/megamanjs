@@ -63,6 +63,7 @@ Engine.Object.prototype.applyTrait = function(trait)
         throw new Error('Invalid trait');
     }
     trait.__attach(this);
+    this.traits.push(trait);
     return trait;
 }
 
