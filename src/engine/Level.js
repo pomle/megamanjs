@@ -2,21 +2,12 @@ Engine.scenes.Level = function()
 {
     Engine.Scene.call(this);
     this.camera.camera.position.z = 150;
-    this.checkPoints = [];
     this.collision = new Engine.Collision();
     this.gravityForce = new THREE.Vector2();
 }
 
 Engine.scenes.Level.prototype = Object.create(Engine.Scene.prototype);
 Engine.scenes.Level.prototype.constructor = Engine.scenes.Level;
-
-Engine.scenes.Level.prototype.addCheckPoint = function(x, y, r)
-{
-    this.checkPoints.push({
-        'pos': new THREE.Vector2(x, y),
-        'radius': r || 100,
-    });
-}
 
 Engine.scenes.Level.prototype.addObject = function(object, x, y)
 {

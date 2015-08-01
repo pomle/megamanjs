@@ -14,6 +14,7 @@ Game.LevelRunner = function(game, level)
 
 
     this.cameraFollowOffset = new THREE.Vector2(0, 25);
+    this.checkPoints = [];
     this.checkPointIndex = 0;
     this.checkPointOffset = new THREE.Vector2(0, 200);
     this.game = game;
@@ -37,6 +38,14 @@ Game.LevelRunner = function(game, level)
     this.game.engine.events.render.push(this.renderListener.bind(this));
 
     this.resetPlayer();
+}
+
+Game.LevelRunner.prototype.addCheckPoint = function(x, y, r)
+{
+    this.checkPoints.push({
+        'pos': new THREE.Vector2(x, y),
+        'radius': r || 100,
+    });
 }
 
 Game.LevelRunner.prototype.createCharacterInput = function()
