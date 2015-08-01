@@ -31,7 +31,7 @@ Engine.World.prototype.addObject = function(object, x, y)
     this.objects.add(object);
     this.collision.addObject(object);
     this.scene.add(object.model);
-    object.setScene(this);
+    object.setWorld(this);
 }
 
 Engine.World.prototype.addTimeline = function(timeline)
