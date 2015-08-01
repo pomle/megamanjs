@@ -15,6 +15,10 @@ Game.traits.Teleport.constructor = Engine.Trait;
 
 Game.traits.Teleport.prototype.NAME = 'teleport';
 
+Game.traits.Teleport.prototype.EVENT_DEST_REACHED = 'teleport-dest-reached';
+Game.traits.Teleport.prototype.EVENT_END = 'teleport-end';
+Game.traits.Teleport.prototype.EVENT_START = 'teleport-start';
+
 Game.traits.Teleport.prototype.STATE_OFF = 0;
 Game.traits.Teleport.prototype.STATE_IN = 1;
 Game.traits.Teleport.prototype.STATE_GO = 2;
@@ -35,7 +39,7 @@ Game.traits.Teleport.prototype._start = function()
     this.object.isSupported = false;
     this.object.physics.zero();
     this.object.physics.mass = 0;
-    this.object.trigger('teleport-start');
+    this.object.trigger(this.EVENT_START);
 }
 
 Game.traits.Teleport.prototype._end = function()
@@ -46,7 +50,7 @@ Game.traits.Teleport.prototype._end = function()
     this.object.isSupported = true;
     this.object.physics.zero();
     this.object.physics.mass = 1;
-    this.object.trigger('teleport-end');
+    this.object.trigger(this.EVENT_END);
 }
 
 Game.traits.Teleport.prototype._stop = function()
@@ -71,6 +75,7 @@ Game.traits.Teleport.prototype._handle = function(dt)
         var teleportDistance = Engine.Animation.vectorTraverse(
             this.object.position, this._destination, this.speed * dt);
         if (teleportDistance === 0) {
+            this.object.trigger(this.EVENT_DEST_REACHED);
             this._end();
         }
     }
