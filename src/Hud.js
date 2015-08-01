@@ -10,16 +10,19 @@ var Hud = function(screen)
 	var character = undefined;
 	var weapon = undefined;
 
+	var hud = this;
+	function healthChanged() {
+		hud.setHealthEnergy(this.health.fraction);
+	}
+
 	this.equipCharacter = function(newChar)
 	{
 		if (character) {
-			character.health.event = function(){};
+			character.unbind(character.health.EVENT_HEALTH_CHANGED, healthChanged);
 		}
 		character = newChar;
 		this.setHealthEnergy(character.health.fraction);
-		character.health.event = function(health) {
-			this.setHealthEnergy(character.health.fraction);
-		}.bind(this);
+		character.bind(character.health.EVENT_HEALTH_CHANGED, healthChanged);
 	}
 
 	this.equipWeapon = function(newWeapon)
