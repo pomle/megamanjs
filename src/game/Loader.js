@@ -88,7 +88,7 @@ Game.Loader.prototype.parseLevel = function(xmlResponse)
         throw new TypeError('Node not <scene type="level">');
     }
 
-    var level = new Engine.scenes.Level();
+    var level = new Engine.Scene();
     var levelRunner = new Game.LevelRunner(this.game, level);
 
     levelNode.children('camera').each(function() {
