@@ -10,18 +10,19 @@ Engine.Events.prototype.bind = function(name, callback)
     }
 
     if (!this.events[name]) {
-        this.events[name] = new Set();
+        this.events[name] = [];
     }
-    this.events[name].add(callback);
+    this.events[name].push(callback);
 }
 
 Engine.Events.prototype.trigger = function(name, values)
 {
     if (this.events[name]) {
+        var events = this.events[name];
         /* Notice that this method expects to
            get the arguments to be passed as an
            array as second argument. */
-        for (var event of this.events[name]) {
+        for (var i = 0, l = events.length; i < l; ++i) {
             events[i].apply(this, values);
         }
         return true;
@@ -32,7 +33,12 @@ Engine.Events.prototype.trigger = function(name, values)
 Engine.Events.prototype.unbind = function(name, callback)
 {
     if (this.events[name]) {
-        return this.events[name].delete(callback);
+        var events = this.events[name];
+        var i = events.indexOf(callback);
+        if (i !== -1) {
+            events.splice(i, 1);
+            return true;
+        }
     }
     return false;
 }
