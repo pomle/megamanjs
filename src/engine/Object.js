@@ -22,6 +22,11 @@ Engine.Object = function()
 
 Engine.Util.mixin(Engine.Object, Engine.Events);
 
+Engine.Object.prototype.EVENT_COLLIDE = 'collide';
+Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
+Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
+Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
+
 Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
 Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
 
