@@ -5,6 +5,10 @@ Engine.Events = function()
 
 Engine.Events.prototype.bind = function(name, callback)
 {
+    if (typeof name !== 'string') {
+        throw new TypeError("Event name must be string, got " + name);
+    }
+
     if (!this.events[name]) {
         this.events[name] = new Set();
     }
