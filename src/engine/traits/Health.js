@@ -20,10 +20,10 @@ Engine.traits.Health.prototype.__timeshift = function healthUpdate(dt)
     if (this._lastValue !== this._value) {
         this.object.trigger(this.EVENT_HEALTH_CHANGED);
 
-        if (this._value > this.cached_value) {
+        if (this._value > this._lastValue) {
             this.object.trigger(this.EVENT_HEALED);
         }
-        else {
+        else if (this._value < this._lastValue) {
             this.object.trigger(this.EVENT_DAMAGED);
         }
 
