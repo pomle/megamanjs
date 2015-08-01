@@ -12,6 +12,8 @@ var Engine = function(renderer)
     this.timeMax = 1/60;
     this.timeStretch = 1;
     this.world = undefined;
+
+    this.loop = this.loop.bind(this);
 }
 
 Engine.prototype.loop = function(timeElapsed)
@@ -47,7 +49,7 @@ Engine.prototype.loop = function(timeElapsed)
         this.timeLastEvent = timeElapsed;
     }
 
-    requestAnimationFrame(this.loop.bind(this));
+    requestAnimationFrame(this.loop);
 }
 
 Engine.prototype.pause = function()
