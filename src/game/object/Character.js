@@ -4,6 +4,8 @@ Game.objects.Character = function()
 
     this.ai = new Engine.AI(this);
 
+    this.direction.x = this.DIRECTION_RIGHT;
+
     this.contactDamage = this.applyTrait(new Engine.traits.ContactDamage());
     this.dead = false;
 
