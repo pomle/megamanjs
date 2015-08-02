@@ -6,7 +6,7 @@ Engine.traits.Invincibility = function()
     this._elapsed = 0;
     this._health = undefined;
 
-    this.duration = 2;
+    this.duration = .5;
 
     this.engage = this.engage.bind(this);
     this.disengage = this.disengage.bind(this);
