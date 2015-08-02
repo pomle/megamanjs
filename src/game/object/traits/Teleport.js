@@ -81,11 +81,13 @@ Game.traits.Teleport.prototype._handle = function(dt)
     }
 }
 
-Game.traits.Teleport.prototype.nudge = function(vec2) {
+Game.traits.Teleport.prototype.nudge = function(vec2)
+{
     this.to(this._host.position.clone().add(vec2));
 }
 
-Game.traits.Teleport.prototype.to = function(vec2) {
+Game.traits.Teleport.prototype.to = function(vec2)
+{
     this._destination = vec2;
     this._start();
 }
