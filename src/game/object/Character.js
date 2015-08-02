@@ -16,18 +16,16 @@ Game.objects.Character = function()
 
     this.jump = this.applyTrait(new Engine.traits.Jump());
 
-    this.moveSpeed = 0;
-
     this.physics = this.applyTrait(new Engine.traits.Physics());
     this.physics.mass = 1;
+
+    this.move = this.applyTrait(new Engine.traits.Move());
+
 
     this.projectileEmitOffset = new THREE.Vector2();
     this.stunnedDuration = .5;
     this.stunnedTime = false;
 
-    this.walkAcc = 500;
-    this.walkSpeed = 90;
-    this.walk = 0;
     this.weapon = undefined;
 }
 
@@ -39,16 +37,6 @@ Game.objects.Character.constructor = Game.objects.Character;
 
 Game.objects.Character.prototype.LEFT = -1;
 Game.objects.Character.prototype.RIGHT = 1;
-
-Game.objects.Character.prototype.calculateMoveSpeed = function(dt)
-{
-    if (this.walk == 0) {
-        this.moveSpeed = 0;
-        return;
-    }
-
-    this.moveSpeed = Math.min(this.moveSpeed + this.walkAcc * dt, this.walkSpeed);
-}
 
 Game.objects.Character.prototype.collides = function(withObject, ourZone, theirZone)
 {
@@ -133,26 +121,6 @@ Game.objects.Character.prototype.kill = function()
     this.trigger(this.EVENT_DEATH);
 }
 
-Game.objects.Character.prototype.moveLeftStart = function()
-{
-    this.walk--;
-}
-
-Game.objects.Character.prototype.moveLeftEnd = function()
-{
-    this.walk++;
-}
-
-Game.objects.Character.prototype.moveRightStart = function()
-{
-    this.walk++;
-}
-
-Game.objects.Character.prototype.moveRightEnd = function()
-{
-    this.walk--;
-}
-
 Game.objects.Character.prototype.obstruct = function(object, attack)
 {
     Engine.Object.prototype.obstruct.call(this, object, attack);
@@ -192,14 +160,6 @@ Game.objects.Character.prototype.timeShift = function(dt)
 
     if (this.stunnedTime > 0) {
         this.stunnedTime -= dt;
-    }
-    else {
-        this.physics.momentum.set(0, 0);
-        if (this.walk) {
-            this.setDirection(this.walk > 0 ? this.RIGHT : this.LEFT);
-        }
-        this.calculateMoveSpeed(dt);
-        this.physics.momentum.x = (this.moveSpeed * this.walk);
     }
 
     if (this.isFiring > 0) {

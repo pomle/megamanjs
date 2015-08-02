@@ -171,7 +171,7 @@ Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
         return this.sprites.selectSprite('stunned');
     }
 
-    if (this.walk) {
+    if (this.move._walk) {
         this.sprites.setDirection(this.direction);
     }
 
@@ -182,8 +182,8 @@ Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
         return this.sprites.selectSprite('jump');
     }
 
-    if (this.moveSpeed) {
-        if (this.moveSpeed < this.walkSpeed * .8) {
+    if (this.move._moveSpeed) {
+        if (this.move._moveSpeed < this.move._speed * .8) {
             if (this.isFiring) {
                 return this.sprites.selectSprite('fire');
             }
