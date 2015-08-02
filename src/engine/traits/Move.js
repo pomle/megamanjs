@@ -12,34 +12,34 @@ Engine.traits.Move = function()
 
 Engine.Util.extend(Engine.traits.Move, Engine.Trait);
 
-Engine.traits.Move.prototype.__attach = function(object)
+Engine.traits.Move.prototype.__attach = function(host)
 {
-    for (var i = 0, l = object.traits.length; i < l; ++i) {
-        if (object.traits[i] instanceof Engine.traits.Physics) {
-            this._physics = object.traits[i];
+    for (var i = 0, l = host.traits.length; i < l; ++i) {
+        if (host.traits[i] instanceof Engine.traits.Physics) {
+            this._physics = host.traits[i];
             break;
         }
     }
     if (this._physics === undefined) {
-        throw new Error("Move trait depends on Physics trait which could not be found on object");
+        throw new Error("Move trait depends on Physics trait which could not be found on host");
     }
-    Engine.Trait.prototype.__attach.call(this, object);
+    Engine.Trait.prototype.__attach.call(this, host);
 }
 
 Engine.traits.Move.prototype.__detach = function()
 {
     this._physics = undefined;
-    Engine.Trait.prototype.__detach.call(this, object);
+    Engine.Trait.prototype.__detach.call(this, host);
 }
 
 Engine.traits.Move.prototype.__timeshift = function(deltaTime)
 {
-    if (this.object.stunnedTime > 0) {
+    if (this._host.stunnedTime > 0) {
         return;
     }
     this._physics.momentum.set(0, 0);
     if (this._walk) {
-        this.object.setDirection(this._walk > 0 ? this.object.RIGHT : this.object.LEFT);
+        this._host.setDirection(this._walk > 0 ? this._host.RIGHT : this._host.LEFT);
     }
     this.calculateSpeed(deltaTime);
     this._physics.momentum.x = this._moveSpeed * this._walk;

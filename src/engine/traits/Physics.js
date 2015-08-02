@@ -18,9 +18,9 @@ Engine.traits.Physics.prototype.__timeshift = function(dt)
            ground between ticks and collision detection in resting
            state will only happen every other tick. */
         this._applyGravity(dt);
-        this.object.velocity.set(0, 0);
-        this.object.velocity.add(this.inertia);
-        this.object.velocity.add(this.momentum);
+        this._host.velocity.set(0, 0);
+        this._host.velocity.add(this.inertia);
+        this._host.velocity.add(this.momentum);
     }
 }
 
@@ -29,7 +29,7 @@ Engine.traits.Physics.prototype._applyGravity = function(dt)
     if (this.mass === 0) {
         return false;
     }
-    var g = this.object.world.gravityForce;
+    var g = this._host.world.gravityForce;
     if (g && (g.x || g.y)) {
         this.inertia.x += g.x * dt;
         this.inertia.y -= g.y * dt;

@@ -35,22 +35,22 @@ Game.traits.Teleport.prototype._start = function()
 {
     this.state = this.STATE_IN;
     this._startProgress = this.startDuration;
-    this.object.collidable = false;
-    this.object.isSupported = false;
-    this.object.physics.zero();
-    this.object.physics.mass = 0;
-    this.object.trigger(this.EVENT_START);
+    this._host.collidable = false;
+    this._host.isSupported = false;
+    this._host.physics.zero();
+    this._host.physics.mass = 0;
+    this._host.trigger(this.EVENT_START);
 }
 
 Game.traits.Teleport.prototype._end = function()
 {
     this.state = this.STATE_OUT;
     this._endProgress = this.endDuration;
-    this.object.collidable = true;
-    this.object.isSupported = true;
-    this.object.physics.zero();
-    this.object.physics.mass = 1;
-    this.object.trigger(this.EVENT_END);
+    this._host.collidable = true;
+    this._host.isSupported = true;
+    this._host.physics.zero();
+    this._host.physics.mass = 1;
+    this._host.trigger(this.EVENT_END);
 }
 
 Game.traits.Teleport.prototype._stop = function()
@@ -73,16 +73,16 @@ Game.traits.Teleport.prototype._handle = function(dt)
     else {
         this.state = this.STATE_GO;
         var teleportDistance = Engine.Animation.vectorTraverse(
-            this.object.position, this._destination, this.speed * dt);
+            this._host.position, this._destination, this.speed * dt);
         if (teleportDistance === 0) {
-            this.object.trigger(this.EVENT_DEST_REACHED);
+            this._host.trigger(this.EVENT_DEST_REACHED);
             this._end();
         }
     }
 }
 
 Game.traits.Teleport.prototype.nudge = function(vec2) {
-    this.to(this.object.position.clone().add(vec2));
+    this.to(this._host.position.clone().add(vec2));
 }
 
 Game.traits.Teleport.prototype.to = function(vec2) {

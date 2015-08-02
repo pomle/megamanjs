@@ -16,19 +16,19 @@ Engine.traits.Health.prototype.EVENT_HEALTH_CHANGED = 'health-changed';
 Engine.traits.Health.prototype.__timeshift = function healthUpdate(dt)
 {
     if (this._lastValue !== this._value) {
-        this.object.trigger(this.EVENT_HEALTH_CHANGED);
+        this._host.trigger(this.EVENT_HEALTH_CHANGED);
 
         if (this._value > this._lastValue) {
-            this.object.trigger(this.EVENT_HEALED);
+            this._host.trigger(this.EVENT_HEALED);
         }
         else if (this._value < this._lastValue) {
-            this.object.trigger(this.EVENT_DAMAGED);
+            this._host.trigger(this.EVENT_DAMAGED);
         }
 
         this._lastValue = this._value;
     }
 
     if (this.depleted) {
-        this.object.kill();
+        this._host.kill();
     }
 }

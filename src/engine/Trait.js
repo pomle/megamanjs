@@ -1,6 +1,6 @@
 Engine.Trait = function()
 {
-    this.object = undefined;
+    this._host = undefined;
 
     /* Bind on instanciation so that we
        they can be found when unbound. */
@@ -28,7 +28,7 @@ Engine.Trait.prototype.__attach = function(object)
         throw new TypeError('Invalid object');
     }
 
-    if (this.object) {
+    if (this._host) {
         this.__detach();
     }
 
@@ -39,16 +39,16 @@ Engine.Trait.prototype.__attach = function(object)
         }
     }
 
-    this.object = object;
+    this._host = object;
 }
 
 Engine.Trait.prototype.__detach = function()
 {
     for (var method in this.MAGIC_METHODS) {
-        this.object.unbind(this.MAGIC_METHODS[method],
+        this._host.unbind(this.MAGIC_METHODS[method],
                            this[method]);
     }
-    this.object = undefined;
+    this._host = undefined;
 }
 
 Engine.Trait.prototype.__collides = undefined;
