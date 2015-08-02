@@ -51,10 +51,9 @@ Engine.Trait.prototype.__detach = function()
 
 Engine.Trait.prototype.__require = function(host, traitReference)
 {
-    for (var i = 0, l = host.traits.length; i < l; ++i) {
-        if (host.traits[i] instanceof traitReference) {
-            return host.traits[i];
-        }
+    var trait = host.getTrait(traitReference);
+    if (trait !== false) {
+        return trait;
     }
     console.error("%s depends on %s which could not be found on %s", this, new traitReference(), host);
     throw new Error("Required trait not found");

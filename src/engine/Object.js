@@ -83,6 +83,16 @@ Engine.Object.prototype.dropCollision = function()
     this.collision.length = 0;
 }
 
+Engine.Object.prototype.getTrait = function(traitReference)
+{
+    for (var i = 0, l = this.traits.length; i < l; ++i) {
+        if (this.traits[i] instanceof traitReference) {
+            return this.traits[i];
+        }
+    }
+    return false;
+}
+
 Engine.Object.prototype.moveTo = function(vec)
 {
     this.position.x = vec.x;
