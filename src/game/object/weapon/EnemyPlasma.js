@@ -12,6 +12,6 @@ Game.objects.weapons.EnemyPlasma.prototype.fire = function()
         return false;
     }
     var projectile = new Game.objects.projectiles.EnemyPlasma();
-    this.emit(projectile, projectile.speed);
+    this.emit(projectile);
     return true;
 }

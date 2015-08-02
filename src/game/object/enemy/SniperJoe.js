@@ -21,9 +21,8 @@ Game.objects.characters.SniperJoe = function(target)
 
     var weapon = new Game.objects.weapons.EnemyPlasma();
     weapon.setCoolDown(.8);
-    this.equipWeapon(weapon);
-
-    this.projectileEmitOffset.set(9, -2);
+    this.weapon.equip(weapon);
+    this.weapon.projectileEmitOffset.set(9, -2);
 
     this.firingLoop = -1;
     this.target = undefined;
@@ -90,7 +89,7 @@ Game.objects.characters.SniperJoe.prototype.timeShift = function(dt)
         else {
             this.isShielding = false;
             if (fireLoopDelta > 2.5) {
-                this.fire();
+                this.weapon.fire();
             }
         }
     }

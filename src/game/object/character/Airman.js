@@ -1,6 +1,8 @@
 Game.objects.characters.Airman = function()
 {
     Game.objects.Character.call(this);
+    this.contactDamage.points = 4;
+    this.jump.force = 260;
 
     var model = Engine.SpriteManager.createSprite('bosses/airman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -21,11 +23,10 @@ Game.objects.characters.Airman = function()
     this.setModel(model);
 
     this.addCollisionRect(20, 28, 0, 0);
-    this.setDirection(this.RIGHT);
-    this.projectileEmitOffset.set(22, -1);
+    this.weapon.projectileEmitOffset.set(22, -1);
 
     this.isBlowing = false;
-    this.jumpForce = 260;
+
 }
 
 Game.objects.characters.Airman.prototype = Object.create(Game.objects.Character.prototype);

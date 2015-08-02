@@ -13,6 +13,6 @@ Game.objects.weapons.Plasma.prototype.fire = function()
         return false;
     }
     var projectile = new Game.objects.projectiles.Plasma();
-    this.emit(projectile, projectile.speed, 0);
+    this.emit(projectile);
     return true;
 }
