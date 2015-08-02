@@ -11,8 +11,6 @@ Engine.Trait = function()
     }
 }
 
-Engine.traits = {};
-
 Engine.Trait.prototype.MAGIC_METHODS = {
     '__collides':   Engine.Object.prototype.EVENT_COLLIDE,
     '__obstruct':   Engine.Object.prototype.EVENT_OBSTRUCT,

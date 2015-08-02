@@ -16,6 +16,8 @@ var Engine = function(renderer)
     this.loop = this.loop.bind(this);
 }
 
+Engine.traits = {};
+
 Engine.prototype.loop = function(timeElapsed)
 {
     if (!this.isRunning || this.world === undefined) {
