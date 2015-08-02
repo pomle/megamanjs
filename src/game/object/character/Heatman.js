@@ -53,7 +53,7 @@ Game.objects.characters.Heatman.prototype.updateSprite = function()
 {
     this.sprites.setDirection(this.direction.x);
 
-    if (this.moveSpeed) {
+    if (this.move._moveSpeed) {
         if (this.flameTransformTime < this.flameTransformDuration) {
             this.flameTransformTime += this.deltaTime;
             return this.sprites.selectSprite('toFlame');
@@ -84,8 +84,16 @@ Game.objects.characters.Heatman.prototype.updateSprite = function()
 
 Game.objects.characters.Heatman.prototype.timeShift = function(dt)
 {
+    if (this.move._moveSpeed !== 0) {
+        this.health.infinite = true;
+        this.physics.mass = 0;
+    }
+    else {
+        this.health.infinite = false;
+        this.physics.mass = 1;
+    }
+
     this.updateSprite();
-    this.physics.mass = this.moveSpeed ? 0 : 1;
     Game.objects.Character.prototype.timeShift.call(this, dt);
     this.sprites.timeShift(dt);
 }
