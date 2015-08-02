@@ -58,7 +58,9 @@ Engine.traits.Invincibility.prototype.disengage = function()
 
 Engine.traits.Invincibility.prototype.engage = function()
 {
-    this._health.infinite = true;
-    this._elapsed = 0;
-    this._engaged = true;
+    if (this.duration !== 0) {
+        this._health.infinite = true;
+        this._elapsed = 0;
+        this._engaged = true;
+    }
 }
