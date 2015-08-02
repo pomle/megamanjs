@@ -1,6 +1,7 @@
 Game.objects.characters.Metalman = function()
 {
     Game.objects.Character.call(this);
+    this.contactDamage.points = 6;
 
     var model = Engine.SpriteManager.createSprite('bosses/metalman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);

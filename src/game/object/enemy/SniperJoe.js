@@ -16,7 +16,7 @@ Game.objects.characters.SniperJoe = function(target)
     this.setModel(model);
     this.addCollisionRect(20, 24);
 
-    this.contactDamage = 4;
+    this.contactDamage.points = 4;
     this.health.max = 10;
 
     var weapon = new Game.objects.weapons.EnemyPlasma();

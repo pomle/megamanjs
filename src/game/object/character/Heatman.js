@@ -1,6 +1,7 @@
 Game.objects.characters.Heatman = function()
 {
     Game.objects.Character.call(this);
+    this.contactDamage.points = 8;
 
     var model = Engine.SpriteManager.createSprite('bosses/heatman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);

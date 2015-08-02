@@ -1,6 +1,7 @@
 Game.objects.characters.Crashman = function()
 {
     Game.objects.Character.call(this);
+    this.contactDamage.points = 4;
 
     var model = Engine.SpriteManager.createSprite('bosses/crashman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);

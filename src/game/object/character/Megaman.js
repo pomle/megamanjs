@@ -3,6 +3,7 @@ Game.objects.characters.Megaman = function()
     Game.objects.Character.call(this);
 
     this.health.max = 28;
+    this.contactDamage.points = 0;
 
     this.textures = {};
 
