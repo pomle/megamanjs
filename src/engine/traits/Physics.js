@@ -10,7 +10,7 @@ Engine.traits.Physics = function()
 
 Engine.Util.extend(Engine.traits.Physics, Engine.Trait);
 
-Engine.traits.Physics.prototype.__timeshift = function(dt)
+Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
     if (this.enabled && dt) {
         /* It is very important that gravity is applied before the
