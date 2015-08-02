@@ -5,10 +5,12 @@ var Hud = function(screen)
 	this.elements = {
 		'healthBar': screen.find('.health'),
 		'weaponBar': screen.find('.weapon'),
+		'bossHealthBar': screen.find('.bossHealth'),
 	};
 
 	var character = undefined;
 	var weapon = undefined;
+	var boss = undefined;
 
 	var hud = this;
 	function healthChanged() {
@@ -16,6 +18,9 @@ var Hud = function(screen)
 	}
 	function ammoChanged() {
 		hud.setWeaponEnergy(this.ammo.fraction);
+	}
+	function bossHealthChanged() {
+		hud.setBossHealthEnergy(this.health.fraction);
 	}
 
 	this.equipCharacter = function(newChar)
@@ -40,6 +45,16 @@ var Hud = function(screen)
 		weapon.bind(weapon.EVENT_AMMO_CHANGED, ammoChanged);
 	}
 
+	this.equipBoss = function(newChar)
+	{
+		if (boss) {
+			boss.unbind(boss.health.EVENT_HEALTH_CHANGED, healthChanged);
+		}
+		boss = newChar;
+		this.setHealthEnergy(boss.health.fraction);
+		boss.bind(boss.health.EVENT_HEALTH_CHANGED, bossHealthChanged);
+	}
+
 	this.setHealthEnergy = function(frac)
 	{
 		setEnergyQuantified(this.elements.healthBar, frac);
@@ -48,6 +63,11 @@ var Hud = function(screen)
 	this.setWeaponEnergy = function(frac)
 	{
 		setEnergyQuantified(this.elements.weaponBar, frac);
+	}
+
+	this.setWeaponEnergy = function(frac)
+	{
+		setEnergyQuantified(this.elements.bossHealthBar, frac);
 	}
 
 	function setEnergyQuantified(element, frac)
