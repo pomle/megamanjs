@@ -10,8 +10,7 @@ Engine.traits.Move = function()
     this.speed = 90;
 }
 
-Engine.traits.Move.prototype = Object.create(Engine.Trait.prototype);
-Engine.traits.Move.constructor = Engine.Trait;
+Engine.Util.extend(Engine.traits.Move, Engine.Trait);
 
 Engine.traits.Move.prototype.__attach = function(object)
 {

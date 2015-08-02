@@ -8,10 +8,7 @@ Engine.traits.Physics = function()
     this.momentum = new THREE.Vector2();
 }
 
-Engine.traits.Physics.prototype = Object.create(Engine.Trait.prototype);
-Engine.traits.Physics.constructor = Engine.Trait;
-
-Engine.traits.Physics.prototype.NAME = 'physics';
+Engine.Util.extend(Engine.traits.Physics, Engine.Trait);
 
 Engine.traits.Physics.prototype.__timeshift = function(dt)
 {

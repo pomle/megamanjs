@@ -12,10 +12,7 @@ Engine.traits.Invincibility = function()
     this.disengage = this.disengage.bind(this);
 }
 
-Engine.traits.Invincibility.prototype = Object.create(Engine.Trait.prototype);
-Engine.traits.Invincibility.constructor = Engine.Trait;
-
-Engine.traits.Invincibility.prototype.NAME = 'invincibility';
+Engine.Util.extend(Engine.traits.Invincibility, Engine.Trait);
 
 Engine.traits.Invincibility.prototype.__attach = function(object)
 {

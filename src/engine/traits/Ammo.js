@@ -6,5 +6,3 @@ Engine.traits.Ammo = function()
 
 Engine.Util.extend(Engine.traits.Ammo, Engine.Trait);
 Engine.Util.mixin(Engine.traits.Ammo, Engine.traits._Energy);
-
-Engine.traits.Ammo.prototype.NAME = 'ammo';

@@ -9,10 +9,7 @@ Engine.traits.Jump = function()
     this.force = 180;
 }
 
-Engine.traits.Jump.prototype = Object.create(Engine.Trait.prototype);
-Engine.traits.Jump.constructor = Engine.Trait;
-
-Engine.traits.Jump.prototype.NAME = 'jump';
+Engine.Util.extend(Engine.traits.Jump, Engine.Trait);
 
 Engine.traits.Jump.prototype.__obstruct = function(object, attack)
 {
