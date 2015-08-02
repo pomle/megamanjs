@@ -1,13 +1,13 @@
 Engine.traits.Health = function()
 {
     Engine.Trait.apply(this, arguments);
-    Engine.traits._Energy.apply(this, arguments);
+    Engine.logic.Energy.apply(this, arguments);
 
     this._lastValue = undefined;
 }
 
 Engine.Util.extend(Engine.traits.Health, Engine.Trait);
-Engine.Util.mixin(Engine.traits.Health, Engine.traits._Energy);
+Engine.Util.mixin(Engine.traits.Health, Engine.logic.Energy);
 
 Engine.traits.Health.prototype.EVENT_DAMAGED = 'damaged';
 Engine.traits.Health.prototype.EVENT_HEALED = 'healed';

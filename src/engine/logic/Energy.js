@@ -1,11 +1,11 @@
-Engine.traits._Energy = function(max, min)
+Engine.logic.Energy = function(max, min)
 {
     this._max = max || 100;
     this._min = min || 0;
     this._value = this._max;
 }
 
-Object.defineProperties(Engine.traits._Energy.prototype, {
+Object.defineProperties(Engine.logic.Energy.prototype, {
     amount: {
         enumerable: true,
         get: function() {
@@ -90,12 +90,12 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
     },
 });
 
-Engine.traits._Energy.prototype.deplete = function()
+Engine.logic.Energy.prototype.deplete = function()
 {
     this._value = this._min;
 }
 
-Engine.traits._Energy.prototype.fill = function()
+Engine.logic.Energy.prototype.fill = function()
 {
     this._value = this._max;
 }

@@ -16,6 +16,7 @@ var Engine = function(renderer)
     this.loop = this.loop.bind(this);
 }
 
+Engine.logic = {};
 Engine.traits = {};
 
 Engine.prototype.loop = function(timeElapsed)
