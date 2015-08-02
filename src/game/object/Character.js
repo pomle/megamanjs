@@ -4,7 +4,7 @@ Game.objects.Character = function()
 
     this.ai = new Engine.AI(this);
 
-    this.contactDamage = 0;
+    this.contactDamage = this.applyTrait(new Engine.traits.ContactDamage());
     this.dead = false;
 
     this.health = this.applyTrait(new Engine.traits.Health(100));
@@ -30,14 +30,6 @@ Game.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
 
 Game.objects.Character.prototype = Object.create(Engine.Object.prototype);
 Game.objects.Character.constructor = Game.objects.Character;
-
-Game.objects.Character.prototype.collides = function(withObject, ourZone, theirZone)
-{
-    if (this.contactDamage > 0 && withObject.health) {
-        withObject.inflictDamage(this.contactDamage);
-    }
-    Engine.Object.prototype.collides.call(this, withObject, ourZone, theirZone);
-}
 
 Game.objects.Character.prototype.getDeathObject = function()
 {

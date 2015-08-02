@@ -20,7 +20,7 @@ Game.objects.characters.Telly = function()
     this.setModel(model);
     this.addCollisionRect(16, 16, 0, 0);
 
-    this.contactDamage = 1;
+    this.contactDamage.points = 1;
     this.obstructible = false;
 
     this.physics.mass = 0;
