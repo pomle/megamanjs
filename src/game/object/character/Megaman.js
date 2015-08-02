@@ -95,14 +95,13 @@ Game.objects.characters.Megaman = function()
         'sweat': new Game.objects.decorations.Sweat(),
     };
 
+    this.weapon.projectileEmitOffset.set(17, 1);
 
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
 
     this.setDirection(this.RIGHT);
     this.sprites.setDirection(this.RIGHT);
-
-    this.projectileEmitOffset.set(17, 1);
 
     this.energyCapsules = 0;
 

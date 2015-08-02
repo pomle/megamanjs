@@ -20,8 +20,6 @@ Game.objects.Character = function()
 
     this.move = this.applyTrait(new Engine.traits.Move());
 
-
-    this.projectileEmitOffset = new THREE.Vector2();
     this.stunnedDuration = .5;
     this.stunnedTime = false;
 
