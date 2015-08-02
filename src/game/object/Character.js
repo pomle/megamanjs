@@ -24,6 +24,7 @@ Game.objects.Character = function()
     this.stunnedDuration = .5;
     this.stunnedTime = false;
 
+    this.teleport = this.applyTrait(new Game.traits.Teleport());
     this.weapon = this.applyTrait(new Engine.traits.Weapon());
 }
 

@@ -1,7 +1,6 @@
 Game.objects.characters.Megaman = function()
 {
     Game.objects.Character.call(this);
-    this.teleport = this.applyTrait(new Game.traits.Teleport());
 
     this.health.max = 28;
     this.contactDamage.points = 0;
