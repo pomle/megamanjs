@@ -1,13 +1,22 @@
 Game.objects.Weapon = function()
 {
-    this.ammo = new Game.objects.Energy();
+    Engine.Events.call(this);
+
+    this.ammo = new Engine.logic.Energy(100);
     this.code = undefined;
     this.coolDown = 0;
     this.coolDownDelay = undefined;
     this.cost = 1;
     this.isReady = true;
     this.user = undefined;
+
+    this._lastAmmoAmount = undefined;
 }
+
+Engine.Util.mixin(Game.objects.Weapon, Engine.Events);
+
+Game.objects.Weapon.prototype.EVENT_AMMO_CHANGED = 'ammo-changed';
+Game.objects.Weapon.prototype.EVENT_READY = 'ready';
 
 Game.objects.Weapon.prototype.emit = function(projectile, x, y)
 {
@@ -27,11 +36,12 @@ Game.objects.Weapon.prototype.fire = function()
         return false;
     }
 
-    if (this.ammo.isFinite() && this.cost > 0) {
-        if (this.ammo.getAmount() < this.cost) {
+    if (!this.ammo.infinite && this.cost > 0) {
+        if (this.ammo.amount < this.cost) {
             return false;
         }
-        this.ammo.reduce(this.cost);
+        this.ammo.amount -= this.cost;
+        this.trigger(this.EVENT_AMMO_CHANGED);
     }
 
     if (this.coolDown > 0) {
@@ -57,10 +67,16 @@ Game.objects.Weapon.prototype.setUser = function(user)
 
 Game.objects.Weapon.prototype.timeShift = function(dt)
 {
+    if (this._lastAmmoAmount !== this.ammo.amount) {
+        this.trigger(this.EVENT_AMMO_CHANGED);
+        this._lastAmmoAmount = this.ammo.amount;
+    }
+
     if (this.coolDownDelay) {
         this.coolDownDelay -= dt;
         if (this.coolDownDelay <= 0) {
             this.isReady = true;
+            this.trigger(this.EVENT_READY);
             this.coolDownDelay = undefined;
         }
     }

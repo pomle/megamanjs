@@ -1,7 +1,7 @@
 Game.objects.weapons.TimeStopper = function()
 {
     Game.objects.Weapon.call(this);
-    this.ammo.setMax(30); // Seconds of real time it lasts.
+    this.ammo.max = 30; // Seconds of real time it lasts.
     this.cost = 1;
     this.timeFraction = 0.01;
     this.timeDistorted = false;
@@ -42,8 +42,8 @@ Game.objects.weapons.TimeStopper.prototype.resetTime = function()
 Game.objects.weapons.TimeStopper.prototype.timeShift = function(dt)
 {
     if (this.timeDistorted) {
-        this.ammo.reduce(this.cost * this.user.deltaTime);
-        if (this.user.dead || this.ammo.isDepleted()) {
+        this.ammo.amount -= this.cost * this.user.deltaTime;
+        if (this.user.dead || this.ammo.depleted) {
             this.resetTime();
         }
     }

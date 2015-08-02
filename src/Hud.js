@@ -14,6 +14,9 @@ var Hud = function(screen)
 	function healthChanged() {
 		hud.setHealthEnergy(this.health.fraction);
 	}
+	function ammoChanged() {
+		hud.setWeaponEnergy(this.ammo.fraction);
+	}
 
 	this.equipCharacter = function(newChar)
 	{
@@ -33,10 +36,8 @@ var Hud = function(screen)
 		}
 		weapon = newWeapon;
 		this.elements.weaponBar.addClass(weapon.code);
-		this.setWeaponEnergy(weapon.ammo.getFraction());
-		weapon.ammo.event = function(ammo) {
-			this.setWeaponEnergy(ammo.getFraction());
-		}.bind(this);
+		this.setWeaponEnergy(weapon.ammo.fraction);
+		weapon.bind(weapon.EVENT_AMMO_CHANGED, ammoChanged);
 	}
 
 	this.setHealthEnergy = function(frac)
