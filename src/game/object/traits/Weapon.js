@@ -42,11 +42,11 @@ Engine.traits.Weapon.prototype.equip = function(weapon)
 
 Engine.traits.Weapon.prototype.fire = function()
 {
-    if (this._host.stunnedTime > 0) {
+    if (this._host.stun._engaged === true) {
         return false;
     }
 
-    if (!this.weapon) {
+    if (this.weapon === undefined) {
         return false;
     }
 

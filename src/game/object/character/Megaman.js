@@ -160,7 +160,7 @@ Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
         return this.sprites.selectSprite('teleport');
     }
 
-    if (this.stunnedTime > 0) {
+    if (this.stun._engaged === true) {
         return this.sprites.selectSprite('stunned');
     }
 

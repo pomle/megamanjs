@@ -7,6 +7,7 @@ Engine.traits.Move = function()
     this._walk = 0;
 
     this.acceleration = 500;
+    this.inhibit = false;
     this.speed = 90;
 }
 
@@ -34,7 +35,7 @@ Engine.traits.Move.prototype.__detach = function()
 
 Engine.traits.Move.prototype.__timeshift = function(deltaTime)
 {
-    if (this._host.stunnedTime > 0) {
+    if (this.inhibit) {
         return;
     }
     this._physics.momentum.set(0, 0);

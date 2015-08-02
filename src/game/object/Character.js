@@ -20,9 +20,7 @@ Game.objects.Character = function()
     this.physics.mass = 1;
 
     this.move = this.applyTrait(new Engine.traits.Move());
-
-    this.stunnedDuration = .5;
-    this.stunnedTime = false;
+    this.stun = this.applyTrait(new Engine.traits.Stun());
 
     this.teleport = this.applyTrait(new Game.traits.Teleport());
     this.weapon = this.applyTrait(new Engine.traits.Weapon());
@@ -59,7 +57,6 @@ Game.objects.Character.prototype.inflictDamage = function(points, direction)
         return false;
     }
     this.health.amount -= points;
-    this.stunnedTime = this.stunnedDuration;
     return true;
 }
 
@@ -111,11 +108,6 @@ Game.objects.Character.prototype.resurrect = function()
 Game.objects.Character.prototype.timeShift = function(dt)
 {
     this.isSupported = false;
-
-    if (this.stunnedTime > 0) {
-        this.stunnedTime -= dt;
-    }
-
     Engine.Object.prototype.timeShift.call(this, dt);
 }
 
