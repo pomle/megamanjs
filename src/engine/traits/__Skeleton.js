@@ -7,7 +7,7 @@ Engine.traits.__Skeleton = function()
 
 Engine.Util.extend(Engine.traits.__Skeleton, Engine.Trait);
 
-Engine.traits.Health.prototype.EVENT_NAME = 'event';
+Engine.traits.__Skeleton.prototype.EVENT_NAME = 'event';
 
 Engine.traits.__Skeleton.prototype.__attach = function(host)
 {
