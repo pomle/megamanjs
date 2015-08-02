@@ -40,6 +40,50 @@ Game.Loader.prototype.loadScene = function(xmlUrl, callback)
     });
 }
 
+Game.Loader.prototype.parseCutscene = function(xmlResponse)
+{
+    var loader = this;
+    var sceneNode = xmlResponse.xml;
+    if (!sceneNode.is('scene[type=cutscene]')) {
+        throw new TypeError('Node not <scene type="cutscene">');
+    }
+
+    var world = new Engine.World();
+    var cutscene = new Game.scenes.Cutscene(this.game, world);
+
+    sceneNode.find('> objects > object').each(function() {
+        var objectNode = $(this);
+
+        var object;
+        objectNode.find('> texture').each(function() {
+            var textureNode = $(this);
+
+            var texture = Engine.TextureManager.getTexture(xmlResponse.createUrl(textureNode.attr('src')));
+            texture.repeat.x = parseFloat(textureNode.attr('repeat-x')) || 1;
+            texture.repeat.y = parseFloat(textureNode.attr('repeat-y')) || 1;
+            texture.wrapS = THREE.RepeatWrapping;
+
+            var geometry = new THREE.PlaneGeometry(parseFloat(textureNode.attr('w')), parseFloat(textureNode.attr('h')));
+            var material = new THREE.MeshBasicMaterial({
+                side: THREE.FrontSide,
+                map: texture,
+                transparent: true,
+            });
+            object = new THREE.Mesh(geometry, material);
+
+            var position = loader.parseVector(textureNode.find('> position'));
+            object.position.copy(position);
+        });
+
+        world.scene.add(object);
+        cutscene.objects[objectNode.attr('id')] = object;
+    });
+
+    xmlResponse.done(cutscene);
+
+    return this.game;
+}
+
 Game.Loader.prototype.parseGame = function(xmlResponse)
 {
     var loader = this;
@@ -542,6 +586,9 @@ Game.Loader.prototype.parseScene = function(xmlResponse)
     }
     var type = sceneNode.attr('type');
     switch (type) {
+        case 'cutscene':
+            this.parseCutscene(xmlResponse);
+            break;
         case 'level':
             this.parseLevel(xmlResponse);
             break;
@@ -614,6 +661,30 @@ Game.Loader.prototype.parseStageSelect = function(xmlResponse)
     xmlResponse.done(scene);
 
     return scene;
+}
+
+Game.Loader.prototype.parseVector = function(node)
+{
+    var units = ['x', 'y', 'z'];
+    var parsedUnits = [];
+    for (var i in units) {
+        var unit = units[i];
+        var value = node.attr(unit);
+        if (!value) {
+            break;
+        }
+        value = parseFloat(value);
+        parsedUnits.push(value);
+    }
+
+    if (parsedUnits.length === 2) {
+        return new THREE.Vector2(parsedUnits[0], parsedUnits[1]);
+    }
+    else if (parsedUnits.length === 3) {
+        return new THREE.Vector3(parsedUnits[0], parsedUnits[1], parsedUnits[2]);
+    }
+    console.error("Node not parsable", node);
+    throw new Error("Could not parse " + node);
 }
 
 Game.Loader.prototype.parseWeapon = function(xmlResponse)

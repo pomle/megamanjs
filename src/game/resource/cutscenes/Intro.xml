@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="cutscene">
+
+    <camera distance="140" />
+
+    <objects>
+        <object id="skyline">
+            <texture src="./intro/skyline.png" w="1024" h="256" repeat-x="4">
+                <position x="0" y="0" z="-200" />
+            </texture>
+        </object>
+    </objects>
+
+    <sequences>
+        <sequence>
+
+        </sequence>
+    </sequences>
+</scene>

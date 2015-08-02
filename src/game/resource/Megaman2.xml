@@ -4,7 +4,7 @@
         texture-scale="4" />
 
     <scenes>
-        <!-- <scene type="cutscene" name="Intro" src="./Intro.xml" /> -->
+        <scene type="cutscene" name="Intro" src="./cutscenes/Intro.xml" />
         <scene type="stage-select" name="StageSelect" src="./StageSelect.xml" />
         <scene type="level" name="Flashman" src="./levels/Flashman.xml" />
         <scene type="level" name="Heatman" src="./levels/Heatman.xml" />
