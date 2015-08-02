@@ -16,23 +16,15 @@ Engine.Util.extend(Engine.traits.Invincibility, Engine.Trait);
 
 Engine.traits.Invincibility.prototype.__attach = function(host)
 {
-    for (var i = 0, l = host.traits.length; i < l; ++i) {
-        if (host.traits[i] instanceof Engine.traits.Health) {
-            this._health = host.traits[i];
-            break;
-        }
-    }
-    if (this._health === undefined) {
-        throw new Error("Invincibility trait depends on Health trait which could not be found on host");
-    }
+    this._health = this.__require(host, Engine.traits.Health);
     Engine.Trait.prototype.__attach.call(this, host);
-    this._host.bind(Engine.traits.Health.prototype.EVENT_DAMAGED, this.engage);
+    this._host.bind(this._health.EVENT_DAMAGED, this.engage);
 }
 
 Engine.traits.Invincibility.prototype.__detach = function()
 {
+    this._host.unbind(this._health.EVENT_DAMAGED, this.engage);
     this._health = undefined;
-    this._host.unbind(Engine.traits.Health.prototype.EVENT_DAMAGED, this.engage);
     Engine.Trait.prototype.__detach.call(this, host);
 }
 
