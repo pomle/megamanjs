@@ -1,6 +1,6 @@
-Game.scenes.StageSelect = function()
+Game.scenes.StageSelect = function(game, world)
 {
-    Game.Scene.apply(this, arguments);
+    Game.Scene.call(this, game, world);
 
     this.world.camera.camera.position.z = 120;
     this.cameraDesiredPosition = new THREE.Vector3();
