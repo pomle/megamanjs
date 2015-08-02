@@ -39,10 +39,12 @@ Engine.traits.Invincibility.prototype.__detach = function()
 Engine.traits.Invincibility.prototype.__timeshift = function(deltaTime)
 {
     if (this._engaged) {
-        this._elapsed += deltaTime;
         this._host.model.visible = !this._host.model.visible;
         if (this._elapsed >= this.duration) {
             this.disengage();
+        }
+        else {
+            this._elapsed += deltaTime;
         }
     }
 }
