@@ -6,7 +6,6 @@ Game.objects.Character = function()
 
     this.contactDamage = 0;
     this.dead = false;
-    this.direction = undefined;
 
     this.health = this.applyTrait(new Engine.traits.Health(100));
     this.isSupported = false;
@@ -31,9 +30,6 @@ Game.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
 
 Game.objects.Character.prototype = Object.create(Engine.Object.prototype);
 Game.objects.Character.constructor = Game.objects.Character;
-
-Game.objects.Character.prototype.LEFT = -1;
-Game.objects.Character.prototype.RIGHT = 1;
 
 Game.objects.Character.prototype.collides = function(withObject, ourZone, theirZone)
 {
@@ -115,11 +111,6 @@ Game.objects.Character.prototype.resurrect = function()
     this.dead = false;
     this.health.fill();
     this.trigger(this.EVENT_RESURRECT);
-}
-
-Game.objects.Character.prototype.setDirection = function(d)
-{
-    this.direction = d;
 }
 
 Game.objects.Character.prototype.timeShift = function(dt)

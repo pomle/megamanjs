@@ -19,8 +19,6 @@ Game.objects.characters.SniperJoe = function(target)
     this.contactDamage = 4;
     this.health.max = 10;
 
-    this.setDirection(this.LEFT);
-
     var weapon = new Game.objects.weapons.EnemyPlasma();
     weapon.setCoolDown(.8);
     this.equipWeapon(weapon);
@@ -40,8 +38,8 @@ Game.objects.characters.SniperJoe.prototype.impactProjectile = function(projecti
     // Is the shield pointing towards the projectile
     if (this.isShielding) {
         var relativeXSpeed = this.velocity.x - projectile.velocity.x;
-        var impactDirection = relativeXSpeed < 0 ? this.LEFT : this.RIGHT;
-        if (impactDirection == this.direction) {
+        var impactDirection = relativeXSpeed < 0 ? this.DIRECTION_LEFT : this.DIRECTION_RIGHT;
+        if (impactDirection == this.direction.x) {
             projectile.deflect();
             return false;
         }
@@ -52,7 +50,7 @@ Game.objects.characters.SniperJoe.prototype.impactProjectile = function(projecti
 
 Game.objects.characters.SniperJoe.prototype.selectSprite = function(dt)
 {
-    this.sprites.setDirection(this.direction);
+    this.sprites.setDirection(this.direction.x);
     if (this.isShielding) {
         return this.sprites.selectSprite('shielding');
     }

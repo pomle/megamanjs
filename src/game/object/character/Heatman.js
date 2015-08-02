@@ -58,7 +58,7 @@ Game.objects.characters.Heatman.constructor = Game.objects.characters.Heatman;
 Game.objects.characters.Heatman.prototype.updateSprite = function()
 {
     if (this.walk) {
-        this.sprites.setDirection(this.direction);
+        this.sprites.setDirection(this.direction.x);
     }
 
     if (this.moveSpeed) {

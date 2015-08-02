@@ -100,9 +100,6 @@ Game.objects.characters.Megaman = function()
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
 
-    this.setDirection(this.RIGHT);
-    this.sprites.setDirection(this.RIGHT);
-
     this.energyCapsules = 0;
 
     this.setModel(model);
@@ -137,7 +134,7 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
         this.physics.momentum.x *= direction.x > 0 ? -1 : 1;
     }
     else {
-        this.physics.momentum.x *= this.direction > 0 ? -1 : 1;
+        this.physics.momentum.x *= this.direction.x > 0 ? -1 : 1;
     }
 
     var sweat = this.decorations['sweat']
@@ -152,6 +149,8 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
 
 Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
+    this.sprites.setDirection(this.direction.x);
+
     if (this.teleport.state) {
         if (this.teleport.state == this.teleport.STATE_OUT) {
             return this.sprites.selectSprite('teleport-out');
@@ -164,10 +163,6 @@ Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
 
     if (this.stunnedTime > 0) {
         return this.sprites.selectSprite('stunned');
-    }
-
-    if (this.move._walk) {
-        this.sprites.setDirection(this.direction);
     }
 
     if (!this.isSupported) {

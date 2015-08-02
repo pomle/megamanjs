@@ -46,7 +46,7 @@ Game.objects.characters.Flashman.constructor = Game.objects.characters.Flashman;
 Game.objects.characters.Flashman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
-        this.sprites.setDirection(this.direction);
+        this.sprites.setDirection(this.direction.x);
     }
 
     if (this.isFiring) {

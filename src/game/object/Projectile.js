@@ -56,7 +56,7 @@ Game.objects.Projectile.prototype.setEmitter = function(character)
 {
     Engine.Object.prototype.setEmitter.call(this, character);
     var origin = this.emitter.position.clone();
-    origin.x += this.emitter.weapon.projectileEmitOffset.x * this.emitter.direction;
+    origin.x += this.emitter.weapon.projectileEmitOffset.x * this.emitter.direction.x;
     origin.y += this.emitter.weapon.projectileEmitOffset.y;
     this.setOrigin(origin);
 }

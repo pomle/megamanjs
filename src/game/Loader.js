@@ -416,10 +416,10 @@ Game.Loader.prototype.parseLevel = function(xmlResponse)
             var object = new Game.objects.characters[name]();
             var direction = enemyNode.attr('direction');
             if (direction == 'right') {
-                object.setDirection(object.RIGHT);
+                object.direction.x = object.DIRECTION_RIGHT;
             }
             else if (direction == 'left') {
-                object.setDirection(object.LEFT);
+                object.direction.x = object.DIRECTION_LEFT;
             }
         }
 

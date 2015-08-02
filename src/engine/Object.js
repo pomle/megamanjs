@@ -6,6 +6,7 @@ Engine.Object = function()
     this.collidable = true;
     this.collision = [];
     this.deltaTime = 0;
+    this.direction = new THREE.Vector2();
     this.emitter = undefined;
     this.events = {};
     this.obstructible = true;
@@ -22,7 +23,13 @@ Engine.Object = function()
 
 Engine.Util.mixin(Engine.Object, Engine.Events);
 
+Engine.Object.prototype.DIRECTION_UP = 1;
+Engine.Object.prototype.DIRECTION_DOWN = -1;
+Engine.Object.prototype.DIRECTION_LEFT = -1;
+Engine.Object.prototype.DIRECTION_RIGHT = 1;
+
 Engine.Object.prototype.EVENT_COLLIDE = 'collide';
+Engine.Object.prototype.EVENT_DIRECTION_CHANGE = 'direction-change';
 Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
 Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
 Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';

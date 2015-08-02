@@ -26,7 +26,6 @@ Game.objects.characters.Telly = function()
     this.physics.mass = 0;
     this.health.max = 1;
 
-    this.setDirection(this.LEFT);
     this.speed = 12;
 
     this.physics.enabled = false;
@@ -62,7 +61,7 @@ Game.objects.characters.Telly.prototype.updateAI = function()
 Game.objects.characters.Telly.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
-    this.sprites.setDirection(this.direction);
+    this.sprites.setDirection(this.direction.x);
     this.sprites.timeShift(dt);
     Game.objects.Character.prototype.timeShift.call(this, dt);
 }

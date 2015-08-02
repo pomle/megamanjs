@@ -38,7 +38,7 @@ Game.objects.characters.Crashman.constructor = Game.objects.characters.Crashman;
 Game.objects.characters.Crashman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
-        this.sprites.setDirection(this.direction);
+        this.sprites.setDirection(this.direction.x);
     }
 
     if (!this.isSupported) {

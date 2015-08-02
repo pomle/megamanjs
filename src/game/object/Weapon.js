@@ -23,7 +23,7 @@ Game.objects.Weapon.prototype.emit = function(projectile, x, y)
     if (projectile instanceof Game.objects.Projectile !== true) {
         throw new Error('Invalid projectile');
     }
-    projectile.physics.inertia.x = x * this.user.direction;
+    projectile.physics.inertia.x = x * this.user.direction.x;
     projectile.physics.inertia.y = y;
     projectile.setEmitter(this.user);
     projectile.timeStretch = this.user.timeStretch;

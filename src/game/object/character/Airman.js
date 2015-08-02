@@ -34,7 +34,7 @@ Game.objects.characters.Airman.constructor = Game.objects.characters.Airman;
 Game.objects.characters.Airman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
-        this.sprites.setDirection(this.direction);
+        this.sprites.setDirection(this.direction.x);
     }
 
     if (this.isFiring) {
