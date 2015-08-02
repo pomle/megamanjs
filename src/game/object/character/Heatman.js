@@ -39,9 +39,6 @@ Game.objects.characters.Heatman = function()
 
     this.setModel(model);
 
-    this.setDirection(this.RIGHT);
-    this.sprites.setDirection(this.RIGHT);
-
     this.projectileEmitOffset.set(0, 0);
 
     this.jumpForce = 100;

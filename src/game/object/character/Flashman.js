@@ -28,9 +28,6 @@ Game.objects.characters.Flashman = function()
     flash.addFrame(144, 96, .18);
     flash.addFrame(48,  96);
 
-    this.setDirection(this.RIGHT);
-    this.sprites.setDirection(this.RIGHT);
-
     this.projectileEmitOffset.set(18, 3);
 
     this.jumpForce = 160;

@@ -1,9 +1,11 @@
 Game.objects.characters.Megaman = function()
 {
     Game.objects.Character.call(this);
+    this.teleport = this.applyTrait(new Game.traits.Teleport());
 
     this.health.max = 28;
     this.contactDamage.points = 0;
+    this.weapon.projectileEmitOffset.set(17, 1);
 
     this.textures = {};
 
@@ -96,17 +98,13 @@ Game.objects.characters.Megaman = function()
         'sweat': new Game.objects.decorations.Sweat(),
     };
 
-    this.weapon.projectileEmitOffset.set(17, 1);
+
 
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
 
-    this.energyCapsules = 0;
-
     this.setModel(model);
     this.addCollisionRect(14, 22, 0, 0);
-
-    this.teleport = this.applyTrait(new Game.traits.Teleport());
 
     this.bind(this.weapon.EVENT_EQUIP, this.changeDress);
 }

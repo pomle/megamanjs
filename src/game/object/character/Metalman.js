@@ -25,9 +25,7 @@ Game.objects.characters.Metalman = function()
     run.addFrame(96,  48, .12);
     run.addFrame(144, 48, .12);
 
-    this.setDirection(this.RIGHT);
-
-    this.jumpForce = 250;
+    this.jump.force = 250;
 
     this.setModel(model);
     this.addCollisionRect(12, 24, 0, 0);
