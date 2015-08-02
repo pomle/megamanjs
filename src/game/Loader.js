@@ -59,7 +59,7 @@ Game.Loader.prototype.parseGame = function(xmlResponse)
 
     var playerNode = gameNode.find('> player');
     var character = new Game.objects.characters[playerNode.find('> character').attr('name')]();
-    character.invincibilityDuration = parseFloat(playerNode.find('> invincibility').attr('duration'));
+    character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
 
     game.player.setCharacter(character);
     game.player.hud.equipCharacter(game.player.character);
