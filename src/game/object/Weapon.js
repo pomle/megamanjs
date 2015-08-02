@@ -18,13 +18,13 @@ Engine.Util.mixin(Game.objects.Weapon, Engine.Events);
 Game.objects.Weapon.prototype.EVENT_AMMO_CHANGED = 'ammo-changed';
 Game.objects.Weapon.prototype.EVENT_READY = 'ready';
 
-Game.objects.Weapon.prototype.emit = function(projectile, x, y)
+Game.objects.Weapon.prototype.emit = function(projectile)
 {
-    if (projectile instanceof Game.objects.Projectile !== true) {
+    if (projectile instanceof Game.objects.Projectile === false) {
         throw new Error('Invalid projectile');
     }
-    projectile.physics.inertia.x = x * this.user.direction.x;
-    projectile.physics.inertia.y = y;
+    projectile.physics.inertia.copy(this.user.direction)
+                              .multiplyScalar(projectile.speed);
     projectile.setEmitter(this.user);
     projectile.timeStretch = this.user.timeStretch;
     this.user.world.addObject(projectile);
