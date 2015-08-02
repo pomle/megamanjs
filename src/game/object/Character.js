@@ -7,9 +7,8 @@ Game.objects.Character = function()
     this.contactDamage = 0;
     this.dead = false;
     this.direction = undefined;
-    this.fireTimeout = .25;
+
     this.health = this.applyTrait(new Engine.traits.Health(100));
-    this.isFiring = false;
     this.isSupported = false;
 
     this.invincibility = this.applyTrait(new Engine.traits.Invincibility());
@@ -26,7 +25,7 @@ Game.objects.Character = function()
     this.stunnedDuration = .5;
     this.stunnedTime = false;
 
-    this.weapon = undefined;
+    this.weapon = this.applyTrait(new Engine.traits.Weapon());
 }
 
 Game.objects.Character.prototype.EVENT_DEATH = 'death';
@@ -44,35 +43,6 @@ Game.objects.Character.prototype.collides = function(withObject, ourZone, theirZ
         withObject.inflictDamage(this.contactDamage);
     }
     Engine.Object.prototype.collides.call(this, withObject, ourZone, theirZone);
-}
-
-Game.objects.Character.prototype.equipWeapon = function(weapon)
-{
-    if (weapon instanceof Game.objects.Weapon !== true) {
-        throw new Error('Invalid weapon');
-    }
-    this.weapon = weapon;
-    this.weapon.setUser(this);
-    return true;
-}
-
-Game.objects.Character.prototype.fire = function()
-{
-    if (this.stunnedTime > 0) {
-        return false;
-    }
-
-    if (!this.weapon) {
-        return false;
-    }
-
-    if (!this.weapon.fire()) {
-        return false;
-    }
-
-    this.isFiring = this.fireTimeout;
-
-    return true;
 }
 
 Game.objects.Character.prototype.getDeathObject = function()
@@ -111,7 +81,7 @@ Game.objects.Character.prototype.kill = function()
 
     /* Notify object that something happened. */
     if (this.weapon) {
-        this.weapon.timeShift(0);
+        this.weapon.__timeshift(0);
     }
 
     var explosion = this.getDeathObject();
@@ -160,17 +130,6 @@ Game.objects.Character.prototype.timeShift = function(dt)
 
     if (this.stunnedTime > 0) {
         this.stunnedTime -= dt;
-    }
-
-    if (this.isFiring > 0) {
-        this.isFiring -= dt;
-        if (this.isFiring <= 0) {
-            this.isFiring = false;
-        }
-    }
-
-    if (this.weapon) {
-        this.weapon.timeShift(dt);
     }
 
     Engine.Object.prototype.timeShift.call(this, dt);

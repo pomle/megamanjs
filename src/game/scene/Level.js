@@ -69,7 +69,7 @@ Game.scenes.Level.prototype.createCharacterInput = function()
         });
     input.hit(input.B,
         function() {
-            player.character.fire();
+            player.character.weapon.fire();
         });
     input.hit(input.START,
         function() {

@@ -26,8 +26,6 @@ Game.objects.characters.Metalman = function()
 
     this.setDirection(this.RIGHT);
 
-    this.fireTimeout = .2;
-
     this.jumpForce = 250;
 
     this.setModel(model);
