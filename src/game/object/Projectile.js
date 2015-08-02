@@ -39,8 +39,10 @@ Game.objects.Projectile.prototype.collides = function(withObject, ourZone, their
 Game.objects.Projectile.prototype.deflect = function()
 {
     this.dropCollision();
+    var l = this.physics.inertia.length();
     this.physics.inertia.x = -this.physics.inertia.x;
     this.physics.inertia.y = 100;
+    this.physics.inertia.setLength(l);
 }
 
 Game.objects.Projectile.prototype.rangeReached = function()
