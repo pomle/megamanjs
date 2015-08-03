@@ -63,8 +63,7 @@ Game.Loader.prototype.parseGame = function(xmlResponse)
 
     game.player.setCharacter(character);
     game.player.hud.equipCharacter(game.player.character);
-    game.player.character.invincibilityDuration = 2;
-
+    
     gameNode.find('> scenes > scene').each(function() {
         var sceneNode = $(this);
         loader.sceneIndex[sceneNode.attr('name')] = {
