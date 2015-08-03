@@ -4,6 +4,7 @@ Game.objects.characters.Megaman = function()
 
     this.health.max = 28;
     this.contactDamage.points = 0;
+    this.jump.force = 197;
     this.invincibility.duration = 2;
     this.weapon.projectileEmitOffset.set(17, 1);
 
