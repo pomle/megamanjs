@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<level name="Heatman">
+<scene type="level" name="Heatman">
     <gravity x="0" y="983" />
     <collision radius="360" />
 
@@ -784,4 +784,4 @@
 
         </background>
     </layout>
-</level>
+</scene>

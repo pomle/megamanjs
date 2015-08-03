@@ -32,7 +32,7 @@ Engine.traits.Physics.prototype._applyGravity = function(dt)
     if (this.mass === 0) {
         return false;
     }
-    var g = this.object.scene.gravityForce;
+    var g = this.object.world.gravityForce;
     if (g && (g.x || g.y)) {
         this.inertia.x += g.x * dt;
         this.inertia.y -= g.y * dt;

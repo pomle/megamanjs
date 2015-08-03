@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<stage-select url="stageselect.png" w="256" h="256">
+<scene type="stage-select" url="stageselect.png" w="256" h="256">
     <background color="0x0064ff"/>
     <camera distance="140" />
     <indicator w="48" h="48" x="48" y="0" blink-interval=".125" initial-index="4" />
@@ -13,4 +13,4 @@
     <stage name="Metalman"    caption="METAL MAN"   w="48" h="48" x="144" y="96"/>
     <stage name="Flashman"    caption="FLASH MAN"   w="48" h="48" x="96"  y="96"/>
     <stage name="Crashman"    caption="CRASH MAN"   w="48" h="48" x="0"   y="96"/>
-</stage-select>
+</scene>

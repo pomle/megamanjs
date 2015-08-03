@@ -1,5 +1,7 @@
 Engine.Object = function()
 {
+    Engine.Events.call(this);
+
     this.uuid = THREE.Math.generateUUID();
     this.collidable = true;
     this.collision = [];
@@ -8,15 +10,22 @@ Engine.Object = function()
     this.events = {};
     this.obstructible = true;
     this.position = undefined;
-    this.scene = undefined;
     this.time = 0;
     this.timeStretch = 1;
     this.traits = [];
     this.velocity = new THREE.Vector2();
+    this.world = undefined;
 
     var model = new THREE.Mesh(this.geometry, this.material);
     this.setModel(model);
 }
+
+Engine.Util.mixin(Engine.Object, Engine.Events);
+
+Engine.Object.prototype.EVENT_COLLIDE = 'collide';
+Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
+Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
+Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
 
 Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
 Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
@@ -50,33 +59,16 @@ Engine.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 
 Engine.Object.prototype.applyTrait = function(trait)
 {
-    if (trait instanceof Engine.Trait === false || !trait.NAME) {
-        throw new Error('Invalid trait or trait name');
+    if (trait instanceof Engine.Trait === false) {
+        throw new Error('Invalid trait');
     }
-    if (this[trait.NAME]) {
-        throw new Error('Trait "' + trait.NAME + '" property occupied');
-    }
-    trait.object = this;
-    this.traits.push(trait);
-    this[trait.NAME] = trait;
-}
-
-Engine.Object.prototype.bind = function(name, callback)
-{
-    if (!this.events[name]) {
-        this.events[name] = [];
-    }
-    this.events[name].push(callback);
+    trait.__attach(this);
+    return trait;
 }
 
 Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    for (var i in this.traits) {
-        if (this.traits[i].__collides) {
-            var trait = this.traits[i];
-            trait.__collides.apply(trait, arguments);
-        }
-    }
+    this.trigger(this.EVENT_COLLIDE, [withObject, ourZone, theirZone]);
 }
 
 Engine.Object.prototype.dropCollision = function()
@@ -92,6 +84,7 @@ Engine.Object.prototype.moveTo = function(vec)
 
 Engine.Object.prototype.obstruct = function(object, attack)
 {
+    this.trigger(this.EVENT_OBSTRUCT, [object, attack]);
 }
 
 Engine.Object.prototype.setEmitter = function(object)
@@ -108,57 +101,26 @@ Engine.Object.prototype.setModel = function(model)
     this.position = this.model.position;
 }
 
-Engine.Object.prototype.setScene = function(scene)
+Engine.Object.prototype.setWorld = function(world)
 {
-    if (scene instanceof Engine.Scene !== true) {
-        throw new Error('Invalid scene');
+    if (world instanceof Engine.World === false) {
+        throw new Error('Invalid world');
     }
-    this.scene = scene;
+    this.world = world;
 }
 
-Engine.Object.prototype.timeShift = function(dt)
+Engine.Object.prototype.timeShift = function(deltaTime)
 {
-    this.time += dt;
-    this.deltaTime = dt;
+    this.time += deltaTime;
+    this.deltaTime = deltaTime;
 
-    for (var i in this.traits) {
-        if (this.traits[i].__timeshift) {
-            var trait = this.traits[i];
-            trait.__timeshift.apply(trait, arguments);
-        }
-    }
+    this.trigger(this.EVENT_TIMESHIFT, [deltaTime]);
 
-    this.position.x += (this.velocity.x * dt);
-    this.position.y += (this.velocity.y * dt);
-}
-
-Engine.Object.prototype.trigger = function(name)
-{
-    if (this.events[name]) {
-        var i,
-            l = this.events[name].length,
-            event;
-
-        for (i = 0; i < l; i++) {
-            event = this.events[name][i];
-            if (event) {
-                event(this, arguments);
-            }
-        }
-    }
-}
-
-
-Engine.Object.prototype.unbind = function(name, callback)
-{
-    if (this.events[name]) {
-        var index = this.events[name].indexOf(callback);
-        if (index > -1) {
-            this.events[name].splice(index, 1);
-        }
-    }
+    this.position.x += (this.velocity.x * deltaTime);
+    this.position.y += (this.velocity.y * deltaTime);
 }
 
 Engine.Object.prototype.uncollides = function(withObject)
 {
+    this.trigger(this.EVENT_UNCOLLIDE, [withObject]);
 }

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game name="Megaman 2">
+    <config
+        texture-scale="4" />
+
     <scenes>
         <!-- <scene type="cutscene" name="Intro" src="./Intro.xml" /> -->
         <scene type="stage-select" name="StageSelect" src="./StageSelect.xml" />
@@ -10,6 +13,8 @@
             <scene type="level" name="JumpTest" src="./levels/debug/JumpTest.xml" />
         <!-- End Debug Levels -->
     </scenes>
+
+    <level start-caption="READY" />
 
     <entrypoint>
         <scene name="StageSelect" />

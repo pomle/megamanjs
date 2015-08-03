@@ -71,7 +71,7 @@ Game.objects.characters.SillyCanon.prototype.fire = function()
 
     projectile.inertia.x = projectile.speed * kX;
     projectile.inertia.y = projectile.speed * kY;
-    this.scene.addObject(projectile);
+    this.world.addObject(projectile);
     this.waitForShot = this.coolDown;
     return true;
 }

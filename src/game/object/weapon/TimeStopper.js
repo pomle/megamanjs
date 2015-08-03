@@ -26,14 +26,14 @@ Game.objects.weapons.TimeStopper.prototype.fire = function()
 
 Game.objects.weapons.TimeStopper.prototype.distortTime = function()
 {
-    this.user.scene.timeStretch *= this.timeFraction;
+    this.user.world.timeStretch *= this.timeFraction;
     this.user.timeStretch /= this.timeFraction;
     this.timeDistorted = true;
 }
 
 Game.objects.weapons.TimeStopper.prototype.resetTime = function()
 {
-    this.user.scene.timeStretch /= this.timeFraction;
+    this.user.world.timeStretch /= this.timeFraction;
     this.user.timeStretch *= this.timeFraction;
     this.timeDistorted = false;
 }

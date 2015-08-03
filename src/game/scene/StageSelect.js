@@ -1,7 +1,8 @@
 Game.scenes.StageSelect = function()
 {
-    Engine.Scene.call(this);
-    this.camera.camera.position.z = 120;
+    Game.Scene.apply(this, arguments);
+
+    this.world.camera.camera.position.z = 120;
     this.cameraDesiredPosition = new THREE.Vector3();
     this.cameraDistance = 140;
     this.cameraSmoothing = 20;
@@ -21,7 +22,7 @@ Game.scenes.StageSelect = function()
         new THREE.MeshBasicMaterial({
             color: 'blue'
         }));
-    this.scene.add(this.background);
+    this.world.scene.add(this.background);
 
     var input = new Engine.Keyboard();
 
@@ -50,21 +51,20 @@ Game.scenes.StageSelect = function()
             this.enter();
         }.bind(this));
 
-    input.enable();
-
     this.input = input;
+
+    this.bind(this.EVENT_START, function() { this.input.enable(); });
+    this.bind(this.EVENT_END, function() { this.input.disable(); });
+
+    /* Hijack worlds time-legacy hack needs to go. */
+    this.world.updateTime = this.updateTime.bind(this);
 }
 
-Game.scenes.StageSelect.prototype = Object.create(Engine.Scene.prototype);
-Game.scenes.StageSelect.prototype.constructor = Game.scenes.StageSelect;
+Engine.Util.extend(Game.scenes.StageSelect, Game.Scene);
 
-Game.scenes.StageSelect.prototype.__destroy = function()
-{
-    this.input.disable();
-}
+Game.scenes.StageSelect.prototype.EVENT_STAGE_SELECTED = 'stage-selected';
 
-
-Game.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
+Game.scenes.StageSelect.prototype.addStage = function(avatar, caption, name)
 {
     var x = this.stages.length % this.rowLength;
     var y = Math.floor(this.stages.length / this.rowLength);
@@ -72,16 +72,15 @@ Game.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
     var pos = new THREE.Vector2(this.spacing.x * x, this.spacing.y * y);
     var frame = this.frame.clone();
 
-    name = name.split(" ");
-    name[1] = Engine.Util.string.fill(" ", 6 - name[1].length) + name[1];
-    name = name.join("\n");
+    caption = caption.split(" ");
+    caption[1] = Engine.Util.string.fill(" ", 6 - caption[1].length) + caption[1];
+    caption = caption.join("\n");
 
-    var caption = Engine.SpriteManager.createTextSprite(name);
+    var caption = Engine.SpriteManager.createTextSprite(caption);
 
     this.stages.push({
         "avatar": avatar,
         "name": name,
-        "scene": scene,
         "caption": caption,
         "frame": frame,
     });
@@ -90,9 +89,9 @@ Game.scenes.StageSelect.prototype.addStage = function(avatar, name, scene)
     avatar.position.set(pos.x, pos.y, .1);
     caption.position.copy(avatar.position);
     caption.position.add(this.captionOffset);
-    this.scene.add(frame);
-    this.scene.add(avatar);
-    this.scene.add(caption);
+    this.world.scene.add(frame);
+    this.world.scene.add(avatar);
+    this.world.scene.add(caption);
 }
 
 Game.scenes.StageSelect.prototype.equalize = function(index)
@@ -113,8 +112,8 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
 
     this.cameraDesiredPosition.copy(center);
     this.cameraDesiredPosition.z += this.cameraDistance;
-    this.camera.camera.position.copy(center);
-    this.camera.camera.position.z = this.cameraDesiredPosition.z - 100;
+    this.world.camera.camera.position.copy(center);
+    this.world.camera.camera.position.z = this.cameraDesiredPosition.z - 100;
 
 
     this.selectIndex(index);
@@ -124,8 +123,7 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
 
 Game.scenes.StageSelect.prototype.enter = function()
 {
-    var stage = this.stages[this.currentIndex];
-    this.exit(stage.scene);
+    this.trigger(this.EVENT_STAGE_SELECTED, [this.stages[this.currentIndex], this.currentIndex]);
 }
 
 Game.scenes.StageSelect.prototype.selectIndex = function(index)
@@ -158,7 +156,7 @@ Game.scenes.StageSelect.prototype.setIndicator = function(model)
 {
     this.indicator = model;
     this.indicator.position.z = .1;
-    this.scene.add(model);
+    this.world.scene.add(model);
 }
 
 Game.scenes.StageSelect.prototype.steer = function(x, y)
@@ -187,10 +185,10 @@ Game.scenes.StageSelect.prototype.updateTime = function(dt)
         this.indicatorStateTimer = 0;
     }
 
-    if (this.camera.camera.position.distanceToSquared(this.cameraDesiredPosition) > 1) {
-        var intermediate = this.cameraDesiredPosition.clone().sub(this.camera.camera.position).divideScalar(this.cameraSmoothing);
-        this.camera.camera.position.add(intermediate);
+    if (this.world.camera.camera.position.distanceToSquared(this.cameraDesiredPosition) > 1) {
+        var intermediate = this.cameraDesiredPosition.clone().sub(this.world.camera.camera.position).divideScalar(this.cameraSmoothing);
+        this.world.camera.camera.position.add(intermediate);
     }
 
-    Engine.Scene.prototype.updateTime.call(this, dt);
+    Engine.World.prototype.updateTime.call(this.world, dt);
 }

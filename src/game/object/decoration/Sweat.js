@@ -26,7 +26,7 @@ Game.objects.decorations.Sweat.constructor = Game.objects.decorations.Sweat;
 Game.objects.decorations.Sweat.prototype.timeShift = function(dt)
 {
     if (this.lifetime > this.lifespan) {
-        this.scene.removeObject(this);
+        this.world.removeObject(this);
         return;
     }
 

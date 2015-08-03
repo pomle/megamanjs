@@ -8,7 +8,7 @@ Game.objects.Character = function()
     this.dead = false;
     this.direction = undefined;
     this.fireTimeout = .25;
-    this.applyTrait(new Engine.traits.Health(100));
+    this.health = this.applyTrait(new Engine.traits.Health(100));
     this.invincibilityDuration = 0;
     this.isFiring = false;
     this.isInvincible = false;
@@ -21,8 +21,9 @@ Game.objects.Character = function()
 
     this.moveSpeed = 0;
 
-    this.applyTrait(new Engine.traits.Physics());
+    this.physics = this.applyTrait(new Engine.traits.Physics());
     this.physics.mass = 1;
+
     this.projectileEmitOffset = new THREE.Vector2();
     this.stunnedDuration = .5;
     this.stunnedTime = false;
@@ -161,8 +162,8 @@ Game.objects.Character.prototype.kill = function()
 
     var explosion = this.getDeathObject();
     explosion.position.copy(this.position);
-    this.scene.addObject(explosion);
-    this.scene.removeObject(this);
+    this.world.addObject(explosion);
+    this.world.removeObject(this);
     this.trigger(this.EVENT_DEATH);
 }
 

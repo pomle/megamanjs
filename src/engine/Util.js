@@ -1,19 +1,4 @@
 Engine.Util = {
-    asyncLoadXml: function(url, callback)
-    {
-        var baseUrl = url.split('/').slice(0, -1).join('/') + '/';
-        xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function()
-        {
-            if (this.readyState === 4) {
-               callback($(jQuery.parseXML(this.responseText)), baseUrl);
-            }
-        };
-        xmlhttp.overrideMimeType('text/xml');
-        xmlhttp.open("GET", url, true);
-        xmlhttp.send();
-    },
-
     extend: function(child, parent)
     {
         child.prototype = Object.create(parent.prototype);

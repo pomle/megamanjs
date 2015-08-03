@@ -54,7 +54,7 @@ Game.objects.decorations.Explosion.prototype.collides = function(withObject, our
 Game.objects.decorations.Explosion.prototype.timeShift = function(dt)
 {
     if (this.lifespan > this.lifetime) {
-        this.scene.removeObject(this);
+        this.world.removeObject(this);
         return;
     }
 

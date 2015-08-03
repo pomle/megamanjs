@@ -18,7 +18,7 @@ Game.objects.Weapon.prototype.emit = function(projectile, x, y)
     projectile.physics.inertia.y = y;
     projectile.setEmitter(this.user);
     projectile.timeStretch = this.user.timeStretch;
-    this.user.scene.addObject(projectile);
+    this.user.world.addObject(projectile);
 }
 
 Game.objects.Weapon.prototype.fire = function()

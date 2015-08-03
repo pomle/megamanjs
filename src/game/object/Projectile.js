@@ -1,7 +1,7 @@
 Game.objects.Projectile = function()
 {
     Engine.Object.call(this);
-    this.applyTrait(new Engine.traits.Physics());
+    this.physics = this.applyTrait(new Engine.traits.Physics());
     this.physics.mass = 0;
 
     this.damage = 0;
@@ -28,7 +28,7 @@ Game.objects.Projectile.prototype.collides = function(withObject, ourZone, their
     if (withObject.impactProjectile) {
         withObject.impactProjectile(this);
         if (!this.penetratingForce || !withObject.health.depleted) {
-            this.scene.removeObject(this);
+            this.world.removeObject(this);
         }
     }
 
@@ -44,7 +44,7 @@ Game.objects.Projectile.prototype.deflect = function()
 
 Game.objects.Projectile.prototype.rangeReached = function()
 {
-    this.scene.removeObject(this);
+    this.world.removeObject(this);
 }
 
 Game.objects.Projectile.prototype.setDamage = function(points)

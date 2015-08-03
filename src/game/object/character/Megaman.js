@@ -109,7 +109,7 @@ Game.objects.characters.Megaman = function()
     this.setModel(model);
     this.addCollisionRect(14, 22, 0, 0);
 
-    this.applyTrait(new Game.traits.Teleport());
+    this.teleport = this.applyTrait(new Game.traits.Teleport());
 }
 
 Game.objects.characters.Megaman.prototype = Object.create(Game.objects.Character.prototype);
@@ -150,7 +150,7 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
     sweat.position.y += 12;
     sweat.sprites.sprite.time = 0;
     sweat.lifetime = 0;
-    this.scene.addObject(sweat);
+    this.world.addObject(sweat);
 
     return true;
 }

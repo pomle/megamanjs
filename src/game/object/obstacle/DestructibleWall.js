@@ -30,7 +30,7 @@ Game.objects.obstacles.DestructibleWall.constructor = Game.objects.obstacles.Des
 Game.objects.obstacles.DestructibleWall.prototype.collides = function(withObject, ourZone, theirZone)
 {
     if (withObject instanceof Game.objects.decorations.Explosion) {
-        this.scene.removeObject(this);
+        this.world.removeObject(this);
         return;
     }
 

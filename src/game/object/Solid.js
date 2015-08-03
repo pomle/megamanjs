@@ -1,7 +1,7 @@
 Game.objects.Solid = function()
 {
     Engine.Object.call(this);
-    this.applyTrait(new Engine.traits.Solid());
+    this.solid = this.applyTrait(new Engine.traits.Solid());
 }
 
 Game.objects.Solid.prototype = Object.create(Engine.Object.prototype);

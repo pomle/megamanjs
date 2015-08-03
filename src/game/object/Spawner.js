@@ -20,7 +20,7 @@ Game.objects.Spawner.constructor = Game.objects.Spawner;
 Game.objects.Spawner.prototype.cleanReferences = function()
 {
     for (var object of this.spawnedObjects) {
-        if (!this.scene.objects.has(object)) {
+        if (!this.world.objects.has(object)) {
             this.spawnedObjects.delete(object);
         }
     }
@@ -71,7 +71,7 @@ Game.objects.Spawner.prototype.spawnObject = function()
     var object = new this.spawnSource[index]();
     object.position.copy(this.position);
     this.spawnedObjects.add(object);
-    this.scene.addObject(object);
+    this.world.addObject(object);
     return object;
 }
 

@@ -26,7 +26,7 @@ Game.objects.decorations.TinyExplosion.constructor = Game.objects.decorations.Ti
 Game.objects.decorations.TinyExplosion.prototype.timeShift = function(dt)
 {
     if (this.lifespan > this.lifetime) {
-        this.scene.removeObject(this);
+        this.world.removeObject(this);
         return;
     }
 

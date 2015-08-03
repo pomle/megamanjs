@@ -11,17 +11,18 @@ var Engine = function(renderer)
     this.timeElapsedTotal = 0;
     this.timeMax = 1/60;
     this.timeStretch = 1;
-    this.scene = undefined;
+    this.world = undefined;
+
+    this.loop = this.loop.bind(this);
 }
 
 Engine.prototype.loop = function(timeElapsed)
 {
-    if (!this.isRunning || !this.scene) {
+    if (!this.isRunning || this.world === undefined) {
         return false;
     }
 
     if (timeElapsed) {
-        var i = 0;
         timeElapsed /= 1000;
         if (this.timeLastEvent) {
             var timeDiff = timeElapsed - this.timeLastEvent;
@@ -33,22 +34,22 @@ Engine.prototype.loop = function(timeElapsed)
 
             if (this.isSimulating && this.simulationSpeed) {
                 var simTimeDiff = timeDiff * this.simulationSpeed;
-                this.scene.updateTime(simTimeDiff);
-                this.scene.camera.updateTime(simTimeDiff);
+                this.world.updateTime(simTimeDiff);
+                this.world.camera.updateTime(simTimeDiff);
 
-                for (i in this.events.simulate) {
+                for (var i in this.events.simulate) {
                     this.events.simulate[i].call();
                 }
             }
         }
         this.render();
-        for (i in this.events.render) {
+        for (var i in this.events.render) {
             this.events.render[i].call();
         }
         this.timeLastEvent = timeElapsed;
     }
 
-    requestAnimationFrame(this.loop.bind(this));
+    requestAnimationFrame(this.loop);
 }
 
 Engine.prototype.pause = function()
@@ -58,8 +59,8 @@ Engine.prototype.pause = function()
 
 Engine.prototype.render = function()
 {
-    this.renderer.render(this.scene.scene,
-                         this.scene.camera.camera);
+    this.renderer.render(this.world.scene,
+                         this.world.camera.camera);
 }
 
 Engine.prototype.run = function()
@@ -72,4 +73,15 @@ Engine.prototype.run = function()
     this.loop();
 }
 
-Math.RAD = Math.PI/180;
+Engine.prototype.setWorld = function(world)
+{
+    if (world instanceof Engine.World === false) {
+        throw new TypeError('Invalid world');
+    }
+    this.world = world;
+}
+
+Engine.prototype.unsetWorld = function()
+{
+    this.world = undefined;
+}
