@@ -1,18 +1,18 @@
-Engine.traits._Energy = function(max, min)
+Engine.logic.Energy = function(max, min)
 {
     this._max = max || 100;
     this._min = min || 0;
     this._value = this._max;
 }
 
-Object.defineProperties(Engine.traits._Energy.prototype, {
+Object.defineProperties(Engine.logic.Energy.prototype, {
     amount: {
         enumerable: true,
         get: function() {
-            return this._value === undefined ? this._max : this._value;
+            return this._value;
         },
         set: function(v) {
-            if (this._value === undefined) {
+            if (this.infinite === true) {
                 return;
             }
             if (!isFinite(v)) {
@@ -38,24 +38,10 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
             return this._value <= this._min;
         },
     },
-    finite: {
-        enumerable: true,
-        get: function() {
-            return this._value !== undefined;
-        },
-        set: function(b) {
-            if (b == true && this._value === undefined) {
-                this._value = this._max;
-            }
-            else {
-                this._value = undefined;
-            }
-        },
-    },
     fraction: {
         enumerable: true,
         get: function() {
-            if (this.finite === false || this._max === this._min) {
+            if (this.infinite === true || this._max === this._min) {
                 return 1;
             }
             else {
@@ -64,6 +50,11 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
                 return rest / total;
             }
         },
+    },
+    infinite: {
+        enumerable: true,
+        writable: true,
+        value: false,
     },
     max: {
         enumerable: true,
@@ -99,12 +90,12 @@ Object.defineProperties(Engine.traits._Energy.prototype, {
     },
 });
 
-Engine.traits._Energy.prototype.deplete = function()
+Engine.logic.Energy.prototype.deplete = function()
 {
     this._value = this._min;
 }
 
-Engine.traits._Energy.prototype.fill = function()
+Engine.logic.Energy.prototype.fill = function()
 {
     this._value = this._max;
 }

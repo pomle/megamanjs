@@ -2,7 +2,7 @@ Game.objects.weapons.CrashBomber = function()
 {
     Game.objects.Weapon.call(this);
     this.setCoolDown(1);
-    this.ammo.setMax(8);
+    this.ammo.max = 8;
 }
 
 Game.objects.weapons.CrashBomber.prototype = Object.create(Game.objects.Weapon.prototype);

@@ -1,6 +1,10 @@
 Game.objects.characters.Heatman = function()
 {
     Game.objects.Character.call(this);
+    this.contactDamage.points = 8;
+    this.jump.force = 100;
+    this.move.acceleration = 1000;
+    this.move.speed = 300;
 
     var model = Engine.SpriteManager.createSprite('bosses/heatman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -38,18 +42,8 @@ Game.objects.characters.Heatman = function()
 
     this.setModel(model);
 
-    this.setDirection(this.RIGHT);
-    this.sprites.setDirection(this.RIGHT);
-
-    this.projectileEmitOffset.set(0, 0);
-
-    this.jumpForce = 100;
-
     this.flameTransformDuration = .09;
     this.flameTransformTime = 0;
-
-    this.walkAcc = 1000;
-    this.walkSpeed = 300;
 }
 
 Game.objects.characters.Heatman.prototype = Object.create(Game.objects.Character.prototype);
@@ -57,11 +51,9 @@ Game.objects.characters.Heatman.constructor = Game.objects.characters.Heatman;
 
 Game.objects.characters.Heatman.prototype.updateSprite = function()
 {
-    if (this.walk) {
-        this.sprites.setDirection(this.direction);
-    }
+    this.sprites.setDirection(this.direction.x);
 
-    if (this.moveSpeed) {
+    if (this.move._moveSpeed) {
         if (this.flameTransformTime < this.flameTransformDuration) {
             this.flameTransformTime += this.deltaTime;
             return this.sprites.selectSprite('toFlame');
@@ -92,8 +84,16 @@ Game.objects.characters.Heatman.prototype.updateSprite = function()
 
 Game.objects.characters.Heatman.prototype.timeShift = function(dt)
 {
+    if (this.move._moveSpeed !== 0) {
+        this.health.infinite = true;
+        this.physics.mass = 0;
+    }
+    else {
+        this.health.infinite = false;
+        this.physics.mass = 1;
+    }
+
     this.updateSprite();
-    this.physics.mass = this.moveSpeed ? 0 : 1;
     Game.objects.Character.prototype.timeShift.call(this, dt);
     this.sprites.timeShift(dt);
 }

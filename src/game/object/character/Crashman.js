@@ -1,6 +1,7 @@
 Game.objects.characters.Crashman = function()
 {
     Game.objects.Character.call(this);
+    this.contactDamage.points = 4;
 
     var model = Engine.SpriteManager.createSprite('bosses/crashman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -24,9 +25,7 @@ Game.objects.characters.Crashman = function()
     run.addFrame(0,  48, .12);
     run.addFrame(96, 48, .12);
 
-    this.setDirection(this.RIGHT);
-
-    this.jumpForce = 250;
+    this.jump.force = 250;
 
     this.setModel(model);
     this.addCollisionRect(12, 24, 0, 0);
@@ -38,7 +37,7 @@ Game.objects.characters.Crashman.constructor = Game.objects.characters.Crashman;
 Game.objects.characters.Crashman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
-        this.sprites.setDirection(this.direction);
+        this.sprites.setDirection(this.direction.x);
     }
 
     if (!this.isSupported) {

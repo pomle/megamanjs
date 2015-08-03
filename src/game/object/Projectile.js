@@ -26,9 +26,10 @@ Game.objects.Projectile.prototype.collides = function(withObject, ourZone, their
     }
 
     if (withObject.impactProjectile) {
-        withObject.impactProjectile(this);
-        if (!this.penetratingForce || !withObject.health.depleted) {
-            this.world.removeObject(this);
+        if (withObject.impactProjectile(this)) {
+            if (!this.penetratingForce || !withObject.health.depleted) {
+                this.world.removeObject(this);
+            }
         }
     }
 
@@ -38,8 +39,10 @@ Game.objects.Projectile.prototype.collides = function(withObject, ourZone, their
 Game.objects.Projectile.prototype.deflect = function()
 {
     this.dropCollision();
+    var l = this.physics.inertia.length();
     this.physics.inertia.x = -this.physics.inertia.x;
     this.physics.inertia.y = 100;
+    this.physics.inertia.setLength(l);
 }
 
 Game.objects.Projectile.prototype.rangeReached = function()
@@ -56,8 +59,8 @@ Game.objects.Projectile.prototype.setEmitter = function(character)
 {
     Engine.Object.prototype.setEmitter.call(this, character);
     var origin = this.emitter.position.clone();
-    origin.x += this.emitter.projectileEmitOffset.x * this.emitter.direction;
-    origin.y += this.emitter.projectileEmitOffset.y;
+    origin.x += this.emitter.weapon.projectileEmitOffset.x * this.emitter.direction.x;
+    origin.y += this.emitter.weapon.projectileEmitOffset.y;
     this.setOrigin(origin);
 }
 

@@ -47,29 +47,29 @@ Game.scenes.Level.prototype.createCharacterInput = function()
     var levelrunner = this;
     input.intermittent(input.LEFT,
         function() {
-            player.character.moveLeftStart();
+            player.character.move.leftStart();
         },
         function() {
-            player.character.moveLeftEnd();
+            player.character.move.leftEnd();
         });
     input.intermittent(input.RIGHT,
         function() {
-            player.character.moveRightStart();
+            player.character.move.rightStart();
         },
         function() {
-            player.character.moveRightEnd();
+            player.character.move.rightEnd();
         });
 
     input.intermittent(input.A,
         function() {
-            player.character.jumpStart();
+            player.character.jump.start();
         },
         function() {
-            player.character.jumpEnd();
+            player.character.jump.end();
         });
     input.hit(input.B,
         function() {
-            player.character.fire();
+            player.character.weapon.fire();
         });
     input.hit(input.START,
         function() {
@@ -175,8 +175,8 @@ Game.scenes.Level.prototype.resetPlayer = function()
 
     character.isPlayer = true;
     character.resurrect();
-    character.invincibilityEnd();
-    character.stunnedTime = 0;
+    character.invincibility.disengage();
+    character.stun.disengage();
 
     var checkpoint = this.checkPoints[this.checkPointIndex];
     if (checkpoint) {

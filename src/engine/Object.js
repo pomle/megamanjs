@@ -5,9 +5,9 @@ Engine.Object = function()
     this.uuid = THREE.Math.generateUUID();
     this.collidable = true;
     this.collision = [];
-    this.deltaTime = 0;
+    this.deltaTime = undefined;
+    this.direction = new THREE.Vector2();
     this.emitter = undefined;
-    this.events = {};
     this.obstructible = true;
     this.position = undefined;
     this.time = 0;
@@ -22,7 +22,13 @@ Engine.Object = function()
 
 Engine.Util.mixin(Engine.Object, Engine.Events);
 
+Engine.Object.prototype.DIRECTION_UP = 1;
+Engine.Object.prototype.DIRECTION_DOWN = -1;
+Engine.Object.prototype.DIRECTION_LEFT = -1;
+Engine.Object.prototype.DIRECTION_RIGHT = 1;
+
 Engine.Object.prototype.EVENT_COLLIDE = 'collide';
+Engine.Object.prototype.EVENT_DIRECTION_CHANGE = 'direction-change';
 Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
 Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
 Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
@@ -63,6 +69,7 @@ Engine.Object.prototype.applyTrait = function(trait)
         throw new Error('Invalid trait');
     }
     trait.__attach(this);
+    this.traits.push(trait);
     return trait;
 }
 
@@ -74,6 +81,16 @@ Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
 Engine.Object.prototype.dropCollision = function()
 {
     this.collision.length = 0;
+}
+
+Engine.Object.prototype.getTrait = function(traitReference)
+{
+    for (var i = 0, l = this.traits.length; i < l; ++i) {
+        if (this.traits[i] instanceof traitReference) {
+            return this.traits[i];
+        }
+    }
+    return false;
 }
 
 Engine.Object.prototype.moveTo = function(vec)

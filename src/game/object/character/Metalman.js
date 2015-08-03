@@ -1,6 +1,7 @@
 Game.objects.characters.Metalman = function()
 {
     Game.objects.Character.call(this);
+    this.contactDamage.points = 6;
 
     var model = Engine.SpriteManager.createSprite('bosses/metalman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -24,11 +25,7 @@ Game.objects.characters.Metalman = function()
     run.addFrame(96,  48, .12);
     run.addFrame(144, 48, .12);
 
-    this.setDirection(this.RIGHT);
-
-    this.fireTimeout = .2;
-
-    this.jumpForce = 250;
+    this.jump.force = 250;
 
     this.setModel(model);
     this.addCollisionRect(12, 24, 0, 0);

@@ -1,6 +1,7 @@
 Game.objects.characters.Flashman = function()
 {
     Game.objects.Character.call(this);
+    this.contactDamage.points = 4;
 
     var model = Engine.SpriteManager.createSprite('bosses/flashman.png', 48, 48);
     this.sprites = new Engine.SpriteManager(model, 48, 48 , 256, 256);
@@ -27,9 +28,6 @@ Game.objects.characters.Flashman = function()
     flash.addFrame(144, 96, .18);
     flash.addFrame(48,  96);
 
-    this.setDirection(this.RIGHT);
-    this.sprites.setDirection(this.RIGHT);
-
     this.projectileEmitOffset.set(18, 3);
 
     this.jumpForce = 160;
@@ -46,7 +44,7 @@ Game.objects.characters.Flashman.constructor = Game.objects.characters.Flashman;
 Game.objects.characters.Flashman.prototype.updateSprite = function()
 {
     if (this.walk != 0) {
-        this.sprites.setDirection(this.direction);
+        this.sprites.setDirection(this.direction.x);
     }
 
     if (this.isFiring) {

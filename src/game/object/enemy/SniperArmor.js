@@ -19,10 +19,8 @@ Game.objects.characters.SniperArmor = function()
     this.addCollisionRect(24, 56, -4, -4);
     this.addCollisionRect(28, 28, 0, 10);
 
-    this.contactDamage = 8;
+    this.contactDamage.points = 8;
     this.health.max = 20;
-
-    this.setDirection(this.LEFT);
 
     this.walkSpeed = 0;
 
@@ -66,7 +64,7 @@ Game.objects.characters.SniperArmor.prototype.jumpEnd = function(dt)
 
 Game.objects.characters.SniperArmor.prototype.selectSprite = function(dt)
 {
-    this.sprites.setDirection(this.direction);
+    this.sprites.setDirection(this.direction.x);
     if (!this.isSupported) {
         return this.sprites.selectSprite('jumping');
     }
@@ -88,7 +86,7 @@ Game.objects.characters.SniperArmor.prototype.updateAI = function()
         if (this.ai.target.position.distanceTo(this.position) > 300) {
             return;
         }
-        this.setDirection(this.ai.target.position.x > this.position.x ? this.RIGHT : this.LEFT);
+        this.faceTarger();
         this.jumpStart();
     }
 }
@@ -106,7 +104,7 @@ Game.objects.characters.SniperArmor.prototype.timeShift = function(dt)
     }
 
     if (this.isJumpCharged) {
-        this.physics.bump(this.jumpForce.x * this.direction,
+        this.physics.bump(this.jumpForce.x * this.direction.x,
                           this.jumpForce.y);
         this.jumpCoolDown = 2.5;
         this.jumpEnd();

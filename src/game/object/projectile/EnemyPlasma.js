@@ -2,7 +2,7 @@ Game.objects.projectiles.EnemyPlasma = function()
 {
     Game.objects.Projectile.call(this);
 
-    var model = Engine.SpriteManager.createSingleTile('projectile/tiles.gif', 8, 8, 48, 0, 128, 128);
+    var model = Engine.SpriteManager.createSingleTile('projectiles.png', 8, 8, 96, 0, 128, 128);
 
     this.physics.mass = 0;
     this.setModel(model);

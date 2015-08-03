@@ -1,7 +1,7 @@
 Game.objects.weapons.MetalBlade = function()
 {
     Game.objects.Weapon.call(this);
-    this.ammo.setMax(84);
+    this.ammo.max = 84;
 }
 
 Game.objects.weapons.MetalBlade.prototype = Object.create(Game.objects.Weapon.prototype);
