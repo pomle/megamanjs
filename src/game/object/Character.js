@@ -1,7 +1,6 @@
 Game.objects.Character = function()
 {
     Engine.Object.call(this);
-
     this.ai = new Engine.AI(this);
 
     this.direction.x = this.DIRECTION_RIGHT;

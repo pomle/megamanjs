@@ -51,29 +51,64 @@ Game.Loader.prototype.parseCutscene = function(xmlResponse)
     var world = new Engine.World();
     var cutscene = new Game.scenes.Cutscene(this.game, world);
 
+    sceneNode.find('> camera').each(function() {
+        var cameraNode = $(this);
+        world.camera.camera.near = parseFloat(cameraNode.attr('near')) || world.camera.camera.near;
+        world.camera.camera.far = parseFloat(cameraNode.attr('far')) || world.camera.camera.far;
+        var position = loader.parseVector(cameraNode.find('> position'));
+        if (position) {
+            world.camera.camera.position.copy(position);
+        }
+    });
+
+
+    var textures = {};
+    sceneNode.find('> textures > texture').each(function() {
+        var textureNode = $(this);
+        var texture = Engine.TextureManager.getTexture(xmlResponse.createUrl(textureNode.attr('src')));
+        var material = new THREE.MeshBasicMaterial({
+            side: THREE.FrontSide,
+            map: texture,
+            transparent: true,
+        });
+
+        textures[textureNode.attr('id')] = {
+            'material': material,
+            'w': parseFloat(textureNode.attr('w')),
+            'h': parseFloat(textureNode.attr('h')),
+        }
+    });
+
     sceneNode.find('> objects > object').each(function() {
         var objectNode = $(this);
 
-        var object;
+        var geometry = new THREE.PlaneGeometry(
+            parseFloat(objectNode.attr('w')),
+            parseFloat(objectNode.attr('h')),
+            parseFloat(objectNode.attr('repeat-x')) || 1,
+            parseFloat(objectNode.attr('repeat-y')) || 1);
+
+        var material;
         objectNode.find('> texture').each(function() {
             var textureNode = $(this);
-
-            var texture = Engine.TextureManager.getTexture(xmlResponse.createUrl(textureNode.attr('src')));
-            texture.repeat.x = parseFloat(textureNode.attr('repeat-x')) || 1;
-            texture.repeat.y = parseFloat(textureNode.attr('repeat-y')) || 1;
-            texture.wrapS = THREE.RepeatWrapping;
-
-            var geometry = new THREE.PlaneGeometry(parseFloat(textureNode.attr('w')), parseFloat(textureNode.attr('h')));
-            var material = new THREE.MeshBasicMaterial({
-                side: THREE.FrontSide,
-                map: texture,
-                transparent: true,
-            });
-            object = new THREE.Mesh(geometry, material);
-
-            var position = loader.parseVector(textureNode.find('> position'));
-            object.position.copy(position);
+            var texture = textures[textureNode.attr('id')];
+            var uvMap = loader.parseUVMap(textureNode.find('> uv'), texture.w, texture.h);
+            material = texture.material;
+            for (var i = 0, l = geometry.faceVertexUvs[0].length; i < l; i+=2) {
+                geometry.faceVertexUvs[0][i] = uvMap[0];
+                geometry.faceVertexUvs[0][i+1] = uvMap[1];
+            }
         });
+
+        var object = new THREE.Mesh(geometry, material);
+        var position = loader.parseVector(objectNode.find('> position'));
+        if (position) {
+            object.position.copy(position);
+        }
+        var scale = loader.parseVector(objectNode.find('> scale'));
+        if (scale) {
+            object.scale.copy(scale);
+        }
 
         world.scene.add(object);
         cutscene.objects[objectNode.attr('id')] = object;
@@ -663,6 +698,20 @@ Game.Loader.prototype.parseStageSelect = function(xmlResponse)
     return scene;
 }
 
+Game.Loader.prototype.parseUVMap = function(node, tw, th)
+{
+    if (!node.length) {
+        return false;
+    }
+
+    return Engine.SpriteManager.createUVMap(
+        parseFloat(node.attr('x')),
+        parseFloat(node.attr('y')),
+        parseFloat(node.attr('w')),
+        parseFloat(node.attr('h')),
+        tw, th);
+}
+
 Game.Loader.prototype.parseVector = function(node)
 {
     var units = ['x', 'y', 'z'];
@@ -683,8 +732,7 @@ Game.Loader.prototype.parseVector = function(node)
     else if (parsedUnits.length === 3) {
         return new THREE.Vector3(parsedUnits[0], parsedUnits[1], parsedUnits[2]);
     }
-    console.error("Node not parsable", node);
-    throw new Error("Could not parse " + node);
+    return false;
 }
 
 Game.Loader.prototype.parseWeapon = function(xmlResponse)

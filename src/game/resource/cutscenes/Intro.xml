@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="cutscene">
 
-    <camera distance="140" />
+    <camera near="100" far="2000">
+        <position x="0" y="0" z="150"/>
+    </camera>
+
+    <textures>
+        <texture id="skyline" src="./intro/skyline.png" w="256" h="256" />
+        <texture id="skyscraper" src="./intro/skyscraper.png" w="128" h="128" />
+    </textures>
 
     <objects>
-        <object id="skyline">
-            <texture src="./intro/skyline.png" w="1024" h="256" repeat-x="4">
-                <position x="0" y="0" z="-200" />
+        <object id="skyline" w="1024" h="256" repeat-x="4">
+            <texture id="skyline">
+                <uv x="0" y="0" w="256" h="256" />
             </texture>
+            <position x="0" y="0" z="-500" />
+            <scale x="4" y="4" z="1" />
+        </object>
+
+        <object id="skyscraper" w="128" h="1120" repeat-y="16">
+            <texture id="skyscraper">
+                <uv x="25" y="57" w="103" h="70" />
+            </texture>
+            <position x="100" y="0" z="0" />
+            <scale x="1" y="1" z="1" />
         </object>
     </objects>
 
