@@ -1,21 +1,22 @@
 Engine.Trait = function()
 {
-    this.object = undefined;
+    this._host = undefined;
 
-    for (var method of this.MAGIC_METHODS.keys()) {
+    /* Bind on instanciation so that we
+       they can be found when unbound. */
+    for (var method in this.MAGIC_METHODS) {
         if (this[method]) {
             this[method] = this[method].bind(this);
         }
     }
 }
 
-Engine.traits = {};
-
-Engine.Trait.prototype.MAGIC_METHODS = new Map();
-Engine.Trait.prototype.MAGIC_METHODS.set('__collides',   Engine.Object.prototype.EVENT_COLLIDE);
-Engine.Trait.prototype.MAGIC_METHODS.set('__obstruct',   Engine.Object.prototype.EVENT_OBSTRUCT);
-Engine.Trait.prototype.MAGIC_METHODS.set('__uncollides', Engine.Object.prototype.EVENT_UNCOLLIDE);
-Engine.Trait.prototype.MAGIC_METHODS.set('__timeshift',  Engine.Object.prototype.EVENT_TIMESHIFT);
+Engine.Trait.prototype.MAGIC_METHODS = {
+    '__collides':   Engine.Object.prototype.EVENT_COLLIDE,
+    '__obstruct':   Engine.Object.prototype.EVENT_OBSTRUCT,
+    '__uncollides': Engine.Object.prototype.EVENT_UNCOLLIDE,
+    '__timeshift':  Engine.Object.prototype.EVENT_TIMESHIFT,
+}
 
 Engine.Trait.prototype.NAME = undefined;
 
@@ -25,27 +26,37 @@ Engine.Trait.prototype.__attach = function(object)
         throw new TypeError('Invalid object');
     }
 
-    if (this.object) {
+    if (this._host) {
         this.__detach();
     }
 
-    for (var method of this.MAGIC_METHODS.keys()) {
+    for (var method in this.MAGIC_METHODS) {
         if (this[method]) {
-            object.bind(this.MAGIC_METHODS.get(method),
+            object.bind(this.MAGIC_METHODS[method],
                         this[method]);
         }
     }
 
-    this.object = object;
+    this._host = object;
 }
 
 Engine.Trait.prototype.__detach = function()
 {
-    for (var method of this.MAGIC_METHODS.keys()) {
-        this.object.unbind(this.MAGIC_METHODS.get(method),
+    for (var method in this.MAGIC_METHODS) {
+        this._host.unbind(this.MAGIC_METHODS[method],
                            this[method]);
     }
-    this.object = undefined;
+    this._host = undefined;
+}
+
+Engine.Trait.prototype.__require = function(host, traitReference)
+{
+    var trait = host.getTrait(traitReference);
+    if (trait !== false) {
+        return trait;
+    }
+    console.error("%s depends on %s which could not be found on %s", this, new traitReference(), host);
+    throw new Error("Required trait not found");
 }
 
 Engine.Trait.prototype.__collides = undefined;

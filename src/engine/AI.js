@@ -6,9 +6,9 @@ Engine.AI = function(object)
 
 Engine.AI.prototype.faceObject = function(object)
 {
-    this.object.setDirection(object.position.x > this.object.position.x
-                             ? this.object.RIGHT
-                             : this.object.LEFT);
+    this.object.direction.x = object.position.x > this.object.position.x
+        ? this.object.DIRECTION_RIGHT
+        : this.object.DIRECTION_LEFT;
 }
 
 Engine.AI.prototype.faceTarget = function()

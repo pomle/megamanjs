@@ -1,7 +1,7 @@
 Game.objects.weapons.Plasma = function()
 {
     Game.objects.Weapon.call(this);
-    this.ammo.setInfinite();
+    this.ammo.infinite = true;
 }
 
 Game.objects.weapons.Plasma.prototype = Object.create(Game.objects.Weapon.prototype);
@@ -13,6 +13,6 @@ Game.objects.weapons.Plasma.prototype.fire = function()
         return false;
     }
     var projectile = new Game.objects.projectiles.Plasma();
-    this.emit(projectile, projectile.speed, 0);
+    this.emit(projectile);
     return true;
 }

@@ -3,6 +3,9 @@ Game.objects.characters.Megaman = function()
     Game.objects.Character.call(this);
 
     this.health.max = 28;
+    this.contactDamage.points = 0;
+    this.invincibility.duration = 2;
+    this.weapon.projectileEmitOffset.set(17, 1);
 
     this.textures = {};
 
@@ -96,37 +99,25 @@ Game.objects.characters.Megaman = function()
     };
 
 
+
     this.sprites.selectSprite('idle');
     this.sprites.applySprite();
-
-    this.setDirection(this.RIGHT);
-    this.sprites.setDirection(this.RIGHT);
-
-    this.projectileEmitOffset.set(17, 1);
-
-    this.energyCapsules = 0;
 
     this.setModel(model);
     this.addCollisionRect(14, 22, 0, 0);
 
-    this.teleport = this.applyTrait(new Game.traits.Teleport());
+    this.bind(this.weapon.EVENT_EQUIP, this.changeDress);
 }
 
 Game.objects.characters.Megaman.prototype = Object.create(Game.objects.Character.prototype);
 Game.objects.characters.Megaman.constructor = Game.objects.characters.Megaman;
 
-Game.objects.characters.Megaman.prototype.equipWeapon = function(weapon)
+Game.objects.characters.Megaman.prototype.changeDress = function(weapon)
 {
-    if (!Game.objects.Character.prototype.equipWeapon.call(this, weapon)) {
-        return false;
-    }
-
     if (this.textures[weapon.code]) {
         this.model.material.map = this.textures[weapon.code];
         this.model.material.needsUpdate = true;
     }
-
-    return true;
 }
 
 Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direction)
@@ -135,14 +126,14 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
         return false;
     }
 
-    this.jumpInertia = 0;
+    this.jump.end();
     this.physics.inertia.set(0, 0);
     this.physics.momentum.set(40, 60);
     if (direction) {
         this.physics.momentum.x *= direction.x > 0 ? -1 : 1;
     }
     else {
-        this.physics.momentum.x *= this.direction > 0 ? -1 : 1;
+        this.physics.momentum.x *= this.direction.x > 0 ? -1 : 1;
     }
 
     var sweat = this.decorations['sweat']
@@ -157,6 +148,8 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
 
 Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
+    this.sprites.setDirection(this.direction.x);
+
     if (this.teleport.state) {
         if (this.teleport.state == this.teleport.STATE_OUT) {
             return this.sprites.selectSprite('teleport-out');
@@ -167,35 +160,31 @@ Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
         return this.sprites.selectSprite('teleport');
     }
 
-    if (this.stunnedTime > 0) {
+    if (this.stun._engaged === true) {
         return this.sprites.selectSprite('stunned');
     }
 
-    if (this.walk) {
-        this.sprites.setDirection(this.direction);
-    }
-
     if (!this.isSupported) {
-        if (this.isFiring) {
+        if (this.weapon._firing) {
             return this.sprites.selectSprite('jump-fire');
         }
         return this.sprites.selectSprite('jump');
     }
 
-    if (this.moveSpeed) {
-        if (this.moveSpeed < this.walkSpeed * .8) {
-            if (this.isFiring) {
+    if (this.move._moveSpeed) {
+        if (this.move._moveSpeed < this.move._speed * .8) {
+            if (this.weapon._firing) {
                 return this.sprites.selectSprite('fire');
             }
             return this.sprites.selectSprite('lean');
         }
-        if (this.isFiring) {
+        if (this.weapon._firing) {
             return this.sprites.selectSprite('run-fire');
         }
         return this.sprites.selectSprite('run');
     }
 
-    if (this.isFiring) {
+    if (this.weapon._firing) {
         return this.sprites.selectSprite('fire');
     }
 

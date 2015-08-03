@@ -2,7 +2,7 @@ Game.objects.weapons.AirShooter = function()
 {
     Game.objects.Weapon.call(this);
     this.setCoolDown(1);
-    this.ammo.setMax(16);
+    this.ammo.max = 16;
 }
 
 Game.objects.weapons.AirShooter.prototype = Object.create(Game.objects.Weapon.prototype);

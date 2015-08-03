@@ -59,7 +59,7 @@ Game.Loader.prototype.parseGame = function(xmlResponse)
 
     var playerNode = gameNode.find('> player');
     var character = new Game.objects.characters[playerNode.find('> character').attr('name')]();
-    character.invincibilityDuration = parseFloat(playerNode.find('> invincibility').attr('duration'));
+    character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
 
     game.player.setCharacter(character);
     game.player.hud.equipCharacter(game.player.character);
@@ -416,10 +416,10 @@ Game.Loader.prototype.parseLevel = function(xmlResponse)
             var object = new Game.objects.characters[name]();
             var direction = enemyNode.attr('direction');
             if (direction == 'right') {
-                object.setDirection(object.RIGHT);
+                object.direction.x = object.DIRECTION_RIGHT;
             }
             else if (direction == 'left') {
-                object.setDirection(object.LEFT);
+                object.direction.x = object.DIRECTION_LEFT;
             }
         }
 

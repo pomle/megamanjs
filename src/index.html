@@ -23,11 +23,17 @@
     <script type="text/javascript" src="engine/Object.js"></script>
     <script type="text/javascript" src="engine/Timeline.js"></script>
 
+    <script type="text/javascript" src="engine/logic/Energy.js"></script>
+
     <script type="text/javascript" src="engine/Trait.js"></script>
-    <script type="text/javascript" src="engine/traits/_Energy.js"></script>
+    <script type="text/javascript" src="engine/traits/ContactDamage.js"></script>
     <script type="text/javascript" src="engine/traits/Health.js"></script>
+    <script type="text/javascript" src="engine/traits/Invincibility.js"></script>
+    <script type="text/javascript" src="engine/traits/Jump.js"></script>
+    <script type="text/javascript" src="engine/traits/Move.js"></script>
     <script type="text/javascript" src="engine/traits/Physics.js"></script>
     <script type="text/javascript" src="engine/traits/Solid.js"></script>
+    <script type="text/javascript" src="engine/traits/Stun.js"></script>
 
     <script type="text/javascript" src="engine/UVAnimator.js"></script>
 
@@ -48,13 +54,13 @@
     <script type="text/javascript" src="game/scene/Level.js"></script>
     <script type="text/javascript" src="game/scene/StageSelect.js"></script>
     <script type="text/javascript" src="game/object/traits/Teleport.js"></script>
+    <script type="text/javascript" src="game/object/traits/Weapon.js"></script>
 
     <script type="text/javascript" src="game/object/Solid.js"></script>
     <script type="text/javascript" src="game/object/obstacle/AppearingSolid.js"></script>
     <script type="text/javascript" src="game/object/obstacle/DestructibleWall.js"></script>
     <script type="text/javascript" src="game/object/obstacle/Door.js"></script>
     <script type="text/javascript" src="game/object/obstacle/DeathZone.js"></script>
-    <script type="text/javascript" src="game/object/Energy.js"></script>
     <script type="text/javascript" src="game/object/Character.js"></script>
     <script type="text/javascript" src="game/object/Item.js"></script>
     <script type="text/javascript" src="game/object/Spawner.js"></script>
@@ -148,17 +154,17 @@
     </fieldset>
     <fieldset>
         <legend>Boss</legend>
-        <button onclick="game.level.spawnCharacter('Airman');">Air Man</button>
-        <button onclick="game.level.spawnCharacter('Crashman');">Crash Man</button>
-        <button onclick="game.level.spawnCharacter('Flashman');">Flash Man</button>
-        <button onclick="game.level.spawnCharacter('Heatman');">Heat Man</button>
-        <button onclick="game.level.spawnCharacter('Metalman');">Metal Man</button>
+        <button onclick="game.scene.spawnCharacter('Airman');">Air Man</button>
+        <button onclick="game.scene.spawnCharacter('Crashman');">Crash Man</button>
+        <button onclick="game.scene.spawnCharacter('Flashman');">Flash Man</button>
+        <button onclick="game.scene.spawnCharacter('Heatman');">Heat Man</button>
+        <button onclick="game.scene.spawnCharacter('Metalman');">Metal Man</button>
     </fieldset>
     <fieldset>
         <legend>Enemy</legend>
-        <button onclick="game.level.spawnCharacter('SniperArmor');">SniperArmor</button>
-        <button onclick="game.level.spawnCharacter('SniperJoe');">SniperJoe</button>
-        <button onclick="game.level.spawnCharacter('SillyCanon');">SillyCanon</button>
+        <button onclick="game.scene.spawnCharacter('SniperArmor');">SniperArmor</button>
+        <button onclick="game.scene.spawnCharacter('SniperJoe');">SniperJoe</button>
+        <button onclick="game.scene.spawnCharacter('SillyCanon');">SillyCanon</button>
     </fieldset>
     <fieldset>
         <legend>Fullscreen</legend>

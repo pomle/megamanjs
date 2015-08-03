@@ -24,8 +24,6 @@ Game.objects.characters.SillyCanon = function(target)
 
     this.health.max = 10;
 
-    this.setDirection(this.LEFT);
-
     this.coolDown = .8;
     this.waitForShot = 0;
     this.physics.mass = 0;
