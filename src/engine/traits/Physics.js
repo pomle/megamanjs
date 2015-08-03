@@ -10,6 +10,16 @@ Engine.traits.Physics = function()
 
 Engine.Util.extend(Engine.traits.Physics, Engine.Trait);
 
+Engine.traits.Physics.prototype.__obstruct = function(object, attack)
+{
+    switch (attack) {
+        case object.solid.TOP:
+        case object.solid.BOTTOM:
+            this.inertia.copy(object.velocity);
+            break;
+    }
+}
+
 Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
     if (this.enabled && dt) {

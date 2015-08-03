@@ -13,8 +13,16 @@ Engine.Util.extend(Engine.traits.Jump, Engine.Trait);
 
 Engine.traits.Jump.prototype.__obstruct = function(object, attack)
 {
-    if (object.solid && attack === object.solid.BOTTOM) {
-        this.end();
+    if (object.solid) {
+        switch (attack) {
+            case object.solid.TOP:
+                this._host.isSupported = true;
+                break;
+
+            case object.solid.BOTTOM:
+                this.end();
+                break;
+        }
     }
 }
 

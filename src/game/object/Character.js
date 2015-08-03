@@ -77,27 +77,6 @@ Game.objects.Character.prototype.kill = function()
     this.trigger(this.EVENT_DEATH);
 }
 
-Game.objects.Character.prototype.obstruct = function(object, attack)
-{
-    Engine.Object.prototype.obstruct.call(this, object, attack);
-
-    switch (attack) {
-        case object.solid.TOP:
-            this.isSupported = true;
-            this.physics.inertia.copy(object.velocity);
-            break;
-
-        case object.solid.BOTTOM:
-            this.physics.inertia.copy(object.velocity);
-            break;
-
-        case object.solid.LEFT:
-        case object.solid.RIGHT:
-            this.moveSpeed = Math.abs(object.velocity.x);
-            break;
-    }
-}
-
 Game.objects.Character.prototype.resurrect = function()
 {
     this.dead = false;

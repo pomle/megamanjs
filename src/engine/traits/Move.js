@@ -33,6 +33,16 @@ Engine.traits.Move.prototype.__detach = function()
     Engine.Trait.prototype.__detach.call(this, host);
 }
 
+Engine.traits.Move.prototype.__obstruct = function(object, attack)
+{
+    switch (attack) {
+        case object.solid.LEFT:
+        case object.solid.RIGHT:
+            this._moveSpeed = Math.abs(object.velocity.x);
+            break;
+    }
+}
+
 Engine.traits.Move.prototype.__timeshift = function(deltaTime)
 {
     if (this.inhibit) {
