@@ -38,7 +38,7 @@ Game.createFromXml = function(url, callback)
     game.player = new Game.Player();
     game.player.hud = new Hud($('#screen'));
 
-    var loader = new Game.Loader(game);
+    var loader = new Game.Loader.XML(game);
     loader.loadGame(url, callback);
 
     return game;
