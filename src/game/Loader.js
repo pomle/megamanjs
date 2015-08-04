@@ -40,6 +40,31 @@ Game.Loader.prototype.loadScene = function(xmlUrl, callback)
     });
 }
 
+Game.Loader.prototype.parseCharacter = function(node)
+{
+    var game = this.game;
+
+    var sourceName = node.attr('source');
+    var source = Game.objects.characters[sourceName];
+
+    var traits = {};
+
+    var XMLDerivedObject = function()
+    {
+        this._parentName = sourceName;
+        source.call(this);
+/*
+        this.texture = game.resource.texture['megaman_blue'];
+
+        for (trait in trait) {
+            this[trait].jump.force = xml.trait.jump.force;
+        }*/
+    }
+
+    Engine.Util.extend(XMLDerivedObject, source);
+    return XMLDerivedObject;
+}
+
 Game.Loader.prototype.parseGame = function(xmlResponse)
 {
     var loader = this;
@@ -63,12 +88,18 @@ Game.Loader.prototype.parseGame = function(xmlResponse)
 
     game.player.setCharacter(character);
     game.player.hud.equipCharacter(game.player.character);
-    
+
     gameNode.find('> scenes > scene').each(function() {
         var sceneNode = $(this);
         loader.sceneIndex[sceneNode.attr('name')] = {
             'url': xmlResponse.createUrl(sceneNode.attr('src')),
         };
+    });
+
+    gameNode.find('> characters > character').each(function() {
+        var characterNode = $(this);
+        var character = loader.parseCharacter(characterNode);
+        loader.game.resources.addCharacter(characterNode.attr('id'), character);
     });
 
     gameNode.find('> level').each(function() {

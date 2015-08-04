@@ -20,6 +20,12 @@ Game.ResourceManager.prototype._addResource = function(type, name, object)
     this.items[type][name] = object;
 }
 
+
+Game.ResourceManager.prototype.addCharacter = function(name, object)
+{
+    return this._addResource('character', name, object);
+}
+
 Game.ResourceManager.prototype.addWeapon = function(name, object)
 {
     return this._addResource('weapon', name, object);
