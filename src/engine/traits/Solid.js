@@ -25,9 +25,6 @@ Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
     if (!subject.physics) {
         return false;
     }
-    if (!subject.obstructible) {
-        return false;
-    }
     if (this.ignore.has(subject)) {
         return false;
     }

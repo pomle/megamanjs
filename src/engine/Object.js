@@ -8,7 +8,6 @@ Engine.Object = function()
     this.deltaTime = undefined;
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
-    this.obstructible = true;
     this.position = undefined;
     this.time = 0;
     this.timeStretch = 1;

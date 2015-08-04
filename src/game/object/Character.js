@@ -1,29 +1,21 @@
 Game.objects.Character = function()
 {
     Engine.Object.call(this);
-
     this.ai = new Engine.AI(this);
-
-    this.direction.x = this.DIRECTION_RIGHT;
-
     this.contactDamage = this.applyTrait(new Engine.traits.ContactDamage());
-    this.dead = false;
-
     this.health = this.applyTrait(new Engine.traits.Health(100));
-    this.isSupported = false;
-
     this.invincibility = this.applyTrait(new Engine.traits.Invincibility());
-
     this.jump = this.applyTrait(new Engine.traits.Jump());
-
     this.physics = this.applyTrait(new Engine.traits.Physics());
-    this.physics.mass = 1;
-
     this.move = this.applyTrait(new Engine.traits.Move());
     this.stun = this.applyTrait(new Engine.traits.Stun());
-
     this.teleport = this.applyTrait(new Game.traits.Teleport());
     this.weapon = this.applyTrait(new Engine.traits.Weapon());
+
+    this.dead = false;
+    this.direction.x = this.DIRECTION_RIGHT;
+    this.isSupported = false;
+    this.physics.mass = 1;
 }
 
 Game.objects.Character.prototype.EVENT_DEATH = 'death';

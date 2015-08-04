@@ -21,18 +21,12 @@ Game.objects.characters.Telly = function()
     this.addCollisionRect(16, 16, 0, 0);
 
     this.contactDamage.points = 1;
-    this.obstructible = false;
-
-    this.physics.mass = 0;
     this.health.max = 1;
 
     this.speed = 12;
-
-    this.physics.enabled = false;
 }
 
-Game.objects.characters.Telly.prototype = Object.create(Game.objects.Character.prototype);
-Game.objects.characters.Telly.constructor = Game.objects.characters.Telly;
+Engine.Util.extend(Game.objects.characters.Telly, Engine.Object);
 
 Game.objects.characters.Telly.prototype.updateAI = function()
 {
