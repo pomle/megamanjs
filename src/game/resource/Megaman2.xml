@@ -30,15 +30,6 @@
         <invincibility duration="2"/>
     </player>
 
-    <characters>
-        <character source="Megaman" id="MegamanJumpy">
-            <trait name="jump" force="200"/>
-        </character>
-        <character source="Megaman" id="Megaman">
-            <trait name="jump" force="180"/>
-        </character>
-    </characters>
-
     <bosses>
         <boss name="Air Man" code="a">
             <character name="Airman"/>
