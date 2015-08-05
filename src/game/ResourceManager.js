@@ -48,6 +48,11 @@ Game.ResourceManager.prototype.addCharacter = function(id, object)
     return this._addResource('character', id, object);
 }
 
+Game.ResourceManager.prototype.addTexture = function(id, object)
+{
+    return this._addResource('texture', id, object);
+}
+
 Game.ResourceManager.prototype.addWeapon = function(id, object)
 {
     return this._addResource('weapon', id, object);
