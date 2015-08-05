@@ -20,8 +20,12 @@
         <scene name="StageSelect" />
     </entrypoint>
 
+    <characters>
+        <character id="Megaman" src="./characters/Megaman.xml" />
+    </characters>
+
     <player>
-        <character name="Megaman"/>
+        <character id="Megaman"/>
         <invincibility duration="2"/>
     </player>
 
@@ -57,17 +61,17 @@
         </boss>
     </bosses>
     <weapons>
-        <weapon name="Plasma" code="p">Plasma</weapon>
-        <weapon name="AirShooter" code="a">Air Shooter</weapon>
-        <weapon name="CrashBomber" code="c">Crash Bomber</weapon>
-        <weapon name="MetalBlade" code="m">Metal Blade</weapon>
-        <weapon name="TimeStopper" code="f">Time Stopper</weapon>
+        <weapon source="AirShooter"  id="AirShooter"  code="p" name="Air Shooter"  />
+        <weapon source="Plasma"      id="Plasma"      code="p" name="Plasma"  />
+        <weapon source="CrashBomber" id="CrashBomber" code="c" name="Crash Bomber" />
+        <weapon source="MetalBlade"  id="MetalBlade"  code="m" name="Metal Blade"  />
+        <weapon source="TimeStopper" id="TimeStopper" code="f" name="Time Stopper" />
         <!--
-            <weapon name="Atomic Fire" object="AtomicFire" code="h"/>
-            <weapon name="Bubble Lead" object="BubbleLead" code="b"/>
-            <weapon name="Leaf Shield" object="LeafShield" code="w"/>
-            <weapon name="Quick Boomerang" object="QuickBoomerang" code="q"/>
-            <weapon name="Time Stopper" object="TimeStopper" code="f"/>
+           sourceid="Atomic weapon id="Atomic Fire" object="AtomicFire" code="h"/>
+           sourceid="Bubble weapon id="Bubble Lead" object="BubbleLead" code="b"/>
+           sourceid="Leaf weapon id="Leaf Shield" object="LeafShield" code="w"/>
+           sourceid="Quick weapon id="Quick Boomerang" object="QuickBoomerang" code="q"/>
+           sourceid="Time weapon id="Time Stopper" object="TimeStopper" code="f"/>
         -->
     </weapons>
 </game>
