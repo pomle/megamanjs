@@ -2,9 +2,6 @@ Engine.Timeline = function()
 {
     this.name = undefined;
 
-    this.index = 0;
-    this.lastIndex;
-
     this.accumulatedTime = 0;
     this.totalDuration = 0;
 
