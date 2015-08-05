@@ -8,7 +8,7 @@ Engine.Util.extend(Engine.Animator.UV, Engine.Animator);
 
 Engine.Animator.UV.prototype._applyAnimation = function(animation)
 {
-    var uv = animation.getValue();
+    var uv = animation.getValue(this.time);
     for (var i = 0, l = this.meshes.length; i < l; ++i) {
         var geo = this.meshes[i].geometry;
         if (uv !== geo.faceVertexUvs[0]) {

@@ -3,6 +3,7 @@ Engine.Animator = function()
     this._currentAnimation = undefined;
     this._currentId = undefined;
     this.animations = {};
+    this.time = 0;
 }
 
 Engine.Animator.prototype.addAnimation = function(id, animation)
@@ -28,10 +29,8 @@ Engine.Animator.prototype.pickAnimation = function(id)
     }
     var animation = this.animations[id];
 
-    if (animation.group !== undefined && animation.group === this._currentAnimation.group) {
-        animation.time = this._currentAnimation.time;
-    } else {
-        animation.time = 0;
+    if (animation.group === undefined || animation.group !== this._currentAnimation.group) {
+        this.time = 0;
     }
 
     this.setAnimation(animation);
@@ -49,7 +48,7 @@ Engine.Animator.prototype.setAnimation = function(animation)
 
 Engine.Animator.prototype.update = function(deltaTime)
 {
-    this._currentAnimation.time += deltaTime;
+    this.time += deltaTime;
     this._applyAnimation(this._currentAnimation);
 }
 
@@ -61,9 +60,6 @@ Engine.Animator.Animation = function()
 
     this.group = undefined;
     this.timeline = undefined;
-    this.time = 0;
-
-    this.getValue = this._getSingleValue;
 }
 
 Engine.Animator.Animation.prototype.addFrame = function(value, duration)
@@ -81,20 +77,16 @@ Engine.Animator.Animation.prototype.addFrame = function(value, duration)
     else {
         this.timeline = new Engine.Timeline();
         this.addFrame = this.timeline.addFrame.bind(this.timeline);
+        this.getValue = this.timeline.getValueAtTime.bind(this.timeline);
         this.addFrame(this._value, this._duration);
         this.addFrame(value, duration);
-        this.getValue = this._getTimelineValue;
+
         this._value = undefined;
         this._duration = undefined;
     }
 }
 
-Engine.Animator.Animation.prototype._getSingleValue = function()
+Engine.Animator.Animation.prototype.getValue = function()
 {
     return this._value;
-}
-
-Engine.Animator.Animation.prototype._getTimelineValue = function()
-{
-    return this.timeline.getValueAtTime(this.time);
 }
