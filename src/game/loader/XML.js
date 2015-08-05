@@ -62,10 +62,9 @@ Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
         x: parseFloat(modelNode.attr('w')),
         y: parseFloat(modelNode.attr('h')),
     }
-    var geometry = new THREE.PlaneGeometry(modelSize.x, modelSize.y);
-    var material = this.defaultMaterial;
 
     var animator = new Engine.Animator.UV();
+    var defaultTextureId = undefined;
 
     modelNode.find('> textures > texture').each(function() {
         var textureNode = $(this);
@@ -75,11 +74,17 @@ Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
         }
         var textureUrl = characterNode.baseUrl + textureNode.attr('url');
         var texture = Engine.TextureManager.getScaledTexture(textureUrl, game.resource.textureScale);
-        material = new THREE.MeshBasicMaterial({
-            side: THREE.DoubleSide,
-            map: texture,
-            transparent: true,
-        });
+
+        var textureId = textureNode.attr('id');
+        if (!textureId) {
+            throw new Error("No id attribute on " + textureNode[0].outerHTML);
+        }
+
+        if (defaultTextureId === undefined) {
+            defaultTextureId = textureId;
+        }
+
+        game.resource.addTexture(textureId, texture);
 
         var defaultAnimation = undefined;
         textureNode.find('> animations > animation').each(function() {
@@ -123,10 +128,19 @@ Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
     var character = function()
     {
         this._parentName = sourceName;
+        this.geometry = new THREE.PlaneGeometry(modelSize.x, modelSize.y);
+        this.material = new THREE.MeshBasicMaterial({
+            side: THREE.DoubleSide,
+            map: game.resource.get('texture', defaultTextureId),
+            transparent: true,
+        });
+
         source.call(this);
 
-        animator.addMesh(this.model);
-        this.animator = animator;
+        this.animator = new Engine.Animator.UV();
+        this.animator.copy(animator);
+        this.animator.addMesh(this.model);
+
 
         for (var i in collision) {
             var r = collision[i];
@@ -135,9 +149,6 @@ Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
     }
 
     Engine.Util.extend(character, source);
-
-    character.prototype.geometry = geometry;
-    character.prototype.material = material;
 
     callback(character);
 }
@@ -168,7 +179,7 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         };
     });
 
-
+    var queue = 0;
     var playerParse = function()
     {
         var playerNode = gameNode.find('> player');
@@ -188,12 +199,21 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         callback();
     }
 
+    var cont = function()
+    {
+        --queue;
+        if (queue === 0) {
+            playerParse();
+        }
+    }
+
     gameNode.find('> characters > character').each(function() {
         var characterNode = $(this);
         characterNode.baseUrl = gameNode.baseUrl;
+        ++queue;
         loader.traverseNode(characterNode, function(character) {
             loader.game.resource.addAuto(characterNode.attr('id'), character);
-            playerParse();
+            cont();
         });
     });
 }
@@ -507,9 +527,16 @@ Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
     layoutNode.find('enemies > enemy').each(function(i, enemyNode) {
         enemyNode = $(enemyNode);
 
-        var name = enemyNode.attr('name');
-        if (!Game.objects.characters[name]) {
-            throw new Error('Item ' + name + ' does not exist');
+        var id = enemyNode.attr('id');
+        if (loader.game.resource.items.character[id]) {
+            objectRef = loader.game.resource.items.character[id];
+        }
+        else {
+            var name = enemyNode.attr('name');
+            if (!Game.objects.characters[name]) {
+                throw new Error('Item ' + name + ' does not exist');
+            }
+            objectRef = Game.objects.characters[name];
         }
 
         var spawnNode = enemyNode.find('> spawn');
@@ -517,7 +544,7 @@ Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
         var y = -parseFloat(enemyNode.attr('y'));
         if (spawnNode.length) {
             var object = new Game.objects.Spawner();
-            object.spawnSource.push(Game.objects.characters[name]);
+            object.spawnSource.push(objectRef);
             object.spawnCount = parseFloat(spawnNode.attr('count')) || undefined;
             object.maxSimultaneousSpawns = parseFloat(spawnNode.attr('simultaneous')) || 1;
             object.spawnInterval = parseFloat(spawnNode.attr('interval')) || 1;
@@ -525,7 +552,7 @@ Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
             object.maxDistance = parseFloat(spawnNode.attr('max-distance')) || object.maxDistance;
         }
         else {
-            var object = new Game.objects.characters[name]();
+            var object = new objectRef();
             var direction = enemyNode.attr('direction');
             if (direction == 'right') {
                 object.direction.x = object.DIRECTION_RIGHT;
