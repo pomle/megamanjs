@@ -22,6 +22,7 @@
 
     <characters>
         <character id="Megaman" src="./characters/Megaman.xml" />
+        <character id="Telly" src="./characters/Telly.xml" />
     </characters>
 
     <player>

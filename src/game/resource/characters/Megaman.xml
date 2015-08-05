@@ -5,7 +5,7 @@
             <rect x="0" y="0" w="14" h="22" />
         </collision>
         <textures>
-            <texture url="megaman.png" w="256" h="256">
+            <texture id="megaman" url="megaman.png" w="256" h="256">
                 <animations>
                     <animation id="idle" default="true">
                         <frame x="0" y="0" duration="3.85" />

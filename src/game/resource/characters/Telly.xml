@@ -1,0 +1,29 @@
+<character source="Telly">
+
+    <model w="16" h="16">
+        <collision>
+            <rect x="0" y="0" w="16" h="16" />
+        </collision>
+        <textures>
+            <texture id="telly" url="telly.png" w="128" h="16">
+                <animations>
+                    <animation id="spin" default="true">
+                        <frame x="80" y="0" duration=".16" />
+                        <frame x="64" y="0" duration=".16" />
+                        <frame x="48" y="0" duration=".16" />
+                        <frame x="32" y="0" duration=".16" />
+                        <frame x="16" y="0" duration=".16" />
+                        <frame x="0"  y="0" duration=".16" />
+                    </animation>
+                </animations>
+            </texture>
+        </textures>
+    </model>
+
+    <traits>
+        <trait source="Invincibility" id="invincibility" duration="2" />
+        <trait source="Jump" id="jump" force="180"/>
+        <trait source="Physics" id="physics" />
+        <trait source="Weapon" id="weapon" />
+    </traits>
+</character>
