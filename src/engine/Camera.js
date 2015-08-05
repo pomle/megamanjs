@@ -114,7 +114,9 @@ Engine.Camera.Path = function()
 
 Engine.Camera.Path.prototype.constrain = function(vec)
 {
-    for (var u of ['x', 'y', 'z']) {
+    var units = ['x', 'y', 'z'];
+    for (var i in units) {
+        var u = units[i];
         if (vec[u] < this.constraint[0][u]) {
             vec[u] = this.constraint[0][u];
         }

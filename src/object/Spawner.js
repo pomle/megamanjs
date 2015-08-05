@@ -10,38 +10,52 @@ Engine.assets.Spawner = function()
     this.spawnCount = undefined;
     this.spawnInterval = undefined;
     this.spawnSource = [];
-    this.spawnedObjects = new Set();
+    this.spawnedObjects = [];
     this.timeSinceLastSpawn = 0;
 }
 
 Engine.assets.Spawner.prototype = Object.create(Engine.assets.Object.prototype);
 Engine.assets.Spawner.constructor = Engine.assets.Spawner;
 
+Engine.assets.Spawner.prototype._deleteChild = function(object)
+{
+    var i = this.spawnedObjects.indexOf(object);
+    if (i !== -1) {
+        this.spawnedObjects.slice(i, 1);
+    }
+}
+
 Engine.assets.Spawner.prototype.cleanReferences = function()
 {
-    for (var object of this.spawnedObjects) {
+    for (var i = 0, l = this.spawnedObjects.length; i < l; ++i) {
+        var object = this.spawnedObjects[i];
         if (!this.scene.objects.has(object)) {
-            this.spawnedObjects.delete(object);
+            this._deleteChild(object);
+            --i;
         }
     }
 }
 
 Engine.assets.Spawner.prototype.killOffElderly = function()
 {
-    for (var object of this.spawnedObjects) {
+    for (var i = 0, l = this.spawnedObjects.length; i < l; ++i) {
+        var object = this.spawnedObjects[i];
         if (object.time >= this.lifetime) {
             object.kill();
-            this.spawnedObjects.delete(object);
+            this._deleteChild(object);
+            --i;
         }
     }
 }
 
 Engine.assets.Spawner.prototype.killOffRoaming = function()
 {
-    for (var object of this.spawnedObjects) {
+    for (var i = 0, l = this.spawnedObjects.length; i < l; ++i) {
+        var object = this.spawnedObjects[i];
         if (object.position.distanceTo(this.position) > this.roamingLimit) {
             object.kill();
-            this.spawnedObjects.delete(object);
+            this._deleteChild(object);
+            --i;
         }
     }
 }
@@ -70,7 +84,7 @@ Engine.assets.Spawner.prototype.spawnObject = function()
     var index = Math.floor(Math.random() * this.spawnSource.length);
     var object = new this.spawnSource[index]();
     object.position.copy(this.position);
-    this.spawnedObjects.add(object);
+    this.spawnedObjects.push(object);
     this.scene.addObject(object);
     return object;
 }
