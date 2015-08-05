@@ -2,6 +2,7 @@ Engine.Animator = function()
 {
     this._currentAnimation = undefined;
     this._currentId = undefined;
+    this._currentIndex = undefined;
     this.animations = {};
     this.time = 0;
 }
@@ -47,6 +48,7 @@ Engine.Animator.prototype.pickAnimation = function(id)
 Engine.Animator.prototype.setAnimation = function(animation)
 {
     if (animation !== this._currentAnimation) {
+        this._currentIndex = undefined;
         this._currentAnimation = animation;
         this._applyAnimation(animation);
     }
@@ -83,13 +85,19 @@ Engine.Animator.Animation.prototype.addFrame = function(value, duration)
     else {
         this.timeline = new Engine.Timeline();
         this.addFrame = this.timeline.addFrame.bind(this.timeline);
-        this.getValue = this.timeline.getValueAtTime.bind(this.timeline);
+        this.getIndex = this.timeline.getIndexAtTime.bind(this.timeline);
+        this.getValue = this.timeline.getValueAtIndex.bind(this.timeline);
         this.addFrame(this._value, this._duration);
         this.addFrame(value, duration);
 
         this._value = undefined;
         this._duration = undefined;
     }
+}
+
+Engine.Animator.Animation.prototype.getIndex = function()
+{
+    return 0;
 }
 
 Engine.Animator.Animation.prototype.getValue = function()

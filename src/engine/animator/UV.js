@@ -1,21 +1,34 @@
 Engine.Animator.UV = function()
 {
     Engine.Animator.call(this);
+
+    this._currentIndex = undefined;
+
     this.meshes = [];
+    this.indices = [0];
 }
 
 Engine.Util.extend(Engine.Animator.UV, Engine.Animator);
 
 Engine.Animator.UV.prototype._applyAnimation = function(animation)
 {
-    var uv = animation.getValue(this.time);
-    for (var i = 0, l = this.meshes.length; i < l; ++i) {
-        var geo = this.meshes[i].geometry;
-        if (uv !== geo.faceVertexUvs[0]) {
-            geo.faceVertexUvs[0] = uv;
-            geo.uvsNeedUpdate = true;
-        }
+    var index = animation.getIndex(this.time);
+    if (index === this._currentIndex) {
+        return;
     }
+
+    var uv = animation.getValue(index),
+        l = this.meshes.length,
+        k = this.indices.length;
+    for (var i = 0; i < l; ++i) {
+        var geo = this.meshes[i].geometry;
+        for (var j = 0; j < k; ++j) {
+            geo.faceVertexUvs[j] = uv;
+        }
+        geo.uvsNeedUpdate = true;
+    }
+
+    this._currentIndex = index;
 }
 
 Engine.Animator.UV.prototype.addMesh = function(mesh)
