@@ -9,6 +9,7 @@ Game.Scene = function(game, world)
         throw new Error("world not instance of Engine.World");
     }
     this.game = game;
+    this.camera = world.camera;
     this.world = world;
 }
 
