@@ -60,13 +60,45 @@ Engine.Animator.prototype.update = function()
 
 Engine.Animator.Animation = function()
 {
+    this._value = undefined;
+    this._duration = undefined;
+
     this.group = undefined;
-    this.timeline = new Engine.Timeline();
-    this.addFrame = this.timeline.addFrame.bind(this.timeline);
+    this.timeline = undefined;
     this.time = 0;
+
+    this.getValue = this._getSingleValue;
 }
 
-Engine.Animator.Animation.prototype.getValue = function()
+Engine.Animator.Animation.prototype.addFrame = function(value, duration)
+{
+    /* If this is the first time addFrame is run,
+       save the value and duration flat, since we
+       will not need the Timeline class to resolve it. */
+    if (this._value === undefined) {
+        this._value = value;
+        this._duration = duration;
+    }
+    /* If addFrame is run more than once, create Timeline
+       object, copy static frame to Timeline and tranform
+       behavior to a multi frame Animation. */
+    else {
+        this.timeline = new Engine.Timeline();
+        this.addFrame = this.timeline.addFrame.bind(this.timeline);
+        this.addFrame(this._value, this._duration);
+        this.addFrame(value, duration);
+        this.getValue = this._getTimelineValue;
+        this._value = undefined;
+        this._duration = undefined;
+    }
+}
+
+Engine.Animator.Animation.prototype._getSingleValue = function()
+{
+    return this._value;
+}
+
+Engine.Animator.Animation.prototype._getTimelineValue = function()
 {
     return this.timeline.getValueAtTime(this.time);
 }
