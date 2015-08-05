@@ -15,6 +15,11 @@ Engine.Events.prototype.bind = function(name, callback)
     this.events[name].push(callback);
 }
 
+Engine.Events.prototype.bound = function(name, callback)
+{
+    return this.events[name].indexOf(callback);
+}
+
 Engine.Events.prototype.trigger = function(name, values)
 {
     if (this.events[name]) {
