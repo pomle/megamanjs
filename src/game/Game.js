@@ -1,6 +1,6 @@
 var Game = function()
 {
-    this.resources = new Game.ResourceManager();
+    this.resource = new Game.ResourceManager();
 
     this.engine = undefined;
     this.player = undefined;
@@ -39,7 +39,7 @@ Game.createFromXml = function(url, callback)
     game.player.hud = new Hud($('#screen'));
 
     var loader = new Game.Loader.XML(game);
-    loader.loadGame(url, callback);
+    loader.load(url, callback);
 
     return game;
 }

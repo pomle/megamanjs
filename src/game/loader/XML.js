@@ -4,121 +4,203 @@ Game.Loader.XML = function(game)
     this.sceneIndex = {};
 }
 
-Game.Loader.XML.prototype.asyncLoadXml = function(url, callback)
+Game.Loader.XML.prototype.defaultMaterial = new THREE.MeshBasicMaterial({
+    color: 0x0000ff,
+    wireframe: true,
+    side: THREE.DoubleSide,
+    transparent: true,
+});
+
+Game.Loader.XML.prototype.asyncLoadXml = function(url, callback, async)
 {
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function()
+    xhr = new XMLHttpRequest();
+
+    var loader = this;
+    xhr.onreadystatechange = function()
     {
         if (this.readyState === 4) {
-            var xmlResponse = new Game.Loader.XMLResponse(
-                $(jQuery.parseXML(this.responseText)),
-                url);
-            callback(xmlResponse);
+            var node = $(jQuery.parseXML(this.responseText));
+            callback(node);
         }
-    };
-    xmlhttp.overrideMimeType('text/xml');
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-    return xmlhttp;
+    }
+    xhr.onerror = function() {
+        throw new Error('URL ' + url + ' error ' + this.statusText);
+    }
+
+    xhr.overrideMimeType('text/xml');
+    xhr.open("GET", url, true);
+    xhr.send();
 }
 
-Game.Loader.XML.prototype.loadGame = function(xmlUrl, callback)
+Game.Loader.XML.prototype.createUrl = function(relativeUrl)
 {
+    return this.baseUrl + relativeUrl;
+}
+
+Game.Loader.XML.prototype.load = function(url, callback)
+{
+    console.log(url);
     var loader = this;
-    return this.asyncLoadXml(xmlUrl, function(xmlResponse) {
-        xmlResponse.done = callback;
-        loader.parseGame(xmlResponse.fork('> game'));
+    loader.asyncLoadXml(url, function(node) {
+        var firstNode = node.children(':first');
+        firstNode.url = url;
+        firstNode.baseUrl = url.split('/').slice(0, -1).join('/') + '/';
+        loader.traverseNode(firstNode, callback);
     });
 }
 
-Game.Loader.XML.prototype.loadScene = function(xmlUrl, callback)
+Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
 {
+    if (!characterNode.is('character')) {
+        throw new TypeError("Not <character> node");
+    }
     var loader = this;
-    return this.asyncLoadXml(xmlUrl, function(xmlResponse) {
-        xmlResponse.done = callback;
-        loader.parseScene(xmlResponse.fork('> scene'));
-    });
-}
-
-Game.Loader.XML.prototype.parseCharacter = function(node)
-{
     var game = this.game;
 
-    var sourceName = node.attr('source');
+    var modelNode = characterNode.find('> model');
+    var modelSize = {
+        x: parseFloat(modelNode.attr('w')),
+        y: parseFloat(modelNode.attr('h')),
+    }
+    var geometry = new THREE.PlaneGeometry(modelSize.x, modelSize.y);
+    var material = this.defaultMaterial;
+
+    var animator = new Engine.Animator.UV();
+
+    modelNode.find('> textures > texture').each(function() {
+        var textureNode = $(this);
+        var textureSize = {
+            x: parseFloat(textureNode.attr('w')),
+            y: parseFloat(textureNode.attr('h')),
+        }
+        var textureUrl = characterNode.baseUrl + textureNode.attr('url');
+        var texture = Engine.TextureManager.getScaledTexture(textureUrl, game.resource.textureScale);
+        material = new THREE.MeshBasicMaterial({
+            side: THREE.DoubleSide,
+            map: texture,
+            transparent: true,
+        });
+
+        var defaultAnimation = undefined;
+        textureNode.find('> animations > animation').each(function() {
+            var animationNode = $(this);
+            var animation = animator.createAnimation(animationNode.attr('id'), animationNode.attr('group'));
+            animationNode.find('> frame').each(function() {
+                var frameNode = $(this);
+                var frameOffset = {
+                    x: parseFloat(frameNode.attr('x')),
+                    y: parseFloat(frameNode.attr('y')),
+                }
+                var uvMap = Engine.SpriteManager.createUVMap(frameOffset.x, frameOffset.y,
+                                                             modelSize.x, modelSize.y,
+                                                             textureSize.x, textureSize.y);
+                var duration = parseFloat(frameNode.attr('duration')) || undefined;
+                animation.addFrame(uvMap, duration);
+            });
+            if ('true' === animationNode.attr('default')) {
+                animator.setAnimation(animation);
+            }
+        });
+    });
+
+    var collision = [];
+    modelNode.find('> collision > rect').each(function() {
+        var rectNode = $(this);
+        collision.push({
+            w: parseFloat(rectNode.attr('w')),
+            h: parseFloat(rectNode.attr('h')),
+            x: parseFloat(rectNode.attr('x')),
+            y: parseFloat(rectNode.attr('y')),
+        });
+    });
+
+    loader = undefined;
+
+
+    var sourceName = characterNode.attr('source');
     var source = Game.objects.characters[sourceName];
 
-    var traits = {};
-
-    var XMLDerivedObject = function()
+    var character = function()
     {
         this._parentName = sourceName;
         source.call(this);
-/*
-        this.texture = game.resource.texture['megaman_blue'];
 
-        for (trait in trait) {
-            this[trait].jump.force = xml.trait.jump.force;
-        }*/
+        animator.addMesh(this.model);
+        this.animator = animator;
+
+        for (var i in collision) {
+            var r = collision[i];
+            this.addCollisionRect(r.w, r.h, r.x, r.y);
+        }
     }
 
-    Engine.Util.extend(XMLDerivedObject, source);
-    return XMLDerivedObject;
+    Engine.Util.extend(character, source);
+
+    character.prototype.geometry = geometry;
+    character.prototype.material = material;
+
+    callback(character);
 }
 
-Game.Loader.XML.prototype.parseGame = function(xmlResponse)
+Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
 {
     var loader = this;
-    var gameNode = xmlResponse.xml;
     if (!gameNode.is('game')) {
         throw new TypeError('Node not <game>');
     }
 
     var configNode = gameNode.find('> config');
-    this.game.resources.textureScale = parseFloat(configNode.attr('texture-scale')) || this.game.resources.textureScale;
+    this.game.resource.textureScale = parseFloat(configNode.attr('texture-scale')) || this.game.resource.textureScale;
 
     gameNode.find('> weapons > weapon').each(function() {
-        var weapon = loader.parseWeapon(xmlResponse.branch(this));
-        loader.game.resources.addWeapon(weapon.name, weapon);
-        game.player.weapons[weapon.code] = weapon;
+        var weaponNode = $(this);
+        loader.parseWeapon(weaponNode, function(weapon) {
+            game.resource.addAuto(weaponNode.attr('id'), weapon);
+            var weapon = new weapon();
+            game.player.weapons[weapon.code] = weapon;
+        });
     });
-
-    var playerNode = gameNode.find('> player');
-    var character = new Game.objects.characters[playerNode.find('> character').attr('name')]();
-    character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
-
-    game.player.setCharacter(character);
-    game.player.hud.equipCharacter(game.player.character);
 
     gameNode.find('> scenes > scene').each(function() {
         var sceneNode = $(this);
         loader.sceneIndex[sceneNode.attr('name')] = {
-            'url': xmlResponse.createUrl(sceneNode.attr('src')),
+            'url': gameNode.baseUrl + sceneNode.attr('src'),
         };
     });
 
+
+    var playerParse = function()
+    {
+        var playerNode = gameNode.find('> player');
+        var character = new (loader.game.resource.get('character', playerNode.find('> character').attr('id')))();
+        character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
+        game.player.setCharacter(character);
+        game.player.hud.equipCharacter(game.player.character);
+
+        gameNode.find('> level').each(function() {
+            levelNode = $(this);
+            Game.scenes.Level.prototype.assets['level-start-text'] = Engine.SpriteManager.createTextSprite(levelNode.attr('start-caption'));
+        });
+
+        var entrySceneName = gameNode.find('> entrypoint > scene').attr('name');
+        loader.startScene(entrySceneName);
+
+        callback();
+    }
+
     gameNode.find('> characters > character').each(function() {
         var characterNode = $(this);
-        var character = loader.parseCharacter(characterNode);
-        loader.game.resources.addCharacter(characterNode.attr('id'), character);
+        characterNode.baseUrl = gameNode.baseUrl;
+        loader.traverseNode(characterNode, function(character) {
+            loader.game.resource.addAuto(characterNode.attr('id'), character);
+            playerParse();
+        });
     });
-
-    gameNode.find('> level').each(function() {
-        levelNode = $(this);
-        Game.scenes.Level.prototype.assets['level-start-text'] = Engine.SpriteManager.createTextSprite(levelNode.attr('start-caption'));
-    });
-
-    var entrySceneName = gameNode.find('> entrypoint > scene').attr('name');
-    loader.startScene(entrySceneName);
-
-    xmlResponse.done(this.game);
-
-    return this.game;
 }
 
-Game.Loader.XML.prototype.parseLevel = function(xmlResponse)
+Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
 {
     var loader = this;
-    var levelNode = xmlResponse.xml;
     if (!levelNode.is('scene[type=level]')) {
         throw new TypeError('Node not <scene type="level">');
     }
@@ -229,7 +311,7 @@ Game.Loader.XML.prototype.parseLevel = function(xmlResponse)
         levelNode.find('> sprites').each(function(i, sprites) {
             sprites = $(sprites);
 
-            var url = xmlResponse.createUrl(sprites.attr('url'));
+            var url = levelNode.baseUrl + sprites.attr('url');
             var size = {
                 'w': parseFloat(sprites.attr('w')),
                 'h': parseFloat(sprites.attr('h')),
@@ -560,33 +642,31 @@ Game.Loader.XML.prototype.parseLevel = function(xmlResponse)
         levelRunner.addCheckPoint(x, -y, r || undefined);
     });
 
-    xmlResponse.done(levelRunner);
+    callback(levelRunner);
 }
 
-Game.Loader.XML.prototype.parseScene = function(xmlResponse)
+Game.Loader.XML.prototype.parseScene = function(sceneNode, callback)
 {
     var loader = this;
-    var sceneNode = xmlResponse.xml;
     if (!sceneNode.is('scene')) {
         throw new TypeError('Node not <scene>');
     }
     var type = sceneNode.attr('type');
     switch (type) {
         case 'level':
-            this.parseLevel(xmlResponse);
+            this.parseLevel(sceneNode, callback);
             break;
         case 'stage-select':
-            this.parseStageSelect(xmlResponse);
+            this.parseStageSelect(sceneNode, callback);
             break;
         default:
             throw new Error('Scene type "' + type + '" not recognized');
     }
 }
 
-Game.Loader.XML.prototype.parseStageSelect = function(xmlResponse)
+Game.Loader.XML.prototype.parseStageSelect = function(sceneNode, callback)
 {
     var loader = this;
-    var sceneNode = xmlResponse.xml;
     if (!sceneNode.is('scene[type=stage-select]')) {
         throw new TypeError('Node not <scene type="stage-select">');
     }
@@ -641,66 +721,70 @@ Game.Loader.XML.prototype.parseStageSelect = function(xmlResponse)
         loader.startScene(stage.name);
     });
 
-    xmlResponse.done(scene);
-
-    return scene;
+    callback(scene);
 }
 
-Game.Loader.XML.prototype.parseWeapon = function(xmlResponse)
+Game.Loader.XML.prototype.parseWeapon = function(weaponNode, callback)
 {
-    var weaponNode = xmlResponse.xml;
     if (!weaponNode.is('weapon')) {
         throw new TypeError('Node not <weapon>');
     }
 
+    var sourceName = weaponNode.attr('source');
+    var source = Game.objects.weapons[sourceName];
+
     var code = weaponNode.attr('code');
     var name = weaponNode.attr('name');
 
-    if (!Game.objects.weapons[name]) {
-        throw new Error('Weapon ' + name + ' does not exist');
+
+    var weapon = function()
+    {
+        source.call(this);
+        this._parentName = sourceName;
+        this.code = code;
+        this.name = name;
     }
-    var weapon = new Game.objects.weapons[name]();
-    weapon.code = code;
-    weapon.name = name;
-    return weapon;
+
+    Engine.Util.extend(weapon, source);
+
+    callback(weapon);
 }
 
-Game.Loader.XML.prototype.startScene = function(name)
+Game.Loader.XML.prototype.startScene = function(name, callback)
 {
     if (!this.sceneIndex[name]) {
         throw new Error('Scene "' + name + '" does not exist');
     }
+
     var loader = this;
-    return this.loadScene(this.sceneIndex[name].url, function(scene) {
+    this.load(this.sceneIndex[name].url, function(scene) {
         loader.game.setScene(scene);
     });
 }
 
-Game.Loader.XMLResponse = function(xml, url)
+Game.Loader.XML.prototype.traverseNode = function(node, callback)
 {
-    this.xml = $(xml);
-    this.url = url;
-    this.baseUrl = url.split('/').slice(0, -1).join('/') + '/';
-}
-
-Game.Loader.XMLResponse.prototype.branch = function(node)
-{
-    return new Game.Loader.XMLResponse($(node), this.url);
-}
-
-Game.Loader.XMLResponse.prototype.createUrl = function(relativeUrl)
-{
-    return this.baseUrl + relativeUrl;
-}
-
-Game.Loader.XMLResponse.prototype.fork = function(selector)
-{
-    var xmlResponse = new Game.Loader.XMLResponse(this.xml.find(selector), this.url);
-    xmlResponse.done = this.done;
-    return xmlResponse;
-}
-
-Game.Loader.XMLResponse.prototype.done = function()
-{
-
+    var src = node.attr('src');
+    if (src) {
+        if (!node.baseUrl) {
+            throw new Error('baseUrl not attached');
+        }
+        this.load(node.baseUrl + src, callback);
+    }
+    else {
+        var tag = node[0].tagName.toLowerCase();
+        switch (tag) {
+            case 'character':
+                this.parseCharacter(node, callback);
+                break;
+            case 'game':
+                this.parseGame(node, callback);
+                break;
+            case 'scene':
+                this.parseScene(node, callback);
+                break;
+            default:
+                throw new Error('No parser for node <' + tag + '>');
+        }
+    }
 }
