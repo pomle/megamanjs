@@ -88,10 +88,8 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
     return true;
 }
 
-Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
+Game.objects.characters.Megaman.prototype.routeAnimation = function()
 {
-    this.animator.timeshift(dt);
-
     if (this.teleport.state) {
         if (this.teleport.state == this.teleport.STATE_OUT) {
             return this.animator.pickAnimation('teleport-out');
@@ -135,8 +133,8 @@ Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
 
 Game.objects.characters.Megaman.prototype.timeShift = function(dt)
 {
-    this.selectSprite(dt);
-    this.animator.update();
+    this.routeAnimation();
+    this.animator.update(dt);
 
     Game.objects.Character.prototype.timeShift.call(this, dt);
 }

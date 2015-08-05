@@ -47,13 +47,9 @@ Engine.Animator.prototype.setAnimation = function(animation)
     }
 }
 
-Engine.Animator.prototype.timeshift = function(deltaTime)
+Engine.Animator.prototype.update = function(deltaTime)
 {
     this._currentAnimation.time += deltaTime;
-}
-
-Engine.Animator.prototype.update = function()
-{
     this._applyAnimation(this._currentAnimation);
 }
 
