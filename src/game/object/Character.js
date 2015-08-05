@@ -16,6 +16,8 @@ Game.objects.Character = function()
     this.direction.x = this.DIRECTION_RIGHT;
     this.isSupported = false;
     this.physics.mass = 1;
+
+    this.animator = undefined;
 }
 
 Game.objects.Character.prototype.EVENT_DEATH = 'death';
