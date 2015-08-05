@@ -2,7 +2,6 @@ Engine.traits.Physics = function()
 {
     Engine.Trait.call(this);
 
-    this.enabled = true;
     this.mass = 0;
     this.inertia = new THREE.Vector2();
     this.momentum = new THREE.Vector2();
@@ -22,7 +21,7 @@ Engine.traits.Physics.prototype.__obstruct = function(object, attack)
 
 Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
-    if (this.enabled && dt) {
+    if (dt !== 0) {
         /* It is very important that gravity is applied before the
            velocity is summed. Otherwise objects will not be pulled into the
            ground between ticks and collision detection in resting
@@ -51,6 +50,28 @@ Engine.traits.Physics.prototype.bump = function(x, y)
 {
     this.inertia.x += x;
     this.inertia.y += y;
+}
+
+Engine.traits.Physics.prototype.off = function()
+{
+    var h = this._host,
+        e = h.EVENT_TIMESHIFT,
+        c = this.__timeshift;
+
+    if (h.bound(e, c)) {
+        h.unbind(e, c);
+    }
+}
+
+Engine.traits.Physics.prototype.on = function()
+{
+    var h = this._host,
+        e = h.EVENT_TIMESHIFT,
+        c = this.__timeshift;
+
+    if (!h.bound(e, c)) {
+        h.bind(e, c);
+    }
 }
 
 Engine.traits.Physics.prototype.zero = function()
