@@ -36,7 +36,7 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 
 Engine.traits.Physics.prototype._applyGravity = function(dt)
 {
-    if (this.mass === 0) {
+    if (this.mass === 0 || this._host.world === undefined) {
         return false;
     }
     var g = this._host.world.gravityForce;
