@@ -42,6 +42,10 @@ Engine.Timeline.prototype.getIndexAtTime = function(time)
         there's a chance this will crash because the accumulative durations
         are less than infiniteTime.
     */
+    if (this.frames.length === 1) {
+        return 0;
+    }
+
     time = this.getLoopTime(time);
     var i = 0, incrementalTime = 0, index = 0;
     do {
