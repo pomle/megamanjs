@@ -1,4 +1,4 @@
-<character source="Megaman" id="Megaman">
+<character source="Megaman">
 
     <model w="48" h="48">
         <collision>
