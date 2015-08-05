@@ -50,7 +50,9 @@ Engine.traits.Move.prototype.__timeshift = function(deltaTime)
     }
     this._physics.momentum.set(0, 0);
     if (this._walk) {
-        this._host.direction.x = this._walk > 0 ? this._host.DIRECTION_RIGHT : this._host.DIRECTION_LEFT;
+        var dir = this._walk > 0 ? this._host.DIRECTION_RIGHT : this._host.DIRECTION_LEFT;
+        this._host.model.scale.x = dir;
+        this._host.direction.x = dir;
     }
     this.calculateSpeed(deltaTime);
     this._physics.momentum.x = this._moveSpeed * this._walk;

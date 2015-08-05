@@ -149,7 +149,6 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
 
 Game.objects.characters.Megaman.prototype.selectSprite = function(dt)
 {
-    this.sprites.setDirection(this.direction.x);
 
     if (this.teleport.state) {
         if (this.teleport.state == this.teleport.STATE_OUT) {
