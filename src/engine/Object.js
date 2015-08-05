@@ -15,8 +15,7 @@ Engine.Object = function()
     this.velocity = new THREE.Vector2();
     this.world = undefined;
 
-    var model = new THREE.Mesh(this.geometry, this.material);
-    this.setModel(model);
+    this.setModel(new THREE.Mesh(this.geometry, this.material));
 }
 
 Engine.Util.mixin(Engine.Object, Engine.Events);
