@@ -45,8 +45,7 @@
                         <frame x="0"  y="0" />
                     </animation>
                     <animation id="teleport-out">
-                        <frame x="0"  y="144" duration=".05" />
-                        <frame x="44" y="144" duration=".05" />
+                        <frame x="144" y="144" duration=".05" />
                         <frame x="96" y="144" duration=".05" />
                         <frame x="0"  y="144" />
                     </animation>
