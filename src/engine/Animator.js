@@ -14,6 +14,13 @@ Engine.Animator.prototype.addAnimation = function(id, animation)
     this.animations[id] = animation;
 }
 
+Engine.Animator.prototype.copy = function(animator)
+{
+    this._currentAnimation = animator._currentAnimation;
+    this._currentId = animator._currentId;
+    this.animations = animator.animations;
+}
+
 Engine.Animator.prototype.createAnimation = function(id, group)
 {
     var animation = new Engine.Animator.Animation();
@@ -34,7 +41,6 @@ Engine.Animator.prototype.pickAnimation = function(id)
     }
 
     this.setAnimation(animation);
-    this._currentAnimation = animation;
     this._currentId = id;
 }
 
