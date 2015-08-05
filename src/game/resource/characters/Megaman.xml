@@ -1,0 +1,68 @@
+<character source="Megaman" id="Megaman">
+
+    <model w="48" h="48">
+        <collision>
+            <rect x="0" y="0" w="14" h="22" />
+        </collision>
+        <textures>
+            <texture url="megaman.png" w="256" h="256">
+                <animations>
+                    <animation id="idle" default="true">
+                        <frame x="0" y="0" duration="3.85" />
+                        <frame x="48" y="0" duration=".15" />
+                    </animation>
+                    <animation id="lean">
+                        <frame x="144" y="48" />
+                    </animation>
+                    <animation id="jump">
+                        <frame x="144" y="0" />
+                    </animation>
+                    <animation id="fire">
+                        <frame x="96" y="0" />
+                    </animation>
+                    <animation id="jump-fire">
+                        <frame x="192" y="0" />
+                    </animation>
+                    <animation id="run" group="run">
+                        <frame x="48" y="48" duration=".12" />
+                        <frame x="0"  y="48" duration=".12" />
+                        <frame x="48" y="48" duration=".12" />
+                        <frame x="96" y="48" duration=".12" />
+                    </animation>
+                    <animation id="run-fire" group="run">
+                        <frame x="48" y="96" duration=".12" />
+                        <frame x="0"  y="96" duration=".12" />
+                        <frame x="48" y="96" duration=".12" />
+                        <frame x="96" y="96" duration=".12" />
+                    </animation>
+                    <animation id="teleport">
+                        <frame x="0" y="144" />
+                    </animation>
+                    <animation id="teleport-in">
+                        <frame x="44" y="144" duration=".05" />
+                        <frame x="96" y="144" duration=".05" />
+                        <frame x="0"  y="144" duration=".05" />
+                        <frame x="0"  y="0" />
+                    </animation>
+                    <animation id="teleport-out">
+                        <frame x="0"  y="144" duration=".05" />
+                        <frame x="44" y="144" duration=".05" />
+                        <frame x="96" y="144" duration=".05" />
+                        <frame x="0"  y="144" />
+                    </animation>
+                    <animation id="stunned">
+                        <frame x="192" y="48" duration=".08" />
+                        <frame x="192" y="96" duration=".08" />
+                    </animation>
+                </animations>
+            </texture>
+        </textures>
+    </model>
+
+    <traits>
+        <trait source="Invincibility" id="invincibility" duration="2" />
+        <trait source="Jump" id="jump" force="180"/>
+        <trait source="Physics" id="physics" />
+        <trait source="Weapon" id="weapon" />
+    </traits>
+</character>
