@@ -8,9 +8,49 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
     var world = new Engine.World();
     this.world = world;
     this.level = new Game.scenes.Level(loader.game, this.world);
+
+    this.animations = {};
+    this.faceAnimators = {};
+    this.models = {};
+
+    this.baseUrl = undefined;
 }
 
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser, Game.Loader.XML.Parser);
+
+Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callback)
+{
+    if (!levelNode.is('scene[type=level]')) {
+        throw new TypeError('Node not <scene type="level">');
+    }
+
+    var parser = this;
+    var loader = parser.loader;
+    var level = this.level;
+
+    this.parseCamera(levelNode);
+    this.parseGravity(levelNode);
+
+    levelNode.find('> texture').each(function() {
+        var node = $(this);
+        parser.parseTexture(node);
+    });
+
+    levelNode.find('> models > model').each(function() {
+        parser.parseModel($(this));
+    });
+
+    this.parseLayout(levelNode);
+
+    levelNode.find('> checkpoints > checkpoint').each(function() {
+        var checkpointNode = $(this);
+        var c = parser.getVector2(checkpointNode);
+        var r = parseFloat(checkpointNode.attr('radius'));
+        level.addCheckPoint(c.x, c.y, r || undefined);
+    });
+
+    this.callback(this.level);
+}
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
 {
@@ -53,236 +93,76 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseGravity = function(levelNode)
     });
 }
 
-Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callback)
+Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
 {
-    if (!levelNode.is('scene[type=level]')) {
-        throw new TypeError('Node not <scene type="level">');
-    }
-
     var parser = this;
-    var loader = parser.loader;
-    var level = this.level;
+    var level = parser.level;
 
-    this.parseCamera(levelNode);
-    this.parseGravity(levelNode);
+    levelNode.find('> layout').each(function() {
+        var layoutNode = $(this);
 
-    var spriteIndex = {};
-    var objectIndex = {};
-    var animationIndex = {};
+        layoutNode.find('> background').each(function() {
+            backgroundNode = $(this);
+            var modelId = backgroundNode.attr('model');
 
+            var background = new parser.models[modelId]();
 
-    function getObject(ref)
-    {
-        if (!objectIndex[ref]) {
-            throw new Error("No object reference '" + ref + "'");
-        }
-        return objectIndex[ref];
-    }
+            var position = parser.getVector2(backgroundNode);
+            background.position.x = position.x + (background._size.x / 2);
+            background.position.y = position.y - (background._size.y / 2);
+            background.position.z = 0;
 
-    function getSprite(ref)
-    {
-        if (!spriteIndex[ref]) {
-            throw new Error("No sprite '" + ref + "'");
-        }
-        return spriteIndex[ref];
-    }
-
-    function createObjects() {
-        levelNode.find('> sprites').each(function(i, sprites) {
-            sprites = $(sprites);
-
-            var url = levelNode.baseUrl + sprites.attr('url');
-            var size = {
-                'w': parseFloat(sprites.attr('w')),
-                'h': parseFloat(sprites.attr('h')),
-            };
-
-            var texture = Engine.TextureManager.getTexture(url);
-            sprites.children('sprite').each(function(i, sprite) {
-                sprite = $(sprite);
-                var bounds = {
-                    'x': parseFloat(sprite.attr('x')),
-                    'y': parseFloat(sprite.attr('y')),
-                    'w': parseFloat(sprite.attr('w')),
-                    'h': parseFloat(sprite.attr('h')),
-                };
-
-                var uvMap = Engine.SpriteManager.createUVMap(bounds.x, bounds.y, bounds.w, bounds.h, size.w, size.h);
-                spriteIndex[sprite.attr('id')] = {
-                    'uvMap': uvMap,
-                    'texture': texture,
-                }
-            });
-
-            sprites.children('animation').each(function(i, anim) {
-                anim = $(anim);
-                var timeline = new Engine.Timeline();
-                timeline.name = anim.attr('name');
-                anim.children('frame').each(function(i, frame) {
-                    frame = $(frame);
-                    timeline.addFrame(getSprite(frame.attr('sprite')).uvMap, parseFloat(frame.attr('duration')));
-                });
-                level.world.addTimeline(timeline);
-                animationIndex[anim.attr('name')] = {
-                    "timeline": timeline,
-                    "texture": texture,
-                };
-            });
-
-
-            levelNode.find('objects > object').each(function(i, object) {
-                object = $(object);
-                var objectId = object.attr('id');
-                var size = {
-                    'w': parseFloat(object.attr('w')),
-                    'h': parseFloat(object.attr('h')),
-                    'wseg': parseFloat(object.attr('segments-w')) || 1,
-                    'hseg': parseFloat(object.attr('segments-h')) || 1,
-                };
-
-                var geometry = new THREE.PlaneGeometry(size.w, size.h, size.wseg, size.hseg);
-
-                object.children().each(function(i, face) {
-                    face = $(face);
-                    var ref = face.attr('ref');
-                    if (face.is('animation')) {
-                        var offset = parseFloat(face.attr('offset')) || 0;
-                        var animator = new Engine.UVAnimator(animationIndex[ref].timeline, geometry, offset);
-                        animator.addFaceIndex(i*2);
-                    }
-                    else if (face.is('sprite')) {
-                        geometry.faceVertexUvs[i] = getSprite(ref).uvMap;
-                    }
-                    else if (face.is('empty')) {
-
-                    }
-                    else {
-                        throw new Error('Unsupported face ' + face[0].localName);
-                    }
-                });
-
-                objectIndex[objectId] = {
-                    'size': size,
-                    'geometry': geometry,
-                    'texture': texture
-                };
-            });
+            level.world.scene.add(background.model);
         });
-    }
-
-    createObjects();
-
-    var layoutNode = levelNode.children('layout');
+    });
 
 
-    var backgroundGeometry = new THREE.Geometry();
-    layoutNode.find('background').each(function(i, backgroundNode) {
-        backgroundNode = $(backgroundNode);
-        var prop = {
-            'x': parseFloat(backgroundNode.attr('x')),
-            'y': parseFloat(backgroundNode.attr('y')),
-            'w': parseFloat(backgroundNode.attr('w')),
-            'h': parseFloat(backgroundNode.attr('h')),
-            'wx': parseFloat(backgroundNode.attr('w-segments')),
-            'hx': parseFloat(backgroundNode.attr('h-segments')),
-        };
-        var geometry = new THREE.PlaneGeometry(prop.w, prop.h, prop.wx, prop.hx);
-        var texture;
-        backgroundNode.children().each(function(i, faceNode) {
-            faceNode = $(faceNode);
-            var ref = faceNode.attr('ref');
-            if (faceNode.is('animation')) {
-                var offset = parseFloat(faceNode.attr('offset')) || 0;
-                texture = animationIndex[ref].texture;
-                var animator = new Engine.UVAnimator(animationIndex[ref].timeline, geometry, offset);
-            }
-            else if (faceNode.is('sprite')) {
-                texture = getSprite(ref).texture;
-                var uvMap = getSprite(ref).uvMap;
-            }
-            else {
-                throw new Error('Unsupported face ' + faceNode[0].localName);
-            }
-
-            faceNode.find('segment').each(function(i, segmentNode) {
-                segmentNode = $(segmentNode);
-                var range = {
-                    'x': parser.getRange(segmentNode, 'x', prop.wx),
-                    'y': parser.getRange(segmentNode, 'y', prop.hx),
-                };
-
-                var i, j, x, y, faceIndex;
-                for (i in range.x) {
-                    x = range.x[i] - 1;
-                    for (j in range.y) {
-                        y = range.y[j] - 1;
-                        faceIndex = (x + (y * prop.wx)) * 2;
-                        if (animator) {
-                            animator.addFaceIndex(faceIndex);
-                        }
-                        else {
-                            geometry.faceVertexUvs[0][faceIndex] = uvMap[0];
-                            geometry.faceVertexUvs[0][faceIndex+1] = uvMap[1];
-                        }
-                    }
-                }
-            });
-        });
+    levelNode.find('> layout > solids').each(function() {
+        var solidsNode = $(this);
 
         var material = new THREE.MeshBasicMaterial({
-            map: texture,
-            side: THREE.FrontSide,
+            color: 'white',
+            wireframe: true,
+            visible: false,
         });
 
-        var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = prop.x + (prop.w / 2);
-        mesh.position.y = -(prop.y + (prop.h / 2));
-        mesh.position.z = 0;
+        solidsNode.children().each(function(i, solidNode) {
+            solidNode = $(solidNode);
+            var prop = {
+                'x': parseFloat(solidNode.attr('x')),
+                'y': parseFloat(solidNode.attr('y')),
+                'w': parseFloat(solidNode.attr('w')),
+                'h': parseFloat(solidNode.attr('h')),
+            }
 
-        level.world.scene.add(mesh);
+            /* Put code to calculated collisionradius needed somehow here
+            var c2 = collisionRadius * 2;
+            if (prop.w > c2 || prop.h > c2) {
+                console.error('Solid beyond collision radius %f.', collisionRadius, prop);
+            }
+            */
+
+            var geometry = new THREE.PlaneGeometry(prop.w, prop.h);
+
+            var solid = new Game.objects.Solid();
+            solid.position.x = prop.x + (prop.w / 2);
+            solid.position.y = -(prop.y + (prop.h / 2));
+            solid.addCollisionGeometry(geometry);
+
+            var attackNodes = solidNode.find('> attack');
+            if (attackNodes.length) {
+                solid.attackAccept = [];
+                attackNodes.each(function(i, attackNode) {
+                    var direction = $(attackNode).attr('direction');
+                    solid.attackAccept.push(solid[direction.toUpperCase()]);
+                });
+            }
+
+            level.world.addObject(solid);
+        });
     });
 
-    /* FOR MERGING
-    //var levelGeometry = new THREE.Geometry();
-        //mesh.updateMatrix();
-        //levelGeometry.merge(mesh.geometry, mesh.matrix);
-    //var levelMesh = new THREE.Mesh(levelGeometry, new THREE.MeshFaceMaterial(materials));
-    //level.level.add(levelMesh);
-    */
-    layoutNode.find('objects > object').each(function(i, objectNode) {
-        objectNode = $(objectNode);
-
-        var ref = objectNode.attr('ref');
-        var object = getObject(ref);
-
-        var material = new THREE.MeshBasicMaterial();
-        material.map = object.texture;
-        material.side = THREE.DoubleSide;
-
-        //materials.push(spriteIndex[id].material);
-        var rangeX = parser.getRange(objectNode, 'x');
-        var rangeY = parser.getRange(objectNode, 'y');
-
-        for (var i in rangeX) {
-            var mesh = new THREE.Mesh(object.geometry, material);
-            mesh.position.x = rangeX[i] + (object.size.w / 2);
-            mesh.position.y = -(rangeY[i] + (object.size.h / 2));
-            level.world.scene.add(mesh);
-        }
-
-        var rotate = parseFloat(objectNode.attr('rotate'));
-        if (isFinite(rotate)) {
-            mesh.rotation.z = -(Math.PI/180)*rotate;
-        }
-
-        var flip = objectNode.attr('flip');
-        if (flip == 'x') {
-            mesh.scale.x = -1;
-        }
-        if (flip == 'y') {
-            mesh.scale.y = -1;
-        }
-    });
+    return;
 
     layoutNode.find('enemies > enemy').each(function(i, enemyNode) {
         enemyNode = $(enemyNode);
@@ -377,59 +257,168 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         level.world.addObject(obstacle);
     });
 
-    levelNode.find('> layout > solids').each(function() {
-        var solidsNode = $(this);
-        var expose = (solidsNode.attr('expose') == 'true');
+    /* FOR MERGING
+    //var levelGeometry = new THREE.Geometry();
+        //mesh.updateMatrix();
+        //levelGeometry.merge(mesh.geometry, mesh.matrix);
+    //var levelMesh = new THREE.Mesh(levelGeometry, new THREE.MeshFaceMaterial(materials));
+    //level.level.add(levelMesh);
+    */
+    layoutNode.find('objects > object').each(function(i, objectNode) {
+        objectNode = $(objectNode);
 
-        var material = new THREE.MeshBasicMaterial({
-            color: 'white',
-            wireframe: true,
-            visible: expose,
-        });
+        var ref = objectNode.attr('ref');
+        var object = getObject(ref);
 
-        solidsNode.children().each(function(i, solidNode) {
-            solidNode = $(solidNode);
-            var prop = {
-                'x': parseFloat(solidNode.attr('x')),
-                'y': parseFloat(solidNode.attr('y')),
-                'w': parseFloat(solidNode.attr('w')),
-                'h': parseFloat(solidNode.attr('h')),
+        var material = new THREE.MeshBasicMaterial();
+        material.map = object.texture;
+        material.side = THREE.DoubleSide;
+
+        //materials.push(spriteIndex[id].material);
+        var rangeX = parser.getRange(objectNode, 'x');
+        var rangeY = parser.getRange(objectNode, 'y');
+
+        for (var i in rangeX) {
+            var mesh = new THREE.Mesh(object.geometry, material);
+            mesh.position.x = rangeX[i] + (object.size.w / 2);
+            mesh.position.y = -(rangeY[i] + (object.size.h / 2));
+            level.world.scene.add(mesh);
+        }
+
+        var rotate = parseFloat(objectNode.attr('rotate'));
+        if (isFinite(rotate)) {
+            mesh.rotation.z = -(Math.PI/180)*rotate;
+        }
+
+        var flip = objectNode.attr('flip');
+        if (flip == 'x') {
+            mesh.scale.x = -1;
+        }
+        if (flip == 'y') {
+            mesh.scale.y = -1;
+        }
+    });
+}
+
+Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
+{
+    var parser = this;
+
+    var modelId = modelNode.attr('id');
+    var geometryNode = modelNode.find('> geometry');
+    var geometry = parser.getGeometry(geometryNode);
+    var size = parser.getVector2(geometryNode, 'w', 'h');
+    var segs = parser.getVector2(geometryNode, 'w-segments', 'h-segments');
+
+    var textures = [];
+    var faceAnimators = parser.faceAnimators;
+
+    modelNode.find('> tile').each(function() {
+        var tileNode = $(this);
+        var tileId = tileNode.attr('id');
+        var offset = parseFloat(tileNode.attr('offset')) || 0;
+        var animation = parser.animations[tileId];
+
+        tileNode.find('> face').each(function() {
+            var faceNode = $(this);
+
+            var animationId = faceNode.attr('id');
+            var animation = parser.animations[animationId].animation;
+
+            if (!faceAnimators[animationId]) {
+                var animator = new Engine.Animator.UV();
+                animator.update = animator.update.bind(animator);
+                animator.setAnimation(animation);
+                if (animation.frames > 1) {
+                    var world = parser.level.world;
+                    world.events.bind(world.EVENT_UPDATE, animator.update);
+                }
+                faceAnimators[animationId] = animator;
+            }
+            else {
+                var animator = faceAnimators[animationId];
             }
 
-            /* Put code to calculated collisionradius needed somehow here
-            var c2 = collisionRadius * 2;
-            if (prop.w > c2 || prop.h > c2) {
-                console.error('Solid beyond collision radius %f.', collisionRadius, prop);
+            textures.push(parser.animations[animationId].texture);
+            animator.addGeometry(geometry);
+
+            /* If animation contains multiple frames, bind
+               update function to worlds update event. */
+
+            var range = {
+                'x': parser.getRange(faceNode, 'x', segs.x),
+                'y': parser.getRange(faceNode, 'y', segs.y),
+            };
+
+            animator.indices = [];
+
+            var i, j, x, y, segIndex;
+            for (i in range.x) {
+                x = range.x[i] - 1;
+                for (j in range.y) {
+                    y = range.y[j] - 1;
+                    segIndex = (x + (y * segs.x)) * 2;
+                    animator.indices.push(segIndex);
+                }
             }
-            */
-
-            var geometry = new THREE.PlaneGeometry(prop.w, prop.h);
-
-            var solid = new Game.objects.Solid();
-            solid.position.x = prop.x + (prop.w / 2);
-            solid.position.y = -(prop.y + (prop.h / 2));
-            solid.addCollisionGeometry(geometry);
-
-            var attackNodes = solidNode.find('> attack');
-            if (attackNodes.length) {
-                solid.attackAccept = [];
-                attackNodes.each(function(i, attackNode) {
-                    var direction = $(attackNode).attr('direction');
-                    solid.attackAccept.push(solid[direction.toUpperCase()]);
-                });
-            }
-
-            level.world.addObject(solid);
         });
     });
 
-    levelNode.find('> checkpoints > checkpoint').each(function() {
-        var checkpointNode = $(this);
-        var x = parseFloat(checkpointNode.attr('x'));
-        var y = parseFloat(checkpointNode.attr('y'));
-        var r = parseFloat(checkpointNode.attr('radius'));
-        level.addCheckPoint(x, -y, r || undefined);
+    var material = new THREE.MeshBasicMaterial({
+        map: textures[0],
+        side: THREE.FrontSide,
     });
 
-    this.callback(this.level);
+    var constructor = function()
+    {
+        this._modelId = modelId;
+        this._size = size;
+
+        this.geometry = geometry;
+        this.material = material;
+
+        var updateAnimators = function(deltaTime)
+        {
+            for (var i in animators) {
+                animators[i].update(deltaTime);
+            }
+        }
+
+        Engine.Object.call(this);
+
+        this.bind(this.EVENT_TIMESHIFT, updateAnimators);
+    }
+
+    Engine.Util.extend(constructor, Engine.Object);
+
+    this.models[modelId] = constructor;
+}
+
+Game.Loader.XML.Parser.LevelParser.prototype.parseTexture = function(textureNode)
+{
+    var parser = this;
+    var textureSize = parser.getVector2(textureNode, 'w', 'h');
+    var texture = parser.getTexture(textureNode);
+
+    textureNode.find('animation').each(function() {
+        var animationNode = $(this);
+        var animation = new Engine.Animator.Animation();
+        animationNode.find('> frame').each(function() {
+            var frameNode = $(this);
+            var frameOffset = parser.getVector2(frameNode, 'x', 'y');
+            var frameSize = parser.getVector2(frameNode, 'w', 'h');
+
+            var uvMap = Engine.SpriteManager.createUVMap(frameOffset.x, frameOffset.y,
+                                                         frameSize.x,   frameSize.y,
+                                                         textureSize.x, textureSize.y);
+
+            var duration = parseFloat(frameNode.attr('duration')) || undefined;
+            animation.addFrame(uvMap, duration);
+        });
+        parser.animations[animationNode.attr('id')] = {
+            'animation': animation,
+            'texture': texture,
+            'mounted': false,
+        }
+    });
 }

@@ -45,125 +45,731 @@
         </path>
     </camera>
 
-    <sprites url="./heatman/tiles.png" w="256" h="128">
-        <sprite id="bricks-big" x="145" y="55" w="16" h="16"/>
-        <sprite id="bricks-big-bottom" x="199" y="55" w="16" h="16"/>
-        <sprite id="bricks-big-top" x="127" y="55" w="16" h="16"/>
-        <sprite id="bricks-small" x="181" y="55" w="16" h="16"/>
-        <sprite id="concrete-bottom" x="37" y="55" w="16" h="16"/>
-        <sprite id="concrete-fill" x="19" y="55" w="16" h="16"/>
-        <sprite id="concrete-lower" x="73" y="55" w="16" h="16"/>
-        <sprite id="concrete-top" x="1" y="55" w="16" h="16"/>
-        <sprite id="concrete-upper" x="55" y="55" w="16" h="16"/>
-        <sprite id="darkness" x="235" y="19" w="16" h="16"/>
-        <sprite id="door" x="109" y="55" w="16" h="16"/>
-        <sprite id="dr-wily-sign" x="217" y="39" w="32" h="30"/>
-        <sprite id="hole" x="91" y="19" w="16" h="16"/>
-        <sprite id="ladder" x="91" y="37" w="16" h="16"/>
-        <sprite id="lava-edge-1" x="163" y="1" w="16" h="16"/>
-        <sprite id="lava-edge-2" x="163" y="19" w="16" h="16"/>
-        <sprite id="lava-edge-3" x="163" y="37" w="16" h="16"/>
-        <sprite id="lava-hori-1-1" x="127" y="1" w="16" h="16"/>
-        <sprite id="lava-hori-1-2" x="127" y="19" w="16" h="16"/>
-        <sprite id="lava-hori-1-3" x="127" y="37" w="16" h="16"/>
-        <sprite id="lava-hori-2-1" x="145" y="1" w="16" h="16"/>
-        <sprite id="lava-hori-2-2" x="145" y="19" w="16" h="16"/>
-        <sprite id="lava-hori-2-3" x="145" y="37" w="16" h="16"/>
-        <sprite id="lava-vert-1-1" x="181" y="1" w="16" h="16"/>
-        <sprite id="lava-vert-1-2" x="181" y="19" w="16" h="16"/>
-        <sprite id="lava-vert-1-3" x="181" y="37" w="16" h="16"/>
-        <sprite id="lava-vert-2-1" x="199" y="1" w="16" h="16"/>
-        <sprite id="lava-vert-2-2" x="199" y="19" w="16" h="16"/>
-        <sprite id="lava-vert-2-3" x="199" y="37" w="16" h="16"/>
-        <sprite id="mortar-1" x="1" y="1" w="16" h="16"/>
-        <sprite id="mortar-10" x="37" y="19" w="16" h="16"/>
-        <sprite id="mortar-2" x="19" y="1" w="16" h="16"/>
-        <sprite id="mortar-3" x="37" y="1" w="16" h="16"/>
-        <sprite id="mortar-3-shaded" x="55" y="37" w="16" h="16"/>
-        <sprite id="mortar-4" x="55" y="1" w="16" h="16"/>
-        <sprite id="mortar-4-shaded" x="109" y="19" w="16" h="16"/>
-        <sprite id="mortar-5" x="73" y="1" w="16" h="16"/>
-        <sprite id="mortar-5-shaded" x="1" y="37" w="16" h="16"/>
-        <sprite id="mortar-6" x="91" y="1" w="16" h="16"/>
-        <sprite id="mortar-6-shaded" x="19" y="37" w="16" h="16"/>
-        <sprite id="mortar-7" x="109" y="1" w="16" h="16"/>
-        <sprite id="mortar-7-shaded" x="37" y="37" w="16" h="16"/>
-        <sprite id="mortar-8" x="1" y="19" w="16" h="16"/>
-        <sprite id="mortar-8-shaded" x="55" y="19" w="16" h="16"/>
-        <sprite id="mortar-9" x="19" y="19" w="16" h="16"/>
-        <sprite id="mortar-9-shaded" x="73" y="19" w="16" h="16"/>
-        <sprite id="pillar" x="163" y="55" w="16" h="16"/>
-        <sprite id="sign-n" x="109" y="37" w="16" h="16"/>
-        <sprite id="sign-s" x="217" y="19" w="16" h="16"/>
-        <sprite id="sign-sw" x="235" y="1" w="16" h="16"/>
-        <sprite id="sign-w" x="217" y="1" w="16" h="16"/>
+    <texture id="heatman-stage" url="./heatman/tiles.png" w="256" h="128">
+        <animation id="bricks-big">
+            <frame x="145" y="55" w="16" h="16"/>
+        </animation>
 
+        <animation id="bricks-big-bottom">
+            <frame x="199" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="bricks-big-top">
+            <frame x="127" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="bricks-small">
+            <frame x="181" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="concrete-bottom">
+            <frame x="37" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="concrete-fill">
+            <frame x="19" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="concrete-lower">
+            <frame x="73" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="concrete-top">
+            <frame x="1" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="concrete-upper">
+            <frame x="55" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="darkness">
+            <frame x="235" y="19" w="16" h="16"/>
+        </animation>
+
+        <animation id="door">
+            <frame x="109" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="dr-wily-sign">
+            <frame x="217" y="39" w="32" h="30"/>
+        </animation>
+
+        <animation id="hole">
+            <frame x="91" y="19" w="16" h="16"/>
+        </animation>
+
+        <animation id="ladder">
+            <frame x="91" y="37" w="16" h="16"/>
+        </animation>
 
         <animation name="lava-hori-1">
-            <frame sprite="lava-hori-1-1" duration=".11"/>
-            <frame sprite="lava-hori-1-2" duration=".11"/>
-            <frame sprite="lava-hori-1-3" duration=".11"/>
+            <frame x="127" y="1"  w="16" h="16" duration=".11" />
+            <frame x="127" y="19" w="16" h="16" duration=".11" />
+            <frame x="127" y="37" w="16" h="16" duration=".11" />
         </animation>
 
         <animation name="lava-hori-2">
-            <frame sprite="lava-hori-2-1" duration=".11"/>
-            <frame sprite="lava-hori-2-2" duration=".11"/>
-            <frame sprite="lava-hori-2-3" duration=".11"/>
+            <frame x="145" y="1"  w="16" h="16" duration=".11" />
+            <frame x="145" y="19" w="16" h="16" duration=".11" />
+            <frame x="145" y="37" w="16" h="16" duration=".11" />
         </animation>
 
         <animation name="lava-vert-1">
-            <frame sprite="lava-vert-1-1" duration=".11"/>
-            <frame sprite="lava-vert-1-2" duration=".11"/>
-            <frame sprite="lava-vert-1-3" duration=".11"/>
+            <frame x="181" y="1"  w="16" h="16" duration=".11" />
+            <frame x="181" y="19" w="16" h="16" duration=".11" />
+            <frame x="181" y="37" w="16" h="16" duration=".11" />
         </animation>
 
         <animation name="lava-vert-2">
-            <frame sprite="lava-vert-2-1" duration=".11"/>
-            <frame sprite="lava-vert-2-2" duration=".11"/>
-            <frame sprite="lava-vert-2-3" duration=".11"/>
+            <frame x="199" y="1"  w="16" h="16" duration=".11" />
+            <frame x="199" y="19" w="16" h="16" duration=".11" />
+            <frame x="199" y="37" w="16" h="16" duration=".11" />
         </animation>
 
         <animation name="lava-edge">
-            <frame sprite="lava-edge-1" duration=".11"/>
-            <frame sprite="lava-edge-2" duration=".11"/>
-            <frame sprite="lava-edge-3" duration=".11"/>
+            <frame x="163" y="1" w="16" h="16" duration=".11" />
+            <frame x="163" y="19" w="16" h="16" duration=".11" />
+            <frame x="163" y="37" w="16" h="16" duration=".11"/>
         </animation>
 
+        <animation id="mortar-1">
+            <frame x="1" y="1" w="16" h="16"/>
+        </animation>
 
-        <objects>
-            <object id="dr-wily-sign" w="32" h="32">
-                <sprite ref="dr-wily-sign"/>
-            </object>
-            <!--
-            <object id="sign-scaffold" w="48" h="64" segments-w="3" segments-h="4">
-                <animation ref="sign-scaffold-w" />
-                <animation ref="sign-scaffold-n" />
-                <animation ref="sign-scaffold-n" />
-                <animation ref="sign-scaffold-w" />
-                <empty />
-                <empty />
-                <animation ref="sign-scaffold-w" />
-                <empty />
-                <empty />
-                <animation ref="sign-scaffold-sw" />
-                <animation ref="sign-scaffold-s" />
-                <animation ref="sign-scaffold-s" />
-            </object>
+        <animation id="mortar-10">
+            <frame x="37" y="19" w="16" h="16"/>
+        </animation>
 
-            <object id="door" w="16" h="64" segments-h="4">
-                <animation ref="door"/>
-                <animation ref="door"/>
-                <animation ref="door"/>
-                <animation ref="door"/>
-            </object>-->
+        <animation id="mortar-2">
+            <frame x="19" y="1" w="16" h="16"/>
+        </animation>
 
-        </objects>
-    </sprites>
+        <animation id="mortar-3">
+            <frame x="37" y="1" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-3-shaded">
+            <frame x="55" y="37" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-4">
+            <frame x="55" y="1" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-4-shaded">
+            <frame x="109" y="19" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-5">
+            <frame x="73" y="1" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-5-shaded">
+            <frame x="1" y="37" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-6">
+            <frame x="91" y="1" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-6-shaded">
+            <frame x="19" y="37" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-7">
+            <frame x="109" y="1" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-7-shaded">
+            <frame x="37" y="37" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-8">
+            <frame x="1" y="19" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-8-shaded">
+            <frame x="55" y="19" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-9">
+            <frame x="19" y="19" w="16" h="16"/>
+        </animation>
+
+        <animation id="mortar-9-shaded">
+            <frame x="73" y="19" w="16" h="16"/>
+        </animation>
+
+        <animation id="pillar">
+            <frame x="163" y="55" w="16" h="16"/>
+        </animation>
+
+        <animation id="sign-n">
+            <frame x="109" y="37" w="16" h="16"/>
+        </animation>
+
+        <animation id="sign-s">
+            <frame x="217" y="19" w="16" h="16"/>
+        </animation>
+
+        <animation id="sign-sw">
+            <frame x="235" y="1" w="16" h="16"/>
+        </animation>
+
+        <animation id="sign-w">
+            <frame x="217" y="1" w="16" h="16"/>
+        </animation>
+    </texture>
+
+    <models>
+        <model id="dr-wily-sign">
+            <geometry type="plane" w="32" h="32" />
+            <animation id="dr-wily-sign" />
+        </model>
+
+        <model id="upper-level">
+            <geometry type="plane" w="2048" h="240" w-segments="128" h-segments="15" />
+            <tile id="darkness">
+                <face x="*" y="*"/>
+            </tile>
+
+            <tile id="mortar-1">
+                <face x="*" y="2"/>
+            </tile>
+            <tile id="mortar-2">
+                <face x="*" y="3"/>
+            </tile>
+            <tile id="mortar-3">
+                <face x="*" y="4"/>
+            </tile>
+            <tile id="mortar-4">
+                <face x="*" y="5"/>
+            </tile>
+            <tile id="mortar-5">
+                <face x="*" y="6-8"/>
+            </tile>
+            <tile id="mortar-5-shaded">
+                <face x="101,121-124" y="6"/>
+                <face x="60,64,71,113-116" y="8"/>
+            </tile>
+            <tile id="mortar-6">
+                <face x="*" y="9"/>
+            </tile>
+            <tile id="mortar-6-shaded">
+                <face x="54-55,100,107" y="9"/>
+            </tile>
+            <tile id="mortar-7">
+                <face x="*" y="10"/>
+            </tile>
+            <tile id="mortar-7-shaded">
+                <face x="68,75,78,81,84,87,90,94,97,119-122" y="10"/>
+            </tile>
+            <tile id="mortar-8">
+                <face x="*" y="11"/>
+            </tile>
+            <tile id="mortar-8-shaded">
+                <face x="1-16,20-24,28-32,36-47,50-51,58,61,105" y="11"/>
+            </tile>
+            <tile id="mortar-9">
+                <face x="*" y="12"/>
+            </tile>
+            <tile id="mortar-9-shaded">
+                <face x="111-118,125" y="12"/>
+            </tile>
+            <tile id="mortar-10">
+                <face x="*" y="13"/>
+            </tile>
+
+            <tile id="hole">
+                <face x="79" y="4"/>
+                <face x="53" y="5"/>
+                <face x="43,67,73,85,93" y="6"/>
+                <face x="57" y="7"/>
+                <face x="47" y="8"/>
+                <face x="62" y="10"/>
+            </tile>
+
+            <animation ref="lava-hori-1">
+                <face x="1,5,7,11,16,18,20,22,24,26,28,32,34,36,39-49/2,52-94/2" y="13"/>
+            </animation>
+            <animation ref="lava-hori-2">
+                <face x="2,6,8,12,15,17,19,23,25,27,29,33,35,40,44,48,53-93/2" y="13"/>
+            </animation>
+            <animation ref="lava-edge">
+                <face x="95" y="13"/>
+            </animation>
+
+            <animation ref="lava-vert-1">
+                <face x="95" y="14"/>
+            </animation>
+            <animation ref="lava-vert-2">
+                <face x="95" y="15"/>
+            </animation>
+
+
+            <tile id="concrete-lower">
+                <face x="111-125" y="13"/>
+            </tile>
+            <tile id="concrete-fill">
+                <face x="119-124" y="12"/>
+            </tile>
+            <tile id="concrete-upper">
+                <face x="1-16,20-24,28-32,36-47,50-51" y="12"/>
+            </tile>
+            <tile id="concrete-lower">
+                <face x="1-94" y="14"/>
+            </tile>
+            <tile id="concrete-top">
+                <face x="119-124" y="11"/>
+                <face x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="12"/>
+            </tile>
+            <tile id="concrete-fill">
+                <face x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="13"/>
+            </tile>
+            <tile id="concrete-bottom">
+                <face x="119-124" y="13"/>
+                <face x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="14"/>
+            </tile>
+
+            <tile id="pillar">
+                <face x="101" y="7"/>
+                <face x="60,64,71" y="9"/>
+                <face x="54-55,60,64,71,100,107" y="10"/>
+                <face x="54-55,60,64,68,71,75,78,81,84,87,90,94,97" y="11"/>
+                <face x="54-55,58,60-61,64,68,71,75,78,81,84,87,90,94,105" y="12"/>
+            </tile>
+
+            <tile id="bricks-small">
+                <face x="1-2,11-22,25-30,33-40,43-96,113-128" y="1"/>
+                <face x="1-2" y="1-10"/>
+                <face x="127-128" y="*"/>
+                <face x="123-124" y="8-9"/>
+                <face x="113-114,125" y="15"/>
+            </tile>
+
+            <tile id="bricks-big">
+                <face x="115-118" y="6"/>
+                <face x="121-122" y="7"/>
+                <face x="113-116" y="9"/>
+            </tile>
+
+            <tile id="bricks-big-bottom">
+                <face x="11-22,25-30,33-40,43-96,113-126" y="2"/>
+                <face x="1-2" y="11"/>
+                <face x="123-124" y="10"/>
+            </tile>
+
+            <tile id="bricks-big-top">
+                <face x="123-124" y="7"/>
+                <face x="113-114,125" y="14"/>
+                <face x="1-6" y="15"/>
+            </tile>
+
+            <tile id="ladder">
+                <face x="126" y="13-15"/>
+            </tile>
+        </model>
+
+        <model id="vertical-1">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15" />
+            <tile id="darkness">
+                <face x="*" y="*"/>
+            </tile>
+
+            <tile id="mortar-1">
+                <face x="*" y="2"/>
+            </tile>
+            <tile id="mortar-2">
+                <face x="*" y="3"/>
+            </tile>
+            <tile id="mortar-3">
+                <face x="*" y="4"/>
+            </tile>
+            <tile id="mortar-3-shaded">
+                <face x="4" y="4"/>
+            </tile>
+            <tile id="mortar-4">
+                <face x="*" y="5"/>
+            </tile>
+            <tile id="mortar-5">
+                <face x="*" y="6-8"/>
+            </tile>
+            <tile id="mortar-5-shaded">
+                <face x="101,121-124" y="6"/>
+                <face x="60,64,71,113-116" y="8"/>
+            </tile>
+            <tile id="mortar-6">
+                <face x="*" y="9"/>
+            </tile>
+            <tile id="mortar-6-shaded">
+                <face x="54-55,100,107" y="9"/>
+            </tile>
+            <tile id="mortar-7">
+                <face x="*" y="10"/>
+            </tile>
+            <tile id="mortar-7-shaded">
+                <face x="68,75,78,81,84,87,90,94,97,119-122" y="10"/>
+            </tile>
+            <tile id="mortar-8">
+                <face x="*" y="11"/>
+            </tile>
+            <tile id="mortar-8-shaded">
+                <face x="1-16,20-24,28-32,36-47,50-51,58,61,105" y="11"/>
+            </tile>
+            <tile id="mortar-9">
+                <face x="*" y="12"/>
+            </tile>
+            <tile id="mortar-9-shaded">
+                <face x="111-118,125" y="12"/>
+            </tile>
+            <tile id="mortar-10">
+                <face x="*" y="13"/>
+            </tile>
+
+            <tile id="pillar">
+                <face x="6,9,12,14" y="11"/>
+            </tile>
+
+            <tile id="bricks-small">
+                <face x="1-2" y="*"/>
+                <face x="13" y="1"/>
+                <face x="15-16" y="*"/>
+                <face x="4" y="6-14"/>
+                <face x="4-16" y="15"/>
+            </tile>
+
+            <tile id="bricks-big-top">
+                <face x="4" y="5"/>
+                <face x="5-14" y="14"/>
+            </tile>
+
+            <tile id="bricks-big-bottom">
+                <face x="13" y="2"/>
+            </tile>
+
+            <tile id="ladder">
+                <face x="14" y="1-10"/>
+                <face x="3" y="5-15"/>
+            </tile>
+        </model>
+
+        <model id="lower-level">
+            <geometry type="plane" w="2816" h="240" w-segments="176" h-segments="15" />
+            <tile id="darkness">
+                <face x="*" y="*"/>
+            </tile>
+            <tile id="mortar-1">
+                <face x="*" y="2"/>
+            </tile>
+            <tile id="mortar-2">
+                <face x="*" y="3"/>
+            </tile>
+            <tile id="mortar-3">
+                <face x="*" y="4"/>
+            </tile>
+            <tile id="mortar-3-shaded">
+            </tile>
+            <tile id="mortar-4">
+                <face x="*" y="5"/>
+            </tile>
+            <tile id="mortar-5">
+                <face x="*" y="6-8"/>
+            </tile>
+            <tile id="mortar-6">
+                <face x="*" y="9"/>
+            </tile>
+            <tile id="mortar-6-shaded">
+                <face x="83-86" y="9"/>
+            </tile>
+            <tile id="mortar-7">
+                <face x="*" y="10"/>
+            </tile>
+            <tile id="mortar-7-shaded">
+            </tile>
+            <tile id="mortar-8">
+                <face x="*" y="11"/>
+            </tile>
+            <tile id="mortar-9">
+                <face x="*" y="12"/>
+            </tile>
+            <tile id="mortar-9-shaded">
+                <face x="3-21,24-28,31-40,43-50,53-59,63-68,69-72,75-110,161-173" y="12"/>
+            </tile>
+            <tile id="mortar-10">
+                <face x="*" y="13"/>
+            </tile>
+
+            <tile id="bricks-small">
+                <face x="1-2,4-80" y="1"/>
+                <face x="1-2,175-176" y="*"/>
+                <face x="1-21,24-28,31-40,43-50,53-59,63-68,69-72,75-110,161-173" y="14-15"/>
+            </tile>
+
+            <tile id="bricks-big-top">
+                <face x="3-21,24-28,31-40,43-50,53-59,63-68,69-72,75-110,161-173" y="13"/>
+            </tile>
+            <tile id="bricks-big-bottom">
+                <face x="4-80" y="2"/>
+            </tile>
+
+            <!-- Middle big platform -->
+            <tile id="bricks-big">
+                <face x="83-86" y="10"/>
+            </tile>
+            <tile id="bricks-big-top">
+                <face x="87-92" y="9"/>
+            </tile>
+            <tile id="bricks-big-bottom">
+                <face x="87-92" y="10"/>
+            </tile>
+            <tile id="mortar-5-shaded">
+                <face x="87-92" y="8"/>
+            </tile>
+
+            <!-- Pillars and their shadows -->
+            <tile id="pillar">
+                <face x="21" y="9-12"/>
+                <face x="28" y="6-12"/>
+                <face x="44,63" y="9-10"/>
+                <face x="54" y="6-8,11-12"/>
+            </tile>
+            <tile id="mortar-4-shaded">
+                <face x="28,54" y="5"/>
+            </tile>
+            <tile id="mortar-5-shaded">
+                <face x="21,44,63" y="8"/>
+            </tile>
+
+
+            <tile id="hole">
+                <face x="22,39,46,58" y="5"/>
+                <face x="12" y="6"/>
+                <face x="15,36" y="8"/>
+                <face x="33" y="9"/>
+            </tile>
+
+            <!-- Lava pit -->
+            <tile id="concrete-top">
+                <face x="111,140" y="12"/>
+            </tile>
+            <tile id="mortar-8-shaded">
+                <face x="111,140" y="11"/>
+            </tile>
+            <tile id="concrete-bottom">
+                <face x="111,140" y="14"/>
+            </tile>
+            <tile id="concrete-lower">
+                <face x="112-139" y="14"/>
+            </tile>
+            <tile id="concrete-fill">
+                <face x="111,140" y="13"/>
+            </tile>
+            <animation ref="lava-hori-1">
+                <face x="112-139/2" y="13"/>
+            </animation>
+            <animation ref="lava-hori-2">
+                <face x="113-139/2" y="13"/>
+            </animation>
+            <animation ref="lava-edge">
+                <face x="141" y="13"/>
+            </animation>
+            <animation ref="lava-vert-1">
+                <face x="141" y="14"/>
+            </animation>
+            <animation ref="lava-vert-2">
+                <face x="141" y="15"/>
+            </animation>
+
+            <tile id="ladder">
+                <face x="3" y="1-2"/>
+                <face x="174" y="13-15"/>
+            </tile>
+        </model>
+
+        <model id="vertical-2">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15" />
+
+            <tile id="darkness">
+                <face x="*" y="*"/>
+            </tile>
+
+            <tile id="mortar-1">
+                <face x="*" y="2"/>
+            </tile>
+            <tile id="mortar-2">
+                <face x="*" y="3"/>
+            </tile>
+            <tile id="mortar-3">
+                <face x="*" y="4"/>
+            </tile>
+            <tile id="mortar-4">
+                <face x="*" y="5"/>
+            </tile>
+            <tile id="mortar-5">
+                <face x="*" y="6-8"/>
+            </tile>
+            <tile id="mortar-6">
+                <face x="*" y="9"/>
+            </tile>
+            <tile id="mortar-7">
+                <face x="*" y="10"/>
+            </tile>
+            <tile id="mortar-8">
+                <face x="*" y="11"/>
+            </tile>
+            <tile id="mortar-8-shaded">
+                <face x="5-13" y="11"/>
+            </tile>
+
+            <tile id="bricks-small">
+                <face x="1-3,15-16" y="6-10"/>
+            </tile>
+            <tile id="bricks-big-top">
+                <face x="1-3,15-16" y="5"/>
+                <face x="1-8" y="15"/>
+            </tile>
+            <tile id="bricks-big-bottom">
+                <face x="*" y="1"/>
+                <face x="1-3,15-16" y="11"/>
+            </tile>
+
+            <tile id="concrete-fill">
+                <face x="*" y="3,13"/>
+            </tile>
+            <tile id="concrete-top">
+                <face x="*" y="2,12"/>
+            </tile>
+            <tile id="concrete-bottom">
+                <face x="*" y="4,14"/>
+            </tile>
+            <tile id="concrete-upper">
+                <face x="3-7,11-12" y="2"/>
+                <face x="1-2,7-8,10-14" y="12"/>
+            </tile>
+            <tile id="concrete-lower">
+                <face x="3-7,11-12" y="4"/>
+                <face x="1-2,7-8,10-14" y="14"/>
+            </tile>
+
+            <animation ref="lava-hori-1">
+                <face x="3-7/2,11" y="3"/>
+                <face x="1,7,10-14/2" y="13"/>
+            </animation>
+            <animation ref="lava-hori-2">
+                <face x="4-7/2,12" y="3"/>
+                <face x="2,8,11-14/2" y="13"/>
+            </animation>
+
+            <tile id="ladder">
+                <face x="14" y="1-11"/>
+                <face x="4" y="12-15"/>
+            </tile>
+        </model>
+
+        <model id="boss-level">
+            <geometry type="plane" w="768" h="240" w-segments="48" h-segments="15" />
+            <tile id="darkness">
+                <face x="*" y="*"/>
+            </tile>
+            <tile id="mortar-1">
+                <face x="*" y="2"/>
+            </tile>
+            <tile id="mortar-2">
+                <face x="*" y="3"/>
+            </tile>
+            <tile id="mortar-3">
+                <face x="*" y="4"/>
+            </tile>
+            <tile id="mortar-4">
+                <face x="*" y="5"/>
+            </tile>
+            <tile id="mortar-5">
+                <face x="*" y="6-8"/>
+            </tile>
+            <tile id="mortar-6">
+                <face x="*" y="9"/>
+            </tile>
+            <tile id="mortar-7">
+                <face x="*" y="10"/>
+            </tile>
+            <tile id="mortar-8">
+                <face x="*" y="11"/>
+            </tile>
+            <tile id="mortar-9-shaded">
+                <face x="*" y="12"/>
+            </tile>
+
+            <tile id="bricks-small">
+                <face x="5-8" y="1-2"/>
+                <face x="33-48" y="1"/>
+                <face x="1-3" y="*"/>
+                <face x="1-16" y="12-15"/>
+                <face x="33" y="2-6"/>
+                <face x="48" y="2-12"/>
+            </tile>
+            <tile id="bricks-big-top">
+                <face x="4-33" y="11"/>
+                <face x="17-32" y="5"/>
+            </tile>
+            <tile id="bricks-big-bottom">
+                <face x="17-33" y="6,12"/>
+                <face x="34-47" y="2"/>
+                <face x="5-8" y="3"/>
+            </tile>
+
+            <!-- Sign -->
+            <tile id="sign-w">
+                <face x="14" y="1-5"/>
+            </tile>
+            <tile id="sign-sw">
+                <face x="14" y="6"/>
+            </tile>
+            <tile id="sign-s">
+                <face x="15-16" y="6"/>
+            </tile>
+            <tile id="sign-n">
+                <face x="15-16" y="1-5"/>
+            </tile>
+
+            <tile id="ladder">
+                <face x="4" y="1-3"/>
+            </tile>
+
+            <tile id="concrete-top">
+                <face x="33-48" y="13"/>
+            </tile>
+            <tile id="concrete-fill">
+                <face x="33-48" y="14"/>
+            </tile>
+            <tile id="concrete-bottom">
+                <face x="33-48" y="15"/>
+            </tile>
+            <tile id="concrete-upper">
+                <face x="34-35,38-43,46-47" y="13"/>
+            </tile>
+            <tile id="concrete-lower">
+                <face x="34-35,38-43,46-47" y="15"/>
+            </tile>
+            <animation ref="lava-hori-1">
+                <face x="34,38-43/2,46" y="14"/>
+            </animation>
+            <animation ref="lava-hori-2">
+                <face x="35,39-43/2,47" y="14"/>
+            </animation>
+
+            <tile id="darkness">
+                <face x="17-32" y="1-4"/>
+            </tile>
+        </model>
+    </models>
+
+
     <layout>
-        <objects>
-            <object ref="dr-wily-sign" x="4576" y="1008"/>
-        </objects>
-
+        <background model="upper-level" x="0"    y="0"   />
+        <background model="vertical-1"  x="1792" y="240" />
+        <background model="lower-level" x="1792" y="480" />
+        <background model="vertical-2"  x="4352" y="720" />
+        <background model="boss-level"  x="4352" y="960" />
 
         <enemies>
             <enemy id="Telly" x="680" y="88">
@@ -248,540 +854,6 @@
             <rect x="1872" y="352" w="16" h="16"/>
         </solids>
 
-        <!-- Upper level -->
-        <background x="0" y="0" w="2048" h="240" w-segments="128" h-segments="15">
-            <sprite ref="darkness">
-                <segment x="*" y="*"/>
-            </sprite>
 
-            <sprite ref="mortar-1">
-                <segment x="*" y="2"/>
-            </sprite>
-            <sprite ref="mortar-2">
-                <segment x="*" y="3"/>
-            </sprite>
-            <sprite ref="mortar-3">
-                <segment x="*" y="4"/>
-            </sprite>
-            <sprite ref="mortar-4">
-                <segment x="*" y="5"/>
-            </sprite>
-            <sprite ref="mortar-5">
-                <segment x="*" y="6-8"/>
-            </sprite>
-            <sprite ref="mortar-5-shaded">
-                <segment x="101,121-124" y="6"/>
-                <segment x="60,64,71,113-116" y="8"/>
-            </sprite>
-            <sprite ref="mortar-6">
-                <segment x="*" y="9"/>
-            </sprite>
-            <sprite ref="mortar-6-shaded">
-                <segment x="54-55,100,107" y="9"/>
-            </sprite>
-            <sprite ref="mortar-7">
-                <segment x="*" y="10"/>
-            </sprite>
-            <sprite ref="mortar-7-shaded">
-                <segment x="68,75,78,81,84,87,90,94,97,119-122" y="10"/>
-            </sprite>
-            <sprite ref="mortar-8">
-                <segment x="*" y="11"/>
-            </sprite>
-            <sprite ref="mortar-8-shaded">
-                <segment x="1-16,20-24,28-32,36-47,50-51,58,61,105" y="11"/>
-            </sprite>
-            <sprite ref="mortar-9">
-                <segment x="*" y="12"/>
-            </sprite>
-            <sprite ref="mortar-9-shaded">
-                <segment x="111-118,125" y="12"/>
-            </sprite>
-            <sprite ref="mortar-10">
-                <segment x="*" y="13"/>
-            </sprite>
-
-            <sprite ref="hole">
-                <segment x="79" y="4"/>
-                <segment x="53" y="5"/>
-                <segment x="43,67,73,85,93" y="6"/>
-                <segment x="57" y="7"/>
-                <segment x="47" y="8"/>
-                <segment x="62" y="10"/>
-            </sprite>
-
-            <animation ref="lava-hori-1">
-                <segment x="1,5,7,11,16,18,20,22,24,26,28,32,34,36,39-49/2,52-94/2" y="13"/>
-            </animation>
-            <animation ref="lava-hori-2">
-                <segment x="2,6,8,12,15,17,19,23,25,27,29,33,35,40,44,48,53-93/2" y="13"/>
-            </animation>
-            <animation ref="lava-edge">
-                <segment x="95" y="13"/>
-            </animation>
-
-            <animation ref="lava-vert-1">
-                <segment x="95" y="14"/>
-            </animation>
-            <animation ref="lava-vert-2">
-                <segment x="95" y="15"/>
-            </animation>
-
-
-            <sprite ref="concrete-lower">
-                <segment x="111-125" y="13"/>
-            </sprite>
-            <sprite ref="concrete-fill">
-                <segment x="119-124" y="12"/>
-            </sprite>
-            <sprite ref="concrete-upper">
-                <segment x="1-16,20-24,28-32,36-47,50-51" y="12"/>
-            </sprite>
-            <sprite ref="concrete-lower">
-                <segment x="1-94" y="14"/>
-            </sprite>
-            <sprite ref="concrete-top">
-                <segment x="119-124" y="11"/>
-                <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="12"/>
-            </sprite>
-            <sprite ref="concrete-fill">
-                <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="13"/>
-            </sprite>
-            <sprite ref="concrete-bottom">
-                <segment x="119-124" y="13"/>
-                <segment x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="14"/>
-            </sprite>
-
-            <sprite ref="pillar">
-                <segment x="101" y="7"/>
-                <segment x="60,64,71" y="9"/>
-                <segment x="54-55,60,64,71,100,107" y="10"/>
-                <segment x="54-55,60,64,68,71,75,78,81,84,87,90,94,97" y="11"/>
-                <segment x="54-55,58,60-61,64,68,71,75,78,81,84,87,90,94,105" y="12"/>
-            </sprite>
-
-            <sprite ref="bricks-small">
-                <segment x="1-2,11-22,25-30,33-40,43-96,113-128" y="1"/>
-                <segment x="1-2" y="1-10"/>
-                <segment x="127-128" y="*"/>
-                <segment x="123-124" y="8-9"/>
-                <segment x="113-114,125" y="15"/>
-            </sprite>
-
-            <sprite ref="bricks-big">
-                <segment x="115-118" y="6"/>
-                <segment x="121-122" y="7"/>
-                <segment x="113-116" y="9"/>
-            </sprite>
-
-            <sprite ref="bricks-big-bottom">
-                <segment x="11-22,25-30,33-40,43-96,113-126" y="2"/>
-                <segment x="1-2" y="11"/>
-                <segment x="123-124" y="10"/>
-            </sprite>
-
-            <sprite ref="bricks-big-top">
-                <segment x="123-124" y="7"/>
-                <segment x="113-114,125" y="14"/>
-                <segment x="1-6" y="15"/>
-            </sprite>
-
-            <sprite ref="ladder">
-                <segment x="126" y="13-15"/>
-            </sprite>
-        </background>
-
-        <!-- Vertical 1 -->
-        <background x="1792" y="240" w="256" h="240" w-segments="16" h-segments="15">
-            <sprite ref="darkness">
-                <segment x="*" y="*"/>
-            </sprite>
-
-            <sprite ref="mortar-1">
-                <segment x="*" y="2"/>
-            </sprite>
-            <sprite ref="mortar-2">
-                <segment x="*" y="3"/>
-            </sprite>
-            <sprite ref="mortar-3">
-                <segment x="*" y="4"/>
-            </sprite>
-            <sprite ref="mortar-3-shaded">
-                <segment x="4" y="4"/>
-            </sprite>
-            <sprite ref="mortar-4">
-                <segment x="*" y="5"/>
-            </sprite>
-            <sprite ref="mortar-5">
-                <segment x="*" y="6-8"/>
-            </sprite>
-            <sprite ref="mortar-5-shaded">
-                <segment x="101,121-124" y="6"/>
-                <segment x="60,64,71,113-116" y="8"/>
-            </sprite>
-            <sprite ref="mortar-6">
-                <segment x="*" y="9"/>
-            </sprite>
-            <sprite ref="mortar-6-shaded">
-                <segment x="54-55,100,107" y="9"/>
-            </sprite>
-            <sprite ref="mortar-7">
-                <segment x="*" y="10"/>
-            </sprite>
-            <sprite ref="mortar-7-shaded">
-                <segment x="68,75,78,81,84,87,90,94,97,119-122" y="10"/>
-            </sprite>
-            <sprite ref="mortar-8">
-                <segment x="*" y="11"/>
-            </sprite>
-            <sprite ref="mortar-8-shaded">
-                <segment x="1-16,20-24,28-32,36-47,50-51,58,61,105" y="11"/>
-            </sprite>
-            <sprite ref="mortar-9">
-                <segment x="*" y="12"/>
-            </sprite>
-            <sprite ref="mortar-9-shaded">
-                <segment x="111-118,125" y="12"/>
-            </sprite>
-            <sprite ref="mortar-10">
-                <segment x="*" y="13"/>
-            </sprite>
-
-            <sprite ref="pillar">
-                <segment x="6,9,12,14" y="11"/>
-            </sprite>
-
-            <sprite ref="bricks-small">
-                <segment x="1-2" y="*"/>
-                <segment x="13" y="1"/>
-                <segment x="15-16" y="*"/>
-                <segment x="4" y="6-14"/>
-                <segment x="4-16" y="15"/>
-            </sprite>
-
-            <sprite ref="bricks-big-top">
-                <segment x="4" y="5"/>
-                <segment x="5-14" y="14"/>
-            </sprite>
-
-            <sprite ref="bricks-big-bottom">
-                <segment x="13" y="2"/>
-            </sprite>
-
-            <sprite ref="ladder">
-                <segment x="14" y="1-10"/>
-                <segment x="3" y="5-15"/>
-            </sprite>
-        </background>
-
-        <!-- Lower level -->
-        <background x="1792" y="480" w="2816" h="240" w-segments="176" h-segments="15">
-            <sprite ref="darkness">
-                <segment x="*" y="*"/>
-            </sprite>
-            <sprite ref="mortar-1">
-                <segment x="*" y="2"/>
-            </sprite>
-            <sprite ref="mortar-2">
-                <segment x="*" y="3"/>
-            </sprite>
-            <sprite ref="mortar-3">
-                <segment x="*" y="4"/>
-            </sprite>
-            <sprite ref="mortar-3-shaded">
-            </sprite>
-            <sprite ref="mortar-4">
-                <segment x="*" y="5"/>
-            </sprite>
-            <sprite ref="mortar-5">
-                <segment x="*" y="6-8"/>
-            </sprite>
-            <sprite ref="mortar-6">
-                <segment x="*" y="9"/>
-            </sprite>
-            <sprite ref="mortar-6-shaded">
-                <segment x="83-86" y="9"/>
-            </sprite>
-            <sprite ref="mortar-7">
-                <segment x="*" y="10"/>
-            </sprite>
-            <sprite ref="mortar-7-shaded">
-            </sprite>
-            <sprite ref="mortar-8">
-                <segment x="*" y="11"/>
-            </sprite>
-            <sprite ref="mortar-9">
-                <segment x="*" y="12"/>
-            </sprite>
-            <sprite ref="mortar-9-shaded">
-                <segment x="3-21,24-28,31-40,43-50,53-59,63-68,69-72,75-110,161-173" y="12"/>
-            </sprite>
-            <sprite ref="mortar-10">
-                <segment x="*" y="13"/>
-            </sprite>
-
-            <sprite ref="bricks-small">
-                <segment x="1-2,4-80" y="1"/>
-                <segment x="1-2,175-176" y="*"/>
-                <segment x="1-21,24-28,31-40,43-50,53-59,63-68,69-72,75-110,161-173" y="14-15"/>
-            </sprite>
-
-            <sprite ref="bricks-big-top">
-                <segment x="3-21,24-28,31-40,43-50,53-59,63-68,69-72,75-110,161-173" y="13"/>
-            </sprite>
-            <sprite ref="bricks-big-bottom">
-                <segment x="4-80" y="2"/>
-            </sprite>
-
-            <!-- Middle big platform -->
-            <sprite ref="bricks-big">
-                <segment x="83-86" y="10"/>
-            </sprite>
-            <sprite ref="bricks-big-top">
-                <segment x="87-92" y="9"/>
-            </sprite>
-            <sprite ref="bricks-big-bottom">
-                <segment x="87-92" y="10"/>
-            </sprite>
-            <sprite ref="mortar-5-shaded">
-                <segment x="87-92" y="8"/>
-            </sprite>
-
-            <!-- Pillars and their shadows -->
-            <sprite ref="pillar">
-                <segment x="21" y="9-12"/>
-                <segment x="28" y="6-12"/>
-                <segment x="44,63" y="9-10"/>
-                <segment x="54" y="6-8,11-12"/>
-            </sprite>
-            <sprite ref="mortar-4-shaded">
-                <segment x="28,54" y="5"/>
-            </sprite>
-            <sprite ref="mortar-5-shaded">
-                <segment x="21,44,63" y="8"/>
-            </sprite>
-
-
-            <sprite ref="hole">
-                <segment x="22,39,46,58" y="5"/>
-                <segment x="12" y="6"/>
-                <segment x="15,36" y="8"/>
-                <segment x="33" y="9"/>
-            </sprite>
-
-            <!-- Lava pit -->
-            <sprite ref="concrete-top">
-                <segment x="111,140" y="12"/>
-            </sprite>
-            <sprite ref="mortar-8-shaded">
-                <segment x="111,140" y="11"/>
-            </sprite>
-            <sprite ref="concrete-bottom">
-                <segment x="111,140" y="14"/>
-            </sprite>
-            <sprite ref="concrete-lower">
-                <segment x="112-139" y="14"/>
-            </sprite>
-            <sprite ref="concrete-fill">
-                <segment x="111,140" y="13"/>
-            </sprite>
-            <animation ref="lava-hori-1">
-                <segment x="112-139/2" y="13"/>
-            </animation>
-            <animation ref="lava-hori-2">
-                <segment x="113-139/2" y="13"/>
-            </animation>
-            <animation ref="lava-edge">
-                <segment x="141" y="13"/>
-            </animation>
-            <animation ref="lava-vert-1">
-                <segment x="141" y="14"/>
-            </animation>
-            <animation ref="lava-vert-2">
-                <segment x="141" y="15"/>
-            </animation>
-
-            <sprite ref="ladder">
-                <segment x="3" y="1-2"/>
-                <segment x="174" y="13-15"/>
-            </sprite>
-        </background>
-
-        <!-- Vertical 2 -->
-        <background x="4352" y="720" w="256" h="240" w-segments="16" h-segments="15">
-            <sprite ref="darkness">
-                <segment x="*" y="*"/>
-            </sprite>
-
-            <sprite ref="mortar-1">
-                <segment x="*" y="2"/>
-            </sprite>
-            <sprite ref="mortar-2">
-                <segment x="*" y="3"/>
-            </sprite>
-            <sprite ref="mortar-3">
-                <segment x="*" y="4"/>
-            </sprite>
-            <sprite ref="mortar-4">
-                <segment x="*" y="5"/>
-            </sprite>
-            <sprite ref="mortar-5">
-                <segment x="*" y="6-8"/>
-            </sprite>
-            <sprite ref="mortar-6">
-                <segment x="*" y="9"/>
-            </sprite>
-            <sprite ref="mortar-7">
-                <segment x="*" y="10"/>
-            </sprite>
-            <sprite ref="mortar-8">
-                <segment x="*" y="11"/>
-            </sprite>
-            <sprite ref="mortar-8-shaded">
-                <segment x="5-13" y="11"/>
-            </sprite>
-
-            <sprite ref="bricks-small">
-                <segment x="1-3,15-16" y="6-10"/>
-            </sprite>
-            <sprite ref="bricks-big-top">
-                <segment x="1-3,15-16" y="5"/>
-                <segment x="1-8" y="15"/>
-            </sprite>
-            <sprite ref="bricks-big-bottom">
-                <segment x="*" y="1"/>
-                <segment x="1-3,15-16" y="11"/>
-            </sprite>
-
-            <sprite ref="concrete-fill">
-                <segment x="*" y="3,13"/>
-            </sprite>
-            <sprite ref="concrete-top">
-                <segment x="*" y="2,12"/>
-            </sprite>
-            <sprite ref="concrete-bottom">
-                <segment x="*" y="4,14"/>
-            </sprite>
-            <sprite ref="concrete-upper">
-                <segment x="3-7,11-12" y="2"/>
-                <segment x="1-2,7-8,10-14" y="12"/>
-            </sprite>
-            <sprite ref="concrete-lower">
-                <segment x="3-7,11-12" y="4"/>
-                <segment x="1-2,7-8,10-14" y="14"/>
-            </sprite>
-
-            <animation ref="lava-hori-1">
-                <segment x="3-7/2,11" y="3"/>
-                <segment x="1,7,10-14/2" y="13"/>
-            </animation>
-            <animation ref="lava-hori-2">
-                <segment x="4-7/2,12" y="3"/>
-                <segment x="2,8,11-14/2" y="13"/>
-            </animation>
-
-            <sprite ref="ladder">
-                <segment x="14" y="1-11"/>
-                <segment x="4" y="12-15"/>
-            </sprite>
-        </background>
-
-        <!-- Boss level -->
-        <background x="4352" y="960" w="768" h="240" w-segments="48" h-segments="15">
-            <sprite ref="darkness">
-                <segment x="*" y="*"/>
-            </sprite>
-            <sprite ref="mortar-1">
-                <segment x="*" y="2"/>
-            </sprite>
-            <sprite ref="mortar-2">
-                <segment x="*" y="3"/>
-            </sprite>
-            <sprite ref="mortar-3">
-                <segment x="*" y="4"/>
-            </sprite>
-            <sprite ref="mortar-4">
-                <segment x="*" y="5"/>
-            </sprite>
-            <sprite ref="mortar-5">
-                <segment x="*" y="6-8"/>
-            </sprite>
-            <sprite ref="mortar-6">
-                <segment x="*" y="9"/>
-            </sprite>
-            <sprite ref="mortar-7">
-                <segment x="*" y="10"/>
-            </sprite>
-            <sprite ref="mortar-8">
-                <segment x="*" y="11"/>
-            </sprite>
-            <sprite ref="mortar-9-shaded">
-                <segment x="*" y="12"/>
-            </sprite>
-
-            <sprite ref="bricks-small">
-                <segment x="5-8" y="1-2"/>
-                <segment x="33-48" y="1"/>
-                <segment x="1-3" y="*"/>
-                <segment x="1-16" y="12-15"/>
-                <segment x="33" y="2-6"/>
-                <segment x="48" y="2-12"/>
-            </sprite>
-            <sprite ref="bricks-big-top">
-                <segment x="4-33" y="11"/>
-                <segment x="17-32" y="5"/>
-            </sprite>
-            <sprite ref="bricks-big-bottom">
-                <segment x="17-33" y="6,12"/>
-                <segment x="34-47" y="2"/>
-                <segment x="5-8" y="3"/>
-            </sprite>
-
-            <!-- Sign -->
-            <sprite ref="sign-w">
-                <segment x="14" y="1-5"/>
-            </sprite>
-            <sprite ref="sign-sw">
-                <segment x="14" y="6"/>
-            </sprite>
-            <sprite ref="sign-s">
-                <segment x="15-16" y="6"/>
-            </sprite>
-            <sprite ref="sign-n">
-                <segment x="15-16" y="1-5"/>
-            </sprite>
-
-            <sprite ref="ladder">
-                <segment x="4" y="1-3"/>
-            </sprite>
-
-            <sprite ref="concrete-top">
-                <segment x="33-48" y="13"/>
-            </sprite>
-            <sprite ref="concrete-fill">
-                <segment x="33-48" y="14"/>
-            </sprite>
-            <sprite ref="concrete-bottom">
-                <segment x="33-48" y="15"/>
-            </sprite>
-            <sprite ref="concrete-upper">
-                <segment x="34-35,38-43,46-47" y="13"/>
-            </sprite>
-            <sprite ref="concrete-lower">
-                <segment x="34-35,38-43,46-47" y="15"/>
-            </sprite>
-            <animation ref="lava-hori-1">
-                <segment x="34,38-43/2,46" y="14"/>
-            </animation>
-            <animation ref="lava-hori-2">
-                <segment x="35,39-43/2,47" y="14"/>
-            </animation>
-
-            <sprite ref="darkness">
-                <segment x="17-32" y="1-4"/>
-            </sprite>
-
-
-        </background>
     </layout>
 </scene>
