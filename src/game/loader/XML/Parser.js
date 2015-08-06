@@ -4,6 +4,13 @@ Game.Loader.XML.Parser = function(loader)
     this.callback = function() {};
 }
 
+Game.Loader.XML.Parser.prototype.getAbsoluteUrl = function(node, attr)
+{
+    var base = node[0].ownerDocument.baseURL.split('/').slice(0, -1).join('/') + '/';
+    var rel = node.attr(attr);
+    return  base + rel;
+}
+
 Game.Loader.XML.Parser.prototype.getGeometry = function(node)
 {
     var type = node.attr('type');
@@ -84,7 +91,7 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
     var resources = this.loader.game.resource;
     var texture = resources.get('texture', textureId);
     if (!texture) {
-        var textureUrl = this.baseUrl + textureNode.attr('url');
+        var textureUrl = this.getAbsoluteUrl(textureNode, 'url');
         var texture = resources.loadTexture(textureUrl);
         resources.addTexture(textureId, texture);
     }
