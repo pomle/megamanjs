@@ -76,5 +76,5 @@ Game.ResourceManager.prototype.get = function(type, id)
     if (this.items[type] && this.items[type][id]) {
         return this.items[type][id];
     }
-    throw new Error('Could not find resource "' + id + '" of type "' + type + '"');
+    return false;
 }
