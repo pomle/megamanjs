@@ -13,23 +13,14 @@ Game.Loader.XML.prototype.defaultMaterial = new THREE.MeshBasicMaterial({
 
 Game.Loader.XML.prototype.asyncLoadXml = function(url, callback, async)
 {
-    xhr = new XMLHttpRequest();
-
-    var loader = this;
-    xhr.onreadystatechange = function()
-    {
-        if (this.readyState === 4) {
-            var node = $(jQuery.parseXML(this.responseText));
+    return $.ajax({
+        url: url,
+        dataType: 'xml',
+        success: function(result) {
+            var node = $(result);
             callback(node);
         }
-    }
-    xhr.onerror = function() {
-        throw new Error('URL ' + url + ' error ' + this.statusText);
-    }
-
-    xhr.overrideMimeType('text/xml');
-    xhr.open("GET", url, true);
-    xhr.send();
+    });
 }
 
 Game.Loader.XML.prototype.createUrl = function(relativeUrl)
