@@ -3,7 +3,9 @@ Engine.Animator = function()
     this._currentAnimation = undefined;
     this._currentId = undefined;
     this._currentIndex = undefined;
+
     this.animations = {};
+    this.offset = 0;
     this.time = 0;
 }
 
@@ -38,7 +40,7 @@ Engine.Animator.prototype.pickAnimation = function(id)
     var animation = this.animations[id];
 
     if (animation.group === undefined || animation.group !== this._currentAnimation.group) {
-        this.time = 0;
+        this.time = this.offset;
     }
 
     this.setAnimation(animation);
