@@ -68,6 +68,7 @@ Engine.Animator.Animation = function()
     this._value = undefined;
     this._duration = undefined;
 
+    this.frames = 0;
     this.group = undefined;
     this.timeline = undefined;
 }
@@ -95,6 +96,8 @@ Engine.Animator.Animation.prototype.addFrame = function(value, duration)
         this._value = undefined;
         this._duration = undefined;
     }
+
+    ++this.frames;
 }
 
 Engine.Animator.Animation.prototype.getIndex = function()
