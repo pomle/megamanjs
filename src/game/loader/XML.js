@@ -125,7 +125,7 @@ Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
     var sourceName = characterNode.attr('source');
     var source = Game.objects.characters[sourceName];
 
-    var character = function()
+    var constructor = function()
     {
         this._parentName = sourceName;
         this.geometry = new THREE.PlaneGeometry(modelSize.x, modelSize.y);
@@ -148,9 +148,9 @@ Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
         }
     }
 
-    Engine.Util.extend(character, source);
+    Engine.Util.extend(constructor, source);
 
-    callback(character);
+    callback(constructor);
 }
 
 Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
