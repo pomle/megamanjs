@@ -78,3 +78,8 @@ Game.ResourceManager.prototype.get = function(type, id)
     }
     return false;
 }
+
+Game.ResourceManager.prototype.loadTexture = function(url)
+{
+    return Engine.TextureManager.getScaledTexture(url, this.textureScale);
+}
