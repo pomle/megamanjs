@@ -4,7 +4,7 @@ Engine.Animator.UV = function()
 
     this._currentIndex = undefined;
 
-    this.meshes = [];
+    this.geometries = [];
     this.indices = [0];
 }
 
@@ -18,12 +18,13 @@ Engine.Animator.UV.prototype._applyAnimation = function(animation)
     }
 
     var uv = animation.getValue(index),
-        l = this.meshes.length,
+        l = this.geometries.length,
         k = this.indices.length;
     for (var i = 0; i < l; ++i) {
-        var geo = this.meshes[i].geometry;
+        var geo = this.geometries[i];
         for (var j = 0; j < k; ++j) {
-            geo.faceVertexUvs[j] = uv;
+            geo.faceVertexUvs[0][j] = uv[0];
+            geo.faceVertexUvs[0][j+1] = uv[1];
         }
         geo.uvsNeedUpdate = true;
     }
@@ -31,10 +32,10 @@ Engine.Animator.UV.prototype._applyAnimation = function(animation)
     this._currentIndex = index;
 }
 
-Engine.Animator.UV.prototype.addMesh = function(mesh)
+Engine.Animator.UV.prototype.addGeometry = function(geometry)
 {
-    if (mesh instanceof THREE.Mesh === false) {
-        throw new TypeError('Invalid mesh');
+    if (geometry instanceof THREE.Geometry === false) {
+        throw new TypeError('Invalid geometry');
     }
-    this.meshes.push(mesh);
+    this.geometries.push(geometry);
 }

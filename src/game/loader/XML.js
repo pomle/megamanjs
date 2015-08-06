@@ -139,7 +139,7 @@ Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
 
         this.animator = new Engine.Animator.UV();
         this.animator.copy(animator);
-        this.animator.addMesh(this.model);
+        this.animator.addGeometry(this.model.geometry);
 
 
         for (var i in collision) {
