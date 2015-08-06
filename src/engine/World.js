@@ -53,17 +53,17 @@ Engine.World.prototype.removeObject = function(object)
     }
 }
 
-Engine.World.prototype.updateTime = function(dt)
+Engine.World.prototype.updateTime = function(deltaTime)
 {
-    dt *= this.timeStretch;
-    this.timeTotal += dt;
+    deltaTime *= this.timeStretch;
+    this.timeTotal += deltaTime;
     for (var object of this.objects) {
-        object.timeShift(dt * object.timeStretch, this.timeTotal);
+        object.timeShift(deltaTime * object.timeStretch, this.timeTotal);
     }
 
     this.collision.detect();
 
     for (var i = 0, l = this.timelines.length; i < l; i++) {
-        this.timelines[i].timeShift(dt);
+        this.timelines[i].timeShift(deltaTime);
     }
 }
