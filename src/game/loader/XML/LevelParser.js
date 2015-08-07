@@ -331,8 +331,10 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
                 var animator = new Engine.Animator.UV();
                 animator._modelId = modelId;
                 animator._animationId = animationId;
+                animator.indices = [];
                 animator.update = animator.update.bind(animator);
                 animator.setAnimation(animation);
+                animator.addGeometry(geometry);
                 if (animation.frames > 1) {
                     var world = parser.level.world;
 
@@ -345,8 +347,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
                        However, then we must clone the animator to avoid
                        increasing the time for every object.
                     */
-
-
                     world.events.bind(world.EVENT_UPDATE, animator.update);
                 }
                 animators[animationId] = animator;
@@ -356,14 +356,12 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
             }
 
             textures.push(parser.animations[animationId].texture);
-            animator.addGeometry(geometry);
+
 
             var range = {
                 'x': parser.getRange(faceNode, 'x', segs.x),
                 'y': parser.getRange(faceNode, 'y', segs.y),
             };
-
-            animator.indices = [];
 
             var i, j, x, y, faceIndex;
             for (i in range.x) {
@@ -378,13 +376,16 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
                     animator.indices.push(faceIndex);
                 }
             }
-
-            animator.update(0);
         });
     });
 
     if (!textures[0]) {
         throw new Error("No texture index 0 for model " + modelId);
+    }
+
+    /* Run initial update of all UV maps. */
+    for (var animationId in animators) {
+        animators[animationId].update();
     }
 
     var material = new THREE.MeshBasicMaterial({
