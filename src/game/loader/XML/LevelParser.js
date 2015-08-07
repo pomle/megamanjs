@@ -12,8 +12,6 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
     this.animations = {};
     this.faceAnimators = {};
     this.models = {};
-
-    this.baseUrl = undefined;
 }
 
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser, Game.Loader.XML.Parser);
@@ -44,7 +42,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
 
     levelNode.find('> checkpoints > checkpoint').each(function() {
         var checkpointNode = $(this);
-        var c = parser.getVector2(checkpointNode);
+        var c = parser.getPosition(checkpointNode);
         var r = parseFloat(checkpointNode.attr('radius'));
         level.addCheckPoint(c.x, c.y, r || undefined);
     });
@@ -87,7 +85,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseGravity = function(levelNode)
     levelNode.find('> gravity').each(function() {
         var gravity = parser.getVector2(this);
         if (gravity) {
-            gravity.y = -gravity.y;
             level.world.gravityForce.copy(gravity);
         }
     });
@@ -313,9 +310,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
     var segs = parser.getVector2(geometryNode, 'w-segments', 'h-segments');
 
     var textures = [];
-    var faceAnimators = parser.faceAnimators;
-
-    var animators = [];
+    var animators = {};
 
     modelNode.find('> tile').each(function() {
         var tileNode = $(this);
@@ -330,7 +325,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
         tileNode.find('> face').each(function() {
             var faceNode = $(this);
 
-            if (!faceAnimators[animationId]) {
+            if (!animators[animationId]) {
                 var animator = new Engine.Animator.UV();
                 animator._modelId = modelId;
                 animator._animationId = animationId;
@@ -340,14 +335,22 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
                     var world = parser.level.world;
 
                     /* If animation contains multiple frames, bind
-                       update function to worlds update event. */
-                    animators.push(animator);
-                    // Alternative: world.events.bind(world.EVENT_UPDATE, animator.update);
+                       update function to worlds update event.
+
+                       Perhaps it is better to bind this in the constructor
+                       so that every model is concerned only by itself.
+
+                       However, then we must clone the animator to avoid
+                       increasing the time for every object.
+                    */
+
+
+                    world.events.bind(world.EVENT_UPDATE, animator.update);
                 }
-                faceAnimators[animationId] = animator;
+                animators[animationId] = animator;
             }
             else {
-                var animator = faceAnimators[animationId];
+                var animator = animators[animationId];
             }
 
             textures.push(parser.animations[animationId].texture);
@@ -386,17 +389,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
         map: textures[0],
         side: THREE.FrontSide,
     });
-
-
-    var updateAnimators = function modelAnimationUpdateLoop(deltaTime)
-    {
-        for (var i in animators) {
-            animators[i].update(deltaTime);
-        }
-    }
-    updateAnimators._modelId = modelId;
-
-    world.events.bind(world.EVENT_UPDATE, updateAnimators);
 
     var object = function()
     {

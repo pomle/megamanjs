@@ -179,7 +179,15 @@ Game.scenes.Level.prototype.resetPlayer = function()
     character.stun.disengage();
 
     var checkpoint = this.checkPoints[this.checkPointIndex];
-    if (checkpoint) {
+    if (true) {
+        this.world.addObject(new Engine.Object());
+        this.camera.camera.position.x = 100;
+        this.camera.camera.position.y = -100;
+        this.camera.camera.position.z = 200;
+        character.moveTo(checkpoint.pos);
+        this.resumeGamePlay();
+    }
+    else if (checkpoint) {
         var startPosition = checkpoint.pos.clone();
         var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
         var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
