@@ -68,8 +68,8 @@ Game.Loader.XML.Parser.prototype.getRect = function(node, attrX1, attrY1, attrX2
 {
     var node = $(node);
     return [
-        this.getVector2(node, attrX1 || 'x1', attrY1 || 'y1'),
-        this.getVector2(node, attrX2 || 'x2', attrY2 || 'y2')
+        this.getPosition(node, attrX1 || 'x1', attrY1 || 'y1'),
+        this.getPosition(node, attrX2 || 'x2', attrY2 || 'y2')
     ];
 }
 
@@ -77,6 +77,10 @@ Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attr
 {
     var node = $(node);
     var vec3 = this.getVector3.apply(this, arguments);
+    /* Y gets inverted to avoid having to specify everything
+       negatively in the XML. This is only true for getPosition
+       explicitly and normal vector extraction gives raw value.
+    */
     vec3.y = -vec3.y;
     return vec3;
 }
@@ -109,8 +113,10 @@ Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY)
 Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ)
 {
     var node = $(node);
-    return new THREE.Vector3(
-        parseFloat(node.attr(attrX || 'x')) || undefined,
-        parseFloat(node.attr(attrY || 'y')) || undefined,
-        parseFloat(node.attr(attrZ || 'z')) || undefined);
+    var vec3 = new THREE.Vector3(
+        parseFloat(node.attr(attrX || 'x')) || 0,
+        parseFloat(node.attr(attrY || 'y')) || 0,
+        0);
+    vec3.z = parseFloat(node.attr(attrZ || 'z')) || undefined;
+    return vec3;
 }

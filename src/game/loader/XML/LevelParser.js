@@ -73,8 +73,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
         path.window = parser.getRect(windowNode);
 
         var constraintNode = pathNode.children('constraint');
-        path.constraint[0] = parser.getVector3(constraintNode, 'x1', 'y1', 'z1');
-        path.constraint[1] = parser.getVector3(constraintNode, 'x2', 'y2', 'z2');
+        path.constraint[0] = parser.getPosition(constraintNode, 'x1', 'y2', 'z');
+        path.constraint[1] = parser.getPosition(constraintNode, 'x2', 'y1', 'z');
 
         level.camera.addPath(path);
     });
