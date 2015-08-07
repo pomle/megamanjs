@@ -12,12 +12,12 @@ Engine.Util.extend(Engine.Animator.UV, Engine.Animator);
 
 Engine.Animator.UV.prototype._applyAnimation = function(animation)
 {
-    var index = animation.getIndex(this.time);
-    if (index === this._currentIndex) {
+    var animationIndex = animation.getIndex(this.time);
+    if (animationIndex === this._currentIndex) {
         return;
     }
 
-    var uv = animation.getValue(index),
+    var uv = animation.getValue(animationIndex),
         geos = this.geometries,
         indices = this.indices,
         l = geos.length,
@@ -25,14 +25,14 @@ Engine.Animator.UV.prototype._applyAnimation = function(animation)
     for (var i = 0; i < l; ++i) {
         var geo = geos[i];
         for (var j = 0; j < k; ++j) {
-            var index = indices[j];
-            geo.faceVertexUvs[0][index] = uv[0];
-            geo.faceVertexUvs[0][index+1] = uv[1];
+            var faceIndex = indices[j];
+            geo.faceVertexUvs[0][faceIndex] = uv[0];
+            geo.faceVertexUvs[0][faceIndex+1] = uv[1];
         }
         geo.uvsNeedUpdate = true;
     }
 
-    this._currentIndex = index;
+    this._currentIndex = animationIndex;
 }
 
 Engine.Animator.UV.prototype.addGeometry = function(geometry)
