@@ -118,50 +118,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
 
     this.parseBackgrounds(levelNode);
 
-    levelNode.find('> layout > solids').each(function() {
-        var solidsNode = $(this);
-
-        var material = new THREE.MeshBasicMaterial({
-            color: 'white',
-            wireframe: true,
-            visible: false,
-        });
-
-        solidsNode.children().each(function(i, solidNode) {
-            solidNode = $(solidNode);
-            var prop = {
-                'x': parseFloat(solidNode.attr('x')),
-                'y': parseFloat(solidNode.attr('y')),
-                'w': parseFloat(solidNode.attr('w')),
-                'h': parseFloat(solidNode.attr('h')),
-            }
-
-            /* Put code to calculated collisionradius needed somehow here
-            var c2 = collisionRadius * 2;
-            if (prop.w > c2 || prop.h > c2) {
-                console.error('Solid beyond collision radius %f.', collisionRadius, prop);
-            }
-            */
-
-            var geometry = new THREE.PlaneGeometry(prop.w, prop.h);
-
-            var solid = new Game.objects.Solid();
-            solid.position.x = prop.x + (prop.w / 2);
-            solid.position.y = -(prop.y + (prop.h / 2));
-            solid.addCollisionGeometry(geometry);
-
-            var attackNodes = solidNode.find('> attack');
-            if (attackNodes.length) {
-                solid.attackAccept = [];
-                attackNodes.each(function(i, attackNode) {
-                    var direction = $(attackNode).attr('direction');
-                    solid.attackAccept.push(solid[direction.toUpperCase()]);
-                });
-            }
-
-            level.world.addObject(solid);
-        });
-    });
+    this.parseSolids(levelNode);
 
     return;
 
@@ -409,6 +366,41 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
     Engine.Util.extend(object, Engine.Object);
 
     this.models[modelId] = object;
+}
+
+Game.Loader.XML.Parser.LevelParser.prototype.parseSolids = function(levelNode)
+{
+    var parser = this;
+    var level = parser.level;
+
+    var material = new THREE.MeshBasicMaterial({
+        color: 'white',
+        wireframe: true,
+        visible: false,
+    });
+
+    levelNode.find('> layout > solids > *').each(function() {
+        solidNode = $(this);
+        var rect = parser.getRect(solidNode);
+
+        var geometry = new THREE.PlaneGeometry(rect.w, rect.h);
+
+        var solid = new Game.objects.Solid();
+        solid.position.x = rect.x + (rect.w / 2);
+        solid.position.y = -(rect.y + (rect.h / 2));
+        solid.addCollisionGeometry(geometry);
+
+        var attackNodes = solidNode.find('> attack');
+        if (attackNodes.length) {
+            solid.attackAccept = [];
+            attackNodes.each(function(i, attackNode) {
+                var direction = $(attackNode).attr('direction');
+                solid.attackAccept.push(solid[direction.toUpperCase()]);
+            });
+        }
+
+        level.world.addObject(solid);
+    });
 }
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseTexture = function(textureNode)

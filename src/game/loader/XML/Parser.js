@@ -64,13 +64,15 @@ Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
     return values;
 }
 
-Game.Loader.XML.Parser.prototype.getRect = function(node, attrX1, attrY1, attrX2, attrY2)
+Game.Loader.XML.Parser.prototype.getRect = function(node, attrX, attrY, attrW, attrH)
 {
     var node = $(node);
-    return [
-        this.getPosition(node, attrX1 || 'x1', attrY1 || 'y1'),
-        this.getPosition(node, attrX2 || 'x2', attrY2 || 'y2')
-    ];
+    return {
+        'x': parseFloat(node.attr(attrX || 'x')),
+        'y': parseFloat(node.attr(attrY || 'y')),
+        'w': parseFloat(node.attr(attrW || 'w')),
+        'h': parseFloat(node.attr(attrH || 'h')),
+    }
 }
 
 Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attrY)
