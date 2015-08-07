@@ -66,9 +66,11 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
     levelNode.find('> camera > path').each(function() {
         var pathNode = $(this);
         var path = new Engine.Camera.Path();
-        /* y1 and y2 is swapped because they are negative. */
+        /* y1 and y2 is swapped because they are converted to negative values and
+           y2 should always be bigger than y1. */
         var windowNode = pathNode.children('window');
-        path.window = parser.getRect(windowNode);
+        path.window[0] = parser.getPosition(windowNode, 'x1', 'y2');
+        path.window[1] = parser.getPosition(windowNode, 'x2', 'y1');
 
         var constraintNode = pathNode.children('constraint');
         path.constraint[0] = parser.getPosition(constraintNode, 'x1', 'y2', 'z');
