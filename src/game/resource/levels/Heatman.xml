@@ -777,38 +777,39 @@
         <background model="vertical-2"  x="4352" y="720" />
         <background model="boss-level"  x="4352" y="960" />
 
-        <enemies>
-            <enemy id="Telly" x="680" y="88">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="744" y="120">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="840" y="72">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="904" y="104">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="984" y="152">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="1064" y="88">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="1160" y="88">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="1256" y="56">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="1352" y="88">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-            <enemy id="Telly" x="1480" y="88">
-                <spawn interval="4" simultaneous="2" min-distance="32" />
-            </enemy>
-        </enemies>
+        <spawner x="680" y="88" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="680" y="88" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="744" y="120" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="840" y="72" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="904" y="104" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="984" y="152" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="1064" y="88" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="1160" y="88" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="1256" y="56" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="1352" y="88" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
+        <spawner x="1480" y="88" interval="4" simultaneous="2">
+            <character id="Telly" />
+        </spawner>
 
         <!--
         <items>
