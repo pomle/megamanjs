@@ -50,6 +50,25 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
     this.callback(this.level);
 }
 
+Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(levelNode)
+{
+    var parser = this;
+    var level = parser.level;
+    levelNode.find('> layout > background').each(function() {
+        backgroundNode = $(this);
+        var modelId = backgroundNode.attr('model');
+
+        var background = new parser.models[modelId]();
+
+        var position = parser.getVector2(backgroundNode);
+        background.position.x = position.x + (background._size.x / 2);
+        background.position.y = position.y - (background._size.y / 2);
+        background.position.z = 0;
+
+        level.world.addObject(background);
+    });
+}
+
 Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
 {
     var level = this.level;
@@ -97,24 +116,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
     var parser = this;
     var level = parser.level;
 
-    levelNode.find('> layout').each(function() {
-        var layoutNode = $(this);
-
-        layoutNode.find('> background').each(function() {
-            backgroundNode = $(this);
-            var modelId = backgroundNode.attr('model');
-
-            var background = new parser.models[modelId]();
-
-            var position = parser.getVector2(backgroundNode);
-            background.position.x = position.x + (background._size.x / 2);
-            background.position.y = position.y - (background._size.y / 2);
-            background.position.z = 0;
-
-            level.world.addObject(background);
-        });
-    });
-
+    this.parseBackgrounds(levelNode);
 
     levelNode.find('> layout > solids').each(function() {
         var solidsNode = $(this);
