@@ -102,31 +102,31 @@
             <frame x="91" y="37" w="16" h="16"/>
         </animation>
 
-        <animation name="lava-hori-1">
+        <animation id="lava-hori-1">
             <frame x="127" y="1"  w="16" h="16" duration=".11" />
             <frame x="127" y="19" w="16" h="16" duration=".11" />
             <frame x="127" y="37" w="16" h="16" duration=".11" />
         </animation>
 
-        <animation name="lava-hori-2">
+        <animation id="lava-hori-2">
             <frame x="145" y="1"  w="16" h="16" duration=".11" />
             <frame x="145" y="19" w="16" h="16" duration=".11" />
             <frame x="145" y="37" w="16" h="16" duration=".11" />
         </animation>
 
-        <animation name="lava-vert-1">
+        <animation id="lava-vert-1">
             <frame x="181" y="1"  w="16" h="16" duration=".11" />
             <frame x="181" y="19" w="16" h="16" duration=".11" />
             <frame x="181" y="37" w="16" h="16" duration=".11" />
         </animation>
 
-        <animation name="lava-vert-2">
+        <animation id="lava-vert-2">
             <frame x="199" y="1"  w="16" h="16" duration=".11" />
             <frame x="199" y="19" w="16" h="16" duration=".11" />
             <frame x="199" y="37" w="16" h="16" duration=".11" />
         </animation>
 
-        <animation name="lava-edge">
+        <animation id="lava-edge">
             <frame x="163" y="1" w="16" h="16" duration=".11" />
             <frame x="163" y="19" w="16" h="16" duration=".11" />
             <frame x="163" y="37" w="16" h="16" duration=".11"/>
@@ -204,6 +204,10 @@
             <frame x="163" y="55" w="16" h="16"/>
         </animation>
 
+        <animation id="dr-wily-sign">
+            <frame x="217" y="39" w="32" h="30"/>
+        </animation>
+
         <animation id="sign-n">
             <frame x="109" y="37" w="16" h="16"/>
         </animation>
@@ -222,10 +226,12 @@
     </texture>
 
     <models>
+        <!--
         <model id="dr-wily-sign">
             <geometry type="plane" w="32" h="32" />
-            <animation id="dr-wily-sign" />
+            <tile id="dr-wily-sign">
         </model>
+        -->
 
         <model id="upper-level">
             <geometry type="plane" w="2048" h="240" w-segments="128" h-segments="15" />
@@ -289,22 +295,22 @@
                 <face x="62" y="10"/>
             </tile>
 
-            <animation ref="lava-hori-1">
+            <tile id="lava-hori-1">
                 <face x="1,5,7,11,16,18,20,22,24,26,28,32,34,36,39-49/2,52-94/2" y="13"/>
-            </animation>
-            <animation ref="lava-hori-2">
+            </tile>
+            <tile id="lava-hori-2">
                 <face x="2,6,8,12,15,17,19,23,25,27,29,33,35,40,44,48,53-93/2" y="13"/>
-            </animation>
-            <animation ref="lava-edge">
+            </tile>
+            <tile id="lava-edge">
                 <face x="95" y="13"/>
-            </animation>
+            </tile>
 
-            <animation ref="lava-vert-1">
+            <tile id="lava-vert-1">
                 <face x="95" y="14"/>
-            </animation>
-            <animation ref="lava-vert-2">
+            </tile>
+            <tile id="lava-vert-2">
                 <face x="95" y="15"/>
-            </animation>
+            </tile>
 
 
             <tile id="concrete-lower">
@@ -564,21 +570,21 @@
             <tile id="concrete-fill">
                 <face x="111,140" y="13"/>
             </tile>
-            <animation ref="lava-hori-1">
+            <tile id="lava-hori-1">
                 <face x="112-139/2" y="13"/>
-            </animation>
-            <animation ref="lava-hori-2">
+            </tile>
+            <tile id="lava-hori-2">
                 <face x="113-139/2" y="13"/>
-            </animation>
-            <animation ref="lava-edge">
+            </tile>
+            <tile id="lava-edge">
                 <face x="141" y="13"/>
-            </animation>
-            <animation ref="lava-vert-1">
+            </tile>
+            <tile id="lava-vert-1">
                 <face x="141" y="14"/>
-            </animation>
-            <animation ref="lava-vert-2">
+            </tile>
+            <tile id="lava-vert-2">
                 <face x="141" y="15"/>
-            </animation>
+            </tile>
 
             <tile id="ladder">
                 <face x="3" y="1-2"/>
@@ -651,14 +657,14 @@
                 <face x="1-2,7-8,10-14" y="14"/>
             </tile>
 
-            <animation ref="lava-hori-1">
+            <tile id="lava-hori-1">
                 <face x="3-7/2,11" y="3"/>
                 <face x="1,7,10-14/2" y="13"/>
-            </animation>
-            <animation ref="lava-hori-2">
+            </tile>
+            <tile id="lava-hori-2">
                 <face x="4-7/2,12" y="3"/>
                 <face x="2,8,11-14/2" y="13"/>
-            </animation>
+            </tile>
 
             <tile id="ladder">
                 <face x="14" y="1-11"/>
@@ -750,12 +756,12 @@
             <tile id="concrete-lower">
                 <face x="34-35,38-43,46-47" y="15"/>
             </tile>
-            <animation ref="lava-hori-1">
+            <tile id="lava-hori-1">
                 <face x="34,38-43/2,46" y="14"/>
-            </animation>
-            <animation ref="lava-hori-2">
+            </tile>
+            <tile id="lava-hori-2">
                 <face x="35,39-43/2,47" y="14"/>
-            </animation>
+            </tile>
 
             <tile id="darkness">
                 <face x="17-32" y="1-4"/>
@@ -766,10 +772,10 @@
 
     <layout>
         <background model="upper-level" x="0"    y="0"   />
-        <background model="vertical-1"  x="1792" y="240" />
+        <!--<background model="vertical-1"  x="1792" y="240" />
         <background model="lower-level" x="1792" y="480" />
         <background model="vertical-2"  x="4352" y="720" />
-        <background model="boss-level"  x="4352" y="960" />
+        <background model="boss-level"  x="4352" y="960" />-->
 
         <enemies>
             <enemy id="Telly" x="680" y="88">

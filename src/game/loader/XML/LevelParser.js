@@ -112,7 +112,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
             background.position.y = position.y - (background._size.y / 2);
             background.position.z = 0;
 
-            level.world.scene.add(background.model);
+            level.world.addObject(background);
         });
     });
 
@@ -303,35 +303,46 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
 Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
 {
     var parser = this;
+    var world = parser.level.world;
 
     var modelId = modelNode.attr('id');
     var geometryNode = modelNode.find('> geometry');
     var geometry = parser.getGeometry(geometryNode);
+    geometryNode._modelId = modelId;
     var size = parser.getVector2(geometryNode, 'w', 'h');
     var segs = parser.getVector2(geometryNode, 'w-segments', 'h-segments');
 
     var textures = [];
     var faceAnimators = parser.faceAnimators;
 
+    var animators = [];
+
     modelNode.find('> tile').each(function() {
         var tileNode = $(this);
-        var tileId = tileNode.attr('id');
+        var animationId = tileNode.attr('id');
+        if (!parser.animations[animationId]) {
+            throw new Error('Animation "' + animationId + '" not defined');
+        }
+
+        var animation = parser.animations[animationId].animation;
         var offset = parseFloat(tileNode.attr('offset')) || 0;
-        var animation = parser.animations[tileId];
 
         tileNode.find('> face').each(function() {
             var faceNode = $(this);
 
-            var animationId = faceNode.attr('id');
-            var animation = parser.animations[animationId].animation;
-
             if (!faceAnimators[animationId]) {
                 var animator = new Engine.Animator.UV();
+                animator._modelId = modelId;
+                animator._animationId = animationId;
                 animator.update = animator.update.bind(animator);
                 animator.setAnimation(animation);
                 if (animation.frames > 1) {
                     var world = parser.level.world;
-                    world.events.bind(world.EVENT_UPDATE, animator.update);
+
+                    /* If animation contains multiple frames, bind
+                       update function to worlds update event. */
+                    animators.push(animator);
+                    // Alternative: world.events.bind(world.EVENT_UPDATE, animator.update);
                 }
                 faceAnimators[animationId] = animator;
             }
@@ -342,9 +353,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
             textures.push(parser.animations[animationId].texture);
             animator.addGeometry(geometry);
 
-            /* If animation contains multiple frames, bind
-               update function to worlds update event. */
-
             var range = {
                 'x': parser.getRange(faceNode, 'x', segs.x),
                 'y': parser.getRange(faceNode, 'y', segs.y),
@@ -352,24 +360,45 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
 
             animator.indices = [];
 
-            var i, j, x, y, segIndex;
+            var i, j, x, y, faceIndex;
             for (i in range.x) {
                 x = range.x[i] - 1;
                 for (j in range.y) {
                     y = range.y[j] - 1;
-                    segIndex = (x + (y * segs.x)) * 2;
-                    animator.indices.push(segIndex);
+                    /* The face index is the first of the two triangles that make up a rectangular
+                       face. The Animator.UV will set the UV map to the faceIndex and faceIndex+1.
+                       Since we expect to paint two triangles at every index we need to 2x the index
+                       count so that we skip two faces for every index jump. */
+                    faceIndex = (x + (y * segs.x)) * 2;
+                    animator.indices.push(faceIndex);
                 }
             }
+
+            animator.update(0);
         });
     });
+
+    if (!textures[0]) {
+        throw new Error("No texture index 0 for model " + modelId);
+    }
 
     var material = new THREE.MeshBasicMaterial({
         map: textures[0],
         side: THREE.FrontSide,
     });
 
-    var constructor = function()
+
+    var updateAnimators = function modelAnimationUpdateLoop(deltaTime)
+    {
+        for (var i in animators) {
+            animators[i].update(deltaTime);
+        }
+    }
+    updateAnimators._modelId = modelId;
+
+    world.events.bind(world.EVENT_UPDATE, updateAnimators);
+
+    var object = function()
     {
         this._modelId = modelId;
         this._size = size;
@@ -377,21 +406,12 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
         this.geometry = geometry;
         this.material = material;
 
-        var updateAnimators = function(deltaTime)
-        {
-            for (var i in animators) {
-                animators[i].update(deltaTime);
-            }
-        }
-
         Engine.Object.call(this);
-
-        this.bind(this.EVENT_TIMESHIFT, updateAnimators);
     }
 
-    Engine.Util.extend(constructor, Engine.Object);
+    Engine.Util.extend(object, Engine.Object);
 
-    this.models[modelId] = constructor;
+    this.models[modelId] = object;
 }
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseTexture = function(textureNode)
