@@ -52,7 +52,6 @@ Engine.Animator.prototype.setAnimation = function(animation)
     if (animation !== this._currentAnimation) {
         this._currentIndex = undefined;
         this._currentAnimation = animation;
-        this._applyAnimation(animation);
     }
 }
 
