@@ -18,13 +18,16 @@ Engine.Animator.UV.prototype._applyAnimation = function(animation)
     }
 
     var uv = animation.getValue(index),
-        l = this.geometries.length,
-        k = this.indices.length;
+        geos = this.geometries,
+        indices = this.indices,
+        l = geos.length,
+        k = indices.length;
     for (var i = 0; i < l; ++i) {
-        var geo = this.geometries[i];
+        var geo = geos[i];
         for (var j = 0; j < k; ++j) {
-            geo.faceVertexUvs[0][j] = uv[0];
-            geo.faceVertexUvs[0][j+1] = uv[1];
+            var index = indices[j];
+            geo.faceVertexUvs[0][index] = uv[0];
+            geo.faceVertexUvs[0][index+1] = uv[1];
         }
         geo.uvsNeedUpdate = true;
     }
