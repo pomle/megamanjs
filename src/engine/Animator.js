@@ -55,12 +55,29 @@ Engine.Animator.prototype.setAnimation = function(animation)
     }
 }
 
+/**
+ * Runs through all geometries and faces and updates their UV maps
+ * if frames has changed between previous and previous + deltaTime.
+ *
+ * @param {Number} [deltaTime]
+ */
 Engine.Animator.prototype.update = function(deltaTime)
 {
-    this.time += deltaTime;
+    this.time += deltaTime || 0;
     this._applyAnimation(this._currentAnimation);
 }
 
+/**
+ * Runs through all geometries and faces and updates their UV maps
+ * regardless of what their previous value was.
+ *
+ * @param {Number} [deltaTime]
+ */
+Engine.Animator.prototype.updateForce = function(deltaTime)
+{
+    this._currentIndex = undefined;
+    this.update(deltaTime);
+}
 
 Engine.Animator.Animation = function()
 {
