@@ -27,7 +27,7 @@ Engine.prototype.loop = function(timeElapsed)
 
     if (timeElapsed) {
         timeElapsed /= 1000;
-        if (this.timeLastEvent) {
+        if (this.timeLastEvent !== undefined) {
             var timeDiff = timeElapsed - this.timeLastEvent;
             timeDiff *= this.timeStretch;
 
@@ -49,8 +49,8 @@ Engine.prototype.loop = function(timeElapsed)
         for (var i in this.events.render) {
             this.events.render[i].call();
         }
-        this.timeLastEvent = timeElapsed;
     }
+    this.timeLastEvent = timeElapsed;
 
     requestAnimationFrame(this.loop);
 }
@@ -73,7 +73,7 @@ Engine.prototype.run = function()
     }
     this.isRunning = true;
     this.timeLastEvent = undefined;
-    this.loop();
+    this.loop(0);
 }
 
 Engine.prototype.setWorld = function(world)
