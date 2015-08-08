@@ -16,7 +16,7 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
 
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser, Game.Loader.XML.Parser);
 
-Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callback)
+Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
 {
     if (!levelNode.is('scene[type=level]')) {
         throw new TypeError('Node not <scene type="level">');
