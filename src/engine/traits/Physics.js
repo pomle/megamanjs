@@ -2,7 +2,7 @@ Engine.traits.Physics = function()
 {
     Engine.Trait.call(this);
 
-    this.mass = 0;
+    this.mass = 1;
     this.inertia = new THREE.Vector2();
     this.momentum = new THREE.Vector2();
 }
