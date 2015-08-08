@@ -14,6 +14,8 @@ Engine.traits.Invincibility = function()
 
 Engine.Util.extend(Engine.traits.Invincibility, Engine.Trait);
 
+Engine.traits.Invincibility.prototype.NAME = 'invincibility';
+
 Engine.traits.Invincibility.prototype.__attach = function(host)
 {
     this._health = this.__require(host, Engine.traits.Health);

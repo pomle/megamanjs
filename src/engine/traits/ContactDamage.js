@@ -6,6 +6,7 @@ Engine.traits.ContactDamage = function()
 
 Engine.Util.extend(Engine.traits.ContactDamage, Engine.Trait);
 
+Engine.traits.ContactDamage.prototype.NAME = 'contactDamage';
 Engine.traits.ContactDamage.prototype.EVENT_CONTACT_DAMAGE = 'contact-damage';
 
 Engine.traits.ContactDamage.prototype.__collides = function(withObject, ourZone, theirZone)

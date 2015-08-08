@@ -13,6 +13,8 @@ Engine.traits.Move = function()
 
 Engine.Util.extend(Engine.traits.Move, Engine.Trait);
 
+Engine.traits.Move.prototype.NAME = 'move';
+
 Engine.traits.Move.prototype.__attach = function(host)
 {
     for (var i = 0, l = host.traits.length; i < l; ++i) {

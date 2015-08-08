@@ -9,6 +9,8 @@ Engine.traits.Health = function()
 Engine.Util.extend(Engine.traits.Health, Engine.Trait);
 Engine.Util.mixin(Engine.traits.Health, Engine.logic.Energy);
 
+Engine.traits.Health.prototype.NAME = 'health';
+
 Engine.traits.Health.prototype.EVENT_DAMAGED = 'damaged';
 Engine.traits.Health.prototype.EVENT_HEALED = 'healed';
 Engine.traits.Health.prototype.EVENT_HEALTH_CHANGED = 'health-changed';

@@ -15,6 +15,7 @@ Engine.traits.Solid = function()
 Engine.Util.extend(Engine.traits.Solid, Engine.Trait);
 
 Engine.traits.Solid.prototype.NAME = 'solid';
+
 Engine.traits.Solid.prototype.TOP = 0;
 Engine.traits.Solid.prototype.BOTTOM = 1;
 Engine.traits.Solid.prototype.LEFT = 2;

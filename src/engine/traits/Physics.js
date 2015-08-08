@@ -9,6 +9,8 @@ Engine.traits.Physics = function()
 
 Engine.Util.extend(Engine.traits.Physics, Engine.Trait);
 
+Engine.traits.Physics.prototype.NAME = 'physics';
+
 Engine.traits.Physics.prototype.__obstruct = function(object, attack)
 {
     switch (attack) {
