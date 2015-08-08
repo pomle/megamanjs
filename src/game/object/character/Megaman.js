@@ -2,12 +2,6 @@ Game.objects.characters.Megaman = function()
 {
     Game.objects.Character.call(this);
 
-    this.health.max = 28;
-    this.contactDamage.points = 0;
-    this.jump.force = 197;
-    this.invincibility.duration = 2;
-    this.weapon.projectileEmitOffset.set(17, 1);
-
     this.textures = {};
 
     var map = this.model.material.map;
@@ -48,7 +42,7 @@ Game.objects.characters.Megaman = function()
         'sweat': new Game.objects.decorations.Sweat(),
     };
 
-    this.bind(this.weapon.EVENT_EQUIP, this.changeDress);
+    this.bind(Engine.traits.Weapon.prototype.EVENT_EQUIP, this.changeDress);
 }
 
 Game.objects.characters.Megaman.prototype = Object.create(Game.objects.Character.prototype);

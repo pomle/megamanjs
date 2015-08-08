@@ -1,11 +1,6 @@
 Game.objects.characters.Telly = function()
 {
     Game.objects.Character.call(this);
-
-    this.physics.off();
-
-    this.contactDamage.points = 1;
-    this.health.max = 1;
     this.speed = 12;
 }
 

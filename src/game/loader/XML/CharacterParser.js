@@ -5,6 +5,75 @@ Game.Loader.XML.Parser.CharacterParser = function(loader)
 
 Engine.Util.extend(Game.Loader.XML.Parser.CharacterParser, Game.Loader.XML.Parser);
 
+Game.Loader.XML.Parser.CharacterParser.prototype.getTrait = function(traitNode)
+{
+    var source = traitNode.attr('source');
+    var ref = Game.traits[source] ? Game.traits[source] : Engine.traits[source];
+
+    switch (ref.prototype.NAME) {
+        case 'contactDamager':
+            return {
+                'ref': ref,
+                'prop': {
+                    'points': this.getFloat(traitNode, 'points'),
+                }
+            }
+            break;
+
+        case 'jump':
+            return {
+                'ref': ref,
+                'prop': {
+                    'duration': this.getFloat(traitNode, 'duration'),
+                    'force': this.getFloat(traitNode, 'force'),
+                }
+            }
+            break;
+
+        case 'health':
+            return {
+                'ref': ref,
+                'prop': {
+                    'max': this.getFloat(traitNode, 'max'),
+                }
+            }
+            break;
+
+        case 'invincibility':
+            return {
+                'ref': ref,
+                'prop': {
+                    'duration': this.getFloat(traitNode, 'duration'),
+                }
+            }
+            break;
+
+        case 'physics':
+            return {
+                'ref': ref,
+                'prop': {
+                    'mass': this.getFloat(traitNode, 'mass'),
+                }
+            }
+            break;
+
+        case 'weapon':
+            return {
+                'ref': ref,
+                'prop': {
+                    'projectileEmitOffset': this.getVector2(traitNode.find('> projectile-emit-offset')),
+                }
+            }
+            break;
+
+        default:
+            return {
+                'ref': ref,
+            }
+            break;
+    }
+}
+
 Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
 {
     if (!characterNode.is('character')) {
@@ -62,9 +131,16 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
 
     loader = undefined;
 
+    var traits = parser.parseTraits(characterNode);
 
     var sourceName = characterNode.attr('source');
-    var source = Game.objects.characters[sourceName];
+    if (sourceName) {
+        var source = Game.objects.characters[sourceName];
+    }
+    else {
+        var source = Game.objects.Character;
+    }
+
 
     var constructor = function()
     {
@@ -78,10 +154,20 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
 
         source.call(this);
 
+        for (var i in traits) {
+            var trait = new traits[i].ref();
+            for (var p in traits[i].prop) {
+                var prop = traits[i].prop[p];
+                if (prop !== undefined) {
+                    trait[p] = prop;
+                }
+            }
+            this[trait.NAME] = this.applyTrait(trait);
+        }
+
         this.animator = new Engine.Animator.UV();
         this.animator.copy(animator);
         this.animator.addGeometry(this.model.geometry);
-
 
         for (var i in collision) {
             var r = collision[i];
@@ -92,4 +178,16 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
     Engine.Util.extend(constructor, source);
 
     this.callback(constructor);
+}
+
+Game.Loader.XML.Parser.CharacterParser.prototype.parseTraits = function(characterNode)
+{
+    var parser = this;
+    var traits = [];
+
+    characterNode.find('> traits > trait').each(function() {
+        traits.push(parser.getTrait($(this)));
+    });
+
+    return traits;
 }

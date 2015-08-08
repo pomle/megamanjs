@@ -21,9 +21,7 @@
     </model>
 
     <traits>
-        <trait source="Invincibility" id="invincibility" duration="2" />
-        <trait source="Jump" id="jump" force="180"/>
-        <trait source="Physics" id="physics" />
-        <trait source="Weapon" id="weapon" />
+        <trait source="ContactDamage" points="1" />
+        <trait source="Health" max="1" />
     </traits>
 </character>

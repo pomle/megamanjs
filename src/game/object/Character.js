@@ -2,20 +2,11 @@ Game.objects.Character = function()
 {
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
-    this.contactDamage = this.applyTrait(new Engine.traits.ContactDamage());
     this.health = this.applyTrait(new Engine.traits.Health(100));
-    this.invincibility = this.applyTrait(new Engine.traits.Invincibility());
-    this.jump = this.applyTrait(new Engine.traits.Jump());
-    this.physics = this.applyTrait(new Engine.traits.Physics());
-    this.move = this.applyTrait(new Engine.traits.Move());
-    this.stun = this.applyTrait(new Engine.traits.Stun());
-    this.teleport = this.applyTrait(new Game.traits.Teleport());
-    this.weapon = this.applyTrait(new Engine.traits.Weapon());
 
     this.dead = false;
     this.direction.x = this.DIRECTION_RIGHT;
     this.isSupported = false;
-    this.physics.mass = 1;
 
     this.animator = undefined;
 }
