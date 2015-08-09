@@ -81,15 +81,8 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         };
     });
 
-    var queue = 0;
-    var playerParse = function()
+    var entryPointParse = function()
     {
-        var playerNode = gameNode.find('> player');
-        var character = new (loader.game.resource.get('character', playerNode.find('> character').attr('id')))();
-        character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
-        game.player.setCharacter(character);
-        game.player.hud.equipCharacter(game.player.character);
-
         gameNode.find('> level').each(function() {
             levelNode = $(this);
             Game.scenes.Level.prototype.assets['level-start-text']
@@ -98,21 +91,32 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
 
         var entrySceneName = gameNode.find('> entrypoint > scene').attr('name');
         loader.startScene(entrySceneName);
+    }
 
+    var playerParse = function()
+    {
+        var playerNode = gameNode.find('> player');
+        var character = new (loader.game.resource.get('character', playerNode.find('> character').attr('id')))();
+        character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
+        game.player.setCharacter(character);
+        game.player.hud.equipCharacter(game.player.character);
+
+        entryPointParse();
         callback();
     }
 
+    var characterQueue = 0;
     var cont = function()
     {
-        --queue;
-        if (queue === 0) {
+        --characterQueue;
+        if (characterQueue === 0) {
             playerParse();
         }
     }
 
     gameNode.find('> characters > character').each(function() {
         var characterNode = $(this);
-        ++queue;
+        ++characterQueue;
         loader.traverseNode(characterNode, function(node) {
             loader.parseCharacter(node, function(character) {
                 loader.game.resource.addAuto(characterNode.attr('id'), character);
