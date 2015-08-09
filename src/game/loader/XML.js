@@ -16,6 +16,9 @@ Game.Loader.XML.prototype.asyncLoadXml = function(url, callback, async)
     return $.ajax({
         url: url,
         dataType: 'xml',
+        error: function(jqXHR, status, e) {
+            throw e;
+        },
         success: function(result) {
             result.baseURL = url;
             var node = $(result);
