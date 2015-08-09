@@ -780,9 +780,6 @@
         <spawner x="680" y="88" interval="4" simultaneous="2">
             <character id="Telly" />
         </spawner>
-        <spawner x="680" y="88" interval="4" simultaneous="2">
-            <character id="Telly" />
-        </spawner>
         <spawner x="744" y="120" interval="4" simultaneous="2">
             <character id="Telly" />
         </spawner>
