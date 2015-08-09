@@ -13,7 +13,11 @@ Game.Loader.XML.Parser.prototype.getAbsoluteUrl = function(node, attr)
 
 Game.Loader.XML.Parser.prototype.getFloat = function(node, attr, def)
 {
-    return parseFloat(node.attr(attr)) || def;
+    var value = node.attr(attr);
+    if (value && isFinite(value)) {
+        return parseFloat(value);
+    }
+    return def;
 }
 
 Game.Loader.XML.Parser.prototype.getGeometry = function(node)
