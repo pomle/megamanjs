@@ -84,7 +84,7 @@ Game.Loader.XML.Parser.prototype.getRect = function(node, attrX, attrY, attrW, a
     }
 }
 
-Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attrY)
+Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attrZ)
 {
     var node = $(node);
     var vec3 = this.getVector3.apply(this, arguments);
@@ -127,7 +127,6 @@ Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ
     var vec3 = new THREE.Vector3(
         parseFloat(node.attr(attrX || 'x')) || 0,
         parseFloat(node.attr(attrY || 'y')) || 0,
-        0);
-    vec3.z = parseFloat(node.attr(attrZ || 'z')) || undefined;
+        parseFloat(node.attr(attrZ || 'z')) || 0);
     return vec3;
 }
