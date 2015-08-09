@@ -180,9 +180,8 @@ Game.scenes.Level.prototype.resetPlayer = function()
 
     var checkpoint = this.checkPoints[this.checkPointIndex];
     if (true) {
-        this.world.addObject(new Engine.Object());
-        this.camera.camera.position.x = 100;
-        this.camera.camera.position.y = -100;
+        this.camera.camera.position.x = 0;
+        this.camera.camera.position.y = 0;
         this.camera.camera.position.z = 200;
         character.moveTo(checkpoint.pos);
         this.resumeGamePlay();
