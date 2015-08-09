@@ -71,6 +71,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(levelNo
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
 {
+    var z = 150;
+
     var level = this.level;
     var parser = this;
 
@@ -94,6 +96,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
         var constraintNode = pathNode.children('constraint');
         path.constraint[0] = parser.getPosition(constraintNode, 'x1', 'y2', 'z');
         path.constraint[1] = parser.getPosition(constraintNode, 'x2', 'y1', 'z');
+        path.constraint[0].z = z;
+        path.constraint[1].z = z;
 
         level.camera.addPath(path);
     });
