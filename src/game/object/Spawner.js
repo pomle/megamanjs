@@ -7,7 +7,7 @@ Game.objects.Spawner = function()
     this.ai = new Engine.AI(this);
     this.children = new Set();
     this.count = Infinity;
-    this.lifetime = Infinity;
+    this.lifetime = undefined;
     this.maxDistance = 256;
     this.minDistance = 32;
     this.maxSimultaneousSpawns = 1;
@@ -81,10 +81,10 @@ Game.objects.Spawner.prototype.spawnObject = function()
 Game.objects.Spawner.prototype.timeShift = function(dt)
 {
     this._timeSinceLastSpawn += dt;
-    if (this.lifetime) {
+    if (this.lifetime !== undefined) {
         this.killOffElderly();
     }
-    if (this.roamingLimit) {
+    if (this.roamingLimit !== undefined) {
         this.killOffRoaming();
     }
 
