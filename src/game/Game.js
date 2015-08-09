@@ -1,5 +1,7 @@
 var Game = function()
 {
+    this.debugger = undefined;
+
     this.resource = new Game.ResourceManager();
 
     this.engine = undefined;
