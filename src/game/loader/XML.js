@@ -2,6 +2,8 @@ Game.Loader.XML = function(game)
 {
     Game.Loader.call(this, game);
     this.sceneIndex = {};
+
+    this.parser = new Game.Loader.XML.Parser(this);
 }
 
 Game.Loader.XML.prototype.defaultMaterial = new THREE.MeshBasicMaterial({
@@ -20,16 +22,11 @@ Game.Loader.XML.prototype.asyncLoadXml = function(url, callback, async)
             throw e;
         },
         success: function(result) {
-            result.baseURL = url;
             var node = $(result);
+            result.baseURL = url;
             callback(node);
         }
     });
-}
-
-Game.Loader.XML.prototype.createUrl = function(relativeUrl)
-{
-    return this.baseUrl + relativeUrl;
 }
 
 Game.Loader.XML.prototype.load = function(url, callback)
@@ -38,9 +35,16 @@ Game.Loader.XML.prototype.load = function(url, callback)
     var loader = this;
     loader.asyncLoadXml(url, function(node) {
         var firstNode = node.children(':first');
-        firstNode.url = url;
-        firstNode.baseUrl = url.split('/').slice(0, -1).join('/') + '/';
         loader.traverseNode(firstNode, callback);
+    });
+}
+
+
+Game.Loader.XML.prototype.loadGame = function(url, callback)
+{
+    var loader = this;
+    this.load(url, function(node) {
+        loader.parseGame(node, callback);
     });
 }
 
@@ -73,7 +77,7 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
     gameNode.find('> scenes > scene').each(function() {
         var sceneNode = $(this);
         loader.sceneIndex[sceneNode.attr('name')] = {
-            'url': gameNode.baseUrl + sceneNode.attr('src'),
+            'url': loader.parser.getAbsoluteUrl(sceneNode, 'src'),
         };
     });
 
@@ -88,7 +92,8 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
 
         gameNode.find('> level').each(function() {
             levelNode = $(this);
-            Game.scenes.Level.prototype.assets['level-start-text'] = Engine.SpriteManager.createTextSprite(levelNode.attr('start-caption'));
+            Game.scenes.Level.prototype.assets['level-start-text']
+                = Engine.SpriteManager.createTextSprite(levelNode.attr('start-caption'));
         });
 
         var entrySceneName = gameNode.find('> entrypoint > scene').attr('name');
@@ -107,11 +112,12 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
 
     gameNode.find('> characters > character').each(function() {
         var characterNode = $(this);
-        characterNode.baseUrl = gameNode.baseUrl;
         ++queue;
-        loader.traverseNode(characterNode, function(character) {
-            loader.game.resource.addAuto(characterNode.attr('id'), character);
-            cont();
+        loader.traverseNode(characterNode, function(node) {
+            loader.parseCharacter(node, function(character) {
+                loader.game.resource.addAuto(characterNode.attr('id'), character);
+                cont();
+            });
         });
     });
 }
@@ -236,34 +242,19 @@ Game.Loader.XML.prototype.startScene = function(name, callback)
     }
 
     var loader = this;
-    this.load(this.sceneIndex[name].url, function(scene) {
-        loader.game.setScene(scene);
+    this.load(this.sceneIndex[name].url, function(node) {
+        loader.parseScene(node, function(scene) {
+            loader.game.setScene(scene);
+        });
     });
 }
 
 Game.Loader.XML.prototype.traverseNode = function(node, callback)
 {
-    var src = node.attr('src');
-    if (src) {
-        if (!node.baseUrl) {
-            throw new Error('baseUrl not attached');
-        }
-        this.load(node.baseUrl + src, callback);
+    if (node.attr('src')) {
+        this.load(this.parser.getAbsoluteUrl(node, 'src'), callback);
     }
     else {
-        var tag = node[0].tagName.toLowerCase();
-        switch (tag) {
-            case 'character':
-                this.parseCharacter(node, callback);
-                break;
-            case 'game':
-                this.parseGame(node, callback);
-                break;
-            case 'scene':
-                this.parseScene(node, callback);
-                break;
-            default:
-                throw new Error('No parser for node <' + tag + '>');
-        }
+        callback(node);
     }
 }
