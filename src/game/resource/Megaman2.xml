@@ -11,6 +11,7 @@
 
         <!-- Debug Levels -->
             <scene type="level" name="JumpTest" src="./levels/debug/JumpTest.xml" />
+            <scene type="level" name="Telly" src="./levels/debug/Telly.xml" />
             <scene type="level" name="BackgroundFaceAnimation" src="./levels/debug/BackgroundFaceAnimation.xml" />
         <!-- End Debug Levels -->
     </scenes>

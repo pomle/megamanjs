@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="Telly">
+    <gravity x="0" y="983" />
+
+    <checkpoints>
+        <checkpoint x="0" y="0"/>
+    </checkpoints>
+
+    <layout>
+
+        <spawner x="64" y="-25" interval="0" simultaneous="1">
+            <character id="Telly" />
+        </spawner>
+
+        <solids>
+            <rect x="0" y="32" w="240" h="16" />
+
+        </solids>
+    </layout>
+</scene>
