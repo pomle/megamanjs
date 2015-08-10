@@ -7,9 +7,12 @@ Game.Loader.XML.Parser = function(loader)
 
 Game.Loader.XML.Parser.prototype.getAbsoluteUrl = function(node, attr)
 {
-    var base = node[0].ownerDocument.baseURL.split('/').slice(0, -1).join('/') + '/';
-    var rel = node.attr(attr);
-    return  base + rel;
+    var url = node.attr(attr);
+    if (url.indexOf('http') === 0) {
+        return url;
+    }
+    var baseUrl = node[0].ownerDocument.baseURL.split('/').slice(0, -1).join('/') + '/';
+    return baseUrl + url;
 }
 
 Game.Loader.XML.Parser.prototype.getFloat = function(node, attr, def)
