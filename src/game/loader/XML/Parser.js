@@ -15,6 +15,22 @@ Game.Loader.XML.Parser.prototype.getAbsoluteUrl = function(node, attr)
     return baseUrl + url;
 }
 
+Game.Loader.XML.Parser.prototype.getColor = function(node, attr)
+{
+    var c = node.attr(attr);
+    if (c.indexOf('#') === 0) {
+        var r = c.substr(1,2);
+        var g = c.substr(3,2);
+        var b = c.substr(5,2);
+        r = parseInt(r, 16);
+        g = parseInt(g, 16);
+        b = parseInt(b, 16);
+
+        return new THREE.Vector4(r, g, b, 1);
+    }
+    return false;
+}
+
 Game.Loader.XML.Parser.prototype.getFloat = function(node, attr, def)
 {
     var value = node.attr(attr);
@@ -218,6 +234,8 @@ Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attr
 
 Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 {
+    parser = this;
+
     var textureId = textureNode.attr('id');
     var textureUrl = this.getAbsoluteUrl(textureNode, 'url');
     if (!textureId) {
@@ -226,8 +244,37 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 
     var resources = this.loader.game.resource;
     var texture = resources.get('texture', textureId);
+
     if (!texture) {
-        var texture = resources.loadTexture(textureUrl);
+        var texture = new THREE.Texture();
+        texture.magFilter = THREE.NearestFilter;
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+
+        var effects = [];
+        textureNode.find('> effects > color-replace').each(function() {
+            var crNode = $(this);
+            effects.push(function(canvas) {
+                return Engine.CanvasUtil.colorReplace(canvas,
+                                                      parser.getColor(crNode, 'in'),
+                                                      parser.getColor(crNode, 'out'));
+            });
+        });
+
+        effects.push(function(canvas) {
+            return Engine.CanvasUtil.scale(canvas, 4);
+        });
+
+        var image = new Image();
+        image.onload = function() {
+            var canvas = Engine.CanvasUtil.clone(this);
+            for (var i in effects) {
+                canvas = effects[i](canvas);
+            }
+            texture.image = canvas;
+            texture.needsUpdate = true;
+        }
+        image.src = textureUrl;
+
         resources.addTexture(textureId, texture);
     }
     return texture;

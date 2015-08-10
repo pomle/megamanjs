@@ -5,7 +5,7 @@
             <rect x="0" y="0" w="14" h="22" />
         </collision>
         <textures>
-            <texture id="megaman" url="megaman.png" w="256" h="256">
+            <texture id="megaman-p" url="megaman.png" w="256" h="256">
                 <animations>
                     <animation id="idle" default="true">
                         <frame x="0" y="0" duration="3.85" />
@@ -54,6 +54,61 @@
                         <frame x="192" y="96" duration=".08" />
                     </animation>
                 </animations>
+            </texture>
+
+           <texture id="megaman-a" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#0078F8" />
+                    <color-replace in="#00FFFF" out="#F8F8F8" />
+                </effects>
+            </texture>
+            <texture id="megaman-b" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#7C7C7C" />
+                    <color-replace in="#00FFFF" out="#F8F8F8" />
+                </effects>
+            </texture>
+            <texture id="megaman-c" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#F87858" />
+                    <color-replace in="#00FFFF" out="#F8F8F8" />
+                </effects>
+            </texture>
+            <texture id="megaman-f" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#D800CC" />
+                    <color-replace in="#00FFFF" out="#F8B8F8" />
+                </effects>
+            </texture>
+            <texture id="megaman-h" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#E40058" />
+                    <color-replace in="#00FFFF" out="#F8B800" />
+                </effects>
+            </texture>
+            <texture id="megaman-m" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#ACAF00" />
+                    <color-replace in="#00FFFF" out="#FFE0A8" />
+                </effects>
+            </texture>
+            <texture id="megaman-q" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#F85898" />
+                    <color-replace in="#00FFFF" out="#F8B8F8" />
+                </effects>
+            </texture>
+            <texture id="megaman-w" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#00B800" />
+                    <color-replace in="#00FFFF" out="#F8F8F8" />
+                </effects>
+            </texture>
+            <texture id="megaman-m" url="megaman.png" w="256" h="256">
+                <effects>
+                    <color-replace in="#0073F7" out="#F83800" />
+                    <color-replace in="#00FFFF" out="#F8F8F8" />
+                </effects>
             </texture>
         </textures>
     </model>

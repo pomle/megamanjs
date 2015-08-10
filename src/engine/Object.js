@@ -33,6 +33,7 @@ Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
 
 Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
 Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
+Engine.Object.prototype.textures = {};
 
 Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
 {
