@@ -33,7 +33,7 @@ Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
     var our = new Engine.Collision.BoundingBox(this._host.model, ourZone);
     var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
 
-    var attack = this._attackDirection(our, their);
+    var attack = this.attackDirection(our, their);
 
     if (this.attackAccept.indexOf(attack) < 0) {
         /*
@@ -70,7 +70,7 @@ Engine.traits.Solid.prototype.__uncollides = function(subject, ourZone, theirZon
     this.ignore.delete(subject);
 }
 
-Engine.traits.Solid.prototype._attackDirection = function(ourBoundingBox, theirBoundingBox)
+Engine.traits.Solid.prototype.attackDirection = function(ourBoundingBox, theirBoundingBox)
 {
     var distances = [
         Math.abs(theirBoundingBox.b - ourBoundingBox.t),

@@ -39,23 +39,24 @@ Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, our
         return false;
     }
 
-    if (withObject instanceof Game.objects.Solid) {
+    if (withObject.solid) {
+        var solid = withObject.solid;
         var our = new Engine.Collision.BoundingBox(this.model, ourZone);
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
-        var dir = withObject.attackDirection(our, their);
+        var dir = solid.attackDirection(our, their);
 
         /* If we are pushing Crash Bomb from the top or below, just nudge. */
-        if (dir === withObject.TOP) {
+        if (dir === solid.TOP) {
             our.top(their.b);
         }
-        else if (dir === withObject.BOTTOM) {
+        else if (dir === solid.BOTTOM) {
             our.bottom(their.t);
         }
         /* If we hit something from left or right, we attach. */
         else {
-            if (dir == withObject.LEFT) {
+            if (dir == solid.LEFT) {
                 our.left(their.r);
-            } else if (dir == withObject.RIGHT) {
+            } else if (dir == solid.RIGHT) {
                 our.right(their.l);
             }
 
