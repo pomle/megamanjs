@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="DestructibleWall">
+    <gravity x="0" y="983" />
+
+    <checkpoints>
+        <checkpoint x="0" y="0"/>
+    </checkpoints>
+
+    <layout>
+        <objects>
+            <object id="destructible-wall-orange" x="100" y="30" />
+        </objects>
+
+        <solids>
+            <rect x="0" y="32" w="240" h="16" />
+        </solids>
+    </layout>
+</scene>
