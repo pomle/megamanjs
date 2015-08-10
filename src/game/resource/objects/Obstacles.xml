@@ -28,7 +28,7 @@
     </texture>
 
     <object id="destructible-wall-orange">
-        <geometry type="plane" w="16" h="32" h-segments="2" />
+        <geometry type="plane" w="16" h="32" w-segments="1" h-segments="2" />
         <collision>
             <rect x="0" y="0" w="16" h="32" />
         </collision>

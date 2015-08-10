@@ -123,6 +123,7 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
             var animator = new Engine.Animator.UV();
             animator.copy(animators[i]);
             animator.addGeometry(this.geometry);
+            animator.indices = animators[i].indices;
             animator.update();
             if (animator._currentAnimation.frames.length) {
                 this.bind(this.EVENT_TIMESHIFT, animator.update.bind(animator));
