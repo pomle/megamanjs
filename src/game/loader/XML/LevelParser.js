@@ -10,7 +10,6 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
     this.level = new Game.scenes.Level(loader.game, this.world);
 
     this.animations = {};
-    this.faceAnimators = {};
     this.models = {};
 }
 
@@ -121,10 +120,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
     var level = parser.level;
 
     this.parseBackgrounds(levelNode);
-
     this.parseSolids(levelNode);
-
     this.parseSpawners(levelNode);
+    this.parseObjects(levelNode);
 
     return;
 }
@@ -239,6 +237,27 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
     this.models[modelId] = object;
 }
 
+Game.Loader.XML.Parser.LevelParser.prototype.parseObjects = function(levelNode)
+{
+    var parser = this;
+    var level = parser.level;
+
+    levelNode.find('> layout > objects > object').each(function() {
+        objectNode = $(this);
+        objectId = objectNode.attr('id');
+        position = parser.getPosition(objectNode);
+        var objectRef = parser.loader.game.resource.get('object', objectId);
+        if (!objectRef) {
+            throw new Error('Object "' + objectId + '" not defined');
+        }
+
+        var object = new objectRef();
+        object.moveTo(position);
+
+        level.world.addObject(object);
+    });
+}
+
 Game.Loader.XML.Parser.LevelParser.prototype.parseSolids = function(levelNode)
 {
     var parser = this;
@@ -299,34 +318,5 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(levelNode)
         spawner.maxDistance = parser.getFloat(spawnerNode, 'max-distance', spawner.maxDistance);
 
         level.world.addObject(spawner);
-    });
-}
-
-Game.Loader.XML.Parser.LevelParser.prototype.parseTexture = function(textureNode)
-{
-    var parser = this;
-    var textureSize = parser.getVector2(textureNode, 'w', 'h');
-    var texture = parser.getTexture(textureNode);
-
-    textureNode.find('animation').each(function() {
-        var animationNode = $(this);
-        var animation = new Engine.Animator.Animation();
-        animationNode.find('> frame').each(function() {
-            var frameNode = $(this);
-            var frameOffset = parser.getVector2(frameNode, 'x', 'y');
-            var frameSize = parser.getVector2(frameNode, 'w', 'h');
-
-            var uvMap = Engine.SpriteManager.createUVMap(frameOffset.x, frameOffset.y,
-                                                         frameSize.x,   frameSize.y,
-                                                         textureSize.x, textureSize.y);
-
-            var duration = parseFloat(frameNode.attr('duration')) || undefined;
-            animation.addFrame(uvMap, duration);
-        });
-        parser.animations[animationNode.attr('id')] = {
-            'animation': animation,
-            'texture': texture,
-            'mounted': false,
-        }
     });
 }

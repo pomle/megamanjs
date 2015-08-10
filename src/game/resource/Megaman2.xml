@@ -12,6 +12,7 @@
         <!-- Debug Levels -->
             <scene type="level" name="JumpTest" src="./levels/debug/JumpTest.xml" />
             <scene type="level" name="Telly" src="./levels/debug/Telly.xml" />
+            <scene type="level" name="DestructibleWall" src="./levels/debug/DestructibleWall.xml" />
             <scene type="level" name="BackgroundFaceAnimation" src="./levels/debug/BackgroundFaceAnimation.xml" />
         <!-- End Debug Levels -->
     </scenes>
@@ -26,6 +27,8 @@
         <character id="Megaman" src="./characters/Megaman.xml" />
         <character id="Telly" src="./characters/Telly.xml" />
     </characters>
+
+    <objects src="./objects/Obstacles.xml" />
 
     <player>
         <character id="Megaman"/>

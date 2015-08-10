@@ -114,6 +114,12 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         }
     }
 
+    gameNode.find('> objects').each(function() {
+        loader.traverseNode($(this), function(objectsNode) {
+            loader.parseObjects(objectsNode);
+        });
+    });
+
     gameNode.find('> characters > character').each(function() {
         var characterNode = $(this);
         ++characterQueue;
@@ -132,6 +138,13 @@ Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
     parser.baseUrl = levelNode.baseUrl;
     parser.callback = callback;
     parser.parse(levelNode);
+}
+
+Game.Loader.XML.prototype.parseObjects = function(objectsNode, callback)
+{
+    var parser = new Game.Loader.XML.Parser.ObjectParser(this);
+    parser.callback = callback;
+    parser.parse(objectsNode);
 }
 
 Game.Loader.XML.prototype.parseScene = function(sceneNode, callback)
