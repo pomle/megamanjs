@@ -247,7 +247,7 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 
     if (!texture) {
         var texture = new THREE.Texture();
-        texture.magFilter = THREE.NearestFilter;
+        texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
 
         var effects = [];
