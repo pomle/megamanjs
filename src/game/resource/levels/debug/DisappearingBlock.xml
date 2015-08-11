@@ -19,7 +19,7 @@
     </texture>
 
     <objects>
-        <object id="pho-block">
+        <object id="PhoBlock">
             <geometry type="plane" w="16" h="22" w-segments="1" h-segments="1" />
             <collision>
                 <rect x="0" y="3" w="16" h="16" />
@@ -38,16 +38,16 @@
 
     <layout>
         <objects>
-            <object id="pho-block" x="48" y="4">
+            <object id="PhoBlock" x="48" y="4">
                 <trait source="Disappearing" off="4" on="2" offset="0" />
             </object>
-            <object id="pho-block" x="96" y="4">
+            <object id="PhoBlock" x="96" y="4">
                 <trait source="Disappearing" off="4" on="2" offset="-1" />
             </object>
-            <object id="pho-block" x="144" y="4">
+            <object id="PhoBlock" x="144" y="4">
                 <trait source="Disappearing" off="4" on="2" offset="-2" />
             </object>
-            <object id="pho-block" x="192" y="4">
+            <object id="PhoBlock" x="192" y="4">
                 <trait source="Disappearing" off="4" on="2" offset="-3" />
             </object>
         </objects>
