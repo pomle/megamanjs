@@ -64,8 +64,6 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
         collision.push(parser.getRect(rectNode));
     });
 
-    loader = undefined;
-
     var traits = parser.parseTraits(characterNode);
 
     var sourceName = characterNode.attr('source');
