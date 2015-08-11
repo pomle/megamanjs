@@ -351,6 +351,23 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
     }
 }
 
+Game.Loader.XML.Parser.prototype.getUVAnimation = function(animationNode, textureSize, frameSize)
+{
+    var parser = this;
+    var animation = new Engine.Animator.Animation();
+    animationNode.find('> frame').each(function() {
+        var frameNode = $(this);
+        var offset = parser.getVector2(frameNode, 'x', 'y');
+        var size = frameSize || parser.getVector2(frameNode, 'w', 'h');
+        var uvMap = Engine.SpriteManager.createUVMap(offset.x, offset.y,
+                                                     size.x, size.y,
+                                                     textureSize.x, textureSize.y);
+        var duration = parseFloat(frameNode.attr('duration')) || undefined;
+        animation.addFrame(uvMap, duration);
+    });
+    return animation;
+}
+
 Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY)
 {
     var node = $(node);
@@ -377,24 +394,10 @@ Game.Loader.XML.Parser.prototype.parseTexture = function(textureNode)
 
     textureNode.find('animation').each(function() {
         var animationNode = $(this);
-        var animation = new Engine.Animator.Animation();
-        animationId = animationNode.attr('id');
-        animationNode.find('> frame').each(function() {
-            var frameNode = $(this);
-            var frameOffset = parser.getVector2(frameNode, 'x', 'y');
-            var frameSize = parser.getVector2(frameNode, 'w', 'h');
-
-            var uvMap = Engine.SpriteManager.createUVMap(frameOffset.x, frameOffset.y,
-                                                         frameSize.x,   frameSize.y,
-                                                         textureSize.x, textureSize.y);
-
-            var duration = parseFloat(frameNode.attr('duration')) || undefined;
-            animation.addFrame(uvMap, duration);
-        });
-        parser.animations[animationId] = {
+        var animation = parser.getUVAnimation(animationNode, textureSize);
+        parser.animations[animationNode.attr('id')] = {
             'animation': animation,
             'texture': texture,
-            'mounted': false,
         }
     });
 }

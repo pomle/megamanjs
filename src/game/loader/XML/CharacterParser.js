@@ -41,17 +41,8 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
         var defaultAnimation = undefined;
         textureNode.find('> animations > animation').each(function() {
             var animationNode = $(this);
-            var animation = animator.createAnimation(animationNode.attr('id'), animationNode.attr('group'));
-            animationNode.find('> frame').each(function() {
-                var frameNode = $(this);
-                var frameOffset = parser.getVector2(frameNode);
-
-                var uvMap = Engine.SpriteManager.createUVMap(frameOffset.x, frameOffset.y,
-                                                             modelSize.x, modelSize.y,
-                                                             textureSize.x, textureSize.y);
-                var duration = parseFloat(frameNode.attr('duration')) || undefined;
-                animation.addFrame(uvMap, duration);
-            });
+            var animation = parser.getUVAnimation(animationNode, textureSize, modelSize);
+            animator.addAnimation(animationNode.attr('id'), animation, animationNode.attr('group'));
             if ('true' === animationNode.attr('default')) {
                 animator.setAnimation(animation);
             }
@@ -91,9 +82,9 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
             loader.applyTrait(this, traits[i]);
         }
 
-        var _animator = animator.clone();
-        _animator.addGeometry(this.geometry);
-        this.animators.push(_animator);
+        var anim = animator.clone();
+        anim.addGeometry(this.geometry);
+        this.animators.push(anim);
 
         for (var i in collision) {
             var r = collision[i];
