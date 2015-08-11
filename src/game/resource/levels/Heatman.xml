@@ -842,6 +842,83 @@
                 <trait source="Disappearing" off="2" on="2" />
             </object>
 
+            <!-- lava trap -->
+            <object id="pho-block" x="3296" y="592">
+                <trait source="Disappearing" off="2" on="2" offset="0" />
+            </object>
+            <object id="pho-block" x="3344" y="592">
+                <trait source="Disappearing" off="2" on="2" offset="-.5" />
+            </object>
+            <object id="pho-block" x="3392" y="592">
+                <trait source="Disappearing" off="2" on="2" offset="-2.5" />
+            </object>
+            <object id="pho-block" x="3392" y="544">
+                <trait source="Disappearing" off="2" on="2" offset="-3.8" />
+            </object>
+            <object id="pho-block" x="3440" y="544">
+                <trait source="Disappearing" off="2" on="2" offset="-3.5" />
+            </object>
+            <object id="pho-block" x="3488" y="592">
+                <trait source="Disappearing" off="2" on="2" offset="-5" />
+            </object>
+
+            <object id="pho-block" x="3536" y="592">
+                <trait source="Disappearing" off="2" on="2" offset="-5" />
+            </object>
+            <object id="pho-block" x="3536" y="544">
+                <trait source="Disappearing" off="2" on="2" offset="-6.5" />
+            </object>
+            <object id="pho-block" x="3584" y="544">
+                <trait source="Disappearing" off="2" on="2" offset="-6" />
+            </object>
+            <object id="pho-block" x="3632" y="544">
+                <trait source="Disappearing" off="2" on="2" offset="-7" />
+            </object>
+            <object id="pho-block" x="3680" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-8" />
+            </object>
+            <object id="pho-block" x="3728" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-9" />
+            </object>
+            <object id="pho-block" x="3776" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-10" />
+            </object>
+            <object id="pho-block" x="3824" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-11" />
+            </object>
+            <object id="pho-block" x="3872" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-12" />
+            </object>
+            <object id="pho-block" x="3920" y="592">
+                <trait source="Disappearing" off="2" on="2" offset="-13" />
+            </object>
+            <object id="pho-block" x="3968" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-14" />
+            </object>
+            <object id="pho-block" x="4016" y="560">
+                <trait source="Disappearing" off="2" on="2" offset="-15" />
+            </object>
+            <object id="pho-block" x="4064" y="544">
+                <trait source="Disappearing" off="2" on="2" offset="-16" />
+            </object>
+            <object id="pho-block" x="4112" y="624">
+                <trait source="Disappearing" off="2" on="2" offset="-17" />
+            </object>
+            <object id="pho-block" x="4160" y="624">
+                <trait source="Disappearing" off="2" on="2" offset="-18" />
+            </object>
+            <object id="pho-block" x="4208" y="624">
+                <trait source="Disappearing" off="2" on="2" offset="-19" />
+            </object>
+            <object id="pho-block" x="4208" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-21" />
+            </object>
+            <object id="pho-block" x="4256" y="592">
+                <trait source="Disappearing" off="2" on="2" offset="-20" />
+            </object>
+            <object id="pho-block" x="4304" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-21" />
+            </object>
 
         </objects>
 
