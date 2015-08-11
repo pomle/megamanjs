@@ -1,6 +1,7 @@
 Engine.Animator = function()
 {
     this._currentAnimation = undefined;
+    this._currentGroup = undefined;
     this._currentId = undefined;
     this._currentIndex = undefined;
 
@@ -9,12 +10,15 @@ Engine.Animator = function()
     this.time = 0;
 }
 
-Engine.Animator.prototype.addAnimation = function(id, animation)
+Engine.Animator.prototype.addAnimation = function(id, animation, group)
 {
     if (this.animations[id]) {
         throw new TypeError('Animation "' + id + '" already defined');
     }
-    this.animations[id] = animation;
+    this.animations[id] = {
+        animation: animation,
+        group: group,
+    };
 }
 
 Engine.Animator.prototype.copy = function(animator)
@@ -27,8 +31,7 @@ Engine.Animator.prototype.copy = function(animator)
 Engine.Animator.prototype.createAnimation = function(id, group)
 {
     var animation = new Engine.Animator.Animation();
-    animation.group = group;
-    this.addAnimation(id, animation);
+    this.addAnimation(id, animation, group);
     return animation;
 }
 
@@ -43,12 +46,13 @@ Engine.Animator.prototype.pickAnimation = function(id)
 
     var animation = this.animations[id];
 
-    if (animation.group === undefined || animation.group !== this._currentAnimation.group) {
+    if (animation.group === undefined || animation.group !== this._currentGroup) {
         this.reset();
     }
 
-    this.setAnimation(animation);
+    this.setAnimation(animation.animation);
     this._currentId = id;
+    this._currentGroup = animation.group;
 }
 
 Engine.Animator.prototype.reset = function()
@@ -94,7 +98,6 @@ Engine.Animator.Animation = function()
     this._duration = undefined;
 
     this.frames = 0;
-    this.group = undefined;
     this.timeline = undefined;
 }
 
