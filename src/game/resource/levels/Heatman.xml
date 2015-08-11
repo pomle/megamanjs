@@ -819,6 +819,30 @@
                 <trait source="Disappearing" off="2" on="2" offset="-2" />
             </object>
 
+            <!-- lower level, section 1 -->
+            <object id="pho-block" x="2096" y="640">
+                <trait source="Disappearing" off="2" on="2" offset="-1" />
+            </object>
+            <object id="pho-block" x="2208" y="624">
+                <trait source="Disappearing" off="2" on="2" offset="0" />
+            </object>
+            <object id="pho-block" x="2208" y="576">
+                <trait source="Disappearing" off="2" on="2" offset="-1" />
+            </object>
+            <object id="pho-block" x="2464" y="640">
+                <trait source="Disappearing" off="2" on="2" />
+            </object>
+            <object id="pho-block" x="2624" y="640">
+                <trait source="Disappearing" off="2" on="2" />
+            </object>
+            <object id="pho-block" x="2624" y="592">
+                <trait source="Disappearing" off="2" on="2" offset="-2" />
+            </object>
+            <object id="pho-block" x="2768" y="656">
+                <trait source="Disappearing" off="2" on="2" />
+            </object>
+
+
         </objects>
 
         <spawner x="680" y="88" interval="4" simultaneous="2">
