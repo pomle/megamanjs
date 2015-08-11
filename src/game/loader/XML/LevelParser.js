@@ -266,6 +266,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
 
         var object = new parser.objects[objectId]();
         var position = parser.getPosition(objectNode);
+        position.sub(object.origo);
         object.moveTo(position);
         object.position.z = 2;
 
