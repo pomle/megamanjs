@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="DisappearingBlock">
+    <gravity x="0" y="983" />
+
+    <checkpoints>
+        <checkpoint x="0" y="0"/>
+    </checkpoints>
+
+
+    <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128">
+        <animation id="pho">
+            <frame x="1" y="73" w="16" h="22" duration=".117" />
+            <frame x="19" y="73" w="16" h="22" duration=".117" />
+            <frame x="37" y="73" w="16" h="22" duration=".117" />
+            <frame x="55" y="73" w="16" h="22" duration=".117" />
+            <frame x="73" y="73" w="16" h="22" duration=".117" />
+            <frame x="19" y="73" w="16" h="22" />
+        </animation>
+    </texture>
+
+    <objects>
+        <object id="pho-block">
+            <geometry type="plane" w="16" h="22" w-segments="1" h-segments="1" />
+            <collision>
+                <rect x="0" y="3" w="16" h="16" />
+            </collision>
+
+            <tile id="pho">
+                <face x="1" y="1"/>
+            </tile>
+
+            <traits>
+                <trait source="Solid" />
+            </traits>
+        </object>
+    </objects>
+
+
+    <layout>
+        <objects>
+            <object id="pho-block" x="48" y="4">
+                <trait source="Disappearing" off="4" on="2" offset="0" />
+            </object>
+            <object id="pho-block" x="96" y="4">
+                <trait source="Disappearing" off="4" on="2" offset="-1" />
+            </object>
+            <object id="pho-block" x="144" y="4">
+                <trait source="Disappearing" off="4" on="2" offset="-2" />
+            </object>
+            <object id="pho-block" x="192" y="4">
+                <trait source="Disappearing" off="4" on="2" offset="-3" />
+            </object>
+        </objects>
+
+        <solids>
+            <rect x="-32" y="32" w="64" h="16" />
+            <rect x="256" y="32" w="64" h="16" />
+        </solids>
+    </layout>
+</scene>
