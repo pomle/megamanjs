@@ -139,10 +139,8 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
 
         /* Run initial update of all UV maps. */
         for (var i in animators) {
-            var animator = new Engine.Animator.UV();
-            animator.copy(animators[i]);
+            var animator = animators[i].clone();
             animator.addGeometry(this.geometry);
-            animator.indices = animators[i].indices;
             animator.update();
             this.animators.push(animator);
         }

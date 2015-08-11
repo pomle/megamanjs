@@ -93,9 +93,9 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
             loader.applyTrait(this, traits[i]);
         }
 
-        this.animator = new Engine.Animator.UV();
-        this.animator.copy(animator);
-        this.animator.addGeometry(this.model.geometry);
+        var _animator = animator.clone();
+        _animator.addGeometry(this.geometry);
+        this.animators.push(_animator);
 
         for (var i in collision) {
             var r = collision[i];

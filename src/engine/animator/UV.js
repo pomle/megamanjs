@@ -42,3 +42,16 @@ Engine.Animator.UV.prototype.addGeometry = function(geometry)
     }
     this.geometries.push(geometry);
 }
+
+Engine.Animator.UV.prototype.clone = function(animation)
+{
+    var anim = new Engine.Animator.UV();
+    anim._currentAnimation = this._currentAnimation;
+    anim._currentId = this._currentId;
+    anim.animations = this.animations;
+    anim.indices = this.indices;
+    for (var i in this.geometries) {
+        anim.addGeometry(this.geometries[i]);
+    }
+    return anim;
+}
