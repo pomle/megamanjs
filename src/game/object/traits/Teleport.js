@@ -6,7 +6,7 @@ Game.traits.Teleport = function()
     this._startProgress = 0;
     this.endDuration = .15;
     this.startDuration = .15;
-    this.speed = 600;
+    this.speed = 900;
     this.state = this.STATE_OFF;
 }
 
