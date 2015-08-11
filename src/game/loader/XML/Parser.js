@@ -378,6 +378,7 @@ Game.Loader.XML.Parser.prototype.parseTexture = function(textureNode)
     textureNode.find('animation').each(function() {
         var animationNode = $(this);
         var animation = new Engine.Animator.Animation();
+        animationId = animationNode.attr('id');
         animationNode.find('> frame').each(function() {
             var frameNode = $(this);
             var frameOffset = parser.getVector2(frameNode, 'x', 'y');
@@ -390,7 +391,7 @@ Game.Loader.XML.Parser.prototype.parseTexture = function(textureNode)
             var duration = parseFloat(frameNode.attr('duration')) || undefined;
             animation.addFrame(uvMap, duration);
         });
-        parser.animations[animationNode.attr('id')] = {
+        parser.animations[animationId] = {
             'animation': animation,
             'texture': texture,
             'mounted': false,
