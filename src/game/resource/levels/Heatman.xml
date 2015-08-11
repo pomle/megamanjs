@@ -223,7 +223,34 @@
         <animation id="sign-w">
             <frame x="217" y="1" w="16" h="16"/>
         </animation>
+
+        <animation id="pho">
+            <frame x="1" y="73" w="16" h="22" duration=".117" />
+            <frame x="19" y="73" w="16" h="22" duration=".117" />
+            <frame x="37" y="73" w="16" h="22" duration=".117" />
+            <frame x="55" y="73" w="16" h="22" duration=".117" />
+            <frame x="73" y="73" w="16" h="22" duration=".117" />
+            <frame x="19" y="73" w="16" h="22" />
+        </animation>
+
     </texture>
+
+    <objects>
+        <object id="pho-block">
+            <geometry type="plane" w="16" h="22" w-segments="1" h-segments="1" />
+            <collision>
+                <rect x="0" y="3" w="16" h="16" />
+            </collision>
+
+            <tile id="pho">
+                <face x="1" y="1"/>
+            </tile>
+
+            <traits>
+                <trait source="Solid" />
+            </traits>
+        </object>
+    </objects>
 
     <models>
         <!--
