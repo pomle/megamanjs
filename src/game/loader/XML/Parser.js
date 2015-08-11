@@ -134,6 +134,10 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
 
         Engine.Object.call(this);
 
+        this.origo.x = -(size.x / 2);
+        this.origo.y = size.y / 2;
+
+
         /* Run initial update of all UV maps. */
         for (var i in animators) {
             var animator = animators[i].clone();
