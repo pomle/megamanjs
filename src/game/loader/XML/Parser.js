@@ -57,6 +57,7 @@ Game.Loader.XML.Parser.prototype.getGeometry = function(node)
 Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
 {
     var parser = this;
+    var loader = parser.loader;
 
     var objectId = objectNode.attr('id');
     var geometryNode = objectNode.find('> geometry');
@@ -106,10 +107,10 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
         });
     });
 
-    var traits = [];
+    var traitDescriptors = [];
     objectNode.find('> traits > trait').each(function() {
         var traitNode = $(this);
-        traits.push(parser.getTrait(traitNode));
+        traitDescriptors.push(parser.getTrait(traitNode));
     });
 
     var collision = [];
@@ -134,6 +135,8 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
         this.geometry = geometry.clone();
         this.material = material;
 
+        Engine.Object.call(this);
+
         /* Run initial update of all UV maps. */
         for (var i in animators) {
             var animator = new Engine.Animator.UV();
@@ -141,22 +144,11 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
             animator.addGeometry(this.geometry);
             animator.indices = animators[i].indices;
             animator.update();
-            if (animator._currentAnimation.frames.length) {
-                this.bind(this.EVENT_TIMESHIFT, animator.update.bind(animator));
-            }
+            this.animators.push(animator);
         }
 
-        Engine.Object.call(this);
-
-        for (var i in traits) {
-            var trait = new traits[i].ref();
-            for (var p in traits[i].prop) {
-                var prop = traits[i].prop[p];
-                if (prop !== undefined) {
-                    trait[p] = prop;
-                }
-            }
-            this[trait.NAME] = this.applyTrait(trait);
+        for (var i in traitDescriptors) {
+            loader.applyTrait(this, traitDescriptors[i]);
         }
 
         for (var i in collision) {
@@ -283,14 +275,26 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
 {
     var source = traitNode.attr('source');
+    var name = traitNode.attr('name');
     var ref = Game.traits[source] ? Game.traits[source] : Engine.traits[source];
 
-    switch (ref.prototype.NAME) {
-        case 'contactDamager':
+    switch (name || ref.prototype.NAME) {
+        case 'contactDamage':
             return {
                 'ref': ref,
                 'prop': {
                     'points': this.getFloat(traitNode, 'points'),
+                }
+            }
+            break;
+
+        case 'disappearing':
+            return {
+                'ref': ref,
+                'prop': {
+                    'onDuration': this.getFloat(traitNode, 'on'),
+                    'offDuration': this.getFloat(traitNode, 'off'),
+                    'offset': this.getFloat(traitNode, 'offset'),
                 }
             }
             break;

@@ -32,6 +32,4 @@ Game.Loader.XML.Parser.ObjectParser.prototype.parse = function(objectsNode)
         var object = parser.getObject(objectNode);
         parser.loader.game.resource.addAuto(id, object);
     });
-
-    this.callback();
 }

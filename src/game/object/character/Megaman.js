@@ -49,51 +49,50 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
 
 Game.objects.characters.Megaman.prototype.routeAnimation = function()
 {
+    var anim = this.animators[0];
     if (this.teleport.state) {
         if (this.teleport.state == this.teleport.STATE_OUT) {
-            return this.animator.pickAnimation('teleport-out');
+            return anim.pickAnimation('teleport-out');
         }
         else if (this.teleport.state == this.teleport.STATE_IN) {
-            return this.animator.pickAnimation('teleport-in');
+            return anim.pickAnimation('teleport-in');
         }
-        return this.animator.pickAnimation('teleport');
+        return anim.pickAnimation('teleport');
     }
 
     if (this.stun._engaged === true) {
-        return this.animator.pickAnimation('stunned');
+        return anim.pickAnimation('stunned');
     }
 
     if (!this.isSupported) {
         if (this.weapon._firing) {
-            return this.animator.pickAnimation('jump-fire');
+            return anim.pickAnimation('jump-fire');
         }
-        return this.animator.pickAnimation('jump');
+        return anim.pickAnimation('jump');
     }
 
     if (this.move._moveSpeed) {
         if (this.move._moveSpeed < this.move.speed * .8) {
             if (this.weapon._firing) {
-                return this.animator.pickAnimation('fire');
+                return anim.pickAnimation('fire');
             }
-            return this.animator.pickAnimation('lean');
+            return anim.pickAnimation('lean');
         }
         if (this.weapon._firing) {
-            return this.animator.pickAnimation('run-fire');
+            return anim.pickAnimation('run-fire');
         }
-        return this.animator.pickAnimation('run');
+        return anim.pickAnimation('run');
     }
 
     if (this.weapon._firing) {
-        return this.animator.pickAnimation('fire');
+        return anim.pickAnimation('fire');
     }
 
-    return this.animator.pickAnimation('idle');
+    return anim.pickAnimation('idle');
 }
 
 Game.objects.characters.Megaman.prototype.timeShift = function(dt)
 {
     this.routeAnimation();
-    this.animator.update(dt);
-
     Game.objects.Character.prototype.timeShift.call(this, dt);
 }

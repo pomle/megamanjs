@@ -90,14 +90,7 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
         source.call(this);
 
         for (var i in traits) {
-            var trait = new traits[i].ref();
-            for (var p in traits[i].prop) {
-                var prop = traits[i].prop[p];
-                if (prop !== undefined) {
-                    trait[p] = prop;
-                }
-            }
-            this[trait.NAME] = this.applyTrait(trait);
+            loader.applyTrait(this, traits[i]);
         }
 
         this.animator = new Engine.Animator.UV();
