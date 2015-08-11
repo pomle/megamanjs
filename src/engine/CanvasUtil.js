@@ -37,6 +37,6 @@ Engine.CanvasUtil = {
         var context = newCanvas.getContext("2d");
         context.imageSmoothingEnabled = scale < 1;
         context.drawImage(canvas, 0, 0, x, y);
-        return canvas;
+        return newCanvas;
     }
 }
