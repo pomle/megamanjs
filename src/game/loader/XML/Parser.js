@@ -123,17 +123,13 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
         throw new Error("No texture index 0 for model " + objectId);
     }
 
-    var material = new THREE.MeshBasicMaterial({
-        map: textures[0],
-        side: THREE.FrontSide,
-    });
-
-    var object = function()
+    var object = loader.createObject(objectId, Engine.Object, function()
     {
-        this._objectId = objectId;
-
         this.geometry = geometry.clone();
-        this.material = material;
+        this.material = new THREE.MeshBasicMaterial({
+            map: textures[0],
+            side: THREE.FrontSide,
+        });
 
         Engine.Object.call(this);
 
@@ -153,9 +149,8 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
             var r = collision[i];
             this.addCollisionRect(r.w, r.h, r.x, r.y);
         }
-    }
+    });
 
-    Engine.Util.extend(object, Engine.Object);
 
     return object;
 }
