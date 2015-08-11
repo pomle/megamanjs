@@ -37,6 +37,10 @@ Engine.Animator.prototype.pickAnimation = function(id)
     if (this._currentId === id) {
         return;
     }
+    if (!this.animations[id]) {
+        throw new Error('Animation "' + id + '" not defined');
+    }
+
     var animation = this.animations[id];
 
     if (animation.group === undefined || animation.group !== this._currentAnimation.group) {
