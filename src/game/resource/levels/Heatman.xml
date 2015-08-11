@@ -233,6 +233,10 @@
             <frame x="19" y="73" w="16" h="22" />
         </animation>
 
+        <animation id="destructible-wall">
+            <frame x="91" y="73" w="16" h="16" />
+        </animation>
+
     </texture>
 
     <objects>
@@ -248,6 +252,22 @@
 
             <traits>
                 <trait source="Solid" />
+            </traits>
+        </object>
+
+        <object id="ironwall">
+            <geometry type="plane" w="16" h="32" w-segments="1" h-segments="2" />
+            <collision>
+                <rect x="0" y="0" w="16" h="32" />
+            </collision>
+
+            <tile id="destructible-wall">
+                <face x="*" y="*"/>
+            </tile>
+
+            <traits>
+                <trait source="Solid" />
+                <trait source="Destructible" />
             </traits>
         </object>
     </objects>
@@ -919,6 +939,10 @@
             <object id="pho-block" x="4304" y="576">
                 <trait source="Disappearing" off="6" on="2" offset="-18.5" />
             </object>
+
+            <object id="ironwall" x="2480" y="640" />
+            <object id="ironwall" x="2640" y="608" />
+            <object id="ironwall" x="2784" y="640" />
         </objects>
 
         <spawner x="680" y="88" interval="4" simultaneous="2">
