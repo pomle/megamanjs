@@ -19,3 +19,11 @@ Game.Loader.prototype.applyTrait = function(object, traitDescriptor)
         }
     }
 }
+
+Game.Loader.prototype.createObject = function(name, ext, func)
+{
+    name = name.replace(/-/g, '');
+    var object = Engine.Util.renameFunction(name, func);
+    Engine.Util.extend(object, ext);
+    return object;
+}
