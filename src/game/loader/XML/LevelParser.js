@@ -71,7 +71,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
 
         var background = new parser.models[modelId]();
 
-        var position = parser.getVector2(backgroundNode);
+        var position = parser.getPosition(backgroundNode);
         background.position.x = position.x + (background._size.x / 2);
         background.position.y = position.y - (background._size.y / 2);
         background.position.z = 0;
