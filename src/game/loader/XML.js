@@ -6,6 +6,8 @@ Game.Loader.XML = function(game)
     this.parser = new Game.Loader.XML.Parser(this);
 }
 
+Engine.Util.extend(Game.Loader.XML, Game.Loader);
+
 Game.Loader.XML.prototype.defaultMaterial = new THREE.MeshBasicMaterial({
     color: 0x0000ff,
     wireframe: true,
