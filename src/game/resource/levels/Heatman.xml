@@ -804,6 +804,23 @@
         <background model="vertical-2"  x="4352" y="720" />
         <background model="boss-level"  x="4352" y="960" />
 
+        <objects>
+            <!-- vertical room 1 -->
+            <object id="pho-block" x="1952" y="352">
+                <trait source="Disappearing" off="2" on="2" />
+            </object>
+            <object id="pho-block" x="1888" y="288">
+                <trait source="Disappearing" off="2" on="2" />
+            </object>
+            <object id="pho-block" x="1952" y="304">
+                <trait source="Disappearing" off="2" on="2" offset="-1" />
+            </object>
+            <object id="pho-block" x="1904" y="320">
+                <trait source="Disappearing" off="2" on="2" offset="-2" />
+            </object>
+
+        </objects>
+
         <spawner x="680" y="88" interval="4" simultaneous="2">
             <character id="Telly" />
         </spawner>
@@ -881,8 +898,6 @@
             <rect x="1968" y="400" w="16" h="16"/>
             <rect x="2000" y="400" w="16" h="16"/>
 
-            <!--Temporaty until disappearing blocks works. -->
-            <rect x="1872" y="352" w="16" h="16"/>
         </solids>
 
 
