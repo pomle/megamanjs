@@ -44,11 +44,16 @@ Engine.Animator.prototype.pickAnimation = function(id)
     var animation = this.animations[id];
 
     if (animation.group === undefined || animation.group !== this._currentAnimation.group) {
-        this.time = this.offset;
+        this.reset();
     }
 
     this.setAnimation(animation);
     this._currentId = id;
+}
+
+Engine.Animator.prototype.reset = function()
+{
+    this.time = this.offset;
 }
 
 Engine.Animator.prototype.setAnimation = function(animation)
