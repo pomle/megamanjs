@@ -129,6 +129,7 @@ Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
         this.material = new THREE.MeshBasicMaterial({
             map: textures[0],
             side: THREE.FrontSide,
+            transparent: true,
         });
 
         Engine.Object.call(this);
