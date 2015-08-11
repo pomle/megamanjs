@@ -51,11 +51,14 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
 
     var collision = [];
     modelNode.find('> collision > rect').each(function() {
-        var rectNode = $(this);
-        collision.push(parser.getRect(rectNode));
+        collision.push(parser.getRect($(this)));
     });
 
-    var traits = parser.parseTraits(characterNode);
+    var traits = [];
+    characterNode.find('> traits > trait').each(function() {
+        traits.push(parser.getTrait($(this)));
+    });
+
 
     var sourceName = characterNode.attr('source');
     if (sourceName) {
@@ -96,16 +99,4 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
     constructor.prototype.textures = textures;
 
     this.callback(constructor);
-}
-
-Game.Loader.XML.Parser.CharacterParser.prototype.parseTraits = function(characterNode)
-{
-    var parser = this;
-    var traits = [];
-
-    characterNode.find('> traits > trait').each(function() {
-        traits.push(parser.getTrait($(this)));
-    });
-
-    return traits;
 }
