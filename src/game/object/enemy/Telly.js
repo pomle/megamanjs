@@ -33,6 +33,5 @@ Game.objects.characters.Telly.prototype.updateAI = function()
 Game.objects.characters.Telly.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
-    this.animator.update(dt);
     Game.objects.Character.prototype.timeShift.call(this, dt);
 }
