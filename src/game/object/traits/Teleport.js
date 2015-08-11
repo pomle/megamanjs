@@ -83,7 +83,10 @@ Game.traits.Teleport.prototype._handle = function(dt)
 
 Game.traits.Teleport.prototype.nudge = function(vec2)
 {
-    this.to(this._host.position.clone().add(vec2));
+    var dest = this._host.position.clone();
+    dest.x += vec2.x;
+    dest.y += vec2.y;
+    this.to(dest);
 }
 
 Game.traits.Teleport.prototype.to = function(vec2)
