@@ -976,28 +976,28 @@
             <character id="Telly" />
         </spawner>
 
-        <spawner x="1976" y="568" interval="4" simultaneous="2">
+        <spawner x="1976" y="568" interval="7" simultaneous="1">
             <character id="Telly" />
         </spawner>
-        <spawner x="2024" y="600" interval="4" simultaneous="2">
+        <spawner x="2024" y="600" interval="6" simultaneous="1">
             <character id="Telly" />
         </spawner>
-        <spawner x="2136" y="552" interval="4" simultaneous="2">
+        <spawner x="2136" y="552" interval="8" simultaneous="1">
             <character id="Telly" />
         </spawner>
-        <spawner x="2312" y="616" interval="4" simultaneous="2">
+        <spawner x="2312" y="616" interval="4" simultaneous="1">
             <character id="Telly" />
         </spawner>
-        <spawner x="2360" y="600" interval="4" simultaneous="2">
+        <spawner x="2360" y="600" interval="4" simultaneous="1">
             <character id="Telly" />
         </spawner>
-        <spawner x="2408" y="552" interval="4" simultaneous="2">
+        <spawner x="2408" y="552" interval="4" simultaneous="1">
             <character id="Telly" />
         </spawner>
-        <spawner x="2520" y="552" interval="4" simultaneous="2">
+        <spawner x="2520" y="552" interval="4" simultaneous="1">
             <character id="Telly" />
         </spawner>
-        <spawner x="2712" y="552" interval="4" simultaneous="2">
+        <spawner x="2712" y="552" interval="4" simultaneous="1">
             <character id="Telly" />
         </spawner>
 
