@@ -30,7 +30,9 @@ Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
         return false;
     }
 
-    var our = new Engine.Collision.BoundingBox(this._host.model, ourZone);
+    var host = this._host;
+
+    var our = new Engine.Collision.BoundingBox(host.model, ourZone);
     var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
 
     var attack = this.attackDirection(our, their);
@@ -45,21 +47,21 @@ Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
         return false;
     }
 
-    if (attack === this.TOP && subject.velocity.y < this._host.velocity.y) {
+    if (attack === this.TOP && subject.velocity.y < host.velocity.y) {
         their.bottom(our.t);
-        subject.obstruct(this._host, attack);
+        subject.obstruct(host, attack);
     }
-    else if (attack === this.BOTTOM && subject.velocity.y > this._host.velocity.y) {
+    else if (attack === this.BOTTOM && subject.velocity.y > host.velocity.y) {
         their.top(our.b);
-        subject.obstruct(this._host, attack);
+        subject.obstruct(host, attack);
     }
-    else if (attack === this.LEFT && subject.velocity.x > this._host.velocity.x) {
+    else if (attack === this.LEFT && subject.velocity.x > host.velocity.x) {
         their.right(our.l);
-        subject.obstruct(this._host, attack);
+        subject.obstruct(host, attack);
     }
-    else if (attack === this.RIGHT && subject.velocity.x < this._host.velocity.x) {
+    else if (attack === this.RIGHT && subject.velocity.x < host.velocity.x) {
         their.left(our.r);
-        subject.obstruct(this._host, attack);
+        subject.obstruct(host, attack);
     }
 
     return true;

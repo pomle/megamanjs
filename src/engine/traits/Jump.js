@@ -47,6 +47,7 @@ Engine.traits.Jump.prototype.start = function()
     }
 
     host.isClimbing = false;
+
     if (!host.isSupported) {
         return false;
     }
