@@ -40,16 +40,18 @@ Engine.traits.Jump.prototype.__timeshift = function(deltaTime)
 
 Engine.traits.Jump.prototype.start = function()
 {
-    if (this._host.stunnedTime > 0) {
+    var host = this._host;
+    if (host.stunnedTime > 0) {
         return false;
     }
 
-    if (!this._host.isSupported) {
+    host.isClimbing = false;
+    if (!host.isSupported) {
         return false;
     }
-    this._host.isSupported = false;
-    this._inertia = this._host.physics.inertia.y + this.force;
-    this._time = this._host.time;
+    host.isSupported = false;
+    this._inertia = host.physics.inertia.y + this.force;
+    this._time = host.time;
 }
 
 Engine.traits.Jump.prototype.end = function()

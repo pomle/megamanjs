@@ -1,9 +1,10 @@
 Game.traits.Climbable = function()
 {
-    this.__solid = Engine.traits.Solid;
-    this.__solid.call(this);
+    Engine.traits.Solid.call(this);
     this.attackAccept = [this.TOP];
     this.attached = new Set();
+
+    this.topMargin = 5;
 }
 
 Engine.Util.extend(Game.traits.Climbable, Engine.traits.Solid);
@@ -13,12 +14,12 @@ Game.traits.Climbable.prototype.__collides = function(subject, ourZone, theirZon
     if (!this.attached.has(subject)
     && subject.move !== undefined
     && subject.move._climb
-    && subject.direction.y < 0) {
+    && (subject.direction.y < 0 || this._reaches(subject, ourZone, theirZone))) {
         this._attach(subject);
+        return;
     }
-    else {
-        this.__solid.prototype.__collides.call(this, subject, ourZone, theirZone);
-    }
+
+    Engine.traits.Solid.prototype.__collides.call(this, subject, ourZone, theirZone);
 }
 
 Game.traits.Climbable.prototype.__uncollides = function(subject)
@@ -89,3 +90,12 @@ Game.traits.Climbable.prototype._detach = function(subject)
         subject.physics.gravity = true;
     }
 }
+
+Game.traits.Climbable.prototype._reaches = function(subject, ourZone, theirZone)
+{
+    var ourBounds = new Engine.Collision.BoundingBox(this._host, ourZone);
+    var theirBounds = new Engine.Collision.BoundingBox(subject, theirZone);
+    var margin = ourBounds.t - theirBounds.b;
+    return margin > this.topMargin;
+}
+
