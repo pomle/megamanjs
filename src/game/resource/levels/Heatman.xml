@@ -931,7 +931,7 @@
                 <trait source="Disappearing" off="6" on="2" offset="-16" />
             </object>
             <object id="pho-block" x="4208" y="576">
-                <trait source="Disappearing" off="6" on="2" offset="-16.5" />
+                <trait source="Disappearing" off="6" on="2" offset="-18" />
             </object>
             <object id="pho-block" x="4256" y="592">
                 <trait source="Disappearing" off="6" on="2" offset="-17" />
