@@ -133,7 +133,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
 
     var layoutNode = levelNode.find('> layout');
     this.parseBackgrounds(layoutNode);
-    this.parseSolids(layoutNode);
+    this.parseBehaviors(layoutNode);
     this.parseSpawners(layoutNode);
 
     this.parseObjectLayout(layoutNode);
@@ -279,27 +279,18 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
     });
 }
 
-Game.Loader.XML.Parser.LevelParser.prototype.parseSolids = function(layoutNode)
+Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNode)
 {
     var parser = this;
     var level = parser.level;
 
-    var material = new THREE.MeshBasicMaterial({
-        color: 'white',
-        wireframe: true,
-        visible: false,
-    });
-
-    layoutNode.find('> solids > *').each(function() {
+    layoutNode.find('> behaviors > solids > *').each(function() {
         solidNode = $(this);
         var rect = parser.getRect(solidNode);
-
-        var geometry = new THREE.PlaneGeometry(rect.w, rect.h);
-
         var solid = new Game.objects.Solid();
         solid.position.x = rect.x + (rect.w / 2);
         solid.position.y = -(rect.y + (rect.h / 2));
-        solid.addCollisionGeometry(geometry);
+        solid.addCollisionRect(rect.w, rect.h);
 
         var attackNodes = solidNode.find('> attack');
         if (attackNodes.length) {
@@ -309,6 +300,17 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseSolids = function(layoutNode)
                 solid.attackAccept.push(solid[direction.toUpperCase()]);
             });
         }
+
+        level.world.addObject(solid);
+    });
+
+    layoutNode.find('> behaviors > climbables > *').each(function() {
+        solidNode = $(this);
+        var rect = parser.getRect(solidNode);
+        var solid = new Game.objects.Climbable();
+        solid.position.x = rect.x + (rect.w / 2);
+        solid.position.y = -(rect.y + (rect.h / 2));
+        solid.addCollisionRect(rect.w, rect.h);
 
         level.world.addObject(solid);
     });
