@@ -1,10 +1,7 @@
 var Engine = function(renderer)
 {
+    this.events = new Engine.Events();
     this.renderer = renderer;
-    this.events = {
-        'render': [],
-        'simulate': [],
-    };
     this.isRunning = false;
     this.isSimulating = true;
     this.simulationSpeed = 1;
@@ -15,6 +12,9 @@ var Engine = function(renderer)
 
     this.loop = this.loop.bind(this);
 }
+
+Engine.prototype.EVENT_RENDER = 'render';
+Engine.prototype.EVENT_SIMULATE = 'simulate';
 
 Engine.logic = {};
 Engine.traits = {};
@@ -40,15 +40,11 @@ Engine.prototype.loop = function(timeElapsed)
                 this.world.updateTime(simTimeDiff);
                 this.world.camera.updateTime(simTimeDiff);
 
-                for (var i in this.events.simulate) {
-                    this.events.simulate[i].call();
-                }
+                this.events.trigger(this.EVENT_SIMULATE);
             }
         }
         this.render();
-        for (var i in this.events.render) {
-            this.events.render[i].call();
-        }
+        this.events.trigger(this.EVENT_RENDER);
     }
     this.timeLastEvent = timeElapsed;
 
