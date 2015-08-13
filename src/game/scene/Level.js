@@ -71,6 +71,21 @@ Game.scenes.Level.prototype.createCharacterInput = function()
         function() {
             player.character.move.rightEnd();
         });
+    input.intermittent(input.UP,
+        function() {
+            player.character.move.upStart();
+        },
+        function() {
+            player.character.move.upEnd();
+        });
+    input.intermittent(input.DOWN,
+        function() {
+            player.character.move.downStart();
+        },
+        function() {
+            player.character.move.downEnd();
+        });
+
 
     input.intermittent(input.A,
         function() {

@@ -53,6 +53,17 @@
                         <frame x="192" y="48" duration=".08" />
                         <frame x="192" y="96" duration=".08" />
                     </animation>
+                    <animation id="hang">
+                        <frame x="48" y="192" />
+                    </animation>
+                    <animation id="hang-shoot">
+                        <frame x="96" y="192" />
+                    </animation>
+                    <animation id="climbing">
+                        <frame x="48" y="192" duration=".16" />
+                        <frame x="0" y="192" duration=".16" />
+                    </animation>
+
                 </animations>
             </texture>
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="Ladder">
+    <gravity x="0" y="983" />
+
+    <checkpoints>
+        <checkpoint x="0" y="0"/>
+    </checkpoints>
+
+    <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128">
+        <animation id="ladder">
+            <frame x="91" y="37" w="16" h="16" />
+        </animation>
+    </texture>
+
+    <objects>
+        <object id="ladder">
+            <geometry type="plane" w="16" h="64" w-segments="1" h-segments="4" />
+            <collision>
+                <rect x="0" y="0" w="0" h="64" />
+            </collision>
+
+            <tile id="ladder">
+                <face x="*" y="*"/>
+            </tile>
+
+            <traits>
+                <trait source="Climbable" />
+            </traits>
+        </object>
+    </objects>
+
+
+    <layout>
+        <objects>
+            <object id="ladder" x="48" y="0" />
+        </objects>
+
+        <solids>
+            <rect x="-32" y="32" w="64" h="16" />
+            <rect x="256" y="32" w="64" h="16" />
+        </solids>
+    </layout>
+</scene>

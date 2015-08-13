@@ -6,6 +6,7 @@ Game.objects.Character = function()
 
     this.dead = false;
     this.direction.x = this.DIRECTION_RIGHT;
+    this.isClimbing = false;
     this.isSupported = false;
 
     this.animator = undefined;

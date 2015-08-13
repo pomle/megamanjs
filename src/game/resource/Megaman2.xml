@@ -14,6 +14,7 @@
             <scene type="level" name="Telly" src="./levels/debug/Telly.xml" />
             <scene type="level" name="DestructibleWall" src="./levels/debug/DestructibleWall.xml" />
             <scene type="level" name="DisappearingBlock" src="./levels/debug/DisappearingBlock.xml" />
+            <scene type="level" name="Ladder" src="./levels/debug/Ladder.xml" />
             <scene type="level" name="Per" src="./levels/debug/Per.xml" />
             <scene type="level" name="BackgroundFaceAnimation" src="./levels/debug/BackgroundFaceAnimation.xml" />
         <!-- End Debug Levels -->
