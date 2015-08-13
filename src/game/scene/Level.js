@@ -122,6 +122,12 @@ Game.scenes.Level.prototype.followPlayer = function()
                              this.cameraFollowOffset);
 }
 
+Game.scenes.Level.prototype.goToCheckpoint = function(index)
+{
+    this.checkPointIndex = index;
+    this.resetPlayer();
+}
+
 Game.scenes.Level.prototype.renderListener = function()
 {
     if (this.readyCountdown > 0) {
