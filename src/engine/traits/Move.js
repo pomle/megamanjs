@@ -20,15 +20,7 @@ Engine.traits.Move.prototype.NAME = 'move';
 
 Engine.traits.Move.prototype.__attach = function(host)
 {
-    for (var i = 0, l = host.traits.length; i < l; ++i) {
-        if (host.traits[i] instanceof Engine.traits.Physics) {
-            this._physics = host.traits[i];
-            break;
-        }
-    }
-    if (this._physics === undefined) {
-        throw new Error("Move trait depends on Physics trait which could not be found on host");
-    }
+    this._physics = this.__require(host, Engine.traits.Physics);
     Engine.Trait.prototype.__attach.call(this, host);
 }
 
@@ -91,22 +83,22 @@ Engine.traits.Move.prototype._handleWalk = function(dt)
 
 Engine.traits.Move.prototype.leftStart = function()
 {
-    this._walk--;
+    --this._walk;
 }
 
 Engine.traits.Move.prototype.leftEnd = function()
 {
-    this._walk++;
+    ++this._walk;
 }
 
 Engine.traits.Move.prototype.rightStart = function()
 {
-    this._walk++;
+    ++this._walk;
 }
 
 Engine.traits.Move.prototype.rightEnd = function()
 {
-    this._walk--;
+    --this._walk;
 }
 
 Engine.traits.Move.prototype.upStart = function()

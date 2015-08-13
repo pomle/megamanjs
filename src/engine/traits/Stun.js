@@ -50,14 +50,16 @@ Engine.traits.Stun.prototype.__timeshift = function(deltaTime)
 
 Engine.traits.Stun.prototype.disengage = function()
 {
-    this._engaged = false;
-    this._move.inhibit = false;
+    if (this._engaged) {
+        this._move.on();
+        this._engaged = false;
+    }
 }
 
 Engine.traits.Stun.prototype.engage = function()
 {
-    if (this.duration !== 0) {
-        this._move.inhibit = true;
+    if (this.duration !== 0 && this._engaged === false) {
+        this._move.off();
         this._engaged = true;
         this._elapsed = 0;
     }
