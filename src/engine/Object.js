@@ -100,6 +100,14 @@ Engine.Object.prototype.moveTo = function(vec)
     this.position.y = vec.y;
 }
 
+Engine.Object.prototype.nudge = function(x, y)
+{
+    var vec = this.position.clone();
+    vec.x += x || 0;
+    vec.y += y || 0;
+    this.moveTo(vec);
+}
+
 Engine.Object.prototype.obstruct = function(object, attack)
 {
     this.trigger(this.EVENT_OBSTRUCT, [object, attack]);
