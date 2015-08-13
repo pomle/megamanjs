@@ -284,7 +284,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
     var parser = this;
     var level = parser.level;
 
-    layoutNode.find('> behaviors > solids > *').each(function() {
+    layoutNode.find('solids > *').each(function() {
         solidNode = $(this);
         var rect = parser.getRect(solidNode);
         var solid = new Game.objects.Solid();
@@ -304,7 +304,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
         level.world.addObject(solid);
     });
 
-    layoutNode.find('> behaviors > climbables > *').each(function() {
+    layoutNode.find('climbables > *').each(function() {
         solidNode = $(this);
         var rect = parser.getRect(solidNode);
         var solid = new Game.objects.Climbable();
