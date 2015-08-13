@@ -132,7 +132,7 @@ Engine.Object.prototype.timeShift = function(deltaTime)
     this.time += deltaTime;
     this.deltaTime = deltaTime;
 
-    this.trigger(this.EVENT_TIMESHIFT, [deltaTime]);
+    this.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
 
     for (var i = 0, l = this.animators.length; i < l; ++i) {
         this.animators[i].update(deltaTime);
