@@ -275,6 +275,9 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
     var source = traitNode.attr('source');
     var name = traitNode.attr('name');
     var ref = Game.traits[source] ? Game.traits[source] : Engine.traits[source];
+    if (ref === undefined) {
+        throw new Error('Trait "' + source + '" does not exist');
+    }
 
     switch (name || ref.prototype.NAME) {
         case 'contactDamage':
