@@ -16,10 +16,10 @@ Game.traits.Disappearing.prototype.NAME = 'disappearing';
 
 Game.traits.Disappearing.prototype.ANIM_APPEARING = 'appearing';
 
-Game.traits.Disappearing.prototype.__timeshift = function(deltaTime)
+Game.traits.Disappearing.prototype.__timeshift = function(deltaTime, totalTime)
 {
     var totalDuration = this.onDuration + this.offDuration;
-    var modTime = (this._host.time + this.offset) % totalDuration;
+    var modTime = (totalTime + this.offset) % totalDuration;
     if (this._visible === false && modTime > this.offDuration) {
         this.admit();
     }
@@ -28,7 +28,7 @@ Game.traits.Disappearing.prototype.__timeshift = function(deltaTime)
     }
 }
 
-Game.traits.Disappearing.prototype.admit = function(deltaTime)
+Game.traits.Disappearing.prototype.admit = function()
 {
     if (this._visible) {
         return;
@@ -44,7 +44,7 @@ Game.traits.Disappearing.prototype.admit = function(deltaTime)
     }
 }
 
-Game.traits.Disappearing.prototype.retract = function(deltaTime)
+Game.traits.Disappearing.prototype.retract = function()
 {
     if (!this._visible) {
         return;
