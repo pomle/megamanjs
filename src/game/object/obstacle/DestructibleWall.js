@@ -39,8 +39,7 @@ Game.objects.obstacles.DestructibleWall.prototype.collides = function(withObject
             return;
         }
 
-        withObject.inertia.x = -withObject.inertia.x;
-        withObject.inertia.y = 100;
+        withObject.deflect();
     }
 
     Game.objects.Solid.prototype.collides.call(this, withObject, ourZone, theirZone);

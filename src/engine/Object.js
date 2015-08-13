@@ -3,12 +3,13 @@ Engine.Object = function()
     Engine.Events.call(this);
 
     this.uuid = THREE.Math.generateUUID();
+    this.animators = [];
     this.collidable = true;
     this.collision = [];
     this.deltaTime = undefined;
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
-    this.obstructible = true;
+    this.origo = new THREE.Vector2();
     this.position = undefined;
     this.time = 0;
     this.timeStretch = 1;
@@ -16,8 +17,7 @@ Engine.Object = function()
     this.velocity = new THREE.Vector2();
     this.world = undefined;
 
-    var model = new THREE.Mesh(this.geometry, this.material);
-    this.setModel(model);
+    this.setModel(new THREE.Mesh(this.geometry, this.material));
 }
 
 Engine.Util.mixin(Engine.Object, Engine.Events);
@@ -33,8 +33,14 @@ Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
 Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
 Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
 
+Engine.Object.prototype.SURFACE_TOP = 0;
+Engine.Object.prototype.SURFACE_BOTTOM = 1;
+Engine.Object.prototype.SURFACE_LEFT = 2;
+Engine.Object.prototype.SURFACE_RIGHT = 3;
+
 Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
 Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
+Engine.Object.prototype.textures = {};
 
 Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
 {
@@ -99,6 +105,14 @@ Engine.Object.prototype.moveTo = function(vec)
     this.position.y = vec.y;
 }
 
+Engine.Object.prototype.nudge = function(x, y)
+{
+    var vec = this.position.clone();
+    vec.x += x || 0;
+    vec.y += y || 0;
+    this.moveTo(vec);
+}
+
 Engine.Object.prototype.obstruct = function(object, attack)
 {
     this.trigger(this.EVENT_OBSTRUCT, [object, attack]);
@@ -131,7 +145,11 @@ Engine.Object.prototype.timeShift = function(deltaTime)
     this.time += deltaTime;
     this.deltaTime = deltaTime;
 
-    this.trigger(this.EVENT_TIMESHIFT, [deltaTime]);
+    this.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
+
+    for (var i = 0, l = this.animators.length; i < l; ++i) {
+        this.animators[i].update(deltaTime);
+    }
 
     this.position.x += (this.velocity.x * deltaTime);
     this.position.y += (this.velocity.y * deltaTime);

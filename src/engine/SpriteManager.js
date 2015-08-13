@@ -144,7 +144,7 @@ Engine.SpriteManager.createTextSprite = function(string, align)
 Engine.SpriteManager.createUVMap = function(x, y, w, h, totalW, totalH)
 {
     /* Shave of a tiny bit from the UVMaps to avoid neighbor pixel shine-thru. */
-    shave = .1;
+    shave = 0;
 
     x += shave;
     y += shave;

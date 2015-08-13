@@ -15,27 +15,27 @@ Engine.traits.Solid = function()
 Engine.Util.extend(Engine.traits.Solid, Engine.Trait);
 
 Engine.traits.Solid.prototype.NAME = 'solid';
-Engine.traits.Solid.prototype.TOP = 0;
-Engine.traits.Solid.prototype.BOTTOM = 1;
-Engine.traits.Solid.prototype.LEFT = 2;
-Engine.traits.Solid.prototype.RIGHT = 3;
+
+Engine.traits.Solid.prototype.TOP = Engine.Object.prototype.SURFACE_TOP;
+Engine.traits.Solid.prototype.BOTTOM = Engine.Object.prototype.SURFACE_BOTTOM;
+Engine.traits.Solid.prototype.LEFT = Engine.Object.prototype.SURFACE_LEFT;
+Engine.traits.Solid.prototype.RIGHT = Engine.Object.prototype.SURFACE_RIGHT;
 
 Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
 {
     if (!subject.physics) {
         return false;
     }
-    if (!subject.obstructible) {
-        return false;
-    }
     if (this.ignore.has(subject)) {
         return false;
     }
 
-    var our = new Engine.Collision.BoundingBox(this._host.model, ourZone);
+    var host = this._host;
+
+    var our = new Engine.Collision.BoundingBox(host.model, ourZone);
     var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
 
-    var attack = this._attackDirection(our, their);
+    var attack = this.attackDirection(our, their);
 
     if (this.attackAccept.indexOf(attack) < 0) {
         /*
@@ -47,21 +47,21 @@ Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
         return false;
     }
 
-    if (attack === this.TOP && subject.velocity.y < this._host.velocity.y) {
+    if (attack === this.TOP && subject.velocity.y < host.velocity.y) {
         their.bottom(our.t);
-        subject.obstruct(this._host, attack);
+        subject.obstruct(host, attack);
     }
-    else if (attack === this.BOTTOM && subject.velocity.y > this._host.velocity.y) {
+    else if (attack === this.BOTTOM && subject.velocity.y > host.velocity.y) {
         their.top(our.b);
-        subject.obstruct(this._host, attack);
+        subject.obstruct(host, attack);
     }
-    else if (attack === this.LEFT && subject.velocity.x > this._host.velocity.x) {
+    else if (attack === this.LEFT && subject.velocity.x > host.velocity.x) {
         their.right(our.l);
-        subject.obstruct(this._host, attack);
+        subject.obstruct(host, attack);
     }
-    else if (attack === this.RIGHT && subject.velocity.x < this._host.velocity.x) {
+    else if (attack === this.RIGHT && subject.velocity.x < host.velocity.x) {
         their.left(our.r);
-        subject.obstruct(this._host, attack);
+        subject.obstruct(host, attack);
     }
 
     return true;
@@ -72,7 +72,7 @@ Engine.traits.Solid.prototype.__uncollides = function(subject, ourZone, theirZon
     this.ignore.delete(subject);
 }
 
-Engine.traits.Solid.prototype._attackDirection = function(ourBoundingBox, theirBoundingBox)
+Engine.traits.Solid.prototype.attackDirection = function(ourBoundingBox, theirBoundingBox)
 {
     var distances = [
         Math.abs(theirBoundingBox.b - ourBoundingBox.t),
@@ -82,7 +82,7 @@ Engine.traits.Solid.prototype._attackDirection = function(ourBoundingBox, theirB
     ];
 
     var dir = 0, l = 4, min = distances[dir];
-    for (var i = 1; i < l; i++) {
+    for (var i = 1; i < l; ++i) {
         if (distances[i] < min) {
             min = distances[i];
             dir = i;

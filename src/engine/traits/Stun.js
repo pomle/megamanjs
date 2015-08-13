@@ -15,6 +15,8 @@ Engine.traits.Stun = function()
 
 Engine.Util.extend(Engine.traits.Stun, Engine.Trait);
 
+Engine.traits.Stun.prototype.NAME = 'stun';
+
 Engine.traits.Stun.prototype.EVENT_STUN_ENGAGE = 'stun-engaged';
 Engine.traits.Stun.prototype.EVENT_STUN_DISENGAGE = 'stun-disengage';
 

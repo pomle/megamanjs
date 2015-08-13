@@ -1,13 +1,12 @@
 var Engine = function(renderer)
 {
+    this.events = new Engine.Events();
     this.renderer = renderer;
-    this.events = {
-        'render': [],
-        'simulate': [],
-    };
     this.isRunning = false;
     this.isSimulating = true;
     this.simulationSpeed = 1;
+    this.speed = 1;
+    this.tick = 0;
     this.timeElapsedTotal = 0;
     this.timeMax = 1/60;
     this.timeStretch = 1;
@@ -15,6 +14,9 @@ var Engine = function(renderer)
 
     this.loop = this.loop.bind(this);
 }
+
+Engine.prototype.EVENT_RENDER = 'render';
+Engine.prototype.EVENT_SIMULATE = 'simulate';
 
 Engine.logic = {};
 Engine.traits = {};
@@ -25,9 +27,10 @@ Engine.prototype.loop = function(timeElapsed)
         return false;
     }
 
-    if (timeElapsed) {
+    this.tick += this.speed;
+    if (this.tick >= 1 && timeElapsed) {
         timeElapsed /= 1000;
-        if (this.timeLastEvent) {
+        if (this.timeLastEvent !== undefined) {
             var timeDiff = timeElapsed - this.timeLastEvent;
             timeDiff *= this.timeStretch;
 
@@ -40,15 +43,13 @@ Engine.prototype.loop = function(timeElapsed)
                 this.world.updateTime(simTimeDiff);
                 this.world.camera.updateTime(simTimeDiff);
 
-                for (var i in this.events.simulate) {
-                    this.events.simulate[i].call();
-                }
+                this.events.trigger(this.EVENT_SIMULATE);
             }
         }
         this.render();
-        for (var i in this.events.render) {
-            this.events.render[i].call();
-        }
+        this.events.trigger(this.EVENT_RENDER);
+
+        this.tick = 0;
         this.timeLastEvent = timeElapsed;
     }
 
@@ -73,7 +74,7 @@ Engine.prototype.run = function()
     }
     this.isRunning = true;
     this.timeLastEvent = undefined;
-    this.loop();
+    this.loop(0);
 }
 
 Engine.prototype.setWorld = function(world)

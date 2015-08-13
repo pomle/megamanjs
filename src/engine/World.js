@@ -6,6 +6,8 @@ Engine.World = function()
 
     this.collision = new Engine.Collision();
 
+    this.events = new Engine.Events();
+
     this.gravityForce = new THREE.Vector2();
 
     this.objects = new Set();
@@ -13,11 +15,11 @@ Engine.World = function()
     this.scene = new THREE.Scene();
     this.scene.add(ambientLight);
 
-    this.timelines = [];
-
     this.timeStretch = 1;
     this.timeTotal = 0;
 }
+
+Engine.World.prototype.EVENT_UPDATE = 'update';
 
 Engine.World.prototype.addObject = function(object, x, y)
 {
@@ -34,14 +36,6 @@ Engine.World.prototype.addObject = function(object, x, y)
     object.setWorld(this);
 }
 
-Engine.World.prototype.addTimeline = function(timeline)
-{
-    if (timeline instanceof Engine.Timeline === false) {
-        throw new Error('Invalid timeline');
-    }
-    this.timelines.push(timeline);
-}
-
 Engine.World.prototype.removeObject = function(object)
 {
     if (object instanceof Engine.Object === false) {
@@ -53,17 +47,15 @@ Engine.World.prototype.removeObject = function(object)
     }
 }
 
-Engine.World.prototype.updateTime = function(dt)
+Engine.World.prototype.updateTime = function(deltaTime)
 {
-    dt *= this.timeStretch;
-    this.timeTotal += dt;
+    deltaTime *= this.timeStretch;
+    this.timeTotal += deltaTime;
     for (var object of this.objects) {
-        object.timeShift(dt * object.timeStretch, this.timeTotal);
+        object.timeShift(deltaTime * object.timeStretch, this.timeTotal);
     }
 
     this.collision.detect();
 
-    for (var i = 0, l = this.timelines.length; i < l; i++) {
-        this.timelines[i].timeShift(dt);
-    }
+    this.events.trigger(this.EVENT_UPDATE, [deltaTime, this.timeTotal]);
 }

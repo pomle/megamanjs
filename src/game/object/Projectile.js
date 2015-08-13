@@ -1,8 +1,6 @@
 Game.objects.Projectile = function()
 {
     Engine.Object.call(this);
-    this.physics = this.applyTrait(new Engine.traits.Physics());
-    this.physics.mass = 0;
 
     this.damage = 0;
     this.distanceCovered = 0;
@@ -39,10 +37,10 @@ Game.objects.Projectile.prototype.collides = function(withObject, ourZone, their
 Game.objects.Projectile.prototype.deflect = function()
 {
     this.dropCollision();
-    var l = this.physics.inertia.length();
-    this.physics.inertia.x = -this.physics.inertia.x;
-    this.physics.inertia.y = 100;
-    this.physics.inertia.setLength(l);
+    var l = this.velocity.length();
+    this.velocity.x = -this.velocity.x;
+    this.velocity.y = 100;
+    this.velocity.setLength(l);
 }
 
 Game.objects.Projectile.prototype.rangeReached = function()
@@ -80,10 +78,10 @@ Game.objects.Projectile.prototype.setSpeed = function(v)
     this.speed = v;
 }
 
-Game.objects.Projectile.prototype.timeShift = function(dt)
+Game.objects.Projectile.prototype.timeShift = function(deltaTime)
 {
-    Engine.Object.prototype.timeShift.call(this, dt);
-    this.distanceCovered += (this.velocity.length() * dt);
+    Engine.Object.prototype.timeShift.call(this, deltaTime);
+    this.distanceCovered += (this.velocity.length() * deltaTime);
     if (this.distanceCovered > this.range) {
         this.rangeReached();
     }

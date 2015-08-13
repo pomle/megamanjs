@@ -2,16 +2,21 @@ Engine.traits.Move = function()
 {
     Engine.Trait.call(this);
 
+    this._climbSpeed = 0;
     this._moveSpeed = 0;
     this._physics = undefined;
+
+    this._climb = 0;
     this._walk = 0;
 
     this.acceleration = 500;
-    this.inhibit = false;
+    this.climbSpeed = 50;
     this.speed = 90;
 }
 
 Engine.Util.extend(Engine.traits.Move, Engine.Trait);
+
+Engine.traits.Move.prototype.NAME = 'move';
 
 Engine.traits.Move.prototype.__attach = function(host)
 {
@@ -36,8 +41,8 @@ Engine.traits.Move.prototype.__detach = function()
 Engine.traits.Move.prototype.__obstruct = function(object, attack)
 {
     switch (attack) {
-        case object.solid.LEFT:
-        case object.solid.RIGHT:
+        case object.SURFACE_LEFT:
+        case object.SURFACE_RIGHT:
             this._moveSpeed = Math.abs(object.velocity.x);
             break;
     }
@@ -45,25 +50,43 @@ Engine.traits.Move.prototype.__obstruct = function(object, attack)
 
 Engine.traits.Move.prototype.__timeshift = function(deltaTime)
 {
-    if (this.inhibit) {
-        return;
-    }
     this._physics.momentum.set(0, 0);
-    if (this._walk) {
-        this._host.direction.x = this._walk > 0 ? this._host.DIRECTION_RIGHT : this._host.DIRECTION_LEFT;
-    }
-    this.calculateSpeed(deltaTime);
-    this._physics.momentum.x = this._moveSpeed * this._walk;
+    this._handleWalk(deltaTime);
+    this._handleClimb(deltaTime);
 }
 
-Engine.traits.Move.prototype.calculateSpeed = function(dt)
+Engine.traits.Move.prototype._handleClimb = function(dt)
 {
-    if (this._walk === 0) {
-        this._moveSpeed = 0;
-        return;
+    /* When moving left and right, we still maintain the direction the
+       host points to. This is not true for up and down therefore we
+       reset the vertical direction to zero unless up or down motion
+       is taking place. */
+    var host = this._host;
+    if (this._climb !== 0) {
+        host.direction.y = this._climb > 0 ? host.DIRECTION_UP : host.DIRECTION_DOWN;
+    }
+    else {
+        host.direction.y = 0;
     }
 
-    this._moveSpeed = Math.min(this._moveSpeed + this.acceleration * dt, this.speed);
+    if (host.isClimbing) {
+        this._physics.momentum.y = this.climbSpeed * host.direction.y;
+    }
+}
+
+Engine.traits.Move.prototype._handleWalk = function(dt)
+{
+    var host = this._host;
+    if (this._walk) {
+        var dir = this._walk > 0 ? host.DIRECTION_RIGHT : host.DIRECTION_LEFT;
+        host.model.scale.x = dir;
+        host.direction.x = dir;
+        this._moveSpeed = Math.min(this._moveSpeed + this.acceleration * dt, this.speed);
+    }
+    else {
+        this._moveSpeed = 0;
+    }
+    this._physics.momentum.x = this._moveSpeed * host.direction.x;
 }
 
 Engine.traits.Move.prototype.leftStart = function()
@@ -84,4 +107,24 @@ Engine.traits.Move.prototype.rightStart = function()
 Engine.traits.Move.prototype.rightEnd = function()
 {
     this._walk--;
+}
+
+Engine.traits.Move.prototype.upStart = function()
+{
+    ++this._climb;
+}
+
+Engine.traits.Move.prototype.upEnd = function()
+{
+    --this._climb;
+}
+
+Engine.traits.Move.prototype.downStart = function()
+{
+    --this._climb;
+}
+
+Engine.traits.Move.prototype.downEnd = function()
+{
+    ++this._climb;
 }

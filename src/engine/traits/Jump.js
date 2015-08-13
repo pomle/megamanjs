@@ -11,26 +11,27 @@ Engine.traits.Jump = function()
 
 Engine.Util.extend(Engine.traits.Jump, Engine.Trait);
 
+Engine.traits.Jump.prototype.NAME = 'jump';
+
 Engine.traits.Jump.prototype.__obstruct = function(object, attack)
 {
-    if (object.solid) {
-        switch (attack) {
-            case object.solid.TOP:
-                this._host.isSupported = true;
-                break;
+    switch (attack) {
+        case object.SURFACE_TOP:
+            this._host.isSupported = true;
+            break;
 
-            case object.solid.BOTTOM:
-                this.end();
-                break;
-        }
+        case object.SURFACE_BOTTOM:
+            this.end();
+            break;
     }
 }
 
 Engine.traits.Jump.prototype.__timeshift = function(deltaTime)
 {
     if (this._inertia) {
-        this._host.physics.inertia.y = this._inertia;
-        if (this._host.time - this._time > this.duration) {
+        var host = this._host;
+        host.physics.inertia.y = this._inertia;
+        if (host.time - this._time > this.duration) {
             this.end();
         }
     }
@@ -38,16 +39,19 @@ Engine.traits.Jump.prototype.__timeshift = function(deltaTime)
 
 Engine.traits.Jump.prototype.start = function()
 {
-    if (this._host.stunnedTime > 0) {
+    var host = this._host;
+    if (host.stunnedTime > 0) {
         return false;
     }
 
-    if (!this._host.isSupported) {
+    host.isClimbing = false;
+
+    if (!host.isSupported) {
         return false;
     }
-    this._host.isSupported = false;
-    this._inertia = this._host.physics.inertia.y + this.force;
-    this._time = this._host.time;
+    host.isSupported = false;
+    this._inertia = host.physics.inertia.y + this.force;
+    this._time = host.time;
 }
 
 Engine.traits.Jump.prototype.end = function()

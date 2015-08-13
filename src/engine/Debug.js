@@ -55,7 +55,7 @@ Engine.Debug.prototype.toggleCameraPaths = function()
             var geometry = new THREE.PlaneGeometry(w, h);
             var plane = new THREE.Mesh(geometry, constraintMaterial);
             plane.position.x = path.constraint[0].x + w/2;
-            plane.position.y = path.constraint[0].y + h/2;
+            plane.position.y = path.constraint[0].y - h/2;
             plane.position.z = .2;
             this.cameraPaths.add(plane);
             this.engine.world.scene.add(plane);

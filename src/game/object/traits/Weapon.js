@@ -12,6 +12,8 @@ Engine.traits.Weapon = function()
 
 Engine.Util.extend(Engine.traits.Weapon, Engine.Trait);
 
+Engine.traits.Weapon.prototype.NAME = 'weapon';
+
 Engine.traits.Weapon.prototype.EVENT_FIRE = 'weapon-fire';
 Engine.traits.Weapon.prototype.EVENT_EQUIP = 'weapon-equip';
 

@@ -21,10 +21,22 @@ Game.scenes.Level = function(game, world)
     this.readyCountdown = 0;
     this.readySpawnTime = 2;
 
-    this.game.engine.events.simulate.push(this.simulateListener.bind(this));
-    this.game.engine.events.render.push(this.renderListener.bind(this));
+    var engine = game.engine;
+    var level = this;
 
-    this.bind(this.EVENT_START, this.resetPlayer);
+    this.resetPlayer = this.resetPlayer.bind(this);
+    this.renderListener = this.renderListener.bind(this);
+    this.simulateListener = this.simulateListener.bind(this);
+
+    this.events.bind(this.EVENT_START, this.resetPlayer);
+    this.events.bind(this.EVENT_CREATE, function() {
+       engine.events.bind(engine.EVENT_RENDER, level.renderListener);
+       engine.events.bind(engine.EVENT_SIMULATE, level.simulateListener);
+    });
+    this.events.bind(this.EVENT_DESTROY, function() {
+       engine.events.unbind(engine.EVENT_RENDER, level.renderListener);
+       engine.events.unbind(engine.EVENT_SIMULATE, level.simulateListener);
+    });
 }
 
 Engine.Util.extend(Game.scenes.Level, Game.Scene);
@@ -59,6 +71,21 @@ Game.scenes.Level.prototype.createCharacterInput = function()
         function() {
             player.character.move.rightEnd();
         });
+    input.intermittent(input.UP,
+        function() {
+            player.character.move.upStart();
+        },
+        function() {
+            player.character.move.upEnd();
+        });
+    input.intermittent(input.DOWN,
+        function() {
+            player.character.move.downStart();
+        },
+        function() {
+            player.character.move.downEnd();
+        });
+
 
     input.intermittent(input.A,
         function() {
@@ -93,6 +120,12 @@ Game.scenes.Level.prototype.followPlayer = function()
 {
     this.world.camera.follow(this.game.player.character,
                              this.cameraFollowOffset);
+}
+
+Game.scenes.Level.prototype.goToCheckpoint = function(index)
+{
+    this.checkPointIndex = index;
+    this.resetPlayer();
 }
 
 Game.scenes.Level.prototype.renderListener = function()
@@ -179,7 +212,14 @@ Game.scenes.Level.prototype.resetPlayer = function()
     character.stun.disengage();
 
     var checkpoint = this.checkPoints[this.checkPointIndex];
-    if (checkpoint) {
+    if (false) {
+        this.camera.camera.position.x = 0;
+        this.camera.camera.position.y = 0;
+        this.camera.camera.position.z = 200;
+        character.moveTo(checkpoint.pos);
+        this.resumeGamePlay();
+    }
+    else if (checkpoint) {
         var startPosition = checkpoint.pos.clone();
         var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
         var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);

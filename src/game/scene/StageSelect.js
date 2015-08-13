@@ -53,8 +53,10 @@ Game.scenes.StageSelect = function()
 
     this.input = input;
 
-    this.bind(this.EVENT_START, function() { this.input.enable(); });
-    this.bind(this.EVENT_END, function() { this.input.disable(); });
+    var scene = this;
+
+    this.events.bind(this.EVENT_START, function() { scene.input.enable(); });
+    this.events.bind(this.EVENT_END, function() { scene.input.disable(); });
 
     /* Hijack worlds time-legacy hack needs to go. */
     this.world.updateTime = this.updateTime.bind(this);
@@ -123,7 +125,7 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
 
 Game.scenes.StageSelect.prototype.enter = function()
 {
-    this.trigger(this.EVENT_STAGE_SELECTED, [this.stages[this.currentIndex], this.currentIndex]);
+    this.events.trigger(this.EVENT_STAGE_SELECTED, [this.stages[this.currentIndex], this.currentIndex]);
 }
 
 Game.scenes.StageSelect.prototype.selectIndex = function(index)

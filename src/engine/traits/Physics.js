@@ -2,19 +2,21 @@ Engine.traits.Physics = function()
 {
     Engine.Trait.call(this);
 
-    this.enabled = true;
-    this.mass = 0;
+    this.gravity = true;
+    this.mass = 1;
     this.inertia = new THREE.Vector2();
     this.momentum = new THREE.Vector2();
 }
 
 Engine.Util.extend(Engine.traits.Physics, Engine.Trait);
 
+Engine.traits.Physics.prototype.NAME = 'physics';
+
 Engine.traits.Physics.prototype.__obstruct = function(object, attack)
 {
     switch (attack) {
-        case object.solid.TOP:
-        case object.solid.BOTTOM:
+        case object.SURFACE_TOP:
+        case object.SURFACE_BOTTOM:
             this.inertia.copy(object.velocity);
             break;
     }
@@ -22,12 +24,14 @@ Engine.traits.Physics.prototype.__obstruct = function(object, attack)
 
 Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
-    if (this.enabled && dt) {
+    if (dt !== 0) {
         /* It is very important that gravity is applied before the
            velocity is summed. Otherwise objects will not be pulled into the
            ground between ticks and collision detection in resting
            state will only happen every other tick. */
-        this._applyGravity(dt);
+        if (this.gravity === true) {
+            this._applyGravity(dt);
+        }
         this._host.velocity.set(0, 0);
         this._host.velocity.add(this.inertia);
         this._host.velocity.add(this.momentum);
@@ -36,7 +40,7 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 
 Engine.traits.Physics.prototype._applyGravity = function(dt)
 {
-    if (this.mass === 0) {
+    if (this.mass === 0 || this._host.world === undefined) {
         return false;
     }
     var g = this._host.world.gravityForce;
@@ -51,6 +55,28 @@ Engine.traits.Physics.prototype.bump = function(x, y)
 {
     this.inertia.x += x;
     this.inertia.y += y;
+}
+
+Engine.traits.Physics.prototype.off = function()
+{
+    var h = this._host,
+        e = h.EVENT_TIMESHIFT,
+        c = this.__timeshift;
+
+    if (h.bound(e, c)) {
+        h.unbind(e, c);
+    }
+}
+
+Engine.traits.Physics.prototype.on = function()
+{
+    var h = this._host,
+        e = h.EVENT_TIMESHIFT,
+        c = this.__timeshift;
+
+    if (!h.bound(e, c)) {
+        h.bind(e, c);
+    }
 }
 
 Engine.traits.Physics.prototype.zero = function()

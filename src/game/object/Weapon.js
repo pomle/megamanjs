@@ -7,6 +7,10 @@ Game.objects.Weapon = function()
     this.coolDown = 0;
     this.coolDownDelay = undefined;
     this.cost = 1;
+    this.directions = [
+        new THREE.Vector2(-1, 0),
+        new THREE.Vector2(1, 0),
+    ];
     this.isReady = true;
     this.user = undefined;
 
@@ -23,10 +27,16 @@ Game.objects.Weapon.prototype.emit = function(projectile)
     if (projectile instanceof Game.objects.Projectile === false) {
         throw new Error('Invalid projectile');
     }
-    projectile.physics.inertia.copy(this.user.direction)
-                              .multiplyScalar(projectile.speed);
+
+    var velocity = this.user.direction.clone();
+    velocity.clamp(this.directions[0], this.directions[1]);
+    velocity.normalize();
+    velocity.multiplyScalar(projectile.speed);
+    projectile.velocity.copy(velocity);
+
     projectile.setEmitter(this.user);
     projectile.timeStretch = this.user.timeStretch;
+
     this.user.world.addObject(projectile);
 }
 

@@ -1,38 +1,10 @@
 Game.objects.characters.Telly = function()
 {
     Game.objects.Character.call(this);
-
-    var model = Engine.SpriteManager.createSprite('enemies/telly.png', 16, 16);
-    this.sprites = new Engine.SpriteManager(model, 16, 16, 128, 16);
-
-    var spin = this.sprites.addSprite('spin');
-    var frameLen = .16;
-    spin.addFrame(80, 0, frameLen);
-    spin.addFrame(64, 0, frameLen);
-    spin.addFrame(48, 0, frameLen);
-    spin.addFrame(32, 0, frameLen);
-    spin.addFrame(16, 0, frameLen);
-    spin.addFrame(0, 0, frameLen);
-
-    this.sprites.selectSprite('spin');
-    this.sprites.applySprite();
-
-    this.setModel(model);
-    this.addCollisionRect(16, 16, 0, 0);
-
-    this.contactDamage.points = 1;
-    this.obstructible = false;
-
-    this.physics.mass = 0;
-    this.health.max = 1;
-
     this.speed = 12;
-
-    this.physics.enabled = false;
 }
 
-Game.objects.characters.Telly.prototype = Object.create(Game.objects.Character.prototype);
-Game.objects.characters.Telly.constructor = Game.objects.characters.Telly;
+Engine.Util.extend(Game.objects.characters.Telly, Game.objects.Character);
 
 Game.objects.characters.Telly.prototype.updateAI = function()
 {
@@ -61,7 +33,5 @@ Game.objects.characters.Telly.prototype.updateAI = function()
 Game.objects.characters.Telly.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
-    this.sprites.setDirection(this.direction.x);
-    this.sprites.timeShift(dt);
     Game.objects.Character.prototype.timeShift.call(this, dt);
 }

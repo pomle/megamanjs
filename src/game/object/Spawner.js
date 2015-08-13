@@ -1,17 +1,20 @@
 Game.objects.Spawner = function()
 {
     Engine.Object.call(this);
+
+    this._timeSinceLastSpawn = 0;
+
     this.ai = new Engine.AI(this);
+    this.children = new Set();
+    this.count = Infinity;
     this.lifetime = undefined;
-    this.minDistance = undefined;
     this.maxDistance = 256;
+    this.minDistance = 32;
     this.maxSimultaneousSpawns = 1;
+    this.interval = undefined;
+    this.pool = [];
     this.roamingLimit = undefined;
-    this.spawnCount = undefined;
-    this.spawnInterval = undefined;
-    this.spawnSource = [];
-    this.spawnedObjects = new Set();
-    this.timeSinceLastSpawn = 0;
+
 }
 
 Game.objects.Spawner.prototype = Object.create(Engine.Object.prototype);
@@ -19,29 +22,29 @@ Game.objects.Spawner.constructor = Game.objects.Spawner;
 
 Game.objects.Spawner.prototype.cleanReferences = function()
 {
-    for (var object of this.spawnedObjects) {
+    for (var object of this.children) {
         if (!this.world.objects.has(object)) {
-            this.spawnedObjects.delete(object);
+            this.children.delete(object);
         }
     }
 }
 
 Game.objects.Spawner.prototype.killOffElderly = function()
 {
-    for (var object of this.spawnedObjects) {
+    for (var object of this.children) {
         if (object.time >= this.lifetime) {
             object.kill();
-            this.spawnedObjects.delete(object);
+            this.children.delete(object);
         }
     }
 }
 
 Game.objects.Spawner.prototype.killOffRoaming = function()
 {
-    for (var object of this.spawnedObjects) {
+    for (var object of this.children) {
         if (object.position.distanceTo(this.position) > this.roamingLimit) {
             object.kill();
-            this.spawnedObjects.delete(object);
+            this.children.delete(object);
         }
     }
 }
@@ -49,10 +52,10 @@ Game.objects.Spawner.prototype.killOffRoaming = function()
 Game.objects.Spawner.prototype.spawnObject = function()
 {
     this.cleanReferences();
-    if (this.spawnedObjects.size >= this.maxSimultaneousSpawns) {
+    if (this.children.size >= this.maxSimultaneousSpawns) {
         return false;
     }
-    if (this.spawnCount < 1) {
+    if (this.count < 1) {
         return false;
     }
 
@@ -66,28 +69,28 @@ Game.objects.Spawner.prototype.spawnObject = function()
         }
     }
 
-    --this.spawnCount;
-    var index = Math.floor(Math.random() * this.spawnSource.length);
-    var object = new this.spawnSource[index]();
+    --this.count;
+    var index = Math.floor(Math.random() * this.pool.length);
+    var object = new this.pool[index]();
     object.position.copy(this.position);
-    this.spawnedObjects.add(object);
+    this.children.add(object);
     this.world.addObject(object);
     return object;
 }
 
 Game.objects.Spawner.prototype.timeShift = function(dt)
 {
-    this.timeSinceLastSpawn += dt;
-    if (this.lifetime) {
+    this._timeSinceLastSpawn += dt;
+    if (this.lifetime !== undefined) {
         this.killOffElderly();
     }
-    if (this.roamingLimit) {
+    if (this.roamingLimit !== undefined) {
         this.killOffRoaming();
     }
 
-    if (this.timeSinceLastSpawn >= this.spawnInterval) {
+    if (this._timeSinceLastSpawn >= this.interval) {
         if (this.spawnObject()) {
-            this.timeSinceLastSpawn = 0;
+            this._timeSinceLastSpawn = 0;
         }
     }
 }
