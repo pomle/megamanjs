@@ -5,6 +5,8 @@ var Engine = function(renderer)
     this.isRunning = false;
     this.isSimulating = true;
     this.simulationSpeed = 1;
+    this.speed = 1;
+    this.tick = 0;
     this.timeElapsedTotal = 0;
     this.timeMax = 1/60;
     this.timeStretch = 1;
@@ -25,7 +27,8 @@ Engine.prototype.loop = function(timeElapsed)
         return false;
     }
 
-    if (timeElapsed) {
+    this.tick += this.speed;
+    if (this.tick >= 1 && timeElapsed) {
         timeElapsed /= 1000;
         if (this.timeLastEvent !== undefined) {
             var timeDiff = timeElapsed - this.timeLastEvent;
@@ -45,8 +48,10 @@ Engine.prototype.loop = function(timeElapsed)
         }
         this.render();
         this.events.trigger(this.EVENT_RENDER);
+
+        this.tick = 0;
+        this.timeLastEvent = timeElapsed;
     }
-    this.timeLastEvent = timeElapsed;
 
     requestAnimationFrame(this.loop);
 }
