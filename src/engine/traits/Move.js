@@ -41,8 +41,8 @@ Engine.traits.Move.prototype.__detach = function()
 Engine.traits.Move.prototype.__obstruct = function(object, attack)
 {
     switch (attack) {
-        case object.solid.LEFT:
-        case object.solid.RIGHT:
+        case object.SURFACE_LEFT:
+        case object.SURFACE_RIGHT:
             this._moveSpeed = Math.abs(object.velocity.x);
             break;
     }

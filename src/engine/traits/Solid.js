@@ -16,10 +16,10 @@ Engine.Util.extend(Engine.traits.Solid, Engine.Trait);
 
 Engine.traits.Solid.prototype.NAME = 'solid';
 
-Engine.traits.Solid.prototype.TOP = 0;
-Engine.traits.Solid.prototype.BOTTOM = 1;
-Engine.traits.Solid.prototype.LEFT = 2;
-Engine.traits.Solid.prototype.RIGHT = 3;
+Engine.traits.Solid.prototype.TOP = Engine.Object.prototype.SURFACE_TOP;
+Engine.traits.Solid.prototype.BOTTOM = Engine.Object.prototype.SURFACE_BOTTOM;
+Engine.traits.Solid.prototype.LEFT = Engine.Object.prototype.SURFACE_LEFT;
+Engine.traits.Solid.prototype.RIGHT = Engine.Object.prototype.SURFACE_RIGHT;
 
 Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
 {
@@ -82,7 +82,7 @@ Engine.traits.Solid.prototype.attackDirection = function(ourBoundingBox, theirBo
     ];
 
     var dir = 0, l = 4, min = distances[dir];
-    for (var i = 1; i < l; i++) {
+    for (var i = 1; i < l; ++i) {
         if (distances[i] < min) {
             min = distances[i];
             dir = i;

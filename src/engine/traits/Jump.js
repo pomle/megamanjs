@@ -15,16 +15,14 @@ Engine.traits.Jump.prototype.NAME = 'jump';
 
 Engine.traits.Jump.prototype.__obstruct = function(object, attack)
 {
-    if (object.solid) {
-        switch (attack) {
-            case object.solid.TOP:
-                this._host.isSupported = true;
-                break;
+    switch (attack) {
+        case object.SURFACE_TOP:
+            this._host.isSupported = true;
+            break;
 
-            case object.solid.BOTTOM:
-                this.end();
-                break;
-        }
+        case object.SURFACE_BOTTOM:
+            this.end();
+            break;
     }
 }
 

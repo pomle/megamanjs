@@ -15,8 +15,8 @@ Engine.traits.Physics.prototype.NAME = 'physics';
 Engine.traits.Physics.prototype.__obstruct = function(object, attack)
 {
     switch (attack) {
-        case object.solid.TOP:
-        case object.solid.BOTTOM:
+        case object.SURFACE_TOP:
+        case object.SURFACE_BOTTOM:
             this.inertia.copy(object.velocity);
             break;
     }

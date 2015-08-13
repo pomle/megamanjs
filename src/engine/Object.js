@@ -33,6 +33,11 @@ Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
 Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
 Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
 
+Engine.Object.prototype.SURFACE_TOP = 0;
+Engine.Object.prototype.SURFACE_BOTTOM = 1;
+Engine.Object.prototype.SURFACE_LEFT = 2;
+Engine.Object.prototype.SURFACE_RIGHT = 3;
+
 Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
 Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
 Engine.Object.prototype.textures = {};
