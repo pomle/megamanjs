@@ -31,8 +31,9 @@ Engine.traits.Jump.prototype.__obstruct = function(object, attack)
 Engine.traits.Jump.prototype.__timeshift = function(deltaTime)
 {
     if (this._inertia) {
-        this._host.physics.inertia.y = this._inertia;
-        if (this._host.time - this._time > this.duration) {
+        var host = this._host;
+        host.physics.inertia.y = this._inertia;
+        if (host.time - this._time > this.duration) {
             this.end();
         }
     }
