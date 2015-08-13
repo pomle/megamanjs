@@ -57,28 +57,6 @@ Engine.traits.Physics.prototype.bump = function(x, y)
     this.inertia.y += y;
 }
 
-Engine.traits.Physics.prototype.off = function()
-{
-    var h = this._host,
-        e = h.EVENT_TIMESHIFT,
-        c = this.__timeshift;
-
-    if (h.bound(e, c)) {
-        h.unbind(e, c);
-    }
-}
-
-Engine.traits.Physics.prototype.on = function()
-{
-    var h = this._host,
-        e = h.EVENT_TIMESHIFT,
-        c = this.__timeshift;
-
-    if (!h.bound(e, c)) {
-        h.bind(e, c);
-    }
-}
-
 Engine.traits.Physics.prototype.zero = function()
 {
     this.momentum.multiplyScalar(0);
