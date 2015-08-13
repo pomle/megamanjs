@@ -60,7 +60,7 @@ Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, our
                 our.right(their.l);
             }
 
-            this.physics.zero();
+            this.velocity.multiplyScalar(0);
             this.attachPosition = withObject.position;
             this.attachOffset = this.position.clone().sub(this.attachPosition);
             this.attachTime = 0;

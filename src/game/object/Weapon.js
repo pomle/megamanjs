@@ -32,7 +32,7 @@ Game.objects.Weapon.prototype.emit = function(projectile)
     velocity.clamp(this.directions[0], this.directions[1]);
     velocity.normalize();
     velocity.multiplyScalar(projectile.speed);
-    projectile.physics.inertia.copy(velocity);
+    projectile.velocity.copy(velocity);
 
     projectile.setEmitter(this.user);
     projectile.timeStretch = this.user.timeStretch;
