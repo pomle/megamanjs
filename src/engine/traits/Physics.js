@@ -2,6 +2,7 @@ Engine.traits.Physics = function()
 {
     Engine.Trait.call(this);
 
+    this.gravity = true;
     this.mass = 1;
     this.inertia = new THREE.Vector2();
     this.momentum = new THREE.Vector2();
@@ -28,7 +29,9 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
            velocity is summed. Otherwise objects will not be pulled into the
            ground between ticks and collision detection in resting
            state will only happen every other tick. */
-        this._applyGravity(dt);
+        if (this.gravity === true) {
+            this._applyGravity(dt);
+        }
         this._host.velocity.set(0, 0);
         this._host.velocity.add(this.inertia);
         this._host.velocity.add(this.momentum);
