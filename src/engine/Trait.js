@@ -2,10 +2,10 @@ Engine.Trait = function()
 {
     this._host = undefined;
 
-    /* Bind on instanciation so that we
+    /* Bind on instanciation so that
        they can be found when unbound. */
     for (var method in this.MAGIC_METHODS) {
-        if (this[method]) {
+        if (this[method] !== undefined) {
             this[method] = this[method].bind(this);
         }
     }
@@ -20,17 +20,17 @@ Engine.Trait.prototype.MAGIC_METHODS = {
 
 Engine.Trait.prototype.NAME = undefined;
 
-Engine.Trait.prototype.__attach = function(object)
+Engine.Trait.prototype.__attach = function(host)
 {
-    if (object instanceof Engine.Object === false) {
-        throw new TypeError('Invalid object');
+    if (host instanceof Engine.Object === false) {
+        throw new TypeError('Invalid host');
     }
 
     if (this._host) {
         this.__detach();
     }
 
-    this._host = object;
+    this._host = host;
     this.on();
 }
 
