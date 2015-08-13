@@ -64,13 +64,6 @@ Game.objects.characters.Megaman.prototype.routeAnimation = function()
         return anim.pickAnimation('stunned');
     }
 
-    if (!this.isSupported) {
-        if (this.weapon._firing) {
-            return anim.pickAnimation('jump-fire');
-        }
-        return anim.pickAnimation('jump');
-    }
-
     if (this.isClimbing) {
         if (this.weapon._firing) {
             return anim.pickAnimation('hang-shoot');
@@ -79,6 +72,13 @@ Game.objects.characters.Megaman.prototype.routeAnimation = function()
             return anim.pickAnimation('climbing');
         }
         return anim.pickAnimation('hang');
+    }
+
+    if (!this.isSupported) {
+        if (this.weapon._firing) {
+            return anim.pickAnimation('jump-fire');
+        }
+        return anim.pickAnimation('jump');
     }
 
     if (this.move._moveSpeed) {

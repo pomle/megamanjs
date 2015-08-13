@@ -8,13 +8,15 @@ Game.traits.Climbable = function()
 }
 
 Engine.Util.extend(Game.traits.Climbable, Engine.traits.Solid);
+Game.traits.Climbable.prototype.NAME = 'climbable';
 
 Game.traits.Climbable.prototype.__collides = function(subject, ourZone, theirZone)
 {
     if (!this.attached.has(subject)
     && subject.move !== undefined
     && subject.move._climb
-    && (subject.direction.y < 0 || this._reaches(subject, ourZone, theirZone))) {
+    && (subject.direction.y < 0 || this._reaches(subject, ourZone, theirZone))
+    && !(subject.isSupported === true && subject.direction.y < 0)) {
         this._attach(subject);
         return;
     }
@@ -31,11 +33,11 @@ Game.traits.Climbable.prototype.__timeshift = function(dt)
 {
     var v = this._host.velocity;
     for (var subject of this.attached) {
-        if (subject.isClimbing === false) {
+        if (subject.isClimbing === false
+        || (subject.isSupported === true && subject.direction.y < 0)) {
             this._detach(subject);
         }
         else {
-            subject.isSupported = true;
             this._constrainSubject(subject);
         }
     }

@@ -16,7 +16,7 @@
         <object id="ladder">
             <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8" />
             <collision>
-                <rect x="0" y="0" w="0" h="128" />
+                <rect x="0" y="0" w="4" h="128" />
             </collision>
 
             <tile id="ladder">
@@ -39,9 +39,15 @@
             <object id="ladder" x="96" y="-96" />
         </objects>
 
+        <objects>
+            <object id="ladder" x="-32" y="-144" />
+        </objects>
+
+
         <solids>
             <rect x="-32" y="32" w="64" h="16" />
             <rect x="48" y="32" w="64" h="16" />
+            <rect x="48" y="-96" w="64" h="16" />
         </solids>
     </layout>
 </scene>
