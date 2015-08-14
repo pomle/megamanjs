@@ -235,6 +235,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
     var material = new THREE.MeshBasicMaterial({
         map: textures[0],
         side: THREE.FrontSide,
+        transparent: true,
     });
 
     var object = function()
