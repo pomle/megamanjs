@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="Bubbleman">
+</scene>
+
+    <camera>
+    </camera>
+
+    <texture url="./bubbleman/tiles.png" w="256" h="128">
+        <animation id="waterfall-1">
+            <frame x="1" y="1" w="16" h="16" duration=".083"/>
+            <frame x="19" y="1" w="16" h="16" duration=".083"/>
+            <frame x="37" y="1" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="waterfall-2">
+            <frame x="1" y="19" w="16" h="16" duration=".083"/>
+            <frame x="19" y="19" w="16" h="16" duration=".083"/>
+            <frame x="37" y="19" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="waterfall-3">
+            <frame x="1" y="37" w="16" h="16" duration=".083"/>
+            <frame x="19" y="37" w="16" h="16" duration=".083"/>
+            <frame x="37" y="37" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="water-surface-1">
+            <frame x="1" y="55" w="16" h="16" duration=".5"/>
+            <frame x="19" y="55" w="16" h="16" duration=".5"/>
+            <frame x="37" y="55" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="water-surface-2">
+            <frame x="1" y="73" w="16" h="16" duration=".5"/>
+            <frame x="19" y="73" w="16" h="16" duration=".5"/>
+            <frame x="37" y="73" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="jet-1">
+            <frame x="55" y="55" w="16" h="16" duration=".5"/>
+            <frame x="73" y="55" w="16" h="16" duration=".5"/>
+            <frame x="91" y="55" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="jet-2">
+            <frame x="55" y="73" w="16" h="16" duration=".5"/>
+            <frame x="73" y="73" w="16" h="16" duration=".5"/>
+            <frame x="91" y="73" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="mine">
+            <frame x="109" y="37" w="16" h="16" />
+        </animation>
+        <animation id="platform-dry">
+            <frame x="55" y="1" w="16" h="16" />
+        </animation>
+        <animation id="platform-wet">
+            <frame x="73" y="1" w="16" h="16" />
+        </animation>
+        <animation id="link-dry">
+            <frame x="55" y="19" w="16" h="16" />
+        </animation>
+        <animation id="link-wet">
+            <frame x="73" y="19" w="16" h="16" />
+        </animation>
+        <animation id="net-shade">
+            <frame x="109" y="55" w="16" h="16" />
+        </animation>
+        <animation id="net">
+            <frame x="109" y="73" w="16" h="16" />
+        </animation>
+        <animation id="door">
+            <frame x="127" y="73" w="16" h="16" />
+        </animation>
+        <animation id="nozzle">
+            <frame x="91" y="37" w="16" h="16" />
+        </animation>
+        <animation id="tank">
+            <frame x="91" y="1" w="16" h="16" />
+        </animation>
+        <animation id="dr-wily-logo">
+            <frame x="127" y="37" w="32" h="32" />
+        </animation>
+        <animation id="transparent">
+            <frame x="145" y="73" w="16" h="16" />
+        </animation>
+    </texture>
+
+    <objects>
+    </objects>
+
+    <models>
+        <model id="waterfall">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15" />
+            <tile id="waterfall-2">
+                <face x="1-16/2" y="1-15/2"/>
+                <face x="2-16/2" y="2-15/2"/>
+            </tile>
+            <tile id="waterfall-3">
+                <face x="1-16/2" y="2-15/2"/>
+                <face x="2-16/2" y="1-15/2"/>
+            </tile>
+        </model>
+
+        <model id="level-1-platforms">
+            <geometry type="plane" w="1280" h="240" w-segments="80" h-segments="15" />
+            <tile id="transparent">
+                <face x="*" y="*"/>
+            </tile>
+            <tile id="platform-dry">
+                <face x="5-10" y="8"/>
+
+            </tile>
+            <tile id="waterfall-1">
+                <face x="5-10" y="9"/>
+            </tile>
+        </model>
+    </models>
+
+
+    <layout>
+        <background model="waterfall" x="0" y="0" z="-5" />
+        <background model="waterfall" x="256" y="0" z="-5" />
+        <background model="waterfall" x="512" y="0" z="-5" />
+
+        <background model="level-1-platforms" x="0" y="0" z="0" />
+
+        <objects>
+        </objects>
+
+            -->
+        <behaviors>
+            <solids>
+                <rect x="64" y="112" w="96" h="16"/>
+            </solids>
+        </behaviors>
+    </layout>
+</scene>
