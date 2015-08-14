@@ -27,28 +27,36 @@ $(function() {
 
     controlpanel
         .find('button[name=generate]').on('click', function(e) {
-            var spritesXml = $('<sprites/>')
+            var textureXml = $('<texture/>')
                 .attr({
+                    'id': 'texture-id',
                     'url': canvas.data('url'),
                     'w': parseFloat(canvas.css('width')),
                     'h': parseFloat(canvas.css('height')),
                 });
 
+            var animations = {};
             workspace.find('.slice').each(function() {
                 var slice = $(this);
-                var spriteXml = $('<sprite/>')
+                var frameXml = $('<frame/>')
                     .attr({
-                        'id': slice.attr('name'),
                         'x': parseFloat(slice.css('left')),
                         'y': parseFloat(slice.css('top')),
                         'w': parseFloat(slice.css('width')),
                         'h': parseFloat(slice.css('height')),
+                        'duration': '.5',
                     });
-
-                spritesXml.append(spriteXml);
+                var name = slice.attr('name');
+                if (!animations[name]) {
+                    animations[name] = $('<animation/>').
+                        attr({
+                            'id': name,
+                        });
+                    textureXml.append(animations[name]);
+                }
+                animations[name].append(frameXml);
             });
-
-            $('#console').val(spritesXml[0].outerHTML);
+            $('#console').val(textureXml[0].outerHTML);
         });
 
     controlpanel.inputs.slice_name.on('keyup', function() {
