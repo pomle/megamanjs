@@ -1,12 +1,74 @@
-Engine.Debug = function(engine)
+Game.Debug = function(game)
 {
-    this.engine = engine;
+    this.game = game;
+    this.engine = this.game.engine;
+
+    this.consoleElement = undefined;
+    this.consoleTimer = undefined;
 
     this.cameraPaths = new Set();
     this.collisionZonesVisible = false;
+
+    this.units = {
+        'u': ['', 1, 10],
+        'm': ['m', .055, 5],
+    }
+
+    this.unit = 'u';
 }
 
-Engine.Debug.prototype.toggleCollisionZones = function()
+
+Game.Debug.prototype.printVector = function(vec)
+{
+    var unit = this.units[this.unit],
+        u = unit[0],
+        s = unit[1],
+        p = unit[2];
+    return [
+        "X: " + (vec.x === undefined ? NaN : vec.x).toFixed(p) * s + u,
+        "Y: " + (vec.y === undefined ? NaN : vec.y).toFixed(p) * s + u,
+        "Z: " + (vec.z === undefined ? NaN : vec.z).toFixed(p) * s + u,
+    ].join(', ');
+}
+
+Game.Debug.prototype.updateConsole = function()
+{
+    var strings = [];
+
+    if (this.game.scene) {
+        strings.push("Camera Position: " + this.printVector(game.scene.camera.camera.position));
+        for (var object of game.scene.world.objects) {
+            var p = object.position;
+            if (p.x === undefined || p.y === undefined || p.z === undefined) {
+                console.warn("%s has undefined position %s", object.uuid, this.printVector(p));
+            }
+        }
+    }
+    if (this.game.player) {
+        strings.push("Player Velocity: " + this.printVector(game.player.character.velocity));
+        strings.push("Player Acceleration: " + this.printVector(game.player.character.physics.acceleration));
+        strings.push("Player Position: " + this.printVector(game.player.character.position));
+    }
+
+    this.consoleElement.html(strings.join("\n"));
+}
+
+Game.Debug.prototype.toggleConsole = function()
+{
+    if (this.consoleElement) {
+        this.consoleElement.remove();
+        this.consoleElement = undefined;
+        clearInterval(this.consoleTimer);
+    }
+    else {
+        this.consoleElement = $('<div style="background-color: rgba(0,0,0,.8); font-family: monospace; margin: 2px; position: absolute; left: 0; top: 0; text-align: left; white-space: pre; z-index: 100;"></div>');
+        $('body').append(this.consoleElement);
+        this.consoleTimer = setInterval(this.updateConsole.bind(this), 1000);
+        this.updateConsole();
+    }
+}
+
+Game.Debug.prototype.toggleCollisionZones = function()
 {
     this.collisionZonesVisible = !this.collisionZonesVisible;
     for (var object of this.engine.world.objects) {
@@ -24,7 +86,7 @@ Engine.Debug.prototype.toggleCollisionZones = function()
     }
 }
 
-Engine.Debug.prototype.toggleCameraPaths = function()
+Game.Debug.prototype.toggleCameraPaths = function()
 {
     if (this.cameraPaths.size) {
         for (var model of this.cameraPaths) {

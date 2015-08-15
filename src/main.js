@@ -3,7 +3,7 @@ var game = Game.createFromXml('./game/resource/Megaman2.xml', function() {
     game.attachToElement(document.getElementById('screen'));
 });
 
-var dbg = new Engine.Debug(game.engine);
+var dbg = new Game.Debug(game);
 
 var pendelum = function(dt)
 {
@@ -51,54 +51,10 @@ $('#nes-controller a')
     .on('mouseup', keyBoardEvent);
 
 
-var debugProps = {
-    'on': false,
-    'interval': undefined,
-    'element': undefined,
-}
 $(window).on('keydown', function(e) {
     if (e.which === 72) {
+        dbg.toggleConsole();
         dbg.toggleCameraPaths();
         dbg.toggleCollisionZones();
-        if (debugProps.on) {
-            debugProps.on = false;
-            debugProps.element.remove();
-            clearInterval(debugProps.interval);
-        }
-        else {
-            debugProps.on = true;
-            debugProps.element = $('<div style="font-family: monospace; margin: 2px; position: absolute; left: 0; top: 0; text-align: left; white-space: pre; z-index: 100;"></div>');
-            $('body').append(debugProps.element);
-            debugProps.interval = setInterval(updateDiagnostics, 1000);
-            updateDiagnostics();
-        }
     }
-
 });
-
-function printVector(vec)
-{
-    return "X: " + vec.x + ", Y: " + vec.y + ", Z: " + vec.z;
-}
-
-function updateDiagnostics()
-{
-    var strings = [];
-
-    if (game.scene) {
-        strings.push("Camera Position: " + printVector(game.scene.camera.camera.position));
-        for (var object of game.scene.world.objects) {
-            var p = object.position;
-            if (p.x === undefined || p.y === undefined || p.z === undefined) {
-                console.warn("%s has undefined position %s", object.uuid, printVector(p));
-            }
-        }
-    }
-    if (game.player) {
-        strings.push("Player Velocity: " + printVector(game.player.character.velocity));
-        strings.push("Player Acceleration: " + printVector(game.player.character.physics.acceleration));
-        strings.push("Player Position: " + printVector(game.player.character.position));
-    }
-
-    debugProps.element.html(strings.join("\n"));
-}
