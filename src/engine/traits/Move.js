@@ -42,6 +42,7 @@ Engine.traits.Move.prototype.__obstruct = function(object, attack)
 
 Engine.traits.Move.prototype.__timeshift = function(deltaTime)
 {
+    this._physics.momentum.set(0, 0);
     this._handleWalk(deltaTime);
     this._handleClimb(deltaTime);
 }
@@ -61,7 +62,7 @@ Engine.traits.Move.prototype._handleClimb = function(dt)
     }
 
     if (host.isClimbing) {
-        this._physics.force.y += this.climbSpeed * host.direction.y;
+        this._physics.momentum.y = this.climbSpeed * host.direction.y;
     }
 }
 
@@ -77,7 +78,7 @@ Engine.traits.Move.prototype._handleWalk = function(dt)
     else {
         this._moveSpeed = 0;
     }
-    this._physics.force.x += this._moveSpeed * host.direction.x;
+    this._physics.momentum.x = this._moveSpeed * host.direction.x;
 }
 
 Engine.traits.Move.prototype.leftStart = function()

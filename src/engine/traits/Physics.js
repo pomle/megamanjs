@@ -5,7 +5,7 @@ Engine.traits.Physics = function()
     this.gravity = true;
 
     this.area = 0.1;
-    this.atmosphericDensity = 1000;
+    this.atmosphericDensity = 1.2;
     this.dragCoefficient = .47;
     this.mass = 1;
 
@@ -13,13 +13,17 @@ Engine.traits.Physics = function()
     this.force = new THREE.Vector2();
 
 
-    /*this.inertia = new THREE.Vector2();
-    this.momentum = new THREE.Vector2();*/
+    this.inertia = new THREE.Vector2();
+    this.momentum = new THREE.Vector2();
 }
 
 Engine.Util.extend(Engine.traits.Physics, Engine.Trait);
 
 Engine.traits.Physics.prototype.NAME = 'physics';
+
+/* Megaman is 132 cm tall according to lore. He is 24 pixels tall in
+   the game world. This constant was derived from 24 px / 1.32 m. */
+Engine.traits.Physics.prototype.UNIT_SCALE = 182;
 
 Engine.traits.Physics.prototype.__obstruct = function(object, attack)
 {
@@ -31,6 +35,7 @@ Engine.traits.Physics.prototype.__obstruct = function(object, attack)
     }
 }
 
+var ax = 0;
 var ay = 0;
 
 Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
@@ -40,16 +45,49 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
         var p = this._host.position;
         var m = this.mass;
 
-        var fy = 0;
-        fy += -this._host.world.gravityForce.y * m;
-        fy += -1 * 0.5 * this.atmosphericDensity * this.dragCoefficient * this.area * v.y * v.y;
-        dy = v.y * dt + (0.5 * ay * dt * dt);
-        new_ay = fy / m;
-        avg_ay = 0.5 * (new_ay + ay);
-        v.y += avg_ay * dt;
-        ay = avg_ay;
-        p.y += dy * 10;
+        var f = new THREE.Vector2(0, 0);
+        f.y += -this._host.world.gravityForce.y * m;
+
+        f.add(this.inertia.clone().multiplyScalar(m));
+        f.add(this.momentum.clone().multiplyScalar(m));
+
+        var vx = v.x;
+        var vy = v.y;
+
+        var res = new THREE.Vector2(0, 0);
+        var fT = f.length();
+        var vT = v.length();
+        //console.log(vT, vx, vy);
+        var resT = .5 * this.atmosphericDensity * this.dragCoefficient * this.area * vT * vT;
+        //res.x = 0.5 * this.atmosphericDensity * this.dragCoefficient * this.area * vx * vx;
+        //res.y = 0.5 * this.atmosphericDensity * this.dragCoefficient * this.area * vy * vy;
+        var resultT = fT - resT;
+        console.log("Force: %s, Resistance: %s, Result: %s", fT, resT, resultT);
+
+        f.setLength(resultT);
+
+        var dx = v.x * dt + (0.5 * ax * dt * dt);
+        var dy = v.y * dt + (0.5 * ay * dt * dt);
+
+        var acc = new THREE.Vector2(0, 0);
+        acc.x = f.x / m;
+        acc.y = f.y / m;
+
+        var avg_acc = new THREE.Vector2(0, 0);
+        avg_acc.x = 0.5 * (acc.x + ax);
+        avg_acc.y = 0.5 * (acc.y + ay);
+
+        v.x += avg_acc.x * dt;
+        v.y += avg_acc.y * dt;
+
+        ax = avg_acc.x;
+        ay = avg_acc.y;
+
+        p.x += dx * this.UNIT_SCALE;
+        p.y += dy * this.UNIT_SCALE;
     }
+
+    this.inertia.set(0,0);
 }
 
 Engine.traits.Physics.prototype._applyDrag = function(acceleration, dt)

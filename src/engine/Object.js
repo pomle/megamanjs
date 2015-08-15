@@ -150,9 +150,6 @@ Engine.Object.prototype.timeShift = function(deltaTime)
     for (var i = 0, l = this.animators.length; i < l; ++i) {
         this.animators[i].update(deltaTime);
     }
-
-    this.position.x += (this.velocity.x * deltaTime);
-    this.position.y += (this.velocity.y * deltaTime);
 }
 
 Engine.Object.prototype.uncollides = function(withObject)

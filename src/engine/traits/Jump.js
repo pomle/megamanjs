@@ -6,7 +6,7 @@ Engine.traits.Jump = function()
     this._time = undefined;
 
     this.duration = .18;
-    this.force = 180;
+    this.force = 20;
 }
 
 Engine.Util.extend(Engine.traits.Jump, Engine.Trait);
@@ -50,7 +50,7 @@ Engine.traits.Jump.prototype.start = function()
         return false;
     }
     host.isSupported = false;
-    this._inertia = host.physics.inertia.y + this.force;
+    this._inertia = host.velocity.y + this.force;
     this._time = host.time;
 }
 

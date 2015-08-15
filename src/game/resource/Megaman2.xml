@@ -24,7 +24,7 @@
     <level start-caption="READY" />
 
     <entrypoint>
-        <scene name="StageSelect" />
+        <scene name="Physics" />
     </entrypoint>
 
     <characters>
