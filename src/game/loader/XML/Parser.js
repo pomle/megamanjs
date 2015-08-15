@@ -328,6 +328,17 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             }
             break;
 
+        case 'oscillating':
+            return {
+                'ref': ref,
+                'prop': {
+                    'func': traitNode.attr('func'),
+                    'magnitude': this.getFloat(traitNode, 'magnitude'),
+                    'speed': this.getFloat(traitNode, 'speed'),
+                }
+            }
+            break;
+
         case 'physics':
             return {
                 'ref': ref,

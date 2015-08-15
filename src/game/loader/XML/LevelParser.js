@@ -285,6 +285,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
 Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNode)
 {
     var parser = this;
+    var loader = parser.loader;
     var level = parser.level;
 
     layoutNode.find('solids > *').each(function() {
@@ -304,6 +305,11 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
             });
         }
 
+        solidNode.find('> trait').each(function() {
+            var traitDescriptor = parser.getTrait($(this));
+            loader.applyTrait(solid, traitDescriptor);
+        });
+
         level.world.addObject(solid);
     });
 
@@ -314,6 +320,11 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
         solid.position.x = rect.x + (rect.w / 2);
         solid.position.y = -(rect.y + (rect.h / 2));
         solid.addCollisionRect(rect.w, rect.h);
+
+        solidNode.find('> trait').each(function() {
+            var traitDescriptor = parser.getTrait($(this));
+            loader.applyTrait(solid, traitDescriptor);
+        });
 
         level.world.addObject(solid);
     });

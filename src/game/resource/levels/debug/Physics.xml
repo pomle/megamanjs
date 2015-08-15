@@ -10,6 +10,11 @@
     <layout>
         <solids>
             <rect x="-128" y="0" w="256" h="16" />
+
+            <rect x="64" y="0" w="32" h="16">
+                <trait source="Oscillating" func="circle" magnitude="50" speed="50" />
+            </rect>
+
             <rect x="-128" y="400" w="256" h="16" />
         </solids>
     </layout>

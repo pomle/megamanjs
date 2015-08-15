@@ -5,22 +5,6 @@ var game = Game.createFromXml('./game/resource/Megaman2.xml', function() {
 
 var dbg = new Game.Debug(game);
 
-var pendelum = function(dt)
-{
-    this.momentum.x = Math.sin(this.time) * 20;
-    Engine.Object.prototype.timeShift.call(this, dt);
-}
-
-var circle = function(dt)
-{
-    var speed = 100;
-    //this.momentum.x = Math.sin(this.time) * speed;
-    this.momentum.y = Math.cos(this.time) * speed;
-    //this.momentum.x += dt * 100;
-    //this.momentum.y += dt;
-    Engine.Object.prototype.timeShift.call(this, dt);
-}
-
 var isTouchDevice = false;
 
 var keyBoardEvent = function(event) {
