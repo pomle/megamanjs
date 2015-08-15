@@ -4,9 +4,9 @@ Engine.traits.Physics = function()
 
     this.gravity = true;
 
-    this.area = 0.1;
-    this.atmosphericDensity = 1.2;
-    this.dragCoefficient = .47;
+    this.area = 0.04;
+    this.atmosphericDensity = 1.225;
+    this.dragCoefficient = .045;
     this.mass = 1;
 
     this.acceleration = new THREE.Vector2();
@@ -41,9 +41,11 @@ var ay = 0;
 Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
     if (dt !== 0) {
-        var v = this._host.velocity;
-        var p = this._host.position;
-        var m = this.mass;
+        var v = this._host.velocity,
+            m = this.mass,
+            ρ = this.atmosphericDensity,
+            cd = this.dragCoefficient,
+            A = this.area;
 
         var f = new THREE.Vector2(0, 0);
         f.y += -this._host.world.gravityForce.y * m;
@@ -51,39 +53,22 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
         f.add(this.inertia.clone().multiplyScalar(m));
         f.add(this.momentum.clone().multiplyScalar(m));
 
-        var vx = v.x;
-        var vy = v.y;
+        /* Take absolute value of velocity and use for v^2 calculation
+           to enable us to cleanly apply it as force - resistance. */
+        var px = Math.abs(v.x),
+            py = Math.abs(v.y),
+            res_x = .5 * ρ * cd * A * v.x * px,
+            res_y = .5 * ρ * cd * A * v.y * py;
 
-        var res = new THREE.Vector2(0, 0);
-        var fT = f.length();
-        var vT = v.length();
-        //console.log(vT, vx, vy);
-        var resT = .5 * this.atmosphericDensity * this.dragCoefficient * this.area * vT * vT;
-        //res.x = 0.5 * this.atmosphericDensity * this.dragCoefficient * this.area * vx * vx;
-        //res.y = 0.5 * this.atmosphericDensity * this.dragCoefficient * this.area * vy * vy;
-        var resultT = fT - resT;
-        console.log("Force: %s, Resistance: %s, Result: %s", fT, resT, resultT);
+        console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", f.x, f.y, res_x, res_y, f.x - res_x, f.y - res_y);
 
-        f.setLength(resultT);
-
-        var dx = v.x * dt + (0.5 * ax * dt * dt);
-        var dy = v.y * dt + (0.5 * ay * dt * dt);
+        f.x -= res_x;
+        f.y -= res_y;
 
         this.acceleration.x = f.x / m;
         this.acceleration.y = f.y / m;
 
-        var avg_acc = new THREE.Vector2(0, 0);
-        avg_acc.x = 0.5 * (this.acceleration.x + ax);
-        avg_acc.y = 0.5 * (this.acceleration.y + ay);
-
-        v.x += avg_acc.x * dt;
-        v.y += avg_acc.y * dt;
-
-        ax = avg_acc.x;
-        ay = avg_acc.y;
-
-        p.x += dx * this.UNIT_SCALE;
-        p.y += dy * this.UNIT_SCALE;
+        v.add(this.acceleration);
     }
 
     this.inertia.set(0,0);
