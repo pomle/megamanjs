@@ -4,7 +4,7 @@
         <trait source="Health" max="28" />
         <trait source="Invincibility" duration="2" />
         <trait source="Jump" force="20" duration=".18" />
-        <trait source="Physics" mass="105" />
+        <trait source="Physics" area=".04" drag=".045" mass="105" />
         <trait source="Move" />
         <trait source="Stun" />
         <trait source="Teleport" />
