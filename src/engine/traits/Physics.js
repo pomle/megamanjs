@@ -4,8 +4,8 @@ Engine.traits.Physics = function()
 
     this.gravity = true;
 
-    this.area = 1.5;
-    this.atmosphericDensity = 1.2;
+    this.area = 0.1;
+    this.atmosphericDensity = 1000;
     this.dragCoefficient = .47;
     this.mass = 1;
 
@@ -26,31 +26,30 @@ Engine.traits.Physics.prototype.__obstruct = function(object, attack)
     switch (attack) {
         case object.SURFACE_TOP:
         case object.SURFACE_BOTTOM:
-            this.force.copy(object.velocity);
+            this._host.velocity.copy(object.velocity);
             break;
     }
 }
 
-Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(deltaTime)
-{
-    if (deltaTime !== 0) {
-        var v = this._host.velocity;
-        v.add(this.acceleration);
-        /* It is very important that gravity is applied before the
-           velocity is summed. Otherwise objects will not be pulled into the
-           ground between ticks and collision detection in resting
-           state will only happen every other tick. */
-        if (this.gravity === true) {
-            this._applyGravity(this.force, deltaTime);
-        }
-        this._applyDrag(this.force, deltaTime);
+var ay = 0;
 
-        v.x += (0.5 * this.acceleration.x * deltaTime * deltaTime);
-        v.y += (0.5 * this.acceleration.y * deltaTime * deltaTime);
-        this.force.divideScalar(this.mass);
-        this.acceleration.add(this.force).divideScalar(2).multiplyScalar(deltaTime);
+Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
+{
+    if (dt !== 0) {
+        var v = this._host.velocity;
+        var p = this._host.position;
+        var m = this.mass;
+
+        var fy = 0;
+        fy += -this._host.world.gravityForce.y * m;
+        fy += -1 * 0.5 * this.atmosphericDensity * this.dragCoefficient * this.area * v.y * v.y;
+        dy = v.y * dt + (0.5 * ay * dt * dt);
+        new_ay = fy / m;
+        avg_ay = 0.5 * (new_ay + ay);
+        v.y += avg_ay * dt;
+        ay = avg_ay;
+        p.y += dy * 10;
     }
-    this.force.set(0, 0);
 }
 
 Engine.traits.Physics.prototype._applyDrag = function(acceleration, dt)
