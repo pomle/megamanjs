@@ -332,6 +332,8 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             return {
                 'ref': ref,
                 'prop': {
+                    'area': this.getFloat(traitNode, 'area'),
+                    'dragCoefficient': this.getFloat(traitNode, 'drag'),
                     'mass': this.getFloat(traitNode, 'mass'),
                 }
             }
