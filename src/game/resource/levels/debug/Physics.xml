@@ -10,6 +10,7 @@
     <layout>
         <solids>
             <rect x="-128" y="0" w="256" h="16" />
+            <rect x="-128" y="400" w="256" h="16" />
         </solids>
     </layout>
 </scene>
