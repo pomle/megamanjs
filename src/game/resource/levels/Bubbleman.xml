@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Bubbleman">
-    <gravity x="0" y="200" />
+    <gravity x="0" y="984" />
 
     <checkpoints>
         <checkpoint x="4224" y="1080"/>

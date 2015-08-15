@@ -38,7 +38,7 @@ Game.traits.Teleport.prototype._start = function()
     this._host.collidable = false;
     this._host.isSupported = false;
     this._host.physics.zero();
-    this._host.physics.mass = 0;
+    this._host.physics.gravity = false;
     this._host.trigger(this.EVENT_START);
 }
 
@@ -49,7 +49,7 @@ Game.traits.Teleport.prototype._end = function()
     this._host.collidable = true;
     this._host.isSupported = true;
     this._host.physics.zero();
-    this._host.physics.mass = 1;
+    this._host.physics.gravity = true;
     this._host.trigger(this.EVENT_END);
 }
 

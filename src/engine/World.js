@@ -8,7 +8,11 @@ Engine.World = function()
 
     this.events = new Engine.Events();
 
+    this.atmosphericDensity = .1;
+    this.atmosphericViscosity = .1;
     this.gravityForce = new THREE.Vector2();
+
+
 
     this.objects = new Set();
 
