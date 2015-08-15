@@ -69,13 +69,12 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
         var dx = v.x * dt + (0.5 * ax * dt * dt);
         var dy = v.y * dt + (0.5 * ay * dt * dt);
 
-        var acc = new THREE.Vector2(0, 0);
-        acc.x = f.x / m;
-        acc.y = f.y / m;
+        this.acceleration.x = f.x / m;
+        this.acceleration.y = f.y / m;
 
         var avg_acc = new THREE.Vector2(0, 0);
-        avg_acc.x = 0.5 * (acc.x + ax);
-        avg_acc.y = 0.5 * (acc.y + ay);
+        avg_acc.x = 0.5 * (this.acceleration.x + ax);
+        avg_acc.y = 0.5 * (this.acceleration.y + ay);
 
         v.x += avg_acc.x * dt;
         v.y += avg_acc.y * dt;
