@@ -45,8 +45,9 @@ Game.Debug.prototype.updateConsole = function()
         }
     }
     if (this.game.player) {
-        strings.push("Player Velocity: " + this.printVector(game.player.character.velocity));
+        strings.push("Player Force: " + this.printVector(game.player.character.physics.force));
         strings.push("Player Acceleration: " + this.printVector(game.player.character.physics.acceleration));
+        strings.push("Player Velocity: " + this.printVector(game.player.character.velocity));
         strings.push("Player Position: " + this.printVector(game.player.character.position));
     }
 
