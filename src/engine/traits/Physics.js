@@ -42,12 +42,13 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
     if (dt !== 0) {
         var v = this._host.velocity,
+            f = this.force,
             m = this.mass,
             ρ = this.atmosphericDensity,
             cd = this.dragCoefficient,
             A = this.area;
 
-        var f = new THREE.Vector2(0, 0);
+        f.set(0, 0);
         f.y += -this._host.world.gravityForce.y;
         f.add(this.inertia);
         f.add(this.momentum);
