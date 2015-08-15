@@ -67,7 +67,7 @@ $(window).on('keydown', function(e) {
         }
         else {
             debugProps.on = true;
-            debugProps.element = $('<pre style="position: absolute; left: 0; top: 0; text-align: left;"></pre>');
+            debugProps.element = $('<div style="font-family: monospace; margin: 2px; position: absolute; left: 0; top: 0; text-align: left; white-space: pre; z-index: 100;"></div>');
             $('body').append(debugProps.element);
             debugProps.interval = setInterval(updateDiagnostics, 1000);
             updateDiagnostics();
@@ -95,6 +95,8 @@ function updateDiagnostics()
         }
     }
     if (game.player) {
+        strings.push("Player Velocity: " + printVector(game.player.character.velocity));
+        strings.push("Player Acceleration: " + printVector(game.player.character.physics.acceleration));
         strings.push("Player Position: " + printVector(game.player.character.position));
     }
 
