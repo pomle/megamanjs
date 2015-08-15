@@ -48,10 +48,10 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
             A = this.area;
 
         var f = new THREE.Vector2(0, 0);
-        f.y += -this._host.world.gravityForce.y * m;
-
-        f.add(this.inertia.clone().multiplyScalar(m));
-        f.add(this.momentum.clone().multiplyScalar(m));
+        f.y += -this._host.world.gravityForce.y;
+        f.add(this.inertia);
+        f.add(this.momentum);
+        f.multiplyScalar(m);
 
         /* Take absolute value of velocity and use for v^2 calculation
            to enable us to cleanly apply it as force - resistance. */
