@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Heatman">
-    <gravity x="0" y="983" />
 
     <checkpoints>
         <checkpoint x="136" y="165"/>

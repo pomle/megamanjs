@@ -10,7 +10,7 @@ Engine.World = function()
 
     this.atmosphericDensity = .1;
     this.atmosphericViscosity = .1;
-    this.gravityForce = new THREE.Vector2();
+    this.gravityForce = new THREE.Vector2(0, 9.81);
 
 
 

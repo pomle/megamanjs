@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Per">
-    <gravity x="0" y="200" />
+    <gravity x="0" y="2" />
 
     <checkpoints>
         <checkpoint x="0" y="0"/>
