@@ -26,6 +26,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
     var loader = parser.loader;
     var level = this.level;
 
+    level.debug = parser.getBool(levelNode, 'debug');
+
     this.parseCamera(levelNode);
     this.parseGravity(levelNode);
 
