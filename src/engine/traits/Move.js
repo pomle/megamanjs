@@ -78,7 +78,7 @@ Engine.traits.Move.prototype._handleWalk = function(dt)
     else {
         this._moveSpeed = 0;
     }
-    this._physics.momentum.x = this._moveSpeed * host.direction.x;
+    this._host.position.x += this._moveSpeed * host.direction.x * dt;
 }
 
 Engine.traits.Move.prototype.leftStart = function()
