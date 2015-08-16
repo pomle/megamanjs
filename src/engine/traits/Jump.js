@@ -2,8 +2,7 @@ Engine.traits.Jump = function()
 {
     Engine.Trait.call(this);
 
-    this._inertia = 0;
-    this._time = undefined;
+    this._elapsed = undefined;
 
     this.duration = .18;
     this.force = 20;
@@ -28,10 +27,10 @@ Engine.traits.Jump.prototype.__obstruct = function(object, attack)
 
 Engine.traits.Jump.prototype.__timeshift = function(deltaTime)
 {
-    if (this._inertia) {
-        var host = this._host;
-        host.physics.inertia.y = this._inertia;
-        if (host.time - this._time > this.duration) {
+    if (this._elapsed !== undefined) {
+        this._host.physics.force.y += this.force;
+        this._elapsed += deltaTime;
+        if (this._elapsed >= this.duration) {
             this.end();
         }
     }
@@ -50,11 +49,10 @@ Engine.traits.Jump.prototype.start = function()
         return false;
     }
     host.isSupported = false;
-    this._inertia = host.velocity.y + this.force;
-    this._time = host.time;
+    this._elapsed = 0;
 }
 
 Engine.traits.Jump.prototype.end = function()
 {
-    this._inertia = 0;
+    this._elapsed = undefined;
 }
