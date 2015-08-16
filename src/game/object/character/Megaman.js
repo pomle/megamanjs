@@ -81,8 +81,8 @@ Game.objects.characters.Megaman.prototype.routeAnimation = function()
         return anim.pickAnimation('jump');
     }
 
-    if (this.move._moveSpeed) {
-        if (this.move._moveSpeed < this.move.speed * .8) {
+    if (this.move._walkSpeed) {
+        if (this.move._walkSpeed < this.move.speed * .8) {
             if (this.weapon._firing) {
                 return anim.pickAnimation('fire');
             }

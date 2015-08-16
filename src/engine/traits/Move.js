@@ -3,7 +3,7 @@ Engine.traits.Move = function()
     Engine.Trait.call(this);
 
     this._climbSpeed = 0;
-    this._moveSpeed = 0;
+    this._walkSpeed = 0;
     this._physics = undefined;
 
     this._climb = 0;
@@ -35,14 +35,13 @@ Engine.traits.Move.prototype.__obstruct = function(object, attack)
     switch (attack) {
         case object.SURFACE_LEFT:
         case object.SURFACE_RIGHT:
-            this._moveSpeed = Math.abs(object.velocity.x);
+            this._walkSpeed = Math.abs(object.velocity.x);
             break;
     }
 }
 
 Engine.traits.Move.prototype.__timeshift = function(deltaTime)
 {
-    this._physics.momentum.set(0, 0);
     this._handleWalk(deltaTime);
     this._handleClimb(deltaTime);
 }
@@ -62,7 +61,7 @@ Engine.traits.Move.prototype._handleClimb = function(dt)
     }
 
     if (host.isClimbing) {
-        this._physics.momentum.y = this.climbSpeed * host.direction.y;
+        host.position.y = this.climbSpeed * host.direction.y  * dt;
     }
 }
 
@@ -70,14 +69,13 @@ Engine.traits.Move.prototype._handleWalk = function(dt)
 {
     var host = this._host;
     if (this._walk) {
-        var dir = this._walk > 0 ? host.DIRECTION_RIGHT : host.DIRECTION_LEFT;
-        host.direction.x = dir;
-        this._moveSpeed = Math.min(this._moveSpeed + this.acceleration * dt, this.speed);
+        host.direction.x = this._walk > 0 ? host.DIRECTION_RIGHT : host.DIRECTION_LEFT;
+        this._walkSpeed = Math.min(this._walkSpeed + this.acceleration * dt, this.speed);
+        host.position.x += this._walkSpeed * host.direction.x * dt;
     }
     else {
-        this._moveSpeed = 0;
+        this._walkSpeed = 0;
     }
-    this._host.position.x += this._moveSpeed * host.direction.x * dt;
 }
 
 Engine.traits.Move.prototype.leftStart = function()
