@@ -20,12 +20,12 @@ Engine.traits.Invincibility.prototype.__attach = function(host)
 {
     this._health = this.__require(host, Engine.traits.Health);
     Engine.Trait.prototype.__attach.call(this, host);
-    this._host.bind(this._health.EVENT_DAMAGED, this.engage);
+    host.bind(host.EVENT_DAMAGE, this.engage);
 }
 
 Engine.traits.Invincibility.prototype.__detach = function()
 {
-    this._host.unbind(this._health.EVENT_DAMAGED, this.engage);
+    this._host.unbind(this._host.EVENT_DAMAGE, this.engage);
     this._health = undefined;
     Engine.Trait.prototype.__detach.call(this, host);
 }

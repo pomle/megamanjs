@@ -12,7 +12,8 @@ Engine.traits.ContactDamage.prototype.EVENT_CONTACT_DAMAGE = 'contact-damage';
 Engine.traits.ContactDamage.prototype.__collides = function(withObject, ourZone, theirZone)
 {
     if (this.points !== 0 && withObject.health) {
-        withObject.inflictDamage(this.points);
+        var direction = this._host.position.clone().sub(withObject.position);
+        withObject.inflictDamage(this.points, direction);
         withObject.trigger(this.EVENT_CONTACT_DAMAGE);
     }
 }

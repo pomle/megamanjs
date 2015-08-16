@@ -12,11 +12,11 @@ Game.objects.Character = function()
     this.animator = undefined;
 }
 
+Engine.Util.extend(Game.objects.Character, Engine.Object);
+
+Game.objects.Character.prototype.EVENT_DAMAGE = 'damage';
 Game.objects.Character.prototype.EVENT_DEATH = 'death';
 Game.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
-
-Game.objects.Character.prototype = Object.create(Engine.Object.prototype);
-Game.objects.Character.constructor = Game.objects.Character;
 
 Game.objects.Character.prototype.getDeathObject = function()
 {
@@ -43,6 +43,7 @@ Game.objects.Character.prototype.inflictDamage = function(points, direction)
         return false;
     }
     this.health.amount -= points;
+    this.trigger(this.EVENT_DAMAGE, [points, direction]);
     return true;
 }
 

@@ -11,8 +11,8 @@ Engine.Util.mixin(Engine.traits.Health, Engine.logic.Energy);
 
 Engine.traits.Health.prototype.NAME = 'health';
 
-Engine.traits.Health.prototype.EVENT_DAMAGED = 'damaged';
 Engine.traits.Health.prototype.EVENT_HEALED = 'healed';
+Engine.traits.Health.prototype.EVENT_HURT = 'hurt';
 Engine.traits.Health.prototype.EVENT_HEALTH_CHANGED = 'health-changed';
 
 Engine.traits.Health.prototype.__timeshift = function healthUpdate(dt)
@@ -24,7 +24,7 @@ Engine.traits.Health.prototype.__timeshift = function healthUpdate(dt)
             this._host.trigger(this.EVENT_HEALED);
         }
         else if (this._value < this._lastValue) {
-            this._host.trigger(this.EVENT_DAMAGED);
+            this._host.trigger(this.EVENT_HURT);
         }
 
         this._lastValue = this._value;

@@ -9,8 +9,7 @@ Game.objects.characters.Megaman = function()
     this.bind(Engine.traits.Weapon.prototype.EVENT_EQUIP, this.changeDress);
 }
 
-Game.objects.characters.Megaman.prototype = Object.create(Game.objects.Character.prototype);
-Game.objects.characters.Megaman.constructor = Game.objects.characters.Megaman;
+Engine.Util.extend(Game.objects.characters.Megaman, Game.objects.Character);
 
 Game.objects.characters.Megaman.prototype.changeDress = function(weapon)
 {
@@ -23,26 +22,18 @@ Game.objects.characters.Megaman.prototype.changeDress = function(weapon)
 
 Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direction)
 {
-    if (!Game.objects.Character.prototype.inflictDamage.call(this, points)) {
+    if (!Game.objects.Character.prototype.inflictDamage.call(this, points, direction)) {
         return false;
     }
 
-    this.jump.end();
-    this.physics.inertia.set(0, 0);
-    this.physics.momentum.set(40, 60);
-    if (direction) {
-        this.physics.momentum.x *= direction.x > 0 ? -1 : 1;
+    if (this.health.amount > 0) {
+        var sweat = this.decorations['sweat']
+        sweat.position.copy(this.position);
+        sweat.position.y += 12;
+        sweat.sprites.sprite.time = 0;
+        sweat.lifetime = 0;
+        this.world.addObject(sweat);
     }
-    else {
-        this.physics.momentum.x *= this.direction.x > 0 ? -1 : 1;
-    }
-
-    var sweat = this.decorations['sweat']
-    sweat.position.copy(this.position);
-    sweat.position.y += 12;
-    sweat.sprites.sprite.time = 0;
-    sweat.lifetime = 0;
-    this.world.addObject(sweat);
 
     return true;
 }
