@@ -15,6 +15,18 @@ Game.Loader.XML.Parser.prototype.getAbsoluteUrl = function(node, attr)
     return baseUrl + url;
 }
 
+Game.Loader.XML.Parser.prototype.getBool = function(node, attr, def)
+{
+    var b = node.attr(attr);
+    if (b === undefined) {
+        return def;
+    }
+    else if (b === 'true') {
+        return true;
+    }
+    return false;
+}
+
 Game.Loader.XML.Parser.prototype.getColor = function(node, attr)
 {
     var c = node.attr(attr);
