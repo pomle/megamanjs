@@ -77,7 +77,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
         background.position.x = position.x + (background._size.x / 2);
         background.position.y = position.y - (background._size.y / 2);
         if (position.z !== undefined) {
-            background.position.z = position.z;
+            background.position.z = position.z -.1;
         }
 
         level.world.addObject(background);
