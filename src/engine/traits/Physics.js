@@ -44,10 +44,7 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
         var v = this._host.velocity,
             a = this.acceleration,
             F = this.force,
-            m = this.mass,
-            ρ = this.atmosphericDensity,
-            Cd = this.dragCoefficient,
-            A = this.area;
+            m = this.mass;
 
         F.set(0, 0);
         F.y += -this._host.world.gravityForce.y;
@@ -55,17 +52,10 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
         F.add(this.momentum);
         F.multiplyScalar(m);
 
-        /* Take absolute value of velocity and use for v^2 calculation
-           to enable us to cleanly apply it as force - resistance. */
-        var px = Math.abs(v.x),
-            py = Math.abs(v.y),
-            res_x = .5 * ρ * Cd * A * v.x * px,
-            res_y = .5 * ρ * Cd * A * v.y * py;
-
-        console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, res_x, res_y, F.x - res_x, F.y - res_y);
-
-        F.x -= res_x;
-        F.y -= res_y;
+        var Fd = this.calculateDrag(v);
+        F.x -= Fd.x;
+        F.y -= Fd.y;
+        console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
 
         a.x = F.x / m;
         a.y = F.y / m;
@@ -76,20 +66,15 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
     this.inertia.set(0,0);
 }
 
-Engine.traits.Physics.prototype._applyDrag = function(acceleration, dt)
+Engine.traits.Physics.prototype.calculateDrag = function(v)
 {
-    var host = this._host;
-    if (host.world === undefined) {
-        return false;
-    }
-    var u = host.velocity.length();
-    if (u === 0) {
-        return true;
-    }
-    var dragForce = .5 * this.atmosphericDensity * this.dragCoefficient * this.area * u * u;
-    var resistance = host.velocity.clone().normalize().multiplyScalar(dragForce);
-    acceleration.sub(resistance);
-    return true;
+    var ρ = this.atmosphericDensity,
+        Cd = this.dragCoefficient,
+        A = this.area;
+    /* Take absolute value of velocity and use for v^2 calculation
+       to enable us to cleanly apply it as force - drag. */
+    return new THREE.Vector2(.5 * ρ * Cd * A * v.x * Math.abs(v.x),
+                             .5 * ρ * Cd * A * v.y * Math.abs(v.y));
 }
 
 Engine.traits.Physics.prototype._applyGravity = function(acceleration, dt)
