@@ -47,7 +47,7 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
         F.y -= g.y;
         F.multiplyScalar(m);
 
-        var Fd = this.calculateDrag(v);
+        var Fd = this._calculateDrag(v);
         F.add(Fd);
         console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
 
@@ -56,13 +56,12 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 
         v.add(a);
 
-        F.set(0, 0);
+        F.x = 0;
+        F.y = 0;
     }
-
-    this.inertia.set(0,0);
 }
 
-Engine.traits.Physics.prototype.calculateDrag = function(v)
+Engine.traits.Physics.prototype._calculateDrag = function(v)
 {
     var ρ = this.atmosphericDensity,
         Cd = this.dragCoefficient,
@@ -75,11 +74,11 @@ Engine.traits.Physics.prototype.calculateDrag = function(v)
 
 Engine.traits.Physics.prototype.bump = function(x, y)
 {
-    this.inertia.x += x;
-    this.inertia.y += y;
+    this._host.velocity.x += x;
+    this._host.velocity.y += y;
 }
 
 Engine.traits.Physics.prototype.zero = function()
 {
-    this.acceleration.multiplyScalar(0);
+    this._host.velocity.multiplyScalar(0);
 }
