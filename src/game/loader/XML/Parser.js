@@ -40,6 +40,16 @@ Game.Loader.XML.Parser.prototype.getFloat = function(node, attr, def)
     return def;
 }
 
+
+Game.Loader.XML.Parser.prototype.getFloatValues = function(node, def)
+{
+    var value = node.attr(attr);
+    if (value && isFinite(value)) {
+        return parseFloat(value);
+    }
+    return def;
+}
+
 Game.Loader.XML.Parser.prototype.getGeometry = function(node)
 {
     var type = node.attr('type');
@@ -333,7 +343,7 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                 'ref': ref,
                 'prop': {
                     'func': traitNode.attr('func'),
-                    'magnitude': this.getFloat(traitNode, 'magnitude'),
+                    'amplitude': this.getVector2(traitNode.find('> amplitude')),
                     'speed': this.getFloat(traitNode, 'speed'),
                 }
             }
@@ -346,6 +356,15 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                     'area': this.getFloat(traitNode, 'area'),
                     'dragCoefficient': this.getFloat(traitNode, 'drag'),
                     'mass': this.getFloat(traitNode, 'mass'),
+                }
+            }
+            break;
+
+        case 'solid':
+            return {
+                'ref': ref,
+                'prop': {
+                    'attackAccept': extractAttack(),
                 }
             }
             break;
@@ -364,6 +383,31 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                 'ref': ref,
             }
             break;
+    }
+
+    function extractAttack()
+    {
+        var attack = traitNode.attr('attack');
+        if (attack) {
+            var surfaces = [];
+            var S = Engine.traits.Solid.prototype;
+            var map = {
+                'top': S.TOP,
+                'bottom': S.BOTTOM,
+                'left': S.LEFT,
+                'right': S.RIGHT,
+            }
+            attacks = attack.split(' ');
+            for (var i = 0, l = attacks.length; i < l; ++i) {
+                var a = attacks[i];
+                if (map[a] === undefined) {
+                    throw new Error('Invalid attack direction "' + a + '"');
+                }
+                surfaces.push(map[a]);
+            }
+            return surfaces;
+        }
+        return undefined;
     }
 }
 
@@ -384,22 +428,30 @@ Game.Loader.XML.Parser.prototype.getUVAnimation = function(animationNode, textur
     return animation;
 }
 
-Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY)
+Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY, def)
 {
     var node = $(node);
-    return new THREE.Vector2(
-        parseFloat(node.attr(attrX || 'x')) || undefined,
-        parseFloat(node.attr(attrY || 'y')) || undefined);
+    var x = node.attr(attrX || 'x');
+    var y = node.attr(attrY || 'y');
+    if (x === undefined || y === undefined) {
+        return def;
+    }
+    return new THREE.Vector2(parseFloat(x),
+                             parseFloat(y));
 }
 
-Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ)
+Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ, def)
 {
     var node = $(node);
-    var vec3 = new THREE.Vector3(
-        parseFloat(node.attr(attrX || 'x')) || 0,
-        parseFloat(node.attr(attrY || 'y')) || 0,
-        parseFloat(node.attr(attrZ || 'z')) || 0);
-    return vec3;
+    var x = node.attr(attrX || 'x');
+    var y = node.attr(attrY || 'y');
+    var z = node.attr(attrY || 'z');
+    if (x === undefined || y === undefined) {
+        return def;
+    }
+    return new THREE.Vector3(parseFloat(x),
+                             parseFloat(y),
+                             parseFloat(z));
 }
 
 Game.Loader.XML.Parser.prototype.parseTexture = function(textureNode)

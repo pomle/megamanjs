@@ -95,6 +95,12 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
         if (isFinite(smoothing)) {
             level.camera.smoothing = smoothing;
         }
+
+        var posNode = cameraNode.find('> position');
+        if (posNode.length) {
+            var position = parser.getPosition(posNode);
+            level.camera.camera.position.copy(position);
+        }
     });
 
     levelNode.find('> camera > path').each(function() {
