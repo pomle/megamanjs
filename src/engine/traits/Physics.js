@@ -42,34 +42,35 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
     if (dt !== 0) {
         var v = this._host.velocity,
-            f = this.force,
+            a = this.acceleration,
+            F = this.force,
             m = this.mass,
             ρ = this.atmosphericDensity,
-            cd = this.dragCoefficient,
+            Cd = this.dragCoefficient,
             A = this.area;
 
-        f.set(0, 0);
-        f.y += -this._host.world.gravityForce.y;
-        f.add(this.inertia);
-        f.add(this.momentum);
-        f.multiplyScalar(m);
+        F.set(0, 0);
+        F.y += -this._host.world.gravityForce.y;
+        F.add(this.inertia);
+        F.add(this.momentum);
+        F.multiplyScalar(m);
 
         /* Take absolute value of velocity and use for v^2 calculation
            to enable us to cleanly apply it as force - resistance. */
         var px = Math.abs(v.x),
             py = Math.abs(v.y),
-            res_x = .5 * ρ * cd * A * v.x * px,
-            res_y = .5 * ρ * cd * A * v.y * py;
+            res_x = .5 * ρ * Cd * A * v.x * px,
+            res_y = .5 * ρ * Cd * A * v.y * py;
 
-        console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", f.x, f.y, res_x, res_y, f.x - res_x, f.y - res_y);
+        console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, res_x, res_y, F.x - res_x, F.y - res_y);
 
-        f.x -= res_x;
-        f.y -= res_y;
+        F.x -= res_x;
+        F.y -= res_y;
 
-        this.acceleration.x = f.x / m;
-        this.acceleration.y = f.y / m;
+        a.x = F.x / m;
+        a.y = F.y / m;
 
-        v.add(this.acceleration);
+        v.add(a);
     }
 
     this.inertia.set(0,0);
