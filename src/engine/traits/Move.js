@@ -71,7 +71,6 @@ Engine.traits.Move.prototype._handleWalk = function(dt)
     var host = this._host;
     if (this._walk) {
         var dir = this._walk > 0 ? host.DIRECTION_RIGHT : host.DIRECTION_LEFT;
-        host.model.scale.x = dir;
         host.direction.x = dir;
         this._moveSpeed = Math.min(this._moveSpeed + this.acceleration * dt, this.speed);
     }

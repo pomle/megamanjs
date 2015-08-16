@@ -145,6 +145,10 @@ Engine.Object.prototype.timeShift = function(deltaTime)
     this.time += deltaTime;
     this.deltaTime = deltaTime;
 
+    if (this.direction.x !== 0) {
+        this.model.scale.x = this.direction.x;
+    }
+
     this.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
 
     for (var i = 0, l = this.animators.length; i < l; ++i) {
