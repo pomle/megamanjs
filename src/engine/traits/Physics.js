@@ -7,14 +7,10 @@ Engine.traits.Physics = function()
     this.area = 0.04;
     this.atmosphericDensity = 1.225;
     this.dragCoefficient = .045;
-    this.mass = 1;
+    this.mass = 0;
 
     this.acceleration = new THREE.Vector2();
     this.force = new THREE.Vector2();
-
-
-    this.inertia = new THREE.Vector2();
-    this.momentum = new THREE.Vector2();
 }
 
 Engine.Util.extend(Engine.traits.Physics, Engine.Trait);
