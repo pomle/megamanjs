@@ -28,6 +28,10 @@ Engine.traits.Physics.prototype.__obstruct = function(object, attack)
         case object.SURFACE_BOTTOM:
             this._host.velocity.copy(object.velocity);
             break;
+        case object.SURFACE_LEFT:
+        case object.SURFACE_RIGHT:
+            this._host.velocity.x = object.velocity.x;
+            break;
     }
 }
 
