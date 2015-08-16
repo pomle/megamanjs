@@ -35,32 +35,28 @@ Engine.traits.Physics.prototype.__obstruct = function(object, attack)
     }
 }
 
-var ax = 0;
-var ay = 0;
-
 Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
     if (dt !== 0) {
         var v = this._host.velocity,
+            g = this._host.world.gravityForce,
             a = this.acceleration,
             F = this.force,
             m = this.mass;
 
-        F.set(0, 0);
-        F.y += -this._host.world.gravityForce.y;
-        F.add(this.inertia);
-        F.add(this.momentum);
+        F.y -= g.y;
         F.multiplyScalar(m);
 
         var Fd = this.calculateDrag(v);
-        F.x -= Fd.x;
-        F.y -= Fd.y;
+        F.add(Fd);
         console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
 
         a.x = F.x / m;
         a.y = F.y / m;
 
         v.add(a);
+
+        F.set(0, 0);
     }
 
     this.inertia.set(0,0);
@@ -73,19 +69,8 @@ Engine.traits.Physics.prototype.calculateDrag = function(v)
         A = this.area;
     /* Take absolute value of velocity and use for v^2 calculation
        to enable us to cleanly apply it as force - drag. */
-    return new THREE.Vector2(.5 * ρ * Cd * A * v.x * Math.abs(v.x),
-                             .5 * ρ * Cd * A * v.y * Math.abs(v.y));
-}
-
-Engine.traits.Physics.prototype._applyGravity = function(acceleration, dt)
-{
-    if (this.mass === 0 || this._host.world === undefined) {
-        return false;
-    }
-    var g = this._host.world.gravityForce;
-    acceleration.x += this.mass * g.x * dt;
-    acceleration.y -= this.mass * g.y * dt;
-    return true;
+    return new THREE.Vector2(-.5 * ρ * Cd * A * v.x * Math.abs(v.x),
+                             -.5 * ρ * Cd * A * v.y * Math.abs(v.y));
 }
 
 Engine.traits.Physics.prototype.bump = function(x, y)
