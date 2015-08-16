@@ -37,28 +37,30 @@ Engine.traits.Physics.prototype.__obstruct = function(object, attack)
 
 Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
-    if (dt !== 0) {
-        var v = this._host.velocity,
-            g = this._host.world.gravityForce,
-            a = this.acceleration,
-            F = this.force,
-            m = this.mass;
-
-        F.y -= g.y;
-        F.multiplyScalar(m);
-
-        var Fd = this._calculateDrag(v);
-        F.add(Fd);
-        console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
-
-        a.x = F.x / m;
-        a.y = F.y / m;
-
-        v.add(a);
-
-        F.x = 0;
-        F.y = 0;
+    if (dt === 0 || this.mass === 0) {
+        return;
     }
+
+    var v = this._host.velocity,
+        g = this._host.world.gravityForce,
+        a = this.acceleration,
+        F = this.force,
+        m = this.mass;
+
+    F.y -= g.y;
+    F.multiplyScalar(m);
+
+    var Fd = this._calculateDrag(v);
+    F.add(Fd);
+    //console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
+
+    a.x = F.x / m;
+    a.y = F.y / m;
+
+    v.add(a);
+
+    F.x = 0;
+    F.y = 0;
 }
 
 Engine.traits.Physics.prototype._calculateDrag = function(v)
@@ -66,8 +68,8 @@ Engine.traits.Physics.prototype._calculateDrag = function(v)
     var ρ = this.atmosphericDensity,
         Cd = this.dragCoefficient,
         A = this.area;
-    /* Take absolute value of velocity and use for v^2 calculation
-       to enable us to cleanly apply it as force - drag. */
+    /* abs value for one velocity component to circumvent
+       signage removal on v^2 . */
     return new THREE.Vector2(-.5 * ρ * Cd * A * v.x * Math.abs(v.x),
                              -.5 * ρ * Cd * A * v.y * Math.abs(v.y));
 }
