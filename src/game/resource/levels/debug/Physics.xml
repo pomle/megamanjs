@@ -3,7 +3,7 @@
     <gravity x="0" y="9.81" />
 
     <camera>
-        <position x="360" y="200" z="500"/>
+        <position x="360" y="120" z="500"/>
     </camera>
 
     <checkpoints>
@@ -19,27 +19,16 @@
             <rect x="-128" y="400" w="256" h="16" />
 
             <!-- Circular -->
-            <rect x="64" y="0" w="32" h="16">
-                <trait source="Oscillating" func="circle" speed="2">
-                    <amplitude x="50" y="50"/>
+            <rect x="128" y="0" w="32" h="16">
+                <trait source="Oscillating" func="circle" speed="1">
+                    <amplitude x="150" y="50"/>
                 </trait>
             </rect>
 
-            <rect x="128" y="200" w="32" h="16" comment="Elevator">
-                <trait source="Oscillating" func="circle" speed="1">
+            <rect x="-128" y="200" w="32" h="16" comment="Elevator">
+                <trait source="Solid" attack="top"/>
+                <trait source="Oscillating" func="circle" speed="3">
                     <amplitude x="0" y="200"/>
-                </trait>
-            </rect>
-
-            <rect x="-32" y="200" w="32" h="16" comment="Elevator">
-                <trait source="Oscillating" func="circle" speed="1">
-                    <amplitude x="0" y="200"/>
-                </trait>
-            </rect>
-
-            <rect x="0" y="300" w="32" h="16">
-                <trait source="Oscillating" func="circle" speed="1">
-                    <amplitude x="0" y="100"/>
                 </trait>
             </rect>
 
