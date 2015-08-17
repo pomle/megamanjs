@@ -54,9 +54,7 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
     F.add(Fd);
     //console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
 
-    a.x = F.x / m;
-    a.y = F.y / m;
-
+    a.add(new THREE.Vector2(F.x / m, F.y / m)).divideScalar(2);
     v.add(a);
 
     F.x = 0;
