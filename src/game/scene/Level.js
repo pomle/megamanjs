@@ -90,10 +90,10 @@ Game.scenes.Level.prototype.createCharacterInput = function()
 
     input.intermittent(input.A,
         function() {
-            player.character.jump.start();
+            player.character.jump.engage();
         },
         function() {
-            player.character.jump.end();
+            player.character.jump.cancel();
         });
     input.hit(input.B,
         function() {

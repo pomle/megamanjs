@@ -327,6 +327,7 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                 'ref': ref,
                 'prop': {
                     'duration': this.getFloat(traitNode, 'duration'),
+                    'falloff': this.getFloat(traitNode, 'falloff'),
                     'force': this.getFloat(traitNode, 'force'),
                 }
             }
