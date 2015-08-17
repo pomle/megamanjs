@@ -25,7 +25,7 @@ Game.objects.projectiles.CrashBomb = function()
     this.setDamage(20);
     this.setSpeed(240);
     this.penetratingForce = true;
-    this.range = 200;
+    this.setRange(200);
 
     this.explosion = new Game.objects.decorations.Explosion();
 }

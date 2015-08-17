@@ -4,14 +4,23 @@ Game.objects.Projectile = function()
 
     this.damage = 0;
     this.distanceCovered = 0;
-    this.penetratingForce = false;
-    this.range = 300;
+    this.lifetime = Infinity;
     this.origin = undefined;
-    this.speed = 0;
+    this.penetratingForce = false;
+    this.setRange(300);
+    this.setSpeed(100);
 }
 
 Game.objects.Projectile.prototype = Object.create(Engine.Object.prototype);
 Game.objects.Projectile.constructor = Game.objects.Projectile;
+
+Game.objects.Projectile.prototype.getLifetime = function()
+{
+    if (this.speed) {
+        return this.range / this.speed;
+    }
+    return Infinity;
+}
 
 Game.objects.Projectile.prototype.collides = function(withObject, ourZone, theirZone)
 {
@@ -71,18 +80,19 @@ Game.objects.Projectile.prototype.setOrigin = function(vec)
 Game.objects.Projectile.prototype.setRange = function(distance)
 {
     this.range = distance;
+    this.lifetime = this.getLifetime();
 }
 
 Game.objects.Projectile.prototype.setSpeed = function(v)
 {
     this.speed = v;
+    this.lifetime = this.getLifetime();
 }
 
 Game.objects.Projectile.prototype.timeShift = function(deltaTime)
 {
     Engine.Object.prototype.timeShift.call(this, deltaTime);
-    this.distanceCovered += (this.velocity.length() * deltaTime);
-    if (this.distanceCovered > this.range) {
+    if (this.time > this.lifetime) {
         this.rangeReached();
     }
 }

@@ -28,8 +28,7 @@ Game.objects.projectiles.AirShot.prototype.timeShift = function(dt)
     if (this.velocity.x) {
         this.sprites.setDirection(this.velocity.x > 0 ? 1 : -1);
     }
-    this.physics.inertia.y += 150 * dt;
-
+    this.velocity.y += 150 * dt;
     this.sprites.timeShift(dt);
     Game.objects.Projectile.prototype.timeShift.call(this, dt);
 }

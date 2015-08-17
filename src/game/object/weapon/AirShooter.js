@@ -22,7 +22,8 @@ Game.objects.weapons.AirShooter.prototype.fire = function()
 
     var velocityMultiplier = 1.2;
     for (var i in projectiles) {
-        this.emit(projectiles[i], projectiles[i].speed * Math.pow(velocityMultiplier, i), 0);
+        projectiles[i].speed *= Math.pow(velocityMultiplier, i);
+        this.emit(projectiles[i]);
     }
     return true;
 }
