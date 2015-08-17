@@ -5,7 +5,7 @@ var Engine = function(renderer)
     this.isRunning = false;
     this.isSimulating = true;
     this.simulationSpeed = 1;
-    this.speed = 1;
+    this.speedLimit = 1;
     this.tick = 0;
     this.timeElapsedTotal = 0;
     this.timeMax = 1/60;
@@ -27,7 +27,7 @@ Engine.prototype.loop = function(timeElapsed)
         return false;
     }
 
-    this.tick += this.speed;
+    this.tick += this.speedLimit;
     if (this.tick >= 1 && timeElapsed) {
         timeElapsed /= 1000;
         if (this.timeLastEvent !== undefined) {
