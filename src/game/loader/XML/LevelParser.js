@@ -296,45 +296,36 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
     var loader = parser.loader;
     var level = parser.level;
 
-    layoutNode.find('solids > *').each(function() {
-        solidNode = $(this);
-        var rect = parser.getRect(solidNode);
-        var solid = new Game.objects.Solid();
-        solid.position.x = rect.x + (rect.w / 2);
-        solid.position.y = -(rect.y + (rect.h / 2));
-        solid.addCollisionRect(rect.w, rect.h);
+    function createObject(node, ref)
+    {
+        node = $(node);
+        var rect = parser.getRect(node);
+        var object = new ref();
+        object.position.x = rect.x + (rect.w / 2);
+        object.position.y = -(rect.y + (rect.h / 2));
+        object.addCollisionRect(rect.w, rect.h);
 
-        var attackNodes = solidNode.find('> attack');
-        if (attackNodes.length) {
-            solid.attackAccept = [];
-            attackNodes.each(function(i, attackNode) {
-                var direction = $(attackNode).attr('direction');
-                solid.attackAccept.push(solid[direction.toUpperCase()]);
-            });
-        }
-
-        solidNode.find('> trait').each(function() {
+        node.find('> trait').each(function() {
             var traitDescriptor = parser.getTrait($(this));
-            loader.applyTrait(solid, traitDescriptor);
+            loader.applyTrait(object, traitDescriptor);
         });
 
-        level.world.addObject(solid);
+        return object;
+    }
+
+    layoutNode.find('environments > *').each(function() {
+        var env = createObject(this, Engine.Object);
+        level.world.addObject(env);
+    });
+
+    layoutNode.find('solids > *').each(function() {
+        var s = createObject(this, Game.objects.Solid);
+        level.world.addObject(s);
     });
 
     layoutNode.find('climbables > *').each(function() {
-        solidNode = $(this);
-        var rect = parser.getRect(solidNode);
-        var solid = new Game.objects.Climbable();
-        solid.position.x = rect.x + (rect.w / 2);
-        solid.position.y = -(rect.y + (rect.h / 2));
-        solid.addCollisionRect(rect.w, rect.h);
-
-        solidNode.find('> trait').each(function() {
-            var traitDescriptor = parser.getTrait($(this));
-            loader.applyTrait(solid, traitDescriptor);
-        });
-
-        level.world.addObject(solid);
+        var c = createObject(this, Game.objects.Climbable);
+        level.world.addObject(s);
     });
 }
 
