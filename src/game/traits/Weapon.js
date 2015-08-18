@@ -1,4 +1,4 @@
-Engine.traits.Weapon = function()
+Game.traits.Weapon = function()
 {
     Engine.Trait.call(this);
 
@@ -10,14 +10,14 @@ Engine.traits.Weapon = function()
     this.projectileEmitOffset = new THREE.Vector2();
 }
 
-Engine.Util.extend(Engine.traits.Weapon, Engine.Trait);
+Engine.Util.extend(Game.traits.Weapon, Engine.Trait);
 
-Engine.traits.Weapon.prototype.NAME = 'weapon';
+Game.traits.Weapon.prototype.NAME = 'weapon';
 
-Engine.traits.Weapon.prototype.EVENT_FIRE = 'weapon-fire';
-Engine.traits.Weapon.prototype.EVENT_EQUIP = 'weapon-equip';
+Game.traits.Weapon.prototype.EVENT_FIRE = 'weapon-fire';
+Game.traits.Weapon.prototype.EVENT_EQUIP = 'weapon-equip';
 
-Engine.traits.Weapon.prototype.__timeshift = function(deltaTime)
+Game.traits.Weapon.prototype.__timeshift = function(deltaTime)
 {
     if (this._firing) {
         this._duration += deltaTime;
@@ -32,7 +32,7 @@ Engine.traits.Weapon.prototype.__timeshift = function(deltaTime)
     }
 }
 
-Engine.traits.Weapon.prototype.equip = function(weapon)
+Game.traits.Weapon.prototype.equip = function(weapon)
 {
     if (weapon instanceof Game.objects.Weapon === false) {
         throw new Error('Invalid weapon');
@@ -42,7 +42,7 @@ Engine.traits.Weapon.prototype.equip = function(weapon)
     this._host.trigger(this.EVENT_EQUIP, [weapon]);
 }
 
-Engine.traits.Weapon.prototype.fire = function()
+Game.traits.Weapon.prototype.fire = function()
 {
     if (this._host.stun._engaged === true) {
         return false;

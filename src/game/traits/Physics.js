@@ -1,4 +1,4 @@
-Engine.traits.Physics = function()
+Game.traits.Physics = function()
 {
     Engine.Trait.call(this);
 
@@ -13,15 +13,15 @@ Engine.traits.Physics = function()
     this.force = new THREE.Vector2();
 }
 
-Engine.Util.extend(Engine.traits.Physics, Engine.Trait);
+Engine.Util.extend(Game.traits.Physics, Engine.Trait);
 
-Engine.traits.Physics.prototype.NAME = 'physics';
+Game.traits.Physics.prototype.NAME = 'physics';
 
 /* Megaman is 132 cm tall according to lore. He is 24 pixels tall in
    the game world. This constant was derived from 24 px / 1.32 m. */
-Engine.traits.Physics.prototype.UNIT_SCALE = 182;
+Game.traits.Physics.prototype.UNIT_SCALE = 182;
 
-Engine.traits.Physics.prototype.__obstruct = function(object, attack)
+Game.traits.Physics.prototype.__obstruct = function(object, attack)
 {
     switch (attack) {
         case object.SURFACE_TOP:
@@ -35,7 +35,7 @@ Engine.traits.Physics.prototype.__obstruct = function(object, attack)
     }
 }
 
-Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
+Game.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
     if (dt === 0 || this.mass === 0) {
         return;
@@ -61,7 +61,7 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
     F.y = 0;
 }
 
-Engine.traits.Physics.prototype._calculateDrag = function(v)
+Game.traits.Physics.prototype._calculateDrag = function(v)
 {
     var ρ = this.atmosphericDensity,
         Cd = this.dragCoefficient,
@@ -73,13 +73,13 @@ Engine.traits.Physics.prototype._calculateDrag = function(v)
                              -.5 * ρ * Cd * A * v.y * Math.abs(v.y));
 }
 
-Engine.traits.Physics.prototype.bump = function(x, y)
+Game.traits.Physics.prototype.bump = function(x, y)
 {
     this._host.velocity.x += x;
     this._host.velocity.y += y;
 }
 
-Engine.traits.Physics.prototype.zero = function()
+Game.traits.Physics.prototype.zero = function()
 {
     this._host.velocity.multiplyScalar(0);
 }

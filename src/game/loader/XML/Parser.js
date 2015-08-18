@@ -296,7 +296,7 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
 {
     var source = traitNode.attr('source');
     var name = traitNode.attr('name');
-    var ref = Game.traits[source] ? Game.traits[source] : Engine.traits[source];
+    var ref = Game.traits[source];
     if (ref === undefined) {
         throw new Error('Trait "' + source + '" does not exist');
     }
@@ -403,7 +403,7 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
         var attack = traitNode.attr('attack');
         if (attack) {
             var surfaces = [];
-            var S = Engine.traits.Solid.prototype;
+            var S = Game.traits.Solid.prototype;
             var map = {
                 'top': S.TOP,
                 'bottom': S.BOTTOM,

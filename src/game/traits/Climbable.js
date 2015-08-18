@@ -1,13 +1,13 @@
 Game.traits.Climbable = function()
 {
-    Engine.traits.Solid.call(this);
+    Game.traits.Solid.call(this);
     this.attackAccept = [this.TOP];
     this.attached = new Set();
 
     this.topMargin = 5;
 }
 
-Engine.Util.extend(Game.traits.Climbable, Engine.traits.Solid);
+Engine.Util.extend(Game.traits.Climbable, Game.traits.Solid);
 Game.traits.Climbable.prototype.NAME = 'climbable';
 
 Game.traits.Climbable.prototype.__collides = function(subject, ourZone, theirZone)
@@ -21,7 +21,7 @@ Game.traits.Climbable.prototype.__collides = function(subject, ourZone, theirZon
         return;
     }
 
-    Engine.traits.Solid.prototype.__collides.call(this, subject, ourZone, theirZone);
+    Game.traits.Solid.prototype.__collides.call(this, subject, ourZone, theirZone);
 }
 
 Game.traits.Climbable.prototype.__uncollides = function(subject)

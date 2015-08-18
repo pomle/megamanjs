@@ -1,4 +1,4 @@
-Engine.traits.Stun = function()
+Game.traits.Stun = function()
 {
     Engine.Trait.call(this);
 
@@ -15,22 +15,22 @@ Engine.traits.Stun = function()
     this.disengage = this.disengage.bind(this);
 }
 
-Engine.Util.extend(Engine.traits.Stun, Engine.Trait);
+Engine.Util.extend(Game.traits.Stun, Engine.Trait);
 
-Engine.traits.Stun.prototype.NAME = 'stun';
+Game.traits.Stun.prototype.NAME = 'stun';
 
-Engine.traits.Stun.prototype.EVENT_STUN_ENGAGE = 'stun-engaged';
-Engine.traits.Stun.prototype.EVENT_STUN_DISENGAGE = 'stun-disengage';
+Game.traits.Stun.prototype.EVENT_STUN_ENGAGE = 'stun-engaged';
+Game.traits.Stun.prototype.EVENT_STUN_DISENGAGE = 'stun-disengage';
 
-Engine.traits.Stun.prototype.__attach = function(host)
+Game.traits.Stun.prototype.__attach = function(host)
 {
-    this._physics = this.__require(host, Engine.traits.Physics);
-    this._move = this.__require(host, Engine.traits.Move);
+    this._physics = this.__require(host, Game.traits.Physics);
+    this._move = this.__require(host, Game.traits.Move);
     Engine.Trait.prototype.__attach.call(this, host);
     this._host.bind(this._host.EVENT_DAMAGE, this.engage);
 }
 
-Engine.traits.Stun.prototype.__detach = function()
+Game.traits.Stun.prototype.__detach = function()
 {
     this._host.unbind(this._host.EVENT_DAMAGE, this.engage);
     this._health = undefined;
@@ -38,7 +38,7 @@ Engine.traits.Stun.prototype.__detach = function()
     Engine.Trait.prototype.__detach.call(this, this._host);
 }
 
-Engine.traits.Stun.prototype.__timeshift = function(deltaTime)
+Game.traits.Stun.prototype.__timeshift = function(deltaTime)
 {
     if (this._engaged) {
         if (this._elapsed >= this.duration) {
@@ -53,13 +53,13 @@ Engine.traits.Stun.prototype.__timeshift = function(deltaTime)
     }
 }
 
-Engine.traits.Stun.prototype.bump = function()
+Game.traits.Stun.prototype.bump = function()
 {
     this._host.physics.zero();
     this._host.physics.force.add(this._bump);
 }
 
-Engine.traits.Stun.prototype.disengage = function()
+Game.traits.Stun.prototype.disengage = function()
 {
     if (this._engaged) {
         this._move.on();
@@ -67,7 +67,7 @@ Engine.traits.Stun.prototype.disengage = function()
     }
 }
 
-Engine.traits.Stun.prototype.engage = function(points, direction)
+Game.traits.Stun.prototype.engage = function(points, direction)
 {
     if (this.duration !== 0 && this._engaged === false) {
         var host = this._host,

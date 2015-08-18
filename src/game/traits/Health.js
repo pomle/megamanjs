@@ -1,4 +1,4 @@
-Engine.traits.Health = function()
+Game.traits.Health = function()
 {
     Engine.Trait.apply(this, arguments);
     Engine.logic.Energy.apply(this, arguments);
@@ -6,16 +6,16 @@ Engine.traits.Health = function()
     this._lastValue = undefined;
 }
 
-Engine.Util.extend(Engine.traits.Health, Engine.Trait);
-Engine.Util.mixin(Engine.traits.Health, Engine.logic.Energy);
+Engine.Util.extend(Game.traits.Health, Engine.Trait);
+Engine.Util.mixin(Game.traits.Health, Engine.logic.Energy);
 
-Engine.traits.Health.prototype.NAME = 'health';
+Game.traits.Health.prototype.NAME = 'health';
 
-Engine.traits.Health.prototype.EVENT_HEALED = 'healed';
-Engine.traits.Health.prototype.EVENT_HURT = 'hurt';
-Engine.traits.Health.prototype.EVENT_HEALTH_CHANGED = 'health-changed';
+Game.traits.Health.prototype.EVENT_HEALED = 'healed';
+Game.traits.Health.prototype.EVENT_HURT = 'hurt';
+Game.traits.Health.prototype.EVENT_HEALTH_CHANGED = 'health-changed';
 
-Engine.traits.Health.prototype.__timeshift = function healthUpdate(dt)
+Game.traits.Health.prototype.__timeshift = function healthUpdate(dt)
 {
     if (this._lastValue !== this._value) {
         this._host.trigger(this.EVENT_HEALTH_CHANGED);

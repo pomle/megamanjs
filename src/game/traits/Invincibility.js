@@ -1,4 +1,4 @@
-Engine.traits.Invincibility = function()
+Game.traits.Invincibility = function()
 {
     Engine.Trait.call(this);
 
@@ -12,25 +12,25 @@ Engine.traits.Invincibility = function()
     this.disengage = this.disengage.bind(this);
 }
 
-Engine.Util.extend(Engine.traits.Invincibility, Engine.Trait);
+Engine.Util.extend(Game.traits.Invincibility, Engine.Trait);
 
-Engine.traits.Invincibility.prototype.NAME = 'invincibility';
+Game.traits.Invincibility.prototype.NAME = 'invincibility';
 
-Engine.traits.Invincibility.prototype.__attach = function(host)
+Game.traits.Invincibility.prototype.__attach = function(host)
 {
-    this._health = this.__require(host, Engine.traits.Health);
+    this._health = this.__require(host, Game.traits.Health);
     Engine.Trait.prototype.__attach.call(this, host);
     host.bind(host.EVENT_DAMAGE, this.engage);
 }
 
-Engine.traits.Invincibility.prototype.__detach = function()
+Game.traits.Invincibility.prototype.__detach = function()
 {
     this._host.unbind(this._host.EVENT_DAMAGE, this.engage);
     this._health = undefined;
     Engine.Trait.prototype.__detach.call(this, host);
 }
 
-Engine.traits.Invincibility.prototype.__timeshift = function(deltaTime)
+Game.traits.Invincibility.prototype.__timeshift = function(deltaTime)
 {
     if (this._engaged) {
         this._host.model.visible = !this._host.model.visible;
@@ -43,14 +43,14 @@ Engine.traits.Invincibility.prototype.__timeshift = function(deltaTime)
     }
 }
 
-Engine.traits.Invincibility.prototype.disengage = function()
+Game.traits.Invincibility.prototype.disengage = function()
 {
     this._health.infinite = false;
     this._host.model.visible = true;
     this._engaged = false;
 }
 
-Engine.traits.Invincibility.prototype.engage = function()
+Game.traits.Invincibility.prototype.engage = function()
 {
     if (this.duration !== 0) {
         this._health.infinite = true;

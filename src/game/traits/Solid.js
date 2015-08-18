@@ -1,4 +1,4 @@
-Engine.traits.Solid = function()
+Game.traits.Solid = function()
 {
     Engine.Trait.call(this);
 
@@ -12,16 +12,16 @@ Engine.traits.Solid = function()
     this.ignore = new Set();
 }
 
-Engine.Util.extend(Engine.traits.Solid, Engine.Trait);
+Engine.Util.extend(Game.traits.Solid, Engine.Trait);
 
-Engine.traits.Solid.prototype.NAME = 'solid';
+Game.traits.Solid.prototype.NAME = 'solid';
 
-Engine.traits.Solid.prototype.TOP = Engine.Object.prototype.SURFACE_TOP;
-Engine.traits.Solid.prototype.BOTTOM = Engine.Object.prototype.SURFACE_BOTTOM;
-Engine.traits.Solid.prototype.LEFT = Engine.Object.prototype.SURFACE_LEFT;
-Engine.traits.Solid.prototype.RIGHT = Engine.Object.prototype.SURFACE_RIGHT;
+Game.traits.Solid.prototype.TOP = Engine.Object.prototype.SURFACE_TOP;
+Game.traits.Solid.prototype.BOTTOM = Engine.Object.prototype.SURFACE_BOTTOM;
+Game.traits.Solid.prototype.LEFT = Engine.Object.prototype.SURFACE_LEFT;
+Game.traits.Solid.prototype.RIGHT = Engine.Object.prototype.SURFACE_RIGHT;
 
-Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
+Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
 {
     if (!subject.physics) {
         return false;
@@ -67,12 +67,12 @@ Engine.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
     return true;
 }
 
-Engine.traits.Solid.prototype.__uncollides = function(subject, ourZone, theirZone)
+Game.traits.Solid.prototype.__uncollides = function(subject, ourZone, theirZone)
 {
     this.ignore.delete(subject);
 }
 
-Engine.traits.Solid.prototype.attackDirection = function(ourBoundingBox, theirBoundingBox)
+Game.traits.Solid.prototype.attackDirection = function(ourBoundingBox, theirBoundingBox)
 {
     var distances = [
         Math.abs(theirBoundingBox.b - ourBoundingBox.t),

@@ -6,7 +6,7 @@ Game.objects.characters.Megaman = function()
         'sweat': new Game.objects.decorations.Sweat(),
     };
 
-    this.bind(Engine.traits.Weapon.prototype.EVENT_EQUIP, this.changeDress);
+    this.bind(Game.traits.Weapon.prototype.EVENT_EQUIP, this.changeDress);
 }
 
 Engine.Util.extend(Game.objects.characters.Megaman, Game.objects.Character);
