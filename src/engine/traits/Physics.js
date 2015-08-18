@@ -50,7 +50,7 @@ Engine.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
     F.y -= g.y;
     F.multiplyScalar(m);
 
-    var Fd = this._calculateDrag(v);
+    var Fd = this._calculateDrag();
     F.add(Fd);
     //console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
 
@@ -65,7 +65,8 @@ Engine.traits.Physics.prototype._calculateDrag = function(v)
 {
     var ρ = this.atmosphericDensity,
         Cd = this.dragCoefficient,
-        A = this.area;
+        A = this.area,
+        v = this._host.velocity;
     /* abs value for one velocity component to circumvent
        signage removal on v^2 . */
     return new THREE.Vector2(-.5 * ρ * Cd * A * v.x * Math.abs(v.x),
