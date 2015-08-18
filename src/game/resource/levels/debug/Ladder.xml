@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scene type="level" name="Ladder">
+<scene type="level" name="Ladder" debug="true">
 
     <checkpoints>
         <checkpoint x="0" y="0"/>

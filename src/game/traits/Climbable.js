@@ -47,8 +47,8 @@ Game.traits.Climbable.prototype._attach = function(subject)
 {
     this.attached.add(subject);
     subject.isClimbing = true;
-    subject.physics.gravity = false;
     subject.physics.zero();
+    subject.physics.off();
     this._constrainSubject(subject, true);
     this.ignore.add(subject);
 }
@@ -61,8 +61,9 @@ Game.traits.Climbable.prototype._attach = function(subject)
  */
 Game.traits.Climbable.prototype._constrainSubject = function(subject, constrainVertical)
 {
-    var collision = this._host.collision;
-    var model = this._host.model;
+    var host = this._host;
+    var collision = host.collision;
+    var model = host.model;
     var constrainVertical = (constrainVertical === true);
     for (var i = 0, l = collision.length; i < l; ++i) {
         var bounds = new Engine.Collision.BoundingBox(model, collision[i]);
@@ -89,7 +90,7 @@ Game.traits.Climbable.prototype._detach = function(subject)
         this.attached.delete(subject);
         this.ignore.delete(subject);
         subject.isClimbing = false;
-        subject.physics.gravity = true;
+        subject.physics.on();
     }
 }
 

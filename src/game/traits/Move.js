@@ -55,13 +55,12 @@ Game.traits.Move.prototype._handleClimb = function(dt)
     var host = this._host;
     if (this._climb !== 0) {
         host.direction.y = this._climb > 0 ? host.DIRECTION_UP : host.DIRECTION_DOWN;
+        if (host.isClimbing) {
+            host.position.y += this.climbSpeed * host.direction.y  * dt;
+        }
     }
     else {
         host.direction.y = 0;
-    }
-
-    if (host.isClimbing) {
-        host.position.y = this.climbSpeed * host.direction.y  * dt;
     }
 }
 
