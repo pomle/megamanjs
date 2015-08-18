@@ -313,9 +313,14 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
         return object;
     }
 
+    layoutNode.find('deathzones > *').each(function() {
+        var d = createObject(this, Game.objects.obstacles.DeathZone);
+        level.world.addObject(d);
+    });
+
     layoutNode.find('environments > *').each(function() {
-        var env = createObject(this, Engine.Object);
-        level.world.addObject(env);
+        var e = createObject(this, Engine.Object);
+        level.world.addObject(e);
     });
 
     layoutNode.find('solids > *').each(function() {
@@ -325,7 +330,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
 
     layoutNode.find('climbables > *').each(function() {
         var c = createObject(this, Game.objects.Climbable);
-        level.world.addObject(s);
+        level.world.addObject(c);
     });
 }
 

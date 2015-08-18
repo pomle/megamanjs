@@ -1010,14 +1010,7 @@
         </items>
         -->
         <obstacles>
-            <obstacle name="DeathZone" x="224" y="192" w="96" h="16"/>
-            <obstacle name="DeathZone" x="336" y="192" w="128" h="16"/>
-            <obstacle name="DeathZone" x="496" y="192" w="80" h="16"/>
-            <obstacle name="DeathZone" x="736" y="192" w="48" h="16"/>
-            <obstacle name="DeathZone" x="800" y="192" w="256" h="16"/>
-            <obstacle name="DeathZone" x="1040" y="192" w="256" h="16"/>
-            <obstacle name="DeathZone" x="1280" y="192" w="240" h="16"/>
-            <obstacle name="DeathZone" x="1504" y="240" w="304" h="16"/>
+
 
             <obstacle name="DestructibleWall" x="2488" y="656" color="pink"/>
             <obstacle name="DestructibleWall" x="2648" y="624" color="pink"/>
@@ -1038,6 +1031,17 @@
         </obstacles>
             -->
         <behaviors>
+            <deathzones>
+                <rect x="224" y="192" w="96" h="16"/>
+                <rect x="336" y="192" w="128" h="16"/>
+                <rect x="496" y="192" w="80" h="16"/>
+                <rect x="736" y="192" w="48" h="16"/>
+                <rect x="800" y="192" w="256" h="16"/>
+                <rect x="1040" y="192" w="256" h="16"/>
+                <rect x="1280" y="192" w="240" h="16"/>
+                <rect x="1504" y="240" w="304" h="16"/>
+            </deathzones>
+
             <climbables>
                 <rect x="2008" y="192" w="0" h="208" />
                 <rect x="1832" y="304" w="0" h="208" />
