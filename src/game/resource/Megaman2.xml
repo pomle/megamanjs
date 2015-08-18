@@ -33,8 +33,6 @@
         <character id="Telly" src="./characters/Telly.xml" />
     </characters>
 
-    <objects src="./objects/Obstacles.xml" />
-
     <player>
         <character id="Megaman"/>
         <invincibility duration="2"/>
