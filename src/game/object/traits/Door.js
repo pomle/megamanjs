@@ -32,7 +32,7 @@ Game.traits.Door = function()
 }
 
 Engine.Util.extend(Game.traits.Door, Engine.Trait);
-Game.traits.DeathZone.prototype.NAME = 'door';
+Game.traits.Door.prototype.NAME = 'door';
 
 Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
 {
