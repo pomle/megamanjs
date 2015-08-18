@@ -1,6 +1,7 @@
 Game.traits.Door = function()
 {
-    Engine.Trait.call(this);
+    Game.traits.Solid.call(this);
+
     this.doorSpeed = 1;
     this.doorPosition = undefined;
     this.enabled = true;
@@ -9,21 +10,23 @@ Game.traits.Door = function()
     this.traverseStep = -1;
     this.traverseSpeed = .5;
 
+    var traverseFunction = Engine.Animation.vectorTraverse;
+
     this.traverseSteps = [
         function start() {
-            this.doorClosePosition = this.position.clone();
+            this.doorClosePosition = this._host.position.clone();
             this.doorOpenPosition = this.doorClosePosition.clone();
             this.doorOpenPosition.y += 64;
             return true;
         },
         function open(dt) {
-            return Engine.Animation.vectorTraverse(this.position, this.doorOpenPosition, this.doorSpeed) == 0;
+            return traverseFunction(this._host.position, this.doorOpenPosition, this.doorSpeed) == 0;
         },
         function traverse(dt) {
-            return Engine.Animation.vectorTraverse(this.traverseObject.position, this.traverseDestination, this.traverseSpeed) == 0;
+            return traverseFunction(this.traverseObject.position, this.traverseDestination, this.traverseSpeed) == 0;
         },
         function close(dt) {
-            if (Engine.Animation.vectorTraverse(this.position, this.doorClosePosition, this.doorSpeed) == 0) {
+            if (traverseFunction(this._host.position, this.doorClosePosition, this.doorSpeed) == 0) {
                 this._release();
                 return true;
             }
@@ -31,7 +34,7 @@ Game.traits.Door = function()
     ];
 }
 
-Engine.Util.extend(Game.traits.Door, Engine.Trait);
+Engine.Util.extend(Game.traits.Door, Game.traits.Solid);
 Game.traits.Door.prototype.NAME = 'door';
 
 Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
@@ -41,10 +44,12 @@ Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
         if (withObject === this.traverseObject) {
             return;
         }
-        var our = new Engine.Collision.BoundingBox(this.model, ourZone);
+        var host = this._host;
+
+        var our = new Engine.Collision.BoundingBox(host.model, ourZone);
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
         var traverseWidth = our.w + their.w;
-        var dest = new THREE.Vector2(withObject.position.x + (this.position.x > withObject.position.x ? traverseWidth : -traverseWidth),
+        var dest = new THREE.Vector2(withObject.position.x + (host.position.x > withObject.position.x ? traverseWidth : -traverseWidth),
                                      withObject.position.y);
         if (this.oneWay) {
             this.enabled = false;
@@ -52,9 +57,7 @@ Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
         this._detain(withObject, dest);
     }
     else {
-        /*
-        Game.objects.Solid.prototype.collides.call(this, withObject, ourZone, theirZone);
-        */
+        Game.traits.Solid.prototype.__collides.call(this, withObject, ourZone, theirZone);
     }
 }
 
@@ -74,7 +77,9 @@ Game.traits.Door.prototype._detain = function(object, destination)
 {
     this.traverseObject = object;
     this.traverseObject.collidable = false;
+    this.traverseObject.physics.zero();
     this.traverseObject.physics.off();
+    this.traverseObject.move.off();
     this.traverseDestination = destination;
     this.traverseStep = 0;
 }
@@ -83,5 +88,6 @@ Game.traits.Door.prototype._release = function()
 {
     this.traverseObject.collidable = true;
     this.traverseObject.physics.on();
+    this.traverseObject.move.on();
     this.traverseObject = undefined;
 }
