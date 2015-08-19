@@ -142,7 +142,6 @@ Engine.Object.prototype.setWorld = function(world)
 
 Engine.Object.prototype.timeShift = function(deltaTime)
 {
-    this.time += deltaTime;
     this.deltaTime = deltaTime;
 
     if (this.direction.x !== 0) {
@@ -157,6 +156,8 @@ Engine.Object.prototype.timeShift = function(deltaTime)
 
     this.position.x += this.velocity.x * deltaTime;
     this.position.y += this.velocity.y * deltaTime;
+
+    this.time += deltaTime;
 }
 
 Engine.Object.prototype.uncollides = function(withObject)
