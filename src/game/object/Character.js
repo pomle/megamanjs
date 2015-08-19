@@ -2,6 +2,7 @@ Game.objects.Character = function()
 {
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
+    this.aim = new THREE.Vector2();
     this.health = this.applyTrait(new Game.traits.Health(100));
 
     this.dead = false;
