@@ -142,6 +142,8 @@ Engine.Object.prototype.setWorld = function(world)
 
 Engine.Object.prototype.timeShift = function(deltaTime)
 {
+    this.velocity.set(0, 0);
+
     this.time += deltaTime;
     this.deltaTime = deltaTime;
 

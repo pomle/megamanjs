@@ -56,7 +56,7 @@ Game.traits.Move.prototype._handleClimb = function(dt)
     if (this._climb !== 0) {
         host.direction.y = this._climb > 0 ? host.DIRECTION_UP : host.DIRECTION_DOWN;
         if (host.isClimbing) {
-            host.position.y += this.climbSpeed * host.direction.y  * dt;
+            host.velocity.y += this.climbSpeed * host.direction.y;
         }
     }
     else {
@@ -70,7 +70,7 @@ Game.traits.Move.prototype._handleWalk = function(dt)
     if (this._walk) {
         host.direction.x = this._walk > 0 ? host.DIRECTION_RIGHT : host.DIRECTION_LEFT;
         this._walkSpeed = Math.min(this._walkSpeed + this.acceleration * dt, this.speed);
-        host.position.x += this._walkSpeed * host.direction.x * dt;
+        host.velocity.x += this._walkSpeed * host.direction.x;
     }
     else {
         this._walkSpeed = 0;

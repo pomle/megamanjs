@@ -11,6 +11,7 @@ Game.traits.Physics = function()
 
     this.acceleration = new THREE.Vector2();
     this.force = new THREE.Vector2();
+    this.velocity = new THREE.Vector2();
 }
 
 Engine.Util.extend(Game.traits.Physics, Engine.Trait);
@@ -26,7 +27,7 @@ Game.traits.Physics.prototype.__obstruct = function(object, attack)
     switch (attack) {
         case object.SURFACE_TOP:
         case object.SURFACE_BOTTOM:
-            this._host.velocity.copy(object.velocity);
+            this.velocity.copy(object.velocity);
             break;
         case object.SURFACE_LEFT:
         case object.SURFACE_RIGHT:
@@ -41,21 +42,23 @@ Game.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
         return;
     }
 
-    var v = this._host.velocity,
-        g = this._host.world.gravityForce,
+    var g = this._host.world.gravityForce,
+        v = this.velocity,
         a = this.acceleration,
         F = this.force,
         m = this.mass;
 
-    F.y -= g.y;
-    F.multiplyScalar(m);
+    F.y -= g.y * m;
 
     var Fd = this._calculateDrag();
     F.add(Fd);
     //console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
 
-    a.add(new THREE.Vector2(F.x / m, F.y / m)).divideScalar(2);
+    var å = new THREE.Vector2(F.x / m, F.y / m);
+    a.copy(å);
     v.add(a);
+
+    this._host.velocity.add(v);
 
     F.x = 0;
     F.y = 0;
