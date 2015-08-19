@@ -36,9 +36,8 @@ Game.traits.Teleport.prototype._start = function()
     this.state = this.STATE_IN;
     this._startProgress = this.startDuration;
     this._host.collidable = false;
-    this._host.isSupported = false;
     this._host.physics.zero();
-    this._host.physics.gravity = false;
+    this._host.physics.off();
     this._host.trigger(this.EVENT_START);
 }
 
@@ -47,9 +46,8 @@ Game.traits.Teleport.prototype._end = function()
     this.state = this.STATE_OUT;
     this._endProgress = this.endDuration;
     this._host.collidable = true;
-    this._host.isSupported = true;
     this._host.physics.zero();
-    this._host.physics.gravity = true;
+    this._host.physics.on();
     this._host.trigger(this.EVENT_END);
 }
 
