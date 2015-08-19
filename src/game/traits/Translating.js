@@ -31,7 +31,8 @@ Game.traits.Translating.prototype.linear = function(deltaTime, totalTime)
 Game.traits.Translating.prototype.oscillate = function(deltaTime, totalTime)
 {
     var v = this._host.velocity,
-        s = this.speed;
-    v.x = Math.sin(totalTime * s) * this.amplitude.x * s;
-    v.y = Math.cos(totalTime * s) * this.amplitude.y * s;
+        s = this.speed,
+        t = totalTime + deltaTime / 2;
+    v.x = Math.sin(t * s) * this.amplitude.x * s;
+    v.y = Math.cos(t * s) * this.amplitude.y * s;
 }
