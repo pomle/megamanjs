@@ -60,9 +60,9 @@ Engine.Collision.prototype.detect = function()
         && this.objects[i].collidable
         && this.objectNeedsRecheck(i)) {
             for (var j = 0; j < l; j++) {
-                if (i != j
-                && this.objects[i]
-                && this.objects[j]
+                if (i !== j
+                && this.objects[i] !== undefined
+                && this.objects[j] !== undefined
                 && this.objects[j].collidable) {
                     this.objectIndexesCollide(i, j);
                 }
@@ -91,7 +91,7 @@ Engine.Collision.prototype.objectIndexesCollide = function(i, j)
     }
     else {
         var ix = this.collisionIndex[i].indexOf(o2);
-        if (ix > -1) {
+        if (ix !== -1) {
             o1.uncollides(o2);
             o2.uncollides(o1);
             this.collisionIndex[i].splice(ix, 1);
