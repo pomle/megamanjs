@@ -11,6 +11,7 @@
 
         <!-- Debug Levels -->
             <scene type="level" name="JumpHeight" src="./levels/debug/JumpHeight.xml" />
+            <scene type="level" name="OnePlatform" src="./levels/debug/OnePlatform.xml" />
             <scene type="level" name="JumpTest" src="./levels/debug/JumpTest.xml" />
             <scene type="level" name="Telly" src="./levels/debug/Telly.xml" />
             <scene type="level" name="DestructibleWall" src="./levels/debug/DestructibleWall.xml" />
