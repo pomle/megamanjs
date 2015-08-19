@@ -351,7 +351,7 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             }
             break;
 
-        case 'oscillating':
+        case 'translating':
             return {
                 'ref': ref,
                 'prop': {
