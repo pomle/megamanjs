@@ -58,7 +58,7 @@ Game.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
     a.copy(å);
     v.add(a);
 
-    this._host.velocity.add(v);
+    this._host.velocity.copy(v);
 
     F.x = 0;
     F.y = 0;
