@@ -3,7 +3,7 @@
     <traits>
         <trait source="Health" max="28" />
         <trait source="Invincibility" duration="2" />
-        <trait source="Jump" force="188" duration=".18" falloff=".3" />
+        <trait source="Jump" force="19740" duration=".18" falloff=".3" />
         <trait source="Physics" area=".04" drag=".045" mass="105" />
         <trait source="Move" />
         <trait source="Stun" />
