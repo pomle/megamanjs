@@ -279,7 +279,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
         var position = parser.getPosition(objectNode);
         position.sub(object.origo);
         object.moveTo(position);
-        object.position.z = 2;
+        object.position.z = -.1;
 
         objectNode.find('> trait').each(function() {
             var traitDescriptor = parser.getTrait($(this));
