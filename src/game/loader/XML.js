@@ -8,6 +8,23 @@ Game.Loader.XML = function(game)
 
 Engine.Util.extend(Game.Loader.XML, Game.Loader);
 
+Game.Loader.XML.createFromXML = function(url, callback)
+{
+    var renderer = new THREE.WebGLRenderer({
+        'antialias': false,
+    });
+
+    var game = new Game();
+    game.engine = new Engine(renderer);
+    game.player = new Game.Player();
+    game.player.hud = new Hud($('#screen'));
+
+    var loader = new Game.Loader.XML(game);
+    loader.loadGame(url, callback);
+
+    return game;
+}
+
 Game.Loader.XML.prototype.defaultMaterial = new THREE.MeshBasicMaterial({
     color: 0x0000ff,
     wireframe: true,

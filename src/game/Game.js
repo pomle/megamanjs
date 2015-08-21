@@ -28,14 +28,6 @@ Game.objects = {};
 Game.scenes = {};
 Game.traits = {};
 
-Game.createFromXml = function(url, callback)
-{
-    var game = new Game();
-    var loader = new Game.Loader.XML(game);
-    loader.loadGame(url, callback);
-    return game;
-}
-
 Game.prototype.attachToElement = function(element)
 {
     this.element = element;
