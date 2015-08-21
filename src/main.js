@@ -1,4 +1,4 @@
-var game = Game.createFromXml('./game/resource/Megaman2.xml', function() {
+var game = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml', function() {
     console.log('Loading game done', game);
     game.attachToElement(document.getElementById('screen'));
 });
