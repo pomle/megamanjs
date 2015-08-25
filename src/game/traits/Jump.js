@@ -50,7 +50,9 @@ Game.traits.Jump.prototype.engage = function()
         return false;
     }
 
-    host.isClimbing = false;
+    if (host.climber) {
+        host.climber.release();
+    }
 
     if (!host.isSupported) {
         return false;

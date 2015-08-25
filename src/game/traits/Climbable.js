@@ -2,54 +2,22 @@ Game.traits.Climbable = function()
 {
     Game.traits.Solid.call(this);
     this.attackAccept = [this.TOP];
-    this.attached = new Set();
-
-    this.topMargin = 5;
 }
 
 Engine.Util.extend(Game.traits.Climbable, Game.traits.Solid);
 Game.traits.Climbable.prototype.NAME = 'climbable';
 
-Game.traits.Climbable.prototype.__collides = function(subject, ourZone, theirZone)
-{
-    if (!this.attached.has(subject)
-    && subject.move !== undefined
-    && subject.move._climb
-    && (subject.direction.y < 0 || this._reaches(subject, ourZone, theirZone))
-    && !(subject.isSupported === true && subject.direction.y < 0)) {
-        this._attach(subject);
-        return;
-    }
-
-    Game.traits.Solid.prototype.__collides.call(this, subject, ourZone, theirZone);
-}
 
 Game.traits.Climbable.prototype.__uncollides = function(subject)
 {
-    this._detach(subject);
-}
-
-Game.traits.Climbable.prototype.__timeshift = function(dt)
-{
-    var v = this._host.velocity;
-    for (var subject of this.attached) {
-        if (subject.isClimbing === false
-        || (subject.isSupported === true && subject.direction.y < 0)) {
-            this._detach(subject);
-        }
-        else {
-            this._constrainSubject(subject);
-        }
+    if (subject.climber && subject.climber.attached === this._host) {
+        subject.climber.release();
     }
+    Game.traits.Solid.prototype.__uncollides.call(this, subject);
 }
 
-Game.traits.Climbable.prototype._attach = function(subject)
+Game.traits.Climbable.prototype.attach = function(subject)
 {
-    this.attached.add(subject);
-    subject.isClimbing = true;
-    subject.physics.zero();
-    subject.physics.off();
-    this._constrainSubject(subject, true);
     this.ignore.add(subject);
 }
 
@@ -59,7 +27,7 @@ Game.traits.Climbable.prototype._attach = function(subject)
  *
  * @param {Number} [deltaTime]
  */
-Game.traits.Climbable.prototype._constrainSubject = function(subject, constrainVertical)
+Game.traits.Climbable.prototype.constrain = function(subject, constrainVertical)
 {
     var host = this._host;
     var collision = host.collision;
@@ -84,21 +52,7 @@ Game.traits.Climbable.prototype._constrainSubject = function(subject, constrainV
     }
 }
 
-Game.traits.Climbable.prototype._detach = function(subject)
+Game.traits.Climbable.prototype.detach = function(subject)
 {
-    if (this.attached.has(subject)) {
-        this.attached.delete(subject);
-        this.ignore.delete(subject);
-        subject.isClimbing = false;
-        subject.physics.on();
-    }
+    this.ignore.delete(subject);
 }
-
-Game.traits.Climbable.prototype._reaches = function(subject, ourZone, theirZone)
-{
-    var ourBounds = new Engine.Collision.BoundingBox(this._host, ourZone);
-    var theirBounds = new Engine.Collision.BoundingBox(subject, theirZone);
-    var margin = ourBounds.t - theirBounds.b;
-    return margin > this.topMargin;
-}
-

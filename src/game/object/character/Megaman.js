@@ -55,11 +55,11 @@ Game.objects.characters.Megaman.prototype.routeAnimation = function()
         return anim.pickAnimation('stunned');
     }
 
-    if (this.isClimbing) {
+    if (this.climber.attached !== undefined) {
         if (this.weapon._firing) {
             return anim.pickAnimation('hang-shoot');
         }
-        if (this.move._climb) {
+        if (this.velocity.y !== 0) {
             return anim.pickAnimation('climbing');
         }
         return anim.pickAnimation('hang');

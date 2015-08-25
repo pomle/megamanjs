@@ -74,17 +74,17 @@ Game.scenes.Level.prototype.createCharacterInput = function()
         });
     input.intermittent(input.UP,
         function() {
-            player.character.move.upStart();
+            ++player.character.aim.y;
         },
         function() {
-            player.character.move.upEnd();
+            --player.character.aim.y;
         });
     input.intermittent(input.DOWN,
         function() {
-            player.character.move.downStart();
+            --player.character.aim.y;
         },
         function() {
-            player.character.move.downEnd();
+            ++player.character.aim.y;
         });
 
 
