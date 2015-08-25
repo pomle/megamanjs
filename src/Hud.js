@@ -65,7 +65,7 @@ var Hud = function(screen)
 		setEnergyQuantified(this.elements.weaponBar, frac);
 	}
 
-	this.setWeaponEnergy = function(frac)
+	this.setBossHealthEnergy = function(frac)
 	{
 		setEnergyQuantified(this.elements.bossHealthBar, frac);
 	}
