@@ -382,6 +382,16 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             }
             break;
 
+        case 'stun':
+            return {
+                'ref': ref,
+                'prop': {
+                    'duration': this.getFloat(traitNode, 'duration'),
+                    'force': this.getFloat(traitNode, 'force'),
+                }
+            }
+            break;
+
         case 'weapon':
             return {
                 'ref': ref,
