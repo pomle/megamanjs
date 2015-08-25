@@ -78,11 +78,11 @@ Game.traits.Physics.prototype._calculateDrag = function(v)
 
 Game.traits.Physics.prototype.bump = function(x, y)
 {
-    this._host.velocity.x += x;
-    this._host.velocity.y += y;
+    this.velocity.x += x;
+    this.velocity.y += y;
 }
 
 Game.traits.Physics.prototype.zero = function()
 {
-    this._host.velocity.multiplyScalar(0);
+    this.velocity.multiplyScalar(0);
 }
