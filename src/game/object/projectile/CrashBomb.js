@@ -47,17 +47,17 @@ Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, our
 
         /* If we are pushing Crash Bomb from the top or below, just nudge. */
         if (dir === solid.TOP) {
-            our.top(their.b);
+            our.top = their.bottom;
         }
         else if (dir === solid.BOTTOM) {
-            our.bottom(their.t);
+            our.bottom = their.top;
         }
         /* If we hit something from left or right, we attach. */
         else {
             if (dir == solid.LEFT) {
-                our.left(their.r);
+                our.left = their.right;
             } else if (dir == solid.RIGHT) {
-                our.right(their.l);
+                our.right = their.left;
             }
 
             this.velocity.multiplyScalar(0);
