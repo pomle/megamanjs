@@ -20,12 +20,12 @@ Game.traits.Invincibility.prototype.__attach = function(host)
 {
     this._health = this.__require(host, Game.traits.Health);
     Engine.Trait.prototype.__attach.call(this, host);
-    host.bind(host.EVENT_DAMAGE, this.engage);
+    host.bind(this._health.EVENT_HURT, this.engage);
 }
 
 Game.traits.Invincibility.prototype.__detach = function()
 {
-    this._host.unbind(this._host.EVENT_DAMAGE, this.engage);
+    this._host.unbind(this._health.EVENT_HURT, this.engage);
     this._health = undefined;
     Engine.Trait.prototype.__detach.call(this, host);
 }
@@ -45,7 +45,7 @@ Game.traits.Invincibility.prototype.__timeshift = function(deltaTime)
 
 Game.traits.Invincibility.prototype.disengage = function()
 {
-    this._health.infinite = false;
+    this._health.immune = false;
     this._host.model.visible = true;
     this._engaged = false;
 }
@@ -53,7 +53,7 @@ Game.traits.Invincibility.prototype.disengage = function()
 Game.traits.Invincibility.prototype.engage = function()
 {
     if (this.duration !== 0) {
-        this._health.infinite = true;
+        this._health.immune = true;
         this._elapsed = 0;
         this._engaged = true;
     }

@@ -7,6 +7,7 @@ Game.objects.characters.Megaman = function()
     };
 
     this.bind(Game.traits.Weapon.prototype.EVENT_EQUIP, this.changeDress);
+    this.bind(Game.traits.Health.prototype.EVENT_HURT, this.damage)
 }
 
 Engine.Util.extend(Game.objects.characters.Megaman, Game.objects.Character);
@@ -20,12 +21,8 @@ Game.objects.characters.Megaman.prototype.changeDress = function(weapon)
     }
 }
 
-Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direction)
+Game.objects.characters.Megaman.prototype.damage = function(points, direction)
 {
-    if (!Game.objects.Character.prototype.inflictDamage.call(this, points, direction)) {
-        return false;
-    }
-
     if (this.health.amount > 0) {
         var sweat = this.decorations['sweat']
         sweat.position.copy(this.position);
@@ -34,7 +31,6 @@ Game.objects.characters.Megaman.prototype.inflictDamage = function(points, direc
         sweat.lifetime = 0;
         this.world.addObject(sweat);
     }
-
     return true;
 }
 

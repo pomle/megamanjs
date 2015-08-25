@@ -13,7 +13,7 @@ Game.traits.ContactDamage.prototype.__collides = function(withObject, ourZone, t
 {
     if (this.points !== 0 && withObject.health) {
         var direction = this._host.position.clone().sub(withObject.position);
-        withObject.inflictDamage(this.points, direction);
+        withObject.health.inflictDamage(this.points, direction);
         withObject.trigger(this.EVENT_CONTACT_DAMAGE);
     }
 }

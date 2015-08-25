@@ -30,22 +30,8 @@ Game.objects.Character.prototype.impactProjectile = function(projectile)
         throw new Error('Invalid projectile');
     }
 
-    if (this.inflictDamage(projectile.damage,
-                           projectile.position.clone()
-                               .sub(this.position))) {
-        return true;
-    }
-    return false;
-}
-
-Game.objects.Character.prototype.inflictDamage = function(points, direction)
-{
-    if (this.health.infinite) {
-        return false;
-    }
-    this.health.amount -= points;
-    this.trigger(this.EVENT_DAMAGE, [points, direction]);
-    return true;
+    var direction = projectile.position.clone().sub(this.position);
+    return this.health.inflictDamage(projectile.damage, direction);
 }
 
 Game.objects.Character.prototype.kill = function()
