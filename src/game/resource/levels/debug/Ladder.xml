@@ -35,6 +35,10 @@
         </objects>
 
         <objects>
+            <object id="ladder" x="-48" y="32" />
+        </objects>
+
+        <objects>
             <object id="ladder" x="96" y="-96" />
         </objects>
 
@@ -42,9 +46,9 @@
             <object id="ladder" x="-32" y="-144" />
         </objects>
 
-
         <solids>
             <rect x="-32" y="32" w="64" h="16" />
+            <rect x="-112" y="32" w="64" h="16" />
             <rect x="-16" y="-32" w="32" h="16" />
             <rect x="48" y="32" w="64" h="16" />
             <rect x="48" y="-96" w="64" h="16" />
