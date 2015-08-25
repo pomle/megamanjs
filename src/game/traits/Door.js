@@ -48,7 +48,7 @@ Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
 
         var our = new Engine.Collision.BoundingBox(host.model, ourZone);
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
-        var traverseWidth = our.w + their.w;
+        var traverseWidth = our.width + their.width;
         var dest = new THREE.Vector2(withObject.position.x + (host.position.x > withObject.position.x ? traverseWidth : -traverseWidth),
                                      withObject.position.y);
         if (this.oneWay) {
