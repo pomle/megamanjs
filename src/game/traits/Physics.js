@@ -2,7 +2,7 @@ Game.traits.Physics = function()
 {
     Engine.Trait.call(this);
 
-    this.gravity = true;
+    this.enabled = true;
 
     this.area = 0.04;
     this.atmosphericDensity = 1.225;
@@ -38,7 +38,7 @@ Game.traits.Physics.prototype.__obstruct = function(object, attack)
 
 Game.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
 {
-    if (dt === 0 || this.mass === 0) {
+    if (this.enabled === false || this.mass <= 0) {
         return;
     }
 
