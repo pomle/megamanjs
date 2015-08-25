@@ -33,7 +33,6 @@ Game.objects.Weapon.prototype.emit = function(projectile)
     velocity.normalize();
     velocity.multiplyScalar(projectile.speed);
     projectile.velocity.copy(velocity);
-    projectile.velocity.x += this.user.velocity.x;
 
     projectile.setEmitter(this.user);
     projectile.timeStretch = this.user.timeStretch;
