@@ -145,46 +145,57 @@ Engine.Collision.BoundingBox = function(model, zone)
     this.model = model;
     this.zone = zone;
 
-    this.x = undefined;
-    this.y = undefined;
-    this.w = undefined;
-    this.h = undefined;
-    this.l = undefined;
-    this.r = undefined;
-    this.t = undefined;
-    this.b = undefined;
-
-    this.updateBoundingBox();
+    this.width = this.zone.geometry.parameters.width;
+    this.height = this.zone.geometry.parameters.height;
 }
 
-Engine.Collision.BoundingBox.prototype.bottom = function(value)
-{
-    this.model.position.y = value - (this.zone.position.y - (this.h / 2));
-}
-
-Engine.Collision.BoundingBox.prototype.left = function(value)
-{
-    this.model.position.x = value - (this.zone.position.x - (this.w / 2));
-}
-
-Engine.Collision.BoundingBox.prototype.right = function(value)
-{
-    this.model.position.x = value - (this.zone.position.x + (this.w / 2));
-}
-
-Engine.Collision.BoundingBox.prototype.top = function(value)
-{
-    this.model.position.y = value - (this.zone.position.y + (this.h / 2));
-}
-
-Engine.Collision.BoundingBox.prototype.updateBoundingBox = function()
-{
-    this.x = this.model.position.x + this.zone.position.x;
-    this.y = this.model.position.y + this.zone.position.y;
-    this.w = this.zone.geometry.parameters.width;
-    this.h = this.zone.geometry.parameters.height;
-    this.l = this.x - (this.w / 2);
-    this.r = this.x + (this.w / 2);
-    this.t = this.y + (this.h / 2);
-    this.b = this.y - (this.h / 2);
-}
+Object.defineProperties(Engine.Collision.BoundingBox.prototype, {
+    x: {
+        get: function() {
+            return this.model.position.x + this.zone.position.x;
+        },
+        set: function(v) {
+            this.model.position.x = v - this.zone.position.x;
+        },
+    },
+    y: {
+        get: function() {
+            return this.model.position.y + this.zone.position.y;
+        },
+        set: function(v) {
+            this.model.position.y = v - this.zone.position.y;
+        },
+    },
+    left: {
+        get: function() {
+            return this.x - this.width / 2;
+        },
+        set: function(v) {
+            this.x = v + this.width / 2;
+        },
+    },
+    right: {
+        get: function() {
+            return this.x + this.width / 2;
+        },
+        set: function(v) {
+            this.x = v - this.width / 2;
+        },
+    },
+    top: {
+        get: function() {
+            return this.y + this.height / 2;
+        },
+        set: function(v) {
+            this.y = v - this.height / 2;
+        },
+    },
+    bottom: {
+        get: function() {
+            return this.y - this.height / 2;
+        },
+        set: function(v) {
+            this.y = v + this.height / 2;
+        },
+    },
+});

@@ -48,19 +48,19 @@ Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
     }
 
     if (attack === this.TOP && subject.velocity.y < host.velocity.y) {
-        their.bottom(our.t);
+        their.bottom = our.top;
         subject.obstruct(host, attack);
     }
     else if (attack === this.BOTTOM && subject.velocity.y > host.velocity.y) {
-        their.top(our.b);
+        their.top = our.bottom;
         subject.obstruct(host, attack);
     }
     else if (attack === this.LEFT && subject.velocity.x > host.velocity.x) {
-        their.right(our.l);
+        their.right = our.left;
         subject.obstruct(host, attack);
     }
     else if (attack === this.RIGHT && subject.velocity.x < host.velocity.x) {
-        their.left(our.r);
+        their.left = our.right;
         subject.obstruct(host, attack);
     }
 
@@ -72,13 +72,13 @@ Game.traits.Solid.prototype.__uncollides = function(subject, ourZone, theirZone)
     this.ignore.delete(subject);
 }
 
-Game.traits.Solid.prototype.attackDirection = function(ourBoundingBox, theirBoundingBox)
+Game.traits.Solid.prototype.attackDirection = function(ourBounds, theirBounds)
 {
     var distances = [
-        Math.abs(theirBoundingBox.b - ourBoundingBox.t),
-        Math.abs(theirBoundingBox.t - ourBoundingBox.b),
-        Math.abs(theirBoundingBox.r - ourBoundingBox.l),
-        Math.abs(theirBoundingBox.l - ourBoundingBox.r),
+        Math.abs(theirBounds.bottom - ourBounds.top),
+        Math.abs(theirBounds.top - ourBounds.bottom),
+        Math.abs(theirBounds.right - ourBounds.left),
+        Math.abs(theirBounds.left - ourBounds.right),
     ];
 
     var dir = 0, l = 4, min = distances[dir];

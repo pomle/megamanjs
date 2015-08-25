@@ -37,7 +37,7 @@ Game.traits.Climber.prototype.__collides = function(subject, ourZone, theirZone)
     if (host.aim.y > 0) {
         var ourBounds = new Engine.Collision.BoundingBox(host.model, ourZone);
         var theirBounds = new Engine.Collision.BoundingBox(subject.model, theirZone);
-        if (ourBounds.b > theirBounds.t - this.attachMargin) {
+        if (ourBounds.bottom > theirBounds.top - this.attachMargin) {
             return;
         }
     }

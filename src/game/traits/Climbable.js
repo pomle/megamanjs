@@ -35,18 +35,18 @@ Game.traits.Climbable.prototype.constrain = function(subject, constrainVertical)
     var constrainVertical = (constrainVertical === true);
     for (var i = 0, l = collision.length; i < l; ++i) {
         var bounds = new Engine.Collision.BoundingBox(model, collision[i]);
-        if (subject.position.x > bounds.r) {
-            subject.position.x = bounds.r;
+        if (subject.position.x > bounds.right) {
+            subject.position.x = bounds.right;
         }
-        else if (subject.position.x < bounds.l) {
-            subject.position.x = bounds.l;
+        else if (subject.position.x < bounds.left) {
+            subject.position.x = bounds.left;
         }
         if (constrainVertical) {
-            if (subject.position.y > bounds.t) {
-                subject.position.y = bounds.t;
+            if (subject.position.y > bounds.top) {
+                subject.position.y = bounds.top;
             }
-            else if (subject.position.y < bounds.b) {
-                subject.position.y = bounds.b;
+            else if (subject.position.y < bounds.bottom) {
+                subject.position.y = bounds.bottom;
             }
         }
     }
