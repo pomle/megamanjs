@@ -11,16 +11,6 @@ Engine.Util.extend(Game.traits.Climber, Engine.Trait);
 
 Game.traits.Climber.prototype.NAME = 'climber';
 
-Game.traits.Climber.prototype.__attach = function(host)
-{
-    Engine.Trait.prototype.__attach.call(this, host);
-}
-
-Game.traits.Climber.prototype.__detach = function()
-{
-    Engine.Trait.prototype.__detach.call(this, host);
-}
-
 Game.traits.Climber.prototype.__collides = function(subject, ourZone, theirZone)
 {
     /* Don't regrab anything in the middle of climbing. */
