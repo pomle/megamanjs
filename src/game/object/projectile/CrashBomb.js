@@ -64,6 +64,9 @@ Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, our
             this.attachPosition = withObject.position;
             this.attachOffset = this.position.clone().sub(this.attachPosition);
             this.attachTime = 0;
+
+            /* Prefer attach timer to lifetime timer. */
+            this.lifetime = Infinity;
             this.dropCollision();
         }
     }
