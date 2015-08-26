@@ -210,7 +210,9 @@ Game.scenes.Level.prototype.resetPlayer = function()
     character.isPlayer = true;
     character.resurrect();
     character.invincibility.disengage();
-    character.stun.disengage();
+    if (character.stun) {
+        character.stun.disengage();
+    }
 
     var checkpoint = this.checkPoints[this.checkPointIndex];
     if (this.debug) {
