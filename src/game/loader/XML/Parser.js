@@ -362,6 +362,16 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             }
             break;
 
+        case 'move':
+            return {
+                'ref': ref,
+                'prop': {
+                    'speed': this.getFloat(traitNode, 'speed'),
+                    'acceleration': this.getFloat(traitNode, 'acceleration'),
+                }
+            }
+            break;
+
         case 'physics':
             return {
                 'ref': ref,
