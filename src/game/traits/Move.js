@@ -2,15 +2,12 @@ Game.traits.Move = function()
 {
     Engine.Trait.call(this);
 
-    this._climbSpeed = 0;
     this._walkSpeed = 0;
     this._physics = undefined;
 
-    this._climb = 0;
     this._walk = 0;
 
     this.acceleration = 500;
-    this.climbSpeed = 50;
     this.speed = 90;
 }
 
