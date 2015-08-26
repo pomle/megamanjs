@@ -161,7 +161,12 @@ Game.scenes.Level.prototype.simulateListener = function()
 
 Game.scenes.Level.prototype.spawnCharacter = function(name)
 {
-    var character = new Game.objects.characters[name]();
+    var c = this.game.resource.get('character', name);
+    if (!c) {
+        throw new Error('Character "' + name + '" does not exist');
+    }
+
+    var character = new c();
     var player = this.game.player.character;
     var distance = {
         x: 32,
