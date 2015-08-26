@@ -44,7 +44,7 @@ Game.traits.Weapon.prototype.equip = function(weapon)
 
 Game.traits.Weapon.prototype.fire = function()
 {
-    if (this._host.stun._engaged === true) {
+    if (this._host.stun && this._host.stun._engaged === true) {
         return false;
     }
 
