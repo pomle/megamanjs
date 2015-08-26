@@ -10,7 +10,8 @@ Game.objects.characters.Megaman = function()
     this.bind(Game.traits.Health.prototype.EVENT_HURT, this.damage)
 }
 
-Engine.Util.extend(Game.objects.characters.Megaman, Game.objects.Character);
+Engine.Util.extend(Game.objects.characters.Megaman,
+                   Game.objects.Character);
 
 Game.objects.characters.Megaman.prototype.changeDress = function(weapon)
 {
@@ -86,10 +87,4 @@ Game.objects.characters.Megaman.prototype.routeAnimation = function()
     }
 
     return anim.pickAnimation('idle');
-}
-
-Game.objects.characters.Megaman.prototype.timeShift = function(dt)
-{
-    this.routeAnimation();
-    Game.objects.Character.prototype.timeShift.call(this, dt);
 }

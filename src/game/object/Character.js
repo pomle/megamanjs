@@ -58,8 +58,13 @@ Game.objects.Character.prototype.resurrect = function()
     this.trigger(this.EVENT_RESURRECT);
 }
 
+Game.objects.Character.prototype.routeAnimation = function()
+{
+}
+
 Game.objects.Character.prototype.timeShift = function(dt)
 {
+    this.routeAnimation();
     this.isSupported = false;
     Engine.Object.prototype.timeShift.call(this, dt);
 }
