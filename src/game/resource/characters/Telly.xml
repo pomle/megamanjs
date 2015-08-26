@@ -1,4 +1,4 @@
-<character source="Telly">
+<character id="Telly" source="Telly">
 
     <model w="16" h="16">
         <collision>

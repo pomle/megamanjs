@@ -10,6 +10,11 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
     if (!characterNode.is('character')) {
         throw new TypeError("Not <character> node");
     }
+    var characterId = characterNode.attr('id');
+    if (characterId === undefined) {
+        throw new Error("<character> node missing id");
+    }
+
     var parser = this;
     var loader = parser.loader;
     var game = loader.game;
@@ -68,10 +73,7 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
         var source = Game.objects.Character;
     }
 
-
-    var constructor = function()
-    {
-        this._parentName = sourceName;
+    var object = loader.createObject(characterId, source, function() {
         this.geometry = new THREE.PlaneGeometry(modelSize.x, modelSize.y);
         this.material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
@@ -93,10 +95,10 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
             var r = collision[i];
             this.addCollisionRect(r.w, r.h, r.x, r.y);
         }
-    }
+    });
 
-    Engine.Util.extend(constructor, source);
-    constructor.prototype.textures = textures;
+    object.id = characterId;
+    object.prototype.textures = textures;
 
-    this.callback(constructor);
+    this.callback(object);
 }

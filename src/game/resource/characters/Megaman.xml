@@ -1,4 +1,4 @@
-<character source="Megaman">
+<character id="Megaman" source="Megaman">
 
     <traits>
         <trait source="Health" max="28" />

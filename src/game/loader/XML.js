@@ -127,7 +127,7 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         ++characterQueue;
         loader.traverseNode(characterNode, function(node) {
             loader.parseCharacter(node, function(character) {
-                loader.game.resource.addAuto(characterNode.attr('id'), character);
+                loader.game.resource.addAuto(character.id, character);
                 cont();
             });
         });
