@@ -4,7 +4,8 @@ Game.objects.characters.Telly = function()
     this.speed = 12;
 }
 
-Engine.Util.extend(Game.objects.characters.Telly, Game.objects.Character);
+Engine.Util.extend(Game.objects.characters.Telly,
+                   Game.objects.Character);
 
 Game.objects.characters.Telly.prototype.updateAI = function()
 {
