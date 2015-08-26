@@ -34,6 +34,7 @@
         <character src="./characters/Crashman.xml" />
         <character src="./characters/Flashman.xml" />
         <character src="./characters/Heatman.xml" />
+        <character src="./characters/Metalman.xml" />
         <character src="./characters/Telly.xml" />
     </characters>
 
