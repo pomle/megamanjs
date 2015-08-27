@@ -6,9 +6,9 @@ Game.traits.Door = function()
     this.duration = .6;
     this.enabled = true;
     this.oneWay = false;
-    this.toggleDelay = .5;
-    this.traverseStep = -1;
-    this.traverseSpeed = 30;
+    this.speed = 30;
+
+    var traverseFunction = Engine.Animation.vectorTraverse;
 
     function accordion(geometry, start, step)
     {
@@ -19,47 +19,46 @@ Game.traits.Door = function()
         geometry.verticesNeedUpdate = true;
     }
 
-    var traverseFunction = Engine.Animation.vectorTraverse;
 
     var step = 0;
     var stepTime = 0;
     var stepLength = undefined;
 
-    this.traverseSteps = [
-        function start() {
-            stepLength = this.duration / 4;
+
+    this.sequencer = new Engine.Sequencer();
+    this.sequencer.addStep(function start() {
+        stepLength = this.duration / 4;
+        stepTime = 0;
+        return true;
+    });
+    this.sequencer.addStep(function open(dt) {
+        stepTime += dt;
+        if (stepTime >= stepLength) {
             stepTime = 0;
-            return true;
-        },
-        function open(dt) {
-            stepTime += dt;
-            if (stepTime >= stepLength) {
-                stepTime = 0;
-                accordion(this._host.model.geometry, ++step * 3, 16);
-                if (step === 4) {
-                    return true;
-                }
+            accordion(this._host.model.geometry, ++step * 3, 16);
+            if (step === 4) {
+                return true;
             }
-            return false;
-        },
-        function traverse(dt) {
-            return traverseFunction(this.traverseObject.position,
-                                    this.traverseDestination,
-                                    this.traverseSpeed * dt) === 0;
-        },
-        function close(dt) {
-            stepTime += dt;
-            if (stepTime >= stepLength) {
-                stepTime = 0;
-                accordion(this._host.model.geometry, step-- * 3, -16);
-                if (step === 0) {
-                    this._release();
-                    return true;
-                }
-            }
-            return false;
         }
-    ];
+        return false;
+    });
+    this.sequencer.addStep(function traverse(dt) {
+        return traverseFunction(this.traverseObject.position,
+                                this.traverseDestination,
+                                this.speed * dt) === 0;
+    });
+    this.sequencer.addStep(function close(dt) {
+        stepTime += dt;
+        if (stepTime >= stepLength) {
+            stepTime = 0;
+            accordion(this._host.model.geometry, step-- * 3, -16);
+            if (step === 0) {
+                this._release();
+                return true;
+            }
+        }
+        return false;
+    });
 }
 
 Engine.Util.extend(Game.traits.Door, Game.traits.Solid);
@@ -87,17 +86,11 @@ Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
 
 Game.traits.Door.prototype.__timeshift = function(dt)
 {
-    if (this.traverseStep > -1) {
+    if (this.sequencer.step > -1) {
         if (this.traverseObject) {
             this.traverseObject.velocity.copy(this._host.velocity);
         }
-
-        if (!this.traverseSteps[this.traverseStep]) {
-            this.traverseStep = -1;
-        }
-        else if (this.traverseSteps[this.traverseStep].call(this, dt)) {
-            ++this.traverseStep;
-        }
+        this.sequencer.run(this, [dt]);
     }
 }
 
@@ -139,7 +132,7 @@ Game.traits.Door.prototype._detain = function(object, destination)
 
     this.traverseObject.move.off();
     this.traverseDestination = destination;
-    this.traverseStep = 0;
+    this.sequencer.step = 0;
 }
 
 Game.traits.Door.prototype._release = function()
