@@ -2,9 +2,10 @@ Game.traits.Door = function()
 {
     Game.traits.Solid.call(this);
 
+    this.direction = new THREE.Vector2(0, 0);
     this.duration = .6;
     this.enabled = true;
-    this.oneWay = true;
+    this.oneWay = false;
     this.toggleDelay = .5;
     this.traverseStep = -1;
     this.traverseSpeed = 30;
@@ -66,13 +67,8 @@ Game.traits.Door.prototype.NAME = 'door';
 
 Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
 {
-    if (this.enabled && withObject.isPlayer && this.traverseObject === undefined) {
-        // Ignore collisions with currently handled object.
-        if (withObject === this.traverseObject) {
-            return;
-        }
+    if (this._accept(withObject)) {
         var host = this._host;
-
         var our = new Engine.Collision.BoundingBox(host.model, ourZone);
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
 
@@ -103,6 +99,35 @@ Game.traits.Door.prototype.__timeshift = function(dt)
             ++this.traverseStep;
         }
     }
+}
+
+Game.traits.Door.prototype._accept = function(subject)
+{
+    if (this.enabled !== true) {
+        return false;
+    }
+
+    if (!subject.isPlayer) {
+        return false;
+    }
+
+    if (this.traverseObject !== undefined) {
+        return false;
+    }
+
+    // Ignore collisions with currently handled object.
+    if (subject === this.traverseObject) {
+        return;
+    }
+
+    var host = this._host;
+    var attackDirection = subject.position.clone();
+    attackDirection.sub(host.position);
+    if (this.direction.dot(attackDirection) < 0) {
+        return false;
+    }
+
+    return true;
 }
 
 Game.traits.Door.prototype._detain = function(object, destination)

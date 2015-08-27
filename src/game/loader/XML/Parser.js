@@ -326,6 +326,7 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             return {
                 'ref': ref,
                 'prop': {
+                    'direction': this.getVector2(traitNode.find('> direction')),
                     'oneWay': this.getBool(traitNode, 'one-way'),
                 }
             }

@@ -159,7 +159,9 @@
             </tile>
 
             <traits>
-                <trait source="Door" />
+                <trait source="Door">
+                    <direction x="-1" y="0" />
+                </trait>
             </traits>
         </object>
     </objects>
