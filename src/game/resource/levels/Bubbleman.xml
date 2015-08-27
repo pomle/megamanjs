@@ -3,10 +3,12 @@
     <gravity x="0" y="9.81" />
 
     <checkpoints>
-        <checkpoint x="4224" y="1080"/>
+        <checkpoint x="128" y="102"/>
+        <checkpoint x="1152" y="1141"/>
+        <checkpoint x="4224" y="1077"/>
     </checkpoints>
 
-    <!--<camera>
+    <camera>
         <path>
             <window x1="0" x2="1024" y1="0" y2="208" />
             <constraint x1="180" x2="1152" y1="120" y2="120" />
@@ -19,7 +21,25 @@
             <window x1="1024" x2="1280" y1="480" y2="720" />
             <constraint x1="1152" x2="1152" y1="600" y2="600" />
         </path>
-    </camera>-->
+        <path>
+            <window x1="1024" x2="1280" y1="720" y2="960" />
+            <constraint x1="1152" x2="1152" y1="840" y2="840" />
+        </path>
+        <path>
+            <window x1="1024" x2="4096" y1="960" y2="1200" />
+            <constraint x1="1152" x2="3968" y1="1080" y2="1080" />
+        </path>
+
+        <path>
+            <window x1="4096" x2="4352" y1="960" y2="1200" />
+            <constraint x1="4224" x2="4224" y1="1080" y2="1080" />
+        </path>
+
+        <path>
+            <window x1="4352" x2="4608" y1="960" y2="1200" />
+            <constraint x1="4480" x2="4480" y1="1080" y2="1080" />
+        </path>
+    </camera>
 
     <texture url="./bubbleman/tiles.png" w="256" h="128">
         <animation id="water">
