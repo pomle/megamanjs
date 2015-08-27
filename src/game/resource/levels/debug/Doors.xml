@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="Doors" debug="true">
+
+    <checkpoints>
+        <checkpoint x="0" y="0"/>
+    </checkpoints>
+
+    <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128">
+        <animation id="door">
+            <frame x="109" y="55" w="16" h="16"/>
+        </animation>
+    </texture>
+
+    <objects>
+        <object id="door">
+            <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4" />
+            <collision>
+                <rect x="0" y="0" w="32" h="64" />
+            </collision>
+
+            <tile id="door">
+                <face x="*" y="*"/>
+            </tile>
+
+            <traits>
+                <trait source="Door" one-way="false" />
+            </traits>
+        </object>
+    </objects>
+
+
+    <layout>
+        <objects>
+            <object id="door" x="32" y="0">
+                <trait source="Door">
+                    <direction x="-1" y="0" />
+                </trait>
+            </object>
+        </objects>
+
+        <solids>
+            <rect x="-32" y="64" w="256" h="16" />
+        </solids>
+    </layout>
+</scene>

@@ -11,6 +11,7 @@
         <scene type="level" name="Heatman" src="./levels/Heatman.xml" />
 
         <!-- Debug Levels -->
+            <scene type="level" name="Doors" src="./levels/debug/Doors.xml" />
             <scene type="level" name="JumpHeight" src="./levels/debug/JumpHeight.xml" />
             <scene type="level" name="OnePlatform" src="./levels/debug/OnePlatform.xml" />
             <scene type="level" name="JumpTest" src="./levels/debug/JumpTest.xml" />

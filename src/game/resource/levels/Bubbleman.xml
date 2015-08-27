@@ -151,7 +151,7 @@
         <object id="door">
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4" />
             <collision>
-                <rect x="0" y="0" w="16" h="64" />
+                <rect x="0" y="0" w="32" h="64" />
             </collision>
 
             <tile id="door">

@@ -2,34 +2,61 @@ Game.traits.Door = function()
 {
     Game.traits.Solid.call(this);
 
-    this.doorSpeed = 1;
-    this.doorPosition = undefined;
+    this.duration = .6;
     this.enabled = true;
     this.oneWay = true;
     this.toggleDelay = .5;
     this.traverseStep = -1;
-    this.traverseSpeed = .5;
+    this.traverseSpeed = 30;
+
+    function accordion(geometry, start, step)
+    {
+        for (var i = start, l = geometry.vertices.length; i < l; ++i) {
+            var v = geometry.vertices[i];
+            v.y += step;
+        }
+        geometry.verticesNeedUpdate = true;
+    }
 
     var traverseFunction = Engine.Animation.vectorTraverse;
 
+    var step = 0;
+    var stepTime = 0;
+    var stepLength = undefined;
+
     this.traverseSteps = [
         function start() {
-            this.doorClosePosition = this._host.position.clone();
-            this.doorOpenPosition = this.doorClosePosition.clone();
-            this.doorOpenPosition.y += 64;
+            stepLength = this.duration / 4;
+            stepTime = 0;
             return true;
         },
         function open(dt) {
-            return traverseFunction(this._host.position, this.doorOpenPosition, this.doorSpeed) == 0;
+            stepTime += dt;
+            if (stepTime >= stepLength) {
+                stepTime = 0;
+                accordion(this._host.model.geometry, ++step * 3, 16);
+                if (step === 4) {
+                    return true;
+                }
+            }
+            return false;
         },
         function traverse(dt) {
-            return traverseFunction(this.traverseObject.position, this.traverseDestination, this.traverseSpeed) == 0;
+            return traverseFunction(this.traverseObject.position,
+                                    this.traverseDestination,
+                                    this.traverseSpeed * dt) === 0;
         },
         function close(dt) {
-            if (traverseFunction(this._host.position, this.doorClosePosition, this.doorSpeed) == 0) {
-                this._release();
-                return true;
+            stepTime += dt;
+            if (stepTime >= stepLength) {
+                stepTime = 0;
+                accordion(this._host.model.geometry, step-- * 3, -16);
+                if (step === 0) {
+                    this._release();
+                    return true;
+                }
             }
+            return false;
         }
     ];
 }
@@ -48,9 +75,10 @@ Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
 
         var our = new Engine.Collision.BoundingBox(host.model, ourZone);
         var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
-        var traverseWidth = our.width + their.width;
-        var dest = new THREE.Vector2(withObject.position.x + (host.position.x > withObject.position.x ? traverseWidth : -traverseWidth),
-                                     withObject.position.y);
+
+        var width = (our.width + their.width) / 2;
+        var dest = new THREE.Vector2(host.position.x + (host.position.x < withObject.position.x ? -width : width),
+                                    withObject.position.y);
         if (this.oneWay) {
             this.enabled = false;
         }
@@ -64,6 +92,10 @@ Game.traits.Door.prototype.__collides = function(withObject, ourZone, theirZone)
 Game.traits.Door.prototype.__timeshift = function(dt)
 {
     if (this.traverseStep > -1) {
+        if (this.traverseObject) {
+            this.traverseObject.velocity.copy(this._host.velocity);
+        }
+
         if (!this.traverseSteps[this.traverseStep]) {
             this.traverseStep = -1;
         }
@@ -78,7 +110,8 @@ Game.traits.Door.prototype._detain = function(object, destination)
     this.traverseObject = object;
     this.traverseObject.collidable = false;
     this.traverseObject.physics.zero();
-    this.traverseObject.physics.off();
+    this.traverseObject.physics.enabled = false;
+
     this.traverseObject.move.off();
     this.traverseDestination = destination;
     this.traverseStep = 0;
@@ -87,7 +120,7 @@ Game.traits.Door.prototype._detain = function(object, destination)
 Game.traits.Door.prototype._release = function()
 {
     this.traverseObject.collidable = true;
-    this.traverseObject.physics.on();
+    this.traverseObject.physics.enabled = true;
     this.traverseObject.move.on();
     this.traverseObject = undefined;
 }
