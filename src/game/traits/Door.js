@@ -132,7 +132,7 @@ Game.traits.Door.prototype._detain = function(object, destination)
 
     this.traverseObject.move.off();
     this.traverseDestination = destination;
-    this.sequencer.step = 0;
+    this.sequencer.start();
 }
 
 Game.traits.Door.prototype._release = function()
