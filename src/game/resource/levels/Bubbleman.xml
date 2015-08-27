@@ -148,6 +148,20 @@
     </texture>
 
     <objects>
+        <object id="door">
+            <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4" />
+            <collision>
+                <rect x="0" y="0" w="16" h="64" />
+            </collision>
+
+            <tile id="door">
+                <face x="*" y="*"/>
+            </tile>
+
+            <traits>
+                <trait source="Door" />
+            </traits>
+        </object>
     </objects>
 
     <models>
@@ -505,6 +519,8 @@
 
 
         <objects>
+            <object id="door" x="4080" y="1024"/>
+            <object id="door" x="4336" y="1024"/>
         </objects>
 
         <behaviors>
