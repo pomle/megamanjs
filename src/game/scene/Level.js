@@ -117,6 +117,19 @@ Game.scenes.Level.prototype.createMenuInput = function()
     return input;
 }
 
+Game.scenes.Level.prototype.detectCheckpoint = function()
+{
+    var playerPosition = this.game.player.character.position;
+    for (var i = 0, l = this.checkPoints.length; i < l; ++i) {
+        var checkpoint = this.checkPoints[i];
+        if (checkpoint.pos.distanceTo(playerPosition) < checkpoint.radius) {
+            this.checkPointIndex = i;
+            return checkpoint;
+        }
+    }
+    return false;
+}
+
 Game.scenes.Level.prototype.followPlayer = function()
 {
     this.world.camera.follow(this.game.player.character,
@@ -157,6 +170,7 @@ Game.scenes.Level.prototype.simulateListener = function()
             this.resetPlayer();
         }
     }
+    this.detectCheckpoint();
 }
 
 Game.scenes.Level.prototype.spawnCharacter = function(name)
