@@ -322,6 +322,15 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             }
             break;
 
+        case 'door':
+            return {
+                'ref': ref,
+                'prop': {
+                    'oneWay': this.getBool(traitNode, 'one-way'),
+                }
+            }
+            break;
+
         case 'jump':
             return {
                 'ref': ref,
