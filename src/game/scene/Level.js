@@ -130,6 +130,22 @@ Game.scenes.Level.prototype.detectCheckpoint = function()
     return false;
 }
 
+Game.scenes.Level.prototype.detectDeath = function()
+{
+    if (this.deathCountdown === 0 && this.game.player.character.health.depleted) {
+        --this.game.player.lives;
+        this.deathCountdown = this.game.engine.timeElapsedTotal + this.deathRespawnTime;
+    }
+    else if (this.deathCountdown > 0 && this.game.engine.timeElapsedTotal > this.deathCountdown) {
+        if (this.game.player.lives == 0) {
+            this.__end();
+        }
+        else {
+            this.resetPlayer();
+        }
+    }
+}
+
 Game.scenes.Level.prototype.followPlayer = function()
 {
     this.world.camera.follow(this.game.player.character,
@@ -158,18 +174,7 @@ Game.scenes.Level.prototype.renderListener = function()
 
 Game.scenes.Level.prototype.simulateListener = function()
 {
-    if (this.deathCountdown === 0 && this.game.player.character.health.depleted) {
-        --this.game.player.lives;
-        this.deathCountdown = this.game.engine.timeElapsedTotal + this.deathRespawnTime;
-    }
-    if (this.deathCountdown > 0 && this.game.engine.timeElapsedTotal > this.deathCountdown) {
-        if (this.game.player.lives == 0) {
-            this.__end();
-        }
-        else {
-            this.resetPlayer();
-        }
-    }
+    this.detectDeath();
     this.detectCheckpoint();
 }
 
