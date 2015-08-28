@@ -28,16 +28,20 @@ Game.objects.Weapon.prototype.emit = function(projectile)
         throw new Error('Invalid projectile');
     }
 
-    var velocity = this.user.direction.clone();
+    var user = this.user,
+        velocity = user.aim.clone();
     velocity.clamp(this.directions[0], this.directions[1]);
-    velocity.normalize();
-    velocity.multiplyScalar(projectile.speed);
+    if (velocity.x + velocity.y == 0) {
+        velocity.x = user.direction.x;
+    }
+
+    velocity.setLength(projectile.speed);
     projectile.velocity.copy(velocity);
 
     projectile.setEmitter(this.user);
     projectile.timeStretch = this.user.timeStretch;
 
-    this.user.world.addObject(projectile);
+    user.world.addObject(projectile);
 }
 
 Game.objects.Weapon.prototype.fire = function()

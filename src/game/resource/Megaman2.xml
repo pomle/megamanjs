@@ -28,7 +28,7 @@
     <level start-caption="READY" />
 
     <entrypoint>
-        <scene name="Physics" />
+        <scene name="Ladder" />
     </entrypoint>
 
     <characters>

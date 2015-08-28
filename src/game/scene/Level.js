@@ -60,17 +60,17 @@ Game.scenes.Level.prototype.createCharacterInput = function()
     var levelrunner = this;
     input.intermittent(input.LEFT,
         function() {
-            player.character.move.leftStart();
+            --player.character.aim.x;
         },
         function() {
-            player.character.move.leftEnd();
+            ++player.character.aim.x;
         });
     input.intermittent(input.RIGHT,
         function() {
-            player.character.move.rightStart();
+            ++player.character.aim.x;
         },
         function() {
-            player.character.move.rightEnd();
+            --player.character.aim.x;
         });
     input.intermittent(input.UP,
         function() {

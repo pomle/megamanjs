@@ -64,6 +64,11 @@ Game.objects.Character.prototype.routeAnimation = function()
 
 Game.objects.Character.prototype.timeShift = function(dt)
 {
+    if (this.aim.x !== 0) {
+        this.direction.x = this.aim.x;
+    }
+    this.direction.y = this.aim.y;
+
     this.routeAnimation();
     this.isSupported = false;
     Engine.Object.prototype.timeShift.call(this, dt);

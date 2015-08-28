@@ -2,10 +2,8 @@ Game.traits.Move = function()
 {
     Engine.Trait.call(this);
 
-    this._walkSpeed = 0;
+    this._interimSpeed = 0;
     this._physics = undefined;
-
-    this._walk = 0;
 
     this.acceleration = 500;
     this.speed = 90;
@@ -32,7 +30,7 @@ Game.traits.Move.prototype.__obstruct = function(object, attack)
     switch (attack) {
         case object.SURFACE_LEFT:
         case object.SURFACE_RIGHT:
-            this._walkSpeed = Math.abs(object.velocity.x);
+            this._interimSpeed = Math.abs(object.velocity.x);
             break;
     }
 }
@@ -45,32 +43,11 @@ Game.traits.Move.prototype.__timeshift = function(deltaTime)
 Game.traits.Move.prototype._handleWalk = function(dt)
 {
     var host = this._host;
-    if (this._walk) {
-        host.direction.x = this._walk > 0 ? host.DIRECTION_RIGHT : host.DIRECTION_LEFT;
-        this._walkSpeed = Math.min(this._walkSpeed + this.acceleration * dt, this.speed);
-        host.velocity.x += this._walkSpeed * host.direction.x;
+    if (host.aim.x !== 0) {
+        this._interimSpeed = Math.min(this._interimSpeed + this.acceleration * dt, this.speed);
+        host.velocity.x += this._interimSpeed * host.aim.x;
     }
     else {
-        this._walkSpeed = 0;
+        this._interimSpeed = 0;
     }
-}
-
-Game.traits.Move.prototype.leftStart = function()
-{
-    --this._walk;
-}
-
-Game.traits.Move.prototype.leftEnd = function()
-{
-    ++this._walk;
-}
-
-Game.traits.Move.prototype.rightStart = function()
-{
-    ++this._walk;
-}
-
-Game.traits.Move.prototype.rightEnd = function()
-{
-    --this._walk;
 }
