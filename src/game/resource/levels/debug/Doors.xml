@@ -23,7 +23,7 @@
             </tile>
 
             <traits>
-                <trait source="Door" one-way="false" />
+                <trait source="Door"/>
             </traits>
         </object>
     </objects>
@@ -36,10 +36,17 @@
                     <direction x="-1" y="0" />
                 </trait>
             </object>
+            <object id="door" x="-48" y="0">
+                <trait source="Door">
+                    <direction x="0" y="0" />
+                </trait>
+            </object>
         </objects>
 
         <solids>
-            <rect x="-32" y="64" w="256" h="16" />
+            <rect x="-128" y="64" w="1024" h="16" />
+            <rect x="64" y="16" w="32" h="16" />
+            <rect x="32" y="-16" w="32" h="16" />
         </solids>
     </layout>
 </scene>
