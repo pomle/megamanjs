@@ -65,8 +65,8 @@ Game.traits.Jump.prototype.engage = function()
 Game.traits.Jump.prototype.cancel = function()
 {
     if (this._elapsed !== undefined) {
-        var fx = Math.abs(this._elapsed - this.duration) / this.duration;
-        this._host.physics.force.y -= this.force * fx;
+        var progress = (this.duration - this._elapsed) / this.duration;
+        this._host.physics.force.y -= this.force * progress;
     }
     this._end();
 }
