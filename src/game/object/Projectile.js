@@ -62,12 +62,20 @@ Game.objects.Projectile.prototype.setDamage = function(points)
     this.damage = points;
 }
 
-Game.objects.Projectile.prototype.setEmitter = function(character)
+Game.objects.Projectile.prototype.setEmitter = function(emitter, direction)
 {
-    Engine.Object.prototype.setEmitter.call(this, character);
-    var origin = this.emitter.position.clone();
-    origin.x += this.emitter.weapon.projectileEmitOffset.x * this.emitter.direction.x;
-    origin.y += this.emitter.weapon.projectileEmitOffset.y;
+    if (direction === undefined) {
+        throw new Error("Direction not specified");
+    }
+
+    Engine.Object.prototype.setEmitter.call(this, emitter);
+
+    var origin = emitter.position.clone();
+    origin.x += emitter.weapon.projectileEmitOffset.x * direction.x;
+    origin.y += emitter.weapon.projectileEmitOffset.y;
+    var radius = direction.clone().setLength(emitter.weapon.projectileEmitRadius);
+    origin.add(radius);
+
     this.setOrigin(origin);
 }
 

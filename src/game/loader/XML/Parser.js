@@ -413,10 +413,12 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             break;
 
         case 'weapon':
+            var emitNode = traitNode.find('> projectile-emit');
             return {
                 'ref': ref,
                 'prop': {
-                    'projectileEmitOffset': this.getVector2(traitNode.find('> projectile-emit-offset')),
+                    'projectileEmitOffset': this.getVector2(emitNode),
+                    'projectileEmitRadius': this.getFloat(emitNode, 'r'),
                 }
             }
             break;

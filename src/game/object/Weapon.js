@@ -29,17 +29,16 @@ Game.objects.Weapon.prototype.emit = function(projectile)
     }
 
     var user = this.user,
-        velocity = user.aim.clone();
-    velocity.clamp(this.directions[0], this.directions[1]);
-    if (velocity.x + velocity.y == 0) {
-        velocity.x = user.direction.x;
+        direction = user.aim.clone();
+    direction.clamp(this.directions[0], this.directions[1]);
+    if (direction.x + direction.y == 0) {
+        direction.x = user.direction.x;
     }
 
-    velocity.setLength(projectile.speed);
-    projectile.velocity.copy(velocity);
+    projectile.velocity.copy(direction).setLength(projectile.speed);
 
-    projectile.setEmitter(this.user);
-    projectile.timeStretch = this.user.timeStretch;
+    projectile.setEmitter(user, direction);
+    projectile.timeStretch = user.timeStretch;
 
     user.world.addObject(projectile);
 }

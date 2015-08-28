@@ -8,6 +8,7 @@ Game.traits.Weapon = function()
     this._timeout = .25;
     this._duration = Infinity;
     this.projectileEmitOffset = new THREE.Vector2();
+    this.projectileEmitRadius = 0;
 }
 
 Engine.Util.extend(Game.traits.Weapon, Engine.Trait);
