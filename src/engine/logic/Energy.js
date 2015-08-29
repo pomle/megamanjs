@@ -12,6 +12,9 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
             return this._value;
         },
         set: function(v) {
+            if (this.infinite === true) {
+                return;
+            }
             if (!isFinite(v)) {
                 throw new TypeError('Value not a number');
             }
@@ -38,7 +41,7 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
     fraction: {
         enumerable: true,
         get: function() {
-            if (this._max === this._min) {
+            if (this.infinite === true || this._max === this._min) {
                 return 1;
             }
             else {
@@ -47,6 +50,11 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
                 return rest / total;
             }
         },
+    },
+    infinite: {
+        enumerable: true,
+        writable: true,
+        value: false,
     },
     max: {
         enumerable: true,
