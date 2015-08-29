@@ -294,9 +294,11 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 
 Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
 {
-    var source = traitNode.attr('source');
-    var name = traitNode.attr('name');
-    var ref = Game.traits[source];
+    var game = this.loader.game,
+        source = traitNode.attr('source'),
+        name = traitNode.attr('name'),
+        ref = Game.traits[source];
+
     if (ref === undefined) {
         throw new Error('Trait "' + source + '" does not exist');
     }
@@ -307,6 +309,28 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                 'ref': ref,
                 'prop': {
                     'points': this.getFloat(traitNode, 'points'),
+                }
+            }
+            break;
+
+        case 'deathSpawn':
+            return {
+                'ref': ref,
+                'prop': {
+                    'chance': this.getFloat(traitNode, 'chance'),
+                    'pool': (function() {
+                        var objects = [];
+                        traitNode.find('> objects > *').each(function() {
+                            var type = this.tagName,
+                                name = this.attributes.id.value;
+                            var object = game.resource.get(type, name);
+                            if (!object) {
+                                throw new Error("No resource type " + type + " named " + name);
+                            }
+                            objects.push(object);
+                        });
+                        return objects;
+                    })(),
                 }
             }
             break;
