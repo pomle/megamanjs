@@ -151,7 +151,7 @@ Game.scenes.Level.prototype.goToCheckpoint = function(index)
     this.resetPlayer();
 }
 
-Game.scenes.Level.prototype.readyBlink = function(dt)
+Game.scenes.Level.prototype.readyBlink = function(callback)
 {
     var interval = 9/60,
         duration = 2,
@@ -160,24 +160,24 @@ Game.scenes.Level.prototype.readyBlink = function(dt)
         engine = this.game.engine,
         level = this;
 
-    function readyTextBlinkCountdown(dt) {
+    function blink(dt) {
         if (elapsed > duration) {
-            engine.world.scene.remove(model);
-            level.resumeGamePlay();
+            level.world.scene.remove(model);
             engine.events.unbind(engine.EVENT_TIMEPASS, arguments.callee);
+            if (callback) {
+                callback();
+            }
         }
         else {
+            model.position.x = level.world.camera.camera.position.x;
+            model.position.y = level.world.camera.camera.position.y;
             model.visible = elapsed % (interval * 2) < interval;
             elapsed += dt;
         }
     }
 
-    model.visible = true;
-    model.position.x = this.world.camera.camera.position.x;
-    model.position.y = this.world.camera.camera.position.y;
-    engine.world.scene.add(model);
-
-    engine.events.bind(engine.EVENT_TIMEPASS, readyTextBlinkCountdown);
+    level.world.scene.add(model);
+    engine.events.bind(engine.EVENT_TIMEPASS, blink);
 }
 
 Game.scenes.Level.prototype.simulateListener = function()
@@ -221,7 +221,10 @@ Game.scenes.Level.prototype.resumeGamePlay = function()
 
 Game.scenes.Level.prototype.resetCheckpoint = function()
 {
-    this.readyBlink();
+    var level = this;
+    this.readyBlink(function() {
+        level.resumeGamePlay();
+    });
     this.game.engine.world.updateTime(0);
 }
 

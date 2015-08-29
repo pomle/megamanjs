@@ -76,11 +76,11 @@ Game.Debug.prototype.toggleCollisionZones = function()
         for (var i in object.collision) {
             var zone = object.collision[i];
             if (this.collisionZonesVisible) {
-                zone.position.z = .1;
+                zone.position.z = -object.position.z;
                 object.model.add(zone);
             }
             else {
-                zone.position.z = -.1;
+                zone.position.z = object.position.z;
                 object.model.remove(zone);
             }
         }

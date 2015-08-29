@@ -303,6 +303,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
         var object = new ref();
         object.position.x = rect.x + (rect.w / 2);
         object.position.y = -(rect.y + (rect.h / 2));
+        object.position.z = -10;
         object.addCollisionRect(rect.w, rect.h);
 
         node.find('> trait').each(function() {
