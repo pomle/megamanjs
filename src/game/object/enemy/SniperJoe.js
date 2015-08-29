@@ -2,35 +2,15 @@ Game.objects.characters.SniperJoe = function(target)
 {
     Game.objects.Character.call(this);
 
-    var model = Engine.SpriteManager.createSprite('enemies/sniperjoe.png', 32, 32);
-    this.sprites = new Engine.SpriteManager(model, 32, 32, 64, 32);
-
-    var shielding = this.sprites.addSprite('shielding');
-    shielding.addFrame(0, 0);
-    var shooting = this.sprites.addSprite('shooting');
-    shooting.addFrame(32, 0);
-
-    this.sprites.selectSprite('shielding');
-    this.sprites.applySprite();
-
-    this.setModel(model);
-    this.addCollisionRect(20, 24);
-
-    this.contactDamage.points = 4;
-    this.health.max = 10;
-
-    var weapon = new Game.objects.weapons.EnemyPlasma();
-    weapon.setCoolDown(.8);
-    this.weapon.equip(weapon);
-    this.weapon.projectileEmitOffset.set(9, -2);
-
-    this.firingLoop = -1;
-    this.target = undefined;
+    this.coolDown = .8;
     this.isShielding = true;
+
+    this._coolDownCounter = 0;
+    this._firingLoop = -1;
 }
 
-Game.objects.characters.SniperJoe.prototype = Object.create(Game.objects.Character.prototype);
-Game.objects.characters.SniperJoe.constructor = Game.objects.characters.SniperJoe;
+Engine.Util.extend(Game.objects.characters.SniperJoe,
+                   Game.objects.Character);
 
 Game.objects.characters.SniperJoe.prototype.impactProjectile = function(projectile)
 {
@@ -47,13 +27,12 @@ Game.objects.characters.SniperJoe.prototype.impactProjectile = function(projecti
     return Game.objects.Character.prototype.impactProjectile.call(this, projectile);
 }
 
-Game.objects.characters.SniperJoe.prototype.selectSprite = function(dt)
+Game.objects.characters.SniperJoe.prototype.routeAnimation = function(dt)
 {
-    this.sprites.setDirection(this.direction.x);
     if (this.isShielding) {
-        return this.sprites.selectSprite('shielding');
+        return 'shielding';
     }
-    return this.sprites.selectSprite('shooting');
+    return 'shooting';
 }
 
 Game.objects.characters.SniperJoe.prototype.updateAI = function()
@@ -65,13 +44,13 @@ Game.objects.characters.SniperJoe.prototype.updateAI = function()
 
     if (this.ai.findPlayer()) {
         if (this.ai.target.position.distanceTo(this.position) > 200) {
-            this.firingLoop = -1;
+            this._firingLoop = -1;
             return;
         }
 
         this.ai.faceTarget();
-        if (this.firingLoop < 0) {
-            this.firingLoop = 0;
+        if (this._firingLoop < 0) {
+            this._firingLoop = 0;
         }
     }
 }
@@ -80,21 +59,22 @@ Game.objects.characters.SniperJoe.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
 
-    if (this.firingLoop >= 0) {
-        this.firingLoop += dt;
-        var fireLoopDelta = this.firingLoop % 4;
+    if (this._firingLoop !== -1) {
+        this._firingLoop += dt;
+        var fireLoopDelta = this._firingLoop % 4;
         if (fireLoopDelta <= 2) {
             this.isShielding = true;
         }
         else {
             this.isShielding = false;
             if (fireLoopDelta > 2.5) {
-                this.weapon.fire();
+                this._coolDownCounter -= dt;
+                if (this._coolDownCounter <= 0 && this.weapon.fire()) {
+                    this._coolDownCounter = this.coolDown;
+                }
             }
         }
     }
 
-    this.selectSprite();
-    this.sprites.applySprite();
     Game.objects.Character.prototype.timeShift.call(this, dt);
 }

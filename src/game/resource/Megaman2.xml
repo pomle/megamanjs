@@ -22,6 +22,7 @@
             <scene type="level" name="Per" src="./levels/debug/Per.xml" />
             <scene type="level" name="Physics" src="./levels/debug/Physics.xml" />
             <scene type="level" name="BackgroundFaceAnimation" src="./levels/debug/BackgroundFaceAnimation.xml" />
+            <scene type="level" name="Enemies" src="./levels/debug/Enemies.xml" />
         <!-- End Debug Levels -->
     </scenes>
 
@@ -38,6 +39,8 @@
         <character src="./characters/Flashman.xml" />
         <character src="./characters/Heatman.xml" />
         <character src="./characters/Metalman.xml" />
+
+        <character src="./characters/SniperJoe.xml" />
         <character src="./characters/Telly.xml" />
     </characters>
 

@@ -3,8 +3,8 @@ Game.objects.weapons.EnemyPlasma = function()
     Game.objects.Weapon.call(this);
 }
 
-Game.objects.weapons.EnemyPlasma.prototype = Object.create(Game.objects.Weapon.prototype);
-Game.objects.weapons.EnemyPlasma.constructor = Game.objects.Weapon;
+Engine.Util.extend(Game.objects.weapons.EnemyPlasma,
+                   Game.objects.Weapon);
 
 Game.objects.weapons.EnemyPlasma.prototype.fire = function()
 {

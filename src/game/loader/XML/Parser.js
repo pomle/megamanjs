@@ -419,7 +419,8 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                 'prop': {
                     'projectileEmitOffset': this.getVector2(emitNode),
                     'projectileEmitRadius': this.getFloat(emitNode, 'r'),
-                }
+                },
+                'equip': traitNode.attr('equip'),
             }
             break;
 

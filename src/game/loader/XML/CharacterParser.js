@@ -84,7 +84,19 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
         source.call(this);
 
         for (var i in traits) {
-            loader.applyTrait(this, traits[i]);
+            var trait = traits[i];
+            var appliedTrait = loader.applyTrait(this, trait);
+
+            switch (appliedTrait.NAME) {
+                case 'weapon':
+                    if (trait.equip) {
+                        if (!Game.objects.weapons[trait.equip]) {
+                            throw new Error('Weapon ' + trait.equip + ' not found');
+                        }
+                        appliedTrait.equip(new Game.objects.weapons[trait.equip]());
+                    }
+                    break;
+            }
         }
 
         var anim = animator.clone();
