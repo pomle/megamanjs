@@ -3,10 +3,10 @@ Game.traits.Jump = function()
     Engine.Trait.call(this);
 
     this._elapsed = undefined;
-    this._bump = 0;
+    this._bump = new THREE.Vector2();
 
     this.duration = .18;
-    this.force = 100;
+    this.force = new THREE.Vector2(0, 100);
     this.falloff =  1;
 }
 
@@ -37,8 +37,8 @@ Game.traits.Jump.prototype.__timeshift = function(deltaTime)
         this._end();
     }
     else {
-        this._host.physics.force.y += this._bump;
-        this._bump *= this.falloff;
+        this._host.physics.force.add(this._bump);
+        this._bump.multiplyScalar(this.falloff);
         this._elapsed += deltaTime;
     }
 }
@@ -58,7 +58,8 @@ Game.traits.Jump.prototype.engage = function()
         return false;
     }
     host.isSupported = false;
-    this._bump = this.force;
+    this._bump.copy(this.force);
+    this._bump.x *= host.direction.x;
     this._elapsed = 0;
 }
 
@@ -66,7 +67,7 @@ Game.traits.Jump.prototype.cancel = function()
 {
     if (this._elapsed !== undefined) {
         var progress = (this.duration - this._elapsed) / this.duration;
-        this._host.physics.force.y -= this.force * progress;
+        this._host.physics.force.y -= this.force.y * progress;
     }
     this._end();
 }
