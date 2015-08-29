@@ -345,6 +345,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode
         var spawner = new Game.objects.Spawner();
         var position = parser.getPosition(spawnerNode);
         spawner.position.copy(position);
+        spawner.position.z = -10;
 
         spawnerNode.find('> character').each(function() {
             var objectNode = $(this);

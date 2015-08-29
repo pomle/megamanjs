@@ -73,6 +73,7 @@ Game.objects.Spawner.prototype.spawnObject = function()
     var index = Math.floor(Math.random() * this.pool.length);
     var object = new this.pool[index]();
     object.position.copy(this.position);
+    object.position.z = 0;
     this.children.add(object);
     this.world.addObject(object);
     return object;
