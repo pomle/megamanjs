@@ -351,6 +351,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode
             var objectNode = $(this);
             var objectId = objectNode.attr('id');
             var objectRef = parser.loader.game.resource.get('character', objectId);
+            if (!objectRef) {
+                throw new Error("Character " + objectId + " not found");
+            }
             spawner.pool.push(objectRef);
         });
 
