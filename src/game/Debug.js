@@ -76,7 +76,7 @@ Game.Debug.prototype.toggleCollisionZones = function()
         for (var i in object.collision) {
             var zone = object.collision[i];
             if (this.collisionZonesVisible) {
-                zone.position.z = -object.position.z;
+                zone.position.z = -object.position.z + .1;
                 object.model.add(zone);
             }
             else {
