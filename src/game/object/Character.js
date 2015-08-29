@@ -3,14 +3,13 @@ Game.objects.Character = function()
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
     this.aim = new THREE.Vector2();
+    this.anim = undefined;
     this.health = this.applyTrait(new Game.traits.Health(100));
 
     this.dead = false;
     this.direction.x = this.DIRECTION_RIGHT;
     this.isClimbing = false;
     this.isSupported = false;
-
-    this.animator = undefined;
 }
 
 Engine.Util.extend(Game.objects.Character, Engine.Object);
@@ -60,6 +59,7 @@ Game.objects.Character.prototype.resurrect = function()
 
 Game.objects.Character.prototype.routeAnimation = function()
 {
+    return undefined;
 }
 
 Game.objects.Character.prototype.timeShift = function(dt)
@@ -69,7 +69,12 @@ Game.objects.Character.prototype.timeShift = function(dt)
     }
     this.direction.y = this.aim.y;
 
-    this.routeAnimation();
+    var anim = this.routeAnimation();
+    if (anim !== this.anim) {
+        this.animators[0].pickAnimation(anim);
+        this.anim = anim;
+    }
+
     this.isSupported = false;
     Engine.Object.prototype.timeShift.call(this, dt);
 }

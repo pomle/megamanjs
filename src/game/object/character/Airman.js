@@ -9,19 +9,17 @@ Engine.Util.extend(Game.objects.characters.Airman,
 
 Game.objects.characters.Airman.prototype.routeAnimation = function()
 {
-    var anim = this.animators[0];
-
     if (this.weapon._firing) {
-        return anim.pickAnimation('fire');
+        return 'fire';
     }
 
     if (!this.isSupported) {
-        return anim.pickAnimation('jump');
+        return 'jump';
     }
 
     if (this.isBlowing) {
-        return anim.pickAnimation('blow');
+        return 'blow';
     }
 
-    return anim.pickAnimation('idle');
+    return 'idle';
 }

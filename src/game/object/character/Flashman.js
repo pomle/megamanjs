@@ -9,23 +9,21 @@ Engine.Util.extend(Game.objects.characters.Flashman,
 
 Game.objects.characters.Flashman.prototype.routeAnimation = function()
 {
-    var anim = this.animators[0];
-
     if (this.weapon._firing) {
-        return anim.pickAnimation('fire');
+        return 'fire';
     }
 
     if (!this.isSupported) {
-        return anim.pickAnimation('jump');
+        return 'jump';
     }
 
     if (this.move._walkSpeed) {
-        return anim.pickAnimation('run');
+        return 'run';
     }
 
     if (this.isFlashing) {
-        return anim.pickAnimation('flash');
+        return 'flash';
     }
 
-    return anim.pickAnimation('idle');
+    return 'idle';
 }

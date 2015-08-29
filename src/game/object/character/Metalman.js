@@ -8,25 +8,23 @@ Engine.Util.extend(Game.objects.characters.Metalman,
 
 Game.objects.characters.Metalman.prototype.routeAnimation = function()
 {
-    var anim = this.animators[0];
-
     if (!this.isSupported) {
         if (this.weapon._firing) {
-            return anim.pickAnimation('jump-fire');
+            return 'jump-fire';
         }
-        return anim.pickAnimation('jump');
+        return 'jump';
     }
 
     if (this.move._walkSpeed) {
         if (this.weapon._firing) {
-            return anim.pickAnimation('fire');
+            return 'fire';
         }
-        return anim.pickAnimation('run');
+        return 'run';
     }
 
     if (this.weapon._firing) {
-        return anim.pickAnimation('fire');
+        return 'fire';
     }
 
-    return anim.pickAnimation('idle');
+    return 'idle';
 }

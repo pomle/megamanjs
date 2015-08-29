@@ -11,34 +11,32 @@ Engine.Util.extend(Game.objects.characters.Heatman,
 
 Game.objects.characters.Heatman.prototype.routeAnimation = function()
 {
-    var anim = this.animators[0];
-
     if (this.move._walkSpeed) {
         if (this.flameTransformTime < this.flameTransformDuration) {
             this.flameTransformTime += this.deltaTime;
-            return anim.pickAnimation('toFlame');
+            return 'toFlame';
         }
         this.flameTransformTime = this.flameTransformDuration;
-        return anim.pickAnimation('flame');
+        return 'flame';
     }
     else {
         if (this.isFiring) {
-            return anim.pickAnimation('fire');
+            return 'fire';
         }
 
         if (!this.isSupported) {
-            return anim.pickAnimation('jump');
+            return 'jump';
         }
 
         if (this.isInvincible) {
-            return anim.pickAnimation('burn');
+            return 'burn';
         }
         if (this.flameTransformTime > 0) {
             this.flameTransformTime -= this.deltaTime;
-            return anim.pickAnimation('fromFlame');
+            return 'fromFlame';
         }
         this.flameTransformTime = 0;
-        return anim.pickAnimation('idle');
+        return 'idle';
     }
 }
 

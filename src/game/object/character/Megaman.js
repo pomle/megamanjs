@@ -37,54 +37,53 @@ Game.objects.characters.Megaman.prototype.damage = function(points, direction)
 
 Game.objects.characters.Megaman.prototype.routeAnimation = function()
 {
-    var anim = this.animators[0];
     if (this.teleport.state) {
         if (this.teleport.state == this.teleport.STATE_OUT) {
-            return anim.pickAnimation('teleport-out');
+            return 'teleport-out';
         }
         else if (this.teleport.state == this.teleport.STATE_IN) {
-            return anim.pickAnimation('teleport-in');
+            return 'teleport-in';
         }
-        return anim.pickAnimation('teleport');
+        return 'teleport';
     }
 
     if (this.stun._engaged === true) {
-        return anim.pickAnimation('stunned');
+        return 'stunned';
     }
 
     if (this.climber.attached !== undefined) {
         if (this.weapon._firing) {
-            return anim.pickAnimation('hang-shoot');
+            return 'hang-shoot';
         }
         if (this.velocity.y !== 0) {
-            return anim.pickAnimation('climbing');
+            return 'climbing';
         }
-        return anim.pickAnimation('hang');
+        return 'hang';
     }
 
     if (!this.isSupported) {
         if (this.weapon._firing) {
-            return anim.pickAnimation('jump-fire');
+            return 'jump-fire';
         }
-        return anim.pickAnimation('jump');
+        return 'jump';
     }
 
     if (this.move._interimSpeed) {
         if (this.move._interimSpeed < this.move.speed * .8) {
             if (this.weapon._firing) {
-                return anim.pickAnimation('fire');
+                return 'fire';
             }
-            return anim.pickAnimation('lean');
+            return 'lean';
         }
         if (this.weapon._firing) {
-            return anim.pickAnimation('run-fire');
+            return 'run-fire';
         }
-        return anim.pickAnimation('run');
+        return 'run';
     }
 
     if (this.weapon._firing) {
-        return anim.pickAnimation('fire');
+        return 'fire';
     }
 
-    return anim.pickAnimation('idle');
+    return 'idle';
 }
