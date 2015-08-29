@@ -18,24 +18,17 @@ Game.scenes.Level = function(game, world)
     this.deathCountdown = 0;
     this.deathRespawnTime = 4;
 
-    this.readyBlinkInterval = 9/60;
-    this.readyCountdown = 0;
-    this.readySpawnTime = 2;
-
     var engine = game.engine;
     var level = this;
 
     this.resetPlayer = this.resetPlayer.bind(this);
-    this.renderListener = this.renderListener.bind(this);
     this.simulateListener = this.simulateListener.bind(this);
 
     this.events.bind(this.EVENT_START, this.resetPlayer);
     this.events.bind(this.EVENT_CREATE, function() {
-       engine.events.bind(engine.EVENT_RENDER, level.renderListener);
        engine.events.bind(engine.EVENT_SIMULATE, level.simulateListener);
     });
     this.events.bind(this.EVENT_DESTROY, function() {
-       engine.events.unbind(engine.EVENT_RENDER, level.renderListener);
        engine.events.unbind(engine.EVENT_SIMULATE, level.simulateListener);
     });
 }
@@ -158,18 +151,33 @@ Game.scenes.Level.prototype.goToCheckpoint = function(index)
     this.resetPlayer();
 }
 
-Game.scenes.Level.prototype.renderListener = function()
+Game.scenes.Level.prototype.readyBlink = function(dt)
 {
-    if (this.readyCountdown > 0) {
-        var readyElapsedTime = this.readyCountdown - this.game.engine.timeElapsedTotal;
-        var f = readyElapsedTime % this.readyBlinkInterval;
-        this.assets['level-start-text'].visible = f >= this.readyBlinkInterval / 2;
-        if (this.game.engine.timeElapsedTotal > this.readyCountdown) {
-            this.game.engine.world.scene.remove(this.assets['level-start-text']);
-            this.resumeGamePlay();
-            this.readyCountdown = 0;
+    var interval = 9/60,
+        duration = 2,
+        elapsed = 0,
+        model = this.assets['level-start-text'],
+        engine = this.game.engine,
+        level = this;
+
+    function readyTextBlinkCountdown(dt) {
+        if (elapsed > duration) {
+            engine.world.scene.remove(model);
+            level.resumeGamePlay();
+            engine.events.unbind(engine.EVENT_TIMEPASS, arguments.callee);
+        }
+        else {
+            model.visible = elapsed % (interval * 2) < interval;
+            elapsed += dt;
         }
     }
+
+    model.visible = true;
+    model.position.x = this.world.camera.camera.position.x;
+    model.position.y = this.world.camera.camera.position.y;
+    engine.world.scene.add(model);
+
+    engine.events.bind(engine.EVENT_TIMEPASS, readyTextBlinkCountdown);
 }
 
 Game.scenes.Level.prototype.simulateListener = function()
@@ -213,12 +221,7 @@ Game.scenes.Level.prototype.resumeGamePlay = function()
 
 Game.scenes.Level.prototype.resetCheckpoint = function()
 {
-    this.readyCountdown = this.game.engine.timeElapsedTotal + this.readySpawnTime;
-
-    this.assets['level-start-text'].position.x = this.world.camera.camera.position.x;
-    this.assets['level-start-text'].position.y = this.world.camera.camera.position.y;
-
-    this.game.engine.world.scene.add(this.assets['level-start-text']);
+    this.readyBlink();
     this.game.engine.world.updateTime(0);
 }
 
