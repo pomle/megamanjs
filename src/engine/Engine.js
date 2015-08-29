@@ -44,7 +44,7 @@ Engine.prototype.loop = function(timeElapsed)
                 this.world.updateTime(simTimeDiff);
                 this.world.camera.updateTime(simTimeDiff);
 
-                this.events.trigger(this.EVENT_SIMULATE);
+                this.events.trigger(this.EVENT_SIMULATE, [simTimeDiff]);
             }
             this.events.trigger(this.EVENT_TIMEPASS, [timeDiff]);
         }
