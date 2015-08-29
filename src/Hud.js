@@ -8,7 +8,7 @@ var Hud = function(game)
 		'bossHealthBar': undefined,
 	}
 
-	var character = undefined;
+	var player = undefined;
 	var weapon = undefined;
 	var boss = undefined;
 
@@ -23,14 +23,14 @@ var Hud = function(game)
 		hud.setBossHealthEnergy(this.health.fraction);
 	}
 
-	this.equipCharacter = function(newChar)
+	this.equipCharacter = function(character)
 	{
-		if (character) {
-			character.unbind(character.health.EVENT_HEALTH_CHANGED, healthChanged);
+		if (player) {
+			player.unbind(player.health.EVENT_HEALTH_CHANGED, healthChanged);
 		}
-		character = newChar;
-		this.setHealthEnergy(character.health.fraction);
-		character.bind(character.health.EVENT_HEALTH_CHANGED, healthChanged);
+		player = character;
+		this.setHealthEnergy(player.health.fraction);
+		player.bind(player.health.EVENT_HEALTH_CHANGED, healthChanged);
 	}
 
 	this.equipWeapon = function(newWeapon)
@@ -46,12 +46,12 @@ var Hud = function(game)
 		weapon.bind(weapon.EVENT_AMMO_CHANGED, ammoChanged);
 	}
 
-	this.equipBoss = function(newChar)
+	this.equipBoss = function(character)
 	{
 		if (boss) {
-			boss.unbind(boss.health.EVENT_HEALTH_CHANGED, healthChanged);
+			boss.unbind(boss.health.EVENT_HEALTH_CHANGED, bossHealthChanged);
 		}
-		boss = newChar;
+		boss = character;
 		this.setHealthEnergy(boss.health.fraction);
 		boss.bind(boss.health.EVENT_HEALTH_CHANGED, bossHealthChanged);
 	}
