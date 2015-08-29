@@ -338,7 +338,8 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                 'prop': {
                     'duration': this.getFloat(traitNode, 'duration'),
                     'falloff': this.getFloat(traitNode, 'falloff'),
-                    'force': this.getFloat(traitNode, 'force'),
+                    'force': new THREE.Vector2(this.getFloat(traitNode, 'forward'),
+                                               this.getFloat(traitNode, 'force')),
                 }
             }
             break;
