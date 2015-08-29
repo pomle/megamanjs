@@ -37,7 +37,6 @@ var Hud = function(game)
     {
         var $weaponBar = $(this.elements.weaponBar);
         if (weapon) {
-            weapon.ammo.event = function(){};
             $weaponBar.removeClass(weapon.code);
         }
         weapon = newWeapon;
