@@ -1,12 +1,10 @@
-var Hud = function(screen)
+var Hud = function(game)
 {
-	screen = $(screen);
-
 	this.elements = {
-		'healthBar': screen.find('.health'),
-		'weaponBar': screen.find('.weapon'),
-		'bossHealthBar': screen.find('.bossHealth'),
-	};
+		'healthBar': undefined,
+		'weaponBar': undefined,
+		'bossHealthBar': undefined,
+	}
 
 	var character = undefined;
 	var weapon = undefined;
@@ -35,12 +33,13 @@ var Hud = function(screen)
 
 	this.equipWeapon = function(newWeapon)
 	{
+		var $weaponBar = $(this.elements.weaponBar);
 		if (weapon) {
 			weapon.ammo.event = function(){};
-			this.elements.weaponBar.removeClass(weapon.code);
+			$weaponBar.removeClass(weapon.code);
 		}
 		weapon = newWeapon;
-		this.elements.weaponBar.addClass(weapon.code);
+		$weaponBar.addClass(weapon.code);
 		this.setWeaponEnergy(weapon.ammo.fraction);
 		weapon.bind(weapon.EVENT_AMMO_CHANGED, ammoChanged);
 	}
@@ -72,13 +71,16 @@ var Hud = function(screen)
 
 	function setEnergyQuantified(element, frac)
 	{
+		if (!element) {
+			return;
+		}
 		// Quantify to whole 1/28th increments (full energy bar).
 		var s = 1/27;
 		var q = frac - (frac % s);
 		if (frac > 0 && q == 0) {
 			q = s;
 		}
-		element.children('.amount').css('height', (q * 100) + '%');
+		$(element).children('.amount').css('height', (q * 100) + '%');
 		return q;
 	}
 }

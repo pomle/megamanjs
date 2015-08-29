@@ -2,13 +2,17 @@ var Game = function()
 {
     this.debugger = undefined;
 
+    this.engine = new Engine(new THREE.WebGLRenderer({
+        'antialias': false,
+    }));
+
+    this.hud = new Hud();
+    this.player = new Game.Player();
+    this.player.hud = this.hud;
+
     this.resource = new Game.ResourceManager();
 
-    this.engine = undefined;
-    this.player = undefined;
-
     this.scenes = {};
-
     this.level = undefined;
 
     window.addEventListener('focus', function() {
@@ -31,24 +35,22 @@ Game.traits = {};
 
 Game.createFromXml = function(url, callback)
 {
-    var renderer = new THREE.WebGLRenderer({
-        'antialias': false,
-    });
-
     var game = new Game();
-    game.engine = new Engine(renderer);
-    game.player = new Game.Player();
-    game.player.hud = new Hud($('#screen'));
-
     var loader = new Game.Loader.XML(game);
     loader.loadGame(url, callback);
-
     return game;
 }
 
 Game.prototype.attachToElement = function(element)
 {
     this.element = element;
+
+    this.hud.elements = {
+        'healthBar': element.querySelector('.health'),
+        'weaponBar': element.querySelector('.weapon'),
+        'bossHealthBar': element.querySelector('.bossHealth'),
+    }
+
     var rect = this.element.getBoundingClientRect();
     this.engine.renderer.setSize(rect.width, rect.height);
     this.engine.renderer.domElement.removeAttribute("style");
