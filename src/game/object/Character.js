@@ -1,14 +1,12 @@
 Game.objects.Character = function()
 {
     Engine.Object.call(this);
-    this.ai = new Engine.AI(this);
+
     this.aim = new THREE.Vector2();
     this.anim = undefined;
-    this.health = this.applyTrait(new Game.traits.Health(100));
-
     this.dead = false;
     this.direction.x = this.DIRECTION_RIGHT;
-    this.isClimbing = false;
+    this.health = this.applyTrait(new Game.traits.Health(100));
     this.isSupported = false;
 }
 
