@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="Enemies" debug="true">
+
+    <checkpoints>
+        <checkpoint x="0" y="0"/>
+    </checkpoints>
+
+    <layout>
+        <spawner x="128" y="-100" interval="2" simultaneous="1">
+            <character id="SniperArmor" />
+        </spawner>
+        <spawner x="256" y="-100" interval="2" simultaneous="1">
+            <character id="SniperJoe" />
+        </spawner>
+        <spawner x="384" y="-100" interval="2" simultaneous="1">
+            <character id="Telly" />
+        </spawner>
+
+        <solids>
+            <rect x="-128" y="64" w="1024" h="16" />
+        </solids>
+    </layout>
+</scene>
