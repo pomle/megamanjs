@@ -17,6 +17,7 @@ var Engine = function(renderer)
 
 Engine.prototype.EVENT_RENDER = 'render';
 Engine.prototype.EVENT_SIMULATE = 'simulate';
+Engine.prototype.EVENT_TIMEPASS = 'timepass';
 
 Engine.logic = {};
 Engine.traits = {};
@@ -45,6 +46,7 @@ Engine.prototype.loop = function(timeElapsed)
 
                 this.events.trigger(this.EVENT_SIMULATE);
             }
+            this.events.trigger(this.EVENT_TIMEPASS, [timeDiff]);
         }
         this.render();
         this.events.trigger(this.EVENT_RENDER);
