@@ -18,6 +18,7 @@ Game.Loader.prototype.applyTrait = function(object, traitDescriptor)
             trait[p] = prop;
         }
     }
+    return trait;
 }
 
 Game.Loader.prototype.createObject = function(name, ext, func)
