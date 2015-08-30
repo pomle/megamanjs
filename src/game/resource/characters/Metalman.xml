@@ -18,7 +18,7 @@
         <textures>
             <texture id="metalman" url="metalman.png" w="256" h="256">
                 <animations>
-                    <animation id="idle" default="true">
+                    <animation id="idle">
                         <frame x="0" y="0" />
                     </animation>
                     <animation id="jump">

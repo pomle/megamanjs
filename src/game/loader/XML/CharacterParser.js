@@ -48,7 +48,8 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
             var animationNode = $(this);
             var animation = parser.getUVAnimation(animationNode, textureSize, modelSize);
             animator.addAnimation(animationNode.attr('id'), animation, animationNode.attr('group'));
-            if ('true' === animationNode.attr('default')) {
+            if (defaultAnimation === undefined) {
+                defaultAnimation = animation;
                 animator.setAnimation(animation);
             }
         });
@@ -101,6 +102,7 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
 
         var anim = animator.clone();
         anim.addGeometry(this.geometry);
+        anim.update();
         this.animators.push(anim);
 
         for (var i in collision) {
