@@ -6,13 +6,16 @@
     </checkpoints>
 
     <layout>
-        <spawner x="128" y="-100" interval="2" simultaneous="1">
+        <spawner x="128" y="-100" interval="2" simultaneous="1" max-distance="128">
+            <character id="Shotman" />
+        </spawner>
+        <spawner x="512" y="-100" interval="2" simultaneous="1" max-distance="128">
             <character id="SniperArmor" />
         </spawner>
-        <spawner x="256" y="-100" interval="2" simultaneous="1">
+        <spawner x="256" y="-100" interval="2" simultaneous="1" max-distance="128">
             <character id="SniperJoe" />
         </spawner>
-        <spawner x="384" y="-100" interval="2" simultaneous="1">
+        <spawner x="384" y="-100" interval="2" simultaneous="1" max-distance="128">
             <character id="Telly" />
         </spawner>
 
