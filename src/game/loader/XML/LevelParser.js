@@ -10,7 +10,6 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
     this.level = new Game.scenes.Level(loader.game, this.world);
 
     this.animations = {};
-    this.models = {};
     this.objects = {};
 }
 
@@ -47,10 +46,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
         parser.objects[objectId] = object;
     });
 
-    levelNode.find('> models > model').each(function() {
-        parser.parseModel($(this));
-    });
-
     this.parseLayout(levelNode);
 
     levelNode.find('> checkpoints > checkpoint').each(function() {
@@ -69,13 +64,12 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
     var level = parser.level;
     layoutNode.find('> background').each(function() {
         backgroundNode = $(this);
-        var modelId = backgroundNode.attr('model');
-
-        var background = new parser.models[modelId]();
+        var objectId = backgroundNode.attr('model');
+        var background = new parser.objects[objectId]();
 
         var position = parser.getPosition(backgroundNode);
-        background.position.x = position.x + (background._size.x / 2);
-        background.position.y = position.y - (background._size.y / 2);
+        background.position.x = position.x - background.origo.x;
+        background.position.y = position.y - background.origo.y;
         if (position.z !== undefined) {
             background.position.z = position.z -.1;
         }
@@ -149,117 +143,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
     this.parseObjectLayout(layoutNode);
 
     return;
-}
-
-Game.Loader.XML.Parser.LevelParser.prototype.parseModel = function(modelNode)
-{
-    var parser = this;
-    var world = parser.level.world;
-
-    var modelId = modelNode.attr('id');
-    var geometryNode = modelNode.find('> geometry');
-    var geometry = parser.getGeometry(geometryNode);
-    geometryNode._modelId = modelId;
-    var size = parser.getVector2(geometryNode, 'w', 'h');
-    var segs = parser.getVector2(geometryNode, 'w-segments', 'h-segments');
-
-    var textures = [];
-    var animators = {};
-
-    modelNode.find('> tile').each(function() {
-        var tileNode = $(this);
-        var animationId = tileNode.attr('id');
-        if (!parser.animations[animationId]) {
-            throw new Error('Animation "' + animationId + '" not defined');
-        }
-
-        var animation = parser.animations[animationId].animation;
-        var offset = parseFloat(tileNode.attr('offset')) || 0;
-
-        tileNode.find('> face').each(function() {
-            var faceNode = $(this);
-
-            if (!animators[animationId]) {
-                var animator = new Engine.Animator.UV();
-                animator._modelId = modelId;
-                animator._animationId = animationId;
-                animator.indices = [];
-                animator.update = animator.update.bind(animator);
-                animator.setAnimation(animation);
-                animator.addGeometry(geometry);
-                if (animation.frames > 1) {
-                    var world = parser.level.world;
-
-                    /* If animation contains multiple frames, bind
-                       update function to worlds update event.
-
-                       Perhaps it is better to bind this in the constructor
-                       so that every model is concerned only by itself.
-
-                       However, then we must clone the animator to avoid
-                       increasing the time for every object.
-                    */
-                    world.events.bind(world.EVENT_UPDATE, animator.update);
-                }
-                animators[animationId] = animator;
-            }
-            else {
-                var animator = animators[animationId];
-            }
-
-            textures.push(parser.animations[animationId].texture);
-
-
-            var range = {
-                'x': parser.getRange(faceNode, 'x', segs.x),
-                'y': parser.getRange(faceNode, 'y', segs.y),
-            };
-
-            var i, j, x, y, faceIndex;
-            for (i in range.x) {
-                x = range.x[i] - 1;
-                for (j in range.y) {
-                    y = range.y[j] - 1;
-                    /* The face index is the first of the two triangles that make up a rectangular
-                       face. The Animator.UV will set the UV map to the faceIndex and faceIndex+1.
-                       Since we expect to paint two triangles at every index we need to 2x the index
-                       count so that we skip two faces for every index jump. */
-                    faceIndex = (x + (y * segs.x)) * 2;
-                    animator.indices.push(faceIndex);
-                }
-            }
-        });
-    });
-
-    if (!textures[0]) {
-        throw new Error("No texture index 0 for model " + modelId);
-    }
-
-    /* Run initial update of all UV maps. */
-    for (var animationId in animators) {
-        animators[animationId].update();
-    }
-
-    var material = new THREE.MeshBasicMaterial({
-        map: textures[0],
-        side: THREE.FrontSide,
-        transparent: true,
-    });
-
-    var object = function()
-    {
-        this._modelId = modelId;
-        this._size = size;
-
-        this.geometry = geometry;
-        this.material = material;
-
-        Engine.Object.call(this);
-    }
-
-    Engine.Util.extend(object, Engine.Object);
-
-    this.models[modelId] = object;
 }
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layoutNode)
@@ -364,5 +247,21 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode
         spawner.maxDistance = parser.getFloat(spawnerNode, 'max-distance', spawner.maxDistance);
 
         level.world.addObject(spawner);
+    });
+}
+
+Game.Loader.XML.Parser.LevelParser.prototype.parseTexture = function(textureNode)
+{
+    var parser = this;
+    var textureSize = parser.getVector2(textureNode, 'w', 'h');
+    var texture = parser.getTexture(textureNode);
+
+    textureNode.find('animation').each(function() {
+        var animationNode = $(this);
+        var animation = parser.getUVAnimation(animationNode, textureSize);
+        parser.animations[animationNode.attr('id')] = {
+            'animation': animation,
+            'texture': texture,
+        }
     });
 }

@@ -524,19 +524,3 @@ Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ
                              parseFloat(y),
                              parseFloat(z));
 }
-
-Game.Loader.XML.Parser.prototype.parseTexture = function(textureNode)
-{
-    var parser = this;
-    var textureSize = parser.getVector2(textureNode, 'w', 'h');
-    var texture = parser.getTexture(textureNode);
-
-    textureNode.find('animation').each(function() {
-        var animationNode = $(this);
-        var animation = parser.getUVAnimation(animationNode, textureSize);
-        parser.animations[animationNode.attr('id')] = {
-            'animation': animation,
-            'texture': texture,
-        }
-    });
-}

@@ -284,9 +284,6 @@
                 </trait>
             </traits>
         </object>
-    </objects>
-
-    <models>
         <!--
         <model id="dr-wily-sign">
             <geometry type="plane" w="32" h="32" />
@@ -294,7 +291,7 @@
         </model>
         -->
 
-        <model id="upper-level">
+        <object id="upper-level">
             <geometry type="plane" w="2048" h="240" w-segments="128" h-segments="15" />
             <tile id="darkness">
                 <face x="*" y="*"/>
@@ -435,9 +432,9 @@
             <tile id="ladder">
                 <face x="126" y="13-15"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="vertical-1">
+        <object id="vertical-1">
             <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15" />
             <tile id="darkness">
                 <face x="*" y="*"/>
@@ -518,9 +515,9 @@
                 <face x="14" y="1-10"/>
                 <face x="3" y="5-15"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="lower-level">
+        <object id="lower-level">
             <geometry type="plane" w="2816" h="240" w-segments="176" h-segments="15" />
             <tile id="darkness">
                 <face x="*" y="*"/>
@@ -651,9 +648,9 @@
                 <face x="3" y="1-2"/>
                 <face x="174" y="13-15"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="vertical-2">
+        <object id="vertical-2">
             <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15" />
 
             <tile id="darkness">
@@ -731,9 +728,9 @@
                 <face x="14" y="1-11"/>
                 <face x="4" y="12-15"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="boss-level">
+        <object id="boss-level">
             <geometry type="plane" w="768" h="240" w-segments="48" h-segments="15" />
             <tile id="darkness">
                 <face x="*" y="*"/>
@@ -827,8 +824,8 @@
             <tile id="darkness">
                 <face x="17-32" y="1-4"/>
             </tile>
-        </model>
-    </models>
+        </object>
+    </objects>
 
 
     <layout>
