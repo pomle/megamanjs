@@ -40,9 +40,9 @@
         <character src="./characters/Heatman.xml" />
         <character src="./characters/Metalman.xml" />
 
-        <character src="./characters/SniperArmor.xml" />
         <character src="./characters/Shotman.xml" />
         <character src="./characters/SniperJoe.xml" />
+        <character src="./characters/SniperArmor.xml" />
         <character src="./characters/Telly.xml" />
     </characters>
 
