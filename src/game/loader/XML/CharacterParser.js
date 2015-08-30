@@ -23,7 +23,7 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
     var modelSize = parser.getVector2(modelNode, 'w', 'h');
 
     var animator = new Engine.Animator.UV();
-    var defaultTextureId = undefined;
+    var defaultTexture = undefined;
 
     var textures = {};
 
@@ -33,14 +33,12 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
         var texture = parser.getTexture(textureNode);
 
         var textureId = textureNode.attr('id');
-        if (!textureId) {
-            throw new Error("No id attribute on " + textureNode[0].outerHTML);
+        if (textureId) {
+            textures[textureId] = texture;
         }
 
-        textures[textureId] = texture;
-
-        if (defaultTextureId === undefined) {
-            defaultTextureId = textureId;
+        if (defaultTexture === undefined) {
+            defaultTexture = texture;
         }
 
         var defaultAnimation = undefined;
@@ -78,7 +76,7 @@ Game.Loader.XML.Parser.CharacterParser.prototype.parse = function(characterNode)
         this.geometry = new THREE.PlaneGeometry(modelSize.x, modelSize.y);
         this.material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
-            map: this.textures[defaultTextureId],
+            map: defaultTexture,
             transparent: true,
         });
 

@@ -164,10 +164,8 @@
                 </trait>
             </traits>
         </object>
-    </objects>
 
-    <models>
-        <model id="waterfall">
+        <object id="waterfall">
             <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15" />
             <tile id="waterfall-2">
                 <face x="1-16/2" y="1-15/2"/>
@@ -177,16 +175,16 @@
                 <face x="1-16/2" y="2-15/2"/>
                 <face x="2-16/2" y="1-15/2"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="dr-wily-logo">
+        <object id="dr-wily-logo">
             <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1" />
             <tile id="dr-wily-logo">
                 <face x="1" y="1"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="surface">
+        <object id="surface">
             <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15" />
             <tile id="waterfall-2">
                 <face x="1-16/2" y="1-6/2"/>
@@ -205,16 +203,16 @@
             <tile id="water">
                 <face x="*" y="9-15"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="water">
+        <object id="water">
             <geometry type="plane" w="256" h="240" w-segments="1" h-segments="1" />
             <tile id="water">
                 <face x="1" y="1"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="water-lower-1">
+        <object id="water-lower-1">
             <geometry type="plane" w="2304" h="240" w-segments="144" h-segments="15" />
             <tile id="water">
                 <face x="*" y="*"/>
@@ -228,9 +226,9 @@
             <tile id="water-surface-2">
                 <face x="140-143" y="6"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="water-lower-2">
+        <object id="water-lower-2">
             <geometry type="plane" w="640" h="240" w-segments="40" h-segments="15" />
             <tile id="transparent">
                 <face x="*" y="*"/>
@@ -246,9 +244,9 @@
             <tile id="water-surface-2">
                 <face x="1-8" y="6"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="level-1-platforms">
+        <object id="level-1-platforms">
             <geometry type="plane" w="1280" h="240" w-segments="80" h-segments="15" />
             <tile id="transparent">
                 <face x="*" y="*"/>
@@ -275,9 +273,9 @@
                 <face x="74-75" y="9" />
                 <face x="76-77" y="12" />
             </tile>
-        </model>
+        </object>
 
-        <model id="vertical-platforms">
+        <object id="vertical-platforms">
             <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45" />
             <tile id="transparent">
                 <face x="*" y="*"/>
@@ -305,9 +303,9 @@
                 <face x="7-16" y="39"/>
                 <face x="5-16" y="42"/>
             </tile>
-        </model>
+        </object>
 
-        <model id="level-2-platforms">
+        <object id="level-2-platforms">
             <geometry type="plane" w="2304" h="240" w-segments="144" h-segments="15" />
             <tile id="transparent">
                 <face x="*" y="*"/>
@@ -417,9 +415,9 @@
                 <face x="133-134" y="1-3,10-15" />
                 <face x="96,99-100,105-106" y="1" />
             </tile>
-        </model>
+        </object>
 
-        <model id="boss-platforms">
+        <object id="boss-platforms">
             <geometry type="plane" w="1280" h="240" w-segments="80" h-segments="15" />
             <tile id="transparent">
                 <face x="*" y="*"/>
@@ -488,8 +486,8 @@
             <tile id="sign-sw"><face x="46" y="4"/></tile>
             <tile id="sign-s"><face x="47-48" y="4"/></tile>
             <tile id="sign-n"><face x="47-48" y="1"/></tile>
-        </model>
-    </models>
+        </object>
+    </objects>
 
 
     <layout>
