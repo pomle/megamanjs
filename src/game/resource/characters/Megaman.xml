@@ -21,7 +21,7 @@
         <textures>
             <texture id="megaman-p" url="megaman.png" w="256" h="256">
                 <animations>
-                    <animation id="idle" default="true">
+                    <animation id="idle">
                         <frame x="0" y="0" duration="3.85" />
                         <frame x="48" y="0" duration=".15" />
                     </animation>

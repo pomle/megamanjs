@@ -7,7 +7,7 @@
         <textures>
             <texture id="telly" url="telly.png" w="128" h="16">
                 <animations>
-                    <animation id="spin" default="true">
+                    <animation id="spin">
                         <frame x="80" y="0" duration=".16" />
                         <frame x="64" y="0" duration=".16" />
                         <frame x="48" y="0" duration=".16" />
