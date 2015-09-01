@@ -1,39 +1,43 @@
-<character id="SniperArmor" source="SniperArmor">
+<objects>
+    <object type="character" id="SniperArmor" source="SniperArmor">
+        <geometry type="plane" w="64" h="64" />
 
-    <model w="64" h="64">
         <collision>
             <rect x="-4" y="-4" w="24" h="56" />
             <rect x="0" y="10" w="28" h="28" />
         </collision>
-        <textures>
-            <texture id="sniperarmor" url="enemies/sniperarmor.png" w="256" h="64">
-                <animations>
-                    <animation id="idle">
-                        <frame x="0" y="0" />
-                    </animation>
-                    <animation id="charging">
-                        <frame x="64" y="0" />
-                    </animation>
-                    <animation id="jumping">
-                        <frame x="128" y="0" />
-                    </animation>
-                </animations>
-            </texture>
-        </textures>
-    </model>
 
-    <traits>
-        <trait source="ContactDamage" points="8" />
-        <trait source="DeathSpawn" chance="1">
-            <objects>
-                <character id="SniperJoe" />
-            </objects>
-        </trait>
-        <trait source="Health" max="20" />
-        <trait source="Physics" area=".5" drag=".1" mass="600" />
-        <trait source="Jump" force="120000" forward="50000" duration=".18" falloff=".3" />
-        <trait source="Weapon" equip="EnemyPlasma">
-            <projectile-emit x="0" y="-2" r="9" />
-        </trait>
-    </traits>
-</character>
+        <traits>
+            <trait source="ContactDamage" points="8" />
+            <trait source="DeathSpawn" chance="1">
+                <objects>
+                    <character id="SniperJoe" />
+                </objects>
+            </trait>
+            <trait source="Health" max="20" />
+            <trait source="Physics" area=".5" drag=".1" mass="600" />
+            <trait source="Jump" force="120000" forward="50000" duration=".18" falloff=".3" />
+            <trait source="Weapon" equip="EnemyPlasma">
+                <projectile-emit x="0" y="-2" r="9" />
+            </trait>
+        </traits>
+    </object>
+
+    <animations w="64" h="64">
+        <animation id="idle">
+            <frame x="0" y="0" />
+        </animation>
+        <animation id="charging">
+            <frame x="64" y="0" />
+        </animation>
+        <animation id="jumping">
+            <frame x="128" y="0" />
+        </animation>
+    </animations>
+
+    <textures>
+        <texture id="sniperarmor" url="enemies/sniperarmor.png" w="256" h="64">
+        </texture>
+    </textures>
+
+</objects>

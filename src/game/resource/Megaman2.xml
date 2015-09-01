@@ -33,17 +33,17 @@
     </entrypoint>
 
     <characters>
-        <character src="./characters/Megaman.xml" />
-        <character src="./characters/Airman.xml" />
-        <character src="./characters/Crashman.xml" />
-        <character src="./characters/Flashman.xml" />
-        <character src="./characters/Heatman.xml" />
-        <character src="./characters/Metalman.xml" />
+        <objects src="./characters/Megaman.xml" />
+        <objects src="./characters/Airman.xml" />
+        <objects src="./characters/Crashman.xml" />
+        <objects src="./characters/Flashman.xml" />
+        <objects src="./characters/Heatman.xml" />
+        <objects src="./characters/Metalman.xml" />
 
-        <character src="./characters/Shotman.xml" />
-        <character src="./characters/SniperJoe.xml" />
-        <character src="./characters/SniperArmor.xml" />
-        <character src="./characters/Telly.xml" />
+        <objects src="./characters/Shotman.xml" />
+        <objects src="./characters/SniperJoe.xml" />
+        <objects src="./characters/SniperArmor.xml" />
+        <objects src="./characters/Telly.xml" />
     </characters>
 
     <player>
