@@ -28,7 +28,6 @@ Engine.Object.prototype.DIRECTION_LEFT = -1;
 Engine.Object.prototype.DIRECTION_RIGHT = 1;
 
 Engine.Object.prototype.EVENT_COLLIDE = 'collide';
-Engine.Object.prototype.EVENT_DIRECTION_CHANGE = 'direction-change';
 Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
 Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
 Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
