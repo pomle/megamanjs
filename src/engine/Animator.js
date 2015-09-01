@@ -2,7 +2,6 @@ Engine.Animator = function()
 {
     this._currentAnimation = undefined;
     this._currentGroup = undefined;
-    this._currentId = undefined;
     this._currentIndex = undefined;
 
     this.offset = 0;
@@ -23,7 +22,7 @@ Engine.Animator.prototype.reset = function()
 
 Engine.Animator.prototype.setAnimation = function(animation)
 {
-    if (this._currentId === animation.id) {
+    if (this._currentAnimation === animation) {
         return;
     }
 
@@ -31,7 +30,6 @@ Engine.Animator.prototype.setAnimation = function(animation)
         this.reset();
     }
 
-    this._currentId = animation.id;
     this._currentGroup = animation.group;
     this._currentIndex = undefined;
     this._currentAnimation = animation;
@@ -69,7 +67,7 @@ Engine.Animator.Animation = function(id, group)
     this.id = id;
     this.group = group;
 
-    this.frames = 0;
+    this.length = 0;
     this.timeline = undefined;
 }
 
@@ -79,6 +77,7 @@ Engine.Animator.Animation.prototype.addFrame = function(value, duration)
        save the value and duration flat, since we
        will not need the Timeline class to resolve it. */
     if (this._value === undefined) {
+        this.length = 1;
         this._value = value;
         this._duration = duration;
     }
@@ -87,17 +86,17 @@ Engine.Animator.Animation.prototype.addFrame = function(value, duration)
        behavior to a multi frame Animation. */
     else {
         this.timeline = new Engine.Timeline();
-        this.addFrame = this.timeline.addFrame.bind(this.timeline);
+        this.addFrame = function(value, duration) {
+            ++this.length;
+            this.timeline.addFrame.call(this.timeline, value, duration);
+        }.bind(this);
         this.getIndex = this.timeline.getIndexAtTime.bind(this.timeline);
         this.getValue = this.timeline.getValueAtIndex.bind(this.timeline);
         this.addFrame(this._value, this._duration);
         this.addFrame(value, duration);
-
         this._value = undefined;
         this._duration = undefined;
     }
-
-    ++this.frames;
 }
 
 Engine.Animator.Animation.prototype.getIndex = function()
