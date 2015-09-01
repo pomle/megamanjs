@@ -2,7 +2,6 @@ Game.traits.Disappearing = function()
 {
     Engine.Trait.call(this);
     this._visible = true;
-    this._collision = undefined;
 
     this.offDuration = 3;
     this.onDuration = 2;
