@@ -76,112 +76,6 @@ Game.Loader.XML.Parser.prototype.getGeometry = function(node)
     throw new Error('Could not parse geometry type "' + type + '"');
 }
 
-Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
-{
-    var parser = this;
-    var loader = parser.loader;
-
-    var objectId = objectNode.attr('id');
-    var geometryNode = objectNode.find('> geometry');
-    var geometry = parser.getGeometry(geometryNode);
-    var size = parser.getVector2(geometryNode, 'w', 'h');
-    var segs = parser.getVector2(geometryNode, 'w-segments', 'h-segments');
-
-    var textures = [];
-    var animators = [];
-
-    objectNode.find('> tile').each(function() {
-        var tileNode = $(this);
-        var animationId = tileNode.attr('id');
-        if (!parser.animations[animationId]) {
-            throw new Error('Animation "' + animationId + '" not defined');
-        }
-
-        var animation = parser.animations[animationId].animation;
-        var offset = parseFloat(tileNode.attr('offset')) || 0;
-
-        tileNode.find('> face').each(function() {
-            var faceNode = $(this);
-            var animator = new Engine.Animator.UV();
-            animator.indices = [];
-            animator.setAnimation(animation);
-            textures.push(parser.animations[animationId].texture);
-
-            var range = {
-                'x': parser.getRange(faceNode, 'x', segs.x),
-                'y': parser.getRange(faceNode, 'y', segs.y),
-            };
-
-            var i, j, x, y, faceIndex;
-            for (i in range.x) {
-                x = range.x[i] - 1;
-                for (j in range.y) {
-                    y = range.y[j] - 1;
-                    /* The face index is the first of the two triangles that make up a rectangular
-                       face. The Animator.UV will set the UV map to the faceIndex and faceIndex+1.
-                       Since we expect to paint two triangles at every index we need to 2x the index
-                       count so that we skip two faces for every index jump. */
-                    faceIndex = (x + (y * segs.x)) * 2;
-                    animator.indices.push(faceIndex);
-                }
-            }
-            animators.push(animator);
-        });
-    });
-
-    var traitDescriptors = [];
-    objectNode.find('> traits > trait').each(function() {
-        var traitNode = $(this);
-        traitDescriptors.push(parser.getTrait(traitNode));
-    });
-
-    var collision = [];
-    objectNode.find('> collision > rect').each(function() {
-        var rectNode = $(this);
-        collision.push(parser.getRect(rectNode));
-    });
-
-    if (!textures[0]) {
-        throw new Error("No texture index 0 for model " + objectId);
-    }
-
-    var object = loader.createObject(objectId, Engine.Object, function()
-    {
-        this.geometry = geometry.clone();
-        this.material = new THREE.MeshBasicMaterial({
-            map: textures[0],
-            side: THREE.FrontSide,
-            transparent: true,
-        });
-
-        Engine.Object.call(this);
-
-        this.origo.x = -(size.x / 2);
-        this.origo.y = size.y / 2;
-
-
-        /* Run initial update of all UV maps. */
-        for (var i in animators) {
-            var animator = animators[i].clone();
-            animator.addGeometry(this.geometry);
-            animator.update();
-            this.animators.push(animator);
-        }
-
-        for (var i in traitDescriptors) {
-            loader.applyTrait(this, traitDescriptors[i]);
-        }
-
-        for (var i in collision) {
-            var r = collision[i];
-            this.addCollisionRect(r.w, r.h, r.x, r.y);
-        }
-    });
-
-
-    return object;
-}
-
 Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
 {
     var input = $(node).attr(attr || 'range');
@@ -253,7 +147,11 @@ Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attr
 
 Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 {
-    parser = this;
+    var parser = this;
+
+    if (!textureNode.is('texture')) {
+        throw new Error("Node not <texture>");
+    }
 
     var textureId = textureNode.attr('id');
     var textureUrl = this.getAbsoluteUrl(textureNode, 'url');
@@ -487,23 +385,6 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
         }
         return undefined;
     }
-}
-
-Game.Loader.XML.Parser.prototype.getUVAnimation = function(animationNode, textureSize, frameSize)
-{
-    var parser = this;
-    var animation = new Engine.Animator.Animation();
-    animationNode.find('> frame').each(function() {
-        var frameNode = $(this);
-        var offset = parser.getVector2(frameNode, 'x', 'y');
-        var size = frameSize || parser.getVector2(frameNode, 'w', 'h');
-        var uvMap = Engine.SpriteManager.createUVMap(offset.x, offset.y,
-                                                     size.x, size.y,
-                                                     textureSize.x, textureSize.y);
-        var duration = parseFloat(frameNode.attr('duration')) || undefined;
-        animation.addFrame(uvMap, duration);
-    });
-    return animation;
 }
 
 Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY, def)

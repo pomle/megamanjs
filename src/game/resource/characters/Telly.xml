@@ -1,27 +1,33 @@
-<character id="Telly" source="Telly">
+<objects>
+    <object type="character" source="Telly" id="Telly">
+        <geometry type="plane" w="16" h="16">
+            <face>
+                <range x="1" y="1" />
+            </face>
+        </geometry>
 
-    <model w="16" h="16">
         <collision>
             <rect x="0" y="0" w="16" h="16" />
         </collision>
-        <textures>
-            <texture id="telly" url="telly.png" w="128" h="16">
-                <animations>
-                    <animation id="spin">
-                        <frame x="80" y="0" duration=".16" />
-                        <frame x="64" y="0" duration=".16" />
-                        <frame x="48" y="0" duration=".16" />
-                        <frame x="32" y="0" duration=".16" />
-                        <frame x="16" y="0" duration=".16" />
-                        <frame x="0"  y="0" duration=".16" />
-                    </animation>
-                </animations>
-            </texture>
-        </textures>
-    </model>
 
-    <traits>
-        <trait source="ContactDamage" points="2" />
-        <trait source="Health" max="1" />
-    </traits>
-</character>
+        <traits>
+            <trait source="ContactDamage" points="2" />
+            <trait source="Health" max="1" />
+        </traits>
+    </object>
+
+    <textures>
+        <texture url="telly.png" w="128" h="16" />
+    </textures>
+
+    <animations>
+        <animation w="16" h="16">
+            <frame x="80" y="0" duration=".16" />
+            <frame x="64" y="0" duration=".16" />
+            <frame x="48" y="0" duration=".16" />
+            <frame x="32" y="0" duration=".16" />
+            <frame x="16" y="0" duration=".16" />
+            <frame x="0"  y="0" duration=".16" />
+        </animation>
+    </animations>
+</objects>

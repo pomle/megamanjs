@@ -9,7 +9,6 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
     this.world = world;
     this.level = new Game.scenes.Level(loader.game, this.world);
 
-    this.animations = {};
     this.objects = {};
 }
 
@@ -27,24 +26,13 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
 
     level.debug = parser.getBool(levelNode, 'debug');
 
+    levelNode.find('> objects').each(function() {
+        var objectParser = new Game.Loader.XML.Parser.ObjectParser(loader);
+        parser.objects = objectParser.parse($(this));
+    });
+
     this.parseCamera(levelNode);
     this.parseGravity(levelNode);
-
-    levelNode.find('> texture').each(function() {
-        var node = $(this);
-        parser.parseTexture(node);
-    });
-
-    levelNode.find('> objects > object').each(function() {
-        var objectNode = $(this);
-        var objectId = objectNode.attr('id');
-        if (parser.objects[objectId]) {
-            throw new Error('Object id "' + objectId + '" already defined');
-        }
-
-        var object = parser.getObject(objectNode);
-        parser.objects[objectId] = object;
-    });
 
     this.parseLayout(levelNode);
 
@@ -247,21 +235,5 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode
         spawner.maxDistance = parser.getFloat(spawnerNode, 'max-distance', spawner.maxDistance);
 
         level.world.addObject(spawner);
-    });
-}
-
-Game.Loader.XML.Parser.LevelParser.prototype.parseTexture = function(textureNode)
-{
-    var parser = this;
-    var textureSize = parser.getVector2(textureNode, 'w', 'h');
-    var texture = parser.getTexture(textureNode);
-
-    textureNode.find('animation').each(function() {
-        var animationNode = $(this);
-        var animation = parser.getUVAnimation(animationNode, textureSize);
-        parser.animations[animationNode.attr('id')] = {
-            'animation': animation,
-            'texture': texture,
-        }
     });
 }

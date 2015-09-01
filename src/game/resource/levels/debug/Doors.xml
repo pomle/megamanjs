@@ -5,29 +5,34 @@
         <checkpoint x="0" y="0"/>
     </checkpoints>
 
-    <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128">
-        <animation id="door">
-            <frame x="109" y="55" w="16" h="16"/>
-        </animation>
-    </texture>
-
     <objects>
+        <textures>
+            <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128" />
+        </textures>
+
+        <animations>
+            <animation id="door">
+                <frame x="109" y="55" w="16" h="16"/>
+            </animation>
+        </animations>
+
         <object id="door">
-            <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4" />
+            <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
+                <face animation="door">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+
+
             <collision>
                 <rect x="0" y="0" w="32" h="64" />
             </collision>
-
-            <tile id="door">
-                <face x="*" y="*"/>
-            </tile>
 
             <traits>
                 <trait source="Door"/>
             </traits>
         </object>
     </objects>
-
 
     <layout>
         <objects>

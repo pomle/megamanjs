@@ -74,7 +74,7 @@ Game.objects.Character.prototype.timeShift = function(dt)
 
     var anim = this.routeAnimation();
     if (anim !== this.anim) {
-        this.animators[0].pickAnimation(anim);
+        this.animators[0].setAnimation(this.animations[anim]);
         this.anim = anim;
     }
 
