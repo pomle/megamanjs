@@ -55,62 +55,70 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
             size: parser.getVector2(geometryNode, 'w', 'h'),
         }
 
-        geometryNode.find('> face').each(function(index) {
-            var faceNode = $(this);
+        var faceNodes = geometryNode.find('> face');
+        if (faceNodes.length > 0) {
+            faceNodes.each(function(index) {
+                var faceNode = $(this);
 
-            var animator = new Engine.Animator.UV();
-            animator.indices = [index];
-            animator.offset = parser.getFloat(faceNode, 'offset', 0);
+                var animator = new Engine.Animator.UV();
+                animator.indices = [index];
+                animator.offset = parser.getFloat(faceNode, 'offset', 0);
 
-            var animationId = faceNode.attr('animation');
-            if (animationId === undefined) {
-                if (!parser.animations[0]) {
-                    throw new Error("No default animation defined");
-                }
-                var animationObject = parser.animations[0];
-            }
-            else {
-                if (!parser.animations[animationId]) {
-                    throw new Error("Animation " + animationId + " not defined");
-                }
-                var animationObject = parser.animations[animationId];
-            }
-
-            animator.setAnimation(animationObject.animation);
-            animators.push(animator);
-
-            var rangeNodes = faceNode.find('> range');
-            if (rangeNodes.length) {
-                animator.indices = [];
-                rangeNodes.each(function() {
-                    var rangeNode = $(this);
-
-                    try {
-                        var range = {
-                            'x': parser.getRange(rangeNode, 'x', segs.x),
-                            'y': parser.getRange(rangeNode, 'y', segs.y),
-                        };
-                    } catch (e) {
-                        console.log('Range node %s range error (%d,%d)', rangeNode[0].outerHTML, segs.x, segs.y);
-                        throw e;
+                var animationId = faceNode.attr('animation');
+                if (animationId === undefined) {
+                    if (!parser.animations[0]) {
+                        throw new Error("No default animation defined");
                     }
+                    var animationObject = parser.animations[0];
+                }
+                else {
+                    if (!parser.animations[animationId]) {
+                        throw new Error("Animation " + animationId + " not defined");
+                    }
+                    var animationObject = parser.animations[animationId];
+                }
 
-                    var i, j, x, y, faceIndex;
-                    for (i in range.x) {
-                        x = range.x[i] - 1;
-                        for (j in range.y) {
-                            y = range.y[j] - 1;
-                            /* The face index is the first of the two triangles that make up a rectangular
-                               face. The Animator.UV will set the UV map to the faceIndex and faceIndex+1.
-                               Since we expect to paint two triangles at every index we need to 2x the index
-                               count so that we skip two faces for every index jump. */
-                            faceIndex = (x + (y * segs.x)) * 2;
-                            animator.indices.push(faceIndex);
+                animator.setAnimation(animationObject.animation);
+                animators.push(animator);
+
+                var rangeNodes = faceNode.find('> range');
+                if (rangeNodes.length) {
+                    animator.indices = [];
+                    rangeNodes.each(function() {
+                        var rangeNode = $(this);
+
+                        try {
+                            var range = {
+                                'x': parser.getRange(rangeNode, 'x', segs.x),
+                                'y': parser.getRange(rangeNode, 'y', segs.y),
+                            };
+                        } catch (e) {
+                            console.log('Range node %s range error (%d,%d)', rangeNode[0].outerHTML, segs.x, segs.y);
+                            throw e;
                         }
-                    }
-                });
-            }
-        });
+
+                        var i, j, x, y, faceIndex;
+                        for (i in range.x) {
+                            x = range.x[i] - 1;
+                            for (j in range.y) {
+                                y = range.y[j] - 1;
+                                /* The face index is the first of the two triangles that make up a rectangular
+                                   face. The Animator.UV will set the UV map to the faceIndex and faceIndex+1.
+                                   Since we expect to paint two triangles at every index we need to 2x the index
+                                   count so that we skip two faces for every index jump. */
+                                faceIndex = (x + (y * segs.x)) * 2;
+                                animator.indices.push(faceIndex);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            var animator = new Engine.Animator.UV();
+            animator.setAnimation(parser.animations[0].animation);
+            animators.push(animator);
+        }
 
         geometries.push(geometryObject);
     });
