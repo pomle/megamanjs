@@ -5,20 +5,8 @@ Engine.Animator = function()
     this._currentId = undefined;
     this._currentIndex = undefined;
 
-    this.animations = {};
     this.offset = 0;
     this.time = 0;
-}
-
-Engine.Animator.prototype.addAnimation = function(id, animation, group)
-{
-    if (this.animations[id]) {
-        throw new TypeError('Animation "' + id + '" already defined');
-    }
-    this.animations[id] = {
-        animation: animation,
-        group: group,
-    };
 }
 
 Engine.Animator.prototype.copy = function(animator)
@@ -28,33 +16,6 @@ Engine.Animator.prototype.copy = function(animator)
     this.animations = animator.animations;
 }
 
-Engine.Animator.prototype.createAnimation = function(id, group)
-{
-    var animation = new Engine.Animator.Animation();
-    this.addAnimation(id, animation, group);
-    return animation;
-}
-
-Engine.Animator.prototype.pickAnimation = function(id)
-{
-    if (this._currentId === id) {
-        return;
-    }
-    if (!this.animations[id]) {
-        throw new Error('Animation "' + id + '" not defined');
-    }
-
-    var animation = this.animations[id];
-
-    if (animation.group === undefined || animation.group !== this._currentGroup) {
-        this.reset();
-    }
-
-    this.setAnimation(animation.animation);
-    this._currentId = id;
-    this._currentGroup = animation.group;
-}
-
 Engine.Animator.prototype.reset = function()
 {
     this.time = this.offset;
@@ -62,10 +23,18 @@ Engine.Animator.prototype.reset = function()
 
 Engine.Animator.prototype.setAnimation = function(animation)
 {
-    if (animation !== this._currentAnimation) {
-        this._currentIndex = undefined;
-        this._currentAnimation = animation;
+    if (this._currentId === animation.id) {
+        return;
     }
+
+    if (animation.group === undefined || animation.group !== this._currentGroup) {
+        this.reset();
+    }
+
+    this._currentId = animation.id;
+    this._currentGroup = animation.group;
+    this._currentIndex = undefined;
+    this._currentAnimation = animation;
 }
 
 /**
@@ -92,10 +61,13 @@ Engine.Animator.prototype.updateForce = function(deltaTime)
     this.update(deltaTime);
 }
 
-Engine.Animator.Animation = function()
+Engine.Animator.Animation = function(id, group)
 {
     this._value = undefined;
     this._duration = undefined;
+
+    this.id = id;
+    this.group = group;
 
     this.frames = 0;
     this.timeline = undefined;
