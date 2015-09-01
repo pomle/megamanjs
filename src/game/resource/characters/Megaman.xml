@@ -1,10 +1,6 @@
 <objects>
     <object type="character" source="Megaman" id="Megaman">
-        <geometry type="plane" w="48" h="48">
-            <face animation="idle">
-                <range x="1" y="1" />
-            </face>
-        </geometry>
+        <geometry type="plane" w="48" h="48" />
 
         <collision>
             <rect x="0" y="0" w="14" h="22" />

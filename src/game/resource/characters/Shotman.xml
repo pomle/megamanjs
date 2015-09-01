@@ -1,35 +1,38 @@
-<character id="Shotman" source="Shotman">
+<objects>
+    <object type="character" id="Shotman" source="Shotman">
+        <geometry type="plane" w="32" h="32" />
 
-    <model w="32" h="32">
         <collision>
             <rect x="0" y="-5" w="16" h="20" />
         </collision>
-        <textures>
-            <texture id="shotman" url="enemies/shotman.png" w="256" h="32">
-                <animations>
-                    <animation id="deg0">
-                        <frame x="32" y="0" duration=".25" />
-                        <frame x="0" y="0" duration=".25" />
-                    </animation>
-                    <animation id="deg22">
-                        <frame x="96" y="0" duration=".25" />
-                        <frame x="64" y="0" duration=".25" />
-                    </animation>
-                    <animation id="deg45">
-                        <frame x="160" y="0" duration=".25" />
-                        <frame x="128" y="0" duration=".25" />
-                    </animation>
-                </animations>
-            </texture>
-        </textures>
-    </model>
 
-    <traits>
-        <trait source="ContactDamage" points="4" />
-        <trait source="Health" max="5" />
-        <trait source="Physics" area=".06" drag=".045" mass="135" />
-        <trait source="Weapon" equip="EnemyPlasma">
-            <projectile-emit x="0" y="-2" r="9" />
-        </trait>
-    </traits>
-</character>
+        <traits>
+            <trait source="ContactDamage" points="4" />
+            <trait source="Health" max="5" />
+            <trait source="Physics" area=".06" drag=".045" mass="135" />
+            <trait source="Weapon" equip="EnemyPlasma">
+                <projectile-emit x="0" y="-2" r="9" />
+            </trait>
+        </traits>
+    </object>
+
+    <animations w="32" h="32">
+        <animation id="deg0">
+            <frame x="32" y="0" duration=".25" />
+            <frame x="0" y="0" duration=".25" />
+        </animation>
+        <animation id="deg22">
+            <frame x="96" y="0" duration=".25" />
+            <frame x="64" y="0" duration=".25" />
+        </animation>
+        <animation id="deg45">
+            <frame x="160" y="0" duration=".25" />
+            <frame x="128" y="0" duration=".25" />
+        </animation>
+    </animations>
+
+    <textures>
+        <texture id="shotman" url="enemies/shotman.png" w="256" h="32">
+        </texture>
+    </textures>
+</objects>

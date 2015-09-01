@@ -1,29 +1,31 @@
-<character id="SniperJoe" source="SniperJoe">
+<objects>
+    <object type="character" id="SniperJoe" source="SniperJoe">
+        <geometry type="plane" w="32" h="32" />
 
-    <model w="32" h="32">
         <collision>
             <rect x="0" y="0" w="20" h="24" />
         </collision>
-        <textures>
-            <texture id="sniperjoe" url="enemies/sniperjoe.png" w="64" h="32">
-                <animations>
-                    <animation id="shielding">
-                        <frame x="0" y="0" />
-                    </animation>
-                    <animation id="shooting">
-                        <frame x="32" y="0" />
-                    </animation>
-                </animations>
-            </texture>
-        </textures>
-    </model>
 
-    <traits>
-        <trait source="ContactDamage" points="4" />
-        <trait source="Health" max="10" />
-        <trait source="Physics" area=".06" drag=".045" mass="135" />
-        <trait source="Weapon" equip="EnemyPlasma">
-            <projectile-emit x="0" y="-2" r="9" />
-        </trait>
-    </traits>
-</character>
+        <traits>
+            <trait source="ContactDamage" points="4" />
+            <trait source="Health" max="10" />
+            <trait source="Physics" area=".06" drag=".045" mass="135" />
+            <trait source="Weapon" equip="EnemyPlasma">
+                <projectile-emit x="0" y="-2" r="9" />
+            </trait>
+        </traits>
+    </object>
+
+    <textures>
+        <texture id="sniperjoe" url="enemies/sniperjoe.png" w="64" h="32"/>
+    </textures>
+
+    <animations w="32" h="32">
+        <animation id="shielding">
+            <frame x="0" y="0" />
+        </animation>
+        <animation id="shooting">
+            <frame x="32" y="0" />
+        </animation>
+    </animations>
+</objects>
