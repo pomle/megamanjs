@@ -261,6 +261,15 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             }
             break;
 
+        case 'fallaway':
+            return {
+                'ref': ref,
+                'prop': {
+                    'delay': this.getFloat(traitNode, 'delay'),
+                }
+            }
+            break;
+
         case 'jump':
             return {
                 'ref': ref,
