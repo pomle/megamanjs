@@ -85,4 +85,5 @@ Game.traits.Physics.prototype.bump = function(x, y)
 Game.traits.Physics.prototype.zero = function()
 {
     this.velocity.multiplyScalar(0);
+    this._host.velocity.copy(this.velocity);
 }
