@@ -222,10 +222,24 @@ Game.scenes.Level.prototype.resumeGamePlay = function()
 Game.scenes.Level.prototype.resetCheckpoint = function()
 {
     var level = this;
+    this.resetObjects();
+
     this.readyBlink(function() {
         level.resumeGamePlay();
     });
     this.game.engine.world.updateTime(0);
+}
+
+Game.scenes.Level.prototype.resetObjects = function()
+{
+    for (var object of this.world.objects) {
+        for (var i = 0, l = object.traits.length; i < l; ++i) {
+            var trait = object.traits[i];
+            if (typeof trait.reset === 'function') {
+                trait.reset();
+            }
+        }
+    }
 }
 
 Game.scenes.Level.prototype.resetPlayer = function()
