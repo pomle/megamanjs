@@ -1,18 +1,31 @@
 $(function() {
-    var workspace = $(".workspace");
+    var workspace = $(".workspace"),
+        controlpanel = $(".controlpanel");
+
     workspace.grabbed = undefined;
     workspace.keyboardActive = true;
     workspace.selected = undefined;
     workspace.select = function(slice) {
+        this.deselect();
         this.selected = slice;
+        var _this = this;
         slice.addClass('selected')
             .siblings()
             .removeClass('selected');
-        controlpanel.inputs.slice_name.val(this.selected.attr('name'));
+
+        $.each(controlpanel.inputs, function(key, input) {
+            input.val(_this.selected.data(key));
+        });
     }
     workspace.deselect = function() {
+        if (!this.selected) {
+            return;
+        }
+        var _this = this;
+        $.each(controlpanel.inputs, function(key, input) {
+            _this.selected.data(key, input.val());
+        });
         this.selected = undefined;
-        controlpanel.inputs.slice_name.val('');
     }
 
     var zoom = workspace.find('.zoom');
@@ -20,10 +33,23 @@ $(function() {
 
     var canvas = zoom.find('canvas');
 
-    var controlpanel = $(".controlpanel");
-    controlpanel.inputs = {
-        slice_name: controlpanel.find('input[name=slice_id]'),
-    }
+    workspace.console = $('#console');
+
+    controlpanel.inputs = {};
+    controlpanel.map = {'x': 'left', 'y': 'top', 'w': 'width', 'h': 'height'}
+    controlpanel.find('.properties :input').each(function() {
+        var input = $(this);
+        controlpanel.inputs[this.name] = input;
+        input.on('keyup', function controlPanelInputHandler(e) {
+            if (workspace.selected) {
+                var s = workspace.selected,
+                    m = controlpanel.map;
+                if (m[this.name]) {
+                    s.css(m[this.name], parseFloat(this.value));
+                }
+            }
+        });
+    });
 
     controlpanel
         .find('button[name=generate]').on('click', function(e) {
@@ -35,40 +61,45 @@ $(function() {
                     'h': parseFloat(canvas.css('height')),
                 });
 
+            var animationsXml = $('<animations>');
+
             var animations = {};
             workspace.find('.slice').each(function() {
                 var slice = $(this);
-                var frameXml = $('<frame/>')
+                var frameXml = $('<frame>')
                     .attr({
                         'x': parseFloat(slice.css('left')),
                         'y': parseFloat(slice.css('top')),
                         'w': parseFloat(slice.css('width')),
                         'h': parseFloat(slice.css('height')),
-                        'duration': '.5',
+                        'duration': parseFloat(slice.data('duration')) || undefined,
                     });
                 var name = slice.attr('name');
                 if (!animations[name]) {
-                    animations[name] = $('<animation/>').
+                    animations[name] = $('<animation>').
                         attr({
                             'id': name,
                         });
-                    textureXml.append(animations[name]);
+                    animationsXml.append(animations[name]);
                 }
                 animations[name].append(frameXml);
             });
-            $('#console').val(textureXml[0].outerHTML);
+
+            workspace.console.val((new XMLSerializer()).serializeToString($('<document>').append(animationsXml)[0]));
         });
 
-    controlpanel.inputs.slice_name.on('keyup', function() {
-        if (workspace.selected) {
-            var name = $(this).val();
-            workspace.selected.attr({
-                'name': name,
-                'title': name,
-            });
-        }
-    });
-
+    function render(src) {
+        var image = new Image();
+        image.onload = function() {
+            var cnv = canvas.get(0);
+            cnv.width = this.width;
+            cnv.height = this.height;
+            var ctx = cnv.getContext("2d");
+            ctx.clearRect(0, 0, this.width, this.height);
+            ctx.drawImage(image, 0, 0);
+        };
+        image.src = src;
+    }
 
     workspace.on('dragenter', function (e) {
         e.stopPropagation();
@@ -89,27 +120,58 @@ $(function() {
         };
         reader.readAsDataURL(file);
     });
+    workspace.console.on('paste', function(e) {
+        var data = e.originalEvent.clipboardData.getData('text/plain');
+        try {
+            var xml = jQuery.parseXML(data);
+            var domXml = $(xml).find('animations');
+        }
+        catch (e) {
+            console.info("Paste not parsable", data);
+            throw e;
+            return;
+        }
 
-    function render(src) {
-        var image = new Image();
-        image.onload = function() {
-            var cnv = canvas.get(0);
-            cnv.width = this.width;
-            cnv.height = this.height;
-            var ctx = cnv.getContext("2d");
-            ctx.clearRect(0, 0, this.width, this.height);
-            ctx.drawImage(image, 0, 0);
-        };
-        image.src = src;
-    }
+        if (domXml.length) {
+            e.preventDefault();
+            var size = {
+                'w': parseFloat(domXml.attr('w')),
+                'h': parseFloat(domXml.attr('h')),
+            }
+            domXml.find('animation').each(function() {
+                var animationNode = $(this);
+                animationNode.find('frame').each(function() {
+                    var frameNode = $(this);
 
+                    var slice = $('<div class="slice">')
+                        .css({
+                            'left': parseFloat(frameNode.attr('x')),
+                            'top': parseFloat(frameNode.attr('y')),
+                            'height': (parseFloat(frameNode.attr('h')) || size.y),
+                            'width': (parseFloat(frameNode.attr('w')) || size.x),
+                        });
+
+                    $.each(controlpanel.inputs, function(key, input) {
+                        slice.data(key, frameNode.attr(key) || animationNode.attr(key));
+                    });
+
+                    zoom.append(slice);
+                });
+            });
+        }
+    });
     workspace
         .on('click', '.slice', function(e) {
             e.stopPropagation();
+
         })
         .on('mousedown', '.slice', function(e) {
             workspace.select($(this));
             e.stopPropagation();
+            if (focusedInput) {
+                focusedInput.focus();
+                e.preventDefault();
+            }
         })
         .on('mouseup', '.slice', function(e) {
         })
@@ -120,7 +182,7 @@ $(function() {
                     'top': Math.floor(e.offsetY / zoom.level),
                 });
             zoom.append(slice);
-            workspace.select(slice);
+            slice.trigger('mousedown');
         })
 
     var nudgeMap = {
@@ -130,21 +192,28 @@ $(function() {
         40: {x: 0, y: 1},
     }
 
+    var focusedInput = undefined;
     $(':input').on('focus', function() {
         workspace.keyboardActive = false;
+        focusedInput = $(this);
     })
     .on('blur', function() {
         workspace.keyboardActive = true;
     });
 
     $(window).on('keydown', function(e) {
-        if (!workspace.keyboardActive) {
+        if (e.which !== 27 && !workspace.keyboardActive) {
             return;
         }
 
-        console.log(e.which);
         e.preventDefault();
         switch (e.which) {
+            case 27:
+                if (focusedInput) {
+                    focusedInput.blur();
+                    focusedInput = undefined;
+                }
+                break;
             case 107: // +
                 zoom.css('zoom', ++zoom.level);
                 break;
