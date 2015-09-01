@@ -117,6 +117,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
         else {
             var animator = new Engine.Animator.UV();
             animator.setAnimation(parser.animations[0].animation);
+            animator.update();
             animators.push(animator);
         }
 
@@ -150,8 +151,6 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
         this.origo.x = -(geometries[0].size.x / 2);
         this.origo.y = geometries[0].size.y / 2;
 
-
-
         for (var i in traitDescriptors) {
             var trait = traitDescriptors[i];
             var appliedTrait = loader.applyTrait(this, trait);
@@ -172,7 +171,6 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
         for (var i in animators) {
             var animator = animators[i].clone();
             animator.addGeometry(this.geometry);
-            animator.update();
             this.animators.push(animator);
         }
 
