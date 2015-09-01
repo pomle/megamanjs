@@ -248,7 +248,9 @@ Game.Loader.XML.Parser.ObjectParser.prototype.parseAnimations = function(animati
     animationsNode.find('> animation').each(function() {
         var animationNode = $(this);
 
-        var animation = new Engine.Animator.Animation();
+        var animationId = animationNode.attr('id');
+        var animationGroup = animationNode.attr('group');
+        var animation = new Engine.Animator.Animation(animationId, animationGroup);
         var animationSize = parser.getVector2(animationNode, 'w', 'h', animationsSize);
 
         animationNode.find('> frame').each(function() {
@@ -263,8 +265,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.parseAnimations = function(animati
         });
 
         var animationObject = {
-            id: animationNode.attr('id'),
-            group: animationNode.attr('group'),
+            id: animationId,
             animation: animation,
             texture: textureObject.texture,
         }
