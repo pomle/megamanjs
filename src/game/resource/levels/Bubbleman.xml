@@ -128,6 +128,9 @@
                 <frame x="109" y="19" w="16" h="16" />
             </animation>
             <animation id="transparent">
+                <frame x="163" y="1" w="16" h="16" />
+            </animation>
+            <animation id="falling-block">
                 <frame x="145" y="73" w="16" h="16" />
             </animation>
             <animation id="black">
@@ -167,6 +170,24 @@
                 <trait source="Door">
                     <direction x="-1" y="0" />
                 </trait>
+            </traits>
+        </object>
+
+        <object id="falling-block">
+            <geometry type="plane" w="32" h="16" w-segments="2" h-segments="1">
+                <face animation="falling-block">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+
+            <collision>
+                <rect x="0" y="0" w="32" h="16" />
+            </collision>
+
+            <traits>
+                <trait source="Physics" mass="500" />
+                <trait source="Solid" />
+                <trait source="Fallaway" delay=".2" />
             </traits>
         </object>
 
@@ -538,12 +559,13 @@
 
         <background model="dr-wily-logo" x="4064" y="976" z="-.5" />
 
-
-
-
-
-
         <objects>
+            <object id="falling-block" x="736" y="129"/>
+            <object id="falling-block" x="784" y="113"/>
+            <object id="falling-block" x="848" y="97"/>
+            <object id="falling-block" x="912" y="113"/>
+            <object id="falling-block" x="960" y="91"/>
+
             <object id="door" x="4080" y="1024"/>
             <object id="door" x="4336" y="1024"/>
         </objects>
@@ -601,7 +623,7 @@
                 <rect x="192" y="160" w="96" h="16"/>
                 <rect x="320" y="128" w="96" h="16"/>
                 <rect x="448" y="96" w="96" h="16"/>
-                <rect x="592" y="96" w="512" h="16"/>
+                <rect x="592" y="96" w="112" h="16"/>
                 <rect x="1024" y="80" w="144" h="16"/>
 
                 <rect x="1152" y="112" w="48" h="16"/>
