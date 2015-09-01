@@ -209,6 +209,13 @@ Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
             upper = lower;
         }
 
+        if (lower < 1) {
+            throw new RangeError("Lower range beyond 0");
+        }
+        if (upper > total) {
+            throw new RangeError("Upper range beyond " + total);
+        }
+
         i = 0;
         while (lower <= upper) {
             if (i++ % mod === 0) {
