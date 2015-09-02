@@ -1,0 +1,44 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Object Ed</title>
+    <link rel="stylesheet" type="text/css" href="tool.css">
+    <link rel="stylesheet" type="text/css" href="object-editor.css">
+    <script src="jquery-2.1.3.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+
+    <script src="tool.js"></script>
+    <script src="object-editor.js"></script>
+</head>
+
+<body>
+    <div class="workspace">
+        <div class="zoom">
+            <canvas></canvas>
+        </div>
+
+        <div class="assets">
+
+        </div>
+    </div>
+
+    <div class="controlpanel">
+        <fieldset class="properties">
+            <legend>Properties</legend>
+            Name <input name="id">&emsp;
+            Pos <input name="x" size="3"> x <input name="y" size="3">&emsp;
+            Size <input name="w" size="3"> x <input name="h" size="3">&emsp;
+            Duration <input name="duration" size="5">
+        </fieldset>
+
+        <fieldset>
+            <legend>Console</legend>
+            <textarea id="console" style="height: 100px; width: 100%;"></textarea><br>
+            <button name="generate">Generate</button>
+        </fieldset>
+    </div>
+</body>
+</html>
+
