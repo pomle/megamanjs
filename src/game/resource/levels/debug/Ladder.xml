@@ -5,22 +5,28 @@
         <checkpoint x="0" y="0"/>
     </checkpoints>
 
-    <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128">
-        <animation id="ladder">
-            <frame x="91" y="37" w="16" h="16" />
-        </animation>
-    </texture>
-
     <objects>
+        <textures>
+            <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128">
+            </texture>
+        </textures>
+
+        <animations>
+            <animation id="ladder">
+                <frame x="91" y="37" w="16" h="16" />
+            </animation>
+        </animations>
+
         <object id="ladder">
-            <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8" />
+            <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8">
+                <face animation="ladder">
+                    <range x="*" y="*" />
+                </face>
+            </geometry>
+
             <collision>
                 <rect x="0" y="0" w="0" h="128" />
             </collision>
-
-            <tile id="ladder">
-                <face x="*" y="*"/>
-            </tile>
 
             <traits>
                 <trait source="Climbable" />
