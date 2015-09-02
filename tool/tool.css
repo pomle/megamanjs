@@ -21,9 +21,11 @@ input, textarea {
     height: 500px;
     image-rendering: pixelated;
     overflow: auto;
+    position: relative;
 }
 .workspace > .zoom {
-
+    min-height: 100%;
+    min-width: 100%;
 }
 
 .workspace .grid {
