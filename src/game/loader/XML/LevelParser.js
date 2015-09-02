@@ -43,7 +43,11 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
         level.addCheckPoint(c.x, c.y, r || undefined);
     });
 
-    this.callback(this.level);
+    if (this.callback) {
+        this.callback(this.level);
+    }
+
+    return this.level;
 }
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutNode)
