@@ -67,6 +67,17 @@ Game.Loader.XML.prototype.loadGame = function(url, callback)
     });
 }
 
+
+Game.Loader.XML.prototype.loadLevel = function(url, callback)
+{
+    var loader = this;
+    this.load(url, function(node) {
+        var level = loader.parseLevel(node);
+        callback(level);
+    });
+}
+
+
 Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.CharacterParser(this);
@@ -151,7 +162,7 @@ Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.LevelParser(this);
     parser.callback = callback;
-    parser.parse(levelNode);
+    return parser.parse(levelNode);
 }
 
 
