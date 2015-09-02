@@ -253,7 +253,9 @@ Game.scenes.Level.prototype.resetPlayer = function()
 
     character.isPlayer = true;
     character.resurrect();
-    character.invincibility.disengage();
+    if (character.invincibility) {
+        character.invincibility.disengage();
+    }
     if (character.stun) {
         character.stun.disengage();
     }
