@@ -10,119 +10,10 @@
     <script type="text/javascript" src="lib/three.min.js"></script>
     <script type="text/javascript" src="lib/jquery-2.1.3.min.js"></script>
 
-    <script type="text/javascript" src="engine/Engine.js"></script>
-    <script type="text/javascript" src="engine/Util.js"></script>
-    <script type="text/javascript" src="engine/Events.js"></script>
-    <script type="text/javascript" src="engine/Animation.js"></script>
-    <script type="text/javascript" src="engine/Sequencer.js"></script>
-    <script type="text/javascript" src="engine/Keyboard.js"></script>
-    <script type="text/javascript" src="engine/Math.js"></script>
-    <script type="text/javascript" src="engine/Collision.js"></script>
-    <script type="text/javascript" src="engine/Sprite.js"></script>
-    <script type="text/javascript" src="engine/Camera.js"></script>
-    <script type="text/javascript" src="engine/World.js"></script>
-    <script type="text/javascript" src="engine/Object.js"></script>
-    <script type="text/javascript" src="engine/Timeline.js"></script>
-
-    <script type="text/javascript" src="engine/Animator.js"></script>
-    <script type="text/javascript" src="engine/animator/UV.js"></script>
-
-    <script type="text/javascript" src="engine/logic/Energy.js"></script>
-
-    <script type="text/javascript" src="engine/Trait.js"></script>
-
-    <script type="text/javascript" src="engine/UVAnimator.js"></script>
-
-    <script type="text/javascript" src="engine/CanvasUtil.js"></script>
-    <script type="text/javascript" src="engine/SpriteManager.js"></script>
-    <script type="text/javascript" src="engine/TextureManager.js"></script>
-
-    <script type="text/javascript" src="engine/AI.js"></script>
-
-
-    <script type="text/javascript" src="game/Game.js"></script>
-    <script type="text/javascript" src="game/Debug.js"></script>
-    <script type="text/javascript" src="game/ResourceManager.js"></script>
-    <script type="text/javascript" src="game/Loader.js"></script>
-    <script type="text/javascript" src="game/loader/XML.js"></script>
-    <script type="text/javascript" src="game/loader/XML/Parser.js"></script>
-    <script type="text/javascript" src="game/loader/XML/CharacterParser.js"></script>
-    <script type="text/javascript" src="game/loader/XML/LevelParser.js"></script>
-    <script type="text/javascript" src="game/loader/XML/ObjectParser.js"></script>
-    <script type="text/javascript" src="game/Player.js"></script>
-
-    <script type="text/javascript" src="game/Scene.js"></script>
-    <script type="text/javascript" src="game/scene/Level.js"></script>
-    <script type="text/javascript" src="game/scene/StageSelect.js"></script>
-
-    <script type="text/javascript" src="game/traits/ContactDamage.js"></script>
-    <script type="text/javascript" src="game/traits/DeathSpawn.js"></script>
-    <script type="text/javascript" src="game/traits/Destructible.js"></script>
-    <script type="text/javascript" src="game/traits/Disappearing.js"></script>
-    <script type="text/javascript" src="game/traits/Fallaway.js"></script>
-    <script type="text/javascript" src="game/traits/Health.js"></script>
-    <script type="text/javascript" src="game/traits/Invincibility.js"></script>
-    <script type="text/javascript" src="game/traits/Jump.js"></script>
-    <script type="text/javascript" src="game/traits/Translating.js"></script>
-    <script type="text/javascript" src="game/traits/Physics.js"></script>
-    <script type="text/javascript" src="game/traits/Move.js"></script>
-    <script type="text/javascript" src="game/traits/Climber.js"></script>
-    <script type="text/javascript" src="game/traits/Solid.js"></script>
-    <script type="text/javascript" src="game/traits/Climbable.js"></script>
-    <script type="text/javascript" src="game/traits/Door.js"></script>
-    <script type="text/javascript" src="game/traits/Stun.js"></script>
-    <script type="text/javascript" src="game/traits/Teleport.js"></script>
-    <script type="text/javascript" src="game/traits/Weapon.js"></script>
-
-    <script type="text/javascript" src="game/object/Solid.js"></script>
-    <script type="text/javascript" src="game/object/Climbable.js"></script>
-    <script type="text/javascript" src="game/object/obstacle/AppearingSolid.js"></script>
-    <script type="text/javascript" src="game/object/obstacle/DestructibleWall.js"></script>
-    <script type="text/javascript" src="game/object/obstacle/DeathZone.js"></script>
-    <script type="text/javascript" src="game/object/Character.js"></script>
-    <script type="text/javascript" src="game/object/Item.js"></script>
-    <script type="text/javascript" src="game/object/Spawner.js"></script>
-    <script type="text/javascript" src="game/object/Weapon.js"></script>
-    <script type="text/javascript" src="game/object/Projectile.js"></script>
-
-    <script type="text/javascript" src="game/object/character/Megaman.js"></script>
-    <script type="text/javascript" src="game/object/character/Airman.js"></script>
-    <script type="text/javascript" src="game/object/character/Crashman.js"></script>
-    <script type="text/javascript" src="game/object/character/Metalman.js"></script>
-    <script type="text/javascript" src="game/object/character/Flashman.js"></script>
-    <script type="text/javascript" src="game/object/character/Heatman.js"></script>
-
-    <script type="text/javascript" src="game/object/enemy/Telly.js"></script>
-    <script type="text/javascript" src="game/object/enemy/Shotman.js"></script>
-    <script type="text/javascript" src="game/object/enemy/SniperArmor.js"></script>
-    <script type="text/javascript" src="game/object/enemy/SniperJoe.js"></script>
-
-    <script type="text/javascript" src="game/object/item/ExtraLife.js"></script>
-    <script type="text/javascript" src="game/object/item/EnergyTank.js"></script>
-    <script type="text/javascript" src="game/object/item/EnergyCapsule.js"></script>
-    <script type="text/javascript" src="game/object/item/WeaponTank.js"></script>
-
-    <script type="text/javascript" src="game/object/weapon/AirShooter.js"></script>
-    <script type="text/javascript" src="game/object/weapon/CrashBomber.js"></script>
-    <script type="text/javascript" src="game/object/weapon/EnemyPlasma.js"></script>
-    <script type="text/javascript" src="game/object/weapon/MetalBlade.js"></script>
-    <script type="text/javascript" src="game/object/weapon/TimeStopper.js"></script>
-    <script type="text/javascript" src="game/object/weapon/Plasma.js"></script>
-
-    <script type="text/javascript" src="game/object/projectile/AirShot.js"></script>
-    <script type="text/javascript" src="game/object/projectile/CrashBomb.js"></script>
-    <script type="text/javascript" src="game/object/projectile/EnemyPlasma.js"></script>
-    <script type="text/javascript" src="game/object/projectile/MetalBlade.js"></script>
-    <script type="text/javascript" src="game/object/projectile/Plasma.js"></script>
-    <script type="text/javascript" src="game/object/projectile/SillyShot.js"></script>
-
-    <script type="text/javascript" src="game/object/Decoration.js"></script>
-    <script type="text/javascript" src="game/object/decoration/Explosion.js"></script>
-    <script type="text/javascript" src="game/object/decoration/TinyExplosion.js"></script>
-    <script type="text/javascript" src="game/object/decoration/Sweat.js"></script>
+    <script type="text/javascript" src="game.js"></script>
 
     <script type="text/javascript" src="Hud.js"></script>
-
+    <script type="text/javascript" src="main.js"></script>
 </head>
 
 <body>
@@ -163,58 +54,29 @@
         <pre>[WASD] - [Q/E] - [O/P]</pre>
     </div>
 
-    <fieldset>
+    <fieldset class="weapons">
         <legend>Weapon</legend>
-        <button onclick="game.player.equipWeapon('p');">Plasma</button>
-        <button onclick="game.player.equipWeapon('a');">Air Shooter</button>
-        <button onclick="game.player.equipWeapon('m');">Metal Blade</button>
-        <button onclick="game.player.equipWeapon('c');">Crash Bomber</button>
-        <button onclick="game.player.equipWeapon('f');">Time Stopper</button>
+        <button weapon="p">Plasma</button>
+        <button weapon="a">Air Shooter</button>
+        <button weapon="m">Metal Blade</button>
+        <button weapon="c">Crash Bomber</button>
+        <button weapon="f">Time Stopper</button>
     </fieldset>
-    <fieldset>
-        <legend>Boss</legend>
-        <button onclick="game.scene.spawnCharacter('Airman');">Air Man</button>
-        <button onclick="game.scene.spawnCharacter('Crashman');">Crash Man</button>
-        <button onclick="game.scene.spawnCharacter('Flashman');">Flash Man</button>
-        <button onclick="game.scene.spawnCharacter('Heatman');">Heat Man</button>
-        <button onclick="game.scene.spawnCharacter('Metalman');">Metal Man</button>
-    </fieldset>
-    <fieldset>
-        <legend>Enemy</legend>
-        <button onclick="game.scene.spawnCharacter('SniperArmor');">SniperArmor</button>
-        <button onclick="game.scene.spawnCharacter('SniperJoe');">SniperJoe</button>
-        <button onclick="game.scene.spawnCharacter('SillyCanon');">SillyCanon</button>
+    <fieldset class="spawn">
+        <legend>Spawn</legend>
+        <button spawn="Airman">Air Man</button>
+        <button spawn="Crashman">Crash Man</button>
+        <button spawn="Flashman">Flash Man</button>
+        <button spawn="Heatman">Heat Man</button>
+        <button spawn="Metalman">Metal Man</button>
+        <button spawn"SniperArmor">SniperArmor</button>
+        <button spawn"SniperJoe">SniperJoe</button>
+        <button spawn"SillyCanon">SillyCanon</button>
     </fieldset>
     <fieldset>
         <legend>Fullscreen</legend>
-        <button onclick="toggle_fullscreen();">Fullscreen</button>
+        <button class="fullscreen">Fullscreen</button>
     </fieldset>
-
-    <script type="text/javascript" src="main.js"></script>
-
-    <script type="text/javascript">
-        var gameElement = document.getElementById('game');
-        function on_fullscreen_change() {
-            if(document.mozFullScreen || document.webkitIsFullScreen) {
-                $(gameElement).addClass('fullscreen');
-            }
-            else {
-                $(gameElement).removeClass('fullscreen');
-            }
-
-            game.adjustAspectRatio();
-            //game.adjustResolution();
-        }
-
-        window.addEventListener('resize', on_fullscreen_change);
-        document.addEventListener('mozfullscreenchange', on_fullscreen_change);
-        document.addEventListener('webkitfullscreenchange', on_fullscreen_change);
-
-        function toggle_fullscreen()
-        {
-            gameElement.webkitRequestFullScreen();
-        }
-    </script>
 </body>
 </html>
 
