@@ -9,6 +9,9 @@ Game.Player = function()
 
 Game.Player.prototype.equipWeapon = function(code)
 {
+    if (!this.character.weapon) {
+        return false;
+    }
     var weapon = this.weapons[code];
     this.character.weapon.equip(weapon);
     this.hud.equipWeapon(weapon);
