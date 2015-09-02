@@ -59,6 +59,7 @@ var Game = {
 
             "game/Game.js",
             "game/Debug.js",
+            "game/Hud.js",
             "game/ResourceManager.js",
             "game/Loader.js",
             "game/loader/XML.js",
