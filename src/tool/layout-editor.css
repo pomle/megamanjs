@@ -1,3 +1,7 @@
 .workspace {
     overflow: hidden;
 }
+
+.workspace .viewport {
+	height: 100%;
+}

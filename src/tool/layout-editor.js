@@ -1,34 +1,121 @@
-var layers = [[]],
-    selectedObject = undefined,
-    activeLayer = layers[0];
+"use strict";
+var editor = {};
 
 $(function() {
-    var workspace = $('.workspace');
+    editor = $('.level-editor');
+    editor.game = undefined;
+    editor.workspace = editor.find('.workspace');
+    editor.workspace.viewport = editor.workspace.find('.viewport');
+    editor.selectedObject = undefined;
+    editor.storage = localStorage;
 
-    var renderer = new THREE.WebGLRenderer();
-    var camera = new THREE.PerspectiveCamera(60, 1, 1, 100000);
-    camera.position.z = 500;
-    var scene = new THREE.Scene();
-    scene.add(new THREE.AmbientLight(0xffffff));
-
-    workspace.append(renderer.domElement);
-
-    function render()
-    {
-        renderer.render(scene, camera);
-        requestAnimationFrame(render);
+    var workspace = editor.workspace;
+    editor.file = editor.find('.file');
+    editor.file.load = editor.file.find('[name=open]').on('click', function() {
+        var url = prompt("Src");
+        if (url.length) {
+            editor.loadLevelXml(url);
+        }
+    });
+    editor.file.recent = editor.file.find('[name=recent]').on('change', function() {
+        if (!this.value.length || !confirm("Load " + this.value + "?")) {
+            e.preventDefault();
+            return;
+        }
+        editor.loadLevelXml(this.value);
+    });
+    editor.file.recent.add = function(src) {
+        var recent = this.get();
+        for (;;) {
+            var existingIndex = recent.indexOf(src);
+            if (existingIndex === -1) {
+                break;
+            }
+            recent.splice(existingIndex, 1);
+        }
+        recent.unshift(src);
+        if (recent.length > 10) {
+            recent.pop();
+        }
+        this.set(recent);
     }
-    render();
+    editor.file.recent.get = function() {
+        try {
+            var json = editor.storage.getItem('recent');
+            console.log("Reading JSON", json);
+            var recent = JSON.parse(json);
+            var retval = Array.isArray(recent) ? recent : [];
+            return retval;
+        } catch(e) {
+            console.error("Recent parsing failed: " + e.message);
+            return [];
+        }
+    }
+    editor.file.recent.set = function(recent)
+    {
+        var json = JSON.stringify(recent);
+        console.log("Setting JSON", json);
+        editor.storage.setItem('recent', json);
+        this.updatelist();
+    }
+    editor.file.recent.updatelist = function()
+    {
+        var recent = this.get();
+        if (recent.length) {
+            let fragment = document.createDocumentFragment();
+            recent.forEach(function(src, index) {
+                var opt = document.createElement('option');
+                opt.innerHTML = src;
+                opt.value = src;
+                fragment.appendChild(opt)
+            });
+            editor.file.recent.html(fragment);
+        }
+    }
 
+    editor.playback = editor.find('.playback');
+    editor.playback.toggle = editor.playback.find('[name=toggle]').on('click', function() {
+        editor.game.engine.isSimulating = !editor.game.engine.isSimulating;
+    });
+    editor.playback.simulationSpeed = editor.playback.find('[name=simulation-speed]').on('change', function() {
+        var speed = parseFloat(this.value);
+        console.log("Setting simulation speed to", speed);
+        editor.game.engine.simulationSpeed = speed;
+    });
+
+    Game.init(function() {
+        var game = new Game();
+        editor.debugger = new Game.Debug(game);
+        editor.game = game;
+        game.attachToElement(editor.workspace.viewport[0]);
+        game.player.setCharacter(new Game.objects.Character());
+
+        editor.loadLevelXml = function(src) {
+            var recent = editor.file.recent.get();
+            var loader = new Game.Loader.XML(game);
+            loader.loadLevel(src, function(level) {
+                editor.file.recent.add(src);
+
+                console.log(level);
+                level.debug = true;
+                level.events.unbind(level.EVENT_START, level.resetPlayer);
+                game.engine.isSimulating = false;
+                game.setScene(level);
+                game.engine.world.updateTime(0);
+            });
+        }
+
+        editor.loadLevelXml('../game/resource/levels/Bubbleman.xml');
+    }, undefined, '../');
 
     var modes = {
         edit: function(e) {
-            if (selectedObject === undefined) {
+            if (editor.selectedObject === undefined) {
                 return;
             }
 
             var a = e.ctrlKey ? 1 : 16,
-                p = selectedObject.position;
+                p = editor.selectedObject.position;
             switch (e.which) {
                 case 9:
                     // TAB
@@ -48,7 +135,7 @@ $(function() {
             }
         },
         view: function(e) {
-            var p = camera.position,
+            var p = editor.game.scene.camera.camera.position,
                 a = 64;
 
             switch (e.which) {
@@ -79,12 +166,6 @@ $(function() {
 
     $(window)
         .on('resize', function(e) {
-            var w = workspace.width(),
-                h = workspace.height();
-
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
         }).trigger('resize');
 
     var geometryInput = '256x240/16';
@@ -126,21 +207,24 @@ $(function() {
         }
     });
 
-    workspace.on('click', function(e) {
+    editor.workspace.viewport.on('click', function(e) {
         var vector = new THREE.Vector3(0,0,0),
-            raycaster = new THREE.Raycaster();
+            raycaster = new THREE.Raycaster(),
+            world = editor.game.scene.world,
+            camera = world.camera.camera;
 
         vector.set((event.clientX / window.innerWidth) * 2 - 1,
                    -(event.clientY / window.innerHeight) * 2 + 1,
-                   - 1 ); // z = - 1 important!
+                   -1); // z = - 1 important!
 
         vector.unproject(camera);
         raycaster.set(camera.position, vector.sub(camera.position).normalize());
-        var intersects = raycaster.intersectObjects(activeLayer);
+        var intersects = raycaster.intersectObjects(world.scene.children);
 
         if (intersects.length !== 0) {
-            selectedObject = intersects[0].object;
-            console.log(selectedObject);
+            console.log(intersects);
+            editor.selectedObject = intersects[0].object;
+            console.log(editor.selectedObject);
         }
     });
 
