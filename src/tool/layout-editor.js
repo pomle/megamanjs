@@ -5,25 +5,81 @@ $(function() {
     editor = $('.level-editor');
     editor.game = undefined;
     editor.workspace = editor.find('.workspace');
-    editor.workspace.viewport = editor.workspace.find('.viewport');
+    editor.workspace.viewport = editor.workspace.find('.viewport')
+        .on('click', function(e) {
+            var vector = new THREE.Vector3(0,0,0),
+                raycaster = new THREE.Raycaster(),
+                world = editor.game.scene.world,
+                camera = world.camera.camera,
+                viewport = $(this);
+
+            vector.set((event.layerX / viewport.width()) * 2 - 1,
+                       -(event.layerY / viewport.height()) * 2 + 1,
+                       -1); // z = - 1 important!
+
+            console.log(vector);
+
+            vector.unproject(camera);
+            raycaster.set(camera.position, vector.sub(camera.position).normalize());
+            var intersects = raycaster.intersectObjects(world.scene.children);
+
+            if (intersects.length !== 0) {
+                for (var object of world.objects) {
+                    if (object.model === intersects[0].object) {
+                        editor.selectObject(object);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        });
+
     editor.selectedObject = undefined;
+    editor.deselectObject = function() {
+        this.activeMode = this.modes.view;
+        this.selectedObject = undefined;
+    }
+    editor.selectObject = function(object) {
+        this.selectedObject = object;
+        this.activeMode = this.modes.edit;
+        console.log("Selected object", object);
+
+    }
     editor.storage = localStorage;
+    editor.loader = {
+        loadLevelXml: function(src) {
+            var game = editor.game,
+                loader = new Game.Loader.XML(game);
+            loader.loadLevel(src, function(level) {
+                editor.file.recent.add(src);
+
+                console.log(level);
+                level.debug = true;
+                level.events.unbind(level.EVENT_START, level.resetPlayer);
+                game.engine.isSimulating = false;
+                game.setScene(level);
+                game.engine.world.updateTime(0);
+            });
+        },
+    }
 
     var workspace = editor.workspace;
     editor.file = editor.find('.file');
-    editor.file.load = editor.file.find('[name=open]').on('click', function() {
-        var url = prompt("Src");
-        if (url.length) {
-            editor.loadLevelXml(url);
-        }
-    });
-    editor.file.recent = editor.file.find('[name=recent]').on('change', function() {
-        if (!this.value.length || !confirm("Load " + this.value + "?")) {
-            e.preventDefault();
-            return;
-        }
-        editor.loadLevelXml(this.value);
-    });
+    editor.file.load = editor.file.find('[name=open]')
+        .on('click', function() {
+            var url = prompt("Src");
+            if (url.length) {
+                editor.loadLevelXml(url);
+            }
+        });
+    editor.file.recent = editor.file.find('[name=recent]')
+        .on('change', function() {
+            if (!this.value.length || !confirm("Load " + this.value + "?")) {
+                e.preventDefault();
+                return;
+            }
+            editor.loadLevelXml(this.value);
+        });
     editor.file.recent.add = function(src) {
         var recent = this.get();
         for (;;) {
@@ -90,25 +146,19 @@ $(function() {
         game.attachToElement(editor.workspace.viewport[0]);
         game.player.setCharacter(new Game.objects.Character());
 
-        editor.loadLevelXml = function(src) {
-            var recent = editor.file.recent.get();
-            var loader = new Game.Loader.XML(game);
-            loader.loadLevel(src, function(level) {
-                editor.file.recent.add(src);
-
-                console.log(level);
-                level.debug = true;
-                level.events.unbind(level.EVENT_START, level.resetPlayer);
-                game.engine.isSimulating = false;
-                game.setScene(level);
-                game.engine.world.updateTime(0);
-            });
+        var recent = editor.file.recent.get();
+        if (recent.length) {
+            editor.loader.loadLevelXml(recent[0]);
         }
-
-        editor.loadLevelXml('../game/resource/levels/Bubbleman.xml');
     }, undefined, '../');
 
-    var modes = {
+    editor.object = {
+        remove: function(object) {
+            editor.game.scene.world.removeObject(object);
+        }
+    }
+
+    editor.modes = {
         edit: function(e) {
             if (editor.selectedObject === undefined) {
                 return;
@@ -117,8 +167,7 @@ $(function() {
             var a = e.ctrlKey ? 1 : 16,
                 p = editor.selectedObject.position;
             switch (e.which) {
-                case 9:
-                    // TAB
+                case 9: // TAB
                     break;
                 case 38:
                     p.y += a;
@@ -131,6 +180,10 @@ $(function() {
                     break;
                 case 37:
                     p.x -= a;
+                    break;
+                case 46: // DEL
+                    editor.object.remove(editor.selectedObject);
+                    editor.selectedObject = undefined;
                     break;
             }
         },
@@ -161,8 +214,7 @@ $(function() {
             }
         },
     }
-
-    var activeMode = modes.view;
+    editor.activeMode = editor.modes.view;
 
     $(window)
         .on('resize', function(e) {
@@ -173,9 +225,8 @@ $(function() {
         e.preventDefault();
         console.log(e.which, e);
         switch (e.which) {
-            case 9:
-
-                activeMode = activeMode === modes.view ? modes.edit : modes.view;
+            case 27:
+                editor.deselectObject();
                 break;
 
             case 65:
@@ -198,35 +249,15 @@ $(function() {
                 mesh.position.y = camera.position.y;
                 activeLayer.push(mesh);
                 scene.add(mesh);
-                selectedObject = mesh;
+                //selectedObject = mesh;
                 break;
 
             default:
-                activeMode(e);
+                editor.activeMode(e);
                 break;
         }
     });
 
-    editor.workspace.viewport.on('click', function(e) {
-        var vector = new THREE.Vector3(0,0,0),
-            raycaster = new THREE.Raycaster(),
-            world = editor.game.scene.world,
-            camera = world.camera.camera;
-
-        vector.set((event.clientX / window.innerWidth) * 2 - 1,
-                   -(event.clientY / window.innerHeight) * 2 + 1,
-                   -1); // z = - 1 important!
-
-        vector.unproject(camera);
-        raycaster.set(camera.position, vector.sub(camera.position).normalize());
-        var intersects = raycaster.intersectObjects(world.scene.children);
-
-        if (intersects.length !== 0) {
-            console.log(intersects);
-            editor.selectedObject = intersects[0].object;
-            console.log(editor.selectedObject);
-        }
-    });
 
     workspace.on('dragenter', function (e) {
         e.stopPropagation();
