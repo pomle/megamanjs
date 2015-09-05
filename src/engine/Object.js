@@ -3,6 +3,8 @@ Engine.Object = function()
     Engine.Events.call(this);
 
     this.uuid = THREE.Math.generateUUID();
+    this.name = undefined;
+
     this.animators = [];
     this.collidable = true;
     this.collision = [];
