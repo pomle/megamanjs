@@ -5,6 +5,23 @@ Game.Loader.XML.Parser = function(loader)
     this.animations = {};
 }
 
+Game.Loader.XML.Parser.prototype.applyTrait = function(object, traitDescriptor)
+{
+    var trait = object.getTrait(traitDescriptor.ref);
+    if (!trait) {
+        trait = new traitDescriptor.ref();
+        object[trait.NAME] = object.applyTrait(trait);
+    }
+
+    for (var p in traitDescriptor.prop) {
+        var prop = traitDescriptor.prop[p];
+        if (prop !== undefined) {
+            trait[p] = prop;
+        }
+    }
+    return trait;
+}
+
 Game.Loader.XML.Parser.prototype.getAbsoluteUrl = function(node, attr)
 {
     var url = node.attr(attr);

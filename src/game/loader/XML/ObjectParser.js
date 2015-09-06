@@ -9,6 +9,14 @@ Game.Loader.XML.Parser.ObjectParser = function(loader)
 Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
                    Game.Loader.XML.Parser);
 
+Game.Loader.XML.Parser.ObjectParser.prototype.createObject = function(name, ext, func)
+{
+    name = name.replace(/-/g, '');
+    var object = Engine.Util.renameFunction(name, func);
+    Engine.Util.extend(object, ext);
+    return object;
+}
+
 Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 {
     var parser = this,
@@ -137,7 +145,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
         collision.push(parser.getRect(rectNode));
     });
 
-    var object = loader.createObject(objectId, sourceObject, function()
+    var object = this.createObject(objectId, sourceObject, function()
     {
         this.geometry = geometries[0].geometry.clone();
         this.material = new THREE.MeshBasicMaterial({
@@ -153,7 +161,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
         for (var i in traitDescriptors) {
             var trait = traitDescriptors[i];
-            var appliedTrait = loader.applyTrait(this, trait);
+            var appliedTrait = parser.applyTrait(this, trait);
 
             switch (appliedTrait.NAME) {
                 case 'weapon':
