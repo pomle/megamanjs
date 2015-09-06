@@ -156,6 +156,8 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
         sourceObject.call(this);
 
+        this.name = objectId;
+
         this.origo.x = -(geometries[0].size.x / 2);
         this.origo.y = geometries[0].size.y / 2;
 
