@@ -1,7 +1,3 @@
-/**
- * All Y values are negated to avoid having to specify
- * everything in XML as negative.
- */
 Game.Loader.XML.Parser.LevelParser = function(loader)
 {
     Game.Loader.XML.Parser.call(this, loader);
