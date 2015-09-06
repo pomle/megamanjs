@@ -158,7 +158,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
 
         objectNode.find('> trait').each(function() {
             var traitDescriptor = parser.getTrait($(this));
-            loader.applyTrait(object, traitDescriptor);
+            parser.applyTrait(object, traitDescriptor);
         });
 
         parser.world.addObject(object);
