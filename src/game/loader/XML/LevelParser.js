@@ -20,6 +20,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
         throw new TypeError('Node not <scene type="level">');
     }
 
+    this.node = levelNode;
+
     var parser = this;
     var loader = parser.loader;
     var level = this.level;
