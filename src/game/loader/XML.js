@@ -25,7 +25,7 @@ Game.Loader.XML.createFromXML = function(url, callback)
     return game;
 }
 
-Game.Loader.XML.prototype.asyncLoadXml = function(url, callback, async)
+Game.Loader.XML.prototype.asyncLoadXml = function(url, callback)
 {
     return $.ajax({
         url: url,
