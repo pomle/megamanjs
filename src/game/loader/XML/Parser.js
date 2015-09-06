@@ -2,7 +2,6 @@ Game.Loader.XML.Parser = function(loader)
 {
     this.loader = loader;
     this.callback = function() {};
-    this.animations = {};
 }
 
 Game.Loader.XML.Parser.prototype.applyTrait = function(object, traitDescriptor)
