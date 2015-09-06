@@ -46,7 +46,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
     });
 
     if (this.callback) {
-        this.callback(this.level);
+        this.callback(this.level, parser);
     }
 
     return this.level;
