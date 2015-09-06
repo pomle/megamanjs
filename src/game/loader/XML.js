@@ -65,8 +65,7 @@ Game.Loader.XML.prototype.loadLevel = function(url, callback)
 {
     var loader = this;
     this.load(url, function(node) {
-        var level = loader.parseLevel(node);
-        callback(level);
+        var level = loader.parseLevel(node, callback);
     });
 }
 
