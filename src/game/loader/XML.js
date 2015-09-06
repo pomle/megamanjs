@@ -25,13 +25,6 @@ Game.Loader.XML.createFromXML = function(url, callback)
     return game;
 }
 
-Game.Loader.XML.prototype.defaultMaterial = new THREE.MeshBasicMaterial({
-    color: 0x0000ff,
-    wireframe: true,
-    side: THREE.DoubleSide,
-    transparent: true,
-});
-
 Game.Loader.XML.prototype.asyncLoadXml = function(url, callback, async)
 {
     return $.ajax({
