@@ -2,6 +2,38 @@
 var editor = {};
 
 $(function() {
+    function mouseSelectItem(e) {
+        var vector = new THREE.Vector3(0,0,0),
+            raycaster = new THREE.Raycaster(),
+            world = editor.game.scene.world,
+            camera = world.camera.camera,
+            event = e.originalEvent,
+            viewport = $(this);
+
+        vector.set((event.layerX / viewport.width()) * 2 - 1,
+                   -(event.layerY / viewport.height()) * 2 + 1,
+                   -1); // z = - 1 important!
+
+        vector.unproject(camera);
+        raycaster.set(camera.position, vector.sub(camera.position).normalize());
+
+        var intersectables = [];
+        editor.items.visible.forEach(function(item) {
+            intersectables.push(item.object.model);
+        });
+
+        var intersects = raycaster.intersectObjects(intersectables);
+        if (intersects.length !== 0) {
+            for (var item of editor.items) {
+                if (item.object.model === intersects[0].object) {
+                    editor.items.select(item);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     editor = $('.level-editor');
     editor.document = $('<scene type="level"/>');
     editor.find(':input').filter('textarea,[type=text]')
@@ -11,35 +43,11 @@ $(function() {
     editor.game = undefined;
     editor.workspace = editor.find('.workspace');
     editor.workspace.viewport = editor.workspace.find('.viewport')
-        .on('click', function(e) {
-            var vector = new THREE.Vector3(0,0,0),
-                raycaster = new THREE.Raycaster(),
-                world = editor.game.scene.world,
-                camera = world.camera.camera,
-                viewport = $(this);
+        .on('click', mouseSelectItem)
+        .on('dblclick', function(e) {
+            var item = mouseSelectItem(e);
+            console.log(item);
 
-            vector.set((event.layerX / viewport.width()) * 2 - 1,
-                       -(event.layerY / viewport.height()) * 2 + 1,
-                       -1); // z = - 1 important!
-
-            vector.unproject(camera);
-            raycaster.set(camera.position, vector.sub(camera.position).normalize());
-
-            var intersectables = [];
-            editor.items.visible.forEach(function(item) {
-                intersectables.push(item.object.model);
-            });
-
-            var intersects = raycaster.intersectObjects(intersectables);
-            if (intersects.length !== 0) {
-                for (var item of editor.items) {
-                    if (item.object.model === intersects[0].object) {
-                        editor.items.select(item);
-                        return true;
-                    }
-                }
-            }
-            return false;
         });
     editor.workspace.viewport.cameraPaths = {
         show: function() {
@@ -119,6 +127,14 @@ $(function() {
     editor.items.selected = undefined;
     editor.items.deselect = function() {
         editor.activeMode = editor.modes.view;
+        if (this.selected) {
+            var item = this.selected;
+            if (item.overlay) {
+                item.object.model.remove(item.overlay);
+                item.overlay = undefined;
+            }
+        }
+
         this.selected = undefined;
         editor.item.properties.inputs.clear();
         console.log("Selected item", this.selected);
@@ -127,6 +143,13 @@ $(function() {
         this.deselect();
         this.selected = item;
         editor.activeMode = editor.modes.edit;
+
+        item.overlay = new THREE.Mesh(
+            item.object.model.geometry.clone(),
+            new THREE.MeshBasicMaterial({color: '#00ff00', wireframe: true}));
+        item.overlay.position.z = .001;
+        item.object.model.add(item.overlay);
+
         editor.item.properties.inputs.update(item);
         console.log("Selected item", this.selected);
     }
