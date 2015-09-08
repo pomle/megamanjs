@@ -1,7 +1,7 @@
 Game.Loader.XML.Parser = function(loader)
 {
     this.loader = loader;
-    this.callback = function() {};
+    this.node = undefined;
 }
 
 Game.Loader.XML.Parser.prototype.applyTrait = function(object, traitDescriptor)
@@ -163,7 +163,8 @@ Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attr
 
 Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 {
-    var parser = this;
+    var textureNode = $(textureNode),
+        parser = this;
 
     if (!textureNode.is('texture')) {
         throw new Error("Node not <texture>");

@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="layout-editor.css">
     <script src="jquery-2.1.3.min.js"></script>
     <script src="../lib/three.min.js"></script>
+    <script src="./lib/vkbeautify.js"></script>
 
     <script src="../game.js"></script>
 
@@ -34,15 +35,41 @@
             </div>
         </div>
 
-        <fieldset class="playback">
-            <legend>Playback</legend>
-            <button name="toggle">Toggle</button>
-            <select name="simulation-speed">
-                <option value="0">0</option>
-                <option value=".1">10%</option>
-                <option value=".5">50%</option>
-                <option value="1" selected>100%</option>
-            </select>
+        <fieldset class="view">
+            <fieldset class="layers">
+                <legend>Layers</legend>
+                <label>Collision Zones <input type="checkbox" name="collision-zones" checked></label>
+                <label>Camera Paths <input type="checkbox" name="camera-paths" checked></label>
+            </fieldset>
+            <fieldset class="camera">
+                <legend>Camera</legend>
+                <label>Zoom <button name="zoom" dir="-1">+</button> <button name="zoom" dir="1">-</button>
+            </fieldset>
+            <fieldset class="playback">
+                <legend>Playback</legend>
+                <button name="toggle">Toggle</button>
+                <select name="simulation-speed">
+                    <option value="0">0</option>
+                    <option value=".1">10%</option>
+                    <option value=".5">50%</option>
+                    <option value="1" selected>100%</option>
+                </select>
+            </fieldset>
+        </fieldset>
+
+        <fieldset class="item">
+            <fieldset class="properties">
+                <legend>Properties</legend>
+                X <input type="text" name="x" size="4" />
+                Y <input type="text" name="y" size="4" />
+                Z <input type="text" name="z" size="4" />
+            </fieldset>
+        </fieldset>
+
+        <fieldset class="console">
+            <legend>Console</legend>
+            <button name="generate-xml">Generate</button>
+            <textarea name="console"></textarea>
         </fieldset>
     </section>
 </body>

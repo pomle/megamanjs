@@ -5,28 +5,30 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
     this.world = world;
     this.level = new Game.scenes.Level(loader.game, this.world);
 
+    this.items = new Set();
     this.objects = {};
 }
 
-Engine.Util.extend(Game.Loader.XML.Parser.LevelParser, Game.Loader.XML.Parser);
+Engine.Util.extend(Game.Loader.XML.Parser.LevelParser,
+                   Game.Loader.XML.Parser);
 
-Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
+Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callback)
 {
+    var levelNode = $(levelNode),
+        parser = this,
+        loader = parser.loader,
+        level = this.level;
+
     if (!levelNode.is('scene[type=level]')) {
         throw new TypeError('Node not <scene type="level">');
     }
 
     this.node = levelNode;
-
-    var parser = this;
-    var loader = parser.loader;
-    var level = this.level;
-
     level.debug = parser.getBool(levelNode, 'debug');
 
     levelNode.find('> objects').each(function() {
         var objectParser = new Game.Loader.XML.Parser.ObjectParser(loader);
-        parser.objects = objectParser.parse($(this));
+        parser.objects = objectParser.parse(this);
     });
 
     this.parseCamera(levelNode);
@@ -41,11 +43,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode)
         level.addCheckPoint(c.x, c.y, r || undefined);
     });
 
-    if (this.callback) {
-        this.callback(this.level, parser);
+    if (callback) {
+        callback(this.level, parser);
     }
-
-    return this.level;
 }
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutNode)
@@ -55,6 +55,12 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
     layoutNode.find('> background').each(function() {
         backgroundNode = $(this);
         var objectId = backgroundNode.attr('model');
+        if (!objectId) {
+            throw new Error("Could not find object id on " + this.outerHTML);
+        }
+        if (!parser.objects[objectId]) {
+            throw new Error("Object " + objectId + " not defined");
+        }
         var background = new parser.objects[objectId]();
 
         var position = parser.getPosition(backgroundNode);
@@ -63,6 +69,12 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
         if (position.z !== undefined) {
             background.position.z = position.z -.1;
         }
+        background.model.userData.xml = this;
+
+        parser.items.add({
+            node: this,
+            object: background,
+        });
 
         level.world.addObject(background);
     });
@@ -153,10 +165,16 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
         position.sub(object.origo);
         object.moveTo(position);
         object.position.z = -.1;
+        object.model.userData.xml = this;
 
         objectNode.find('> trait').each(function() {
             var traitDescriptor = parser.getTrait($(this));
             parser.applyTrait(object, traitDescriptor);
+        });
+
+        parser.items.add({
+            node: this,
+            object: object,
         });
 
         parser.world.addObject(object);
@@ -182,6 +200,11 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
         node.find('> trait').each(function() {
             var traitDescriptor = parser.getTrait($(this));
             loader.applyTrait(object, traitDescriptor);
+        });
+
+        parser.items.add({
+            node: node[0],
+            object: object,
         });
 
         return object;
