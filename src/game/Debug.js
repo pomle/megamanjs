@@ -7,6 +7,8 @@ Game.Debug = function(game)
     this.consoleTimer = undefined;
 
     this.cameraPaths = new Set();
+    this.collisionZones = new Set();
+
     this.collisionZonesVisible = false;
 
     this.units = {
@@ -69,26 +71,36 @@ Game.Debug.prototype.toggleConsole = function()
     }
 }
 
-Game.Debug.prototype.toggleCollisionZones = function()
+Game.Debug.prototype.toggleCollisionZones = function(state)
 {
-    this.collisionZonesVisible = !this.collisionZonesVisible;
+    if (state === undefined) {
+        this.collisionZonesVisible = !this.collisionZonesVisible;
+    }
+    else {
+        this.collisionZonesVisible = state;
+    }
+
     for (var object of this.engine.world.objects) {
         for (var i in object.collision) {
             var zone = object.collision[i];
+
+            zone.position.z = object.position.z;
+            object.model.remove(zone);
+
             if (this.collisionZonesVisible) {
                 zone.position.z = -object.position.z + .1;
                 object.model.add(zone);
-            }
-            else {
-                zone.position.z = object.position.z;
-                object.model.remove(zone);
             }
         }
     }
 }
 
-Game.Debug.prototype.toggleCameraPaths = function()
+Game.Debug.prototype.toggleCameraPaths = function(state)
 {
+    if (state !== undefined && state == this.cameraPaths.size > 0) {
+        return;
+    }
+
     if (this.cameraPaths.size) {
         for (var model of this.cameraPaths) {
             this.engine.world.scene.remove(model);
