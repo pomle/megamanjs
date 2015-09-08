@@ -38,17 +38,8 @@
     <layout>
         <objects>
             <object id="ladder" x="32" y="0" />
-        </objects>
-
-        <objects>
             <object id="ladder" x="-48" y="32" />
-        </objects>
-
-        <objects>
             <object id="ladder" x="96" y="-96" />
-        </objects>
-
-        <objects>
             <object id="ladder" x="-32" y="-144" />
         </objects>
 

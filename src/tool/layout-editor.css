@@ -3,5 +3,11 @@
 }
 
 .workspace .viewport {
-	height: 100%;
+    height: 100%;
+}
+
+.level-editor .console textarea[name=console] {
+    font-family: monospace;
+    height: 8em;
+    width: 100%;
 }

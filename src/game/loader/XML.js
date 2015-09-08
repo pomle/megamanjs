@@ -153,8 +153,8 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
 Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.LevelParser(this);
-    parser.callback = callback;
-    return parser.parse(levelNode);
+    parser.parse(levelNode, callback);
+    return parser.level;
 }
 
 

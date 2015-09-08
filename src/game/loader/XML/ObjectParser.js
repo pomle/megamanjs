@@ -198,7 +198,8 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
 Game.Loader.XML.Parser.ObjectParser.prototype.parse = function(objectsNode)
 {
-    var parser = this,
+    var objectsNode = $(objectsNode),
+        parser = this,
         loader = parser.loader;
 
     if (!objectsNode.is('objects')) {
@@ -206,14 +207,14 @@ Game.Loader.XML.Parser.ObjectParser.prototype.parse = function(objectsNode)
     }
 
     objectsNode.find('> textures').each(function() {
-        parser.parseTextures($(this));
+        parser.parseTextures(this);
     });
     if (parser.textures.length == 0) {
         console.warn("No textures found");
     }
 
     objectsNode.find('> animations').each(function() {
-        parser.parseAnimations($(this));
+        parser.parseAnimations(this);
     });
     if (parser.animations.length == 0) {
         console.warn("No animations found");
@@ -235,7 +236,8 @@ Game.Loader.XML.Parser.ObjectParser.prototype.parse = function(objectsNode)
 
 Game.Loader.XML.Parser.ObjectParser.prototype.parseAnimations = function(animationsNode)
 {
-    var parser = this,
+    var animationsNode = $(animationsNode),
+        parser = this,
         loader = parser.loader;
 
     var textureId = animationsNode.attr('texture');
@@ -287,12 +289,13 @@ Game.Loader.XML.Parser.ObjectParser.prototype.parseAnimations = function(animati
 
 Game.Loader.XML.Parser.ObjectParser.prototype.parseTextures = function(texturesNode)
 {
-    var parser = this,
+    var texturesNode = $(texturesNode),
+        parser = this,
         loader = parser.loader;
 
     texturesNode.find('> texture').each(function() {
         var textureNode = $(this);
-        var texture = parser.getTexture(textureNode);
+        var texture = parser.getTexture(this);
 
         var textureObject = {
             id: textureNode.attr('id'),
