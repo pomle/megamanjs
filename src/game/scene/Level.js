@@ -25,11 +25,8 @@ Game.scenes.Level = function(game, world)
     this.simulateListener = this.simulateListener.bind(this);
 
     this.events.bind(this.EVENT_START, this.resetPlayer);
-    this.events.bind(this.EVENT_CREATE, function() {
-       engine.events.bind(engine.EVENT_SIMULATE, level.simulateListener);
-    });
     this.events.bind(this.EVENT_DESTROY, function() {
-       engine.events.unbind(engine.EVENT_SIMULATE, level.simulateListener);
+        level.pauseGamePlay();
     });
 }
 
@@ -207,6 +204,9 @@ Game.scenes.Level.prototype.spawnCharacter = function(name)
 
 Game.scenes.Level.prototype.pauseGamePlay = function()
 {
+    var engine = this.game.engine;
+    engine.events.unbind(engine.EVENT_SIMULATE, this.simulateListener);
+
     this.inputs.character.disable();
     this.inputs.menu.enable();
     this.game.engine.isSimulating = false;
@@ -214,6 +214,9 @@ Game.scenes.Level.prototype.pauseGamePlay = function()
 
 Game.scenes.Level.prototype.resumeGamePlay = function()
 {
+    var engine = this.game.engine;
+    engine.events.bind(engine.EVENT_SIMULATE, this.simulateListener);
+
     this.inputs.menu.disable();
     this.inputs.character.enable();
     this.game.engine.isSimulating = true;
