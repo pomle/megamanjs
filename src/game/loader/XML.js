@@ -116,6 +116,7 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
 
     var playerNode = gameNode.find('> player');
     var playerCharacterId = playerNode.find('> character').attr('id');
+    game.player.defaultWeapon = playerNode.find('> weapon').attr('default');
 
     var characterReady = function(characterId)
     {
