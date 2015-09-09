@@ -1,6 +1,7 @@
 Game.Player = function()
 {
     this.character = undefined;
+    this.defaultWeapon = undefined;
     this.hud = undefined;
     this.input = undefined;
     this.lives = 3;
