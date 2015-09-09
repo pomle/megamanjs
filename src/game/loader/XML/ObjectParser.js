@@ -53,7 +53,12 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
         }
     }
 
-    objectNode.find('> geometry').each(function() {
+    var geometryNodes = objectNode.find('> geometry');
+    if (geometryNodes.length === 0) {
+        throw new Error("No <geometry> defined in " + objectNode[0].outerHTML);
+    }
+
+    geometryNodes.each(function() {
         var geometryNode = $(this);
         var geometry = parser.getGeometry(geometryNode);
         var segs = parser.getVector2(geometryNode, 'w-segments', 'h-segments', new THREE.Vector2(1,1));
