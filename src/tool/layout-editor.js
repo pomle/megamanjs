@@ -114,17 +114,26 @@ $(function() {
         });
 
 
-    editor.item = function(object, node)
+    editor.item = function(object, node, constructor)
     {
+        this.ref = constructor;
         this.node = $(node);
         this.object = object;
+
+        var _this = this;
         this.update = function() {
-            this.node.attr('x', this.object.position.x + this.object.origo.x);
-            this.node.attr('y', -(this.object.position.y + this.object.origo.y));
-            this.node.attr('z', this.object.position.z);
-            console.log(this.node[0]);
+            _this.node.attr('x', _this.object.position.x + _this.object.origo.x);
+            _this.node.attr('y', -(_this.object.position.y + _this.object.origo.y));
+            _this.node.attr('z', _this.object.position.z);
         }
     }
+    editor.item.prototype.clone = function()
+    {
+        var node = this.node.clone();
+        this.node.parent().append(node);
+        return new editor.item(new this.ref(), node, this.ref);
+    }
+
     editor.item.properties = editor.find('.item .properties');
     editor.item.properties.inputs = editor.item.properties.find(':input')
         .on('keyup', function(e) {
@@ -183,10 +192,10 @@ $(function() {
         editor.activeMode = editor.modes.edit;
 
         item.overlay = new THREE.Mesh(
-            item.object.model.geometry.clone(),
+            item.object.model.geometry,
             new THREE.MeshBasicMaterial({color: '#00ff00', wireframe: true}));
-        item.overlay.position.z = .001;
         item.object.model.add(item.overlay);
+        item.overlay.translateZ(.1);
 
         editor.item.properties.inputs.update(item);
         console.log("Selected item", this.selected);
@@ -206,11 +215,9 @@ $(function() {
     }
     editor.items.insert = function(item)
     {
-        if (this.has(item)) {
-            console.error("Item already in scene", item);
-        }
         editor.game.scene.world.addObject(item.object);
         this.add(item);
+        this.visible.add(item);
     }
     editor.items.remove = function(item)
     {
@@ -229,13 +236,17 @@ $(function() {
 
             loader.loadLevel(src, function(level, parser) {
                 editor.node = parser.node;
+                editor.node.object = editor.node.find('> objects');
+                editor.node.layout = editor.node.find('> layout');
+                editor.node.layout.objects = editor.node.layout.find('> objects');
+
                 editor.file.recent.add(src);
 
                 editor.items.clear();
                 editor.items.visible.clear();
 
                 for (var item of parser.items) {
-                    var item = new editor.item(item.object, item.node);
+                    var item = new editor.item(item.object, item.node, item.constructor);
                     item.update();
                     editor.items.add(item);
                     editor.items.visible.add(item);
@@ -245,9 +256,15 @@ $(function() {
 
                 }
 
+
                 level.debug = true;
                 level.events.unbind(level.EVENT_START, level.resetPlayer);
-                level.world.camera.camera.far = 5000;
+
+                level.camera.camera.far = 5000;
+                if (level.checkPoints.length) {
+                    level.camera.jumpTo(level.checkPoints[0].pos);
+                }
+
                 game.engine.isSimulating = false;
                 game.setScene(level);
                 game.engine.world.updateTime(0);
@@ -399,6 +416,7 @@ $(function() {
         }
     }, undefined, '../');
 
+    var geometryInput = '256x240/16';
     editor.modes = {
         input: function(e) {
         },
@@ -500,6 +518,52 @@ $(function() {
                 case 37:
                     p.x -= a;
                     break;
+
+                case 65: // A
+                    geometryInput = prompt('Size', geometryInput);
+
+                    let s = geometryInput.split('/')[0].split('x'),
+                        m = parseFloat(geometryInput.split('/')[1]) || 16;
+
+                    let size = {
+                        x: parseFloat(s[0]),
+                        y: parseFloat(s[1]),
+                    }
+                    size['sx'] = Math.ceil(size.x / m);
+                    size['sy'] = Math.ceil(size.y / m);
+
+                    let uniqueId = 'object_' + THREE.Math.generateUUID().replace(/-/g, '');
+
+                    let objectNode = $('<object/>', editor.node).attr({
+                        'id': uniqueId,
+                    });
+                    let geometryNode = $('<geometry/>', editor.node).attr({
+                        'type': 'plane',
+                        'w': size.x,
+                        'h': size.y,
+                        'w-segments': size.sx,
+                        'h-segments': size.sy,
+                    });
+                    objectNode.append(geometryNode);
+                    editor.node.object.append(objectNode);
+
+                    let game = editor.game,
+                        loader = new Game.Loader.XML(game),
+                        parser = new Game.Loader.XML.Parser.ObjectParser(loader);
+
+                    let objectRef = parser.getObject(objectNode);
+
+                    let objectInstanceNode = $('<object/>', editor.node).attr({
+                        'id': uniqueId,
+                        'x': editor.marker.position.x,
+                        'x': -editor.marker.position.y,
+                    });
+
+                    editor.node.layout.objects.append(objectInstanceNode);
+
+                    let item = new editor.item(new objectRef(), objectInstanceNode, objectRef);
+                    editor.items.insert(item);
+                    break;
             }
         },
     }
@@ -509,7 +573,6 @@ $(function() {
         .on('resize', function(e) {
         }).trigger('resize');
 
-    var geometryInput = '256x240/16';
     $(window).on('keydown keyup', function(e) {
         console.log(e.which, e);
         switch (e.which) {
@@ -519,28 +582,6 @@ $(function() {
                 editor.workspace.viewport.focus();
                 editor.activeMode = editor.modes.view;
                 break;
-
-            /*case 65:
-                geometryInput = prompt('Size', geometryInput);
-                var s = geometryInput.split('/')[0].split('x');
-                var m = parseFloat(geometryInput.split('/')[1]) || 16;
-                var size = {
-                    x: parseFloat(s[0]),
-                    y: parseFloat(s[1]),
-                }
-                size['sx'] = Math.ceil(size.x / m);
-                size['sy'] = Math.ceil(size.y / m);
-
-                var mesh = new THREE.Mesh(
-                    new THREE.PlaneBufferGeometry(size.x, size.y, size.sx, size.sy),
-                    new THREE.MeshBasicMaterial({color: 'blue', wireframe: true})
-                );
-                mesh.position.x = camera.position.x;
-                mesh.position.y = camera.position.y;
-                activeLayer.push(mesh);
-                scene.add(mesh);
-                //selectedObject = mesh;
-                break;*/
 
             default:
                 editor.activeMode(e);
