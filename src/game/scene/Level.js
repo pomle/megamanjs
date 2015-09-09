@@ -260,7 +260,6 @@ Game.scenes.Level.prototype.resetPlayer = function()
 
     this.world.removeObject(character);
 
-    character.isPlayer = true;
     character.resurrect();
     if (character.invincibility) {
         character.invincibility.disengage();
