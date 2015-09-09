@@ -34,8 +34,8 @@ Game.Loader.XML.prototype.asyncLoadXml = function(url, callback)
             throw e;
         },
         success: function(result) {
-            var node = $(result);
             result.baseURL = url;
+            var node = $(result);
             callback(node);
         }
     });
