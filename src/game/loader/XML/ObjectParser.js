@@ -181,6 +181,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
         for (var i in animators) {
             var animator = animators[i].clone();
             animator.addGeometry(this.geometry);
+            animator.update();
             this.animators.push(animator);
         }
 
