@@ -197,7 +197,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
     return object;
 }
 
-Game.Loader.XML.Parser.ObjectParser.prototype.parse = function(objectsNode)
+Game.Loader.XML.Parser.ObjectParser.prototype.parse = function(objectsNode, callback)
 {
     var objectsNode = $(objectsNode),
         parser = this,
@@ -232,6 +232,11 @@ Game.Loader.XML.Parser.ObjectParser.prototype.parse = function(objectsNode)
         }
         objects[objectId] = object;
     });
+
+    if (callback) {
+        callback(objects, this);
+    }
+
     return objects;
 }
 
