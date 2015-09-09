@@ -55,7 +55,7 @@ Game.objects.Spawner.prototype.spawnObject = function()
     if (this.children.size >= this.maxSimultaneousSpawns) {
         return false;
     }
-    if (this.count < 1) {
+    if (this.count < 1 || this.pool.length === 0) {
         return false;
     }
 
