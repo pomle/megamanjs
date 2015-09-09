@@ -73,8 +73,7 @@ Game.Loader.XML.prototype.loadLevel = function(url, callback)
 Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.CharacterParser(this);
-    parser.callback = callback;
-    parser.parse(characterNode);
+    return parser.parse(characterNode, callback);
 }
 
 Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
