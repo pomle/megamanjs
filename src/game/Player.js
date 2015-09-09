@@ -20,5 +20,9 @@ Game.Player.prototype.equipWeapon = function(code)
 
 Game.Player.prototype.setCharacter = function(character)
 {
+    if (this.character) {
+        this.character.isPlayer = false;
+    }
     this.character = character;
+    this.character.isPlayer = true;
 }
