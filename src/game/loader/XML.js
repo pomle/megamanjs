@@ -114,10 +114,16 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         loader.startScene(entrySceneName);
     }
 
-    var playerParse = function()
+    var playerNode = gameNode.find('> player');
+    var playerCharacterId = playerNode.find('> character').attr('id');
+
+    var characterReady = function(characterId)
     {
-        var playerNode = gameNode.find('> player');
-        var character = new (loader.game.resource.get('character', playerNode.find('> character').attr('id')))();
+        if (characterId !== playerCharacterId) {
+            return;
+        }
+
+        var character = new (loader.game.resource.get('character', characterId))();
         character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
         game.player.setCharacter(character);
         game.hud.equipCharacter(game.player.character);
@@ -126,25 +132,14 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         callback();
     }
 
-    var characterQueue = 0;
-    var characterLoaded = function()
-    {
-        --characterQueue;
-        if (characterQueue === 0) {
-            playerParse();
-        }
-    }
-
     gameNode.find('> characters > objects').each(function() {
         var objectsNode = $(this);
-        ++characterQueue;
         loader.traverseNode(objectsNode, function(objectsNode) {
-            var parser = new Game.Loader.XML.Parser.ObjectParser(loader);
-            var characters = parser.parse(objectsNode);
+            var characters = loader.parseObjects(objectsNode);
             for (var characterId in characters) {
                 loader.game.resource.addAuto(characterId, characters[characterId]);
+                characterReady(characterId);
             }
-            characterLoaded();
         });
     });
 }
@@ -156,6 +151,11 @@ Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
     return parser.level;
 }
 
+Game.Loader.XML.prototype.parseObjects = function(objectsNode, callback)
+{
+    var parser = new Game.Loader.XML.Parser.ObjectParser(this);
+    return parser.parse(objectsNode, callback);
+}
 
 Game.Loader.XML.prototype.parseScene = function(sceneNode, callback)
 {
