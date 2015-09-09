@@ -247,7 +247,8 @@ Game.scenes.Level.prototype.resetObjects = function()
 
 Game.scenes.Level.prototype.resetPlayer = function()
 {
-    var player = this.game.player;
+    var player = this.game.player,
+        character = player.character;
 
     this.deathCountdown = 0;
     this.pauseGamePlay();
@@ -255,8 +256,6 @@ Game.scenes.Level.prototype.resetPlayer = function()
     if (player.defaultWeapon) {
         player.equipWeapon(player.defaultWeapon);
     }
-
-    var character = this.game.player.character;
 
     this.world.removeObject(character);
 
