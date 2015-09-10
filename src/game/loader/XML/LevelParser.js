@@ -61,7 +61,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
         if (!parser.objects[objectId]) {
             throw new Error("Object " + objectId + " not defined");
         }
-        var background = new parser.objects[objectId]();
+        var constructor = parser.objects[objectId];
+        var background = new constructor();
 
         var position = parser.getPosition(backgroundNode);
         background.position.x = position.x - background.origo.x;
@@ -74,6 +75,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
         parser.items.add({
             node: this,
             object: background,
+            constructor: constructor,
         });
 
         level.world.addObject(background);
@@ -159,8 +161,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
         if (!parser.objects[objectId]) {
             throw new Error('Object id "' + objectId + '" not defined');
         }
+        var constructor = parser.objects[objectId];
 
-        var object = new parser.objects[objectId]();
+        var object = new constructor();
         var position = parser.getPosition(objectNode);
         position.sub(object.origo);
         object.moveTo(position);
@@ -175,6 +178,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
         parser.items.add({
             node: this,
             object: object,
+            constructor: constructor,
         });
 
         parser.world.addObject(object);
@@ -187,11 +191,11 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
     var loader = parser.loader;
     var level = parser.level;
 
-    function createObject(node, ref)
+    function createObject(node, constructor)
     {
         node = $(node);
         var rect = parser.getRect(node);
-        var object = new ref();
+        var object = new constructor();
         object.position.x = rect.x + (rect.w / 2);
         object.position.y = -(rect.y + (rect.h / 2));
         object.position.z = -10;
@@ -205,6 +209,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
         parser.items.add({
             node: node[0],
             object: object,
+            constructor: constructor,
         });
 
         return object;
