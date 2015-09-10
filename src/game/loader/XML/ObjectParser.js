@@ -127,7 +127,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
                 }
             });
         }
-        else {
+        else if (parser.animations.length) {
             var animator = new Engine.Animator.UV();
             animator.setAnimation(parser.animations[0].animation);
             animator.update();
@@ -153,11 +153,14 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
     var object = this.createObject(objectId, sourceObject, function()
     {
         this.geometry = geometries[0].geometry.clone();
-        this.material = new THREE.MeshBasicMaterial({
-            map: parser.textures[0].texture,
-            side: THREE.DoubleSide,
-            transparent: true,
-        });
+
+        if (parser.textures.length) {
+            this.material = new THREE.MeshBasicMaterial({
+                map: parser.textures[0].texture,
+                side: THREE.DoubleSide,
+                transparent: true,
+            });
+        }
 
         sourceObject.call(this);
 
