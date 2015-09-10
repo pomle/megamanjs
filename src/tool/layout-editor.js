@@ -170,6 +170,7 @@ $(function() {
             this.value = item.node.attr(this.name);
         });
     }
+
     editor.items = new Set();
     editor.items.visible = new Set();
     editor.items.selected = undefined;
@@ -497,14 +498,6 @@ $(function() {
                 a = 64;
 
             switch (e.which) {
-                case 80: // P
-                    if (!editor.game.player.character) {
-                        console.error("No character set");
-                        break;
-                    }
-                    editor.activeMode = editor.modes.play;
-                    editor.game.engine.isSimulating = true;
-                    break;
                 case 107:
                     p.z /= 2;
                     break;
@@ -561,14 +554,14 @@ $(function() {
 
                     let objectInstanceNode = $('<object/>', editor.node).attr({
                         'id': uniqueId,
-                        'x': editor.marker.position.x,
-                        'x': -editor.marker.position.y,
                     });
 
                     editor.node.layout.objects.append(objectInstanceNode);
 
                     let item = new editor.item(new objectRef(), objectInstanceNode, objectRef);
                     editor.items.insert(item);
+                    item.object.moveTo(editor.marker.position);
+                    item.update();
                     break;
             }
         },
@@ -580,18 +573,31 @@ $(function() {
         }).trigger('resize');
 
     $(window).on('keydown keyup', function(e) {
-        console.log(e.which, e);
-        switch (e.which) {
-            case 27: // ESC
-                editor.items.deselect();
-                editor.find(':input').blur();
-                editor.workspace.viewport.focus();
-                editor.activeMode = editor.modes.view;
-                break;
+        var k = e.which,
+            t = e.type,
+            c = e.ctrlKey,
+            d = (t === 'keydown'),
+            u = (t === 'keyup');
 
-            default:
-                editor.activeMode(e);
-                break;
+        console.log(k, e);
+
+        if (k === 27 && d) { // ESC
+            editor.items.deselect();
+            editor.find(':input').blur();
+            editor.workspace.viewport.focus();
+            editor.game.engine.isSimulating = false;
+            editor.activeMode = editor.modes.view;
+        }
+        else if (k === 80 && c && d) { // P
+            if (!editor.game.player.character) {
+                console.error("No character set");
+                return;
+            }
+            editor.activeMode = editor.modes.play;
+            editor.game.engine.isSimulating = true;
+        }
+        else {
+            editor.activeMode(e);
         }
     });
 
