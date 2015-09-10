@@ -58,6 +58,7 @@ $(function() {
         }
         return undefined;
     }
+    editor.grid = new THREE.Vector3(16, 16, 1);
     editor.marker = {
         position: new THREE.Vector3(),
     }
@@ -430,21 +431,26 @@ $(function() {
                 return;
             }
 
-            var a = e.ctrlKey ? 1 : 16,
+            var g = editor.grid.clone(),
                 i = editor.items.selected,
                 p = i.object.position;
+
+            if (e.ctrlKey) {
+                g.set(1, 1, 1);
+            }
+
             switch (e.which) {
                 case 38:
-                    p.y += a;
+                    p.y += g.y;
                     break;
                 case 40:
-                    p.y -= a;
+                    p.y -= g.y;
                     break;
                 case 39:
-                    p.x += a;
+                    p.x += g.x;
                     break;
                 case 37:
-                    p.x -= a;
+                    p.x -= g.x;
                     break;
                 case 46: // DEL
                     editor.items.remove(i);
