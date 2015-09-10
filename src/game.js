@@ -64,7 +64,6 @@ var Game = {
             "game/Loader.js",
             "game/loader/XML.js",
             "game/loader/XML/Parser.js",
-            "game/loader/XML/CharacterParser.js",
             "game/loader/XML/LevelParser.js",
             "game/loader/XML/ObjectParser.js",
             "game/Player.js",
