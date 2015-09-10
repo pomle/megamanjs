@@ -137,7 +137,7 @@ $(function() {
 
     editor.item.properties = editor.find('.item .properties');
     editor.item.properties.inputs = editor.item.properties.find(':input')
-        .on('keyup', function(e) {
+        .on('keyup change', function(e) {
             if (!editor.items.selected) {
                 return;
             }
