@@ -11,7 +11,11 @@
 
     <script src="../game.js"></script>
 
-    <script src="tool.js"></script>
+    <script src="./component/Editor.js"></script>
+    <script src="./component/editor/Clipboard.js"></script>
+    <script src="./component/editor/Item.js"></script>
+    <script src="./component/editor/ItemSet.js"></script>
+
     <script src="layout-editor.js"></script>
 </head>
 
@@ -27,6 +31,7 @@
         <fieldset class="file">
             <legend>File</legend>
             <div class="level">
+                <button name="new">New Level</button>
                 <button name="open">Load Level</button>
                 <select name="recent">
                 </select>
