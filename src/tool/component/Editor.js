@@ -21,38 +21,45 @@ var Editor = function()
     this.workspace.append(this.workspace.viewport);
 }
 
-Editor.prototype.setLevel = function()
+Editor.prototype.loadLevel = function(src, callback)
 {
-                    editor.node = parser.node;
-                editor.node.object = editor.node.find('> objects');
-                editor.node.layout = editor.node.find('> layout');
-                editor.node.layout.objects = editor.node.layout.find('> objects');
+    let editor = this,
+        game = editor.game,
+        loader = new Game.Loader.XML(game);
 
-                editor.file.recent.add(src);
+    loader.loadLevel(src, function(level, parser) {
+        editor.node = parser.node;
+        editor.node.object = editor.node.find('> objects');
+        editor.node.layout = editor.node.find('> layout');
+        editor.node.layout.objects = editor.node.layout.find('> objects');
 
-                editor.items.clear();
-                editor.items.visible.clear();
+        editor.file.recent.add(src);
 
-                for (var item of parser.items) {
-                    var item = new Editor.Item(item.object, item.node);
-                    editor.items.add(item);
-                    editor.items.visible.add(item);
-                }
+        editor.items.clear();
+        editor.items.visible.clear();
 
-                for (var object of level.world.objects) {
+        for (var item of parser.items) {
+            var item = new Editor.Item(item.object, item.node);
+            editor.items.add(item);
+            editor.items.visible.add(item);
+        }
 
-                }
+        level.debug = true;
+        level.events.unbind(level.EVENT_START, level.resetPlayer);
 
+        level.camera.camera.far = 5000;
+        if (level.checkPoints.length) {
+            level.camera.jumpTo(level.checkPoints[0].pos);
+        }
 
-                level.debug = true;
-                level.events.unbind(level.EVENT_START, level.resetPlayer);
+        game.engine.isSimulating = false;
+        game.setScene(level);
+        game.engine.world.updateTime(0);
 
-                level.camera.camera.far = 5000;
-                if (level.checkPoints.length) {
-                    level.camera.jumpTo(level.checkPoints[0].pos);
-                }
+        if (callback) {
+            callback();
+        }
+    });
 
-                game.engine.isSimulating = false;
-                game.setScene(level);
-                game.engine.world.updateTime(0);
+    return loader;
 }

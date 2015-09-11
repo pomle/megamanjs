@@ -172,45 +172,6 @@ $(function() {
 
     editor.storage = localStorage;
     editor.loader = {
-        loadLevelXml: function(src) {
-            var game = editor.game,
-                loader = new Game.Loader.XML(game);
-
-            loader.loadLevel(src, function(level, parser) {
-                editor.node = parser.node;
-                editor.node.object = editor.node.find('> objects');
-                editor.node.layout = editor.node.find('> layout');
-                editor.node.layout.objects = editor.node.layout.find('> objects');
-
-                editor.file.recent.add(src);
-
-                editor.items.clear();
-                editor.items.visible.clear();
-
-                for (var item of parser.items) {
-                    var item = new Editor.Item(item.object, item.node);
-                    editor.items.add(item);
-                    editor.items.visible.add(item);
-                }
-
-                for (var object of level.world.objects) {
-
-                }
-
-
-                level.debug = true;
-                level.events.unbind(level.EVENT_START, level.resetPlayer);
-
-                level.camera.camera.far = 5000;
-                if (level.checkPoints.length) {
-                    level.camera.jumpTo(level.checkPoints[0].pos);
-                }
-
-                game.engine.isSimulating = false;
-                game.setScene(level);
-                game.engine.world.updateTime(0);
-            });
-        },
         loadCharacterXml: function(src) {
             var game = editor.game,
                 loader = new Game.Loader.XML(game);
@@ -268,7 +229,7 @@ $(function() {
         .on('click', function() {
             var url = prompt("Src");
             if (url !== null && url.length) {
-                editor.loader.loadLevelXml(url);
+                editor.loadLevel(url);
             }
         });
     editor.file.loadCharacter = editor.file.find('.character [name=open]')
@@ -284,7 +245,7 @@ $(function() {
                 e.preventDefault();
                 return;
             }
-            editor.loader.loadLevelXml(this.value);
+            editor.loadLevel(this.value);
         });
     editor.file.recent.add = function(src) {
         var recent = this.get();
@@ -353,7 +314,7 @@ $(function() {
 
         var recent = editor.file.recent.get();
         if (recent.length) {
-            editor.loader.loadLevelXml(recent[0]);
+            editor.loadLevel(recent[0]);
         }
     }, undefined, '../');
 
