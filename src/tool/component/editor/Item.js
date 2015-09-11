@@ -55,10 +55,10 @@ Editor.Item.prototype.getComponent = function(name)
 
 Editor.Item.prototype.moveTo = function(vec)
 {
-    let comps = ['x', 'y', 'z'];
-    for (let c of comps) {
+    let components = ['x', 'y', 'z'];
+    for (let c of components) {
         if (vec[c] !== undefined) {
-            this[c] = vec[c];
+            this.setComponent(c, vec[c]);
         }
     }
 }
