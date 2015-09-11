@@ -106,7 +106,7 @@ $(function() {
                         editor.activeMode.pick = false;
                     }
                     else if (editor.clipboard.get('uvs')) {
-                        var uvs = editor.clipboard.get('uvs').data;
+                        var uvs = editor.clipboard.get('uvs');
                         geometry.faceVertexUvs[0].splice(faceIndex, 2, uvs[0], uvs[1]);
                         geometry.uvsNeedUpdate = true;
                     }
@@ -219,17 +219,24 @@ $(function() {
     editor.console = editorNode.find('.console');
     editorNode.find('.console button[name=generate-xml]').on('click', function(e) {
         e.preventDefault();
-        editor.console.find('textarea').val(vkbeautify.xml(editor.node[0].outerHTML));
+        editor.console.find('textarea').val(vkbeautify.xml(editor.getXML()));
     });
 
 
     var workspace = editor.workspace;
     editor.file = editorNode.find('.file');
+    editor.file.new = editor.file.find('.level [name=new]')
+        .on('click', function() {
+            editor.loadLevel('./resource/level-skeleton.xml');
+        });
+
     editor.file.load = editor.file.find('.level [name=open]')
         .on('click', function() {
             var url = prompt("Src");
             if (url !== null && url.length) {
-                editor.loadLevel(url);
+                editor.loadLevel(url, function() {
+                    editor.file.recent.add(url);
+                });
             }
         });
     editor.file.loadCharacter = editor.file.find('.character [name=open]')
@@ -314,6 +321,7 @@ $(function() {
 
         var recent = editor.file.recent.get();
         if (recent.length) {
+            editor.file.recent.updatelist();
             editor.loadLevel(recent[0]);
         }
     }, undefined, '../');
@@ -366,7 +374,6 @@ $(function() {
             }
 
             e.preventDefault();
-            console.log("Pick mode", editor.modes.paint.pick);
             switch (e.which) {
                 case 80: // P
                     editor.modes.paint.pick = true;

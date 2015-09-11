@@ -21,6 +21,11 @@ var Editor = function()
     this.workspace.append(this.workspace.viewport);
 }
 
+Editor.prototype.getXML = function()
+{
+    return editor.document[0].outerHTML;
+}
+
 Editor.prototype.loadLevel = function(src, callback)
 {
     let editor = this,
@@ -28,20 +33,16 @@ Editor.prototype.loadLevel = function(src, callback)
         loader = new Game.Loader.XML(game);
 
     loader.loadLevel(src, function(level, parser) {
-        editor.node = parser.node;
-        editor.node.object = editor.node.find('> objects');
-        editor.node.layout = editor.node.find('> layout');
-        editor.node.layout.objects = editor.node.layout.find('> objects');
-
-        editor.file.recent.add(src);
+        editor.document = parser.node;
+        editor.document.object = editor.document.find('> objects');
+        editor.document.layout = editor.document.find('> layout');
+        editor.document.layout.objects = editor.document.layout.find('> objects');
 
         editor.items.clear();
-        editor.items.visible.clear();
 
         for (var item of parser.items) {
             var item = new Editor.Item(item.object, item.node);
             editor.items.add(item);
-            editor.items.visible.add(item);
         }
 
         level.debug = true;
