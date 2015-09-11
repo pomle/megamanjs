@@ -51,6 +51,9 @@
             <fieldset class="camera">
                 <legend>Camera</legend>
                 <label>Zoom <button name="zoom" dir="-1">+</button> <button name="zoom" dir="1">-</button>
+                <button onclick="editor.game.scene.camera.follow(editor.items.selected.object);">Follow selected</button>
+                <button onclick="editor.game.scene.camera.unfollow();">Unfollow</button>
+                <button onclick="editor.game.scene.camera.obeyPaths = !editor.game.scene.camera.obeyPaths">Obey Paths</button>
             </fieldset>
             <fieldset class="playback">
                 <legend>Simulation</legend>
