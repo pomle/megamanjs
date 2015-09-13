@@ -34,6 +34,7 @@ var Game = {
             "engine/Sequencer.js",
             "engine/Keyboard.js",
             "engine/Math.js",
+            "engine/Verlet.js",
             "engine/Collision.js",
             "engine/Sprite.js",
             "engine/Camera.js",
