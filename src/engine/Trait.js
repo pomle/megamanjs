@@ -1,5 +1,6 @@
 Engine.Trait = function()
 {
+    this._bindables = {};
     this._host = undefined;
 
     /* Bind on instanciation so that
@@ -7,6 +8,7 @@ Engine.Trait = function()
     for (var method in this.MAGIC_METHODS) {
         if (this[method] !== undefined) {
             this[method] = this[method].bind(this);
+            this._bindables[method] = this[method];
         }
     }
 }
@@ -58,21 +60,15 @@ Engine.Trait.prototype.__timeshift = undefined;
 Engine.Trait.prototype.off = function()
 {
     var host = this._host;
-    for (var method in this.MAGIC_METHODS) {
-        if (this[method]) {
-            host.unbind(this.MAGIC_METHODS[method],
-                        this[method]);
-        }
+    for (var method in this._bindables) {
+        host.unbind(this.MAGIC_METHODS[method], this[method]);
     }
 }
 
 Engine.Trait.prototype.on = function()
 {
     var host = this._host;
-    for (var method in this.MAGIC_METHODS) {
-        if (this[method]) {
-            host.bind(this.MAGIC_METHODS[method],
-                      this[method]);
-        }
+    for (var method in this._bindables) {
+        host.bind(this.MAGIC_METHODS[method], this[method]);
     }
 }
