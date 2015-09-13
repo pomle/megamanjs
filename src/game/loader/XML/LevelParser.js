@@ -52,6 +52,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
 {
     var parser = this;
     var level = parser.level;
+
     layoutNode.find('> background').each(function() {
         backgroundNode = $(this);
         var objectId = backgroundNode.attr('model');
@@ -86,8 +87,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
 {
     var z = 150;
 
-    var level = this.level;
-    var parser = this;
+    var level = this.level,
+        parser = this;
 
     levelNode.find('> camera').each(function() {
         var cameraNode = $(this);
@@ -124,8 +125,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode)
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseGravity = function(levelNode)
 {
-    var level = this.level;
-    var parser = this;
+    var level = this.level,
+        parser = this;
+
     levelNode.find('> gravity').each(function() {
         var gravity = parser.getVector2(this);
         if (gravity) {
@@ -136,8 +138,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseGravity = function(levelNode)
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
 {
-    var parser = this;
-    var level = parser.level;
+    var parser = this,
+        level = parser.level;
 
     var layoutNode = levelNode.find('> layout');
     this.parseBackgrounds(layoutNode);
@@ -151,9 +153,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseLayout = function(levelNode)
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layoutNode)
 {
-    var parser = this;
-    var loader = parser.loader;
-    var level = parser.level;
+    var parser = this,
+        loader = parser.loader,
+        level = parser.level;
 
     layoutNode.find('> objects > object').each(function() {
         var objectNode = $(this);
@@ -187,9 +189,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNode)
 {
-    var parser = this;
-    var loader = parser.loader;
-    var level = parser.level;
+    var parser = this,
+        loader = parser.loader,
+        level = parser.level;
 
     function createObject(node, constructor)
     {
@@ -203,7 +205,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
 
         node.find('> trait').each(function() {
             var traitDescriptor = parser.getTrait($(this));
-            loader.applyTrait(object, traitDescriptor);
+            parser.applyTrait(object, traitDescriptor);
         });
 
         parser.items.add({
@@ -238,8 +240,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode)
 {
-    var parser = this;
-    var level = parser.level;
+    var parser = this,
+        level = parser.level;
 
     layoutNode.find(' > spawner').each(function() {
         var spawnerNode = $(this);
