@@ -11,6 +11,7 @@ Engine.Object = function()
     this.deltaTime = undefined;
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
+    this.integrator = new Engine.Verlet(['x', 'y']);
     this.origo = new THREE.Vector2();
     this.position = undefined;
     this.time = 0;
@@ -155,8 +156,7 @@ Engine.Object.prototype.timeShift = function(deltaTime)
         this.animators[i].update(deltaTime);
     }
 
-    this.position.x += this.velocity.x * deltaTime;
-    this.position.y += this.velocity.y * deltaTime;
+    this.integrator.integrate(this.position, this.velocity, deltaTime);
 
     this.time += deltaTime;
 }
