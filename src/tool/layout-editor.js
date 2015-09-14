@@ -60,13 +60,12 @@ $(function() {
         editor.marker.position.copy(pos);
         editor.marker.position.z = 0;
 
-        console.log(pos);
-
         var intersectables = [];
         items.forEach(function(item) {
             intersectables.push(item.object.model);
         });
 
+        console.log("Insertsect testables", intersectables);
         var intersects = raycaster.intersectObjects(intersectables);
         console.log("Intersecting objects", intersects);
         if (intersects.length !== 0) {
@@ -130,7 +129,7 @@ $(function() {
             if (item && item.item === editor.items.selected) {
                 editor.activeMode = editor.modes.paint;
                 var mat = item.item.overlay.material;
-                mat.color = new THREE.Color(0, 0, 1);
+                mat.color = new THREE.Color(Editor.Colors.overlayPaint);
                 mat.needsUpdate = true;
             }
         });
@@ -190,19 +189,20 @@ $(function() {
     }
 
     editor.view = editorNode.find('.view');
-    editor.view.find('.layers').find(':input[type=checkbox]').on('change', function(e) {
-        let layers = this.name.split('|'),
-            func = this.checked ? editor.items.show : editor.items.hide;
+    editor.view.layers = editor.view.find('.layers').find(':input[type=checkbox]')
+        .on('change', function(e) {
+            let layers = this.name.split('|'),
+                func = this.checked ? editor.items.show : editor.items.hide;
 
-        for (let layer of layers) {
-            if (!editor.items.layers[layer]) {
-                console.error("Layer not found %s", layer);
-                continue;
+            for (let layer of layers) {
+                if (!editor.items.layers[layer]) {
+                    console.error("Layer not found %s", layer);
+                    continue;
+                }
+                let items = [...editor.items.layers[layer]];
+                func.call(editor.items, items);
             }
-            let items = [...editor.items.layers[layer]];
-            func.call(editor.items, items);
-        }
-    });
+        });
 
     editor.view.find('button[name=zoom]').on('click', function(e) {
         var dir = parseFloat($(this).attr('dir')),

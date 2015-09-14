@@ -14,13 +14,22 @@ var Editor = function()
 
     this.marker = new THREE.Mesh(
         new THREE.SphereGeometry(5, 2, 2),
-        new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true}));
+        new THREE.MeshBasicMaterial({color: Editor.Colors.marker, wireframe: true}));
 
     this.modelManager = new Editor.ModelManager(this);
 
     this.workspace = $('<section class="workspace">');
     this.workspace.viewport = $('<div class="viewport">');
     this.workspace.append(this.workspace.viewport);
+}
+
+Editor.Colors = {
+    cameraConstraint: 0x00ffff,
+    cameraWindow: 0x19e68c,
+    checkpoint: 0x8c1932,
+    marker: 0xeb1e32,
+    overlayEdit: 0x5ff550,
+    overlayPaint: 0x509bf5,
 }
 
 Editor.prototype.getXML = function()
@@ -45,6 +54,10 @@ Editor.prototype.loadLevel = function(src, callback)
 
         level.debug = true;
         level.events.unbind(level.EVENT_START, level.resetPlayer);
+
+        game.engine.isSimulating = false;
+        game.setScene(level);
+        game.engine.world.updateTime(0);
 
         var factory = new Editor.ItemFactory();
 
@@ -83,10 +96,6 @@ Editor.prototype.loadLevel = function(src, callback)
             }
         }
 
-        game.engine.isSimulating = false;
-        game.setScene(level);
-        game.engine.world.updateTime(0);
-
         editor.modelManager.expose(editor.marker);
 
         for (let _item of parser.items) {
@@ -94,7 +103,6 @@ Editor.prototype.loadLevel = function(src, callback)
             item.type = 'object';
             editor.items.add(item);
         }
-
 
         if (callback) {
             callback();
