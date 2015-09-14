@@ -190,15 +190,20 @@ $(function() {
     }
 
     editor.view = editorNode.find('.view');
-    editor.view.layers = editor.view.find('.layers');
-    editor.view.layers.collision = editor.view.layers.find(':input[name=collision-zones]');
-    editor.view.layers.collision.on('change', function() {
-        editor.debugger.toggleCollisionZones($(this).prop('checked'));
+    editor.view.find('.layers').find(':input[type=checkbox]').on('change', function(e) {
+        let layers = this.name.split('|'),
+            func = this.checked ? editor.items.show : editor.items.hide;
+
+        for (let layer of layers) {
+            if (!editor.items.layers[layer]) {
+                console.error("Layer not found %s", layer);
+                continue;
+            }
+            let items = [...editor.items.layers[layer]];
+            func.call(editor.items, items);
+        }
     });
-    editor.view.layers.cameraPaths = editor.view.layers.find(':input[name=camera-paths]');
-    editor.view.layers.cameraPaths.on('change', function() {
-        editor.debugger.toggleCameraPaths($(this).prop('checked'));
-    });
+
     editor.view.find('button[name=zoom]').on('click', function(e) {
         var dir = parseFloat($(this).attr('dir')),
             camera = editor.game.scene.camera.camera,
@@ -467,12 +472,14 @@ $(function() {
             editor.activeMode = editor.modes.view;
         }
         else if (k === 80 && c && d) { // P
+            e.preventDefault();
             if (!editor.game.player.character) {
                 console.error("No character set");
                 return;
             }
             editor.activeMode = editor.modes.play;
             editor.game.engine.isSimulating = true;
+
         }
         else {
             editor.activeMode(e);

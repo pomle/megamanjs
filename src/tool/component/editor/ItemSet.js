@@ -5,6 +5,7 @@ Editor.ItemSet = function(editor)
     this.editor = editor;
 
     this.items = new Set();
+    this.layers = {};
     this.selected = undefined;
     this.visible = new Set();
 
@@ -38,6 +39,13 @@ Editor.ItemSet.prototype.add = function(item)
 {
     if (this.world) {
         this.world.addObject(item.object);
+    }
+
+    if (item.type) {
+        if (!this.layers[item.type]) {
+            this.layers[item.type] = new Set();
+        }
+        this.layers[item.type].add(item);
     }
 
     this.items.add(item);
@@ -96,26 +104,52 @@ Editor.ItemSet.prototype.remove = function(item)
     this.visible.delete(item);
 }
 
-Editor.ItemSet.prototype.hide = function(item)
+Editor.ItemSet.prototype.hide = function()
 {
-    if (!this.scene) {
-        return false;
+    if (arguments.length > 1) {
+        this.show(arguments);
     }
-
-    if (this.selected === item) {
-        this.deselect();
+    else if (Array.isArray(arguments[0])) {
+        for (let i = 0, l = arguments[0].length; i < l; ++i) {
+            this.hide(arguments[0][i]);
+        }
     }
+    else {
+        let item = arguments[0];
 
-    this.scene.remove(item.object.model);
-    this.visible.delete(item);
-    console.log("Hid item", item);
+        if (!this.scene) {
+            return false;
+        }
+
+        if (this.selected === item) {
+            this.deselect();
+        }
+
+        this.scene.remove(item.object.model);
+        this.visible.delete(item);
+
+        console.log("Hid item", item);
+    }
 }
 
-Editor.ItemSet.prototype.show = function(item)
+Editor.ItemSet.prototype.show = function()
 {
-    if (this.scene) {
-        this.scene.add(item.object.model);
+    if (arguments.length > 1) {
+        this.show(arguments);
     }
-    this.visible.add(item);
-    console.log("Exposed item", item);
+    else if (Array.isArray(arguments[0])) {
+        for (let i = 0, l = arguments[0].length; i < l; ++i) {
+            this.show(arguments[0][i]);
+        }
+    }
+    else {
+        let item = arguments[0];
+
+        if (this.scene) {
+            this.scene.add(item.object.model);
+        }
+
+        this.visible.add(item);
+        console.log("Exposed item", item);
+    }
 }

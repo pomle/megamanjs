@@ -46,20 +46,15 @@ Editor.prototype.loadLevel = function(src, callback)
         level.debug = true;
         level.events.unbind(level.EVENT_START, level.resetPlayer);
 
+        var factory = new Editor.ItemFactory();
+
         level.camera.camera.far = 5000;
         if (level.checkPoints.length) {
             let checkPointNodes = editor.document.find('> checkpoints > checkpoint');
 
             for (let i = 0, l = level.checkPoints.length; i < l; ++i) {
                 let cp = level.checkPoints[i];
-                let object = new Engine.Object();
-                object.setModel(new THREE.Mesh(
-                    new THREE.CircleGeometry(cp.radius, 16),
-                    new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true})
-                ));
-                object.moveTo(cp.pos);
-                let item = new Editor.Item(object, checkPointNodes[i]);
-                item.type = 'checkpoint';
+                let item = factory.create('checkpoint', checkPointNodes[i])(cp.pos.x, cp.pos.y, cp.radius);
                 editor.items.add(item);
             }
 
@@ -67,6 +62,25 @@ Editor.prototype.loadLevel = function(src, callback)
             editor.marker.position.y = level.checkPoints[0].pos.y;
 
             level.camera.jumpTo(level.checkPoints[0].pos);
+        }
+
+        if (level.camera.paths.length) {
+            let pathNodes = editor.document.find('> camera > path');
+
+            console.log(pathNodes);
+
+            for (let i = 0, l = level.camera.paths.length; i < l; ++i) {
+                let p = level.camera.paths[i],
+                    n = $(pathNodes[i]);
+
+                let windowItem = factory.create('cameraWindow', n.find('> window'))(p.window);
+                windowItem.object.position.z = 0;
+                editor.items.add(windowItem);
+
+                let constraintItem = factory.create('cameraConstraint', n.find('> constraint'))(p.constraint);
+                constraintItem.object.position.z = windowItem.object.position.z + 1;
+                editor.items.add(constraintItem);
+            }
         }
 
         game.engine.isSimulating = false;
