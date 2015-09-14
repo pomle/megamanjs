@@ -10,7 +10,7 @@ var Editor = function()
 
     this.grid = new THREE.Vector3(16, 16, 1);
 
-    this.items = new Editor.ItemSet();
+    this.items = new Editor.ItemSet(this);
 
     this.marker = new THREE.Mesh(
         new THREE.SphereGeometry(5, 2, 2),
