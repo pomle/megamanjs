@@ -6,12 +6,15 @@ Editor.ItemFactory = function()
 
 Editor.ItemFactory.prototype.create = function(type, node)
 {
+    let factory = this,
+        colors = Editor.Colors;
+
     switch (type) {
         case 'checkpoint':
             return function(x, y, r) {
                 let model = new THREE.Mesh(
                     new THREE.CircleGeometry(r, 16),
-                    new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true})
+                    new THREE.MeshBasicMaterial({color: colors[type], wireframe: true})
                 );
 
                 let object = new Engine.Object();
@@ -34,7 +37,7 @@ Editor.ItemFactory.prototype.create = function(type, node)
 
                 let model = new THREE.Mesh(
                     new THREE.PlaneGeometry(w || 1, h || 1, 1, 1),
-                    new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true})
+                    new THREE.MeshBasicMaterial({color: colors[type], wireframe: true})
                 );
 
                 let object = new Engine.Object();
@@ -57,7 +60,7 @@ Editor.ItemFactory.prototype.create = function(type, node)
 
                 let model = new THREE.Mesh(
                     new THREE.PlaneGeometry(w || 1, h || 1, 1, 1),
-                    new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true})
+                    new THREE.MeshBasicMaterial({color: colors[type], wireframe: true})
                 );
 
                 let object = new Engine.Object();

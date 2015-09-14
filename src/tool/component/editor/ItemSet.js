@@ -54,6 +54,7 @@ Editor.ItemSet.prototype.add = function(item)
 
 Editor.ItemSet.prototype.clear = function()
 {
+    this.layers = {};
     this.items.clear();
     this.visible.clear();
 }
@@ -81,7 +82,7 @@ Editor.ItemSet.prototype.select = function(item)
 
     item.overlay = new THREE.Mesh(
         item.object.model.geometry,
-        new THREE.MeshBasicMaterial({color: '#00ff00', wireframe: true}));
+        new THREE.MeshBasicMaterial({color: Editor.Colors.overlayEdit, wireframe: true}));
 
     item.object.model.add(item.overlay);
     item.overlay.translateZ(.1);
