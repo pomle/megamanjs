@@ -38,11 +38,31 @@ Editor.prototype.loadLevel = function(src, callback)
         editor.items.clear();
         editor.marker.position.set(0,0,0);
 
+        editor.document = parser.node;
+        editor.document.object = editor.document.find('> objects');
+        editor.document.layout = editor.document.find('> layout');
+        editor.document.layout.objects = editor.document.layout.find('> objects');
+
         level.debug = true;
         level.events.unbind(level.EVENT_START, level.resetPlayer);
 
         level.camera.camera.far = 5000;
         if (level.checkPoints.length) {
+            let checkPointNodes = editor.document.find('> checkpoints > checkpoint');
+
+            for (let i = 0, l = level.checkPoints.length; i < l; ++i) {
+                let cp = level.checkPoints[i];
+                let object = new Engine.Object();
+                object.setModel(new THREE.Mesh(
+                    new THREE.CircleGeometry(cp.radius, 16),
+                    new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true})
+                ));
+                object.moveTo(cp.pos);
+                let item = new Editor.Item(object, checkPointNodes[i]);
+                item.type = 'checkpoint';
+                editor.items.add(item);
+            }
+
             editor.marker.position.x = level.checkPoints[0].pos.x;
             editor.marker.position.y = level.checkPoints[0].pos.y;
 
@@ -54,11 +74,6 @@ Editor.prototype.loadLevel = function(src, callback)
         game.engine.world.updateTime(0);
 
         editor.modelManager.expose(editor.marker);
-
-        editor.document = parser.node;
-        editor.document.object = editor.document.find('> objects');
-        editor.document.layout = editor.document.find('> layout');
-        editor.document.layout.objects = editor.document.layout.find('> objects');
 
         for (let _item of parser.items) {
             let item = new Editor.Item(_item.object, _item.node);

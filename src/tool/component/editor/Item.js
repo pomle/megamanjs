@@ -4,6 +4,7 @@ Editor.Item = function(object, node)
 {
     this.object = object;
     this.node = $(node);
+    this.type = undefined;
 }
 
 Object.defineProperties(Editor.Item.prototype, {
