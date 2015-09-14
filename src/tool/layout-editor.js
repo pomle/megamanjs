@@ -2,6 +2,14 @@
 var editor = {};
 
 $(function() {
+    function loadLevel(src)
+    {
+        editor.loadLevel(src, function() {
+            editor.file.recent.add(src);
+            editor.view.layers.trigger('change');
+        });
+    }
+
     function createPlane(size) {
         let uniqueId = 'object_' + THREE.Math.generateUUID().replace(/-/g, '');
 
@@ -237,9 +245,7 @@ $(function() {
         .on('click', function() {
             var url = prompt("Src");
             if (url !== null && url.length) {
-                editor.loadLevel(url, function() {
-                    editor.file.recent.add(url);
-                });
+                loadLevel(url);
             }
         });
     editor.file.loadCharacter = editor.file.find('.character [name=open]')
@@ -255,7 +261,7 @@ $(function() {
                 e.preventDefault();
                 return;
             }
-            editor.loadLevel(this.value);
+            loadLevel(this.value);
         });
     editor.file.recent.add = function(src) {
         var recent = this.get();
@@ -325,7 +331,7 @@ $(function() {
         var recent = editor.file.recent.get();
         if (recent.length) {
             editor.file.recent.updatelist();
-            editor.loadLevel(recent[0]);
+            loadLevel(recent[0]);
         }
     }, undefined, '../');
 
