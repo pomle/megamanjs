@@ -15,15 +15,21 @@ Editor.ItemSet = function(editor)
     this.inputs = undefined;
 }
 
-Object.defineProperties(Editor.Item.prototype, {
+Object.defineProperties(Editor.ItemSet.prototype, {
     scene: {
         get: function() {
-            this.world.scene;
+            if (!this.world) {
+                return false;
+            }
+            return this.world.scene;
         },
     },
     world: {
         get: function() {
-            this.editor.game.scene.world;
+            if (!this.editor.game.scene) {
+                return false;
+            }
+            return this.editor.game.scene.world;
         },
     },
 });
@@ -92,19 +98,23 @@ Editor.ItemSet.prototype.remove = function(item)
 
 Editor.ItemSet.prototype.hide = function(item)
 {
+    if (!this.scene) {
+        return false;
+    }
+
     if (this.selected === item) {
         this.deselect();
     }
 
-    this.rawScene.remove(item.object.model);
+    this.scene.remove(item.object.model);
     this.visible.delete(item);
     console.log("Hid item", item);
 }
 
 Editor.ItemSet.prototype.show = function(item)
 {
-    if (this.rawScene) {
-        this.rawScene.add(item.object.model);
+    if (this.scene) {
+        this.scene.add(item.object.model);
     }
     this.visible.add(item);
     console.log("Exposed item", item);

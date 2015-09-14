@@ -32,8 +32,8 @@ Editor.ModelManager.prototype.obscure = function(model)
     if (!editor.game.scene) {
         console.error("Editor scene not loaded");
         return;
-
     }
+
     let scene = editor.game.scene.world.scene;
     scene.remove(model);
 }

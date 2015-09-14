@@ -142,22 +142,20 @@ $(function() {
             }
             var item = editor.items.selected,
                 object = item.object,
-                value = parseFloat(this.value);
+                value = parseFloat(this.value),
+                name = this.name;
+
             if (!isFinite(value)) {
                 return;
             }
-            switch (this.name) {
+
+            switch (name) {
                 case 'x':
-                    object.position.x = value - object.origo.x;
-                    break;
                 case 'y':
-                    object.position.y = -(value + object.origo.y);
-                    break;
                 case 'z':
-                    object.position.z = value;
+                    item[name] = value;
                     break;
             }
-            item.update();
         });
     editor.items.inputs.clear = function() {
         this.each(function(input) {
@@ -349,6 +347,10 @@ $(function() {
             }
 
             switch (e.which) {
+                case 72: // H
+                    editor.items.hide(i);
+                    editor.items.deselect();
+                    break;
                 case 38:
                     p.y += g.y;
                     break;
@@ -462,7 +464,6 @@ $(function() {
             editor.items.deselect();
             editorNode.find(':input').blur();
             editor.workspace.viewport.focus();
-            editor.game.engine.isSimulating = false;
             editor.activeMode = editor.modes.view;
         }
         else if (k === 80 && c && d) { // P

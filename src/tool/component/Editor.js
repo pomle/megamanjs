@@ -35,6 +35,7 @@ Editor.prototype.loadLevel = function(src, callback)
         loader = new Game.Loader.XML(game);
 
     loader.loadLevel(src, function(level, parser) {
+        editor.items.clear();
         editor.marker.position.set(0,0,0);
 
         level.debug = true;
@@ -59,10 +60,8 @@ Editor.prototype.loadLevel = function(src, callback)
         editor.document.layout = editor.document.find('> layout');
         editor.document.layout.objects = editor.document.layout.find('> objects');
 
-        editor.items.clear();
-
-        for (var item of parser.items) {
-            var item = new Editor.Item(item.object, item.node);
+        for (let _item of parser.items) {
+            let item = new Editor.Item(_item.object, _item.node);
             editor.items.add(item);
         }
 
