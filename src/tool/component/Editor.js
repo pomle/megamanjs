@@ -91,6 +91,7 @@ Editor.prototype.loadLevel = function(src, callback)
 
         for (let _item of parser.items) {
             let item = new Editor.Item(_item.object, _item.node);
+            item.type = 'object';
             editor.items.add(item);
         }
 
