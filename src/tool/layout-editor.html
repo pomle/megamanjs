@@ -17,6 +17,7 @@
     <script src="./component/editor/ItemFactory.js"></script>
     <script src="./component/editor/ItemSet.js"></script>
     <script src="./component/editor/ModelManager.js"></script>
+    <script src="./component/editor/UI.js"></script>
 
     <script src="layout-editor.js"></script>
 </head>
@@ -32,26 +33,30 @@
             <div class="panel view locked">
                 <fieldset class="layers">
                     <legend>Layers</legend>
-                    <label><input type="checkbox" name="cameraWindow|cameraConstraint"> Camera Paths </label>
-                    <label><input type="checkbox" name="checkpoint"> Checkpoints </label>
-                    <label><input type="checkbox" name="collisionZone"> Collision Zones </label>
-                    <label><input type="checkbox" name="object" checked> Objects </label>
+                    <label class="camera"><input type="checkbox" name="cameraWindow|cameraConstraint"> Camera Paths </label>
+                    <label class="checkpoint"><input type="checkbox" name="checkpoint"> Checkpoints </label>
+                    <label class="collision"><input type="checkbox" name="collisionZone"> Collision Zones </label>
+                    <label class="object"><input type="checkbox" name="object" checked> Objects </label>
                 </fieldset>
                 <fieldset class="camera">
                     <legend>Camera</legend>
                     <div class="zoom">
                         <button name="zoom" dir="1">-</button> Zoom <button name="zoom" dir="-1">+</button>
                     </div>
-                    <button onclick="editor.game.scene.camera.follow(editor.items.selected.object);">Follow selected</button>
-                    <button onclick="editor.game.scene.camera.unfollow();">Unfollow</button>
+                    <label>
+                        <button name="followSelected">Follow selected</button>
+                    </label>
+                    <label>
+                        <button name="unfollow">Unfollow</button>
+                    </label>
 
                     <label><input type="checkbox" name="obeyPaths"> Obey Paths</label>
                 </fieldset>
                 <fieldset class="playback">
                     <legend>Simulation</legend>
-                    <button name="toggle">Toggle</button>
+                    <label><input type="checkbox" name="simulate"> Simulate</label>
                     <label>Speed
-                        <select name="simulation-speed">
+                        <select name="simulationSpeed">
                             <option value="0">0</option>
                             <option value=".1">10%</option>
                             <option value=".5">50%</option>

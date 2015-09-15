@@ -6,7 +6,7 @@ $(function() {
     {
         editor.loadLevel(src, function() {
             editor.file.recent.add(src);
-            editor.workspace.view.layers.trigger('change');
+            editor.ui.applyState();
         });
     }
 
@@ -44,87 +44,10 @@ $(function() {
         return item;
     }
 
-    function mouseSelectItem(event, viewport, items) {
-        console.log(event, viewport, items);
-        var vector = new THREE.Vector3(0,0,0),
-            raycaster = new THREE.Raycaster(),
-            world = editor.game.scene.world,
-            camera = world.camera.camera,
-            bounds = viewport.getBoundingClientRect();
-
-        vector.set((event.layerX / bounds.width) * 2 - 1,
-                   -(event.layerY / bounds.height) * 2 + 1,
-                   -1); // z = - 1 important!
-
-        editor.marker.position.copy(vector);
-
-        vector.unproject(camera);
-        vector.sub(camera.position);
-        vector.normalize();
-        raycaster.set(camera.position, vector);
-
-        var distance = -(camera.position.z / vector.z);
-        var pos = camera.position.clone().add(vector.multiplyScalar(distance));
-        editor.marker.position.copy(pos);
-        editor.marker.position.z = 0;
-
-        var intersectables = [];
-        items.forEach(function(item) {
-            intersectables.push(item.object.model);
-        });
-
-        console.log("Insertsect testables", intersectables);
-        var intersects = raycaster.intersectObjects(intersectables);
-        console.log("Intersecting objects", intersects);
-        if (intersects.length !== 0) {
-            for (var item of items) {
-                if (item.object.model === intersects[0].object) {
-                    return {item: item, intersect: intersects[0]};
-                }
-            }
-        }
-        return false;
-    }
 
     editor = new Editor();
     editor.workspace = $('.workspace');
-    editor.workspace.viewport = editor.workspace.find('.viewport');
-    editor.workspace.view = editor.workspace.find('.view');
-    editor.workspace.view.layers = editor.workspace.view.find('.layers :input[type=checkbox]');
-
-
-    editor.workspace.view.layers.on('change', function(e) {
-            let layers = this.name.split('|'),
-                func = this.checked ? editor.items.show : editor.items.hide;
-
-            for (let layer of layers) {
-                if (!editor.items.layers[layer]) {
-                    console.error("Layer not found %s", layer);
-                    continue;
-                }
-                let items = [...editor.items.layers[layer]];
-                func.call(editor.items, items);
-            }
-        });
-
-    editor.workspace.view.find('button[name=zoom]').on('click', function(e) {
-        var dir = parseFloat($(this).attr('dir')),
-            camera = editor.game.scene.camera.camera,
-            multiplier = Math.sqrt(2),
-            z = camera.position.z;
-
-        if (dir < 0) {
-            z /= multiplier;
-        }
-        else {
-            z *= multiplier;
-        }
-        camera.position.z = Math.round(z);
-    });
-
-    editor.workspace.view.find('.camera :input[name=obeyPaths]').on('change', function(e) {
-        editor.game.scene.camera.obeyPaths = this.checked;
-    });
+    editor.ui = new Editor.UI(editor, editor.workspace);
 
     editor.console = $('.console');
     editor.console.find('button[name=generate-xml]').on('click', function(e) {
@@ -133,88 +56,6 @@ $(function() {
     });
 
 
-    editor.workspace.find(':input').filter('textarea,[type=text]')
-        .on('focus', function() {
-            editor.activeMode = editor.modes.input;
-        });
-
-    editor.workspace.viewport.on('click', function(e) {
-            if (editor.activeMode === editor.modes.paint) {
-                var item = mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected]));
-
-                if (item) {
-                    var intersect = item.intersect,
-                        faceIndex = intersect.faceIndex,
-                        geometry = intersect.object.geometry;
-
-                    faceIndex -= faceIndex % 2;
-                    if (editor.activeMode.pick) {
-                        var uvs = geometry.faceVertexUvs[0].slice(faceIndex, faceIndex + 2);
-                        editor.clipboard.add('uvs', uvs);
-                        editor.activeMode.pick = false;
-                    }
-                    else if (editor.clipboard.get('uvs')) {
-                        var uvs = editor.clipboard.get('uvs');
-                        geometry.faceVertexUvs[0].splice(faceIndex, 2, uvs[0], uvs[1]);
-                        geometry.uvsNeedUpdate = true;
-                    }
-                }
-            }
-            else {
-                var item = mouseSelectItem(e.originalEvent, this, editor.items.visible);
-                console.log("Clicked item", item);
-                if (item && item.item !== editor.items.selected) {
-                    editor.activeMode = editor.modes.edit;
-                    editor.items.select(item.item);
-                    if (item.item.object instanceof Game.objects.Character) {
-                        editor.game.player.setCharacter(item.item.object);
-                        console.log("Selected character", item.item.object);
-                    }
-                }
-            }
-        })
-        .on('dblclick', function(e) {
-            var item = mouseSelectItem(e.originalEvent, this, editor.items.visible);
-            if (item && item.item === editor.items.selected) {
-                editor.activeMode = editor.modes.paint;
-                var mat = item.item.overlay.material;
-                mat.color = new THREE.Color(Editor.Colors.overlayPaint);
-                mat.needsUpdate = true;
-            }
-        });
-
-    editor.items.inputs = editor.workspace.find('.item .properties :input')
-        .on('keyup change', function(e) {
-            if (!editor.items.selected) {
-                return;
-            }
-            var item = editor.items.selected,
-                object = item.object,
-                value = parseFloat(this.value),
-                name = this.name;
-
-            if (!isFinite(value)) {
-                return;
-            }
-
-            switch (name) {
-                case 'x':
-                case 'y':
-                case 'z':
-                    item[name] = value;
-                    break;
-            }
-        });
-    editor.items.inputs.clear = function() {
-        this.each(function(input) {
-            this.value = '';
-        });
-    }
-    editor.items.inputs.update = function(item) {
-        this.each(function(input) {
-            this.value = item[this.name];
-        });
-    }
 
     editor.storage = localStorage;
     editor.loader = {
@@ -315,21 +156,12 @@ $(function() {
         }
     }
 
-    editor.playback = editor.workspace.find('.playback');
-    editor.playback.toggle = editor.playback.find('[name=toggle]').on('click', function() {
-        editor.game.engine.isSimulating = !editor.game.engine.isSimulating;
-    });
-    editor.playback.simulationSpeed = editor.playback.find('[name=simulation-speed]').on('change', function() {
-        var speed = parseFloat(this.value);
-        console.log("Setting simulation speed to", speed);
-        editor.game.engine.simulationSpeed = speed;
-    });
-
     Game.init(function() {
         var game = new Game();
         editor.debugger = new Game.Debug(game);
         editor.game = game;
-        game.attachToElement(editor.workspace.viewport[0]);
+        console.log(editor.ui.viewport);
+        game.attachToElement(editor.ui.viewport[0]);
 
         var recent = editor.file.recent.get();
         if (recent.length) {
@@ -477,7 +309,7 @@ $(function() {
         if (k === 27 && d) { // ESC
             editor.items.deselect();
             $(':input').blur();
-            editor.workspace.viewport.focus();
+            editor.viewport.focus();
             editor.activeMode = editor.modes.view;
         }
         else if (k === 80 && c && d) { // P
@@ -487,8 +319,7 @@ $(function() {
                 return;
             }
             editor.activeMode = editor.modes.play;
-            editor.game.engine.isSimulating = true;
-
+            editor.ui.playback.simulate.prop('checked', true).trigger('change');
         }
         else {
             editor.activeMode(e);
