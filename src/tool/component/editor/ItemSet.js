@@ -37,8 +37,10 @@ Object.defineProperties(Editor.ItemSet.prototype, {
 
 Editor.ItemSet.prototype.add = function(item)
 {
-    if (this.world) {
-        this.world.addObject(item.object);
+    let object = item.object;
+
+    if (this.world && !this.world.objects.has(object)) {
+        this.world.addObject(object);
     }
 
     if (item.type) {
@@ -70,7 +72,6 @@ Editor.ItemSet.prototype.deselect = function()
     }
 
     this.selected = undefined;
-    console.log("Selected item", this.selected);
 
     this.inputs.clear();
 }
@@ -86,6 +87,8 @@ Editor.ItemSet.prototype.select = function(item)
 
     item.object.model.add(item.overlay);
     item.overlay.translateZ(.1);
+
+    console.log("Selected item", this.selected);
 
     this.inputs.update(item);
 }
@@ -129,7 +132,7 @@ Editor.ItemSet.prototype.hide = function()
         this.scene.remove(item.object.model);
         this.visible.delete(item);
 
-        console.log("Hid item", item);
+        //console.log("Hid item", item);
     }
 }
 
@@ -151,6 +154,7 @@ Editor.ItemSet.prototype.show = function()
         }
 
         this.visible.add(item);
-        console.log("Exposed item", item);
+
+        //console.log("Exposed item", item);
     }
 }

@@ -92,7 +92,7 @@ $(function() {
                 loadLevel(url);
             }
         });
-    editor.file.loadCharacter = editor.file.find('.character [name=open]')
+    editor.file.loadCharacter = editor.file.find('[name=loadCharacter]')
         .on('click', function() {
             var url = prompt("Src", '../game/resource/characters/Megaman.xml');
             if (url !== null && url.length) {
@@ -193,6 +193,13 @@ $(function() {
             }
 
             switch (e.which) {
+                case 107:
+                    editor.camera.zoomOut();
+                    break;
+                case 109:
+                    editor.camera.zoomIn();
+                    break;
+
                 case 72: // H
                     editor.items.hide(i);
                     editor.items.deselect();
@@ -253,10 +260,10 @@ $(function() {
 
             switch (e.which) {
                 case 107:
-                    p.z /= 2;
+                    editor.camera.zoomOut();
                     break;
                 case 109:
-                    p.z *= 2;
+                    editor.camera.zoomIn();
                     break;
 
                 case 38:
@@ -309,7 +316,7 @@ $(function() {
         if (k === 27 && d) { // ESC
             editor.items.deselect();
             $(':input').blur();
-            editor.viewport.focus();
+            editor.ui.viewport.focus();
             editor.activeMode = editor.modes.view;
         }
         else if (k === 80 && c && d) { // P

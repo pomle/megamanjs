@@ -12,6 +12,7 @@
     <script src="../game.js"></script>
 
     <script src="./component/Editor.js"></script>
+    <script src="./component/editor/Camera.js"></script>
     <script src="./component/editor/Clipboard.js"></script>
     <script src="./component/editor/Item.js"></script>
     <script src="./component/editor/ItemFactory.js"></script>
@@ -33,10 +34,11 @@
             <div class="panel view locked">
                 <fieldset class="layers">
                     <legend>Layers</legend>
-                    <label class="camera"><input type="checkbox" name="cameraWindow|cameraConstraint"> Camera Paths </label>
-                    <label class="checkpoint"><input type="checkbox" name="checkpoint"> Checkpoints </label>
-                    <label class="collision"><input type="checkbox" name="collisionZone"> Collision Zones </label>
-                    <label class="object"><input type="checkbox" name="object" checked> Objects </label>
+                    <label class="behavior"><input type="checkbox" name="behavior"> Behaviors</label>
+                    <label class="camera"><input type="checkbox" name="cameraWindow|cameraConstraint"> Camera Paths</label>
+                    <label class="checkpoint"><input type="checkbox" name="checkpoint"> Checkpoints</label>
+                    <!--<label class="collision"><input type="checkbox" name="collisionGeometry"> Collision Zones</label>-->
+                    <label class="object"><input type="checkbox" name="object" checked> Visuals</label>
                 </fieldset>
                 <fieldset class="camera">
                     <legend>Camera</legend>
@@ -67,11 +69,24 @@
             </div>
 
             <div class="panel item locked">
-                <fieldset class="properties">
-                    <legend>Properties</legend>
+                <fieldset class="position">
+                    <legend>Position</legend>
                     <label><input type="text" name="x" /> X</label>
                     <label><input type="text" name="y" /> Y</label>
                     <label><input type="text" name="z" /> Z</label>
+
+                    <label><input type="text" name="w" /> W</label>
+                    <label><input type="text" name="h" /> H</label>
+                </fieldset>
+
+                <fieldset class="scale">
+                    <legend>Scale</legend>
+                    <label><input type="text" name="x" /> X</label>
+                    <label><input type="text" name="y" /> Y</label>
+                    <label><input type="text" name="z" /> Z</label>
+
+                    <label><input type="text" name="w" /> W</label>
+                    <label><input type="text" name="h" /> H</label>
                 </fieldset>
             </div>
         </div>
@@ -83,10 +98,7 @@
                 <button name="open">Load Level</button>
                 <select name="recent">
                 </select>
-            </div>
-            <div class="character">
-                <button name="open">Load Character</button>
-                </select>
+                <button name="loadCharacter">Load Character</button>
             </div>
         </fieldset>
 
