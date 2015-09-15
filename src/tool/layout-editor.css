@@ -33,7 +33,6 @@
 
 .workspace .panel label input[type=checkbox] {
     position: relative;
-    top: .2em;
 }
 
 .workspace .panel {
@@ -53,6 +52,18 @@
 .workspace .panel.view:hover,
 .workspace .panel.view.locked {
     left: 0;
+}
+
+.workspace .panel .layers label {
+    border-left-width: 3px;
+    padding-left: 1px;
+}
+.workspace .panel .layers .camera {
+    border-color: #19e68c;
+}
+
+.workspace .panel .layers .checkpoint {
+    border-color: #8c1932;
 }
 
 

@@ -16,3 +16,12 @@ input, textarea {
     background: transparent;
     border-width: 1px;
 }
+
+button {
+    background-color: #509bf5;
+    border-radius: 2px;
+    color: #fff;
+    font-weight: normal;
+    line-height: 1;
+    padding: 4px 8px 5px 8px
+}

@@ -17,6 +17,8 @@ var Editor = function()
         new THREE.MeshBasicMaterial({color: Editor.Colors.marker, wireframe: true}));
 
     this.modelManager = new Editor.ModelManager(this);
+
+    this.ui = undefined;
 }
 
 Editor.Colors = {
