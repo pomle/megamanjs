@@ -7,7 +7,29 @@ Editor.Item = function(object, node)
     this.type = undefined;
 }
 
+Editor.Item.prototype.attributeMap = {
+    x: 'x',
+    y: 'y',
+    z: 'z',
+}
+
 Object.defineProperties(Editor.Item.prototype, {
+    h: {
+        get: function() {
+            return this.getComponent('h');
+        },
+        set: function(v) {
+            this.setComponent('h', v);
+        },
+    },
+    w: {
+        get: function() {
+            return this.getComponent('w');
+        },
+        set: function(v) {
+            this.setComponent('w', v);
+        },
+    },
     x: {
         get: function() {
             return this.getComponent('x');
@@ -66,27 +88,29 @@ Editor.Item.prototype.moveTo = function(vec)
 
 Editor.Item.prototype.setComponent = function(name, value)
 {
-    var k = name,
+    let k = name,
         v = value,
         o = this.object,
+        p = o.position,
         n = this.node;
 
     switch (k) {
         case 'x':
-            o.position.x = v;
+            p.x = v;
+            console.log(v, o.origo.x);
             n.attr('x', v + o.origo.x);
             break;
 
         case 'y':
-            o.position.y = v;
+            p.y = v;
             n.attr('y', -(v + o.origo.y));
             break;
 
         case 'z':
-            o.position.z = v;
+            p.z = v;
             n.attr('z', v);
             break;
     }
 
-    o.model.updateMatrix();
+    //o.model.updateMatrix();
 }

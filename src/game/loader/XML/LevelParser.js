@@ -5,6 +5,7 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
     this.world = world;
     this.level = new Game.scenes.Level(loader.game, this.world);
 
+    this.behaviors = new Set();
     this.items = new Set();
     this.objects = {};
 }
@@ -71,12 +72,10 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
         if (position.z !== undefined) {
             background.position.z = position.z -.1;
         }
-        background.model.userData.xml = this;
 
         parser.items.add({
             node: this,
             object: background,
-            constructor: constructor,
         });
 
         level.world.addObject(background);
@@ -170,7 +169,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
         position.sub(object.origo);
         object.moveTo(position);
         object.position.z = -.1;
-        object.model.userData.xml = this;
 
         objectNode.find('> trait').each(function() {
             var traitDescriptor = parser.getTrait($(this));
@@ -180,7 +178,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
         parser.items.add({
             node: this,
             object: object,
-            constructor: constructor,
         });
 
         parser.world.addObject(object);
@@ -198,9 +195,14 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
         node = $(node);
         var rect = parser.getRect(node);
         var object = new constructor();
+
+        // These are oriented from top-left.
+        object.origo.x = -(rect.w / 2);
+        object.origo.y = (rect.h / 2);
         object.position.x = rect.x + (rect.w / 2);
         object.position.y = -(rect.y + (rect.h / 2));
-        object.position.z = -10;
+        object.position.z = 0;
+
         object.addCollisionRect(rect.w, rect.h);
 
         node.find('> trait').each(function() {
@@ -208,10 +210,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
             parser.applyTrait(object, traitDescriptor);
         });
 
-        parser.items.add({
+        parser.behaviors.add({
             node: node[0],
             object: object,
-            constructor: constructor,
         });
 
         return object;

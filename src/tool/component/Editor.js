@@ -2,6 +2,8 @@
 
 var Editor = function()
 {
+    this.camera = new Editor.Camera(this);
+
     this.clipboard = new Editor.Clipboard();
 
     this.document = undefined;
@@ -22,10 +24,11 @@ var Editor = function()
 }
 
 Editor.Colors = {
+    behavior: 0xaf2896,
     cameraConstraint: 0x00ffff,
     cameraWindow: 0x19e68c,
     checkpoint: 0x8c1932,
-    marker: 0xeb1e32,
+    marker: 0xf037a5,
     overlayEdit: 0x5ff550,
     overlayPaint: 0x509bf5,
 }
@@ -66,6 +69,7 @@ Editor.prototype.loadLevel = function(src, callback)
             for (let i = 0, l = level.checkPoints.length; i < l; ++i) {
                 let cp = level.checkPoints[i];
                 let item = factory.create('checkpoint', checkPointNodes[i])(cp.pos.x, cp.pos.y, cp.radius);
+                item.position = cp.pos;
                 editor.items.add(item);
             }
 
@@ -77,8 +81,6 @@ Editor.prototype.loadLevel = function(src, callback)
 
         if (level.camera.paths.length) {
             let pathNodes = editor.document.find('> camera > path');
-
-            console.log(pathNodes);
 
             for (let i = 0, l = level.camera.paths.length; i < l; ++i) {
                 let p = level.camera.paths[i],
@@ -97,8 +99,27 @@ Editor.prototype.loadLevel = function(src, callback)
         editor.modelManager.expose(editor.marker);
 
         for (let _item of parser.items) {
-            let item = new Editor.Item(_item.object, _item.node);
+            let object = _item.object,
+                node = _item.node,
+                item = new Editor.Item(object, node);
+
             item.type = 'object';
+            editor.items.add(item);
+        }
+
+        for (let _item of parser.behaviors) {
+            let object = _item.object,
+                node = _item.node;
+
+            let model = new THREE.Mesh(
+                object.collision[0].geometry,
+                new THREE.MeshBasicMaterial({color: Editor.Colors['behavior'], wireframe: true})
+            );
+            object.model.add(model);
+
+            let item = new Editor.Item(object, node);
+            item.type = 'behavior';
+
             editor.items.add(item);
         }
 

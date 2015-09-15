@@ -36,7 +36,8 @@
 }
 
 .workspace .panel {
-    background-color: rgba(0,0,0,.9);
+    background-color: rgba(0,0,0,.85);
+    border-color: rgba(160,195,210,.3);
     border-radius: 0;
     bottom: 0;
     padding: 10px 5px;
@@ -46,6 +47,7 @@
 }
 
 .workspace .panel.view {
+    border-right-width: 1px;
     left: -140;
 }
 
@@ -54,20 +56,8 @@
     left: 0;
 }
 
-.workspace .panel .layers label {
-    border-left-width: 3px;
-    padding-left: 1px;
-}
-.workspace .panel .layers .camera {
-    border-color: #19e68c;
-}
-
-.workspace .panel .layers .checkpoint {
-    border-color: #8c1932;
-}
-
-
 .workspace .panel.item {
+    border-left-width: 1px;
     right: -140;
     text-align: right;
 }
@@ -77,7 +67,11 @@
     right: 0;
 }
 
-.workspace .panel.item .properties input {
+.workspace .panel.item .position label {
+    font-family: monospace;
+}
+
+.workspace .panel.item .position input {
     font-family: monospace;
     padding: .1em .2em;
     text-align: right;
