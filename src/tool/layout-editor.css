@@ -1,16 +1,74 @@
 .workspace {
+    border-bottom-width: 1px;
+    height: 750px;
     overflow: hidden;
+    position: relative;
 }
 
 .workspace .viewport {
     height: 100%;
 }
-.workspace .viewport > * {
+
+.workspace .viewport > canvas {
     height: 100%;
+    image-rendering: pixelated;
 }
 
 .level-editor .console textarea[name=console] {
     font-family: monospace;
     height: 8em;
     width: 100%;
+}
+
+
+.workspace legend {
+    color: #fff;
+    font-size: 1.2em;
+}
+
+.workspace .panel label {
+    display: block;
+    margin: 2px 0;
+}
+
+.workspace .panel label input[type=checkbox] {
+    position: relative;
+    top: .2em;
+}
+
+.workspace .panel {
+    background-color: rgba(0,0,0,.9);
+    border-radius: 0;
+    bottom: 0;
+    padding: 10px 5px;
+    position: absolute;
+    top: 0;
+    width: 150px;
+}
+
+.workspace .panel.view {
+    left: -140;
+}
+
+.workspace .panel.view:hover,
+.workspace .panel.view.locked {
+    left: 0;
+}
+
+
+.workspace .panel.item {
+    right: -140;
+    text-align: right;
+}
+
+.workspace .panel.item:hover,
+.workspace .panel.item.locked {
+    right: 0;
+}
+
+.workspace .panel.item .properties input {
+    font-family: monospace;
+    padding: .1em .2em;
+    text-align: right;
+    width: 3em;
 }

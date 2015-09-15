@@ -28,6 +28,47 @@
             <div class="viewport">
 
             </div>
+
+            <div class="panel view locked">
+                <fieldset class="layers">
+                    <legend>Layers</legend>
+                    <label><input type="checkbox" name="cameraWindow|cameraConstraint"> Camera Paths </label>
+                    <label><input type="checkbox" name="checkpoint"> Checkpoints </label>
+                    <label><input type="checkbox" name="collisionZone"> Collision Zones </label>
+                    <label><input type="checkbox" name="object" checked> Objects </label>
+                </fieldset>
+                <fieldset class="camera">
+                    <legend>Camera</legend>
+                    <div class="zoom">
+                        <button name="zoom" dir="1">-</button> Zoom <button name="zoom" dir="-1">+</button>
+                    </div>
+                    <button onclick="editor.game.scene.camera.follow(editor.items.selected.object);">Follow selected</button>
+                    <button onclick="editor.game.scene.camera.unfollow();">Unfollow</button>
+
+                    <label><input type="checkbox" name="obeyPaths"> Obey Paths</label>
+                </fieldset>
+                <fieldset class="playback">
+                    <legend>Simulation</legend>
+                    <button name="toggle">Toggle</button>
+                    <label>Speed
+                        <select name="simulation-speed">
+                            <option value="0">0</option>
+                            <option value=".1">10%</option>
+                            <option value=".5">50%</option>
+                            <option value="1" selected>100%</option>
+                        </select>
+                    </label>
+                </fieldset>
+            </div>
+
+            <div class="panel item locked">
+                <fieldset class="properties">
+                    <legend>Properties</legend>
+                    <label><input type="text" name="x" /> X</label>
+                    <label><input type="text" name="y" /> Y</label>
+                    <label><input type="text" name="z" /> Z</label>
+                </fieldset>
+            </div>
         </div>
 
         <fieldset class="file">
@@ -42,42 +83,6 @@
                 <button name="open">Load Character</button>
                 </select>
             </div>
-        </fieldset>
-
-        <fieldset class="view">
-            <fieldset class="layers">
-                <legend>Layers</legend>
-                <label><input type="checkbox" name="cameraWindow|cameraConstraint"> Camera Paths </label>
-                <label><input type="checkbox" name="checkpoint"> Checkpoints </label>
-                <label><input type="checkbox" name="collisionZone"> Collision Zones </label>
-                <label><input type="checkbox" name="object" checked> Objects </label>
-            </fieldset>
-            <fieldset class="camera">
-                <legend>Camera</legend>
-                <label>Zoom <button name="zoom" dir="-1">+</button> <button name="zoom" dir="1">-</button>
-                <button onclick="editor.game.scene.camera.follow(editor.items.selected.object);">Follow selected</button>
-                <button onclick="editor.game.scene.camera.unfollow();">Unfollow</button>
-                <button onclick="editor.game.scene.camera.obeyPaths = !editor.game.scene.camera.obeyPaths">Obey Paths</button>
-            </fieldset>
-            <fieldset class="playback">
-                <legend>Simulation</legend>
-                <button name="toggle">Toggle</button>
-                <select name="simulation-speed">
-                    <option value="0">0</option>
-                    <option value=".1">10%</option>
-                    <option value=".5">50%</option>
-                    <option value="1" selected>100%</option>
-                </select>
-            </fieldset>
-        </fieldset>
-
-        <fieldset class="item">
-            <fieldset class="properties">
-                <legend>Properties</legend>
-                X <input type="text" name="x" size="5" />
-                Y <input type="text" name="y" size="5" />
-                Z <input type="text" name="z" size="5" />
-            </fieldset>
         </fieldset>
 
         <fieldset class="console">
