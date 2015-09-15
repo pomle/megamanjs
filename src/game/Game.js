@@ -57,7 +57,12 @@ Game.prototype.adjustAspectRatio = function()
 Game.prototype.adjustResolution = function()
 {
     var rect = this.element.getBoundingClientRect();
-    this.engine.renderer.setSize(rect.width, rect.height);
+    this.setResolution(rect.width, rect.height);
+}
+
+Game.prototype.setResolution = function(x, y)
+{
+    this.engine.renderer.setSize(x, y);
 }
 
 Game.prototype.setScene = function(scene)
