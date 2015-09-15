@@ -17,10 +17,6 @@ var Editor = function()
         new THREE.MeshBasicMaterial({color: Editor.Colors.marker, wireframe: true}));
 
     this.modelManager = new Editor.ModelManager(this);
-
-    this.workspace = $('<section class="workspace">');
-    this.workspace.viewport = $('<div class="viewport">');
-    this.workspace.append(this.workspace.viewport);
 }
 
 Editor.Colors = {

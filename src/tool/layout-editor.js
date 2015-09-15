@@ -6,7 +6,7 @@ $(function() {
     {
         editor.loadLevel(src, function() {
             editor.file.recent.add(src);
-            editor.view.layers.trigger('change');
+            editor.workspace.view.layers.trigger('change');
         });
     }
 
@@ -87,17 +87,58 @@ $(function() {
     }
 
     editor = new Editor();
+    editor.workspace = $('.workspace');
+    editor.workspace.viewport = editor.workspace.find('.viewport');
+    editor.workspace.view = editor.workspace.find('.view');
+    editor.workspace.view.layers = editor.workspace.view.find('.layers :input[type=checkbox]');
 
-    var editorNode = $('.level-editor');
 
-    editorNode.find(':input').filter('textarea,[type=text]')
+    editor.workspace.view.layers.on('change', function(e) {
+            let layers = this.name.split('|'),
+                func = this.checked ? editor.items.show : editor.items.hide;
+
+            for (let layer of layers) {
+                if (!editor.items.layers[layer]) {
+                    console.error("Layer not found %s", layer);
+                    continue;
+                }
+                let items = [...editor.items.layers[layer]];
+                func.call(editor.items, items);
+            }
+        });
+
+    editor.workspace.view.find('button[name=zoom]').on('click', function(e) {
+        var dir = parseFloat($(this).attr('dir')),
+            camera = editor.game.scene.camera.camera,
+            multiplier = Math.sqrt(2),
+            z = camera.position.z;
+
+        if (dir < 0) {
+            z /= multiplier;
+        }
+        else {
+            z *= multiplier;
+        }
+        camera.position.z = Math.round(z);
+    });
+
+    editor.workspace.view.find('.camera :input[name=obeyPaths]').on('change', function(e) {
+        editor.game.scene.camera.obeyPaths = this.checked;
+    });
+
+    editor.console = $('.console');
+    editor.console.find('button[name=generate-xml]').on('click', function(e) {
+        e.preventDefault();
+        editor.console.find('textarea').val(vkbeautify.xml(editor.getXML()));
+    });
+
+
+    editor.workspace.find(':input').filter('textarea,[type=text]')
         .on('focus', function() {
             editor.activeMode = editor.modes.input;
         });
-    editor.game = undefined;
-    editor.workspace = editorNode.find('.workspace');
-    editor.workspace.viewport = editor.workspace.find('.viewport')
-        .on('click', function(e) {
+
+    editor.workspace.viewport.on('click', function(e) {
             if (editor.activeMode === editor.modes.paint) {
                 var item = mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected]));
 
@@ -142,7 +183,7 @@ $(function() {
             }
         });
 
-    editor.items.inputs = editorNode.find('.item .properties :input')
+    editor.items.inputs = editor.workspace.find('.item .properties :input')
         .on('keyup change', function(e) {
             if (!editor.items.selected) {
                 return;
@@ -196,46 +237,8 @@ $(function() {
         }
     }
 
-    editor.view = editorNode.find('.view');
-    editor.view.layers = editor.view.find('.layers').find(':input[type=checkbox]')
-        .on('change', function(e) {
-            let layers = this.name.split('|'),
-                func = this.checked ? editor.items.show : editor.items.hide;
 
-            for (let layer of layers) {
-                if (!editor.items.layers[layer]) {
-                    console.error("Layer not found %s", layer);
-                    continue;
-                }
-                let items = [...editor.items.layers[layer]];
-                func.call(editor.items, items);
-            }
-        });
-
-    editor.view.find('button[name=zoom]').on('click', function(e) {
-        var dir = parseFloat($(this).attr('dir')),
-            camera = editor.game.scene.camera.camera,
-            multiplier = Math.sqrt(2),
-            z = camera.position.z;
-
-        if (dir < 0) {
-            z /= multiplier;
-        }
-        else {
-            z *= multiplier;
-        }
-        camera.position.z = Math.round(z);
-    });
-
-    editor.console = editorNode.find('.console');
-    editorNode.find('.console button[name=generate-xml]').on('click', function(e) {
-        e.preventDefault();
-        editor.console.find('textarea').val(vkbeautify.xml(editor.getXML()));
-    });
-
-
-    var workspace = editor.workspace;
-    editor.file = editorNode.find('.file');
+    editor.file = $('.file');
     editor.file.new = editor.file.find('.level [name=new]')
         .on('click', function() {
             editor.loadLevel('./resource/level-skeleton.xml');
@@ -312,7 +315,7 @@ $(function() {
         }
     }
 
-    editor.playback = editorNode.find('.playback');
+    editor.playback = editor.workspace.find('.playback');
     editor.playback.toggle = editor.playback.find('[name=toggle]').on('click', function() {
         editor.game.engine.isSimulating = !editor.game.engine.isSimulating;
     });
@@ -473,7 +476,7 @@ $(function() {
 
         if (k === 27 && d) { // ESC
             editor.items.deselect();
-            editorNode.find(':input').blur();
+            $(':input').blur();
             editor.workspace.viewport.focus();
             editor.activeMode = editor.modes.view;
         }
@@ -493,15 +496,15 @@ $(function() {
     });
 
 
-    workspace.on('dragenter', function (e) {
+    editor.workspace.on('dragenter', function (e) {
         e.stopPropagation();
         e.preventDefault();
     });
-    workspace.on('dragover', function (e) {
+    editor.workspace.on('dragover', function (e) {
          e.stopPropagation();
          e.preventDefault();
     });
-    workspace.on('drop', function (e) {
+    editor.workspace.on('drop', function (e) {
         e.preventDefault();
         if (editor.items.selected === undefined) {
             return;
