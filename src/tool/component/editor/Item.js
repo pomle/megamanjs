@@ -7,12 +7,6 @@ Editor.Item = function(object, node)
     this.type = undefined;
 }
 
-Editor.Item.prototype.attributeMap = {
-    x: 'x',
-    y: 'y',
-    z: 'z',
-}
-
 Object.defineProperties(Editor.Item.prototype, {
     h: {
         get: function() {
@@ -99,16 +93,19 @@ Editor.Item.prototype.setComponent = function(name, value)
             p.x = v;
             console.log(v, o.origo.x);
             n.attr('x', v + o.origo.x);
+            return;
             break;
 
         case 'y':
             p.y = v;
             n.attr('y', -(v + o.origo.y));
+            return;
             break;
 
         case 'z':
             p.z = v;
             n.attr('z', v);
+            return;
             break;
     }
 

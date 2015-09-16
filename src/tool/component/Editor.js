@@ -6,6 +6,8 @@ var Editor = function()
 
     this.clipboard = new Editor.Clipboard();
 
+    this.componentFactory = new Editor.ComponentFactory(this);
+
     this.document = undefined;
 
     this.game = undefined;
@@ -14,11 +16,17 @@ var Editor = function()
 
     this.items = new Editor.ItemSet(this);
 
+    this.itemFactory = new Editor.ItemFactory();
+
     this.marker = new THREE.Mesh(
         new THREE.SphereGeometry(5, 2, 2),
         new THREE.MeshBasicMaterial({color: Editor.Colors.marker, wireframe: true}));
 
     this.modelManager = new Editor.ModelManager(this);
+
+    this.nodeFactory = new Editor.NodeFactory(this);
+
+    this.parser = undefined;
 
     this.ui = undefined;
 }
