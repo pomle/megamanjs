@@ -1,6 +1,6 @@
 "use strict";
 
-Editor.ItemFactory = function()
+Editor.ItemFactory = function(editor)
 {
 }
 
@@ -43,7 +43,7 @@ Editor.ItemFactory.prototype.create = function(type, node)
                 object.position.x = x;
                 object.position.y = y;
 
-                let item = new Editor.Item(object, node);
+                let item = new Editor.Item.Rectangle(object, node);
                 item.type = type;
                 return item;
             }
@@ -66,7 +66,7 @@ Editor.ItemFactory.prototype.create = function(type, node)
                 object.position.x = x;
                 object.position.y = y;
 
-                let item = new Editor.Item(object, node);
+                let item = new Editor.Item.Rectangle(object, node);
                 item.type = type;
                 return item;
             }
