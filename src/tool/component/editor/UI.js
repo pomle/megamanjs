@@ -29,6 +29,8 @@ Editor.UI.prototype.applyState = function()
 
 Editor.UI.prototype.createItem = function(node)
 {
+    let editor = this.editor;
+
     editor.workspace.find(':input').filter('textarea,[type=text]')
         .on('focus', function() {
             editor.activeMode = editor.modes.input;
@@ -233,7 +235,7 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
         intersectables.push(item.object.model);
     });
 
-    console.log("Insertsect testables", intersectables);
+    console.log("Candidate objects", intersectables);
     var intersects = raycaster.intersectObjects(intersectables);
     console.log("Intersecting objects", intersects);
     if (intersects.length !== 0) {
