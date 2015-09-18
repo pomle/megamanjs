@@ -1,6 +1,4 @@
 "use strict";
-var editor = {};
-
 $(function() {
     function loadLevel(src)
     {
@@ -45,7 +43,7 @@ $(function() {
     }
 
 
-    editor = new Editor();
+    var editor = new Editor();
     editor.workspace = $('.workspace');
     editor.ui = new Editor.UI(editor, editor.workspace);
 
@@ -373,6 +371,8 @@ $(function() {
         };
         reader.readAsDataURL(file);
     });
+
+    window.editor = editor;
 });
 
 /*
