@@ -7,7 +7,8 @@ Editor.NodeFactory = function(editor)
 
 Editor.NodeFactory.prototype.createCameraPath = function()
 {
-    let document = this.editor.document,
+    let editor = this.editor,
+        document = editor.document,
         pos = this.editor.marker.position.clone(),
         windowW = 256,
         windowH = 240,
@@ -28,16 +29,16 @@ Editor.NodeFactory.prototype.createCameraPath = function()
     let windowNode = $('<window>', document).attr({
         x1: pos.x - windowW / 2,
         x2: pos.x + windowW / 2,
-        y1: pos.y + windowH / 2,
-        y2: pos.y - windowH / 2,
+        y1: -(pos.y + windowH / 2),
+        y2: -(pos.y - windowH / 2),
     });
     pathNode.append(windowNode);
 
     let constraintNode = $('<constraint>', document).attr({
         x1: pos.x - constraintW / 2,
         x2: pos.x + constraintW / 2,
-        y1: pos.y + constraintH / 2,
-        y2: pos.y - constraintH / 2,
+        y1: -(pos.y + constraintH / 2),
+        y2: -(pos.y - constraintH / 2),
     });
     pathNode.append(constraintNode);
 
