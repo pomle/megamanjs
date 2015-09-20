@@ -1,8 +1,10 @@
 "use strict";
 
-Editor.Item.Rectangle = function(object, node)
+Editor.Item.Rectangle = function(object, node, vec1, vec2)
 {
     Editor.Item.call(this, object, node);
+
+    this.vectors = [vec1, vec2];
 
     var x1 = parseFloat(node.attr('x1')),
         x2 = parseFloat(node.attr('x2')),
@@ -24,14 +26,22 @@ Editor.Item.Rectangle.prototype.constructor = Editor.Item.Rectangle;
 
 Editor.Item.Rectangle.prototype.getComponent = function(name)
 {
-    var o = this.object;
+    let k = name,
+        o = this.object,
+        p = o.position,
+        g = o.model.geometry,
+        n = this.node;
 
     switch (name) {
         case 'x':
         case 'y':
         case 'z':
-            return o.position[name];
+            return p[name];
             break;
+        case 'w':
+            return g.vertices[3].x - g.vertices[0].x;
+        case 'h':
+            return g.vertices[0].y - g.vertices[3].y;
     }
 }
 
@@ -60,10 +70,10 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
         case 'h':
             this.prop.h = v;
             v /= 2;
-            g.vertices[0].y = -v;
+            g.vertices[0].y = v;
             g.vertices[1].y = v;
             g.vertices[2].y = -v;
-            g.vertices[3].y = v;
+            g.vertices[3].y = -v;
             g.verticesNeedUpdate = true;
             n.attr('y1', p.y - v);
             n.attr('y2', p.y + v);
@@ -71,14 +81,23 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
 
         case 'x':
             p.x = v;
-            n.attr('x1', v - this.prop.w / 2);
-            n.attr('x2', v + this.prop.w / 2);
+            let x1 = v - this.prop.w / 2,
+                x2 = v + this.prop.w / 2;
+            this.vectors[0].x = x1;
+            this.vectors[1].x = x2;
+            n.attr('x1', x1);
+            n.attr('x2', x2);
             break;
 
         case 'y':
             p.y = v;
-            n.attr('y1', v - this.prop.h / 2);
-            n.attr('y2', v + this.prop.h / 2);
+            let h = this.prop.h / 2;
+            this.vectors[0].y = v - h;
+            this.vectors[1].y = v + h;
+            let y1 = (-v - h),
+                y2 = (-v + h);
+            n.attr('y1', y1);
+            n.attr('y2', y2);
             break;
     }
 }

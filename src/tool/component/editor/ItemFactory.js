@@ -43,7 +43,7 @@ Editor.ItemFactory.prototype.create = function(type, node)
                 object.position.x = x;
                 object.position.y = y;
 
-                let item = new Editor.Item.Rectangle(object, node);
+                let item = new Editor.Item.Rectangle(object, node, constraint[0], constraint[1]);
                 item.type = type;
                 return item;
             }
@@ -66,7 +66,7 @@ Editor.ItemFactory.prototype.create = function(type, node)
                 object.position.x = x;
                 object.position.y = y;
 
-                let item = new Editor.Item.Rectangle(object, node);
+                let item = new Editor.Item.Rectangle(object, node, win[0], win[1]);
                 item.type = type;
                 return item;
             }

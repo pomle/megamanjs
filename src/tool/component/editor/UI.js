@@ -54,7 +54,11 @@ Editor.UI.prototype.createItem = function(node)
                 case 'x':
                 case 'y':
                 case 'z':
-                    item[name] = value;
+                case 'w':
+                case 'h':
+                    if (item[name]) {
+                        item[name] = value;
+                    }
                     break;
             }
         });
