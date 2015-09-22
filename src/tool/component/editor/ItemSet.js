@@ -100,9 +100,11 @@ Editor.ItemSet.prototype.remove = function(item)
         return false;
     }
 
-    this.world.removeObject(item.object);
-
     item.node.remove();
+    this.world.removeObject(item.object);
+    for (var i = 0, l = item.children.length; i !== l; ++i) {
+        this.remove(item.children[i]);
+    }
 
     this.items.delete(item);
     this.visible.delete(item);
