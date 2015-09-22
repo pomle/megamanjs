@@ -80,6 +80,7 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
             break;
 
         case 'x':
+            this.propagateComponent(k, v);
             p.x = v;
             let x1 = v - this.prop.w / 2,
                 x2 = v + this.prop.w / 2;
@@ -90,6 +91,7 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
             break;
 
         case 'y':
+            this.propagateComponent(k, v);
             p.y = v;
             let h = this.prop.h / 2;
             this.vectors[0].y = v - h;

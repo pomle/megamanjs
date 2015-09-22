@@ -2,6 +2,7 @@
 
 Editor.Item = function(object, node)
 {
+    this.children = [];
     this.object = object;
     this.node = $(node);
     this.type = undefined;
@@ -50,6 +51,11 @@ Object.defineProperties(Editor.Item.prototype, {
     },
 });
 
+Editor.Item.prototype.addChild = function(child)
+{
+    this.children.push(child);
+}
+
 Editor.Item.prototype.clone = function()
 {
     var node = this.node.clone();
@@ -80,6 +86,15 @@ Editor.Item.prototype.moveTo = function(vec)
     }
 }
 
+Editor.Item.prototype.propagateComponent = function(name, value)
+{
+    if (this.children.length !== 0) {
+        for (let i = 0, l = this.children.length; i !== l; ++i) {
+            this.children[i][name] += value - this[name];
+        }
+    }
+}
+
 Editor.Item.prototype.setComponent = function(name, value)
 {
     let k = name,
@@ -88,10 +103,11 @@ Editor.Item.prototype.setComponent = function(name, value)
         p = o.position,
         n = this.node;
 
+    this.propagateComponent(name, value);
+
     switch (k) {
         case 'x':
             p.x = v;
-            console.log(v, o.origo.x);
             n.attr('x', v + o.origo.x);
             return;
             break;
@@ -108,6 +124,5 @@ Editor.Item.prototype.setComponent = function(name, value)
             return;
             break;
     }
-
     //o.model.updateMatrix();
 }
