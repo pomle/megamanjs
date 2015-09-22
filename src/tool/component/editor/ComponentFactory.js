@@ -22,6 +22,8 @@ Editor.ComponentFactory.prototype.createCameraPath = function()
     constraintItem.object.position.z = windowItem.object.position.z + 1;
     editor.items.add(constraintItem);
 
+    windowItem.addChild(constraintItem);
+
     editor.game.scene.camera.addPath(cameraPath);
 
     editor.ui.view.layers.cameraPath.on();
