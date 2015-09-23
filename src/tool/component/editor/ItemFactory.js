@@ -73,18 +73,18 @@ Editor.ItemFactory.prototype.create = function(type, node)
             break;
 
         case 'checkpoint':
-            return function(x, y, r) {
+            return function(checkpoint) {
                 let model = new THREE.Mesh(
-                    new THREE.CircleGeometry(r, 16),
+                    new THREE.CircleGeometry(checkpoint.radius, 16),
                     new THREE.MeshBasicMaterial({color: colors[type], wireframe: true})
                 );
 
                 let object = new Engine.Object();
                 object.setModel(model);
-                object.position.x = x;
-                object.position.y = y;
+                object.position.x = checkpoint.pos.x;
+                object.position.y = checkpoint.pos.y;
 
-                let item = new Editor.Item(object, node);
+                let item = new Editor.Item.Point(object, node, checkpoint.pos);
                 item.type = type;
                 return item;
             }

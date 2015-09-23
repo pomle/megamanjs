@@ -95,9 +95,7 @@ Editor.prototype.loadLevel = function(src, callback)
             let checkPointNodes = editor.document.find('> checkpoints > checkpoint');
 
             for (let i = 0, l = level.checkPoints.length; i < l; ++i) {
-                let cp = level.checkPoints[i];
-                let item = factory.create('checkpoint', checkPointNodes[i])(cp.pos.x, cp.pos.y, cp.radius);
-                item.position = cp.pos;
+                let item = factory.create('checkpoint', checkPointNodes[i])(level.checkPoints[i]);
                 editor.items.add(item);
             }
 
