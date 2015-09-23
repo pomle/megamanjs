@@ -26,6 +26,9 @@ var Editor = function()
 
     this.nodeFactory = new Editor.NodeFactory(this);
 
+    this.overlays = new THREE.Scene();
+    this.overlays.add(this.marker);
+
     this.parser = undefined;
 
     this.ui = undefined;
@@ -39,6 +42,22 @@ Editor.Colors = {
     marker: 0xf037a5,
     overlayEdit: 0x5ff550,
     overlayPaint: 0x509bf5,
+}
+
+Editor.prototype.attachGame = function(game)
+{
+    let engine = game.engine,
+        overlays = this.overlays;
+
+    this.debugger = new Game.Debug(game);
+    this.game = game;
+    game.attachToElement(this.ui.viewport[0]);
+
+    engine.renderer.autoClear = false;
+    engine.events.bind(engine.EVENT_RENDER, function() {
+        engine.renderer.clearDepth();
+        engine.renderer.render(overlays, engine.world.camera.camera);
+    });
 }
 
 Editor.prototype.getXML = function()
@@ -104,8 +123,6 @@ Editor.prototype.loadLevel = function(src, callback)
                 editor.items.add(constraintItem);
             }
         }
-
-        editor.modelManager.expose(editor.marker);
 
         for (let _item of parser.items) {
             let object = _item.object,

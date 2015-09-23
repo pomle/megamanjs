@@ -66,7 +66,7 @@ Editor.ItemSet.prototype.deselect = function()
     if (this.selected) {
         var item = this.selected;
         if (item.overlay) {
-            item.object.model.remove(item.overlay);
+            this.editor.overlays.remove(item.overlay);
             item.overlay = undefined;
         }
     }
@@ -81,12 +81,12 @@ Editor.ItemSet.prototype.select = function(item)
     this.deselect();
     this.selected = item;
 
-    item.overlay = new THREE.Mesh(
-        item.object.model.geometry,
-        new THREE.MeshBasicMaterial({color: Editor.Colors.overlayEdit, wireframe: true}));
+    //item.overlay = new THREE.Mesh(item.object.model.geometry, this.editor.materials.overlay);
+    item.overlay = new THREE.WireframeHelper(item.object.model, 0x00ff00);
 
-    item.object.model.add(item.overlay);
-    item.overlay.translateZ(.1);
+    //item.object.model.add(item.overlay);
+    this.editor.overlays.add(item.overlay);
+    //item.overlay.translateZ(.1);
 
     console.log("Selected item", this.selected);
 
