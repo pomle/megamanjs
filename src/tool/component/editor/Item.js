@@ -126,3 +126,8 @@ Editor.Item.prototype.setComponent = function(name, value)
     }
     //o.model.updateMatrix();
 }
+
+Editor.Item.prototype.delete = function()
+{
+
+}

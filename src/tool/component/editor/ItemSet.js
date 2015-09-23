@@ -99,6 +99,7 @@ Editor.ItemSet.prototype.remove = function(item)
     }
 
     this.hide(item);
+    item.delete();
     item.node.remove();
     this.world.removeObject(item.object);
     for (var i = 0, l = item.children.length; i !== l; ++i) {
