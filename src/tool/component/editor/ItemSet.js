@@ -12,8 +12,6 @@ Editor.ItemSet = function(editor)
     for (let prop of ['entries']) {
         this.items[prop] = this.items[prop].bind(this.items);
     }
-
-    this.inputs = undefined;
 }
 
 Object.defineProperties(Editor.ItemSet.prototype, {
@@ -73,7 +71,7 @@ Editor.ItemSet.prototype.deselect = function()
 
     this.selected = undefined;
 
-    this.inputs.clear();
+    this.editor.ui.item.inputs.clear();
 }
 
 Editor.ItemSet.prototype.select = function(item)
@@ -90,7 +88,7 @@ Editor.ItemSet.prototype.select = function(item)
 
     console.log("Selected item", this.selected);
 
-    this.inputs.update(item);
+    this.editor.ui.item.inputs.update(item);
 }
 
 Editor.ItemSet.prototype.remove = function(item)
@@ -100,6 +98,7 @@ Editor.ItemSet.prototype.remove = function(item)
         return false;
     }
 
+    this.hide(item);
     item.node.remove();
     this.world.removeObject(item.object);
     for (var i = 0, l = item.children.length; i !== l; ++i) {
@@ -107,7 +106,6 @@ Editor.ItemSet.prototype.remove = function(item)
     }
 
     this.items.delete(item);
-    this.visible.delete(item);
 }
 
 Editor.ItemSet.prototype.hide = function()

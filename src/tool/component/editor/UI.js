@@ -12,6 +12,11 @@ Editor.UI = function(editor, workspace)
         }
     });
 
+    editor.workspace.find(':input').filter('textarea,[type=text]')
+        .on('focus', function() {
+            editor.activeMode = editor.modes.input;
+        });
+
     this.viewport = this.createViewport(this.workspace.find('.viewport'));
     this.view = this.createView(this.workspace.find('.view'));
     this.playback = this.createPlayback(this.workspace.find('.view'));
@@ -30,46 +35,42 @@ Editor.UI.prototype.applyState = function()
 
 Editor.UI.prototype.createItem = function(node)
 {
-    let editor = this.editor;
+    let editor = this.editor,
+        item = $(node);
 
-    editor.workspace.find(':input').filter('textarea,[type=text]')
-        .on('focus', function() {
-            editor.activeMode = editor.modes.input;
-        });
+    item.inputs = item.find('.position :input');
+    item.inputs.on('keyup change', function(e) {
+        if (!editor.items.selected) {
+            return;
+        }
+        var item = editor.items.selected,
+            object = item.object,
+            value = parseFloat(this.value),
+            name = this.name;
 
-    editor.items.inputs = editor.workspace.find('.item .position :input')
-        .on('keyup change', function(e) {
-            if (!editor.items.selected) {
-                return;
-            }
-            var item = editor.items.selected,
-                object = item.object,
-                value = parseFloat(this.value),
-                name = this.name;
+        if (!isFinite(value)) {
+            return;
+        }
 
-            if (!isFinite(value)) {
-                return;
-            }
-
-            switch (name) {
-                case 'x':
-                case 'y':
-                case 'z':
-                case 'w':
-                case 'h':
-                    if (item[name]) {
-                        item[name] = value;
-                    }
-                    break;
-            }
-        });
-    editor.items.inputs.clear = function() {
+        switch (name) {
+            case 'x':
+            case 'y':
+            case 'z':
+            case 'w':
+            case 'h':
+                if (item[name]) {
+                    item[name] = value;
+                }
+                break;
+        }
+    });
+    item.inputs.clear = function() {
         this.each(function(input) {
             this.value = '';
             this.disabled = true;
         });
     }
-    editor.items.inputs.update = function(item) {
+    item.inputs.update = function(item) {
         this.each(function(input) {
             let value = item[this.name];
             if (value !== undefined) {
@@ -81,6 +82,26 @@ Editor.UI.prototype.createItem = function(node)
             }
         });
     }
+
+    let nodeFactory = editor.nodeFactory,
+        componentFactory = editor.componentFactory;
+
+    item.create = item.find('.create');
+    item.create.find('button').on('click', function(e) {
+        let button = $(this);
+        switch (button.attr('type')) {
+            case 'cameraPath':
+                let pathNode = nodeFactory.createCameraPath(),
+                    path = editor.componentFactory.createCameraPath(pathNode);
+
+                nodeFactory.addCameraPath(pathNode);
+                editor.game.scene.camera.addPath(path.cameraPath);
+                editor.ui.view.layers.cameraPath.on();
+                break;
+        }
+    });
+
+    return item;
 }
 
 Editor.UI.prototype.createPlayback = function(node)
@@ -187,6 +208,8 @@ Editor.UI.prototype.createViewport = function(node)
         ui = this,
         viewport = $(node);
 
+    viewport.coords = viewport.find('.coords');
+
     viewport
         .on('click', function(e) {
             if (editor.activeMode === editor.modes.paint) {
@@ -231,6 +254,15 @@ Editor.UI.prototype.createViewport = function(node)
                 mat.color = new THREE.Color(Editor.Colors.overlayPaint);
                 mat.needsUpdate = true;
             }
+        })
+        .on('mousewheel', function(e) {
+            let d = e.originalEvent.deltaY;
+            if (d < 0) {
+                editor.camera.zoomOut();
+            }
+            else {
+                editor.camera.zoomIn();
+            }
         });
 
     return viewport;
@@ -267,6 +299,11 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
     var pos = camera.position.clone().add(vector.multiplyScalar(distance));
     editor.marker.position.copy(pos);
     editor.marker.position.z = 0;
+
+    this.viewport.coords.html('X ' + pos.x.toFixed(2) + ' Y ' + pos.y.toFixed(2)).css({
+        left: event.layerX + 20,
+        top: event.layerY,
+    });
 
     var intersectables = [];
     items.forEach(function(item) {

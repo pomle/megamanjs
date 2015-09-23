@@ -216,7 +216,7 @@ $(function() {
                     editor.items.deselect();
                     break;
             }
-            editor.items.inputs.update(i);
+            editor.ui.item.inputs.update(i);
         },
         paint: function(e) {
             if (e.type !== 'keydown') {
@@ -328,16 +328,6 @@ $(function() {
                 editor.activeMode(e);
             }
         })
-        .on('mousewheel', function(e) {
-            let d = e.originalEvent.deltaY;
-            if (d < 0) {
-                editor.camera.zoomOut();
-            }
-            else {
-                editor.camera.zoomIn();
-            }
-        });
-
 
     editor.workspace.on('dragenter', function (e) {
         e.stopPropagation();
