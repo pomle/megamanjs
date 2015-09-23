@@ -72,8 +72,14 @@
 }
 
 .workspace .panel.item .position input {
+    color: #fff;
     font-family: monospace;
     padding: .1em .2em;
     text-align: right;
     width: 3em;
 }
+
+.workspace .panel.item .position input[disabled] {
+    opacity: .2;
+}
+

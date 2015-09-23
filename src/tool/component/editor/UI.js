@@ -66,11 +66,19 @@ Editor.UI.prototype.createItem = function(node)
     editor.items.inputs.clear = function() {
         this.each(function(input) {
             this.value = '';
+            this.disabled = true;
         });
     }
     editor.items.inputs.update = function(item) {
         this.each(function(input) {
-            this.value = item[this.name];
+            let value = item[this.name];
+            if (value !== undefined) {
+                this.value = value;
+                this.disabled = false;
+            }
+            else {
+                this.disabled = true;
+            }
         });
     }
 }
