@@ -66,7 +66,6 @@ Editor.prototype.attachGame = function(game)
         engine = game.engine,
         overlays = this.guides;
 
-    this.debugger = new Game.Debug(game);
     this.game = game;
     game.attachToElement(this.ui.viewport[0]);
 
