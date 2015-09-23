@@ -23,6 +23,17 @@ Editor.ComponentFactory.prototype.createCameraPath = function(pathNode, cameraPa
 
     windowItem.addChild(constraintItem);
 
+    windowItem.delete = function() {
+        pathNode.remove();
+        let paths = editor.game.scene.camera.paths;
+        for (let i = 0, l = paths.length; i !== l; ++i) {
+            if (cameraPath === paths[i]) {
+                paths.splice(i, 1);
+                editor.game.scene.camera.pathIndex = -1;
+            }
+        }
+    }
+
     editor.items.add(windowItem);
     editor.items.add(constraintItem);
 
