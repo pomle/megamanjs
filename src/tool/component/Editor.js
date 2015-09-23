@@ -53,7 +53,7 @@ var Editor = function()
 Editor.Colors = {
     behavior: 0xaf2896,
     cameraConstraint: 0x00ffff,
-    cameraWindow: 0x19e68c,
+    cameraWindow: 0x5ff550,
     checkpoint: 0xeb1e32,
     marker: 0xf037a5,
     overlayEdit: 0x5ff550,
