@@ -131,6 +131,7 @@ Editor.ItemSet.prototype.hide = function()
             this.deselect();
         }
 
+        this.editor.overlays.remove(item.object.model);
         this.scene.remove(item.object.model);
         this.visible.delete(item);
 
@@ -151,8 +152,11 @@ Editor.ItemSet.prototype.show = function()
     else {
         let item = arguments[0];
 
-        if (this.scene) {
+        if (item.type === "object" && this.scene) {
             this.scene.add(item.object.model);
+        }
+        else {
+            this.editor.overlays.add(item.object.model);
         }
 
         this.visible.add(item);
