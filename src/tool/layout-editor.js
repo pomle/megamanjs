@@ -299,34 +299,44 @@ $(function() {
         .on('resize', function(e) {
         }).trigger('resize');
 
-    $(window).on('keydown keyup', function(e) {
-        var k = e.which,
-            t = e.type,
-            c = e.ctrlKey,
-            d = (t === 'keydown'),
-            u = (t === 'keyup');
+    $(window)
+        .on('keydown keyup', function(e) {
+            var k = e.which,
+                t = e.type,
+                c = e.ctrlKey,
+                d = (t === 'keydown'),
+                u = (t === 'keyup');
 
-        console.log(k, e);
+            console.log(k, e);
 
-        if (k === 27 && d) { // ESC
-            editor.items.deselect();
-            $(':input').blur();
-            editor.ui.viewport.focus();
-            editor.activeMode = editor.modes.view;
-        }
-        else if (k === 80 && c && d) { // P
-            e.preventDefault();
-            if (!editor.game.player.character) {
-                console.error("No character set");
-                return;
+            if (k === 27 && d) { // ESC
+                editor.items.deselect();
+                $(':input').blur();
+                editor.ui.viewport.focus();
+                editor.activeMode = editor.modes.view;
             }
-            editor.activeMode = editor.modes.play;
-            editor.ui.playback.simulate.prop('checked', true).trigger('change');
-        }
-        else {
-            editor.activeMode(e);
-        }
-    });
+            else if (k === 80 && c && d) { // P
+                e.preventDefault();
+                if (!editor.game.player.character) {
+                    console.error("No character set");
+                    return;
+                }
+                editor.activeMode = editor.modes.play;
+                editor.ui.playback.simulate.prop('checked', true).trigger('change');
+            }
+            else {
+                editor.activeMode(e);
+            }
+        })
+        .on('mousewheel', function(e) {
+            let d = e.originalEvent.deltaY;
+            if (d < 0) {
+                editor.camera.zoomOut();
+            }
+            else {
+                editor.camera.zoomIn();
+            }
+        });
 
 
     editor.workspace.on('dragenter', function (e) {
