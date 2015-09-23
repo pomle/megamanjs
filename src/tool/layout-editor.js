@@ -156,10 +156,7 @@ $(function() {
 
     Game.init(function() {
         var game = new Game();
-        editor.debugger = new Game.Debug(game);
-        editor.game = game;
-        console.log(editor.ui.viewport);
-        game.attachToElement(editor.ui.viewport[0]);
+        editor.attachGame(game);
 
         var recent = editor.file.recent.get();
         if (recent.length) {
