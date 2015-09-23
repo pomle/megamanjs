@@ -103,8 +103,9 @@ Editor.prototype.loadLevel = function(src, callback)
 
         var factory = new Editor.ItemFactory();
 
-        level.camera.camera.far = 5000;
+        level.camera.camera.far = 2000;
         level.camera.camera.position.z = 300;
+        level.camera.camera.updateProjectionMatrix();
         if (level.checkPoints.length) {
             let checkPointNodes = editor.document.find('> checkpoints > checkpoint');
 
