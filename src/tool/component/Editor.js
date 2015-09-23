@@ -82,7 +82,8 @@ Editor.prototype.loadLevel = function(src, callback)
 {
     let editor = this,
         game = editor.game,
-        loader = new Game.Loader.XML(game);
+        loader = new Game.Loader.XML(game),
+        componentFactory = editor.componentFactory;
 
     loader.loadLevel(src, function(level, parser) {
         editor.items.clear();
@@ -120,18 +121,10 @@ Editor.prototype.loadLevel = function(src, callback)
 
         if (level.camera.paths.length) {
             let pathNodes = editor.document.find('> camera > path');
-
             for (let i = 0, l = level.camera.paths.length; i < l; ++i) {
                 let p = level.camera.paths[i],
                     n = $(pathNodes[i]);
-
-                let windowItem = factory.create('cameraWindow', n.find('> window'))(p.window);
-                windowItem.object.position.z = 0;
-                editor.items.add(windowItem);
-
-                let constraintItem = factory.create('cameraConstraint', n.find('> constraint'))(p.constraint);
-                constraintItem.object.position.z = windowItem.object.position.z + 1;
-                editor.items.add(constraintItem);
+                componentFactory.createCameraPath(n, p);
             }
         }
 

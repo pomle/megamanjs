@@ -5,6 +5,19 @@ Editor.NodeFactory = function(editor)
     this.editor = editor;
 }
 
+Editor.NodeFactory.prototype.addCameraPath = function(pathNode)
+{
+    let document = editor.document;
+
+    let cameraNode = document.find('> camera');
+    if (cameraNode.length === 0) {
+        cameraNode = $('<camera>', document);
+        document.prepend(cameraNode);
+    }
+
+    cameraNode.append(pathNode);
+}
+
 Editor.NodeFactory.prototype.createCameraPath = function()
 {
     let editor = this.editor,
@@ -17,14 +30,7 @@ Editor.NodeFactory.prototype.createCameraPath = function()
 
     pos.roundToZero();
 
-    let cameraNode = document.find('> camera');
-    if (cameraNode.length === 0) {
-        cameraNode = $('<camera>', document);
-        document.prepend(cameraNode);
-    }
-
     let pathNode = $('<path>', document);
-    cameraNode.append(pathNode);
 
     let windowNode = $('<window>', document).attr({
         x1: pos.x - windowW / 2,
