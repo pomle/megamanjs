@@ -12,7 +12,12 @@ var Editor = function()
 
     this.game = undefined;
 
-    this.grid = new THREE.Vector3(16, 16, 1);
+    this.grid = new THREE.GridHelper(32, 1);
+    this.grid.setColors(0xff6437, 0xa0c3d2);
+    this.grid.rotation.x = Math.PI / 2;
+    this.grid.material.opacity = .5;
+    this.grid.material.transparent = true;
+    this.grid.scale.multiplyScalar(16);
 
     this.items = new Editor.ItemSet(this);
 
@@ -26,8 +31,19 @@ var Editor = function()
 
     this.nodeFactory = new Editor.NodeFactory(this);
 
+    this.guides = new THREE.Scene();
+    this.guides.add(this.marker);
+    this.guides.add(this.grid);
+
     this.overlays = new THREE.Scene();
-    this.overlays.add(this.marker);
+
+    this.layers = [
+        this.guides,
+        this.overlays,
+    ];
+
+    this.layers.guides = this.guides;
+    this.layers.overlays = this.overlays;
 
     this.parser = undefined;
 
@@ -46,18 +62,16 @@ Editor.Colors = {
 
 Editor.prototype.attachGame = function(game)
 {
-    let engine = game.engine,
-        overlays = this.overlays;
+    let editor = this,
+        engine = game.engine,
+        overlays = this.guides;
 
     this.debugger = new Game.Debug(game);
     this.game = game;
     game.attachToElement(this.ui.viewport[0]);
 
     engine.renderer.autoClear = false;
-    engine.events.bind(engine.EVENT_RENDER, function() {
-        engine.renderer.clearDepth();
-        engine.renderer.render(overlays, engine.world.camera.camera);
-    });
+    engine.events.bind(engine.EVENT_RENDER, this.renderOverlays.bind(this));
 }
 
 Editor.prototype.getXML = function()
@@ -153,4 +167,24 @@ Editor.prototype.loadLevel = function(src, callback)
     });
 
     return loader;
+}
+
+Editor.prototype.renderOverlays = function()
+{
+    let engine = this.game.engine,
+        camera = engine.world.camera.camera,
+        grid = this.grid;
+
+    grid.position.copy(camera.position);
+    grid.position.x -= grid.position.x % grid.scale.x;
+    grid.position.y -= grid.position.y % grid.scale.y;
+    grid.position.z = 0;
+
+    for (let i = 0, l = this.layers.length; i !== l; ++i) {
+        let layer = this.layers[i];
+        if (layer.visible) {
+            engine.renderer.clearDepth();
+            engine.renderer.render(layer, camera);
+        }
+    }
 }

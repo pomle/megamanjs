@@ -179,7 +179,7 @@ $(function() {
                 return;
             }
 
-            var g = editor.grid.clone(),
+            var g = editor.grid.scale.clone(),
                 i = editor.items.selected,
                 p = i;
 

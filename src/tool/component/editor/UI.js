@@ -20,6 +20,7 @@ Editor.UI = function(editor, workspace)
 
 Editor.UI.prototype.applyState = function()
 {
+    this.view.meta.trigger('change');
     this.view.layers.trigger('change');
     this.view.camera.obeyPaths.trigger('change');
     this.playback.simulate.trigger('change');
@@ -119,6 +120,11 @@ Editor.UI.prototype.createView = function(node)
         editor.game.scene.camera.obeyPaths = this.checked;
     });
 
+    view.meta = view.find('.meta :input[type=checkbox]');
+    view.meta.on('change', function(e) {
+        editor.layers[this.name].visible = this.checked;
+    });
+
     view.layers = view.find('.layers :input[type=checkbox]');
     view.layers.on('change', function(e) {
         let layers = $(this).attr('layer').split('|'),
@@ -211,7 +217,7 @@ Editor.UI.prototype.createViewport = function(node)
         })
         .on('dblclick', function(e) {
             var item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
-            if (item && item.item === editor.items.selected) {
+            if (item && item.type === "object" && item.item === editor.items.selected) {
                 editor.activeMode = editor.modes.paint;
                 var mat = item.item.overlay.material;
                 mat.color = new THREE.Color(Editor.Colors.overlayPaint);
@@ -261,11 +267,13 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 
     console.log("Candidate objects", intersectables);
     var intersects = raycaster.intersectObjects(intersectables);
+
     console.log("Intersecting objects", intersects);
     if (intersects.length !== 0) {
-        for (var item of items) {
-            if (item.object.model === intersects[0].object) {
-                return {item: item, intersect: intersects[0]};
+        let closest = intersects[0].object;
+        for (let item of items) {
+            if (item.object.model === closest) {
+                return {item: item, intersect: closest};
             }
         }
     }
