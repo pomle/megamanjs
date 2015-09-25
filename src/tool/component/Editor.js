@@ -94,7 +94,6 @@ Editor.prototype.loadLevel = function(src, callback)
         editor.document.layout = editor.document.find('> layout');
         editor.document.layout.objects = editor.document.layout.find('> objects');
 
-        level.debug = true;
         level.events.unbind(level.EVENT_START, level.resetPlayer);
 
         game.engine.isSimulating = false;
