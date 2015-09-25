@@ -58,11 +58,13 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
         case 'w':
             this.prop.w = v;
             v /= 2;
+            this.vectors[0].x = -v;
+            this.vectors[1].x = v;
             g.vertices[0].x = -v;
             g.vertices[1].x = v;
             g.vertices[2].x = -v;
             g.vertices[3].x = v;
-            g.verticesNeedUpdate = true;
+            this.recalcGeometry(g);
             n.attr('x1', p.x - v);
             n.attr('x2', p.x + v);
             break;
@@ -70,11 +72,13 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
         case 'h':
             this.prop.h = v;
             v /= 2;
+            this.vectors[0].y = v;
+            this.vectors[1].v = -v;
             g.vertices[0].y = v;
             g.vertices[1].y = v;
             g.vertices[2].y = -v;
             g.vertices[3].y = -v;
-            g.verticesNeedUpdate = true;
+            this.recalcGeometry(g);
             n.attr('y1', p.y - v);
             n.attr('y2', p.y + v);
             break;
@@ -102,4 +106,14 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
             n.attr('y2', y2);
             break;
     }
+}
+
+Editor.Item.Rectangle.prototype.recalcGeometry = function(geometry)
+{
+    let g = geometry;
+    g.verticesNeedUpdate = true;
+    g.normalsNeedUpdate = true;
+    g.computeFaceNormals();
+    g.computeVertexNormals();
+    g.computeBoundingSphere();
 }
