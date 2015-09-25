@@ -58,7 +58,7 @@ Editor.UI.prototype.createItem = function(node)
             case 'z':
             case 'w':
             case 'h':
-                if (item[name]) {
+                if (item[name] !== undefined) {
                     item[name] = value;
                 }
                 break;
