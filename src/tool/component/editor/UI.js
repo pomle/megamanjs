@@ -256,6 +256,7 @@ Editor.UI.prototype.createViewport = function(node)
             }
         })
         .on('mousewheel', function(e) {
+            e.preventDefault();
             let d = e.originalEvent.deltaY;
             if (d < 0) {
                 editor.camera.zoomOut();
