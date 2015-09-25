@@ -51,6 +51,7 @@
                     <!--<label class="collision"><input type="checkbox" name="collisionGeometry" layer="collisionGeometry"> Collision Zones</label>-->
                     <label class="object"><input type="checkbox" name="object" layer="object" checked> Visuals</label>
                 </fieldset>
+
                 <fieldset class="camera">
                     <legend>Camera</legend>
                     <div class="zoom">
@@ -65,8 +66,9 @@
 
                     <label><input type="checkbox" name="obeyPaths"> Obey Paths</label>
                 </fieldset>
+
                 <fieldset class="playback">
-                    <legend>Engine</legend>
+                    <legend>Playback</legend>
                     <label><input type="checkbox" name="simulate"> Simulate</label>
                     <label>Speed
                         <select name="simulationSpeed">
@@ -76,6 +78,9 @@
                             <option value="1" selected>100%</option>
                         </select>
                     </label>
+
+                    <label><button name="resetPlayer" onclick="editor.game.scene.resetPlayer();">Player Reset</button></label>
+                    <label><button name="resetPlayer" onclick="editor.game.scene.resetObjects();">Object Reset</button></label>
                 </fieldset>
             </div>
 
