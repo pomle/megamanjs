@@ -1,7 +1,6 @@
 Game.scenes.Level = function(game, world)
 {
     Game.Scene.apply(this, arguments);
-    this.debug = false;
 
     this.world.camera.camera.position.z = 150;
 
@@ -268,11 +267,7 @@ Game.scenes.Level.prototype.resetPlayer = function()
     }
 
     var checkpoint = this.checkPoints[this.checkPointIndex];
-    if (this.debug) {
-        character.moveTo(checkpoint.pos);
-        this.resumeGamePlay();
-    }
-    else if (checkpoint) {
+    if (checkpoint) {
         var startPosition = checkpoint.pos.clone();
         var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
         var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
