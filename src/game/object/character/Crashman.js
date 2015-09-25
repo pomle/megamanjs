@@ -15,7 +15,7 @@ Game.objects.characters.Crashman.prototype.routeAnimation = function()
         return 'jump';
     }
 
-    if (this.move._walkSpeed) {
+    if (this.move._interimSpeed) {
         return 'run';
     }
 
