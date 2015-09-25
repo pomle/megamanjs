@@ -11,7 +11,7 @@ Engine.Util.extend(Game.objects.characters.Heatman,
 
 Game.objects.characters.Heatman.prototype.routeAnimation = function()
 {
-    if (this.move._walkSpeed) {
+    if (this.move._interimSpeed) {
         if (this.flameTransformTime < this.flameTransformDuration) {
             this.flameTransformTime += this.deltaTime;
             return 'toFlame';
