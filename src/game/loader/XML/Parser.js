@@ -55,12 +55,12 @@ Game.Loader.XML.Parser.prototype.getCameraPath = function(pathNode)
     /* y1 and y2 is swapped because they are converted to negative values and
        y2 should always be bigger than y1. */
     var windowNode = pathNode.children('window');
-    path.window[0] = this.getPosition(windowNode, 'x1', 'y2');
-    path.window[1] = this.getPosition(windowNode, 'x2', 'y1');
+    path.window[0] = this.getPosition(windowNode, 'x1', 'y1');
+    path.window[1] = this.getPosition(windowNode, 'x2', 'y2');
 
     var constraintNode = pathNode.children('constraint');
-    path.constraint[0] = this.getPosition(constraintNode, 'x1', 'y2', 'z');
-    path.constraint[1] = this.getPosition(constraintNode, 'x2', 'y1', 'z');
+    path.constraint[0] = this.getPosition(constraintNode, 'x1', 'y1', 'z');
+    path.constraint[1] = this.getPosition(constraintNode, 'x2', 'y2', 'z');
     path.constraint[0].z = z;
     path.constraint[1].z = z;
 
@@ -177,11 +177,6 @@ Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attr
 {
     var node = $(node);
     var vec3 = this.getVector3.apply(this, arguments);
-    /* Y gets inverted to avoid having to specify everything
-       negatively in the XML. This is only true for getPosition
-       explicitly and normal vector extraction gives raw value.
-    */
-    vec3.y = -vec3.y;
     return vec3;
 }
 

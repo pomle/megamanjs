@@ -86,7 +86,7 @@ $(function() {
     editor.file = $('.file');
     editor.file.new = editor.file.find('.level [name=new]')
         .on('click', function() {
-            editor.loadLevel('./resource/level-skeleton.xml');
+            editor.loadUrl('./resource/level-skeleton.xml');
         });
 
     editor.file.load = editor.file.find('.level [name=open]')

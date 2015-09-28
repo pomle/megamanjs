@@ -19,7 +19,6 @@ var Editor = function()
     this.grid.material.transparent = true;
     this.grid.scale.multiplyScalar(16);
 
-    this.items = new Editor.ItemSet(this);
 
     this.itemFactory = new Editor.ItemFactory();
 
@@ -31,20 +30,6 @@ var Editor = function()
 
     this.nodeFactory = new Editor.NodeFactory(this);
     this.nodeManager = new Editor.NodeManager();
-
-    this.guides = new THREE.Scene();
-    this.guides.add(this.marker);
-    this.guides.add(this.grid);
-
-    this.overlays = new THREE.Scene();
-
-    this.layers = [
-        this.guides,
-        this.overlays,
-    ];
-
-    this.layers.guides = this.guides;
-    this.layers.overlays = this.overlays;
 
     this.parser = undefined;
 
@@ -72,6 +57,25 @@ Editor.prototype.attachGame = function(game)
 
     engine.renderer.autoClear = false;
     engine.events.bind(engine.EVENT_RENDER, this.renderOverlays.bind(this));
+}
+
+Editor.prototype.clear = function()
+{
+    this.items = new Editor.ItemSet(this);
+
+    this.guides = new THREE.Scene();
+    this.guides.add(this.marker);
+    this.guides.add(this.grid);
+
+    this.overlays = new THREE.Scene();
+
+    this.layers = [
+        this.guides,
+        this.overlays,
+    ];
+
+    this.layers.guides = this.guides;
+    this.layers.overlays = this.overlays;
 }
 
 Editor.prototype.getXML = function()
@@ -105,11 +109,12 @@ Editor.prototype.load = function(node, callback)
 
 Editor.prototype.open = function(level, parser)
 {
+    this.clear();
+
     let editor = this,
         game = editor.game,
         componentFactory = editor.componentFactory;
 
-    editor.items.clear();
     editor.marker.position.set(0,0,0);
 
     editor.document = parser.node;
@@ -123,7 +128,7 @@ Editor.prototype.open = function(level, parser)
 
     var factory = new Editor.ItemFactory();
 
-    level.camera.camera.far = 2000;
+    level.camera.camera.far = 4000;
     level.camera.camera.position.z = 300;
     level.camera.camera.updateProjectionMatrix();
     if (level.checkPoints.length) {

@@ -6,6 +6,7 @@ Editor.ItemSet = function(editor)
 
     this.items = new Set();
     this.layers = {};
+
     this.selected = undefined;
     this.visible = new Set();
 
@@ -33,6 +34,14 @@ Object.defineProperties(Editor.ItemSet.prototype, {
     },
 });
 
+Editor.ItemSet.prototype._apply = function(func, items)
+{
+    for (let i = 0, l = items.length; i !== l; ++i) {
+        func.call(this, items[i]);
+    }
+}
+
+
 Editor.ItemSet.prototype.add = function(item)
 {
     let object = item.object;
@@ -42,22 +51,19 @@ Editor.ItemSet.prototype.add = function(item)
         this.world.addObject(object);
     }
 
-    if (item.type) {
-        if (!this.layers[item.type]) {
-            this.layers[item.type] = new Set();
+    if (item.TYPE) {
+        let type = item.TYPE;
+        if (!this.layers[type]) {
+            this.layers[type] = new Set();
+            this.layers[type].scene = new THREE.Scene();
+            this.editor.layers.push(this.layers[type].scene);
         }
-        this.layers[item.type].add(item);
+        this.layers[type].add(item);
     }
 
+    this._apply(this.add, item.children);
     this.items.add(item);
     this.show(item);
-}
-
-Editor.ItemSet.prototype.clear = function()
-{
-    this.layers = {};
-    this.items.clear();
-    this.visible.clear();
 }
 
 Editor.ItemSet.prototype.deselect = function()
@@ -102,14 +108,12 @@ Editor.ItemSet.prototype.remove = function(item)
         this.world.removeObject(object);
     }
 
+    this._apply(this.remove, item.children);
+
     this.hide(item);
-    for (let i = 0, l = item.children.length; i !== l; ++i) {
-        this.remove(item.children[i]);
-    }
 
     item.delete();
     item.node.remove();
-    this.editor.overlays.remove(item.model);
 
     this.items.delete(item);
 }
@@ -135,11 +139,15 @@ Editor.ItemSet.prototype.hide = function()
             this.deselect();
         }
 
-        this.editor.overlays.remove(item.object.model);
-        this.scene.remove(item.object.model);
-        this.visible.delete(item);
+        this._apply(this.hide, item.children);
 
-        //console.log("Hid item", item);
+        if (item.TYPE !== "object") {
+            this.scene.remove(item.model);
+        } else {
+            this.layers[item.TYPE].scene.remove(item.model);
+        }
+
+        this.visible.delete(item);
     }
 }
 
@@ -156,9 +164,12 @@ Editor.ItemSet.prototype.show = function()
     else {
         let item = arguments[0];
 
+        this._apply(this.show, item.children);
+
         if (item.TYPE !== "object") {
-            console.log(item.TYPE, item, item.model);
-            this.editor.overlays.add(item.model);
+            this.scene.add(item.model);
+        } else {
+            this.layers[item.TYPE].scene.add(item.model);
         }
 
         this.visible.add(item);

@@ -203,6 +203,7 @@ Editor.UI.prototype.createView = function(node)
                 continue;
             }
             let items = [...editor.items.layers[layer]];
+            console.log(items);
             func.call(editor.items, items);
         }
     });

@@ -17,7 +17,6 @@ Editor.Item.Point.prototype.getComponent = function(name)
         case 'y':
         case 'z':
             return this.point[name];
-            break;
     }
 }
 
@@ -35,7 +34,6 @@ Editor.Item.Point.prototype.setComponent = function(name, value)
         case 'z':
             this.point[name] = value;
             n.attr(name, v);
-            return;
             break;
     }
 }
