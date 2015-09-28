@@ -18,7 +18,20 @@ var Editor = function()
     this.grid.material.opacity = .5;
     this.grid.material.transparent = true;
     this.grid.scale.multiplyScalar(16);
-
+    this.grid.snap = false;
+    this.grid.snapVector = function(vec) {
+        let components = ['x','y'];
+        for (let c of components) {
+            let s = this.scale[c],
+                m = vec[c] % s;
+            if (m > s / 2) {
+                vec[c] += s - m;
+            }
+            else {
+                vec[c] -= m;
+            }
+        }
+    }
 
     this.itemFactory = new Editor.ItemFactory();
 

@@ -44,3 +44,30 @@ Editor.NodeManager.prototype.addObject = function(objectNode)
 
     objectsNode.append(objectNode);
 }
+
+Editor.NodeManager.prototype.addObjectInstance = function(objectInstanceNode)
+{
+    let document = this.document,
+        layoutNode = this.getLayout();
+
+    let objectInstancesNode = layoutNode.find('> objects');
+    if (objectInstancesNode.length === 0) {
+        objectInstancesNode = $('<objects>', document);
+        layoutNode.append(objectInstancesNode);
+    }
+
+    objectInstancesNode.append(objectInstanceNode);
+}
+
+Editor.NodeManager.prototype.getLayout = function()
+{
+    let document = this.document,
+        layoutNode = document.find('> layout');
+
+    if (layoutNode.length === 0) {
+        layoutNode = $('<layout>', document);
+        document.append(layoutNode);
+    }
+
+    return layoutNode;
+}

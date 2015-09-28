@@ -2,6 +2,7 @@
 
 Editor.Item.Object = function(object, node)
 {
+    console.log(object);
     Editor.Item.call(this, object, node);
     this.model = object.model;
 }
@@ -38,19 +39,16 @@ Editor.Item.Object.prototype.setComponent = function(name, value)
         case 'x':
             p.x = v;
             n.attr('x', v + o.origo.x);
-            return;
             break;
 
         case 'y':
             p.y = v;
-            n.attr('y', -(v + o.origo.y));
-            return;
+            n.attr('y', v + o.origo.y);
             break;
 
         case 'z':
             p.z = v;
             n.attr('z', v);
-            return;
             break;
     }
 }

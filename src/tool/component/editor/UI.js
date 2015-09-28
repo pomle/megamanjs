@@ -38,7 +38,7 @@ Editor.UI.prototype.createItem = function(node)
     let editor = this.editor,
         element = $(node);
 
-    element.inputs = element.find('.position :input');
+    element.inputs = element.find('.position input[type=text]');
     element.inputs.on('keyup change', function(e) {
         if (!editor.items.selected) {
             return;
@@ -63,6 +63,10 @@ Editor.UI.prototype.createItem = function(node)
                 }
                 break;
         }
+
+        if (editor.grid.snap) {
+            editor.grid.snapVector(item);
+        }
     });
     element.inputs.clear = function() {
         this.each(function(input) {
@@ -82,10 +86,14 @@ Editor.UI.prototype.createItem = function(node)
             }
         });
     }
+    element.snap = element.find('.position input[name=snap]').on('change', function() {
+        editor.grid.snap = this.checked;
+    }).trigger('change');
 
     let nodeFactory = editor.nodeFactory,
         nodeManager = editor.nodeManager,
-        componentFactory = editor.componentFactory;
+        componentFactory = editor.componentFactory,
+        item;
 
     var geometryInputDefault = '256x240/16';
 
@@ -98,7 +106,7 @@ Editor.UI.prototype.createItem = function(node)
                 let pathNode = nodeFactory.createCameraPath();
                 nodeManager.addCameraPath(pathNode);
 
-                let item = editor.componentFactory.createCameraPath(pathNode);
+                item = editor.componentFactory.createCameraPath(pathNode);
                 item.moveTo(editor.marker.position);
                 editor.ui.view.layers.cameraPath.on();
                 break;
@@ -107,8 +115,8 @@ Editor.UI.prototype.createItem = function(node)
                 let checkpointNode = nodeFactory.createCheckpoint();
                 nodeManager.addCheckpoint(checkpointNode);
 
-                let aitem = editor.componentFactory.createCheckpoint(checkpointNode);
-                aitem.moveTo(editor.marker.position);
+                item = editor.componentFactory.createCheckpoint(checkpointNode);
+                item.moveTo(editor.marker.position);
                 editor.ui.view.layers.checkpoint.on();
                 break;
 
@@ -319,17 +327,17 @@ Editor.UI.prototype.freeCamera = function()
 
 Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 {
-    var vector = new THREE.Vector3(0,0,0),
+    let editor = this.editor,
+        vector = new THREE.Vector3(0,0,0),
         raycaster = new THREE.Raycaster(),
         world = editor.game.scene.world,
         camera = world.camera.camera,
-        bounds = viewport.getBoundingClientRect();
+        bounds = viewport.getBoundingClientRect(),
+        marker = editor.marker;
 
     vector.set((event.layerX / bounds.width) * 2 - 1,
                -(event.layerY / bounds.height) * 2 + 1,
                -1); // z = - 1 important!
-
-    editor.marker.position.copy(vector);
 
     vector.unproject(camera);
     vector.sub(camera.position);
@@ -338,12 +346,15 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 
     var distance = -(camera.position.z / vector.z);
     var pos = camera.position.clone().add(vector.multiplyScalar(distance));
-    editor.marker.position.copy(pos);
-    editor.marker.position.z = 0;
+    marker.position.copy(pos);
+    if (editor.grid.snap) {
+        editor.grid.snapVector(marker.position);
+    }
+    marker.position.z = 0;
 
-    this.viewport.coords.html('X ' + pos.x.toFixed(2) + ' Y ' + pos.y.toFixed(2)).css({
+    this.viewport.coords.html('X ' + marker.position.x.toFixed(2) + ' Y ' + marker.position.y.toFixed(2)).css({
         left: event.layerX + 20,
-        top: event.layerY,
+        top: event.layerY + 20,
     });
 
     var intersectables = [];

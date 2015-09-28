@@ -70,7 +70,7 @@ Editor.ComponentFactory.prototype.createObject = function(objectNode, objectRef)
         nodeFactory = editor.nodeFactory,
         nodeManager = editor.nodeManager;
 
-    if (object === undefined) {
+    if (objectRef === undefined) {
         let parser = new Game.Loader.XML.Parser.ObjectParser();
         objectRef = parser.getObject(objectNode);
     }
@@ -81,7 +81,7 @@ Editor.ComponentFactory.prototype.createObject = function(objectNode, objectRef)
 
     nodeManager.addObjectInstance(objectInstanceNode);
 
-    let item = new Editor.Item(objectInstance, objectInstanceNode);
+    let item = new Editor.Item.Object(objectInstance, objectInstanceNode);
     editor.items.add(item);
 
     return item;
