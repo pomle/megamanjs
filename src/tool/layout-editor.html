@@ -18,10 +18,16 @@
     <script src="./component/editor/Item.js"></script>
     <script src="./component/editor/item/Point.js"></script>
     <script src="./component/editor/item/Rectangle.js"></script>
+    <script src="./component/editor/item/Rectangle2.js"></script>
+    <script src="./component/editor/item/Behavior.js"></script>
+    <script src="./component/editor/item/CameraPath.js"></script>
+    <script src="./component/editor/item/Checkpoint.js"></script>
+    <script src="./component/editor/item/Object.js"></script>
     <script src="./component/editor/ItemFactory.js"></script>
     <script src="./component/editor/ItemSet.js"></script>
     <script src="./component/editor/ModelManager.js"></script>
     <script src="./component/editor/NodeFactory.js"></script>
+    <script src="./component/editor/NodeManager.js"></script>
     <script src="./component/editor/UI.js"></script>
 
     <script src="layout-editor.js"></script>
@@ -46,7 +52,7 @@
                 <fieldset class="layers">
                     <legend>Layers</legend>
                     <label class="behavior"><input type="checkbox" name="behavior" layer="behavior"> Behaviors</label>
-                    <label class="camera"><input type="checkbox" name="cameraPath" layer="cameraWindow|cameraConstraint"> Camera Paths</label>
+                    <label class="camera"><input type="checkbox" name="cameraPath" layer="cameraPath"> Camera Paths</label>
                     <label class="checkpoint"><input type="checkbox" name="checkpoint" layer="checkpoint"> Checkpoints</label>
                     <!--<label class="collision"><input type="checkbox" name="collisionGeometry" layer="collisionGeometry"> Collision Zones</label>-->
                     <label class="object"><input type="checkbox" name="object" layer="object" checked> Visuals</label>
@@ -87,17 +93,21 @@
             <div class="panel item locked">
                 <fieldset class="position">
                     <legend>Position</legend>
-                    <label><input type="text" name="x" /> X</label>
-                    <label><input type="text" name="y" /> Y</label>
-                    <label><input type="text" name="z" /> Z</label>
+                    <label>X <input type="text" name="x" /></label>
+                    <label>Y <input type="text" name="y" /></label>
+                    <label>Z <input type="text" name="z" /></label>
 
-                    <label><input type="text" name="w" /> W</label>
-                    <label><input type="text" name="h" /> H</label>
+                    <label>W <input type="text" name="w" /></label>
+                    <label>H <input type="text" name="h" /></label>
+
+                    <label><input type="checkbox" name="snap" checked /> Snap</label>
                 </fieldset>
 
                 <fieldset class="create">
                     <legend>Create</legend>
                     <label><button name="createCameraPath" type="cameraPath">Camera Path</button></label>
+                    <label><button name="createCameraPath" type="checkpoint">Checkpoint</button></label>
+                    <label><button name="createCameraPath" type="object">Object</button></label>
                 </fieldset>
             </div>
         </div>
@@ -116,6 +126,7 @@
         <fieldset class="console">
             <legend>Console</legend>
             <button name="generate-xml">Generate</button>
+            <button name="reload-xml">Reload</button>
             <textarea name="console"></textarea>
         </fieldset>
     </section>

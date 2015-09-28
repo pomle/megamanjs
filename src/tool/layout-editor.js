@@ -2,7 +2,7 @@
 $(function() {
     function loadLevel(src)
     {
-        editor.loadLevel(src, function() {
+        editor.loadUrl(src, function() {
             editor.file.recent.add(src);
             editor.ui.applyState();
         });
@@ -52,6 +52,12 @@ $(function() {
         e.preventDefault();
         editor.console.find('textarea').val(vkbeautify.xml(editor.getXML()));
     });
+    editor.console.find('button[name=reload-xml]').on('click', function(e) {
+        e.preventDefault();
+        let node = $.parseXML(editor.console.find('textarea').val());
+        node = $(node);
+        editor.load(node.find('> scene'));
+    });
 
 
 
@@ -68,9 +74,8 @@ $(function() {
                     character.position.z = 0;
                     game.scene.world.addObject(character);
 
-                    var characterItem = new Editor.Item(character);
+                    var characterItem = new Editor.Item.Object(character);
                     editor.items.add(characterItem);
-                    editor.items.visible.add(characterItem);
                 }
             });
         }
@@ -80,7 +85,7 @@ $(function() {
     editor.file = $('.file');
     editor.file.new = editor.file.find('.level [name=new]')
         .on('click', function() {
-            editor.loadLevel('./resource/level-skeleton.xml');
+            editor.loadUrl('./resource/level-skeleton.xml');
         });
 
     editor.file.load = editor.file.find('.level [name=open]')
@@ -179,8 +184,8 @@ $(function() {
                 return;
             }
 
-            var g = editor.grid.scale.clone(),
-                i = editor.items.selected,
+            let g = editor.grid.scale.clone(),
+                i = editor.items.selected[0],
                 p = i;
 
             if (e.ctrlKey) {
@@ -199,23 +204,32 @@ $(function() {
                     editor.items.hide(i);
                     editor.items.deselect();
                     break;
-                case 38:
-                    p.y += g.y;
-                    break;
-                case 40:
-                    p.y -= g.y;
-                    break;
-                case 39:
-                    p.x += g.x;
-                    break;
-                case 37:
-                    p.x -= g.x;
-                    break;
-                case 46: // DEL
-                    editor.items.remove(i);
-                    editor.items.deselect();
-                    break;
             }
+
+            if (editor.items.selected.length) {
+                for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
+                    let item = editor.items.selected[i];
+                    switch (e.which) {
+                        case 38:
+                            item.y += g.y;
+                            break;
+                        case 40:
+                            item.y -= g.y;
+                            break;
+                        case 39:
+                            item.x += g.x;
+                            break;
+                        case 37:
+                            item.x -= g.x;
+                            break;
+                        case 46: // DEL
+                            editor.items.remove(item);
+                            editor.items.deselect();
+                            break;
+                    }
+                }
+            }
+
             editor.ui.item.inputs.update(i);
         },
         paint: function(e) {
@@ -272,23 +286,6 @@ $(function() {
                     break;
                 case 37:
                     p.x -= a;
-                    break;
-
-                case 65: // A
-                    geometryInput = prompt('Size', geometryInput);
-
-                    let s = geometryInput.split('/')[0].split('x'),
-                        m = parseFloat(geometryInput.split('/')[1]) || 16;
-
-                    let size = {
-                        x: parseFloat(s[0]),
-                        y: parseFloat(s[1]),
-                    }
-                    size['sx'] = Math.ceil(size.x / m);
-                    size['sy'] = Math.ceil(size.y / m);
-
-                    let item = createPlane(size);
-                    item.moveTo(editor.marker.position);
                     break;
             }
         },

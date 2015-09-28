@@ -9,7 +9,7 @@ Editor.Camera = function(editor)
 Editor.Camera.prototype.followSelected = function()
 {
     let e = this.editor,
-        i = e.items.selected,
+        i = e.items.selected[0],
         c = e.game.scene.camera;
 
     if (!i) {

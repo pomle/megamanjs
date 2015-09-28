@@ -67,7 +67,7 @@
 .workspace .panel.item {
     border-left-width: 1px;
     right: -140;
-    text-align: right;
+    text-align: left;
 }
 
 .workspace .panel.item:hover,

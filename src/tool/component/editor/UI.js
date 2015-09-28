@@ -36,15 +36,15 @@ Editor.UI.prototype.applyState = function()
 Editor.UI.prototype.createItem = function(node)
 {
     let editor = this.editor,
-        item = $(node);
+        element = $(node);
 
-    item.inputs = item.find('.position :input');
-    item.inputs.on('keyup change', function(e) {
-        if (!editor.items.selected) {
+    element.inputs = element.find('.position input[type=text]');
+    element.inputs.on('keyup change', function(e) {
+        if (!editor.items.selected[0]) {
             return;
         }
-        var item = editor.items.selected,
-            object = item.object,
+        let item = editor.items.selected[0],
+            object = element.object,
             value = parseFloat(this.value),
             name = this.name;
 
@@ -58,19 +58,25 @@ Editor.UI.prototype.createItem = function(node)
             case 'z':
             case 'w':
             case 'h':
-                if (item[name] !== undefined) {
-                    item[name] = value;
+                for (let item of editor.items.selected) {
+                    if (item[name] !== undefined) {
+                        item[name] = value;
+                    }
                 }
                 break;
         }
+
+        if (editor.grid.snap) {
+            editor.grid.snapVector(item);
+        }
     });
-    item.inputs.clear = function() {
+    element.inputs.clear = function() {
         this.each(function(input) {
             this.value = '';
             this.disabled = true;
         });
     }
-    item.inputs.update = function(item) {
+    element.inputs.update = function(item) {
         this.each(function(input) {
             let value = item[this.name];
             if (value !== undefined) {
@@ -82,26 +88,68 @@ Editor.UI.prototype.createItem = function(node)
             }
         });
     }
+    element.snap = element.find('.position input[name=snap]').on('change', function() {
+        editor.grid.snap = this.checked;
+    }).trigger('change');
 
     let nodeFactory = editor.nodeFactory,
-        componentFactory = editor.componentFactory;
+        nodeManager = editor.nodeManager,
+        componentFactory = editor.componentFactory,
+        item;
 
-    item.create = item.find('.create');
-    item.create.find('button').on('click', function(e) {
+    var geometryInputDefault = '256x240/16';
+
+
+    element.create = element.find('.create');
+    element.create.find('button').on('click', function(e) {
         let button = $(this);
         switch (button.attr('type')) {
             case 'cameraPath':
-                let pathNode = nodeFactory.createCameraPath(),
-                    path = editor.componentFactory.createCameraPath(pathNode);
+                let pathNode = nodeFactory.createCameraPath();
+                nodeManager.addCameraPath(pathNode);
 
-                nodeFactory.addCameraPath(pathNode);
-                editor.game.scene.camera.addPath(path.cameraPath);
+                item = editor.componentFactory.createCameraPath(pathNode);
+                item.moveTo(editor.marker.position);
                 editor.ui.view.layers.cameraPath.on();
+                break;
+
+            case 'checkpoint':
+                let checkpointNode = nodeFactory.createCheckpoint();
+                nodeManager.addCheckpoint(checkpointNode);
+
+                item = editor.componentFactory.createCheckpoint(checkpointNode);
+                item.moveTo(editor.marker.position);
+                editor.ui.view.layers.checkpoint.on();
+                break;
+
+            case 'object':
+                let geometryInput = prompt('Size', geometryInputDefault);
+                if (!geometryInput) {
+                    return false;
+                }
+
+                let s = geometryInput.split('/')[0].split('x'),
+                    m = parseFloat(geometryInput.split('/')[1]) || 16;
+
+                let size = {
+                    x: parseFloat(s[0]),
+                    y: parseFloat(s[1]),
+                }
+                size['sx'] = Math.ceil(size.x / m);
+                size['sy'] = Math.ceil(size.y / m);
+
+                let objectNode = nodeFactory.createObject(size);
+                nodeManager.addObject(objectNode);
+
+                item = editor.componentFactory.createObject(objectNode);
+
+                item.moveTo(editor.marker.position);
+                editor.ui.view.layers.object.on();
                 break;
         }
     });
 
-    return item;
+    return element;
 }
 
 Editor.UI.prototype.createPlayback = function(node)
@@ -165,6 +213,7 @@ Editor.UI.prototype.createView = function(node)
                 continue;
             }
             let items = [...editor.items.layers[layer]];
+            console.log(items);
             func.call(editor.items, items);
         }
     });
@@ -210,10 +259,43 @@ Editor.UI.prototype.createViewport = function(node)
 
     viewport.coords = viewport.find('.coords');
 
+    let mouse = {
+        pos: new THREE.Vector2(),
+        scale: 1,
+    }
+
     viewport
-        .on('click', function(e) {
+        .on('mousemove', function(e) {
+            if (e.buttons & 1) {
+                let pos = viewport.getPositionAtEvent(e.originalEvent),
+                    x = (mouse.pos.x - pos.x),
+                    y = (mouse.pos.y - pos.y);
+
+                if (editor.items.selected.length) {
+                    for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
+                        let item = editor.items.selected[i];
+                        item.x -= x;
+                        item.y -= y;
+                    }
+                }
+                mouse.pos.copy(pos);
+            }
+        })
+        .on('mouseup', function(e) {
+            for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
+                let item = editor.items.selected[i];
+                if (editor.grid.snap) {
+                    editor.grid.snapVector(item);
+                }
+            }
+        })
+        .on('mousedown', function(e) {
+            mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent));
+
             if (editor.activeMode === editor.modes.paint) {
-                var item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected]));
+                var item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected[0]]));
+
+                mouse.scale = item.model.position.z
 
                 if (item) {
                     var intersect = item.intersect,
@@ -235,20 +317,32 @@ Editor.UI.prototype.createViewport = function(node)
             }
             else {
                 var item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
-                console.log("Clicked item", item);
-                if (item && item.item !== editor.items.selected) {
-                    editor.activeMode = editor.modes.edit;
-                    editor.items.select(item.item);
-                    if (item.item.object instanceof Game.objects.Character) {
-                        editor.game.player.setCharacter(item.item.object);
-                        console.log("Selected character", item.item.object);
+                if (item === false) {
+                    if (!e.ctrlKey) {
+                        editor.activeMode = editor.modes.view;
+                        editor.items.deselect();
+                    }
+                }
+                else {
+                    console.log("Clicked item", item);
+                    /* So far unselected. */
+                    if (editor.items.selected.indexOf(item.item) === -1) {
+                        if (!e.ctrlKey) {
+                            editor.items.deselect();
+                        }
+                        editor.activeMode = editor.modes.edit;
+                        editor.items.select(item.item);
+                        if (item.item.object instanceof Game.objects.Character) {
+                            editor.game.player.setCharacter(item.item.object);
+                            console.log("Selected character", item.item.object);
+                        }
                     }
                 }
             }
         })
         .on('dblclick', function(e) {
             var item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
-            if (item && item.type === "object" && item.item === editor.items.selected) {
+            if (item && item.type === "object" && item.item === editor.items.selected[0]) {
                 editor.activeMode = editor.modes.paint;
                 var mat = item.item.overlay.material;
                 mat.color = new THREE.Color(Editor.Colors.overlayPaint);
@@ -266,6 +360,20 @@ Editor.UI.prototype.createViewport = function(node)
             }
         });
 
+    viewport.getPositionAtEvent = function(event)
+    {
+        let bounds = this[0].getBoundingClientRect(),
+            camera = editor.game.scene.world.camera.camera,
+            vector = new THREE.Vector3((event.layerX / bounds.width) * 2 - 1,
+                                    -(event.layerY / bounds.height) * 2 + 1,
+                                    -1);
+        vector.unproject(camera);
+        vector.sub(camera.position);
+        vector.normalize();
+        let distance = -(camera.position.z / vector.z);
+        return camera.position.clone().add(vector.multiplyScalar(distance));
+    }
+
     return viewport;
 }
 
@@ -279,17 +387,17 @@ Editor.UI.prototype.freeCamera = function()
 
 Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 {
-    var vector = new THREE.Vector3(0,0,0),
+    let editor = this.editor,
+        vector = new THREE.Vector3(0,0,0),
         raycaster = new THREE.Raycaster(),
         world = editor.game.scene.world,
         camera = world.camera.camera,
-        bounds = viewport.getBoundingClientRect();
+        bounds = viewport.getBoundingClientRect(),
+        marker = editor.marker;
 
     vector.set((event.layerX / bounds.width) * 2 - 1,
                -(event.layerY / bounds.height) * 2 + 1,
                -1); // z = - 1 important!
-
-    editor.marker.position.copy(vector);
 
     vector.unproject(camera);
     vector.sub(camera.position);
@@ -298,17 +406,23 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 
     var distance = -(camera.position.z / vector.z);
     var pos = camera.position.clone().add(vector.multiplyScalar(distance));
-    editor.marker.position.copy(pos);
-    editor.marker.position.z = 0;
+    marker.position.copy(pos);
 
-    this.viewport.coords.html('X ' + pos.x.toFixed(2) + ' Y ' + pos.y.toFixed(2)).css({
+    if (editor.grid.snap) {
+        editor.grid.snapVector(marker.position);
+    }
+
+    marker.position.z = 0;
+
+    this.viewport.coords.html('X ' + marker.position.x.toFixed(2) +
+                             ' Y ' + marker.position.y.toFixed(2)).css({
         left: event.layerX + 20,
-        top: event.layerY,
+        top: event.layerY + 20,
     });
 
     var intersectables = [];
     items.forEach(function(item) {
-        intersectables.push(item.object.model);
+        intersectables.push(item.model);
     });
 
     console.log("Candidate objects", intersectables);
@@ -318,7 +432,7 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
     if (intersects.length !== 0) {
         let closest = intersects[0].object;
         for (let item of items) {
-            if (item.object.model === closest) {
+            if (item.model === closest) {
                 return {item: item, intersect: closest};
             }
         }

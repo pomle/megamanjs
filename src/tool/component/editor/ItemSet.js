@@ -6,7 +6,8 @@ Editor.ItemSet = function(editor)
 
     this.items = new Set();
     this.layers = {};
-    this.selected = undefined;
+
+    this.selected = [];
     this.visible = new Set();
 
     for (let prop of ['entries']) {
@@ -33,80 +34,91 @@ Object.defineProperties(Editor.ItemSet.prototype, {
     },
 });
 
-Editor.ItemSet.prototype.add = function(item)
+Editor.ItemSet.prototype.add = function()
 {
-    let object = item.object;
+    for (let i = 0, l = arguments.length; i !== l; ++i) {
+        let item = arguments[i];
+        let object = item.object;
 
-    if (this.world && !this.world.objects.has(object)) {
-        this.world.addObject(object);
-    }
-
-    if (item.type) {
-        if (!this.layers[item.type]) {
-            this.layers[item.type] = new Set();
+        if (object instanceof Engine.Object
+        && !this.world.objects.has(object)) {
+            this.world.addObject(object);
         }
-        this.layers[item.type].add(item);
+
+        if (item.children.length !== 0) {
+            this.add.apply(this, item.children);
+        }
+
+        if (item.TYPE) {
+            let t = item.TYPE;
+            if (!this.layers[t]) {
+                this.layers[t] = new Set();
+            }
+            this.layers[t].add(item);
+        }
+
+        this.items.add(item);
+        this.show(item);
     }
-
-    this.items.add(item);
-    this.show(item);
-}
-
-Editor.ItemSet.prototype.clear = function()
-{
-    this.layers = {};
-    this.items.clear();
-    this.visible.clear();
 }
 
 Editor.ItemSet.prototype.deselect = function()
 {
-    if (this.selected) {
-        var item = this.selected;
-        if (item.overlay) {
-            this.editor.overlays.remove(item.overlay);
-            item.overlay = undefined;
+    if (this.selected.length) {
+        for (let i = 0, l = this.selected.length; i !== l; ++i) {
+            let item = this.selected[i];
+            if (item.overlay) {
+                this.editor.overlays.remove(item.overlay);
+                item.overlay = undefined;
+            }
         }
     }
 
-    this.selected = undefined;
+    this.selected = [];
 
     this.editor.ui.item.inputs.clear();
 }
 
 Editor.ItemSet.prototype.select = function(item)
 {
-    this.deselect();
-    this.selected = item;
+    this.selected.unshift(item);
 
-    //item.overlay = new THREE.Mesh(item.object.model.geometry, this.editor.materials.overlay);
-    item.overlay = new THREE.WireframeHelper(item.object.model, 0x00ff00);
-
-    //item.object.model.add(item.overlay);
+    item.overlay = new THREE.WireframeHelper(item.model, 0x00ff00);
     this.editor.overlays.add(item.overlay);
-    //item.overlay.translateZ(.1);
 
     console.log("Selected item", this.selected);
 
     this.editor.ui.item.inputs.update(item);
 }
 
-Editor.ItemSet.prototype.remove = function(item)
+Editor.ItemSet.prototype.remove = function()
 {
-    if (!this.items.has(item)) {
-        console.error("Item not found", item);
-        return false;
-    }
+    for (let i = 0, l = arguments.length; i !== l; ++i) {
+        let item = arguments[i];
 
-    this.hide(item);
-    item.delete();
-    item.node.remove();
-    this.world.removeObject(item.object);
-    for (var i = 0, l = item.children.length; i !== l; ++i) {
-        this.remove(item.children[i]);
-    }
+        if (!this.items.has(item)) {
+            console.error("Item not found", item);
+            return false;
+        }
 
-    this.items.delete(item);
+        if (item.children.length !== 0) {
+            this.remove.apply(this, item.children);
+        }
+
+        let object = item.object;
+
+        if (object instanceof Engine.Object
+        && this.world.objects.has(object)) {
+            this.world.removeObject(object);
+        }
+
+        this.hide(item);
+
+        item.delete();
+        item.node.remove();
+
+        this.items.delete(item);
+    }
 }
 
 Editor.ItemSet.prototype.hide = function()
@@ -122,6 +134,10 @@ Editor.ItemSet.prototype.hide = function()
     else {
         let item = arguments[0];
 
+        if (item.children.length !== 0) {
+            this.hide.apply(this, item.children);
+        }
+
         if (!this.scene) {
             return false;
         }
@@ -130,11 +146,20 @@ Editor.ItemSet.prototype.hide = function()
             this.deselect();
         }
 
-        this.editor.overlays.remove(item.object.model);
-        this.scene.remove(item.object.model);
+        if (item.TYPE === "object") {
+            this.scene.remove(item.model);
+        } else {
+            this.editor.overlays.remove(item.model);
+        }
+
+        let toggler = this.editor.ui.view.layers[item.TYPE];
+        if (toggler) {
+            toggler.checked = false;
+        }
+
         this.visible.delete(item);
 
-        //console.log("Hid item", item);
+        console.log("Hid item", item);
     }
 }
 
@@ -151,15 +176,18 @@ Editor.ItemSet.prototype.show = function()
     else {
         let item = arguments[0];
 
-        if (item.type === "object" && this.scene) {
-            this.scene.add(item.object.model);
+        if (item.children.length !== 0) {
+            this.show.apply(this, item.children);
         }
-        else {
-            this.editor.overlays.add(item.object.model);
+
+        if (item.TYPE === "object") {
+            this.scene.add(item.model);
+        } else {
+            this.editor.overlays.add(item.model);
         }
 
         this.visible.add(item);
 
-        //console.log("Exposed item", item);
+        console.log("Exposed item", item);
     }
 }
