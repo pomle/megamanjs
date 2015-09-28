@@ -2,7 +2,7 @@
 $(function() {
     function loadLevel(src)
     {
-        editor.loadLevel(src, function() {
+        editor.loadUrl(src, function() {
             editor.file.recent.add(src);
             editor.ui.applyState();
         });
@@ -51,6 +51,12 @@ $(function() {
     editor.console.find('button[name=generate-xml]').on('click', function(e) {
         e.preventDefault();
         editor.console.find('textarea').val(vkbeautify.xml(editor.getXML()));
+    });
+    editor.console.find('button[name=reload-xml]').on('click', function(e) {
+        e.preventDefault();
+        let node = $.parseXML(editor.console.find('textarea').val());
+        node = $(node);
+        editor.load(node.find('> scene'));
     });
 
 
@@ -272,23 +278,6 @@ $(function() {
                     break;
                 case 37:
                     p.x -= a;
-                    break;
-
-                case 65: // A
-                    geometryInput = prompt('Size', geometryInput);
-
-                    let s = geometryInput.split('/')[0].split('x'),
-                        m = parseFloat(geometryInput.split('/')[1]) || 16;
-
-                    let size = {
-                        x: parseFloat(s[0]),
-                        y: parseFloat(s[1]),
-                    }
-                    size['sx'] = Math.ceil(size.x / m);
-                    size['sy'] = Math.ceil(size.y / m);
-
-                    let item = createPlane(size);
-                    item.moveTo(editor.marker.position);
                     break;
             }
         },

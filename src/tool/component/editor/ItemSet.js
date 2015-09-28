@@ -37,7 +37,8 @@ Editor.ItemSet.prototype.add = function(item)
 {
     let object = item.object;
 
-    if (this.world && !this.world.objects.has(object)) {
+    if (object instanceof Engine.Object
+    && !this.world.objects.has(object)) {
         this.world.addObject(object);
     }
 
@@ -79,12 +80,8 @@ Editor.ItemSet.prototype.select = function(item)
     this.deselect();
     this.selected = item;
 
-    //item.overlay = new THREE.Mesh(item.object.model.geometry, this.editor.materials.overlay);
-    item.overlay = new THREE.WireframeHelper(item.object.model, 0x00ff00);
-
-    //item.object.model.add(item.overlay);
+    item.overlay = new THREE.WireframeHelper(item.model, 0x00ff00);
     this.editor.overlays.add(item.overlay);
-    //item.overlay.translateZ(.1);
 
     console.log("Selected item", this.selected);
 
@@ -98,13 +95,21 @@ Editor.ItemSet.prototype.remove = function(item)
         return false;
     }
 
+    let object = item.object;
+
+    if (object instanceof Engine.Object
+    && this.world.objects.has(object)) {
+        this.world.removeObject(object);
+    }
+
     this.hide(item);
-    item.delete();
-    item.node.remove();
-    this.world.removeObject(item.object);
-    for (var i = 0, l = item.children.length; i !== l; ++i) {
+    for (let i = 0, l = item.children.length; i !== l; ++i) {
         this.remove(item.children[i]);
     }
+
+    item.delete();
+    item.node.remove();
+    this.editor.overlays.remove(item.model);
 
     this.items.delete(item);
 }
@@ -151,15 +156,11 @@ Editor.ItemSet.prototype.show = function()
     else {
         let item = arguments[0];
 
-        if (item.type === "object" && this.scene) {
-            this.scene.add(item.object.model);
-        }
-        else {
-            this.editor.overlays.add(item.object.model);
+        if (item.TYPE !== "object") {
+            console.log(item.TYPE, item, item.model);
+            this.editor.overlays.add(item.model);
         }
 
         this.visible.add(item);
-
-        //console.log("Exposed item", item);
     }
 }

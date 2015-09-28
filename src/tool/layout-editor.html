@@ -18,10 +18,15 @@
     <script src="./component/editor/Item.js"></script>
     <script src="./component/editor/item/Point.js"></script>
     <script src="./component/editor/item/Rectangle.js"></script>
+    <script src="./component/editor/item/Behavior.js"></script>
+    <script src="./component/editor/item/CameraPath.js"></script>
+    <script src="./component/editor/item/Checkpoint.js"></script>
+    <script src="./component/editor/item/Object.js"></script>
     <script src="./component/editor/ItemFactory.js"></script>
     <script src="./component/editor/ItemSet.js"></script>
     <script src="./component/editor/ModelManager.js"></script>
     <script src="./component/editor/NodeFactory.js"></script>
+    <script src="./component/editor/NodeManager.js"></script>
     <script src="./component/editor/UI.js"></script>
 
     <script src="layout-editor.js"></script>
@@ -98,6 +103,8 @@
                 <fieldset class="create">
                     <legend>Create</legend>
                     <label><button name="createCameraPath" type="cameraPath">Camera Path</button></label>
+                    <label><button name="createCameraPath" type="checkpoint">Checkpoint</button></label>
+                    <label><button name="createCameraPath" type="object">Object</button></label>
                 </fieldset>
             </div>
         </div>
@@ -116,6 +123,7 @@
         <fieldset class="console">
             <legend>Console</legend>
             <button name="generate-xml">Generate</button>
+            <button name="reload-xml">Reload</button>
             <textarea name="console"></textarea>
         </fieldset>
     </section>

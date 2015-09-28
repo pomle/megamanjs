@@ -13,17 +13,12 @@ Editor.ComponentFactory.prototype.createCameraPath = function(pathNode, cameraPa
     if (cameraPath === undefined) {
         let parser = new Game.Loader.XML.Parser();
         cameraPath = parser.getCameraPath(pathNode);
+        editor.game.scene.camera.addPath(cameraPath);
     }
 
-    let windowItem = itemFactory.create('cameraWindow', pathNode.find('> window'))(cameraPath.window);
-    windowItem.object.position.z = 0;
+    let item = new Editor.Item.CameraPath(cameraPath, pathNode);
 
-    let constraintItem = itemFactory.create('cameraConstraint', pathNode.find('> constraint'))(cameraPath.constraint);
-    constraintItem.object.position.z = windowItem.object.position.z + 1;
-
-    windowItem.addChild(constraintItem);
-
-    windowItem.delete = function() {
+    item.delete = function() {
         pathNode.remove();
         let paths = editor.game.scene.camera.paths;
         for (let i = 0, l = paths.length; i !== l; ++i) {
@@ -34,11 +29,60 @@ Editor.ComponentFactory.prototype.createCameraPath = function(pathNode, cameraPa
         }
     }
 
-    editor.items.add(windowItem);
-    editor.items.add(constraintItem);
+    editor.items.add(item);
 
-    return {
-        cameraPath: cameraPath,
-        items: [windowItem, constraintItem]
+    return item;
+}
+
+Editor.ComponentFactory.prototype.createCheckpoint = function(checkPointNode, checkpoint)
+{
+    let editor = this.editor,
+        level = editor.game.scene;
+
+    if (checkpoint === undefined) {
+        level.addCheckPoint(parseFloat(checkPointNode.attr('x')),
+                            -parseFloat(checkPointNode.attr('y')),
+                            parseFloat(checkPointNode.attr('r')));
+        checkpoint = level.checkPoints[level.checkPoints.length - 1];
     }
+
+    let item = new Editor.Item.Checkpoint(checkpoint, checkPointNode);
+
+    item.delete = function() {
+        checkPointNode.remove();
+        let checkPoints = level.checkPoints;
+        for (let i = 0, l = checkPoints.length; i !== l; ++i) {
+            if (checkpoint === checkPoints[i]) {
+                checkPoints.splice(i, 1);
+            }
+        }
+    }
+
+    editor.items.add(item);
+
+    return item;
+}
+
+Editor.ComponentFactory.prototype.createObject = function(objectNode, objectRef)
+{
+    let editor = this.editor,
+        itemFactory = editor.itemFactory,
+        nodeFactory = editor.nodeFactory,
+        nodeManager = editor.nodeManager;
+
+    if (object === undefined) {
+        let parser = new Game.Loader.XML.Parser.ObjectParser();
+        objectRef = parser.getObject(objectNode);
+    }
+
+    let objectInstance = new objectRef();
+
+    let objectInstanceNode = nodeFactory.createObjectInstance(objectInstance);
+
+    nodeManager.addObjectInstance(objectInstanceNode);
+
+    let item = new Editor.Item(objectInstance, objectInstanceNode);
+    editor.items.add(item);
+
+    return item;
 }

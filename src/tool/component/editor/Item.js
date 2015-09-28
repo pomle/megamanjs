@@ -5,7 +5,6 @@ Editor.Item = function(object, node)
     this.children = [];
     this.object = object;
     this.node = $(node);
-    this.type = undefined;
 }
 
 Object.defineProperties(Editor.Item.prototype, {
@@ -63,19 +62,6 @@ Editor.Item.prototype.clone = function()
     return new this.constructor(new this.object.constructor(), node);
 }
 
-Editor.Item.prototype.getComponent = function(name)
-{
-    var o = this.object;
-
-    switch (name) {
-        case 'x':
-        case 'y':
-        case 'z':
-            return o.position[name];
-            break;
-    }
-}
-
 Editor.Item.prototype.moveTo = function(vec)
 {
     let components = ['x', 'y', 'z'];
@@ -93,38 +79,6 @@ Editor.Item.prototype.propagateComponent = function(name, value)
             this.children[i][name] += value - this[name];
         }
     }
-}
-
-Editor.Item.prototype.setComponent = function(name, value)
-{
-    let k = name,
-        v = value,
-        o = this.object,
-        p = o.position,
-        n = this.node;
-
-    this.propagateComponent(name, value);
-
-    switch (k) {
-        case 'x':
-            p.x = v;
-            n.attr('x', v + o.origo.x);
-            return;
-            break;
-
-        case 'y':
-            p.y = v;
-            n.attr('y', -(v + o.origo.y));
-            return;
-            break;
-
-        case 'z':
-            p.z = v;
-            n.attr('z', v);
-            return;
-            break;
-    }
-    //o.model.updateMatrix();
 }
 
 Editor.Item.prototype.delete = function()

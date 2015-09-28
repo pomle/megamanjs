@@ -36,15 +36,15 @@ Editor.UI.prototype.applyState = function()
 Editor.UI.prototype.createItem = function(node)
 {
     let editor = this.editor,
-        item = $(node);
+        element = $(node);
 
-    item.inputs = item.find('.position :input');
-    item.inputs.on('keyup change', function(e) {
+    element.inputs = element.find('.position :input');
+    element.inputs.on('keyup change', function(e) {
         if (!editor.items.selected) {
             return;
         }
         var item = editor.items.selected,
-            object = item.object,
+            object = element.object,
             value = parseFloat(this.value),
             name = this.name;
 
@@ -64,13 +64,13 @@ Editor.UI.prototype.createItem = function(node)
                 break;
         }
     });
-    item.inputs.clear = function() {
+    element.inputs.clear = function() {
         this.each(function(input) {
             this.value = '';
             this.disabled = true;
         });
     }
-    item.inputs.update = function(item) {
+    element.inputs.update = function(item) {
         this.each(function(input) {
             let value = item[this.name];
             if (value !== undefined) {
@@ -84,24 +84,62 @@ Editor.UI.prototype.createItem = function(node)
     }
 
     let nodeFactory = editor.nodeFactory,
+        nodeManager = editor.nodeManager,
         componentFactory = editor.componentFactory;
 
-    item.create = item.find('.create');
-    item.create.find('button').on('click', function(e) {
+    var geometryInputDefault = '256x240/16';
+
+
+    element.create = element.find('.create');
+    element.create.find('button').on('click', function(e) {
         let button = $(this);
         switch (button.attr('type')) {
             case 'cameraPath':
-                let pathNode = nodeFactory.createCameraPath(),
-                    path = editor.componentFactory.createCameraPath(pathNode);
+                let pathNode = nodeFactory.createCameraPath();
+                nodeManager.addCameraPath(pathNode);
 
-                nodeFactory.addCameraPath(pathNode);
-                editor.game.scene.camera.addPath(path.cameraPath);
+                let item = editor.componentFactory.createCameraPath(pathNode);
+                item.moveTo(editor.marker.position);
                 editor.ui.view.layers.cameraPath.on();
+                break;
+
+            case 'checkpoint':
+                let checkpointNode = nodeFactory.createCheckpoint();
+                nodeManager.addCheckpoint(checkpointNode);
+
+                let aitem = editor.componentFactory.createCheckpoint(checkpointNode);
+                aitem.moveTo(editor.marker.position);
+                editor.ui.view.layers.checkpoint.on();
+                break;
+
+            case 'object':
+                let geometryInput = prompt('Size', geometryInputDefault);
+                if (!geometryInput) {
+                    return false;
+                }
+
+                let s = geometryInput.split('/')[0].split('x'),
+                    m = parseFloat(geometryInput.split('/')[1]) || 16;
+
+                let size = {
+                    x: parseFloat(s[0]),
+                    y: parseFloat(s[1]),
+                }
+                size['sx'] = Math.ceil(size.x / m);
+                size['sy'] = Math.ceil(size.y / m);
+
+                let objectNode = nodeFactory.createObject(size);
+                nodeManager.addObject(objectNode);
+
+                item = editor.componentFactory.createObject(objectNode);
+
+                item.moveTo(editor.marker.position);
+                editor.ui.view.layers.object.on();
                 break;
         }
     });
 
-    return item;
+    return element;
 }
 
 Editor.UI.prototype.createPlayback = function(node)
@@ -235,6 +273,7 @@ Editor.UI.prototype.createViewport = function(node)
             }
             else {
                 var item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
+                editor.items.deselect();
                 console.log("Clicked item", item);
                 if (item && item.item !== editor.items.selected) {
                     editor.activeMode = editor.modes.edit;
@@ -308,7 +347,7 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 
     var intersectables = [];
     items.forEach(function(item) {
-        intersectables.push(item.object.model);
+        intersectables.push(item.model);
     });
 
     console.log("Candidate objects", intersectables);
@@ -318,7 +357,7 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
     if (intersects.length !== 0) {
         let closest = intersects[0].object;
         for (let item of items) {
-            if (item.object.model === closest) {
+            if (item.model === closest) {
                 return {item: item, intersect: closest};
             }
         }
