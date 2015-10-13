@@ -269,19 +269,23 @@ Game.scenes.Level.prototype.resetPlayer = function()
     if (character.stun) {
         character.stun.disengage();
     }
+    character.integrator.reset();
 
     var checkpoint = this.checkPoints[this.checkPointIndex];
     if (checkpoint) {
-        var startPosition = checkpoint.pos.clone();
-        var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
-        var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
+        var startPosition = checkpoint.pos.clone(),
+            playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
+            cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset),
+            camera = this.world.camera;
+
         character.moveTo(playerPosition);
         character.teleport.to(startPosition);
-        this.world.camera.jumpToPath(cameraPosition);
+        camera.unfollow();
+        camera.jumpToPath(cameraPosition);
 
         var level = this;
         var startFollow = function() {
-            level.followPlayer();
+            camera.follow(character);
             this.unbind(this.teleport.EVENT_END, arguments.callee);
         }
         character.bind(character.teleport.EVENT_END, startFollow);
