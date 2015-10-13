@@ -156,6 +156,10 @@ Game.scenes.Level.prototype.readyBlink = function(callback)
         engine = this.game.engine,
         level = this;
 
+    if (!model) {
+        return callback();
+    }
+
     function blink(dt) {
         if (elapsed > duration) {
             level.world.scene.remove(model);
