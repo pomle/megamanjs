@@ -86,4 +86,5 @@ Game.traits.Physics.prototype.zero = function()
 {
     this.velocity.multiplyScalar(0);
     this._host.velocity.copy(this.velocity);
+    this._host.integrator.reset();
 }

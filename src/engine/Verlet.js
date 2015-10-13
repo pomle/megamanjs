@@ -16,3 +16,8 @@ Engine.Verlet.prototype.integrate = function(position, velocity, deltaTime)
         this.velocity[c] = velocity[c];
     }
 }
+
+Engine.Verlet.prototype.reset = function()
+{
+    this.velocity.set(0, 0, 0);
+}
