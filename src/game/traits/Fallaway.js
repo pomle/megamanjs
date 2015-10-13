@@ -44,5 +44,6 @@ Game.traits.Fallaway.prototype.reset = function()
     this._host.physics.zero();
     if (this.originalPosition) {
         this._host.position.copy(this.originalPosition);
+        this.originalPosition = undefined;
     }
 }
