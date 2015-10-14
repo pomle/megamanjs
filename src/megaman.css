@@ -222,6 +222,7 @@ input {
     position: absolute;
     right: 0;
     width: 100%;
+    z-index: 2;
     zoom: .75;
 }
 
@@ -230,7 +231,7 @@ input {
 #game.fullscreen #nes-controller .start,
 #game.fullscreen #nes-controller .select,
 #game.fullscreen #nes-controller .direction {
-    background: url('nes-controller-transparent.png');
+    background-image: url('nes-controller-transparent.png');
 }
 #game.fullscreen #nes-controller .direction {
     background-position: -62px -122px;
