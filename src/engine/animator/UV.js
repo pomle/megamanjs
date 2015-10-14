@@ -2,8 +2,6 @@ Engine.Animator.UV = function()
 {
     Engine.Animator.call(this);
 
-    this._currentIndex = undefined;
-
     this.geometries = [];
     this.indices = [0];
 }

@@ -15,7 +15,7 @@ Game.objects.characters.Metalman.prototype.routeAnimation = function()
         return 'jump';
     }
 
-    if (this.move._walkSpeed) {
+    if (this.move._interimSpeed) {
         if (this.weapon._firing) {
             return 'fire';
         }

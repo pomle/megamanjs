@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="Crashman">
+    <gravity x="0" y="9.81" />
+
+    <checkpoints>
+        <checkpoint x="4224" y="1080"/>
+    </checkpoints>
+
+    <texture url="./crashman/tiles.png" w="256" h="128">
+        <animation id="pipe-l">
+            <frame x="1" y="55" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="pipe-r">
+            <frame x="37" y="55" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="pipe">
+            <frame x="19" y="55" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="space-1">
+            <frame x="1" y="19" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="space-2">
+            <frame x="19" y="19" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="space-3">
+            <frame x="37" y="19" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="space-6">
+            <frame x="37" y="37" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="space-5">
+            <frame x="19" y="37" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="space-4">
+            <frame x="1" y="37" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="maze-h-l">
+            <frame x="1" y="73" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="maze-h">
+            <frame x="19" y="73" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="maze-h-r">
+            <frame x="37" y="73" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="mase-v-t">
+            <frame x="55" y="73" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="maze-v">
+            <frame x="55" y="91" w="16" h="16" duration=".5"/>
+        </animation>
+        <animation id="maze-v-b">
+            <frame x="55" y="108" w="16" h="16" duration=".5"/>
+        </animation>
+    </texture>
+
+    <objects>
+    </objects>
+
+    <models>
+        <model id="level-1-platforms">
+            <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45" />
+        </model>
+
+    </models>
+
+
+    <layout>
+        <background model="level-1-platforms" x="0" y="0" z="-1" />
+
+        <behaviors>
+            <deathzones>
+            </deathzones>
+            <solids>
+            </solids>
+        </behaviors>
+    </layout>
+</scene>

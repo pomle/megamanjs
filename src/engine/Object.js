@@ -3,12 +3,15 @@ Engine.Object = function()
     Engine.Events.call(this);
 
     this.uuid = THREE.Math.generateUUID();
+    this.name = undefined;
+
     this.animators = [];
     this.collidable = true;
     this.collision = [];
     this.deltaTime = undefined;
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
+    this.integrator = new Engine.Verlet(['x', 'y']);
     this.origo = new THREE.Vector2();
     this.position = undefined;
     this.time = 0;
@@ -28,7 +31,6 @@ Engine.Object.prototype.DIRECTION_LEFT = -1;
 Engine.Object.prototype.DIRECTION_RIGHT = 1;
 
 Engine.Object.prototype.EVENT_COLLIDE = 'collide';
-Engine.Object.prototype.EVENT_DIRECTION_CHANGE = 'direction-change';
 Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
 Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
 Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
@@ -154,8 +156,7 @@ Engine.Object.prototype.timeShift = function(deltaTime)
         this.animators[i].update(deltaTime);
     }
 
-    this.position.x += this.velocity.x * deltaTime;
-    this.position.y += this.velocity.y * deltaTime;
+    this.integrator.integrate(this.position, this.velocity, deltaTime);
 
     this.time += deltaTime;
 }

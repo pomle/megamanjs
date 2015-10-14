@@ -8,14 +8,24 @@ Game.Loader.XML = function(game)
 
 Engine.Util.extend(Game.Loader.XML, Game.Loader);
 
-Game.Loader.XML.prototype.defaultMaterial = new THREE.MeshBasicMaterial({
-    color: 0x0000ff,
-    wireframe: true,
-    side: THREE.DoubleSide,
-    transparent: true,
-});
+Game.Loader.XML.createFromXML = function(url, callback)
+{
+    var renderer = new THREE.WebGLRenderer({
+        'antialias': false,
+    });
 
-Game.Loader.XML.prototype.asyncLoadXml = function(url, callback, async)
+    var game = new Game();
+    game.engine = new Engine(renderer);
+    game.player = new Game.Player();
+    game.player.hud = new Hud($('#screen'));
+
+    var loader = new Game.Loader.XML(game);
+    loader.loadGame(url, callback);
+
+    return game;
+}
+
+Game.Loader.XML.prototype.asyncLoadXml = function(url, callback)
 {
     return $.ajax({
         url: url,
@@ -24,8 +34,8 @@ Game.Loader.XML.prototype.asyncLoadXml = function(url, callback, async)
             throw e;
         },
         success: function(result) {
-            var node = $(result);
             result.baseURL = url;
+            var node = $(result);
             callback(node);
         }
     });
@@ -41,7 +51,6 @@ Game.Loader.XML.prototype.load = function(url, callback)
     });
 }
 
-
 Game.Loader.XML.prototype.loadGame = function(url, callback)
 {
     var loader = this;
@@ -50,11 +59,26 @@ Game.Loader.XML.prototype.loadGame = function(url, callback)
     });
 }
 
+Game.Loader.XML.prototype.loadLevel = function(url, callback)
+{
+    var loader = this;
+    this.load(url, function(node) {
+        var level = loader.parseLevel(node, callback);
+    });
+}
+
+Game.Loader.XML.prototype.loadObjects = function(url, callback)
+{
+    var loader = this;
+    this.load(url, function(node) {
+        loader.parseObjects(node, callback);
+    });
+}
+
 Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.CharacterParser(this);
-    parser.callback = callback;
-    parser.parse(characterNode);
+    return parser.parse(characterNode, callback);
 }
 
 Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
@@ -95,10 +119,17 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         loader.startScene(entrySceneName);
     }
 
-    var playerParse = function()
+    var playerNode = gameNode.find('> player');
+    var playerCharacterId = playerNode.find('> character').attr('id');
+    game.player.defaultWeapon = playerNode.find('> weapon').attr('default');
+
+    var characterReady = function(characterId)
     {
-        var playerNode = gameNode.find('> player');
-        var character = new (loader.game.resource.get('character', playerNode.find('> character').attr('id')))();
+        if (characterId !== playerCharacterId) {
+            return;
+        }
+
+        var character = new (loader.game.resource.get('character', characterId))();
         character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
         game.player.setCharacter(character);
         game.hud.equipCharacter(game.player.character);
@@ -107,29 +138,14 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         callback();
     }
 
-    var characterQueue = 0;
-    var cont = function()
-    {
-        --characterQueue;
-        if (characterQueue === 0) {
-            playerParse();
-        }
-    }
-
-    gameNode.find('> objects').each(function() {
-        loader.traverseNode($(this), function(objectsNode) {
-            loader.parseObjects(objectsNode);
-        });
-    });
-
-    gameNode.find('> characters > character').each(function() {
-        var characterNode = $(this);
-        ++characterQueue;
-        loader.traverseNode(characterNode, function(node) {
-            loader.parseCharacter(node, function(character) {
-                loader.game.resource.addAuto(character.id, character);
-                cont();
-            });
+    gameNode.find('> characters > objects').each(function() {
+        var objectsNode = $(this);
+        loader.traverseNode(objectsNode, function(objectsNode) {
+            var characters = loader.parseObjects(objectsNode);
+            for (var characterId in characters) {
+                loader.game.resource.addAuto(characterId, characters[characterId]);
+                characterReady(characterId);
+            }
         });
     });
 }
@@ -137,16 +153,14 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
 Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.LevelParser(this);
-    parser.baseUrl = levelNode.baseUrl;
-    parser.callback = callback;
-    parser.parse(levelNode);
+    parser.parse(levelNode, callback);
+    return parser.level;
 }
 
 Game.Loader.XML.prototype.parseObjects = function(objectsNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.ObjectParser(this);
-    parser.callback = callback;
-    parser.parse(objectsNode);
+    return parser.parse(objectsNode, callback);
 }
 
 Game.Loader.XML.prototype.parseScene = function(sceneNode, callback)

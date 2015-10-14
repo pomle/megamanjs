@@ -1,38 +1,39 @@
-<character id="Airman" source="Airman">
-    <traits>
-        <trait source="ContactDamage" points="8" />
-        <trait source="Health" max="28" />
-        <trait source="Jump" force="42900" duration=".18" falloff=".3" />
-        <trait source="Physics" area=".04" drag=".045" mass="165" />
-        <trait source="Move" />
-        <trait source="Invincibility" duration=".5" />
-        <trait source="Weapon">
-            <projectile-emit-offset x="22" y="-1" />
-        </trait>
-    </traits>
-
-    <model w="48" h="48">
+<objects>
+    <object type="character" id="Airman" source="Airman">
+        <geometry type="plane" w="48" h="48" />
         <collision>
             <rect x="0" y="0" w="20" h="28" />
         </collision>
-        <textures>
-            <texture id="airman" url="airman.png" w="256" h="256">
-                <animations>
-                    <animation id="idle">
-                        <frame x="0" y="0"/>
-                    </animation>
-                    <animation id="fire">
-                        <frame x="96" y="0"/>
-                    </animation>
-                    <animation id="jump">
-                        <frame x="48" y="0"/>
-                    </animation>
-                    <animation id="blow">
-                        <frame x="144" y="0" duration=".12" />
-                        <frame x="192" y="0" duration=".12" />
-                    </animation>
-                </animations>
-            </texture>
-        </textures>
-    </model>
-</character>
+        <traits>
+            <trait source="ContactDamage" points="8" />
+            <trait source="Health" max="28" />
+            <trait source="Jump" force="42900" duration=".18" falloff=".3" />
+            <trait source="Physics" area=".04" drag=".045" mass="165" />
+            <trait source="Move" />
+            <trait source="Invincibility" duration=".5" />
+            <trait source="Weapon">
+                <projectile-emit-offset x="22" y="-1" />
+            </trait>
+        </traits>
+    </object>
+
+    <textures>
+        <texture url="airman.png" w="256" h="256" />
+    </textures>
+
+    <animations w="48" h="48">
+        <animation id="idle">
+            <frame x="0" y="0"/>
+        </animation>
+        <animation id="fire">
+            <frame x="96" y="0"/>
+        </animation>
+        <animation id="jump">
+            <frame x="48" y="0"/>
+        </animation>
+        <animation id="blow">
+            <frame x="144" y="0" duration=".12" />
+            <frame x="192" y="0" duration=".12" />
+        </animation>
+    </animations>
+</objects>

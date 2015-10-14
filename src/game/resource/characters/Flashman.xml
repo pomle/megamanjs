@@ -1,47 +1,48 @@
-<character id="Flashman" source="Flashman">
-    <traits>
-        <trait source="ContactDamage" points="4" />
-        <trait source="Health" max="28" />
-        <trait source="Jump" force="16800" duration=".18" falloff=".3" />
-        <trait source="Physics" area=".04" drag=".045" mass="105" />
-        <trait source="Move" />
-        <trait source="Invincibility" duration=".5" />
-        <trait source="Weapon">
-            <projectile-emit-offset x="18" y="3" />
-        </trait>
-    </traits>
-
-    <model w="48" h="48">
+<objects>
+    <object type="character" id="Flashman" source="Flashman">
+        <geometry type="plane" w="48" h="48" />
         <collision>
             <rect x="0" y="0" w="12" h="24" />
         </collision>
-        <textures>
-            <texture id="flashman" url="flashman.png" w="256" h="256">
-                <animations>
-                    <animation id="idle" default="true">
-                        <frame x="0" y="0"/>
-                    </animation>
-                    <animation id="fire">
-                        <frame x="48" y="0"/>
-                    </animation>
-                    <animation id="jump">
-                        <frame x="0" y="48"/>
-                    </animation>
-                    <animation id="taunt">
-                        <frame x="0" y="96"/>
-                    </animation>
-                    <animation id="run">
-                        <frame x="48" y="48" duration=".12" />
-                        <frame x="96" y="48" duration=".12" />
-                    </animation>
-                    <animation id="flash">
-                        <frame x="48" y="96" duration=".4" />
-                        <frame x="96" y="96" duration=".18" />
-                        <frame x="144" y="96" duration=".18" />
-                        <frame x="48" y="96" />
-                    </animation>
-                </animations>
-            </texture>
-        </textures>
-    </model>
-</character>
+        <traits>
+            <trait source="ContactDamage" points="4" />
+            <trait source="Health" max="28" />
+            <trait source="Jump" force="16800" duration=".18" falloff=".3" />
+            <trait source="Physics" area=".04" drag=".045" mass="105" />
+            <trait source="Move" />
+            <trait source="Invincibility" duration=".5" />
+            <trait source="Weapon">
+                <projectile-emit-offset x="18" y="3" />
+            </trait>
+        </traits>
+    </object>
+
+    <animations w="48" h="48">
+        <animation id="idle">
+            <frame x="0" y="0"/>
+        </animation>
+        <animation id="fire">
+            <frame x="48" y="0"/>
+        </animation>
+        <animation id="jump">
+            <frame x="0" y="48"/>
+        </animation>
+        <animation id="taunt">
+            <frame x="0" y="96"/>
+        </animation>
+        <animation id="run">
+            <frame x="48" y="48" duration=".12" />
+            <frame x="96" y="48" duration=".12" />
+        </animation>
+        <animation id="flash">
+            <frame x="48" y="96" duration=".4" />
+            <frame x="96" y="96" duration=".18" />
+            <frame x="144" y="96" duration=".18" />
+            <frame x="48" y="96" />
+        </animation>
+    </animations>
+
+    <textures>
+        <texture id="flashman" url="flashman.png" w="256" h="256" />
+    </textures>
+</objects>

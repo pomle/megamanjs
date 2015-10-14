@@ -1,57 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Ladder" debug="true">
-
+    <camera>
+        <path>
+            <window x1="-128" x2="128" y1="-171" y2="69"/>
+            <constraint x1="-50" x2="50" y1="-101" y2="-1"/>
+        </path>
+    </camera>
     <checkpoints>
         <checkpoint x="0" y="0"/>
     </checkpoints>
-
-    <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128">
-        <animation id="ladder">
-            <frame x="91" y="37" w="16" h="16" />
-        </animation>
-    </texture>
-
     <objects>
+        <textures>
+            <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128"></texture>
+        </textures>
+        <animations>
+            <animation id="ladder">
+                <frame x="91" y="37" w="16" h="16"/>
+            </animation>
+        </animations>
         <object id="ladder">
-            <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8" />
+            <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8">
+                <face animation="ladder">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
             <collision>
-                <rect x="0" y="0" w="0" h="128" />
+                <rect x="0" y="0" w="0" h="128"/>
             </collision>
-
-            <tile id="ladder">
-                <face x="*" y="*"/>
-            </tile>
-
             <traits>
-                <trait source="Climbable" />
+                <trait source="Climbable"/>
             </traits>
         </object>
     </objects>
-
-
     <layout>
         <objects>
-            <object id="ladder" x="32" y="0" />
+            <object id="ladder" x="32" y="0"/>
+            <object id="ladder" x="-48" y="32"/>
+            <object id="ladder" x="96" y="-96"/>
+            <object id="ladder" x="-32" y="-144"/>
         </objects>
-
-        <objects>
-            <object id="ladder" x="-48" y="32" />
-        </objects>
-
-        <objects>
-            <object id="ladder" x="96" y="-96" />
-        </objects>
-
-        <objects>
-            <object id="ladder" x="-32" y="-144" />
-        </objects>
-
         <solids>
-            <rect x="-32" y="32" w="64" h="16" />
-            <rect x="-112" y="32" w="64" h="16" />
-            <rect x="-16" y="-32" w="32" h="16" />
-            <rect x="48" y="32" w="64" h="16" />
-            <rect x="48" y="-96" w="64" h="16" />
+            <rect x="-32" y="32" w="64" h="16"/>
+            <rect x="-112" y="32" w="64" h="16"/>
+            <rect x="-16" y="-32" w="32" h="16"/>
+            <rect x="48" y="32" w="64" h="16"/>
+            <rect x="48" y="-96" w="64" h="16"/>
         </solids>
     </layout>
 </scene>

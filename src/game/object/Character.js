@@ -63,13 +63,18 @@ Game.objects.Character.prototype.routeAnimation = function()
 Game.objects.Character.prototype.timeShift = function(dt)
 {
     if (this.aim.x !== 0) {
-        this.direction.x = this.aim.x;
+        this.direction.x = this.aim.x > 0 ? 1 : -1;
     }
-    this.direction.y = this.aim.y;
+    if (this.aim.y === 0) {
+        this.direction.y = 0;
+    }
+    else {
+        this.direction.y = this.aim.y > 0 ? 1 : -1;
+    }
 
     var anim = this.routeAnimation();
     if (anim !== this.anim) {
-        this.animators[0].pickAnimation(anim);
+        this.animators[0].setAnimation(this.animations[anim]);
         this.anim = anim;
     }
 

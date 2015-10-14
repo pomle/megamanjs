@@ -17,7 +17,7 @@ Game.objects.characters.Flashman.prototype.routeAnimation = function()
         return 'jump';
     }
 
-    if (this.move._walkSpeed) {
+    if (this.move._interimSpeed) {
         return 'run';
     }
 

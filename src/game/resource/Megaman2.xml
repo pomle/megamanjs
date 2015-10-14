@@ -22,28 +22,34 @@
             <scene type="level" name="Per" src="./levels/debug/Per.xml" />
             <scene type="level" name="Physics" src="./levels/debug/Physics.xml" />
             <scene type="level" name="BackgroundFaceAnimation" src="./levels/debug/BackgroundFaceAnimation.xml" />
+            <scene type="level" name="Enemies" src="./levels/debug/Enemies.xml" />
         <!-- End Debug Levels -->
     </scenes>
 
     <level start-caption="READY" />
 
     <entrypoint>
-        <scene name="Ladder" />
+        <scene name="Heatman" />
     </entrypoint>
 
     <characters>
-        <character src="./characters/Megaman.xml" />
-        <character src="./characters/Airman.xml" />
-        <character src="./characters/Crashman.xml" />
-        <character src="./characters/Flashman.xml" />
-        <character src="./characters/Heatman.xml" />
-        <character src="./characters/Metalman.xml" />
-        <character src="./characters/Telly.xml" />
+        <objects src="./characters/Megaman.xml" />
+        <objects src="./characters/Airman.xml" />
+        <objects src="./characters/Crashman.xml" />
+        <objects src="./characters/Flashman.xml" />
+        <objects src="./characters/Heatman.xml" />
+        <objects src="./characters/Metalman.xml" />
+
+        <objects src="./characters/Shotman.xml" />
+        <objects src="./characters/SniperJoe.xml" />
+        <objects src="./characters/SniperArmor.xml" />
+        <objects src="./characters/Telly.xml" />
     </characters>
 
     <player>
-        <character id="Megaman"/>
+        <character id="Megaman" />
         <invincibility duration="2"/>
+        <weapon default="p" />
     </player>
 
     <bosses>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Level Edit</title>
+    <link rel="stylesheet" type="text/css" href="tool.css">
+    <link rel="stylesheet" type="text/css" href="layout-editor.css">
+    <script src="jquery-2.1.3.min.js"></script>
+    <script src="../lib/three.min.js"></script>
+    <script src="./lib/vkbeautify.js"></script>
+
+    <script src="../game.js"></script>
+
+    <script src="./component/Editor.js"></script>
+    <script src="./component/editor/Camera.js"></script>
+    <script src="./component/editor/Clipboard.js"></script>
+    <script src="./component/editor/ComponentFactory.js"></script>
+    <script src="./component/editor/Item.js"></script>
+    <script src="./component/editor/item/Point.js"></script>
+    <script src="./component/editor/item/Rectangle.js"></script>
+    <script src="./component/editor/item/Rectangle2.js"></script>
+    <script src="./component/editor/item/Behavior.js"></script>
+    <script src="./component/editor/item/CameraPath.js"></script>
+    <script src="./component/editor/item/Checkpoint.js"></script>
+    <script src="./component/editor/item/Object.js"></script>
+    <script src="./component/editor/ItemFactory.js"></script>
+    <script src="./component/editor/ItemSet.js"></script>
+    <script src="./component/editor/ModelManager.js"></script>
+    <script src="./component/editor/NodeFactory.js"></script>
+    <script src="./component/editor/NodeManager.js"></script>
+    <script src="./component/editor/UI.js"></script>
+
+    <script src="layout-editor.js"></script>
+</head>
+
+<body>
+    <section class="level-editor">
+
+        <div class="workspace">
+            <div class="viewport">
+                <div class="coords"></div>
+
+            </div>
+
+            <div class="panel view locked">
+                <fieldset class="meta">
+                    <legend>Meta</legend>
+                    <label class="guides"><input type="checkbox" name="guides" checked> Guides</label>
+                    <label class="overlays"><input type="checkbox" name="overlays" checked> Overlays</label>
+                </fieldset>
+
+                <fieldset class="layers">
+                    <legend>Layers</legend>
+                    <label class="behavior"><input type="checkbox" name="behavior" layer="behavior"> Behaviors</label>
+                    <label class="camera"><input type="checkbox" name="cameraPath" layer="cameraPath"> Camera Paths</label>
+                    <label class="checkpoint"><input type="checkbox" name="checkpoint" layer="checkpoint"> Checkpoints</label>
+                    <!--<label class="collision"><input type="checkbox" name="collisionGeometry" layer="collisionGeometry"> Collision Zones</label>-->
+                    <label class="object"><input type="checkbox" name="object" layer="object" checked> Visuals</label>
+                </fieldset>
+
+                <fieldset class="camera">
+                    <legend>Camera</legend>
+                    <div class="zoom">
+                        <button name="zoom" dir="1">-</button> Zoom <button name="zoom" dir="-1">+</button>
+                    </div>
+                    <label>
+                        <button name="followSelected">Follow selected</button>
+                    </label>
+                    <label>
+                        <button name="unfollow">Unfollow</button>
+                    </label>
+
+                    <label><input type="checkbox" name="obeyPaths"> Obey Paths</label>
+                </fieldset>
+
+                <fieldset class="playback">
+                    <legend>Playback</legend>
+                    <label><input type="checkbox" name="simulate"> Simulate</label>
+                    <label>Speed
+                        <select name="simulationSpeed">
+                            <option value="0">0</option>
+                            <option value=".1">10%</option>
+                            <option value=".5">50%</option>
+                            <option value="1" selected>100%</option>
+                        </select>
+                    </label>
+
+                    <label><button name="resetPlayer" onclick="editor.game.scene.resetPlayer();">Player Reset</button></label>
+                    <label><button name="resetPlayer" onclick="editor.game.scene.resetObjects();">Object Reset</button></label>
+                </fieldset>
+            </div>
+
+            <div class="panel item locked">
+                <fieldset class="position">
+                    <legend>Position</legend>
+                    <label>X <input type="text" name="x" /></label>
+                    <label>Y <input type="text" name="y" /></label>
+                    <label>Z <input type="text" name="z" /></label>
+
+                    <label>W <input type="text" name="w" /></label>
+                    <label>H <input type="text" name="h" /></label>
+
+                    <label><input type="checkbox" name="snap" checked /> Snap</label>
+                </fieldset>
+
+                <fieldset class="create">
+                    <legend>Create</legend>
+                    <label><button name="createCameraPath" type="cameraPath">Camera Path</button></label>
+                    <label><button name="createCameraPath" type="checkpoint">Checkpoint</button></label>
+                    <label><button name="createCameraPath" type="object">Object</button></label>
+                </fieldset>
+            </div>
+        </div>
+
+        <fieldset class="file">
+            <legend>File</legend>
+            <div class="level">
+                <button name="new">New Level</button>
+                <button name="open">Load Level</button>
+                <select name="recent">
+                </select>
+                <button name="loadCharacter">Load Character</button>
+            </div>
+        </fieldset>
+
+        <fieldset class="console">
+            <legend>Console</legend>
+            <button name="generate-xml">Generate</button>
+            <button name="reload-xml">Reload</button>
+            <textarea name="console"></textarea>
+        </fieldset>
+    </section>
+</body>
+</html>

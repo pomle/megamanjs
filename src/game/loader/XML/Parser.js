@@ -1,13 +1,33 @@
 Game.Loader.XML.Parser = function(loader)
 {
     this.loader = loader;
-    this.callback = function() {};
-    this.animations = {};
+    this.node = undefined;
+}
+
+Game.Loader.XML.Parser.prototype.applyTrait = function(object, traitDescriptor)
+{
+    var trait = object.getTrait(traitDescriptor.ref);
+    if (!trait) {
+        trait = new traitDescriptor.ref();
+        object[trait.NAME] = object.applyTrait(trait);
+    }
+
+    for (var p in traitDescriptor.prop) {
+        var prop = traitDescriptor.prop[p];
+        if (prop !== undefined) {
+            trait[p] = prop;
+        }
+    }
+    return trait;
 }
 
 Game.Loader.XML.Parser.prototype.getAbsoluteUrl = function(node, attr)
 {
     var url = node.attr(attr);
+    if (node[0].ownerDocument.baseURL === undefined) {
+        return url;
+    }
+
     if (url.indexOf('http') === 0) {
         return url;
     }
@@ -25,6 +45,26 @@ Game.Loader.XML.Parser.prototype.getBool = function(node, attr, def)
         return true;
     }
     return false;
+}
+
+Game.Loader.XML.Parser.prototype.getCameraPath = function(pathNode)
+{
+    var z = 150;
+    var pathNode = $(pathNode);
+    var path = new Engine.Camera.Path();
+    /* y1 and y2 is swapped because they are converted to negative values and
+       y2 should always be bigger than y1. */
+    var windowNode = pathNode.children('window');
+    path.window[0] = this.getPosition(windowNode, 'x1', 'y1');
+    path.window[1] = this.getPosition(windowNode, 'x2', 'y2');
+
+    var constraintNode = pathNode.children('constraint');
+    path.constraint[0] = this.getPosition(constraintNode, 'x1', 'y1', 'z');
+    path.constraint[1] = this.getPosition(constraintNode, 'x2', 'y2', 'z');
+    path.constraint[0].z = z;
+    path.constraint[1].z = z;
+
+    return path;
 }
 
 Game.Loader.XML.Parser.prototype.getColor = function(node, attr)
@@ -76,112 +116,6 @@ Game.Loader.XML.Parser.prototype.getGeometry = function(node)
     throw new Error('Could not parse geometry type "' + type + '"');
 }
 
-Game.Loader.XML.Parser.prototype.getObject = function(objectNode)
-{
-    var parser = this;
-    var loader = parser.loader;
-
-    var objectId = objectNode.attr('id');
-    var geometryNode = objectNode.find('> geometry');
-    var geometry = parser.getGeometry(geometryNode);
-    var size = parser.getVector2(geometryNode, 'w', 'h');
-    var segs = parser.getVector2(geometryNode, 'w-segments', 'h-segments');
-
-    var textures = [];
-    var animators = [];
-
-    objectNode.find('> tile').each(function() {
-        var tileNode = $(this);
-        var animationId = tileNode.attr('id');
-        if (!parser.animations[animationId]) {
-            throw new Error('Animation "' + animationId + '" not defined');
-        }
-
-        var animation = parser.animations[animationId].animation;
-        var offset = parseFloat(tileNode.attr('offset')) || 0;
-
-        tileNode.find('> face').each(function() {
-            var faceNode = $(this);
-            var animator = new Engine.Animator.UV();
-            animator.indices = [];
-            animator.setAnimation(animation);
-            textures.push(parser.animations[animationId].texture);
-
-            var range = {
-                'x': parser.getRange(faceNode, 'x', segs.x),
-                'y': parser.getRange(faceNode, 'y', segs.y),
-            };
-
-            var i, j, x, y, faceIndex;
-            for (i in range.x) {
-                x = range.x[i] - 1;
-                for (j in range.y) {
-                    y = range.y[j] - 1;
-                    /* The face index is the first of the two triangles that make up a rectangular
-                       face. The Animator.UV will set the UV map to the faceIndex and faceIndex+1.
-                       Since we expect to paint two triangles at every index we need to 2x the index
-                       count so that we skip two faces for every index jump. */
-                    faceIndex = (x + (y * segs.x)) * 2;
-                    animator.indices.push(faceIndex);
-                }
-            }
-            animators.push(animator);
-        });
-    });
-
-    var traitDescriptors = [];
-    objectNode.find('> traits > trait').each(function() {
-        var traitNode = $(this);
-        traitDescriptors.push(parser.getTrait(traitNode));
-    });
-
-    var collision = [];
-    objectNode.find('> collision > rect').each(function() {
-        var rectNode = $(this);
-        collision.push(parser.getRect(rectNode));
-    });
-
-    if (!textures[0]) {
-        throw new Error("No texture index 0 for model " + objectId);
-    }
-
-    var object = loader.createObject(objectId, Engine.Object, function()
-    {
-        this.geometry = geometry.clone();
-        this.material = new THREE.MeshBasicMaterial({
-            map: textures[0],
-            side: THREE.FrontSide,
-            transparent: true,
-        });
-
-        Engine.Object.call(this);
-
-        this.origo.x = -(size.x / 2);
-        this.origo.y = size.y / 2;
-
-
-        /* Run initial update of all UV maps. */
-        for (var i in animators) {
-            var animator = animators[i].clone();
-            animator.addGeometry(this.geometry);
-            animator.update();
-            this.animators.push(animator);
-        }
-
-        for (var i in traitDescriptors) {
-            loader.applyTrait(this, traitDescriptors[i]);
-        }
-
-        for (var i in collision) {
-            var r = collision[i];
-            this.addCollisionRect(r.w, r.h, r.x, r.y);
-        }
-    });
-
-
-    return object;
-}
-
 Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
 {
     var input = $(node).attr(attr || 'range');
@@ -207,6 +141,13 @@ Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
         else {
             lower = parseFloat(ranges[0]);
             upper = lower;
+        }
+
+        if (lower < 1) {
+            throw new RangeError("Lower range beyond 0");
+        }
+        if (upper > total) {
+            throw new RangeError("Upper range beyond " + total);
         }
 
         i = 0;
@@ -236,17 +177,17 @@ Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attr
 {
     var node = $(node);
     var vec3 = this.getVector3.apply(this, arguments);
-    /* Y gets inverted to avoid having to specify everything
-       negatively in the XML. This is only true for getPosition
-       explicitly and normal vector extraction gives raw value.
-    */
-    vec3.y = -vec3.y;
     return vec3;
 }
 
 Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 {
-    parser = this;
+    var textureNode = $(textureNode),
+        parser = this;
+
+    if (!textureNode.is('texture')) {
+        throw new Error("Node not <texture>");
+    }
 
     var textureId = textureNode.attr('id');
     var textureUrl = this.getAbsoluteUrl(textureNode, 'url');
@@ -294,9 +235,11 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 
 Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
 {
-    var source = traitNode.attr('source');
-    var name = traitNode.attr('name');
-    var ref = Game.traits[source];
+    var game = this.loader.game,
+        source = traitNode.attr('source'),
+        name = traitNode.attr('name'),
+        ref = Game.traits[source];
+
     if (ref === undefined) {
         throw new Error('Trait "' + source + '" does not exist');
     }
@@ -307,6 +250,28 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                 'ref': ref,
                 'prop': {
                     'points': this.getFloat(traitNode, 'points'),
+                }
+            }
+            break;
+
+        case 'deathSpawn':
+            return {
+                'ref': ref,
+                'prop': {
+                    'chance': this.getFloat(traitNode, 'chance'),
+                    'pool': (function() {
+                        var objects = [];
+                        traitNode.find('> objects > *').each(function() {
+                            var type = this.tagName,
+                                name = this.attributes.id.value;
+                            var object = game.resource.get(type, name);
+                            if (!object) {
+                                throw new Error("No resource type " + type + " named " + name);
+                            }
+                            objects.push(object);
+                        });
+                        return objects;
+                    })(),
                 }
             }
             break;
@@ -332,13 +297,23 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             }
             break;
 
+        case 'fallaway':
+            return {
+                'ref': ref,
+                'prop': {
+                    'delay': this.getFloat(traitNode, 'delay'),
+                }
+            }
+            break;
+
         case 'jump':
             return {
                 'ref': ref,
                 'prop': {
                     'duration': this.getFloat(traitNode, 'duration'),
                     'falloff': this.getFloat(traitNode, 'falloff'),
-                    'force': this.getFloat(traitNode, 'force'),
+                    'force': new THREE.Vector2(this.getFloat(traitNode, 'forward'),
+                                               this.getFloat(traitNode, 'force')),
                 }
             }
             break;
@@ -419,7 +394,8 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                 'prop': {
                     'projectileEmitOffset': this.getVector2(emitNode),
                     'projectileEmitRadius': this.getFloat(emitNode, 'r'),
-                }
+                },
+                'equip': traitNode.attr('equip'),
             }
             break;
 
@@ -456,23 +432,6 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
     }
 }
 
-Game.Loader.XML.Parser.prototype.getUVAnimation = function(animationNode, textureSize, frameSize)
-{
-    var parser = this;
-    var animation = new Engine.Animator.Animation();
-    animationNode.find('> frame').each(function() {
-        var frameNode = $(this);
-        var offset = parser.getVector2(frameNode, 'x', 'y');
-        var size = frameSize || parser.getVector2(frameNode, 'w', 'h');
-        var uvMap = Engine.SpriteManager.createUVMap(offset.x, offset.y,
-                                                     size.x, size.y,
-                                                     textureSize.x, textureSize.y);
-        var duration = parseFloat(frameNode.attr('duration')) || undefined;
-        animation.addFrame(uvMap, duration);
-    });
-    return animation;
-}
-
 Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY, def)
 {
     var node = $(node);
@@ -490,27 +449,11 @@ Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ
     var node = $(node);
     var x = node.attr(attrX || 'x');
     var y = node.attr(attrY || 'y');
-    var z = node.attr(attrY || 'z');
+    var z = node.attr(attrZ || 'z');
     if (x === undefined || y === undefined) {
         return def;
     }
     return new THREE.Vector3(parseFloat(x),
                              parseFloat(y),
                              parseFloat(z));
-}
-
-Game.Loader.XML.Parser.prototype.parseTexture = function(textureNode)
-{
-    var parser = this;
-    var textureSize = parser.getVector2(textureNode, 'w', 'h');
-    var texture = parser.getTexture(textureNode);
-
-    textureNode.find('animation').each(function() {
-        var animationNode = $(this);
-        var animation = parser.getUVAnimation(animationNode, textureSize);
-        parser.animations[animationNode.attr('id')] = {
-            'animation': animation,
-            'texture': texture,
-        }
-    });
 }

@@ -1,0 +1,14 @@
+.workspace .slice {
+    border: dotted 1px #fff;
+    box-sizing: border-box;
+    display: block;
+    height: 16px;
+    position: absolute;
+    width: 16px;
+}
+
+.workspace .assets .animations.missing-image {
+    border: solid 1px red;
+    height: 100px;
+    width: 100px;
+}

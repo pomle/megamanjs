@@ -25,20 +25,31 @@ Engine.Camera.prototype.alignToPath = function(pos)
         return false;
     }
 
+    this.findPath(pos);
+
+    if (this.pathIndex !== -1) {
+        this.paths[this.pathIndex].constrain(pos);
+    }
+
+    return true;
+}
+
+Engine.Camera.prototype.findPath = function(pos)
+{
+    /* If we're inside current path, don't look for a new one. */
+    if (this.pathIndex !== -1 && this.paths[this.pathIndex].inWindow(pos)) {
+        return;
+    }
+
     for (var i = 0, l = this.paths.length; i < l; i++) {
         var path = this.paths[i];
         if (path.inWindow(pos)) {
             this.pathIndex = i;
-            break;
+            return;
         }
     }
 
-    if (this.pathIndex < 0) {
-        return false;
-    }
-
-    this.paths[this.pathIndex].constrain(pos);
-    return true;
+    return;
 }
 
 Engine.Camera.prototype.follow = function(object, offset)
@@ -112,9 +123,11 @@ Engine.Camera.Path = function()
     ];
 }
 
+Engine.Camera.Path.prototype.components = ['x', 'y', 'z'];
+
 Engine.Camera.Path.prototype.constrain = function(vec)
 {
-    for (var u of ['x', 'y', 'z']) {
+    for (var u of this.components) {
         if (vec[u] < this.constraint[0][u]) {
             vec[u] = this.constraint[0][u];
         }

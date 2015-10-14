@@ -1,7 +1,6 @@
 Game.scenes.Level = function(game, world)
 {
     Game.Scene.apply(this, arguments);
-    this.debug = false;
 
     this.world.camera.camera.position.z = 150;
 
@@ -25,11 +24,8 @@ Game.scenes.Level = function(game, world)
     this.simulateListener = this.simulateListener.bind(this);
 
     this.events.bind(this.EVENT_START, this.resetPlayer);
-    this.events.bind(this.EVENT_CREATE, function() {
-       engine.events.bind(engine.EVENT_SIMULATE, level.simulateListener);
-    });
     this.events.bind(this.EVENT_DESTROY, function() {
-       engine.events.unbind(engine.EVENT_SIMULATE, level.simulateListener);
+        level.pauseGamePlay();
     });
 }
 
@@ -160,6 +156,10 @@ Game.scenes.Level.prototype.readyBlink = function(callback)
         engine = this.game.engine,
         level = this;
 
+    if (!model) {
+        return callback();
+    }
+
     function blink(dt) {
         if (elapsed > duration) {
             level.world.scene.remove(model);
@@ -207,6 +207,9 @@ Game.scenes.Level.prototype.spawnCharacter = function(name)
 
 Game.scenes.Level.prototype.pauseGamePlay = function()
 {
+    var engine = this.game.engine;
+    engine.events.unbind(engine.EVENT_SIMULATE, this.simulateListener);
+
     this.inputs.character.disable();
     this.inputs.menu.enable();
     this.game.engine.isSimulating = false;
@@ -214,6 +217,9 @@ Game.scenes.Level.prototype.pauseGamePlay = function()
 
 Game.scenes.Level.prototype.resumeGamePlay = function()
 {
+    var engine = this.game.engine;
+    engine.events.bind(engine.EVENT_SIMULATE, this.simulateListener);
+
     this.inputs.menu.disable();
     this.inputs.character.enable();
     this.game.engine.isSimulating = true;
@@ -222,44 +228,64 @@ Game.scenes.Level.prototype.resumeGamePlay = function()
 Game.scenes.Level.prototype.resetCheckpoint = function()
 {
     var level = this;
+    this.resetObjects();
+
     this.readyBlink(function() {
         level.resumeGamePlay();
     });
     this.game.engine.world.updateTime(0);
 }
 
+Game.scenes.Level.prototype.resetObjects = function()
+{
+    for (var object of this.world.objects) {
+        for (var i = 0, l = object.traits.length; i < l; ++i) {
+            var trait = object.traits[i];
+            if (typeof trait.reset === 'function') {
+                trait.reset();
+            }
+        }
+    }
+}
+
 Game.scenes.Level.prototype.resetPlayer = function()
 {
+    var player = this.game.player,
+        character = player.character;
+
     this.deathCountdown = 0;
     this.pauseGamePlay();
-    this.game.player.equipWeapon('p');
-    var character = this.game.player.character;
+
+    if (player.defaultWeapon) {
+        player.equipWeapon(player.defaultWeapon);
+    }
 
     this.world.removeObject(character);
 
-    character.isPlayer = true;
     character.resurrect();
-    character.invincibility.disengage();
+    if (character.invincibility) {
+        character.invincibility.disengage();
+    }
     if (character.stun) {
         character.stun.disengage();
     }
+    character.integrator.reset();
 
     var checkpoint = this.checkPoints[this.checkPointIndex];
-    if (this.debug) {
-        character.moveTo(checkpoint.pos);
-        this.resumeGamePlay();
-    }
-    else if (checkpoint) {
-        var startPosition = checkpoint.pos.clone();
-        var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
-        var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
+    if (checkpoint) {
+        var startPosition = checkpoint.pos.clone(),
+            playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
+            cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset),
+            camera = this.world.camera;
+
         character.moveTo(playerPosition);
         character.teleport.to(startPosition);
-        this.world.camera.jumpToPath(cameraPosition);
+        camera.unfollow();
+        camera.jumpToPath(cameraPosition);
 
         var level = this;
         var startFollow = function() {
-            level.followPlayer();
+            camera.follow(character);
             this.unbind(this.teleport.EVENT_END, arguments.callee);
         }
         character.bind(character.teleport.EVENT_END, startFollow);

@@ -11,16 +11,7 @@ Game.objects.Projectile = function()
     this.setSpeed(100);
 }
 
-Game.objects.Projectile.prototype = Object.create(Engine.Object.prototype);
-Game.objects.Projectile.constructor = Game.objects.Projectile;
-
-Game.objects.Projectile.prototype.getLifetime = function()
-{
-    if (this.speed) {
-        return this.range / this.speed;
-    }
-    return Infinity;
-}
+Engine.Util.extend(Game.objects.Projectile, Engine.Object);
 
 Game.objects.Projectile.prototype.collides = function(withObject, ourZone, theirZone)
 {
@@ -50,6 +41,14 @@ Game.objects.Projectile.prototype.deflect = function()
     this.velocity.x = -this.velocity.x;
     this.velocity.y = 100;
     this.velocity.setLength(l);
+}
+
+Game.objects.Projectile.prototype.getLifetime = function()
+{
+    if (this.speed) {
+        return this.range / this.speed;
+    }
+    return Infinity;
 }
 
 Game.objects.Projectile.prototype.rangeReached = function()

@@ -12,9 +12,6 @@ var Game = function()
 
     this.resource = new Game.ResourceManager();
 
-    this.scenes = {};
-    this.level = undefined;
-
     window.addEventListener('focus', function() {
         if (this.engine && !this.engine.isRunning) {
             this.engine.run();
@@ -25,21 +22,11 @@ var Game = function()
             this.engine.pause();
         }
     }.bind(this));
-
-    this.sceneQueue = [];
 }
 
 Game.objects = {};
 Game.scenes = {};
 Game.traits = {};
-
-Game.createFromXml = function(url, callback)
-{
-    var game = new Game();
-    var loader = new Game.Loader.XML(game);
-    loader.loadGame(url, callback);
-    return game;
-}
 
 Game.prototype.attachToElement = function(element)
 {
@@ -70,7 +57,12 @@ Game.prototype.adjustAspectRatio = function()
 Game.prototype.adjustResolution = function()
 {
     var rect = this.element.getBoundingClientRect();
-    this.engine.renderer.setSize(rect.width, rect.height);
+    this.setResolution(rect.width, rect.height);
+}
+
+Game.prototype.setResolution = function(x, y)
+{
+    this.engine.renderer.setSize(x, y);
 }
 
 Game.prototype.setScene = function(scene)
