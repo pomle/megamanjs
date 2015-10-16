@@ -23,13 +23,8 @@ var Editor = function()
         let components = ['x','y'];
         for (let c of components) {
             let s = this.scale[c],
-                m = vec[c] % s;
-            if (m > s / 2) {
-                vec[c] += s - m;
-            }
-            else {
-                vec[c] -= m;
-            }
+                v = vec[c];
+            vec[c] = s * Math.round(v / s);
         }
         return vec;
     }
@@ -187,8 +182,7 @@ Editor.prototype.renderOverlays = function()
         grid = this.grid;
 
     grid.position.copy(camera.position);
-    grid.position.x -= grid.position.x % grid.scale.x;
-    grid.position.y -= grid.position.y % grid.scale.y;
+    this.grid.snapVector(grid.position);
     grid.position.z = 0;
 
     for (let i = 0, l = this.layers.length; i !== l; ++i) {
