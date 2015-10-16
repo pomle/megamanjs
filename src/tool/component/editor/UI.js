@@ -266,24 +266,23 @@ Editor.UI.prototype.createViewport = function(node)
 
     viewport
         .on('mousemove', function(e) {
-            if (e.buttons & 1) {
-                let pos = viewport.getPositionAtEvent(e.originalEvent),
-                    x = (mouse.pos.x - pos.x),
-                    y = (mouse.pos.y - pos.y);
+            let selection = editor.items.selected,
+                pos = viewport.getPositionAtEvent(e.originalEvent),
+                x = (mouse.pos.x - pos.x),
+                y = (mouse.pos.y - pos.y);
 
-                if (editor.items.selected.length) {
-                    for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
-                        let item = editor.items.selected[i];
-                        item.x -= x;
-                        item.y -= y;
-                    }
-                    mouse.pos.copy(pos);
+            if (e.buttons === 1 && selection.length !== 0) {
+                for (let i = 0, l = selection.length; i !== l; ++i) {
+                    let item = selection[i];
+                    item.x -= x;
+                    item.y -= y;
                 }
-                else {
-                    let camera = editor.game.scene.camera.camera;
-                    camera.position.x += x;
-                    camera.position.y += y;
-                }
+                mouse.pos.copy(pos);
+            }
+            else if (e.buttons === 2 || e.buttons === 1 && selection.length === 0) {
+                let camera = editor.game.scene.camera.camera;
+                camera.position.x += x;
+                camera.position.y += y;
             }
         })
         .on('mouseup', function(e) {
