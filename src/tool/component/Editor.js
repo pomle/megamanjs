@@ -33,7 +33,7 @@ var Editor = function()
 
     this.marker = new THREE.Mesh(
         new THREE.SphereGeometry(5, 2, 2),
-        new THREE.MeshBasicMaterial({color: Editor.Colors.marker, wireframe: true}));
+        new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true}));
 
     this.modelManager = new Editor.ModelManager(this);
 
