@@ -277,8 +277,13 @@ Editor.UI.prototype.createViewport = function(node)
                         item.x -= x;
                         item.y -= y;
                     }
+                    mouse.pos.copy(pos);
                 }
-                mouse.pos.copy(pos);
+                else {
+                    let camera = editor.game.scene.camera.camera;
+                    camera.position.x += x;
+                    camera.position.y += y;
+                }
             }
         })
         .on('mouseup', function(e) {
