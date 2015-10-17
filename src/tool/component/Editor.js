@@ -178,12 +178,7 @@ Editor.prototype.open = function(level, parser)
 Editor.prototype.renderOverlays = function()
 {
     let engine = this.game.engine,
-        camera = engine.world.camera.camera,
-        grid = this.grid;
-
-    grid.position.copy(camera.position);
-    this.grid.snapVector(grid.position);
-    grid.position.z = 0;
+        camera = engine.world.camera.camera;
 
     for (let i = 0, l = this.layers.length; i !== l; ++i) {
         let layer = this.layers[i];

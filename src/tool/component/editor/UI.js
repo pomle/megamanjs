@@ -261,17 +261,18 @@ Editor.UI.prototype.createViewport = function(node)
 
     let mouse = {
         pos: new THREE.Vector2(),
-        scale: 1,
+        event: undefined,
     }
 
     viewport
         .on('mousemove', function(e) {
-            let selection = editor.items.selected,
-                pos = viewport.getPositionAtEvent(e.originalEvent),
-                x = (mouse.pos.x - pos.x),
-                y = (mouse.pos.y - pos.y);
+            let selection = editor.items.selected;
 
             if (e.buttons === 1 && selection.length !== 0) {
+                let pos = viewport.getPositionAtEvent(e.originalEvent),
+                    x = (mouse.pos.x - pos.x),
+                    y = (mouse.pos.y - pos.y);
+
                 for (let i = 0, l = selection.length; i !== l; ++i) {
                     let item = selection[i];
                     item.x -= x;
@@ -280,10 +281,12 @@ Editor.UI.prototype.createViewport = function(node)
                 mouse.pos.copy(pos);
             }
             else if (e.buttons === 2 || e.buttons === 1 && selection.length === 0) {
-                let camera = editor.game.scene.camera.camera;
-                camera.position.x += x;
-                camera.position.y += y;
+                let to = new THREE.Vector2((mouse.event.clientX - e.clientX),
+                                           -(mouse.event.clientY - e.clientY));
+                to.multiplyScalar(editor.camera.position.z / 200);
+                editor.camera.nudge(to);
             }
+            mouse.event = e;
         })
         .on('mouseup', function(e) {
             for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
@@ -292,9 +295,12 @@ Editor.UI.prototype.createViewport = function(node)
                     editor.grid.snapVector(item);
                 }
             }
+            editor.camera.centerGrid();
         })
         .on('mousedown', function(e) {
-            mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent));
+            mouse.event = e;
+            let pos = viewport.getPositionAtEvent(e.originalEvent);
+            mouse.pos.copy(pos);
 
             if (editor.activeMode === editor.modes.paint) {
                 var item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected[0]]));
@@ -364,13 +370,18 @@ Editor.UI.prototype.createViewport = function(node)
             }
         });
 
+    viewport.getVectorAtEvent = function(event)
+    {
+        let bounds = this[0].getBoundingClientRect();
+        return new THREE.Vector3((event.layerX / bounds.width) * 2 - 1,
+                                -(event.layerY / bounds.height) * 2 + 1,
+                                -1);
+    }
+
     viewport.getPositionAtEvent = function(event)
     {
-        let bounds = this[0].getBoundingClientRect(),
-            camera = editor.game.scene.world.camera.camera,
-            vector = new THREE.Vector3((event.layerX / bounds.width) * 2 - 1,
-                                    -(event.layerY / bounds.height) * 2 + 1,
-                                    -1);
+        let camera = editor.game.scene.world.camera.camera,
+            vector = this.getVectorAtEvent(event);
         vector.unproject(camera);
         vector.sub(camera.position);
         vector.normalize();
@@ -418,7 +429,7 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 
     marker.position.z = 0;
 
-    this.viewport.coords.html('X ' + marker.position.x.toFixed(2) +
+    this.viewport.coords.html('X ' + marker.position.x.toFixed(2) + "\n" +
                              ' Y ' + marker.position.y.toFixed(2)).css({
         left: event.layerX + 20,
         top: event.layerY + 20,
