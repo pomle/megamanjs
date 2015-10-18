@@ -23,7 +23,7 @@ Game.Loader.XML.Parser.prototype.applyTrait = function(object, traitDescriptor)
 
 Game.Loader.XML.Parser.prototype.getAbsoluteUrl = function(node, attr)
 {
-    var url = node.attr(attr);
+    var url = node.attr(attr || 'url');
     if (node[0].ownerDocument.baseURL === undefined) {
         return url;
     }

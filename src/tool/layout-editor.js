@@ -321,6 +321,9 @@ $(function() {
                 editor.activeMode = editor.modes.play;
                 editor.ui.playback.simulate.prop('checked', true).trigger('change');
             }
+            else if (k === 80 && d) {
+                editor.ui.palette.toggleClass('hidden');
+            }
             else {
                 editor.activeMode(e);
             }

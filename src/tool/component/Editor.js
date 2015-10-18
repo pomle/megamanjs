@@ -85,6 +85,8 @@ Editor.prototype.clear = function()
 
     this.layers.guides = this.guides;
     this.layers.overlays = this.overlays;
+
+    this.ui.palette.html('');
 }
 
 Editor.prototype.getXML = function()
@@ -173,6 +175,31 @@ Editor.prototype.open = function(level, parser)
         let item = new Editor.Item.Behavior(_item.object, _item.node);
         editor.items.add(item);
     }
+
+    editor.document.find('> objects').each(function() {
+        let url = parser.getAbsoluteUrl($(this).find('> textures > texture'));
+        $(this).find('> animations > animation').each(function() {
+            let anim = $(this),
+                name = anim.attr('id');
+
+            anim.find('> frame:first-child').each(function() {
+                let frame = $(this),
+                    x = parseFloat(frame.attr('x')),
+                    y = parseFloat(frame.attr('y')),
+                    w = parseFloat(frame.attr('w')),
+                    h = parseFloat(frame.attr('h'));
+                let item = $('<div class="animation">');
+                item.css({
+                    'background-image': 'url(' + url + ')',
+                    'background-position': -x + 'px ' + -y + 'px',
+                    'height': h,
+                    'width': w,
+                });
+                item.attr('name', name);
+                editor.ui.palette.append(item);
+            });
+        });
+    });
 }
 
 Editor.prototype.renderOverlays = function()

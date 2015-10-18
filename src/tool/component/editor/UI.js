@@ -21,6 +21,7 @@ Editor.UI = function(editor, workspace)
     this.view = this.createView(this.workspace.find('.view'));
     this.playback = this.createPlayback(this.workspace.find('.view'));
     this.item = this.createItem(this.workspace.find('.item'));
+    this.palette = this.createPalette(this.workspace.find('.palette'));
 }
 
 Editor.UI.prototype.applyState = function()
@@ -150,6 +151,26 @@ Editor.UI.prototype.createItem = function(node)
     });
 
     return element;
+}
+
+Editor.UI.prototype.createPalette = function(node)
+{
+    let editor = this.editor,
+        element = $(node);
+
+    node.on('mousedown', '.animation', function(e) {
+        if (e.buttons !== 1) {
+            return;
+        }
+
+        let anim = $(this);
+        anim.addClass('selected').siblings().removeClass('selected');
+        setTimeout(function() {
+            anim.closest('.palette').addClass('hidden');
+        }, 150);
+    });
+
+    return node;
 }
 
 Editor.UI.prototype.createPlayback = function(node)
