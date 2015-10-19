@@ -41,6 +41,7 @@ var Game = {
             "engine/World.js",
             "engine/Object.js",
             "engine/Timeline.js",
+            "engine/UVCoords.js",
 
             "engine/Animator.js",
             "engine/animator/UV.js",
