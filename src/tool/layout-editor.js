@@ -8,40 +8,6 @@ $(function() {
         });
     }
 
-    function createPlane(size) {
-        let uniqueId = 'object_' + THREE.Math.generateUUID().replace(/-/g, '');
-
-        let objectNode = $('<object/>', editor.node).attr({
-            'id': uniqueId,
-        });
-        let geometryNode = $('<geometry/>', editor.node).attr({
-            'type': 'plane',
-            'w': size.x,
-            'h': size.y,
-            'w-segments': size.sx || 1,
-            'h-segments': size.sy || 1,
-        });
-        objectNode.append(geometryNode);
-        editor.node.object.append(objectNode);
-
-        let game = editor.game,
-            loader = new Game.Loader.XML(game),
-            parser = new Game.Loader.XML.Parser.ObjectParser(loader);
-
-        let objectRef = parser.getObject(objectNode);
-
-        let objectInstanceNode = $('<object/>', editor.node).attr({
-            'id': uniqueId,
-        });
-
-        editor.node.layout.objects.append(objectInstanceNode);
-
-        let item = new Editor.Item(new objectRef(), objectInstanceNode);
-        editor.items.insert(item);
-
-        return item;
-    }
-
 
     var editor = new Editor();
     editor.workspace = $('.workspace');
