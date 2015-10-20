@@ -4,6 +4,8 @@ Engine.Animator = function()
     this._currentGroup = undefined;
     this._currentIndex = undefined;
 
+    this.name = "";
+
     this.offset = 0;
     this.time = 0;
 }

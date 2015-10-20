@@ -107,7 +107,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
                                 'y': parser.getRange(rangeNode, 'y', segs.y),
                             };
                         } catch (e) {
-                            console.log('Range node %s range error (%d,%d)', rangeNode[0].outerHTML, segs.x, segs.y);
+                            console.error('Range node %s range error (%d,%d)', rangeNode[0].outerHTML, segs.x, segs.y);
                             throw e;
                         }
 

@@ -48,6 +48,7 @@ Engine.Animator.UV.prototype.clone = function(animation)
     anim._currentId = this._currentId;
     anim.animations = this.animations;
     anim.indices = this.indices;
+    anim.name = this.name;
     for (var i in this.geometries) {
         anim.addGeometry(this.geometries[i]);
     }
