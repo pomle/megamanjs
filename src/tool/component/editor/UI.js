@@ -158,7 +158,7 @@ Editor.UI.prototype.createPalette = function(node)
     let editor = this.editor,
         element = $(node);
 
-    node.on('mousedown', '.animation', function(e) {
+    element.on('mousedown', '.animation', function(e) {
         if (e.buttons !== 1) {
             return;
         }
@@ -170,7 +170,12 @@ Editor.UI.prototype.createPalette = function(node)
         }, 150);
     });
 
-    return node;
+    element.getSelectedAnimation = function()
+    {
+        return this.find('> .animation.selected:first').attr('name');
+    }
+
+    return element;
 }
 
 Editor.UI.prototype.createPlayback = function(node)
@@ -287,6 +292,10 @@ Editor.UI.prototype.createViewport = function(node)
 
     viewport
         .on('mousemove', function(e) {
+            if (editor.activeMode === editor.modes.paint) {
+                return;
+            }
+
             let selection = editor.items.selected;
 
             if (e.buttons === 1 && selection.length !== 0) {
@@ -323,27 +332,82 @@ Editor.UI.prototype.createViewport = function(node)
             let pos = viewport.getPositionAtEvent(e.originalEvent);
             mouse.pos.copy(pos);
 
-            if (editor.activeMode === editor.modes.paint) {
-                var item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected[0]]));
+            function clearIndex(animator, index)
+            {
+                let i = undefined;
+                for (;;) {
+                    i = animator.indices.indexOf(index);
+                    if (i === -1) {
+                        break;
+                    }
+                    console.log("Clear index %d", i);
+                    animator.indices.splice(i, 1);
+                }
+            }
 
-                mouse.scale = item.model.position.z
+            if (editor.activeMode === editor.modes.paint) {
+                let item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected[0]])),
+                    animationName = editor.ui.palette.getSelectedAnimation();
 
                 if (item) {
-                    var intersect = item.intersect,
+                    console.log(item);
+                    let intersect = item.intersect,
                         faceIndex = intersect.faceIndex,
-                        geometry = intersect.object.geometry;
+                        geometry = intersect.object.geometry,
+                        object = item.item.object;
 
                     faceIndex -= faceIndex % 2;
+
+                    let animators = object.animators;
+                    let animator = undefined;
+                    for (let i = 0, l = animators.length; i !== l; ++i) {
+                        clearIndex(animators[i], faceIndex);
+
+                        if (animators[i].name === animationName) {
+                            animator = animators[i];
+                        }
+                    }
+
+                    if (animator === undefined) {
+                        animator = new Engine.Animator.UV();
+                        animator.indices = [faceIndex];
+                        animator.name = animationName;
+                        if (animationId === undefined) {
+                            if (!parser.animations[0]) {
+                                throw new Error("No default animation defined");
+                            }
+                            var animationObject = parser.animations[0];
+                        }
+                        else {
+                            if (!parser.animations[animationId]) {
+                                throw new Error("Animation " + animationId + " not defined");
+                            }
+                            var animationObject = parser.animations[animationId];
+                        }
+
+                        animator.setAnimation(animationObject.animation);
+                        animators.push(animator);
+                    }
+                    else {
+                        console.log("Adding faceIndex", faceIndex);
+                        animator.indices.push(faceIndex);
+                        animator._currentIndex = undefined;
+                        animator.update();
+                    }
+
+                    console.log(object);
+
+                    /*
+                    faceIndex -= faceIndex % 2;
                     if (editor.activeMode.pick) {
-                        var uvs = geometry.faceVertexUvs[0].slice(faceIndex, faceIndex + 2);
-                        editor.clipboard.add('uvs', uvs);
+                        let uvs = geometry.faceVertexUvs[0].slice(faceIndex, faceIndex + 2);
                         editor.activeMode.pick = false;
                     }
                     else if (editor.clipboard.get('uvs')) {
                         var uvs = editor.clipboard.get('uvs');
                         geometry.faceVertexUvs[0].splice(faceIndex, 2, uvs[0], uvs[1]);
                         geometry.uvsNeedUpdate = true;
-                    }
+                    }*/
                 }
             }
             else {
@@ -371,9 +435,12 @@ Editor.UI.prototype.createViewport = function(node)
                 }
             }
         })
+        .on('contextmenu', function(e) {
+            e.preventDefault();
+        })
         .on('dblclick', function(e) {
-            var item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
-            if (item && item.type === "object" && item.item === editor.items.selected[0]) {
+            let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
+            if (item && item.item.TYPE === "object" && item.item === editor.items.selected[0]) {
                 editor.activeMode = editor.modes.paint;
                 var mat = item.item.overlay.material;
                 mat.color = new THREE.Color(Editor.Colors.overlayPaint);
@@ -450,7 +517,7 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 
     marker.position.z = 0;
 
-    this.viewport.coords.html('X ' + marker.position.x.toFixed(2) + "\n" +
+    this.viewport.coords.html('X ' + marker.position.x.toFixed(2) + "<br>" +
                              ' Y ' + marker.position.y.toFixed(2)).css({
         left: event.layerX + 20,
         top: event.layerY + 20,
@@ -469,7 +536,7 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
         let closest = intersects[0].object;
         for (let item of items) {
             if (item.model === closest) {
-                return {item: item, intersect: closest};
+                return {item: item, intersect: intersects[0]};
             }
         }
     }

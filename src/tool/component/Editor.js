@@ -10,6 +10,9 @@ var Editor = function()
 
     this.document = undefined;
 
+    this.modes = new Editor.Modes(this);
+    this.activeMode = this.modes.view;
+
     this.game = undefined;
 
     this.grid = new THREE.GridHelper(32, 1);
@@ -125,6 +128,8 @@ Editor.prototype.open = function(level, parser)
     let editor = this,
         game = editor.game,
         componentFactory = editor.componentFactory;
+
+    editor.parser = parser;
 
     editor.marker.position.set(0,0,0);
 
