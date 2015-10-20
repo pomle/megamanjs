@@ -78,6 +78,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
                 animator.offset = parser.getFloat(faceNode, 'offset', 0);
 
                 var animationId = faceNode.attr('animation');
+                animator.name = animationId;
                 if (animationId === undefined) {
                     if (!parser.animations[0]) {
                         throw new Error("No default animation defined");
@@ -281,9 +282,9 @@ Game.Loader.XML.Parser.ObjectParser.prototype.parseAnimations = function(animati
             var frameNode = $(this);
             var offset = parser.getVector2(frameNode, 'x', 'y');
             var frameSize = parser.getVector2(frameNode, 'w', 'h', animationSize);
-            var uvMap = Engine.SpriteManager.createUVMap(offset.x, offset.y,
-                                                         frameSize.x, frameSize.y,
-                                                         textureObject.size.x, textureObject.size.y);
+            var uvMap = new Engine.UVCoords(offset.x, offset.y,
+                                            frameSize.x, frameSize.y,
+                                            textureObject.size.x, textureObject.size.y);
             var duration = parseFloat(frameNode.attr('duration')) || undefined;
             animation.addFrame(uvMap, duration);
         });
