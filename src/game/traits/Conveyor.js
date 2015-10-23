@@ -14,3 +14,9 @@ Game.traits.Conveyor.prototype.__collides = function(subject)
         subject.physics.velocity.add(this.velocity);
     }
 }
+
+Game.traits.Conveyor.prototype.swapDirection = function()
+{
+    this._host.model.scale.x = -this._host.model.scale.x;
+    this.velocity.x = -this.velocity.x;
+}
