@@ -85,10 +85,11 @@ Editor.ItemSet.prototype.select = function(item)
 
     item.overlay = new THREE.WireframeHelper(item.model, 0x00ff00);
     this.editor.overlays.add(item.overlay);
-
-    console.log("Selected item", this.selected);
-
     this.editor.ui.item.inputs.update(item);
+
+    if (item.node.length) {
+        this.editor.ui.console.textarea.val(item.node[0].outerHTML);
+    }
 }
 
 Editor.ItemSet.prototype.remove = function()
@@ -113,6 +114,10 @@ Editor.ItemSet.prototype.remove = function()
         }
 
         this.hide(item);
+
+        if (item.TYPE) {
+            this.layers[item.TYPE].delete(item);
+        }
 
         item.delete();
         item.node.remove();
@@ -158,8 +163,6 @@ Editor.ItemSet.prototype.hide = function()
         }
 
         this.visible.delete(item);
-
-        console.log("Hid item", item);
     }
 }
 
@@ -187,7 +190,5 @@ Editor.ItemSet.prototype.show = function()
         }
 
         this.visible.add(item);
-
-        console.log("Exposed item", item);
     }
 }

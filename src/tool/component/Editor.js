@@ -45,7 +45,7 @@ var Editor = function()
 
     this.parser = undefined;
 
-    this.ui = undefined;
+    this.ui = new Editor.UI(this);
 }
 
 Editor.Colors = {
@@ -76,6 +76,9 @@ Editor.prototype.clear = function()
     this.items = new Editor.ItemSet(this);
 
     this.guides = new THREE.Scene();
+    var light = new THREE.AmbientLight(0xffffff);
+    this.guides.add(light);
+
     this.guides.add(this.marker);
     this.guides.add(this.grid);
 
@@ -94,7 +97,7 @@ Editor.prototype.clear = function()
 
 Editor.prototype.getXML = function()
 {
-    return editor.document[0].outerHTML;
+    return this.document[0].outerHTML;
 }
 
 Editor.prototype.loadUrl = function(url, callback)
@@ -112,7 +115,6 @@ Editor.prototype.load = function(node, callback)
         parser = new Game.Loader.XML.Parser.LevelParser(this);
 
     node = $(node);
-    console.log(node);
     parser.parse(node, function(level, parser) {
         editor.open(level, parser);
         if (callback) {
@@ -129,12 +131,20 @@ Editor.prototype.open = function(level, parser)
         game = editor.game,
         componentFactory = editor.componentFactory;
 
-    editor.parser = parser;
-
     editor.marker.position.set(0,0,0);
 
+    editor.parser = parser;
     editor.document = parser.node;
     editor.nodeManager.document = editor.document;
+
+    let objectParser = new Game.Loader.XML.Parser.ObjectParser(this);
+    objectParser.parse(editor.document.find('> objects'));
+
+    editor.document.objectSources = {};
+    for (let item of objectParser.items) {
+        editor.document.objectSources[item.object.name] = item;
+    }
+
 
     level.events.unbind(level.EVENT_START, level.resetPlayer);
 
@@ -176,7 +186,6 @@ Editor.prototype.open = function(level, parser)
     }
 
     for (let _item of parser.behaviors) {
-        console.log(_item.object.position);
         let item = new Editor.Item.Behavior(_item.object, _item.node);
         editor.items.add(item);
     }
@@ -189,8 +198,8 @@ Editor.prototype.open = function(level, parser)
 
             anim.find('> frame:first-child').each(function() {
                 let frame = $(this),
-                    x = parseFloat(frame.attr('x')),
-                    y = parseFloat(frame.attr('y')),
+                    x = parseFloat(frame.attr('x')) + 1,
+                    y = parseFloat(frame.attr('y')) + 1,
                     w = parseFloat(frame.attr('w')),
                     h = parseFloat(frame.attr('h'));
                 let item = $('<div class="animation">');

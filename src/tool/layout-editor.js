@@ -10,22 +10,6 @@ $(function() {
 
 
     var editor = new Editor();
-    editor.workspace = $('.workspace');
-    editor.ui = new Editor.UI(editor, editor.workspace);
-
-    editor.console = $('.console');
-    editor.console.find('button[name=generate-xml]').on('click', function(e) {
-        e.preventDefault();
-        editor.console.find('textarea').val(vkbeautify.xml(editor.getXML()));
-    });
-    editor.console.find('button[name=reload-xml]').on('click', function(e) {
-        e.preventDefault();
-        let node = $.parseXML(editor.console.find('textarea').val());
-        node = $(node);
-        editor.load(node.find('> scene'));
-    });
-
-
 
     editor.storage = localStorage;
     editor.loader = {
@@ -94,7 +78,6 @@ $(function() {
     editor.file.recent.get = function() {
         try {
             var json = editor.storage.getItem('recent');
-            console.log("Reading JSON", json);
             var recent = JSON.parse(json);
             var retval = Array.isArray(recent) ? recent : [];
             return retval;
@@ -106,7 +89,6 @@ $(function() {
     editor.file.recent.set = function(recent)
     {
         var json = JSON.stringify(recent);
-        console.log("Setting JSON", json);
         editor.storage.setItem('recent', json);
         this.updatelist();
     }
@@ -136,106 +118,39 @@ $(function() {
         }
     }, undefined, '../');
 
-    $(window)
-        .on('resize', function(e) {
-        }).trigger('resize');
-
-    $(window)
-        .on('keydown keyup', function(e) {
-            var k = e.which,
-                t = e.type,
-                c = e.ctrlKey,
-                d = (t === 'keydown'),
-                u = (t === 'keyup');
-
-            console.log(k, e);
-
-            if (k === 27 && d) { // ESC
-                editor.items.deselect();
-                $(':input').blur();
-                editor.ui.viewport.focus();
-                editor.activeMode = editor.modes.view;
-            }
-            else if (k === 80 && c && d) { // P
-                e.preventDefault();
-                if (!editor.game.player.character) {
-                    console.error("No character set");
-                    return;
-                }
-                editor.activeMode = editor.modes.play;
-                editor.ui.playback.simulate.prop('checked', true).trigger('change');
-            }
-            else {
-                editor.activeMode(e);
-            }
-        })
-
-    editor.workspace.on('dragenter', function (e) {
+    editor.ui.workspace.on('dragenter', function (e) {
         e.stopPropagation();
         e.preventDefault();
     });
-    editor.workspace.on('dragover', function (e) {
+    editor.ui.workspace.on('dragover', function (e) {
          e.stopPropagation();
          e.preventDefault();
     });
-    editor.workspace.on('drop', function (e) {
+    editor.ui.workspace.on('drop', function (e) {
         e.preventDefault();
-        if (editor.items.selected === undefined) {
-            return;
-        }
         var files = e.originalEvent.dataTransfer.files;
         var file = files[0];
         var reader = new FileReader();
         reader.onload = function(e) {
-            render(e.target.result);
             var i = new Image();
-            i.src = e.target.result;
-            var canvas = document.createElement('canvas');
-            var texture = new THREE.Texture(canvas);
-            texture.name = file.name;
             i.onload = function() {
-                canvas.width = this.width;
-                canvas.height = this.height;
-                var ctx = canvas.getContext("2d");
-                ctx.clearRect(0, 0, this.width, this.height);
-                ctx.drawImage(this, 0, 0);
-                texture.needUpdate = true;
+                var geometry = new THREE.PlaneGeometry(this.width, this.height);
+                var texture = new THREE.Texture(this);
+                var material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    opacity: .5,
+                    transparent: true,
+                });
+                var mesh = new THREE.Mesh(geometry, material);
+                var item = new Editor.Item.Mesh(mesh);
+                editor.layers.guides.add(mesh);
+                editor.items.visible.add(item);
+                texture.needsUpdate = true;
             };
-            selectedObject.material = new THREE.MeshBasicMaterial({
-                map: texture,
-                transparent: true,
-            });
-            selectedObject.material.needUpdate = true;
+            i.src = e.target.result;
         };
         reader.readAsDataURL(file);
     });
 
     window.editor = editor;
 });
-
-/*
-    workspace.on('drop', function (e) {
-        e.preventDefault();
-        var files = e.originalEvent.dataTransfer.files;
-        var file = files[0];
-        canvas.data('url', file.name);
-        var reader = new FileReader();
-        reader.onload = function(e){
-            render(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    });
-
-    function render(src) {
-        var image = new Image();
-        image.onload = function() {
-            var cnv = canvas.get(0);
-            cnv.width = this.width;
-            cnv.height = this.height;
-            var ctx = cnv.getContext("2d");
-            ctx.clearRect(0, 0, this.width, this.height);
-            ctx.drawImage(image, 0, 0);
-        };
-        image.src = src;
-    }
-*/

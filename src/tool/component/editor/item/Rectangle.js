@@ -72,7 +72,20 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
 
 Editor.Item.Rectangle.prototype.updateGeometry = function()
 {
-    let g = this.model.geometry;
+    let g = this.model.geometry,
+        v = this.vectors,
+        x = this.x,
+        y = this.y;
+
+    g.vertices[0].x = v[0].x - x;
+    g.vertices[1].x = v[1].x - x;
+    g.vertices[2].x = v[0].x - x;
+    g.vertices[3].x = v[1].x - x;
+
+    g.vertices[0].y = v[1].y - y;
+    g.vertices[1].y = v[1].y - y;
+    g.vertices[2].y = v[0].y - y;
+    g.vertices[3].y = v[0].y - y;
 
     g.verticesNeedUpdate = true;
     g.normalsNeedUpdate = true;
@@ -96,24 +109,11 @@ Editor.Item.Rectangle.prototype.updateNode = function()
 
 Editor.Item.Rectangle.prototype.update = function()
 {
-    let g = this.model.geometry,
-        v = this.vectors;
-
     let x = this.x,
         y = this.y;
 
     this.model.position.x = x;
     this.model.position.y = y;
-
-    g.vertices[0].x = v[0].x - x;
-    g.vertices[1].x = v[1].x - x;
-    g.vertices[2].x = v[0].x - x;
-    g.vertices[3].x = v[1].x - x;
-
-    g.vertices[0].y = v[1].y - y;
-    g.vertices[1].y = v[1].y - y;
-    g.vertices[2].y = v[0].y - y;
-    g.vertices[3].y = v[0].y - y;
 
     this.updateGeometry();
     this.updateNode();

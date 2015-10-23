@@ -112,6 +112,7 @@
 .workspace .palette .animation {
     border: solid 1px rgba(0,0,0,0);
     box-shadow: 0 0 8px 0 rgba(0,0,0,1);
+    box-sizing: border-box;
     float: left;
     image-rendering: pixelated;
     margin: 2px;

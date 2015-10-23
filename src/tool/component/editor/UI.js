@@ -3,19 +3,51 @@
 Editor.UI = function(editor, workspace)
 {
     this.editor = editor;
-    this.workspace = $(workspace);
+    this.console = $('.console');
+    this.workspace = $('.workspace');
 
     $(window).on('resize', function() {
         if (editor.game) {
             editor.game.adjustResolution();
             editor.game.adjustAspectRatio();
         }
+    })
+    .on('keydown keyup', function(e) {
+        var k = e.which,
+            t = e.type,
+            c = e.ctrlKey,
+            d = (t === 'keydown'),
+            u = (t === 'keyup');
+
+        if (k === 27 && d) { // ESC (reset)
+            editor.items.deselect();
+            $(':input').blur();
+            editor.ui.viewport.focus();
+            editor.activeMode = editor.modes.view;
+        }
+        else if ($(e.target).is(':input')) {
+            return;
+        }
+        else {
+            editor.activeMode(e);
+        }
     });
 
-    editor.workspace.find(':input').filter('textarea,[type=text]')
-        .on('focus', function() {
-            editor.activeMode = editor.modes.input;
-        });
+
+    this.console.textarea = this.console.find('textarea');
+    this.console.find('button[name=generate-xml]').on('click', function(e) {
+        e.preventDefault();
+        let xml = editor.getXML();
+        xml = vkbeautify.xml(xml);
+        editor.ui.console.textarea.val(xml);
+    });
+    this.console.find('button[name=reload-xml]').on('click', function(e) {
+        e.preventDefault();
+        let node = $.parseXML(editor.ui.console.textarea.val());
+        node = $(node);
+        editor.load(node.find('> scene'));
+    });
+
 
     this.viewport = this.createViewport(this.workspace.find('.viewport'));
     this.view = this.createView(this.workspace.find('.view'));
@@ -239,7 +271,6 @@ Editor.UI.prototype.createView = function(node)
                 continue;
             }
             let items = [...editor.items.layers[layer]];
-            console.log(items);
             func.call(editor.items, items);
         }
     });
@@ -292,25 +323,23 @@ Editor.UI.prototype.createViewport = function(node)
 
     viewport
         .on('mousemove', function(e) {
-            if (editor.activeMode === editor.modes.paint) {
-                return;
-            }
+            if (editor.activeMode === editor.modes.edit) {
+                let selection = editor.items.selected;
 
-            let selection = editor.items.selected;
+                if (e.buttons === 1 && selection.length !== 0) {
+                    let pos = viewport.getPositionAtEvent(e.originalEvent),
+                        x = (mouse.pos.x - pos.x),
+                        y = (mouse.pos.y - pos.y);
 
-            if (e.buttons === 1 && selection.length !== 0) {
-                let pos = viewport.getPositionAtEvent(e.originalEvent),
-                    x = (mouse.pos.x - pos.x),
-                    y = (mouse.pos.y - pos.y);
-
-                for (let i = 0, l = selection.length; i !== l; ++i) {
-                    let item = selection[i];
-                    item.x -= x;
-                    item.y -= y;
+                    for (let i = 0, l = selection.length; i !== l; ++i) {
+                        let item = selection[i];
+                        item.x -= x;
+                        item.y -= y;
+                    }
+                    mouse.pos.copy(pos);
                 }
-                mouse.pos.copy(pos);
             }
-            else if (e.buttons === 2 || e.buttons === 1 && selection.length === 0) {
+            else if (e.buttons === 2 || e.buttons === 1) {
                 let to = new THREE.Vector2((mouse.event.clientX - e.clientX),
                                            -(mouse.event.clientY - e.clientY));
                 to.multiplyScalar(editor.camera.position.z / 200);
@@ -350,7 +379,6 @@ Editor.UI.prototype.createViewport = function(node)
                     animationName = editor.ui.palette.getSelectedAnimation();
 
                 if (item) {
-                    console.log(item);
                     let intersect = item.intersect,
                         faceIndex = intersect.faceIndex,
                         geometry = intersect.object.geometry,
@@ -369,24 +397,7 @@ Editor.UI.prototype.createViewport = function(node)
                     }
 
                     if (animator === undefined) {
-                        animator = new Engine.Animator.UV();
-                        animator.indices = [faceIndex];
-                        animator.name = animationName;
-                        if (animationId === undefined) {
-                            if (!parser.animations[0]) {
-                                throw new Error("No default animation defined");
-                            }
-                            var animationObject = parser.animations[0];
-                        }
-                        else {
-                            if (!parser.animations[animationId]) {
-                                throw new Error("Animation " + animationId + " not defined");
-                            }
-                            var animationObject = parser.animations[animationId];
-                        }
-
-                        animator.setAnimation(animationObject.animation);
-                        animators.push(animator);
+                        console.error('Creating new animator not implemented');
                     }
                     else {
                         console.log("Adding faceIndex", faceIndex);
@@ -394,20 +405,6 @@ Editor.UI.prototype.createViewport = function(node)
                         animator._currentIndex = undefined;
                         animator.update();
                     }
-
-                    console.log(object);
-
-                    /*
-                    faceIndex -= faceIndex % 2;
-                    if (editor.activeMode.pick) {
-                        let uvs = geometry.faceVertexUvs[0].slice(faceIndex, faceIndex + 2);
-                        editor.activeMode.pick = false;
-                    }
-                    else if (editor.clipboard.get('uvs')) {
-                        var uvs = editor.clipboard.get('uvs');
-                        geometry.faceVertexUvs[0].splice(faceIndex, 2, uvs[0], uvs[1]);
-                        geometry.uvsNeedUpdate = true;
-                    }*/
                 }
             }
             else {
@@ -427,6 +424,7 @@ Editor.UI.prototype.createViewport = function(node)
                         }
                         editor.activeMode = editor.modes.edit;
                         editor.items.select(item.item);
+
                         if (item.item.object instanceof Game.objects.Character) {
                             editor.game.player.setCharacter(item.item.object);
                             console.log("Selected character", item.item.object);

@@ -8,39 +8,45 @@ Editor.Modes = function(editor)
 
     this.edit = function(e)
     {
-
         if (e.type !== 'keydown') {
             return;
         }
 
         e.preventDefault();
-        if (editor.items.selected === undefined) {
+
+        let i = editor.items.selected[0];
+
+        if (e.which === 80 && e.ctrlKey) { // P (play)
+            if (!editor.game.player.character) {
+                console.error("No character set");
+                return;
+            }
+            editor.activeMode = editor.modes.play;
+            editor.ui.playback.simulate.prop('checked', true).trigger('change');
             return;
-        }
-
-        let g = editor.grid.scale.clone(),
-            i = editor.items.selected[0],
-            p = i;
-
-        if (e.ctrlKey) {
-            g.set(1, 1, 1);
         }
 
         switch (e.which) {
             case 107:
                 editor.camera.zoomOut();
-                break;
+                return;
             case 109:
                 editor.camera.zoomIn();
-                break;
-
+                return;
             case 72: // H
                 editor.items.hide(i);
                 editor.items.deselect();
-                break;
+                return;
         }
 
         if (editor.items.selected.length) {
+            let g = editor.grid.scale.clone();
+
+            /* I ctrl key is pressed, increment 1 unit. */
+            if (e.ctrlKey) {
+                g.set(1, 1, 1);
+            }
+
             for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
                 let item = editor.items.selected[i];
                 switch (e.which) {
@@ -55,6 +61,15 @@ Editor.Modes = function(editor)
                         break;
                     case 37:
                         item.x -= g.x;
+                        break;
+                    case 76: // L (lock)
+                        editor.items.deselect(item);
+                        editor.items.visible.delete(item);
+                        break;
+                    case 67: // C (clone)
+                        let clone = item.clone();
+                        clone.moveTo(item);
+                        editor.items.add(clone);
                         break;
                     case 46: // DEL
                         editor.items.remove(item);
@@ -96,7 +111,6 @@ Editor.Modes = function(editor)
 
     this.view = function(e)
     {
-
         if (e.type !== 'keydown') {
             return;
         }
@@ -124,6 +138,9 @@ Editor.Modes = function(editor)
                 break;
             case 37:
                 p.x -= a;
+                break;
+            case 85:
+                editor.items.visible = new Set(editor.items.items);
                 break;
         }
     }
