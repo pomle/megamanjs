@@ -64,7 +64,7 @@ Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
         subject.obstruct(host, attack);
     }
 
-    return true;
+    return attack;
 }
 
 Game.traits.Solid.prototype.__uncollides = function(subject, ourZone, theirZone)

@@ -9,8 +9,8 @@ Game.traits.Conveyor.prototype.NAME = 'conveyor';
 
 Game.traits.Conveyor.prototype.__collides = function(subject)
 {
-    Game.traits.Solid.prototype.__collides.apply(this, arguments);
-    if (subject.physics) {
+    var attack = Game.traits.Solid.prototype.__collides.apply(this, arguments);
+    if (attack === this.TOP && subject.physics !== undefined) {
         subject.physics.velocity.add(this.velocity);
     }
 }
