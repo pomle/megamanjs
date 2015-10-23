@@ -142,11 +142,13 @@ Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone
 
 Engine.Collision.BoundingBox = function(model, zone)
 {
+    var rect = Engine.Math.Geometry.convertPlaneToRectangle(zone.geometry);
+
     this.model = model;
     this.zone = zone;
 
-    this.width = this.zone.geometry.parameters.width;
-    this.height = this.zone.geometry.parameters.height;
+    this.width = rect.w;
+    this.height = rect.h;
 }
 
 Object.defineProperties(Engine.Collision.BoundingBox.prototype, {
