@@ -43,7 +43,6 @@ Game.Loader.XML.prototype.asyncLoadXml = function(url, callback)
 
 Game.Loader.XML.prototype.load = function(url, callback)
 {
-    console.log(url);
     var loader = this;
     loader.asyncLoadXml(url, function(node) {
         var firstNode = node.children(':first');
