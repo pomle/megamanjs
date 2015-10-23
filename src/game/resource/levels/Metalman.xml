@@ -1,698 +1,559 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scene type="level" name="Bubbleman">
-    <gravity x="0" y="9.81" />
-
+<scene type="level" name="Metalman">
+    <editor>
+        <guides>
+            <image-overlay data="" x="0" y="0"/>
+        </guides>
+    </editor>
+    <gravity x="0" y="9.81"/>
     <checkpoints>
-        <checkpoint x="128" y="102"/>
-        <checkpoint x="1152" y="1141"/>
-        <checkpoint x="4224" y="1077"/>
+        <checkpoint x="128" y="-168" z="0"/>
     </checkpoints>
-
     <camera>
         <path>
-            <window x1="0" x2="1024" y1="0" y2="208" />
-            <constraint x1="180" x2="1152" y1="120" y2="120" />
-        </path>
-         <path>
-            <window x1="1024" x2="1280" y1="240" y2="480" />
-            <constraint x1="1152" x2="1152" y1="360" y2="360" />
+            <window x1="0" x2="2560" y1="-240" y2="0"/>
+            <constraint x1="128" x2="2432" y1="-120" y2="-120"/>
         </path>
         <path>
-            <window x1="1024" x2="1280" y1="480" y2="720" />
-            <constraint x1="1152" x2="1152" y1="600" y2="600" />
+            <window x1="2304" x2="2560" y1="-480" y2="-240"/>
+            <constraint x1="2432" x2="2432" y1="-360" y2="-360"/>
         </path>
         <path>
-            <window x1="1024" x2="1280" y1="720" y2="960" />
-            <constraint x1="1152" x2="1152" y1="840" y2="840" />
+            <window x1="2304" x2="4608" y1="-720" y2="-480"/>
+            <constraint x1="2432" x2="4480" y1="-600" y2="-600"/>
         </path>
         <path>
-            <window x1="1024" x2="4096" y1="960" y2="1200" />
-            <constraint x1="1152" x2="3968" y1="1080" y2="1080" />
+            <window x1="4864" x2="5120" y1="-720" y2="-480"/>
+            <constraint x1="4992" x2="4992" y1="-600" y2="-600"/>
         </path>
-
         <path>
-            <window x1="4096" x2="4352" y1="960" y2="1200" />
-            <constraint x1="4224" x2="4224" y1="1080" y2="1080" />
-        </path>
-
-        <path>
-            <window x1="4352" x2="4608" y1="960" y2="1200" />
-            <constraint x1="4480" x2="4480" y1="1080" y2="1080" />
+            <window x1="4608" x2="4864" y1="-720" y2="-480"/>
+            <constraint x1="4736" x2="4736" y1="-600" y2="-600"/>
         </path>
     </camera>
-
     <objects>
         <textures>
-            <texture url="./metalman/tiles.png" w="256" h="128" />
+            <texture url="./metalman/tiles.png" w="256" h="128"/>
         </textures>
-
         <animations>
             <animation id="wheel-h-1">
-                <frame x="1" y="1" w="16" h="16" duration=".5" />
+                <frame x="1" y="1" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="wheel-h-2">
-                <frame x="19" y="1" w="16" h="16" duration=".5" />
+                <frame x="19" y="1" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="wheel-h-3">
-                <frame x="37" y="1" w="16" h="16" duration=".5" />
+                <frame x="37" y="1" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="wheel-h-4">
-                <frame x="55" y="1" w="16" h="16" duration=".5" />
+                <frame x="55" y="1" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="wheel-v-1">
-                <frame x="1" y="19" w="16" h="16" duration=".5" />
+                <frame x="1" y="19" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="wheel-v-2">
-                <frame x="1" y="37" w="16" h="16" duration=".5" />
+                <frame x="1" y="37" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="wheel-v-3">
-                <frame x="1" y="55" w="16" h="16" duration=".5" />
+                <frame x="1" y="55" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="wheel-v-4">
-                <frame x="1" y="73" w="16" h="16" duration=".5" />
+                <frame x="1" y="73" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="wheel-v-5">
-                <frame x="1" y="91" w="16" h="16" duration=".5" />
+                <frame x="1" y="91" w="16" h="16" duration=".5"/>
             </animation>
             <animation>
-                <frame x="19" y="73" w="16" h="16" duration=".5" />
-                <frame x="19" y="91" w="16" h="16" duration=".5" />
-                <frame x="37" y="91" w="16" h="16" duration=".5" />
-                <frame x="37" y="73" w="16" h="16" duration=".5" />
-                <frame x="19" y="55" w="16" h="16" duration=".5" />
-                <frame x="37" y="55" w="16" h="16" duration=".5" />
-                <frame x="127" y="91" w="16" h="16" duration=".5" />
+                <frame x="19" y="73" w="16" h="16" duration=".5"/>
+                <frame x="19" y="91" w="16" h="16" duration=".5"/>
+                <frame x="37" y="91" w="16" h="16" duration=".5"/>
+                <frame x="37" y="73" w="16" h="16" duration=".5"/>
+                <frame x="19" y="55" w="16" h="16" duration=".5"/>
+                <frame x="37" y="55" w="16" h="16" duration=".5"/>
+                <frame x="127" y="91" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="conveyor-left">
-                <frame x="37" y="37" w="16" h="16" duration=".5" />
+                <frame x="37" y="37" w="16" h="16" duration=".1"/>
+                <frame x="73" y="55" w="16" h="16" duration=".1"/>
             </animation>
             <animation id="conveyor">
-                <frame x="55" y="37" w="16" h="16" duration=".5" />
-                <frame x="73" y="37" w="16" h="16" duration=".5" />
+                <frame x="55" y="37" w="16" h="16" duration=".1"/>
+                <frame x="73" y="37" w="16" h="16" duration=".1"/>
             </animation>
             <animation id="conveyor-right">
-                <frame x="91" y="37" w="16" h="16" duration=".5" />
+                <frame x="91" y="37" w="16" h="16" duration=".1"/>
+                <frame x="73" y="55" w="16" h="16" duration=".1"/>
             </animation>
             <animation id="conveyor-blank">
-                <frame x="73" y="55" w="16" h="16" duration=".5" />
+                <frame x="73" y="55" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="sign-n">
-                <frame x="55" y="55" w="16" h="16" duration=".5" />
+                <frame x="55" y="55" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="sign-w">
-                <frame x="55" y="73" w="16" h="16" duration=".5" />
+                <frame x="55" y="73" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="door">
-                <frame x="73" y="73" w="16" h="16" duration=".5" />
+                <frame x="73" y="73" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="sign-s">
-                <frame x="73" y="91" w="16" h="16" duration=".5" />
+                <frame x="73" y="91" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="sign-sw">
-                <frame x="55" y="91" w="16" h="16" duration=".5" />
+                <frame x="55" y="91" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="screw-top">
-                <frame x="19" y="19" w="16" h="16" duration=".5" />
+                <frame x="19" y="19" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="screw-bot">
-                <frame x="19" y="37" w="16" h="16" duration=".5" />
+                <frame x="19" y="37" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="screw-left">
-                <frame x="37" y="19" w="16" h="16" duration=".5" />
+                <frame x="37" y="19" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="screw-right">
-                <frame x="55" y="19" w="16" h="16" duration=".5" />
+                <frame x="55" y="19" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="big-cog">
-                <frame x="145" y="19" w="32" h="32" duration=".5" />
-                <frame x="145" y="55" w="32" h="32" duration=".5" />
+                <frame x="145" y="19" w="32" h="32" duration=".5"/>
+                <frame x="145" y="55" w="32" h="32" duration=".5"/>
             </animation>
             <animation id="crankshaft">
-                <frame x="145" y="91" w="16" h="16" duration=".5" />
-                <frame x="163" y="91" w="16" h="16" duration=".5" />
+                <frame x="145" y="91" w="16" h="16" duration=".5"/>
+                <frame x="163" y="91" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="small-cog">
-                <frame x="127" y="19" w="16" h="16" duration=".5" />
-                <frame x="127" y="37" w="16" h="16" duration=".5" />
+                <frame x="127" y="19" w="16" h="16" duration=".5"/>
+                <frame x="127" y="37" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="med-cog">
-                <frame x="127" y="55" w="16" h="16" duration=".5" />
-                <frame x="127" y="73" w="16" h="16" duration=".5" />
+                <frame x="127" y="55" w="16" h="16" duration=".5"/>
+                <frame x="127" y="73" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="piston-1">
-                <frame x="91" y="55" w="16" h="16" duration=".5" />
-                <frame x="109" y="55" w="16" h="16" duration=".5" />
+                <frame x="91" y="55" w="16" h="16" duration=".5"/>
+                <frame x="109" y="55" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="piston-2">
-                <frame x="91" y="73" w="16" h="16" duration=".5" />
-                <frame x="109" y="73" w="16" h="16" duration=".5" />
+                <frame x="91" y="73" w="16" h="16" duration=".5"/>
+                <frame x="109" y="73" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="piston-crank">
-                <frame x="91" y="91" w="16" h="16" duration=".5" />
-                <frame x="109" y="91" w="16" h="16" duration=".5" />
+                <frame x="91" y="91" w="16" h="16" duration=".5"/>
+                <frame x="109" y="91" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="dr-wily-logo">
-                <frame x="73" y="1" w="32" h="32" duration=".5" />
+                <frame x="73" y="1" w="32" h="32" duration=".5"/>
             </animation>
         </animations>
-
+        <object id="conveyor_24">
+            <geometry type="plane" w="384" h="16" w-segments="24" h-segments="1">
+                <face animation="conveyor-right">
+                    <range x="1,24" y="1"/>
+                </face>
+                <face animation="conveyor">
+                    <range x="2-23" y="1"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="384" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Conveyor"/>
+            </traits>
+        </object>
+        <object id="conveyor_20">
+            <geometry type="plane" w="320" h="16" w-segments="20" h-segments="1">
+                <face animation="conveyor-right">
+                    <range x="1,20" y="1"/>
+                </face>
+                <face animation="conveyor">
+                    <range x="2-19" y="1"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="320" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Conveyor"/>
+            </traits>
+        </object>
+        <object id="conveyor_15">
+            <geometry type="plane" w="240" h="16" w-segments="15" h-segments="1">
+                <face animation="conveyor-right">
+                    <range x="1,15" y="1"/>
+                </face>
+                <face animation="conveyor">
+                    <range x="2-14" y="1"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="240" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Conveyor"/>
+            </traits>
+        </object>
+        <object id="conveyor_18">
+            <geometry type="plane" w="288" h="16" w-segments="18" h-segments="1">
+                <face animation="conveyor-right">
+                    <range x="1,18" y="1"/>
+                </face>
+                <face animation="conveyor">
+                    <range x="2-17" y="1"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="288" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Conveyor"/>
+            </traits>
+        </object>
+        <object id="conveyor_12">
+            <geometry type="plane" w="192" h="16" w-segments="12" h-segments="1">
+                <face animation="conveyor-right">
+                    <range x="1,12" y="1"/>
+                </face>
+                <face animation="conveyor">
+                    <range x="2-11" y="1"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="192" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Conveyor"/>
+            </traits>
+        </object>
+        <object id="conveyor_16">
+            <geometry type="plane" w="256" h="16" w-segments="16" h-segments="1">
+                <face animation="conveyor-right">
+                    <range x="1,16" y="1"/>
+                </face>
+                <face animation="conveyor">
+                    <range x="2-15" y="1"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="256" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Conveyor"/>
+            </traits>
+        </object>
+        <object id="conveyor_10">
+            <geometry type="plane" w="160" h="16" w-segments="10" h-segments="1">
+                <face animation="conveyor-right">
+                    <range x="1,10" y="1"/>
+                </face>
+                <face animation="conveyor">
+                    <range x="2-9" y="1"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="160" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Conveyor"/>
+            </traits>
+        </object>
+        <object id="conveyor_4">
+            <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+                <face animation="conveyor-right">
+                    <range x="1,4" y="1"/>
+                </face>
+                <face animation="conveyor">
+                    <range x="2-3" y="1"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="64" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Conveyor"/>
+            </traits>
+        </object>
         <object id="door">
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
                 <face animation="door">
                     <range x="*" y="*"/>
                 </face>
             </geometry>
-
             <collision>
-                <rect x="0" y="0" w="32" h="64" />
+                <rect x="0" y="0" w="32" h="64"/>
             </collision>
-
             <traits>
                 <trait source="Door">
-                    <direction x="-1" y="0" />
+                    <direction x="-1" y="0"/>
                 </trait>
             </traits>
         </object>
-
-        <object id="falling-block">
-            <geometry type="plane" w="32" h="16" w-segments="2" h-segments="1">
-                <face animation="falling-block">
-                    <range x="*" y="*"/>
-                </face>
-            </geometry>
-
-            <collision>
-                <rect x="0" y="0" w="32" h="16" />
-            </collision>
-
-            <traits>
-                <trait source="Physics" mass="500" />
-                <trait source="Solid" />
-                <trait source="Fallaway" delay=".2" />
-            </traits>
-        </object>
-
-        <object id="waterfall">
-            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
-                <face animation="waterfall-2">
-                    <range x="1-16/2" y="1-15/2"/>
-                    <range x="2-16/2" y="2-15/2"/>
-                </face>
-                <face animation="waterfall-3">
-                    <range x="1-16/2" y="2-15/2"/>
-                    <range x="2-16/2" y="1-15/2"/>
-                </face>
-            </geometry>
-        </object>
-
-        <object id="dr-wily-logo">
-            <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
-                <face animation="dr-wily-logo">
+        <object id="cog_green_vert">
+            <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+                <face animation="wheel-h-1">
                     <range x="1" y="1"/>
                 </face>
-            </geometry>
-        </object>
-
-        <object id="surface">
-            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
-                <face animation="waterfall-2">
-                    <range x="1-16/2" y="1-6/2"/>
-                    <range x="2-16/2" y="2-6/2"/>
+                <face animation="wheel-h-2">
+                    <range x="2" y="1"/>
                 </face>
-                <face animation="waterfall-3">
-                    <range x="1-16/2" y="2-6/2"/>
-                    <range x="2-16/2" y="1-6/2"/>
+                <face animation="wheel-h-3">
+                    <range x="3" y="1"/>
                 </face>
-                 <face animation="water-surface-1">
-                    <range x="*" y="7"/>
-                </face>
-                 <face animation="water-surface-2">
-                    <range x="*" y="8"/>
-                </face>
-                <face animation="water">
-                    <range x="*" y="9-15"/>
+                <face animation="wheel-h-4">
+                    <range x="4" y="1"/>
                 </face>
             </geometry>
         </object>
-
-        <object id="water">
-            <geometry type="plane" w="256" h="240" w-segments="1" h-segments="1">
-                <face animation="water">
+        <object id="cog_green_hori">
+            <geometry type="plane" w="16" h="64" w-segments="1" h-segments="4">
+                <face animation="wheel-v-1">
                     <range x="1" y="1"/>
                 </face>
-            </geometry>
-        </object>
-
-        <object id="water-lower-1">
-            <geometry type="plane" w="2304" h="240" w-segments="144" h-segments="15">
-                <face animation="water">
-                    <range x="*" y="*"/>
+                <face animation="wheel-v-2">
+                    <range x="1" y="2"/>
                 </face>
-                <face animation="transparent">
-                    <range x="141-144" y="1-4"/>
+                <face animation="wheel-v-3">
+                    <range x="1" y="3"/>
                 </face>
-                <face animation="water-surface-1">
-                    <range x="140-143" y="5"/>
-                </face>
-                <face animation="water-surface-2">
-                    <range x="140-143" y="6"/>
+                <face animation="wheel-v-5">
+                    <range x="1" y="4"/>
                 </face>
             </geometry>
         </object>
-
-        <object id="water-lower-2">
-            <geometry type="plane" w="640" h="240" w-segments="40" h-segments="15">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
+        <object id="cog_green_vert_tall">
+            <geometry type="plane" w="16" h="96" w-segments="1" h-segments="6">
+                <face animation="wheel-v-1">
+                    <range x="1" y="1"/>
                 </face>
-                <face animation="water">
-                    <range x="1-8" y="5-9"/>
-                    <range x="9-25" y="3-10"/>
-                    <range x="25-40" y="*"/>
+                <face animation="wheel-v-2">
+                    <range x="1" y="2-3"/>
                 </face>
-                <face animation="water-surface-1">
-                    <range x="1-8" y="5"/>
+                <face animation="wheel-v-3">
+                    <range x="1" y="4"/>
                 </face>
-                <face animation="water-surface-2">
-                    <range x="1-8" y="6"/>
+                <face animation="wheel-v-4">
+                    <range x="1" y="5"/>
                 </face>
-            </geometry>
-        </object>
-
-        <object id="level-1-platforms">
-            <geometry type="plane" w="1280" h="240" w-segments="80" h-segments="15">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="link-dry">
-                    <range x="78" y="*" />
-                    <range x="73" y="6-15" />
-                </face>
-                <face animation="platform-dry">
-                    <range x="5-10" y="8"/>
-                    <range x="13-18" y="11" />
-                    <range x="21-26" y="9" />
-                    <range x="29-34,38-44" y="7" />
-                    <range x="65-73" y="6" />
-                    <range x="73-75" y="8" />
-                    <range x="76-78" y="11" />
-                </face>
-                <face animation="waterfall-1">
-                    <range x="5-10" y="9"/>
-                    <range x="13-18" y="12" />
-                    <range x="21-26" y="10" />
-                    <range x="29-34,38-44" y="8" />
-                    <range x="65-72" y="7" />
-                    <range x="74-75" y="9" />
-                    <range x="76-77" y="12" />
+                <face animation="wheel-v-5">
+                    <range x="1" y="6"/>
                 </face>
             </geometry>
         </object>
-
-        <object id="vertical-platforms">
-            <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
+        <object id="corn_vert">
+            <geometry type="plane" w="32" h="128" w-segments="2" h-segments="8">
+                <face animation="screw-left">
+                    <range x="1" y="*"/>
                 </face>
-                <face animation="link-dry">
-                    <range x="1,16" y="1-21" />
-                </face>
-                <face animation="link-wet">
-                    <range x="1,16" y="22-45" />
-                </face>
-                <face animation="platform-dry">
-                    <range x="5-10" y="5"/>
-                    <range x="1-7,10-16" y="8"/>
-                    <range x="1-12" y="11"/>
-                    <range x="7-16" y="19"/>
-                </face>
-                <face animation="waterfall-1">
-                    <range x="5-10" y="6"/>
-                    <range x="2-7,10-15" y="9"/>
-                    <range x="2-12" y="12"/>
-                    <range x="7-15" y="20"/>
-                </face>
-                <face animation="platform-wet">
-                    <range x="1-10" y="35"/>
-                    <range x="7-16" y="39"/>
-                    <range x="5-16" y="42"/>
+                <face animation="screw-right">
+                    <range x="2" y="*"/>
                 </face>
             </geometry>
         </object>
-
-        <object id="level-2-platforms">
-            <geometry type="plane" w="2304" h="240" w-segments="144" h-segments="15">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
+        <object id="corn_hori">
+            <geometry type="plane" w="64" h="32" w-segments="4" h-segments="2">
+                <face animation="screw-top">
+                    <range x="*" y="1"/>
                 </face>
-                <face animation="platform-dry">
-                    <range x="144" y="5" />
-                </face>
-                <face animation="platform-dry-connected">
-                    <range x="143" y="5" />
-                </face>
-
-                <face animation="platform-wet">
-                    <range x="85-86" y="5" />
-                    <range x="53-54,61-64,83-84,112-113" y="7" />
-                    <range x="49-50,57-58,65-66,71-72,111,131-142" y="9" />
-                    <range x="45,47,48,51,52,59,68,73,75,77,78,80,82,121-124,126,128-130" y="11" />
-                    <range x="2-44,56,70,87-109,114-120," y="13" />
-                </face>
-
-                <face animation="platform-wet-connected">
-                    <range x="86" y="5" />
-                    <range x="53,61,63-64,83,112" y="7" />
-                    <range x="49-50,57,66,71,132,135,137,139" y="9" />
-                    <range x="46,60,67,74,76,79,81,110,125,127" y="11" />
-                    <range x="3,5,8,11,14,16,18,20,23,26,29,32,34,36,39,41,44,55,69,90,92,95,104,107,117" y="13" />
-                </face>
-
-                <face animation="tank">
-                    <range x="91" y="1-10" />
-                    <range x="85-86" y="6-15" />
-                    <range x="53-54,61-64,83-84,112-113" y="8-15" />
-                    <range x="49-50,57-58,65-66,71-72,111,131-142" y="10-15" />
-                    <range x="45,47,48,51,52,59,68,73,75,77,78,80,82,121-124,126,128-130" y="12-15" />
-                    <range x="2-44,56,70,87-109,114-120," y="14-15" />
-
-                    <range x="7-82,91-140" y="1-2" />
-                    <range x="44-48,57-58,67-80,119-140" y="3-4" />
-                    <range x="139-140" y="1-6" />
-                    <range x="38-43,49-50,55-56,65-66" y="3" />
-                    <range x="68-69,73-74" y="5" />
-                    <range x="75-80" y="5-7" />
-                    <range x="144" y="6-15" />
-                </face>
-
-                <face animation="mine">
-                    <range x="9-37,51-54,59-64,81-82,93-118" y="3" />
-                    <range x="38-43,49-50,55-56,65-66" y="4" />
-                    <range x="44-48,57-58,67,70-72,119-138" y="5" />
-                    <range x="68-69,73-74" y="6" />
-                    <range x="75-80" y="8" />
-                    <range x="87" y="6-12" />
-                    <range x="90" y="6-10" />
-                    <range x="93" y="4-10" />
-                </face>
-
-                <face animation="pipe">
-                    <range x="86" y="6-15" />
-                    <range x="53,61,63-64,83,112" y="8-15" />
-                    <range x="49-50,57,66,71,132,135,137,139" y="10-15" />
-                    <range x="46,60,67,74,76,79,81,110,125,127" y="12-15" />
-                    <range x="3,5,8,11,14,16,18,20,23,26,29,32,34,36,39,41,44,55,69,90,92,95,104,107,117" y="14-15" />
-                    <range x="8,11,16,18,24,33,37,104,107,110" y="1-3" />
-                    <range x="41" y="1-4" />
-                    <range x="125,127,135,137" y="1-5" />
-
-                    <range x="14,20,26,29,34,53,82,95,117" y="1" />
-                    <range x="39,49-50,55,65" y="1-2" />
-                    <range x="44,46,58,67,72,132" y="1-3" />
-                    <range x="69,74" y="1-4" />
-                    <range x="76,79" y="1-6" />
-                    <range x="139" y="1-5" />
-                    <range x="92" y="1-9" />
-                    <range x="143" y="6-15" />
-                </face>
-
-                <face animation="pipe-cap">
-                    <range x="14,20,26,29,34,53,82,95,117" y="2" />
-                    <range x="39,49-50,55,65" y="3" />
-                    <range x="44,46,58,67,72,132" y="4" />
-                    <range x="69,74" y="5" />
-                    <range x="139" y="6" />
-                    <range x="76,79" y="7" />
-                    <range x="92" y="10" />
-                </face>
-
-                <face animation="nozzle">
-                    <range x="8,11,16,18,24,33,37,104,107,110" y="3" />
-                    <range x="41" y="4" />
-                    <range x="125,127,135,137" y="5" />
-                </face>
-                 <face animation="jet-1">
-                    <range x="8,11,16,18,24,33,37,104,107,110" y="4" />
-                    <range x="41" y="5" />
-                    <range x="125,127,135,137" y="6" />
-                </face>
-                 <face animation="jet-2">
-                    <range x="8,11,16,18,24,33,37,104,107,110" y="5" />
-                    <range x="41" y="6" />
-                    <range x="125,127,135,137" y="7" />
-                </face>
-
-                <face animation="link-wet">
-                    <range x="1" y="*" />
-                    <range x="12-13,42-43,96,99-100,105-106,115-116" y="14-15" />
-                    <range x="47-48" y="12-15" />
-                    <range x="63-64" y="8-15" />
-                    <range x="133-134" y="1-3,10-15" />
-                    <range x="96,99-100,105-106" y="1" />
-                </face>
-            </geometry>
-        </object>
-
-        <object id="boss-platforms">
-            <geometry type="plane" w="1280" h="240" w-segments="80" h-segments="15">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="platform-dry">
-                    <range x="3-8,12-16,25-29" y="8"/>
-                    <range x="20-22" y="9"/>
-                    <range x="32-36" y="6"/>
-                    <range x="39-42" y="5"/>
-                </face>
-                <face animation="platform-dry-connected">
-                    <range x="42" y="5"/>
-                </face>
-                <face animation="platform-wet">
-                    <range x="43-65" y="9"/>
-                    <range x="66-80" y="13"/>
-                </face>
-                <face animation="platform-wet-connected">
-                    <range x="68,71,74,77" y="13"/>
-                    <range x="65" y="9"/>
-                    <range x="48" y="9"/>
-                </face>
-                <face animation="waterfall-1">
-                    <range x="3-8,12-16,25-29" y="9"/>
-                    <range x="20-22" y="10"/>
-                    <range x="32-36" y="7"/>
-                    <range x="39-40" y="6"/>
-                    <range x="41-46" y="10"/>
-                </face>
-                <face animation="net">
-                    <range x="49-79" y="5-8"/>
-                    <range x="66-79" y="5-12"/>
-                </face>
-                <face animation="net-shade">
-                    <range x="49-65" y="5"/>
-                    <range x="66-79" y="4"/>
-                </face>
-                <face animation="tank">
-                    <range x="41" y="6-9"/>
-                    <range x="47" y="10-15"/>
-                    <range x="49-64" y="4"/>
-                    <range x="66-79" y="1,2,14,15"/>
-                    <range x="66-79" y="1,2,14,15"/>
-                </face>
-                <face animation="pipe">
-                    <range x="42" y="6-9"/>
-                    <range x="80" y="*"/>
-                    <range x="65" y="1-4,10-15"/>
-                    <range x="68,71,74,77" y="1-2,14-15"/>
-                    <range x="48" y="10-15"/>
-                </face>
-                <face animation="pipe-cap">
-                    <range x="68,71,74,77" y="2"/>
-                    <range x="65" y="4"/>
-                </face>
-
-                <face animation="link-wet">
-                    <range x="49-64" y="3,10"/>
-                </face>
-                <face animation="mine">
-                    <range x="66-79" y="3"/>
-                </face>
-
-                <face animation="black">
-                    <range x="46-48" y="1-4"/>
-                </face>
-                <face animation="sign-w">
-                    <range x="46" y="1-3"/>
-                </face>
-                <face animation="sign-sw">
-                    <range x="46" y="4"/>
-                </face>
-                <face animation="sign-s">
-                    <range x="47-48" y="4"/>
-                </face>
-                <face animation="sign-n">
-                    <range x="47-48" y="1"/>
+                <face animation="screw-bot">
+                    <range x="*" y="2"/>
                 </face>
             </geometry>
         </object>
     </objects>
-
-
     <layout>
-        <background model="waterfall" x="0" y="0" z="-1" />
-        <background model="waterfall" x="256" y="0" z="-1" />
-        <background model="waterfall" x="512" y="0" z="-1" />
-        <background model="waterfall" x="768" y="0" z="-1" />
-        <background model="waterfall" x="1024" y="0" z="-1" />
-        <background model="waterfall" x="1024" y="240" z="-1" />
-        <background model="surface" x="1024" y="480" z="-1" />
-        <background model="water" x="1024" y="720" z="-1" />
-        <background model="waterfall" x="3264" y="960" z="-1" />
-        <background model="waterfall" x="3520" y="960" z="-1" />
-        <background model="waterfall" x="3776" y="960" z="-1" />
-        <background model="waterfall" x="3840" y="960" z="-1" />
-        <background model="water-lower-1" x="1024" y="960" z="-1" />
-        <background model="water-lower-2" x="3968" y="960" z="-1" />
-
-        <background model="level-1-platforms" x="0" y="0" z="-.5" />
-        <background model="vertical-platforms" x="1024" y="240" z="-.5" />
-        <background model="level-2-platforms" x="1024" y="960" z="-.5" />
-        <background model="boss-platforms" x="3328" y="960" z="-.5" />
-
-        <background model="dr-wily-logo" x="4064" y="976" z="-.5" />
-
         <objects>
-            <object id="falling-block" x="736" y="129"/>
-            <object id="falling-block" x="784" y="113"/>
-            <object id="falling-block" x="848" y="97"/>
-            <object id="falling-block" x="912" y="113"/>
-            <object id="falling-block" x="960" y="91"/>
-
-            <object id="door" x="4080" y="1024"/>
-            <object id="door" x="4336" y="1024"/>
+            <object id="conveyor_24" x="2528" y="-664" z="0"/>
+            <object id="conveyor_20" x="1952" y="-184" z="0"/>
+            <object id="conveyor_15" x="3080" y="-664" z="0"/>
+            <object id="conveyor_16" x="1664" y="-136" z="0"/>
+            <object id="conveyor_18" x="144" y="-184" z="0"/>
+            <object id="conveyor_12" x="2432" y="-88" z="0"/>
+            <object id="conveyor_12" x="2400" y="-168" z="0"/>
+            <object id="conveyor_12" x="512" y="-136" z="0"/>
+            <object id="conveyor_12" x="416" y="-184" z="0"/>
+            <object id="conveyor_10" x="2448" y="-392" z="0"/>
+            <object id="conveyor_4" x="2880" y="-568" z="0"/>
+            <object id="conveyor_4" x="2816" y="-600" z="0"/>
+            <object id="conveyor_4" x="2752" y="-632" z="0"/>
+            <object id="conveyor_4" x="2224" y="-120" z="0"/>
+            <object id="conveyor_4" x="2144" y="-152" z="0"/>
+            <object id="conveyor_4" x="992" y="-136" z="0"/>
+            <object id="conveyor_4" x="768" y="-136" z="0"/>
+            <object id="conveyor_4" x="672" y="-136" z="0"/>
+            <object id="corn_hori" x="3768" y="-592" z="-0.2"/>
+            <object id="corn_hori" x="3680" y="-656" z="-0.2"/>
+            <object id="corn_hori" x="3648" y="-688" z="-0.2"/>
+            <object id="corn_hori" x="3520" y="-720" z="-0.2"/>
+            <object id="corn_hori" x="3696" y="-608" z="-0.2"/>
+            <object id="corn_hori" x="3632" y="-624" z="-0.2"/>
+            <object id="corn_hori" x="3584" y="-704" z="-0.2"/>
+            <object id="corn_hori" x="3568" y="-640" z="-0.2"/>
+            <object id="corn_hori" x="3504" y="-656" z="-0.2"/>
+            <object id="corn_hori" x="3440" y="-672" z="-0.2"/>
+            <object id="corn_hori" x="3376" y="-688" z="-0.2"/>
+            <object id="cog_green_vert_tall" x="3528" y="-656" z="0"/>
+            <object id="cog_green_vert_tall" x="3592" y="-640" z="0"/>
+            <object id="cog_green_vert_tall" x="3656" y="-624" z="0"/>
+            <object id="cog_green_vert_tall" x="3672" y="-688" z="0"/>
+            <object id="cog_green_vert_tall" x="3608" y="-704" z="0"/>
+            <object id="cog_green_vert_tall" x="3464" y="-672" z="0"/>
+            <object id="cog_green_vert_tall" x="3400" y="-688" z="0"/>
+            <object id="cog_green_vert_tall" x="3336" y="-704" z="0"/>
+            <object id="cog_green_hori" x="3672" y="-608" z="0"/>
+            <object id="cog_green_hori" x="3704" y="-656" z="0"/>
+            <object id="cog_green_hori" x="3736" y="-592" z="0"/>
+            <object id="cog_green_hori" x="3720" y="-592" z="0"/>
+            <object id="cog_green_hori" x="3560" y="-704" z="0"/>
+            <object id="cog_green_hori" x="3608" y="-624" z="0"/>
+            <object id="cog_green_hori" x="3624" y="-688" z="0"/>
+            <object id="cog_green_hori" x="3544" y="-640" z="0"/>
+            <object id="cog_green_hori" x="3432" y="-736" z="0"/>
+            <object id="cog_green_hori" x="3416" y="-736" z="0"/>
+            <object id="cog_green_hori" x="3496" y="-720" z="0"/>
+            <object id="cog_green_hori" x="3480" y="-720" z="0"/>
+            <object id="cog_green_hori" x="3480" y="-656" z="0"/>
+            <object id="cog_green_hori" x="3544" y="-704" z="0"/>
+            <object id="cog_green_hori" x="3416" y="-672" z="0"/>
+            <object id="cog_green_hori" x="3352" y="-688" z="0"/>
+            <object id="cog_green_hori" x="3256" y="-704" z="0"/>
+            <object id="cog_green_hori" x="3240" y="-704" z="0"/>
+            <object id="cog_green_vert" x="304" y="-40" z="0"/>
+            <object id="cog_green_vert" x="352" y="-72" z="0"/>
+            <object id="cog_green_vert" x="352" y="-216" z="0"/>
+            <object id="cog_green_vert" x="400" y="-232" z="0"/>
+            <object id="cog_green_vert" x="448" y="-216" z="0"/>
+            <object id="cog_green_vert" x="400" y="-200" z="0"/>
+            <object id="cog_green_vert" x="3744" y="-680" z="0"/>
+            <object id="cog_green_vert" x="4128" y="-696" z="0"/>
+            <object id="cog_green_vert" x="4448" y="-712" z="0"/>
+            <object id="cog_green_vert" x="4448" y="-680" z="0"/>
+            <object id="cog_green_vert" x="4448" y="-664" z="0"/>
+            <object id="cog_green_vert" x="4448" y="-632" z="0"/>
+            <object id="cog_green_vert" x="4448" y="-616" z="0"/>
+            <object id="cog_green_vert" x="4384" y="-616" z="0"/>
+            <object id="cog_green_vert" x="4384" y="-664" z="0"/>
+            <object id="cog_green_vert" x="4320" y="-696" z="0"/>
+            <object id="cog_green_vert" x="4320" y="-664" z="0"/>
+            <object id="cog_green_vert" x="4320" y="-648" z="0"/>
+            <object id="cog_green_vert" x="4256" y="-648" z="0"/>
+            <object id="cog_green_vert" x="4256" y="-680" z="0"/>
+            <object id="cog_green_vert" x="4256" y="-712" z="0"/>
+            <object id="cog_green_vert" x="4192" y="-712" z="0"/>
+            <object id="cog_green_vert" x="4192" y="-696" z="0"/>
+            <object id="cog_green_vert" x="4192" y="-664" z="0"/>
+            <object id="cog_green_vert" x="4192" y="-648" z="0"/>
+            <object id="cog_green_vert" x="4128" y="-648" z="0"/>
+            <object id="cog_green_vert" x="4016" y="-712" z="0"/>
+            <object id="cog_green_vert" x="4080" y="-712" z="0"/>
+            <object id="cog_green_vert" x="4080" y="-680" z="0"/>
+            <object id="cog_green_vert" x="4016" y="-680" z="0"/>
+            <object id="cog_green_vert" x="3808" y="-680" z="0"/>
+            <object id="cog_green_vert" x="3776" y="-616" z="-0.3"/>
+            <object id="cog_green_vert" x="3808" y="-568" z="0"/>
+            <object id="cog_green_vert" x="3808" y="-552" z="0"/>
+            <object id="cog_green_vert" x="3808" y="-616" z="0"/>
+            <object id="cog_green_vert" x="3296" y="-680" z="0"/>
+            <object id="cog_green_vert" x="2672" y="-680" z="0"/>
+            <object id="cog_green_vert" x="2624" y="-696" z="0"/>
+            <object id="cog_green_vert" x="2576" y="-712" z="0"/>
+            <object id="cog_green_vert" x="2576" y="-680" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-696" z="0"/>
+            <object id="cog_green_vert" x="2480" y="-680" z="0"/>
+            <object id="cog_green_vert" x="2432" y="-712" z="0"/>
+            <object id="cog_green_vert" x="2336" y="-712" z="0"/>
+            <object id="cog_green_vert" x="2384" y="-696" z="0"/>
+            <object id="cog_green_vert" x="2336" y="-680" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-584" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-568" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-536" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-520" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-488" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-472" z="0"/>
+            <object id="cog_green_vert" x="2464" y="-440" z="0"/>
+            <object id="cog_green_vert" x="2464" y="-456" z="0"/>
+            <object id="cog_green_vert" x="2464" y="-504" z="0"/>
+            <object id="cog_green_vert" x="2464" y="-536" z="0"/>
+            <object id="cog_green_vert" x="2464" y="-584" z="0"/>
+            <object id="cog_green_vert" x="2592" y="-584" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-584" z="0"/>
+            <object id="cog_green_vert" x="2592" y="-488" z="0"/>
+            <object id="cog_green_vert" x="2592" y="-520" z="0"/>
+            <object id="cog_green_vert" x="2592" y="-552" z="0"/>
+            <object id="cog_green_vert" x="2592" y="-568" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-568" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-536" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-488" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-472" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-424" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-408" z="0"/>
+            <object id="cog_green_vert" x="2464" y="-408" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-408" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-408" z="0"/>
+            <object id="cog_green_vert" x="2400" y="-440" z="0"/>
+            <object id="cog_green_vert" x="464" y="-40" z="0"/>
+            <object id="cog_green_vert" x="416" y="-24" z="0"/>
+            <object id="cog_green_vert" x="352" y="-24" z="0"/>
+            <object id="cog_green_vert" x="304" y="-8" z="0"/>
+            <object id="cog_green_vert" x="256" y="-24" z="0"/>
+            <object id="cog_green_vert" x="256" y="-56" z="0"/>
+            <object id="cog_green_vert" x="256" y="-88" z="0"/>
+            <object id="cog_green_vert" x="256" y="-200" z="0"/>
+            <object id="cog_green_vert" x="256" y="-232" z="0"/>
+            <object id="cog_green_vert" x="160" y="-232" z="0"/>
+            <object id="cog_green_vert" x="160" y="-200" z="0"/>
+            <object id="cog_green_vert" x="160" y="-56" z="0"/>
+            <object id="cog_green_vert" x="160" y="-24" z="0"/>
+            <object id="cog_green_vert" x="64" y="-56" z="0"/>
+            <object id="cog_green_vert" x="64" y="-200" z="0"/>
+            <object id="cog_green_vert" x="16" y="-216" z="0"/>
+            <object id="cog_green_vert" x="64" y="-232" z="0"/>
+            <object id="cog_green_vert" x="112" y="-216" z="0"/>
+            <object id="cog_green_vert" x="16" y="-72" z="0"/>
+            <object id="cog_green_vert" x="64" y="-88" z="0"/>
+            <object id="corn_vert" x="2400" y="-464" z="-0.2"/>
+            <object id="corn_vert" x="2464" y="-464" z="-0.2"/>
+            <object id="corn_vert" x="2528" y="-464" z="-0.2"/>
+            <object id="corn_vert" x="2336" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="2384" y="-752" z="-0.2"/>
+            <object id="corn_vert" x="2480" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="2528" y="-752" z="-0.2"/>
+            <object id="corn_vert" x="2576" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="2624" y="-752" z="-0.2"/>
+            <object id="corn_vert" x="4256" y="-704" z="-0.2"/>
+            <object id="corn_vert" x="4256" y="-704" z="-0.2"/>
+            <object id="corn_vert" x="4192" y="-704" z="-0.2"/>
+            <object id="corn_vert" x="4448" y="-672" z="-0.2"/>
+            <object id="corn_vert" x="4320" y="-704" z="-0.2"/>
+            <object id="corn_vert" x="4384" y="-672" z="-0.2"/>
+            <object id="corn_vert" x="4128" y="-704" z="-0.2"/>
+            <object id="corn_vert" x="4080" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="4016" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="3808" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="3744" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="3296" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="2672" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="2592" y="-528" z="-0.2"/>
+            <object id="corn_vert" x="2528" y="-528" z="-0.2"/>
+            <object id="corn_vert" x="2400" y="-528" z="-0.2"/>
+            <object id="corn_vert" x="2464" y="-528" z="-0.2"/>
+            <object id="corn_vert" x="464" y="16" z="-0.2"/>
+            <object id="corn_vert" x="416" y="32" z="-0.2"/>
+            <object id="corn_vert" x="352" y="-16" z="-0.2"/>
+            <object id="corn_vert" x="304" y="16" z="-0.2"/>
+            <object id="corn_vert" x="304" y="16" z="-0.2"/>
+            <object id="corn_vert" x="256" y="-32" z="-0.2"/>
+            <object id="corn_vert" x="160" y="0" z="-0.2"/>
+            <object id="corn_vert" x="64" y="-32" z="-0.2"/>
+            <object id="corn_vert" x="448" y="-272" z="-0.2"/>
+            <object id="corn_vert" x="400" y="-256" z="-0.2"/>
+            <object id="corn_vert" x="352" y="-272" z="-0.2"/>
+            <object id="corn_vert" x="256" y="-256" z="-0.2"/>
+            <object id="corn_vert" x="160" y="-256" z="-0.2"/>
+            <object id="corn_vert" x="112" y="-288" z="-0.2"/>
+            <object id="corn_vert" x="64" y="-272" z="-0.2"/>
+            <object id="corn_vert" x="16" y="-272" z="-0.2"/>
+            <object id="corn_vert" x="16" y="-16" z="-0.2"/>
         </objects>
-
-        <behaviors>
-            <deathzones>
-                <rect x="0" y="240" w="256" h="16"/>
-                <rect x="256" y="240" w="256" h="16"/>
-                <rect x="512" y="240" w="256" h="16"/>
-                <rect x="768" y="240" w="256" h="16"/>
-                <rect x="1152" y="992" w="32" h="16"/>
-                <rect x="1200" y="992" w="64" h="16"/>
-                <rect x="1280" y="992" w="16" h="16"/>
-                <rect x="1312" y="992" w="64" h="16"/>
-                <rect x="1392" y="992" w="128" h="16"/>
-                <rect x="1600" y="992" w="16" h="16"/>
-                <rect x="1536" y="992" w="48" h="16"/>
-                <rect x="1616" y="1008" w="48" h="16"/>
-                <rect x="1680" y="1008" w="32" h="16"/>
-                <rect x="1712" y="1024" w="80" h="16"/>
-                <rect x="1792" y="1008" w="32" h="16"/>
-                <rect x="1824" y="992" w="64" h="16"/>
-                <rect x="1888" y="1008" w="32" h="16"/>
-                <rect x="1920" y="1024" w="32" h="16"/>
-                <rect x="1952" y="992" w="96" h="16"/>
-                <rect x="2048" y="1008" w="32" h="16"/>
-                <rect x="2096" y="1040" w="32" h="16"/>
-                <rect x="2080" y="1024" w="16" h="16"/>
-                <rect x="2128" y="1024" w="48" h="16"/>
-                <rect x="2176" y="1040" w="32" h="16"/>
-                <rect x="2208" y="1072" w="96" h="16"/>
-                <rect x="2304" y="992" w="32" h="16"/>
-                <rect x="2400" y="1040" w="16" h="112"/>
-                <rect x="2448" y="1040" w="16" h="80"/>
-                <rect x="2496" y="992" w="16" h="128"/>
-                <rect x="2512" y="992" w="160" h="16"/>
-                <rect x="2688" y="992" w="32" h="16"/>
-                <rect x="2736" y="992" w="32" h="16"/>
-                <rect x="2784" y="992" w="96" h="16"/>
-                <rect x="2896" y="992" w="16" h="16"/>
-                <rect x="2912" y="1024" w="96" h="16"/>
-                <rect x="3024" y="1024" w="16" h="16"/>
-                <rect x="3056" y="1024" w="112" h="16"/>
-                <rect x="3184" y="1024" w="16" h="16"/>
-                <rect x="3216" y="1024" w="16" h="16"/>
-                <rect x="4368" y="992" w="224" h="16"/>
-
-                <rect x="3312" y="1200" w="256" h="16"/>
-                <rect x="3568" y="1200" w="256" h="16"/>
-                <rect x="3824" y="1200" w="256" h="16"/>
-            </deathzones>
-
-            <solids>
-                <rect x="64" y="112" w="96" h="16"/>
-                <rect x="192" y="160" w="96" h="16"/>
-                <rect x="320" y="128" w="96" h="16"/>
-                <rect x="448" y="96" w="96" h="16"/>
-                <rect x="592" y="96" w="112" h="16"/>
-                <rect x="1024" y="80" w="144" h="16"/>
-
-                <rect x="1152" y="112" w="48" h="16"/>
-                <rect x="1200" y="160" w="48" h="16"/>
-
-                <rect x="1152" y="80" w="16" h="160"/>
-                <rect x="1232" y="0" w="16" h="240"/>
-
-                <rect x="1024" y="240" w="16" h="256"/>
-                <rect x="1264" y="240" w="16" h="256"/>
-                <rect x="1072" y="304" w="112" h="16"/>
-                <rect x="1024" y="352" w="112" h="16"/>
-                <rect x="1168" y="352" w="112" h="16"/>
-                <rect x="1024" y="400" w="192" h="16"/>
-                <rect x="1120" y="528" w="160" h="16"/>
-                <rect x="1024" y="496" w="16" h="256"/>
-                <rect x="1264" y="496" w="16" h="256"/>
-                <rect x="1264" y="752" w="16" h="256"/>
-                <rect x="1024" y="752" w="16" h="256"/>
-                <rect x="1024" y="784" w="160" h="16"/>
-                <rect x="1120" y="848" w="160" h="16"/>
-                <rect x="1088" y="896" w="192" h="16"/>
-                <rect x="1024" y="1008" w="16" h="160"/>
-                <rect x="1024" y="1152" w="256" h="16"/>
-                <rect x="1280" y="1152" w="256" h="16"/>
-                <rect x="1536" y="1152" w="208" h="16"/>
-                <rect x="1728" y="1120" w="144" h="16"/>
-                <rect x="1728" y="1120" w="16" h="48"/>
-                <rect x="1792" y="1088" w="32" h="48"/>
-                <rect x="1856" y="1056" w="32" h="112"/>
-                <rect x="1856" y="1152" w="96" h="16"/>
-                <rect x="1920" y="1088" w="32" h="80"/>
-                <rect x="1984" y="1056" w="64" h="80"/>
-                <rect x="2000" y="1088" w="80" h="64"/>
-                <rect x="1936" y="1120" w="176" h="16"/>
-                <rect x="2096" y="1120" w="16" h="48"/>
-                <rect x="2096" y="1152" w="64" h="16"/>
-                <rect x="2144" y="1088" w="32" h="80"/>
-                <rect x="2160" y="1120" w="192" h="16"/>
-                <rect x="2336" y="1056" w="32" h="80"/>
-                <rect x="2368" y="1024" w="32" h="144"/>
-                <rect x="2464" y="960" w="32" h="160"/>
-                <rect x="2384" y="1152" w="256" h="16"/>
-                <rect x="2640" y="1152" w="256" h="16"/>
-                <rect x="2896" y="1152" w="64" h="16"/>
-                <rect x="2944" y="1120" w="176" h="16"/>
-                <rect x="3104" y="1088" w="224" h="16"/>
-                <rect x="3104" y="1088" w="16" h="48"/>
-                <rect x="2944" y="1120" w="16" h="48"/>
-                <rect x="2784" y="1088" w="32" h="80"/>
-                <rect x="2800" y="1056" w="32" h="112"/>
-                <rect x="2768" y="1120" w="32" h="48"/>
-                <rect x="3296" y="1024" w="32" h="80"/>
-                <rect x="3232" y="960" w="32" h="96"/>
-                <rect x="3360" y="1072" w="96" h="16"/>
-                <rect x="3504" y="1072" w="80" h="16"/>
-                <rect x="3632" y="1088" w="48" h="16"/>
-                <rect x="3712" y="1072" w="80" h="16"/>
-                <rect x="3824" y="1040" w="80" h="16"/>
-                <rect x="3936" y="1024" w="64" h="16"/>
-                <rect x="3968" y="1024" w="32" h="80"/>
-                <rect x="4000" y="1088" w="256" h="16"/>
-                <rect x="4256" y="1088" w="112" h="16"/>
-                <rect x="4048" y="960" w="320" h="64"/>
-                <rect x="4352" y="1152" w="256" h="16"/>
-                <rect x="4352" y="1088" w="16" h="80"/>
-                <rect x="4592" y="976" w="16" h="176"/>
-            </solids>
-        </behaviors>
+        <behaviors/>
     </layout>
 </scene>
