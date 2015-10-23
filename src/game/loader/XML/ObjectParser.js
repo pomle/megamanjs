@@ -4,6 +4,7 @@ Game.Loader.XML.Parser.ObjectParser = function(loader)
 
     this.animations = [];
     this.textures = [];
+    this.items = new Set();
 }
 
 Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
@@ -202,6 +203,11 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
     object.prototype.animations = animations;
     object.prototype.textures = textures;
+
+    this.items.add({
+        object: object,
+        node: objectNode,
+    });
 
     return object;
 }
