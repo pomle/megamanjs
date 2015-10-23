@@ -69,9 +69,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutN
         var position = parser.getPosition(backgroundNode);
         background.position.x = position.x;
         background.position.y = position.y;
-        if (position.z !== undefined) {
-            background.position.z = position.z -.1;
-        }
+        background.position.z = position.z;
 
         parser.items.add({
             node: this,
@@ -152,8 +150,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
 
         var object = new constructor();
         var position = parser.getPosition(objectNode);
-        object.moveTo(position);
-        object.position.z = -.1;
+        object.position.copy(position);
 
         objectNode.find('> trait').each(function() {
             var traitDescriptor = parser.getTrait($(this));
