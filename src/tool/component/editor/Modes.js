@@ -50,17 +50,37 @@ Editor.Modes = function(editor)
             for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
                 let item = editor.items.selected[i];
                 switch (e.which) {
-                    case 38:
-                        item.y += g.y;
+                    case 38: // Up
+                        if (e.shiftKey && item.h !== undefined) {
+                            item.h += g.y;
+                        }
+                        else {
+                            item.y += g.y;
+                        }
                         break;
-                    case 40:
-                        item.y -= g.y;
+                    case 40: // Down
+                        if (e.shiftKey && item.h !== undefined) {
+                            item.h -= g.y;
+                        }
+                        else {
+                            item.y -= g.y;
+                        }
                         break;
-                    case 39:
-                        item.x += g.x;
+                    case 39: // Right
+                        if (e.shiftKey && item.w !== undefined) {
+                            item.w += g.x;
+                        }
+                        else {
+                            item.x += g.x;
+                        }
                         break;
-                    case 37:
-                        item.x -= g.x;
+                    case 37: // Left
+                        if (e.shiftKey && item.w !== undefined) {
+                            item.w -= g.x;
+                        }
+                        else {
+                            item.x -= g.x;
+                        }
                         break;
                     case 76: // L (lock)
                         editor.items.deselect(item);
