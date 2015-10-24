@@ -89,16 +89,19 @@ Editor.NodeFactory.prototype.createObjectInstance = function(objectInstance)
     return objectInstanceNode;
 }
 
-Editor.NodeFactory.prototype.createRect = function(w, h)
+Editor.NodeFactory.prototype.createRect = function(size)
 {
-    let document = editor.document;
+    let editor = this.editor,
+        document = editor.document;
 
-    let rectNode = $('<rect/>', document).attr({
+    size = size || {};
+
+    let node = $('<rect>', document).attr({
         'x': 0,
         'y': 0,
-        'w': w || 32,
-        'h': h || 16,
+        'w': size.x || 32,
+        'h': size.y || 32,
     });
 
-    return rectNode;
+    return node;
 }

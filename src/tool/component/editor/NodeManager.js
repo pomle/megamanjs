@@ -79,6 +79,34 @@ Editor.NodeManager.prototype.addObjectInstance = function(objectInstanceNode)
     objectInstancesNode.append(objectInstanceNode);
 }
 
+Editor.NodeManager.prototype.addSolid = function(solidNode)
+{
+    let document = this.document,
+        behaviorNode = this.getBehavior();
+
+    let solidsNode = behaviorNode.find('> solids');
+    if (solidsNode.length === 0) {
+        solidsNode = $('<solids>', document);
+        behaviorNode.append(solidsNode);
+    }
+
+    solidsNode.append(solidNode);
+}
+
+Editor.NodeManager.prototype.getBehavior = function()
+{
+    let document = this.document,
+        layoutNode = this.getLayout();
+
+    let behaviorNode = layoutNode.find('> behaviors');
+    if (behaviorNode.length === 0) {
+        behaviorNode = $('<behaviors>', document);
+        layoutNode.append(behaviorNode);
+    }
+
+    return behaviorNode;
+}
+
 Editor.NodeManager.prototype.getLayout = function()
 {
     let document = this.document,

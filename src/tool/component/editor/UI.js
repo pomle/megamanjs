@@ -157,17 +157,14 @@ Editor.UI.prototype.createItem = function(node)
                 editor.ui.view.layers.checkpoint.on();
                 break;
 
-            case 'climbable':
-            case 'deathzone':
             case 'solid':
-                let rectNode = nodeFactory.createRect();
-                nodeManager.addBehavior(rectNode, type);
+                let solidNode = nodeFactory.createRect();
+                nodeManager.addSolid(solidNode);
 
-                item = editor.componentFactory.createCheckpoint(checkpointNode);
+                item = editor.componentFactory.createRect(solidNode);
                 item.moveTo(editor.marker.position);
-                editor.ui.view.layers.checkpoint.on();
+                editor.ui.view.layers.behavior.on();
                 break;
-
 
             case 'object':
                 let geometryInput = prompt('Size', geometryInputDefault);
