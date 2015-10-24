@@ -59,7 +59,13 @@ Editor.Item.prototype.clone = function()
 {
     var node = this.node.clone();
     node.insertAfter(this.node);
-    return new this.constructor(new this.object.constructor(), node);
+    var clone = new this.constructor(new this.object.constructor(), node);
+    for (let prop of ['x','y','z','w','h']) {
+        if (this[prop] !== undefined) {
+            clone[prop] = this[prop];
+        }
+    }
+    return clone;
 }
 
 Editor.Item.prototype.moveTo = function(vec)
