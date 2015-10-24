@@ -27,11 +27,9 @@ Game.traits.Move.prototype.__detach = function()
 
 Game.traits.Move.prototype.__obstruct = function(object, attack)
 {
-    switch (attack) {
-        case object.SURFACE_LEFT:
-        case object.SURFACE_RIGHT:
-            this._interimSpeed = Math.abs(object.velocity.x);
-            break;
+    if (attack === object.SURFACE_LEFT && this._host.aim.x > 0
+    || attack === object.SURFACE_RIGHT && this._host.aim.x < 0) {
+        this._interimSpeed = Math.abs(object.velocity.x);
     }
 }
 
