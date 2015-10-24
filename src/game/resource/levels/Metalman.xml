@@ -35,6 +35,9 @@
             <texture url="./metalman/tiles.png" w="256" h="128"/>
         </textures>
         <animations>
+            <animation id="transparent">
+                <frame x="1" y="109" w="16" h="16" />
+            </animation>
             <animation id="wheel-h-1">
                 <frame x="1" y="1" w="16" h="16" duration=".5"/>
             </animation>
@@ -114,8 +117,8 @@
                 <frame x="55" y="19" w="16" h="16" duration=".5"/>
             </animation>
             <animation id="big-cog">
-                <frame x="145" y="19" w="32" h="32" duration=".5"/>
-                <frame x="145" y="55" w="32" h="32" duration=".5"/>
+                <frame x="145" y="19" w="32" h="32" duration=".1"/>
+                <frame x="145" y="55" w="32" h="32" duration=".1"/>
             </animation>
             <animation id="crankshaft">
                 <frame x="145" y="91" w="16" h="16" duration=".5"/>
@@ -145,6 +148,13 @@
                 <frame x="73" y="1" w="32" h="32" duration=".5"/>
             </animation>
         </animations>
+        <object id="big_cog">
+            <geometry type="plane" w="32" h="32">
+                <face animation="big-cog">
+                    <range x="1" y="1"/>
+                </face>
+            </geometry>
+        </object>
         <object id="conveyor_24">
             <geometry type="plane" w="384" h="16" w-segments="24" h-segments="1">
                 <face animation="conveyor-right">
@@ -359,9 +369,141 @@
                 </face>
             </geometry>
         </object>
+        <object id="object_81E630B581B942C9ABFFEDF41A1A73F7">
+            <geometry type="plane" w="1600" h="240" w-segments="100" h-segments="15">
+                <face animation="transparent">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="object_5A82F22724AD471AA61BF2930EECDD5C">
+            <geometry type="plane" w="640" h="240" w-segments="40" h-segments="15">
+                <face animation="transparent">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="object_A96DBC33FE3B4DED89232B330392F6F6">
+            <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45">
+                <face animation="transparent">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="med-cog">
+                    <index json="[0,2,10]"/>
+                </face>
+            </geometry>
+        </object>
     </objects>
     <layout>
         <objects>
+            <object id="big_cog" x="496" y="-144" z="-2"/>
+            <object id="big_cog" x="528" y="-128" z="-2"/>
+            <object id="big_cog" x="528" y="-64" z="-2"/>
+            <object id="big_cog" x="2368" y="-48" z="-2"/>
+            <object id="big_cog" x="2208" y="-176" z="-2"/>
+            <object id="big_cog" x="2400" y="-256" z="-2"/>
+            <object id="big_cog" x="3104" y="-656" z="-2"/>
+            <object id="big_cog" x="3072" y="-624" z="-2"/>
+            <object id="big_cog" x="3152" y="-512" z="-2"/>
+            <object id="big_cog" x="3120" y="-528" z="-2"/>
+            <object id="big_cog" x="2928" y="-512" z="-2"/>
+            <object id="big_cog" x="2960" y="-528" z="-2"/>
+            <object id="big_cog" x="2992" y="-544" z="-2"/>
+            <object id="big_cog" x="3920" y="-608" z="-2"/>
+            <object id="big_cog" x="5088" y="-560" z="-2"/>
+            <object id="big_cog" x="5040" y="-576" z="-2"/>
+            <object id="big_cog" x="4992" y="-624" z="-2"/>
+            <object id="big_cog" x="4960" y="-592" z="-2"/>
+            <object id="big_cog" x="4944" y="-624" z="-2"/>
+            <object id="big_cog" x="4912" y="-640" z="-2"/>
+            <object id="big_cog" x="4896" y="-576" z="-2"/>
+            <object id="big_cog" x="4928" y="-560" z="-2"/>
+            <object id="big_cog" x="4624" y="-512" z="-2"/>
+            <object id="big_cog" x="4656" y="-496" z="-2"/>
+            <object id="big_cog" x="4816" y="-512" z="-2"/>
+            <object id="big_cog" x="4832" y="-480" z="-2"/>
+            <object id="big_cog" x="4784" y="-480" z="-2"/>
+            <object id="big_cog" x="4752" y="-496" z="-2"/>
+            <object id="big_cog" x="4864" y="-656" z="-2"/>
+            <object id="big_cog" x="4816" y="-640" z="-2"/>
+            <object id="big_cog" x="4720" y="-672" z="-2"/>
+            <object id="big_cog" x="4688" y="-688" z="-2"/>
+            <object id="big_cog" x="4656" y="-656" z="-2"/>
+            <object id="big_cog" x="4496" y="-608" z="-2"/>
+            <object id="big_cog" x="4464" y="-576" z="-2"/>
+            <object id="big_cog" x="4416" y="-592" z="-2"/>
+            <object id="big_cog" x="4384" y="-608" z="-2"/>
+            <object id="big_cog" x="4304" y="-624" z="-2"/>
+            <object id="big_cog" x="4240" y="-528" z="-2"/>
+            <object id="big_cog" x="4224" y="-560" z="-2"/>
+            <object id="big_cog" x="4144" y="-640" z="-2"/>
+            <object id="big_cog" x="4240" y="-640" z="-2"/>
+            <object id="big_cog" x="4144" y="-544" z="-2"/>
+            <object id="big_cog" x="4112" y="-512" z="-2"/>
+            <object id="big_cog" x="4048" y="-480" z="-2"/>
+            <object id="big_cog" x="4016" y="-496" z="-2"/>
+            <object id="big_cog" x="3984" y="-496" z="-2"/>
+            <object id="big_cog" x="4016" y="-672" z="-2"/>
+            <object id="big_cog" x="4048" y="-640" z="-2"/>
+            <object id="big_cog" x="3952" y="-592" z="-2"/>
+            <object id="big_cog" x="3920" y="-528" z="-2"/>
+            <object id="big_cog" x="3888" y="-544" z="-2"/>
+            <object id="big_cog" x="3824" y="-624" z="-2"/>
+            <object id="big_cog" x="3760" y="-672" z="-2"/>
+            <object id="big_cog" x="3696" y="-688" z="-2"/>
+            <object id="big_cog" x="3696" y="-560" z="-2"/>
+            <object id="big_cog" x="3664" y="-528" z="-2"/>
+            <object id="big_cog" x="3632" y="-576" z="-2"/>
+            <object id="big_cog" x="3552" y="-560" z="-2"/>
+            <object id="big_cog" x="3520" y="-576" z="-2"/>
+            <object id="big_cog" x="3456" y="-624" z="-2"/>
+            <object id="big_cog" x="3472" y="-592" z="-2"/>
+            <object id="big_cog" x="3344" y="-576" z="-2"/>
+            <object id="big_cog" x="3312" y="-560" z="-2"/>
+            <object id="big_cog" x="3280" y="-528" z="-2"/>
+            <object id="big_cog" x="2816" y="-608" z="-2"/>
+            <object id="big_cog" x="2864" y="-592" z="-2"/>
+            <object id="big_cog" x="2736" y="-528" z="-2"/>
+            <object id="big_cog" x="2672" y="-560" z="-2"/>
+            <object id="big_cog" x="2624" y="-528" z="-2"/>
+            <object id="big_cog" x="2544" y="-592" z="-2"/>
+            <object id="big_cog" x="2528" y="-624" z="-2"/>
+            <object id="big_cog" x="2496" y="-656" z="-2"/>
+            <object id="big_cog" x="2480" y="-624" z="-2"/>
+            <object id="big_cog" x="2432" y="-672" z="-2"/>
+            <object id="big_cog" x="2400" y="-656" z="-2"/>
+            <object id="big_cog" x="2336" y="-624" z="-2"/>
+            <object id="big_cog" x="2336" y="-528" z="-2"/>
+            <object id="big_cog" x="2352" y="-464" z="-2"/>
+            <object id="big_cog" x="2336" y="-416" z="-2"/>
+            <object id="big_cog" x="2400" y="-288" z="-2"/>
+            <object id="big_cog" x="2528" y="-352" z="-2"/>
+            <object id="big_cog" x="2384" y="-176" z="-2"/>
+            <object id="big_cog" x="2416" y="-160" z="-2"/>
+            <object id="big_cog" x="2448" y="-144" z="-2"/>
+            <object id="big_cog" x="2256" y="-160" z="-2"/>
+            <object id="big_cog" x="2432" y="-16" z="-2"/>
+            <object id="big_cog" x="2352" y="-16" z="-2"/>
+            <object id="big_cog" x="2048" y="-48" z="-2"/>
+            <object id="big_cog" x="2080" y="-80" z="-2"/>
+            <object id="big_cog" x="2144" y="-16" z="-2"/>
+            <object id="big_cog" x="2128" y="-48" z="-2"/>
+            <object id="big_cog" x="432" y="-96" z="-2"/>
+            <object id="big_cog" x="432" y="-48" z="-2"/>
+            <object id="big_cog" x="400" y="-64" z="-2"/>
+            <object id="big_cog" x="320" y="-80" z="-2"/>
+            <object id="big_cog" x="304" y="-112" z="-2"/>
+            <object id="big_cog" x="320" y="-208" z="-2"/>
+            <object id="big_cog" x="192" y="-208" z="-2"/>
+            <object id="big_cog" x="224" y="-48" z="-2"/>
+            <object id="big_cog" x="192" y="-64" z="-2"/>
+            <object id="big_cog" x="208" y="-160" z="-2"/>
+            <object id="big_cog" x="176" y="-176" z="-2"/>
+            <object id="big_cog" x="128" y="-192" z="-2"/>
+            <object id="big_cog" x="144" y="-176" z="-2"/>
+            <object id="big_cog" x="112" y="-144" z="-2"/>
+            <object id="big_cog" x="32" y="-96" z="-2"/>
+            <object id="big_cog" x="16" y="-128" z="-2"/>
             <object id="conveyor_24" x="2528" y="-664" z="0"/>
             <object id="conveyor_20" x="1952" y="-184" z="0"/>
             <object id="conveyor_15" x="3080" y="-664" z="0"/>
@@ -443,9 +585,11 @@
             <object id="cog_green_vert" x="4192" y="-664" z="0"/>
             <object id="cog_green_vert" x="4192" y="-648" z="0"/>
             <object id="cog_green_vert" x="4128" y="-648" z="0"/>
+            <object id="cog_green_vert" x="3952" y="-712" z="0"/>
             <object id="cog_green_vert" x="4016" y="-712" z="0"/>
             <object id="cog_green_vert" x="4080" y="-712" z="0"/>
             <object id="cog_green_vert" x="4080" y="-680" z="0"/>
+            <object id="cog_green_vert" x="3952" y="-680" z="0"/>
             <object id="cog_green_vert" x="4016" y="-680" z="0"/>
             <object id="cog_green_vert" x="3808" y="-680" z="0"/>
             <object id="cog_green_vert" x="3776" y="-616" z="-0.3"/>
@@ -469,7 +613,7 @@
             <object id="cog_green_vert" x="2400" y="-520" z="0"/>
             <object id="cog_green_vert" x="2400" y="-488" z="0"/>
             <object id="cog_green_vert" x="2400" y="-472" z="0"/>
-            <object id="cog_green_vert" x="2464" y="-440" z="0"/>
+            <object id="cog_green_vert" x="2528" y="-424" z="0"/>
             <object id="cog_green_vert" x="2464" y="-456" z="0"/>
             <object id="cog_green_vert" x="2464" y="-504" z="0"/>
             <object id="cog_green_vert" x="2464" y="-536" z="0"/>
@@ -484,7 +628,7 @@
             <object id="cog_green_vert" x="2528" y="-536" z="0"/>
             <object id="cog_green_vert" x="2528" y="-488" z="0"/>
             <object id="cog_green_vert" x="2528" y="-472" z="0"/>
-            <object id="cog_green_vert" x="2528" y="-424" z="0"/>
+            <object id="cog_green_vert" x="2464" y="-440" z="0"/>
             <object id="cog_green_vert" x="2528" y="-408" z="0"/>
             <object id="cog_green_vert" x="2464" y="-408" z="0"/>
             <object id="cog_green_vert" x="2400" y="-408" z="0"/>
@@ -527,6 +671,7 @@
             <object id="corn_vert" x="4384" y="-672" z="-0.2"/>
             <object id="corn_vert" x="4128" y="-704" z="-0.2"/>
             <object id="corn_vert" x="4080" y="-736" z="-0.2"/>
+            <object id="corn_vert" x="3952" y="-736" z="-0.2"/>
             <object id="corn_vert" x="4016" y="-736" z="-0.2"/>
             <object id="corn_vert" x="3808" y="-736" z="-0.2"/>
             <object id="corn_vert" x="3744" y="-736" z="-0.2"/>
@@ -553,7 +698,75 @@
             <object id="corn_vert" x="64" y="-272" z="-0.2"/>
             <object id="corn_vert" x="16" y="-272" z="-0.2"/>
             <object id="corn_vert" x="16" y="-16" z="-0.2"/>
+            <object id="object_81E630B581B942C9ABFFEDF41A1A73F7" x="1312" y="-120" z="0"/>
+            <object id="object_5A82F22724AD471AA61BF2930EECDD5C" x="4800" y="-600" z="0"/>
+            <object id="object_A96DBC33FE3B4DED89232B330392F6F6" x="2432" y="-360" z="0"/>
         </objects>
-        <behaviors/>
+        <behaviors>
+            <solids>
+                <rect x="-16" y="-128" w="32" h="128"/>
+                <rect x="800" y="-192" w="448" h="96"/>
+                <rect x="2336" y="-264" w="64" h="176"/>
+                <rect x="3440" y="-672" w="64" h="32"/>
+                <rect x="3504" y="-656" w="64" h="32"/>
+                <rect x="3568" y="-640" w="64" h="32"/>
+                <rect x="3632" y="-624" w="64" h="32"/>
+                <rect x="3696" y="-608" w="64" h="32"/>
+                <rect x="3776" y="-616" w="128" h="16"/>
+                <rect x="4480" y="-616" w="256" h="16"/>
+                <rect x="4224" y="-648" w="256" h="16"/>
+                <rect x="4016" y="-696" w="192" h="48"/>
+                <rect x="3776" y="-680" w="128" h="16"/>
+                <rect x="3776" y="-592" w="96" h="32"/>
+                <rect x="4360" y="-672" w="64" h="32"/>
+                <rect x="3808" y="-560" w="64" h="32"/>
+                <rect x="3696" y="-656" w="32" h="64"/>
+                <rect x="4720" y="-664" w="320" h="112"/>
+                <rect x="5112" y="-600" w="16" h="240"/>
+                <rect x="4992" y="-704" w="256" h="32"/>
+                <rect x="4992" y="-496" w="256" h="32"/>
+                <rect x="4720" y="-512" w="320" h="64"/>
+                <rect x="4384" y="-656" w="32" h="64"/>
+                <rect x="4128" y="-688" w="32" h="64"/>
+                <rect x="3728" y="-592" w="32" h="64"/>
+                <rect x="3664" y="-616" w="32" h="80"/>
+                <rect x="3600" y="-632" w="32" h="80"/>
+                <rect x="3536" y="-648" w="32" h="80"/>
+                <rect x="3472" y="-664" w="32" h="80"/>
+                <rect x="3408" y="-680" w="32" h="80"/>
+                <rect x="3344" y="-696" w="32" h="80"/>
+                <rect x="3312" y="-712" w="160" h="80"/>
+                <rect x="2496" y="-496" w="256" h="192"/>
+                <rect x="2320" y="-512" w="32" h="320"/>
+                <rect x="2544" y="-304" w="32" h="256"/>
+                <rect x="2544" y="-128" w="32" h="256"/>
+                <rect x="2512" y="-16" w="96" h="32"/>
+                <rect x="2448" y="-264" w="96" h="176"/>
+                <rect x="1952" y="-72" w="192" h="144"/>
+                <rect x="1712" y="-32" w="288" h="64"/>
+                <rect x="1416" y="-32" w="304" h="64"/>
+                <rect x="912" y="-152" w="32" h="48"/>
+                <rect x="880" y="-16" w="160" h="32"/>
+                <rect x="936" y="-24" w="80" h="48"/>
+                <rect x="920" y="-40" w="16" h="48"/>
+                <rect x="1440" y="-72" w="64" h="48"/>
+                <rect x="1312" y="-72" w="64" h="48"/>
+                <rect x="1184" y="-72" w="64" h="48"/>
+                <rect x="848" y="-24" w="32" h="48"/>
+                <rect x="560" y="-40" w="96" h="48"/>
+                <rect x="672" y="-40" w="64" h="48"/>
+                <rect x="752" y="-40" w="32" h="48"/>
+                <rect x="848" y="-152" w="32" h="48"/>
+                <rect x="1328" y="-184" w="96" h="48"/>
+                <rect x="2096" y="-216" w="32" h="48"/>
+                <rect x="1776" y="-168" w="32" h="48"/>
+                <rect x="1520" y="-152" w="32" h="48"/>
+                <rect x="1496" y="-184" w="48" h="48"/>
+                <rect x="1424" y="-200" w="120" h="16"/>
+                <rect x="1184" y="-216" w="256" h="48"/>
+                <rect x="1112" y="-32" w="304" h="64"/>
+                <rect x="656" y="-16" w="288" h="64"/>
+            </solids>
+        </behaviors>
     </layout>
 </scene>
