@@ -2,10 +2,9 @@
 
 Editor.Item.Behavior = function(object, node)
 {
-    this.behavior = object;
-    let pos = object.position.clone();
-    Editor.Item.Rectangle2.call(this, object.collision[0], node);
-    this.moveTo(pos);
+    Editor.Item.Rectangle2.call(this, object, node, object.position, object.collision[0].geometry.vertices);
+    object.collision[0].geometry = this.model.geometry;
+    this.moveTo(object.position);
 }
 
 Editor.Item.Behavior.prototype = Object.create(Editor.Item.Rectangle2.prototype);
@@ -15,9 +14,16 @@ Editor.Item.Behavior.prototype.TYPE = 'behavior';
 
 Editor.Item.Behavior.material = new THREE.MeshBasicMaterial({color: 0x00a2ff, wireframe: true});
 
+/*
+Editor.Item.Behavior.prototype.clone = function()
+{
+    var node = this.node.clone();
+    node.insertAfter(this.node);
+    return new this.constructor(new this.behavior.constructor(), node);
+}*/
+
 Editor.Item.Behavior.prototype.update = function()
 {
     Editor.Item.Rectangle.prototype.update.call(this);
-    this.behavior.position.copy(this.model.position);
-    this.behavior.collision[0].position.set(0, 0);
+    this.object.position.copy(this.model.position);
 }

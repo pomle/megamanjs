@@ -1,11 +1,9 @@
 "use strict";
 
-Editor.Item.Rectangle2 = function(object, node)
+Editor.Item.Rectangle2 = function(object, node, pos, vertices)
 {
-    let pos = object.position,
-        vert = object.geometry.vertices,
-        vec1 = new THREE.Vector2(pos.x + vert[0].x, pos.y - vert[0].y),
-        vec2 = new THREE.Vector2(pos.x + vert[3].x, pos.y - vert[3].y);
+    let vec1 = new THREE.Vector2(pos.x + vertices[0].x, pos.y - vertices[0].y),
+        vec2 = new THREE.Vector2(pos.x + vertices[3].x, pos.y - vertices[3].y);
 
     Editor.Item.Rectangle.call(this, object, node, vec1, vec2);
 }

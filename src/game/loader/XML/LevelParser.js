@@ -170,32 +170,37 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
 {
     var parser = this,
         loader = parser.loader,
-        level = parser.level;
+        level = parser.level,
+        objectParser = new Game.Loader.XML.Parser.ObjectParser();
 
     function createObject(node, constructor)
     {
         node = $(node);
         var rect = parser.getRect(node);
-        var object = new constructor();
-        object.model.visible = false;
 
-        object.position.x = rect.x;
-        object.position.y = rect.y;
-        object.position.z = 0;
+        var object = objectParser.createObject('behavior', constructor, function()
+        {
+            constructor.call(this);
+            this.model.visible = false;
+            this.addCollisionRect(rect.w, rect.h);
 
-        object.addCollisionRect(rect.w, rect.h);
-
-        node.find('> trait').each(function() {
-            var traitDescriptor = parser.getTrait($(this));
-            parser.applyTrait(object, traitDescriptor);
+            node.find('> trait').each(function() {
+                var traitDescriptor = parser.getTrait($(this));
+                parser.applyTrait(object, traitDescriptor);
+            });
         });
+
+        var instance = new object();
+        instance.position.x = rect.x;
+        instance.position.y = rect.y;
+        instance.position.z = 0;
 
         parser.behaviors.add({
             node: node[0],
-            object: object,
+            object: instance,
         });
 
-        return object;
+        return instance;
     }
 
     layoutNode.find('deathzones > *').each(function() {
