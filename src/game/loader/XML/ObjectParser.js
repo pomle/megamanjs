@@ -127,6 +127,11 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
                         }
                     });
                 }
+                var indexNodes = faceNode.find('> index');
+                indexNodes.each(function() {
+                    var indices = JSON.parse($(this).attr('json'));
+                    Array.prototype.push.apply(animator.indices, indices);
+                });
             });
         }
         else if (parser.animations.length) {
