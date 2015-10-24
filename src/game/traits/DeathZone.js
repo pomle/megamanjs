@@ -9,7 +9,7 @@ Game.traits.DeathZone.prototype.NAME = 'deathZone';
 
 Game.traits.DeathZone.prototype.__collides = function(withObject, ourZone, theirZone)
 {
-    if (withObject.health && !withObject.health.depleted) {
+    if (withObject.health !== undefined && withObject.health.depleted === false) {
         withObject.kill();
     }
 }
