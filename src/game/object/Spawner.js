@@ -22,8 +22,9 @@ Game.objects.Spawner.constructor = Game.objects.Spawner;
 
 Game.objects.Spawner.prototype.cleanReferences = function()
 {
+    var worldObjects = this.world.objects;
     for (var object of this.children) {
-        if (!this.world.objects.has(object)) {
+        if (worldObjects.indexOf(object) === -1) {
             this.children.delete(object);
         }
     }
