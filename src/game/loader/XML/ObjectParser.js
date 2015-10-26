@@ -71,11 +71,11 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
         var faceNodes = geometryNode.find('> face');
         if (faceNodes.length > 0) {
-            faceNodes.each(function(index) {
+            faceNodes.each(function(nodeSiblingIndex) {
                 var faceNode = $(this);
 
                 var animator = new Engine.Animator.UV();
-                animator.indices = [index];
+                animator.indices = [];
                 animator.offset = parser.getFloat(faceNode, 'offset', 0);
 
                 var animationId = faceNode.attr('animation');
@@ -98,7 +98,6 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
                 var rangeNodes = faceNode.find('> range');
                 if (rangeNodes.length) {
-                    animator.indices = [];
                     rangeNodes.each(function() {
                         var rangeNode = $(this);
 
@@ -127,11 +126,24 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
                         }
                     });
                 }
-                var indexNodes = faceNode.find('> index');
-                indexNodes.each(function() {
-                    var indices = JSON.parse($(this).attr('json'));
+
+                var indexJSON = faceNode.attr('index');
+                if (indexJSON !== undefined) {
+                    var indices = JSON.parse(indexJSON);
                     Array.prototype.push.apply(animator.indices, indices);
-                });
+                }
+
+                /* If we had no ranges, and no indexes defined,
+                   take index from order of <face> nodes. */
+                if (animator.indices.length === 0) {
+                    console.log("Adding default index to %s", animator.name);
+                    animator.indices = [nodeSiblingIndex];
+                }
+
+                if (animator.indices.indexOf(0) !== -1) {
+                    console.log('Animator %s has index 0', animator.name);
+                }
+
             });
         }
         else if (parser.animations.length) {
