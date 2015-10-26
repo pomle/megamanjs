@@ -145,6 +145,11 @@ Editor.prototype.open = function(level, parser)
         editor.document.objectSources[item.object.name] = item;
     }
 
+    let objectNodeMap = {};
+    editor.document.find('> objects > object').each(function() {
+        let objectNode = $(this);
+        objectNodeMap[objectNode.attr('id')] = objectNode;
+    });
 
     level.events.unbind(level.EVENT_START, level.resetPlayer);
 
@@ -181,7 +186,8 @@ Editor.prototype.open = function(level, parser)
     }
 
     for (let _item of parser.items) {
-        let item = new Editor.Item.Object(_item.object, _item.node);
+        console.log(_item);
+        let item = new Editor.Item.Object(_item.object, _item.node, objectNodeMap[_item.object.name]);
         editor.items.add(item);
     }
 
@@ -191,7 +197,11 @@ Editor.prototype.open = function(level, parser)
     }
 
     editor.document.find('> objects').each(function() {
-        let url = parser.getAbsoluteUrl($(this).find('> textures > texture'));
+        let textureNode = $(this).find('> textures > texture'),
+            url = parser.getAbsoluteUrl(textureNode),
+            totalW = parseFloat(textureNode.attr('w')),
+            totalH = parseFloat(textureNode.attr('h'));
+
         $(this).find('> animations > animation').each(function() {
             let anim = $(this),
                 name = anim.attr('id');
@@ -209,6 +219,8 @@ Editor.prototype.open = function(level, parser)
                     'height': h,
                     'width': w,
                 });
+                let uvcoords = new Engine.UVCoords(x, y, w, h, totalW, totalH);
+                item.data('uv-coords', uvcoords);
                 item.attr('name', name);
                 editor.ui.palette.append(item);
             });

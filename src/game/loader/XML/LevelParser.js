@@ -13,6 +13,56 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser,
                    Game.Loader.XML.Parser);
 
+
+Game.Loader.XML.Parser.LevelParser.prototype.createBehavior = function(node, behavior)
+{
+    var parser = this,
+        objectParser = new Game.Loader.XML.Parser.ObjectParser();
+
+    var behaviorMap = {
+        'deathzones': Game.objects.obstacles.DeathZone,
+        'environments': Engine.Object,
+        'solids': Game.objects.Solid,
+        'climbables': Game.objects.Climbable,
+    }
+
+    function createObject(node, constructor)
+    {
+        node = $(node);
+        var rect = parser.getRect(node);
+
+        var object = objectParser.createObject('behavior', constructor, function()
+        {
+            constructor.call(this);
+            this.model.visible = false;
+            this.addCollisionRect(rect.w, rect.h);
+
+            node.find('> trait').each(function() {
+                var traitDescriptor = parser.getTrait($(this));
+                parser.applyTrait(object, traitDescriptor);
+            });
+        });
+
+        var instance = new object();
+        instance.position.x = rect.x;
+        instance.position.y = rect.y;
+        instance.position.z = 0;
+
+        parser.behaviors.add({
+            node: node[0],
+            object: instance,
+        });
+
+        return instance;
+    }
+
+    if (behaviorMap[behavior] === undefined) {
+        throw new Error('Behavior ' + behavior + ' not in behavior map');
+    }
+
+    return createObject(node, behaviorMap[behavior]);
+}
+
 Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callback)
 {
     var levelNode = $(levelNode),
@@ -170,57 +220,14 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
 {
     var parser = this,
         loader = parser.loader,
-        level = parser.level,
-        objectParser = new Game.Loader.XML.Parser.ObjectParser();
+        level = parser.level;
 
-    function createObject(node, constructor)
-    {
-        node = $(node);
-        var rect = parser.getRect(node);
-
-        var object = objectParser.createObject('behavior', constructor, function()
-        {
-            constructor.call(this);
-            this.model.visible = false;
-            this.addCollisionRect(rect.w, rect.h);
-
-            node.find('> trait').each(function() {
-                var traitDescriptor = parser.getTrait($(this));
-                parser.applyTrait(object, traitDescriptor);
-            });
+    layoutNode.find('> behaviors > *').each(function() {
+        var type = this.tagName;
+        $(this).find('> *').each(function() {
+            var o = parser.createBehavior(this, type);
+            level.world.addObject(o);
         });
-
-        var instance = new object();
-        instance.position.x = rect.x;
-        instance.position.y = rect.y;
-        instance.position.z = 0;
-
-        parser.behaviors.add({
-            node: node[0],
-            object: instance,
-        });
-
-        return instance;
-    }
-
-    layoutNode.find('deathzones > *').each(function() {
-        var d = createObject(this, Game.objects.obstacles.DeathZone);
-        level.world.addObject(d);
-    });
-
-    layoutNode.find('environments > *').each(function() {
-        var e = createObject(this, Engine.Object);
-        level.world.addObject(e);
-    });
-
-    layoutNode.find('solids > *').each(function() {
-        var s = createObject(this, Game.objects.Solid);
-        level.world.addObject(s);
-    });
-
-    layoutNode.find('climbables > *').each(function() {
-        var c = createObject(this, Game.objects.Climbable);
-        level.world.addObject(c);
     });
 }
 

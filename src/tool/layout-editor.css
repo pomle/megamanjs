@@ -7,6 +7,10 @@
 
 .workspace .viewport {
     height: 100%;
+}
+
+.workspace .viewport * {
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -94,8 +98,8 @@
 }
 
 .workspace .palette {
+    background-color: rgba(0,0,0,.6);
     margin: -5px;
-    pointer-events: none;
     position: absolute;
     overflow: auto;
     left: 25%;

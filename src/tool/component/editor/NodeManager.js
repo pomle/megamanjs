@@ -6,6 +6,26 @@ Editor.NodeManager = function(document)
 }
 
 
+Editor.NodeManager.prototype.addBehavior = function(rectNode, type)
+{
+    let document = this.document,
+        layoutNode = this.getLayout();
+
+    let behaviorNode = layoutNode.find('> behavior');
+    if (behaviorNode.length === 0) {
+        behaviorNode = $('<behavior>', document);
+        layoutNode.append(behaviorNode);
+    }
+
+    let typeNode = behaviorNode.find('> ' + type);
+    if (typeNode.length === 0) {
+        typeNode = $('<' + type + '>', document);
+        behaviorNode.append(typeNode);
+    }
+
+    typeNode.append(rectNode);
+}
+
 Editor.NodeManager.prototype.addCameraPath = function(pathNode)
 {
     let document = this.document;

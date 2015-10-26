@@ -1,9 +1,10 @@
 "use strict";
 
-Editor.Item.Object = function(object, node)
+Editor.Item.Object = function(object, node, sourceNode)
 {
     Editor.Item.call(this, object, node);
     this.model = object.model;
+    this.sourceNode = sourceNode;
 }
 
 Editor.Item.Object.prototype = Object.create(Editor.Item.prototype);

@@ -1,3 +1,14 @@
+.workspace {
+    border-bottom-width: 1px;
+    height: 750px;
+    overflow: hidden;
+    position: relative;
+}
+
+.workspace canvas {
+	image-rendering: pixelated;
+}
+
 .workspace .slice {
     border: dotted 1px #fff;
     box-sizing: border-box;

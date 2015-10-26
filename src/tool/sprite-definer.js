@@ -53,6 +53,8 @@ $(function() {
 
     controlpanel
         .find('button[name=generate]').on('click', function(e) {
+            var counter = 0;
+
             var textureXml = $('<texture/>')
                 .attr({
                     'id': 'texture-id',
@@ -74,7 +76,7 @@ $(function() {
                         'h': parseFloat(slice.css('height')),
                         'duration': parseFloat(slice.data('duration')) || undefined,
                     });
-                var name = slice.attr('name');
+                var name = slice.attr('name') || 'slice_' + counter++;
                 if (!animations[name]) {
                     animations[name] = $('<animation>').
                         attr({

@@ -81,7 +81,7 @@ Editor.ComponentFactory.prototype.createObject = function(objectNode, objectRef)
 
     nodeManager.addObjectInstance(objectInstanceNode);
 
-    let item = new Editor.Item.Object(objectInstance, objectInstanceNode);
+    let item = new Editor.Item.Object(objectInstance, objectInstanceNode, objectNode);
     editor.items.add(item);
 
     return item;

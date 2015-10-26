@@ -1,78 +1,329 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Crashman">
-    <gravity x="0" y="9.81" />
-
-    <checkpoints>
-        <checkpoint x="4224" y="1080"/>
-    </checkpoints>
-
-    <texture url="./crashman/tiles.png" w="256" h="128">
-        <animation id="pipe-l">
-            <frame x="1" y="55" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="pipe-r">
-            <frame x="37" y="55" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="pipe">
-            <frame x="19" y="55" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="space-1">
-            <frame x="1" y="19" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="space-2">
-            <frame x="19" y="19" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="space-3">
-            <frame x="37" y="19" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="space-6">
-            <frame x="37" y="37" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="space-5">
-            <frame x="19" y="37" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="space-4">
-            <frame x="1" y="37" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="maze-h-l">
-            <frame x="1" y="73" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="maze-h">
-            <frame x="19" y="73" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="maze-h-r">
-            <frame x="37" y="73" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="mase-v-t">
-            <frame x="55" y="73" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="maze-v">
-            <frame x="55" y="91" w="16" h="16" duration=".5"/>
-        </animation>
-        <animation id="maze-v-b">
-            <frame x="55" y="108" w="16" h="16" duration=".5"/>
-        </animation>
-    </texture>
-
+    <gravity x="0" y="9.81"/>
+    <checkpoints/>
+    <camera/>
     <objects>
+        <textures>
+            <texture url="./crashman/tiles.png" w="256" h="128"/>
+        </textures>
+        <animations>
+            <animation id="blue">
+                <frame x="1" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="transparent">
+                <frame x="109" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="drwily">
+                <frame x="109" y="55" w="32" h="32"/>
+            </animation>
+            <animation id="shield">
+                <frame x="109" y="89" w="32" h="32"/>
+            </animation>
+            <animation id="slice_1">
+                <frame x="73" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="door">
+                <frame x="91" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_3">
+                <frame x="73" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="slice_4">
+                <frame x="91" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="slice_5">
+                <frame x="91" y="109" w="16" h="16"/>
+            </animation>
+            <animation id="slice_6">
+                <frame x="73" y="109" w="16" h="16"/>
+            </animation>
+            <animation id="slice_7">
+                <frame x="55" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_8">
+                <frame x="73" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_9">
+                <frame x="73" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_10">
+                <frame x="55" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_11">
+                <frame x="91" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_12">
+                <frame x="109" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_13">
+                <frame x="109" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_14">
+                <frame x="91" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_15">
+                <frame x="127" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_16">
+                <frame x="127" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_17">
+                <frame x="145" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_18">
+                <frame x="145" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_19">
+                <frame x="73" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_20">
+                <frame x="91" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_21">
+                <frame x="91" y="73" w="16" h="16"/>
+            </animation>
+            <animation id="slice_22">
+                <frame x="73" y="73" w="16" h="16"/>
+            </animation>
+            <animation id="slice_24">
+                <frame x="1" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="slice_25">
+                <frame x="1" y="109" w="16" h="16"/>
+            </animation>
+            <animation id="slice_26">
+                <frame x="19" y="109" w="16" h="16"/>
+            </animation>
+            <animation id="slice_27">
+                <frame x="19" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="slice_28">
+                <frame x="37" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="slice_29">
+                <frame x="37" y="109" w="16" h="16"/>
+            </animation>
+            <animation id="pipe-l">
+                <frame x="1" y="55" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="pipe-r">
+                <frame x="37" y="55" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="pipe">
+                <frame x="19" y="55" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="space-1">
+                <frame x="1" y="19" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="space-2">
+                <frame x="19" y="19" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="space-3">
+                <frame x="37" y="19" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="space-6">
+                <frame x="37" y="37" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="space-5">
+                <frame x="19" y="37" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="space-4">
+                <frame x="1" y="37" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="maze-h-l">
+                <frame x="1" y="73" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="maze-h">
+                <frame x="19" y="73" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="maze-h-r">
+                <frame x="37" y="73" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="maze-v-t">
+                <frame x="55" y="73" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="maze-v">
+                <frame x="55" y="91" w="16" h="16" duration=".5"/>
+            </animation>
+            <animation id="maze-v-b">
+                <frame x="55" y="108" w="16" h="16" duration=".5"/>
+            </animation>
+        </animations>
+        <object id="door">
+            <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
+                <face animation="door">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="32" h="64"/>
+            </collision>
+            <traits>
+                <trait source="Door">
+                    <direction x="-1" y="0"/>
+                </trait>
+            </traits>
+        </object>
+        <object id="object_4FBF48E9426F446698744A217AC1144F">
+            <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45">
+                <face animation="transparent">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="pipe" index="[1012,1014,1016,1018,1020,1022,1118,1116,1114,858,860,862,670,668,666,664,672,674,1152,1154,1156]"/>
+                <face animation="pipe-r" index="[676,1158]"/>
+                <face animation="pipe-l" index="[662,856,1010,1112]"/>
+                <face animation="maze-h-l" index="[1096,718,1232,360]"/>
+                <face animation="maze-h" index="[1098,1100,1234,1236,1240,1242,874,722,870,868,348,202,150,158,570,494,736]"/>
+                <face animation="maze-h-r" index="[724,876,1104,1250,1122,930,82]"/>
+                <face animation="maze-v" index="[962,698,700,1374,1428,1436,2,18,26,64,88,142,224,226,258,482,894,892,764,796,506,476,396,406,468,498,558,398,10,134,72,560,1088,354,352]"/>
+                <face animation="maze-v-t" index="[344,1366,1358,1350,864,322,114]"/>
+                <face animation="slice_1" index="[872,904,936,968,1000,1064,1032,720,752,784,816,1102,1134,1166,1198,1230,1238,1270,1302,1334,650,618,586,554,522,490,458,426,394,362]"/>
+                <face animation="slice_3" index="[1180,1438,1430,1360,1368,1340,956,798,702,346,372,364,66,74,90,460,380,478,562,470,1084,1352,866,1216,768,80]"/>
+                <face animation="slice_5" index="[154,146,206,198,290,386,514,174,594,994,610,1218,770,112]"/>
+                <face animation="slice_28" index="[56,48,32,84,92,118,110,102,192,288,448,512,928,1408,1416,1424,1432,1404,1342,1278,1244,1086,572,528,464,436,536,382,66,68,40,164,126,76,172,472,606,1396,1380,1388,992]"/>
+                <face animation="slice_29" index="[14,22,30,576,832,896,1414,1422,732,502,410,402,376,96,6,130,104,138,120,492,568,510,1346,1312,1056]"/>
+                <face animation="slice_25" index="[366,374,368,416,462,958,1182,1370,1362,1354,640]"/>
+                <face animation="slice_24" index="[378,404,0,8,16,24,98,132,70,194,106,86,94,122,140,78,256,450,480,466,496,474,504,574,638,734,830,990,1054,1150,1214,1246,1310,1372,1392,1400,1426,1434,1418,1410,1314,1384,1186,1058,960,898,834,578,706,738,320]"/>
+                <face animation="slice_4" index="[350,370,432,160,60,52,44,36,168,418,546,526,602,532,440,540,1364,1348,1376,1282,1356,1026,802,642]"/>
+                <face animation="slice_6" index="[428,400,408,508,600,634,590,730,828,924,988,1052,1148,1308,524,128,4,20,28,196,200,136,148,12,156,384,500,636,766,1412,1420,1344,1184,704,608,1120]"/>
+                <face animation="slice_26" index="[430,58,50,42,34,166,204,144,152,592,530,438,538,926,1406,1390,1398,1382,1248]"/>
+                <face animation="slice_27" index="[46,38,162,100,116,54,94,124,62,108,170,544,434,442,534,542,604,1212,1276,1402,1394,1378,1280,1386,1024,800]"/>
+                <face animation="maze-v-b" index="[1090,1120]"/>
+            </geometry>
+        </object>
+        <object id="object_D26AB42BA8AB4AC79BF82823EB552AF8">
+            <geometry type="plane" w="256" h="1200" w-segments="16" h-segments="75">
+                <face animation="transparent">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="slice_11" index="[1572,1036,1092,1104,1228,1170,556,578,612,590,596,660,724,720,656,772,646,710]"/>
+                <face animation="slice_12" index="[1594,1050,1110,570,592,626,690,630,694,620,684,600]"/>
+                <face animation="slice_13" index="[1786,1306,1174,1100,1234,792,826,750,588,708,716,652,658,722,726,662,756,1168]"/>
+                <face animation="slice_14" index="[1764,1292,1156,804,628,692,752,624,706,678,742,688]"/>
+                <face animation="slice_17" index="[1604,1636,1668,1700,1732,1754,1722,1690,1658,1626,1142,1082,1146,1114,1210,1178,1242,1274,1260,1202,1124,1068,602,666,634,698,730,762,794,760,728,696,664,632,718,686,654,622,644,676,674,642,610,1136]"/>
+                <face animation="slice_18" index="[1766,1768,1770,1772,1774,1778,1776,1780,1782,1784,1592,1590,1586,1588,1584,1582,1580,1576,1574,1578,1038,1040,1042,1044,1046,1048,1094,1096,1098,1158,1160,1162,1164,1166,1106,1108,1172,1232,1230,1294,1296,1298,1300,1302,1304,558,560,564,562,566,568,598,774,776,778,780,782,784,786,788,790,614,616,618,650,648,680,682,714,712,744,746,748,580,582,584,586,824,820,816,814,812,810,806,818,754]"/>
+                <face animation="slice_15" index="[1768,1778,1296,1302,806,808,818,822]"/>
+                <face animation="slice_16" index="[1800,1810,1334,1328,840,854]"/>
+                <face animation="slice_1" index="[388,420,452,484,516,548,868,900,932,964,996,1028,1370,1402,1434,1466,1498,1530,2072,2040,2008,1976,1944,1912,1880,1848]"/>
+                <face animation="slice_6" index="[1996,1948,1940,1932,1924,1988,2000,2074,2204,2304,2312,2320,1408,1412,1464,1468,1420,1424,1428,960,936,944,952,480,472,456,464]"/>
+                <face animation="slice_3" index="[1824,1850,1840,1832,1918,1902,1894,1910,1986,2106,2142,2192,2196,2216,2220,2242,2266,2258,2250,2276,2374,2382,2390,2398,2362,1346,1354,1362,1404,1396,1388,1380,892,884,876,870,390,392,400,408]"/>
+                <face animation="maze-v-t" index="[1830,1838,1846,1854,2240,2284,1344,1352,1360,866,874,882,890,414,406,398,386]"/>
+                <face animation="slice_4" index="[1852,1844,1836,1828,1956,1980,1974,1964,2236,2218,2246,2336,2344,2352,1368,1374,1366,1358,1350,1432,864,872,880,888,930,384,396,412,450,404]"/>
+                <face animation="slice_25" index="[1826,1834,1842,1972,2194,2198,2222,2360,894,886,878,394,402,410]"/>
+                <face animation="slice_24" index="[1856,1864,1872,1890,1898,1906,1920,1928,1936,2014,2018,2076,2174,2228,2224,2270,2262,2274,2316,2324,2332,2394,2298,2290,2282,2308,2370,2378,2386,1378,1386,1400,1394,924,916,908,440,432,424]"/>
+                <face animation="slice_27" index="[1874,1866,1858,1882,1914,1946,1958,1966,1982,2010,2044,2170,2238,2230,2226,2300,2292,2338,2346,2354,926,928,902,910,918,934,448,442,434,426,422,454]"/>
+                <face animation="slice_26" index="[1878,1870,1862,1886,1954,1962,1970,1992,2004,2048,2110,2366,2342,2350,2358,1416,898,922,914,906,956,948,940,476,468,460,418,438,446,430]"/>
+                <face animation="slice_28" index="[1884,1876,1868,1860,1888,1896,1904,1952,1960,1968,2012,2046,2108,2268,2260,2302,2294,2278,2392,2364,2340,2384,2376,2368,2348,2356,2330,1390,1398,1406,1382,896,904,912,920,416,444,428,436]"/>
+                <face animation="maze-v" index="[1916,1908,1900,1892,1922,1930,1938,1978,1984,2042,2140,2138,2078,2264,2256,2248,2334,2326,2318,2310,2372,2380,2388,2396,2254,2286,1438,1436]"/>
+                <face animation="slice_29" index="[1950,1934,1926,2016,2172,2206,2322,2314,2272,2306,2296,2288,2280,1376,1384,1392]"/>
+                <face animation="slice_5" index="[1942,2006,1994,1998,2050,2202,2252,2328,1410,1418,1422,958,950,942,966,962,470,478,486,482,462]"/>
+                <face animation="maze-h" index="[1990,2002,2200,2234,2232,2244,1348,1356,1364,1372,1430,1470,1426,1414,938,946,954,466,474,458]"/>
+            </geometry>
+        </object>
+        <object id="object_540066CB92574BD690359F3A3BE72AA8">
+            <geometry type="plane" w="256" h="2160" w-segments="16" h-segments="135">
+                <face animation="transparent">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="slice_3" index="[4224,4232,4240,3764,4318,4184,3928,3802,4026,3838,4062,3608,3224,3284,3582,3358,3448,3546,3066,3128,3102,2808,2784,2800,2872,2876,3322,2180,2196,366,310,252,412,790,848,880,944,1010,1072,1196,1262,1324,1548,1486,1646,1170]"/>
+                <face animation="slice_25" index="[4226,4234,4242,3930,4186,3450,2874,3226,2182,136,360,784,946,1198,1420]"/>
+                <face animation="slice_26" index="[4288,4296,4304,4286,4278,4270,4262,4154,3898,4030,3806,3194,3674,3326,3418,3070,2848,2864,2846,2838,2830,2822,2938,2218,2248,2246,2262,2226,422,1674,2030,2038,1870,1750,1618,1558,1398,1014,1138]"/>
+                <face animation="maze-v" index="[4316,3796,4254,4120,4024,3864,3866,3800,3768,3774,3998,4060,4122,3992,3836,3512,3544,3384,3386,3316,3288,3320,3294,3356,3160,3162,3100,3064,3032,3038,3580,3640,3642,2904,2906,2190,198,326,456,486,424,426,458,490,342,284,170,168,232,234,976,1008,1104,1110,1046,1168,1266,1228,1260,1452,1484,1644,1650,1426,1330,1432,1592,1654,1782,1848,2008,2134,1902,1710,494,462,398,1106]"/>
+                <face animation="maze-h" index="[4302,4294,4310,2854,2862,2870,2250,254,414,442,440,438,436,434,432,368,370,372,312,314,780,782,908,910]"/>
+                <face animation="maze-v-t" index="[3980,4230,4238,4246,3092,3086,3080,2806,2814,2798,2790,2186]"/>
+                <face animation="maze-h-l" index="[3522,3466,3662,3716,2254,2258,778,906]"/>
+                <face animation="maze-h-r" index="[3718,3664,3524,3468]"/>
+                <face animation="maze-v-b" index="[4012,3112,3118,3124]"/>
+                <face animation="slice_6" index="[3828,4312,4248,4292,4300,4308,4124,4152,3994,3896,3868,3832,3770,3644,3164,3192,3348,3352,3576,3672,3388,3416,3514,3290,3096,3034,2936,2868,2860,2852,2908,2244,2260,328,816,978,1040,1136,1232,1230,1292,1420,1516,1454,1742]"/>
+                <face animation="slice_24" index="[4252,4256,4264,4272,4314,3772,3934,3996,3930,4190,4218,3962,3834,4094,3454,3292,3134,3354,3710,3578,3614,3482,3036,3098,2816,2832,2840,2974,3258,3230,2214,2232,2228,2168,2072,1976,1912,1816,1720,1688,1974,2102,2094,1670,1560,1464,1368,1336,1240,1176,1080,984,920,952,918,1202,1390,1294,824,818,1042,298,202,488,166,394,912,1622,1614,1678,1518,1234,1206,1144]"/>
+                <face animation="slice_5" index="[4290,4298,4306,2858,2866,2850,2264,2222,2166,2040,2104,1880,1752,1624,1496,1400,1272,1208,1016,856,1142,1814,1422,526,374,316,444,230,518,522,330,1686,1682]"/>
+                <face animation="slice_4" index="[4244,4236,4228,4280,4156,3900,3196,3676,3420,2788,2794,2804,2812,2796,2940,2200,2184,2194,134,138,390,362,792,888,1048,1304,1528,1656,1784,1944,2136,2070,2006,1942,1910,1718,1590,1430,1366,1174,982,886,786,1586,1642,1638,2062,1998,1838,1582,1358,266,1526,1112]"/>
+                <face animation="slice_27" index="[4258,4266,4274,4282,4216,4220,3964,4158,3960,3902,3740,3484,3678,3422,3480,2834,2842,2826,2818,2942,3004,3198,3260,3256,2212,2230,2158,1934,1966,1806,1774,2126,1878,1846,1462,1494,1334,1302,1270,1238,1078,950,854,822,914,1362,1394,1458,1490,1522,1554,1580,1356,262,358,454,294,264,430,1298]"/>
+                <face animation="slice_29" index="[4250,4126,4092,3870,3132,3166,3612,3390,3646,2786,2802,2810,2878,2910,2198,296,882,1200,1388,1676,1612]"/>
+                <face animation="slice_28" index="[4276,4268,4260,4284,4222,4188,4028,3932,3966,3804,3610,3452,3324,3130,3068,3708,3742,3486,3006,2972,2844,2836,2828,2820,3228,3262,2216,200,392,520,850,1326,1550,1074]"/>
+                <face animation="slice_1" index="[4214,4182,4150,4118,4086,4022,3990,3958,3926,3894,3862,4054,3830,3798,3766,3734,3702,3670,3638,3606,3542,3574,3510,3446,3414,3382,3350,3478,3318,3286,3254,3222,3190,3158,3126,3094,2984,2952,2920,2888,2856,2824,2792,2768,2736,2704,2672,2640,2608,2576,2544,2512,2480,2416,2384,2352,2320,2288,2448,2764,2732,2700,2636,2668,2604,2572,2540,2508,2476,2444,2412,2380,2348,2316,2284,2252,2220,2188,2156,2124,2092,2060,2028,1996,1964,1932,1900,1868,1836,1804,1772,2256,2224,2192,2160,2128,2096,2064,2032,1968,2000,1936,1904,1840,1872,1808,1776,1744,1712,1716,1748,1780,1812,1844,1876,1908,1940,1972,2004,2036,2068,2100,2132,2164,2152,2148,2116,2084,2052,2020,1988,1956,1924,1860,1828,1892,1796,1764,1732,1700,1668,1636,1640,2120,2088,2056,2024,1992,1960,1928,1864,1832,1896,1800,1768,1736,1704,1672,1680,1648,1616,1584,1552,1488,1456,1392,1360,1328,1520,1424,1684,1652,1620,1588,1556,1524,1492,1460,1428,1396,1364,1332,1300,1268,1236,1204,1172,1140,1108,1608,1576,1544,1512,1480,1448,1416,1384,1352,1320,1288,1256,1224,1192,1160,1128,1096,1076,1044,1012,980,948,884,852,820,788,916,1064,1032,1000,968,936,904,748,716,684,620,588,556,524,492,460,428,396,364,652,612,580,548,516,484,452,420,388,356,324,292,260,228,196,164,132]"/>
+            </geometry>
+        </object>
+        <object id="object_EA1ADF1AD35649ADA27295EEE280C334">
+            <geometry type="plane" w="768" h="240" w-segments="48" h-segments="15">
+                <face animation="transparent">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="slice_4" index="[832,1220,1218,1228,1236,1244,1438,674]"/>
+                <face animation="maze-v" index="[1412,1420,1428,1024,1120,1246,64,160,670,1058,962,866,770,884,1076,1068,984,1080]"/>
+                <face animation="maze-v-t" index="[1222,1230,1238]"/>
+                <face animation="slice_3" index="[1240,1232,1224,1422,1414,1430,190,94,286,478,972,788]"/>
+                <face animation="slice_6" index="[1408,1150,958,766,1260]"/>
+                <face animation="slice_27" index="[1054,862,1216,1322,1330,1338,1436,190,382,574,888,1172]"/>
+                <face animation="slice_29" index="[1242,1234,1226]"/>
+                <face animation="slice_24" index="[1312,1336,1328,1320,1410,1418,1426,1434,928,256,980,1164]"/>
+                <face animation="slice_25" index="[1314,254,246,238,230,806,814,822,830,798,792]"/>
+                <face animation="slice_28" index="[1316,1324,1340,1332,1416,1424,1432]"/>
+                <face animation="slice_26" index="[1342,1334,1326,1318,350,326,334,342,926,918,910,902,894,1154]"/>
+                <face animation="slice_5" index="[352,1176,1268]"/>
+                <face animation="maze-h" index="[800,802,804,808,810,812,816,818,820,824,826,828,924,920,922,916,914,912,908,906,904,896,898,900,224,320,322,226,228,324,328,232,234,236,332,330,240,242,244,340,338,336,344,248,250,252,348,346,794,890,892,796,672,1152,1156,1158,1160,1162,974,976,978,1266,1264,1262,790,1174]"/>
+                <face animation="slice_20" index="[28,30,124,220,222,126]"/>
+                <face animation="slice_22" index="[314]"/>
+                <face animation="slice_19" index="[218,122,26]"/>
+                <face animation="slice_21" index="[316,318]"/>
+            </geometry>
+        </object>
+        <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01">
+            <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
+                <face animation="shield" index="[0]"/>
+            </geometry>
+        </object>
+        <object id="object_BD668DBE6F8A46429C98DECFF58F0B5F">
+            <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
+                <face animation="drwily" index="[0]"/>
+            </geometry>
+        </object>
+        <object id="object_C621A3B7327D461BB64660E5C62B3006">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="blue">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+        </object>
     </objects>
-
-    <models>
-        <model id="level-1-platforms">
-            <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45" />
-        </model>
-
-    </models>
-
-
     <layout>
-        <background model="level-1-platforms" x="0" y="0" z="-1" />
-
+        <objects>
+            <object id="door" x="1280" y="3504" z="0"/>
+            <object id="door" x="1024" y="3504" z="0"/>
+            <object id="object_4FBF48E9426F446698744A217AC1144F" x="128" y="360" z="0"/>
+            <object id="object_D26AB42BA8AB4AC79BF82823EB552AF8" x="384" y="1080" z="0"/>
+            <object id="object_540066CB92574BD690359F3A3BE72AA8" x="640" y="2520" z="0"/>
+            <object id="object_EA1ADF1AD35649ADA27295EEE280C334" x="1152" y="3480" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="96" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="160" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="176" y="432" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="144" y="672" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="1568" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="1744" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="752" y="1840" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="2112" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="464" y="512" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="368" y="544" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="240" y="512" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="544" z="0"/>
+            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="336" z="0"/>
+            <object id="object_BD668DBE6F8A46429C98DECFF58F0B5F" x="1008" y="3568" z="0"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="2280" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="2040" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="1800" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="1560" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1560" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1320" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1080" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="840" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="600" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="600" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="360" z="-1"/>
+            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="120" z="-1"/>
+        </objects>
         <behaviors>
-            <deathzones>
-            </deathzones>
-            <solids>
-            </solids>
+            <deathzones/>
+            <solids/>
         </behaviors>
     </layout>
 </scene>

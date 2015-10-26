@@ -132,11 +132,13 @@ Editor.UI.prototype.createItem = function(node)
 
     var geometryInputDefault = '256x240/16';
 
-
     element.create = element.find('.create');
     element.create.find('button').on('click', function(e) {
-        let button = $(this);
-        switch (button.attr('type')) {
+
+        let button = $(this),
+            type = button.attr('type');
+
+        switch (type) {
             case 'cameraPath':
                 let pathNode = nodeFactory.createCameraPath();
                 nodeManager.addCameraPath(pathNode);
@@ -154,6 +156,18 @@ Editor.UI.prototype.createItem = function(node)
                 item.moveTo(editor.marker.position);
                 editor.ui.view.layers.checkpoint.on();
                 break;
+
+            case 'climbable':
+            case 'deathzone':
+            case 'solid':
+                let rectNode = nodeFactory.createRect();
+                nodeManager.addBehavior(rectNode, type);
+
+                item = editor.componentFactory.createCheckpoint(checkpointNode);
+                item.moveTo(editor.marker.position);
+                editor.ui.view.layers.checkpoint.on();
+                break;
+
 
             case 'object':
                 let geometryInput = prompt('Size', geometryInputDefault);
@@ -204,7 +218,16 @@ Editor.UI.prototype.createPalette = function(node)
 
     element.getSelectedAnimation = function()
     {
-        return this.find('> .animation.selected:first').attr('name');
+        let node = this.find('> .animation.selected:first');
+
+        if (node.length === 0) {
+            return undefined;
+        }
+
+        return {
+            name: node.attr('name'),
+            uvCoords: node.data('uv-coords'),
+        };
     }
 
     return element;
@@ -376,9 +399,9 @@ Editor.UI.prototype.createViewport = function(node)
 
             if (editor.activeMode === editor.modes.paint) {
                 let item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected[0]])),
-                    animationName = editor.ui.palette.getSelectedAnimation();
+                    paletteItem = editor.ui.palette.getSelectedAnimation();
 
-                if (item) {
+                if (paletteItem !== undefined && item) {
                     let intersect = item.intersect,
                         faceIndex = intersect.faceIndex,
                         geometry = intersect.object.geometry,
@@ -386,21 +409,69 @@ Editor.UI.prototype.createViewport = function(node)
 
                     faceIndex -= faceIndex % 2;
 
+                    let node = item.item.sourceNode,
+                        name = paletteItem.name,
+                        geometryNode = node.find('> geometry'),
+                        faceNode = undefined;
+
+                    geometryNode.find('> face').each(function() {
+                        let node = $(this),
+                            nodeName = node.attr('animation');
+
+                        console.log("Cleaning faceIndex %d from %s", faceIndex, nodeName);
+
+                        if (nodeName === name) {
+                            faceNode = node;
+                            return;
+                        }
+
+                        let indexJSON = node.attr('index'),
+                            indices = indexJSON ? JSON.parse(indexJSON) : [];
+
+                        for (;;) {
+                            let existingIndex = indices.indexOf(faceIndex);
+                            if (existingIndex !== -1) {
+                                console.log("Spliced faceIndex %d at index %d", faceIndex, existingIndex);
+                                indices.splice(existingIndex, 1);
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                    });
+
+                    if (faceNode === undefined) {
+                        faceNode = $('<face>', editor.document).attr({
+                            'animation': name,
+                        });
+                        geometryNode.append(faceNode);
+                    }
+
+                    let indexJSON = faceNode.attr('index'),
+                        indices = indexJSON ? JSON.parse(indexJSON) : [];
+
+                    if (indices.indexOf(faceIndex) === -1) {
+                        indices.push(faceIndex);
+                        faceNode.attr('index', JSON.stringify(indices));
+                    }
+
                     let animators = object.animators;
                     let animator = undefined;
                     for (let i = 0, l = animators.length; i !== l; ++i) {
                         clearIndex(animators[i], faceIndex);
-
-                        if (animators[i].name === animationName) {
+                        if (animators[i].name === paletteItem.name) {
                             animator = animators[i];
                         }
                     }
 
                     if (animator === undefined) {
-                        console.error('Creating new animator not implemented');
+                        console.log("Adding faceIndex to animator", faceIndex);
+                        object.geometry.faceVertexUvs[0][faceIndex] = paletteItem.uvCoords[0];
+                        object.geometry.faceVertexUvs[0][faceIndex+1] = paletteItem.uvCoords[1];
+                        object.geometry.uvsNeedUpdate = true;
                     }
                     else {
-                        console.log("Adding faceIndex", faceIndex);
+                        console.log("Adding faceIndex to animator", faceIndex);
                         animator.indices.push(faceIndex);
                         animator._currentIndex = undefined;
                         animator.update();
@@ -436,7 +507,13 @@ Editor.UI.prototype.createViewport = function(node)
         .on('contextmenu', function(e) {
             e.preventDefault();
         })
+        .on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        })
         .on('dblclick', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
             if (item && item.item.TYPE === "object" && item.item === editor.items.selected[0]) {
                 editor.activeMode = editor.modes.paint;
