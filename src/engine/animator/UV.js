@@ -10,7 +10,7 @@ Engine.Util.extend(Engine.Animator.UV, Engine.Animator);
 
 Engine.Animator.UV.prototype._applyAnimation = function(animation)
 {
-    var animationIndex = animation.getIndex(this.time);
+    var animationIndex = animation.getIndex(this.time + this.offset);
     if (animationIndex === this._currentIndex) {
         return;
     }
@@ -48,6 +48,7 @@ Engine.Animator.UV.prototype.clone = function(animation)
     anim._currentId = this._currentId;
     anim.animations = this.animations;
     anim.indices = this.indices;
+    anim.offset = this.offset;
     anim.name = this.name;
     for (var i in this.geometries) {
         anim.addGeometry(this.geometries[i]);

@@ -14,6 +14,7 @@ Engine.Animator.prototype.copy = function(animator)
 {
     this._currentAnimation = animator._currentAnimation;
     this._currentId = animator._currentId;
+    this.offset = animator.offset;
     this.animations = animator.animations;
 }
 
