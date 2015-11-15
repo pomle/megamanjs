@@ -199,6 +199,11 @@ Editor.UI.prototype.createItem = function(node)
                 editor.ui.view.layers.object.on();
                 break;
         }
+
+        editor.items.deselect();
+        editor.items.select(item);
+        editor.activeMode = editor.modes.edit;
+        editor.ui.viewport.focus();
     });
 
     return element;
