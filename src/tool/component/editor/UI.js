@@ -176,14 +176,19 @@ Editor.UI.prototype.createItem = function(node)
                 }
 
                 let s = geometryInput.split('/')[0].split('x'),
-                    m = parseFloat(geometryInput.split('/')[1]) || 16;
+                    m = parseFloat(geometryInput.split('/')[1]);
 
                 let size = {
                     x: parseFloat(s[0]),
                     y: parseFloat(s[1]),
+                    sx: 1,
+                    sy: 1,
                 }
-                size['sx'] = Math.ceil(size.x / m);
-                size['sy'] = Math.ceil(size.y / m);
+
+                if (m !== undefined) {
+                    size['sx'] = Math.ceil(size.x / m);
+                    size['sy'] = Math.ceil(size.y / m);
+                }
 
                 let objectNode = nodeFactory.createObject(size);
                 nodeManager.addObject(objectNode);
