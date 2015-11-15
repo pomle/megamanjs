@@ -8,6 +8,7 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
     this.behaviors = new Set();
     this.items = new Set();
     this.objects = {};
+    this.textures = [];
 }
 
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser,
@@ -80,6 +81,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
     levelNode.find('> objects').each(function() {
         var objectParser = new Game.Loader.XML.Parser.ObjectParser(loader);
         parser.objects = objectParser.parse(this);
+        Array.prototype.push.apply(parser.textures, objectParser.textures);
     });
 
     this.parseCamera(levelNode);
