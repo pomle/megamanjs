@@ -4,6 +4,7 @@ $(function() {
     {
         editor.loadUrl(src, function() {
             editor.file.recent.add(src);
+            lastLoadedLevel = src;
             editor.ui.applyState();
         });
     }
@@ -38,16 +39,21 @@ $(function() {
             editor.loadUrl('./resource/level-skeleton.xml');
         });
 
+    var lastLoadedLevel = '',
+        lastLoadedCharacter = '';
+
+    lastLoadedCharacter = '../game/resource/characters/Megaman.xml';
+
     editor.file.load = editor.file.find('.level [name=open]')
         .on('click', function() {
-            var url = prompt("Src");
+            var url = prompt("Src", lastLoadedLevel);
             if (url !== null && url.length) {
                 loadLevel(url);
             }
         });
     editor.file.loadCharacter = editor.file.find('[name=loadCharacter]')
         .on('click', function() {
-            var url = prompt("Src", '../game/resource/characters/Megaman.xml');
+            var url = prompt("Src", lastLoadedCharacter);
             if (url !== null && url.length) {
                 editor.loader.loadCharacterXml(url);
             }
