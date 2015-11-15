@@ -77,15 +77,26 @@ Editor.Item.Rectangle.prototype.updateGeometry = function()
         x = this.x,
         y = this.y;
 
-    g.vertices[0].x = v[0].x - x;
-    g.vertices[1].x = v[1].x - x;
-    g.vertices[2].x = v[0].x - x;
-    g.vertices[3].x = v[1].x - x;
+    let r = [
+        v[0].x - x,
+        v[1].x - x,
+        v[1].y - y,
+        v[0].y - y,
+    ];
 
-    g.vertices[0].y = v[1].y - y;
-    g.vertices[1].y = v[1].y - y;
-    g.vertices[2].y = v[0].y - y;
-    g.vertices[3].y = v[0].y - y;
+    for (let i = 0, l = r.length; i !== l; ++i) {
+        r[i] = Math.max(.5, Math.abs(r[i]));
+    }
+
+    g.vertices[0].x = -r[0];
+    g.vertices[1].x = r[1];
+    g.vertices[2].x = -r[0];
+    g.vertices[3].x = r[1];
+
+    g.vertices[0].y = r[2];
+    g.vertices[1].y = r[2];
+    g.vertices[2].y = -r[3];
+    g.vertices[3].y = -r[3];
 
     g.verticesNeedUpdate = true;
     g.normalsNeedUpdate = true;
