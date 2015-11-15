@@ -426,27 +426,24 @@ Editor.UI.prototype.createViewport = function(node)
 
                     geometryNode.find('> face').each(function() {
                         let node = $(this),
-                            nodeName = node.attr('animation');
-
-                        console.log("Cleaning faceIndex %d from %s", faceIndex, nodeName);
-
-                        if (nodeName === name) {
-                            faceNode = node;
-                            return;
-                        }
-
-                        let indexJSON = node.attr('index'),
+                            nodeName = node.attr('animation'),
+                            indexJSON = node.attr('index'),
                             indices = indexJSON ? JSON.parse(indexJSON) : [];
 
                         for (;;) {
                             let existingIndex = indices.indexOf(faceIndex);
-                            if (existingIndex !== -1) {
-                                console.log("Spliced faceIndex %d at index %d", faceIndex, existingIndex);
-                                indices.splice(existingIndex, 1);
-                            }
-                            else {
+                            if (existingIndex === -1) {
                                 break;
                             }
+                            console.log("Spliced faceIndex %d at index %d from %s", faceIndex, existingIndex, nodeName);
+                            indices.splice(existingIndex, 1);
+                        }
+
+                        indices.sort();
+                        node.attr('index', JSON.stringify(indices));
+
+                        if (nodeName === name) {
+                            faceNode = node;
                         }
                     });
 
@@ -462,6 +459,7 @@ Editor.UI.prototype.createViewport = function(node)
 
                     if (indices.indexOf(faceIndex) === -1) {
                         indices.push(faceIndex);
+                        indices.sort();
                         faceNode.attr('index', JSON.stringify(indices));
                     }
 
