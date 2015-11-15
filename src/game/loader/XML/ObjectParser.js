@@ -40,7 +40,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
     var animations = {},
         animators = [],
         geometries = [],
-        textures = {};
+        localTextures = [];
 
     for (var i = 0, l = this.animations.length; i < l; ++i) {
         if (this.animations[i].id) {
@@ -49,8 +49,9 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
     }
 
     for (var i = 0, l = this.textures.length; i < l; ++i) {
+        localTextures.push(this.textures[i].texture);
         if (this.textures[i].id) {
-            textures[this.textures[i].id] = this.textures[i].texture;
+            localTextures[this.textures[i].id] = this.textures[i].texture;
         }
     }
 
@@ -177,10 +178,9 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
     var object = this.createObject(objectId, sourceObject, function()
     {
         this.geometry = geometries[0].geometry.clone();
-
-        if (parser.textures.length) {
+        if (this.textures.length) {
             this.material = new THREE.MeshBasicMaterial({
-                map: parser.textures[0].texture,
+                map: this.textures[0],
                 side: THREE.DoubleSide,
                 transparent: true,
             });
@@ -224,7 +224,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
     });
 
     object.prototype.animations = animations;
-    object.prototype.textures = textures;
+    object.prototype.textures = localTextures;
 
     this.items.add({
         object: object,
