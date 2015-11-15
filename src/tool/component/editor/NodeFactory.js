@@ -56,7 +56,7 @@ Editor.NodeFactory.prototype.createObject = function(size)
     let editor = this.editor,
         document = editor.document;
 
-    let uniqueId = 'object_' + THREE.Math.generateUUID().replace(/-/g, '');
+    let uniqueId = 'object_' + THREE.Math.generateUUID().replace(/-/g, '').toLowerCase();
 
     let objectNode = $('<object/>', document).attr({
         'id': uniqueId,
