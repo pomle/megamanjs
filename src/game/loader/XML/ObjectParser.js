@@ -64,6 +64,11 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
         var geometry = parser.getGeometry(geometryNode);
         var segs = parser.getVector2(geometryNode, 'w-segments', 'h-segments', new THREE.Vector2(1,1));
 
+        var bullshitUV = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+        for (var i = 0, l = geometry.faceVertexUvs[0].length; i !== l; ++i) {
+            geometry.faceVertexUvs[0][i] = bullshitUV;
+        }
+
         var geometryObject = {
             geometry: geometry,
             size: parser.getVector2(geometryNode, 'w', 'h'),
