@@ -216,6 +216,9 @@ Editor.UI.prototype.createPalette = function(node)
 
         let anim = $(this);
         anim.addClass('selected').siblings().removeClass('selected');
+
+        console.log("Selected anim %s", element.getSelectedAnimation().name);
+
         setTimeout(function() {
             anim.closest('.palette').addClass('hidden');
         }, 150);
