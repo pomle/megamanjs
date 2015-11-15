@@ -600,11 +600,8 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 
     marker.position.z = 0;
 
-    this.viewport.coords.html('X ' + marker.position.x.toFixed(2) + "<br>" +
-                             ' Y ' + marker.position.y.toFixed(2)).css({
-        left: event.layerX + 20,
-        top: event.layerY + 20,
-    });
+    this.viewport.coords.find('.x > .value').text(marker.position.x.toFixed(2));
+    this.viewport.coords.find('.y > .value').text(marker.position.y.toFixed(2));
 
     var intersectables = [];
     items.forEach(function(item) {

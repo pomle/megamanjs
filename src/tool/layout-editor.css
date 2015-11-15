@@ -11,7 +11,6 @@
 
 .workspace .viewport * {
     -webkit-user-select: none;
-    user-select: none;
 }
 
 .workspace .viewport > canvas {
@@ -20,12 +19,15 @@
 }
 
 .workspace .viewport .coords {
-    background-color: rgba(0,0,0,.5);
+    /*background-color: rgba(0,0,0,.5);*/
     color: #fff;
     font-family: monospace;
     pointer-events: none;
     position: absolute;
-    user-select: none;
+    left: 0;
+    top: 0;
+    right: 0;
+    text-align: center;
 }
 
 .level-editor .console textarea[name=console] {

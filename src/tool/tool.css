@@ -1,5 +1,4 @@
 * {
-    color: #666666;
     border-color: #303030;
     border-style: solid;
     border-width: 0;
@@ -7,6 +6,7 @@
 
 body {
     background: #101010;
+    color: #666666;
     font-family: sans-serif;
     font-size: 12px;
     margin: 0;
