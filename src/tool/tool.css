@@ -15,6 +15,7 @@ body {
 input, textarea {
     background: transparent;
     border-width: 1px;
+    color: #fff;
 }
 
 button {

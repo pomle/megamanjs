@@ -83,20 +83,16 @@
     right: 0;
 }
 
-.workspace .panel.item .position label {
-    font-family: monospace;
-}
-
-.workspace .panel.item .position input {
+.workspace .panel.item .properties input[type=text] {
     color: #fff;
     font-family: monospace;
     padding: .1em .2em;
     text-align: right;
-    width: 3em;
+    width: 5em;
 }
 
-.workspace .panel.item .position input[disabled] {
-    opacity: .2;
+.workspace .panel.item .properties input[disabled] {
+    opacity: .5;
 }
 
 .workspace .palette {

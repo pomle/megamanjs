@@ -71,7 +71,7 @@ Editor.UI.prototype.createItem = function(node)
     let editor = this.editor,
         element = $(node);
 
-    element.inputs = element.find('.position input[type=text]');
+    element.inputs = element.find('.properties input[type=text]');
     element.inputs.on('keyup change', function(e) {
         if (!editor.items.selected[0]) {
             return;
@@ -121,7 +121,7 @@ Editor.UI.prototype.createItem = function(node)
             }
         });
     }
-    element.snap = element.find('.position input[name=snap]').on('change', function() {
+    element.snap = element.find('.properties input[name=snap]').on('change', function() {
         editor.grid.snap = this.checked;
     }).trigger('change');
 
