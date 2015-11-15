@@ -39,14 +39,14 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
 
     switch (k) {
         case 'w':
-            v /= 2;
+            v = Math.abs(v / 2);
             x = this.x;
             vec[0].x = x - v;
             vec[1].x = x + v;
             break;
 
         case 'h':
-            v /= 2;
+            v = Math.abs(v / 2);
             y = this.y;
             vec[0].y = y - v;
             vec[1].y = y + v;
