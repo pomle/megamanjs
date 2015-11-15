@@ -73,6 +73,7 @@ Editor.ComponentFactory.prototype.createObject = function(objectNode, objectRef)
     if (objectRef === undefined) {
         let parser = new Game.Loader.XML.Parser.ObjectParser();
         objectRef = parser.getObject(objectNode);
+        objectRef.prototype.textures[0] = editor.parser.textures[0].texture;
     }
 
     let objectInstance = new objectRef();
