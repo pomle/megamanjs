@@ -86,7 +86,7 @@ Editor.Modes = function(editor)
                         editor.items.deselect(item);
                         editor.items.visible.delete(item);
                         break;
-                    case 67: // C (clone)
+                    case 68: // D (duplicate)
                         let clone = item.clone();
                         clone.moveTo(item);
                         editor.items.add(clone);
