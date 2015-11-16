@@ -186,7 +186,6 @@ Editor.prototype.open = function(level, parser)
     }
 
     for (let _item of parser.items) {
-        console.log(_item);
         let item = new Editor.Item.Object(_item.object, _item.node, objectNodeMap[_item.object.name]);
         editor.items.add(item);
     }
