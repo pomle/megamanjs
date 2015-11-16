@@ -512,7 +512,7 @@ Editor.UI.prototype.createViewport = function(node)
                 }
             }
             else {
-                var item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
+                var item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
                 if (item === false) {
                     if (!e.ctrlKey) {
                         editor.activeMode = editor.modes.view;

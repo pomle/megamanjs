@@ -8,6 +8,8 @@ Editor.ItemSet = function(editor)
     this.layers = {};
 
     this.selected = [];
+
+    this.interactable = new Set();
     this.visible = new Set();
 
     for (let prop of ['entries']) {
@@ -57,8 +59,13 @@ Editor.ItemSet.prototype.add = function()
             this.layers[t].add(item);
         }
 
+        if (item.TYPE === "object") {
+            this.scene.add(item.model);
+        } else {
+            this.editor.overlays.add(item.model);
+        }
+
         this.items.add(item);
-        this.show(item);
     }
 }
 
@@ -135,7 +142,7 @@ Editor.ItemSet.prototype.lock = function()
             this.lock.apply(this, item.children);
         }
 
-        this.visible.delete(item);
+        this.interactable.delete(item);
     }
 }
 
@@ -148,7 +155,7 @@ Editor.ItemSet.prototype.unlock = function()
             this.unlock.apply(this, item.children);
         }
 
-        this.visible.add(item);
+        this.interactable.add(item);
     }
 }
 
@@ -169,18 +176,14 @@ Editor.ItemSet.prototype.hide = function()
             this.deselect();
         }
 
-        if (item.TYPE === "object") {
-            this.scene.remove(item.model);
-        } else {
-            this.editor.overlays.remove(item.model);
-        }
+        item.model.visible = false;
 
         let toggler = this.editor.ui.view.layers[item.TYPE];
         if (toggler) {
             toggler.checked = false;
         }
 
-        this.visible.delete(item);
+        this.lock(item);
     }
 }
 
@@ -193,12 +196,8 @@ Editor.ItemSet.prototype.show = function()
             this.show.apply(this, item.children);
         }
 
-        if (item.TYPE === "object") {
-            this.scene.add(item.model);
-        } else {
-            this.editor.overlays.add(item.model);
-        }
+        item.model.visible = true;
 
-        this.visible.add(item);
+        this.unlock(item);
     }
 }

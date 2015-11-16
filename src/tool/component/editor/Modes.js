@@ -14,8 +14,6 @@ Editor.Modes = function(editor)
 
         e.preventDefault();
 
-        let i = editor.items.selected[0];
-
         if (e.which === 80 && e.ctrlKey) { // P (play)
             if (!editor.game.player.character) {
                 console.error("No character set");
