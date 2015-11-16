@@ -29,6 +29,15 @@ Editor.UI = function(editor, workspace)
             return;
         }
         else {
+            if (d && k === 107) { // -
+                editor.camera.zoomOut();
+                return;
+            }
+            if (d && k === 109) { // +
+                editor.camera.zoomIn();
+                return;
+            }
+
             editor.activeMode(e);
         }
     });

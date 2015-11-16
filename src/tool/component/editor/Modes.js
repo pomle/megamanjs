@@ -26,18 +26,6 @@ Editor.Modes = function(editor)
             return;
         }
 
-        switch (e.which) {
-            case 107:
-                editor.camera.zoomOut();
-                return;
-            case 109:
-                editor.camera.zoomIn();
-                return;
-            case 72: // H
-                editor.items.hide(i);
-                editor.items.deselect();
-                return;
-        }
 
         if (editor.items.selected.length) {
             let g = editor.grid.scale.clone();
@@ -140,13 +128,6 @@ Editor.Modes = function(editor)
             a = 64;
 
         switch (e.which) {
-            case 107:
-                editor.camera.zoomOut();
-                break;
-            case 109:
-                editor.camera.zoomIn();
-                break;
-
             case 38:
                 p.y += a;
                 break;
