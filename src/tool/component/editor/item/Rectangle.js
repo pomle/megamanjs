@@ -34,7 +34,7 @@ Editor.Item.Rectangle.prototype.setComponent = function(name, value)
 {
     let d, x, y,
         k = name,
-        v = value.toFixed(8),
+        v = value,
         vec = this.vectors;
 
     switch (k) {
