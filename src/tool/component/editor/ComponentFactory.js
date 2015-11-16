@@ -7,8 +7,7 @@ Editor.ComponentFactory = function(editor)
 
 Editor.ComponentFactory.prototype.createCameraPath = function(pathNode, cameraPath)
 {
-    let editor = this.editor,
-        itemFactory = editor.itemFactory;
+    let editor = this.editor;
 
     if (cameraPath === undefined) {
         let parser = new Game.Loader.XML.Parser();
@@ -66,7 +65,6 @@ Editor.ComponentFactory.prototype.createCheckpoint = function(checkPointNode, ch
 Editor.ComponentFactory.prototype.createObject = function(objectNode, objectRef)
 {
     let editor = this.editor,
-        itemFactory = editor.itemFactory,
         nodeFactory = editor.nodeFactory,
         nodeManager = editor.nodeManager;
 

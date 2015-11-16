@@ -1,9 +1,8 @@
 Game.Loader.XML.Parser.LevelParser = function(loader)
 {
     Game.Loader.XML.Parser.call(this, loader);
-    var world = new Engine.World();
-    this.world = world;
-    this.level = new Game.scenes.Level(loader.game, this.world);
+    this.world = undefined;
+    this.level = undefined;
 
     this.behaviors = new Set();
     this.items = new Set();
@@ -68,8 +67,13 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
 {
     var levelNode = $(levelNode),
         parser = this,
-        loader = parser.loader,
-        level = this.level;
+        loader = parser.loader;
+
+    var world = new Engine.World(),
+        level = new Game.scenes.Level(loader.game, world);
+
+    this.world = world;
+    this.level = level;
 
     if (!levelNode.is('scene[type=level]')) {
         throw new TypeError('Node not <scene type="level">');
