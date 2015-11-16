@@ -68,9 +68,13 @@ Editor.Modes = function(editor)
                             item.x -= g.x;
                         }
                         break;
+                    case 72: // H (hide)
+                        editor.items.deselect(item);
+                        editor.items.hide(item);
+                        return;
                     case 76: // L (lock)
                         editor.items.deselect(item);
-                        editor.items.visible.delete(item);
+                        editor.items.lock(item);
                         break;
                     case 68: // D (duplicate)
                         let clone = item.clone();
@@ -79,7 +83,7 @@ Editor.Modes = function(editor)
                         break;
                     case 46: // DEL
                         editor.items.remove(item);
-                        editor.items.deselect();
+                        editor.items.deselect(item);
                         break;
                 }
             }
