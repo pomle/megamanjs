@@ -128,16 +128,8 @@ Editor.ItemSet.prototype.remove = function()
 
 Editor.ItemSet.prototype.hide = function()
 {
-    if (arguments.length > 1) {
-        this.show(arguments);
-    }
-    else if (Array.isArray(arguments[0])) {
-        for (let i = 0, l = arguments[0].length; i < l; ++i) {
-            this.hide(arguments[0][i]);
-        }
-    }
-    else {
-        let item = arguments[0];
+    for (let i = 0, l = arguments.length; i !== l; ++i) {
+        let item = arguments[i];
 
         if (item.children.length !== 0) {
             this.hide.apply(this, item.children);
@@ -168,16 +160,8 @@ Editor.ItemSet.prototype.hide = function()
 
 Editor.ItemSet.prototype.show = function()
 {
-    if (arguments.length > 1) {
-        this.show(arguments);
-    }
-    else if (Array.isArray(arguments[0])) {
-        for (let i = 0, l = arguments[0].length; i < l; ++i) {
-            this.show(arguments[0][i]);
-        }
-    }
-    else {
-        let item = arguments[0];
+    for (let i = 0, l = arguments.length; i !== l; ++i) {
+        let item = arguments[i];
 
         if (item.children.length !== 0) {
             this.show.apply(this, item.children);
