@@ -5,15 +5,14 @@ Editor.NodeManager = function(document)
     this.document = document;
 }
 
-
 Editor.NodeManager.prototype.addBehavior = function(rectNode, type)
 {
     let document = this.document,
         layoutNode = this.getLayout();
 
-    let behaviorNode = layoutNode.find('> behavior');
+    let behaviorNode = layoutNode.find('> behaviors');
     if (behaviorNode.length === 0) {
-        behaviorNode = $('<behavior>', document);
+        behaviorNode = $('<behaviors>', document);
         layoutNode.append(behaviorNode);
     }
 
