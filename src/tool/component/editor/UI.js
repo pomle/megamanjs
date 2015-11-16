@@ -155,12 +155,18 @@ Editor.UI.prototype.createItem = function(node)
                 editor.ui.view.layers.checkpoint.on();
                 break;
 
+            case 'deathzone':
+            case 'climbable':
             case 'solid':
-                let solidNode = nodeFactory.createRect();
-                nodeManager.addSolid(solidNode);
+                let node = nodeFactory.createRect(),
+                    parser = new Game.Loader.XML.Parser.LevelParser,
+                    typeName = type + 's',
+                    object = parser.createBehavior(node, typeName);
 
-                item = editor.componentFactory.createRect(solidNode);
-                item.moveTo(editor.marker.position);
+                nodeManager.addBehavior(node, typeName);
+                item = new Editor.Item.Behavior(object, node);
+
+                editor.items.add(item);
                 editor.ui.view.layers.behavior.on();
                 break;
 
