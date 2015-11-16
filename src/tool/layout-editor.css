@@ -44,11 +44,13 @@
 
 .workspace .panel label {
     display: block;
-    margin: 2px 0;
+    margin: 4px 0;
 }
 
-.workspace .panel label input[type=checkbox] {
+.workspace .panel input[type=checkbox] {
+    margin: 0;
     position: relative;
+    top: 2px;
 }
 
 .workspace .panel {

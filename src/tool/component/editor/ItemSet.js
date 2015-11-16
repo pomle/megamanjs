@@ -126,6 +126,32 @@ Editor.ItemSet.prototype.remove = function()
     }
 }
 
+Editor.ItemSet.prototype.lock = function()
+{
+    for (let i = 0, l = arguments.length; i !== l; ++i) {
+        let item = arguments[i];
+
+        if (item.children.length !== 0) {
+            this.lock.apply(this, item.children);
+        }
+
+        this.visible.delete(item);
+    }
+}
+
+Editor.ItemSet.prototype.unlock = function()
+{
+    for (let i = 0, l = arguments.length; i !== l; ++i) {
+        let item = arguments[i];
+
+        if (item.children.length !== 0) {
+            this.unlock.apply(this, item.children);
+        }
+
+        this.visible.add(item);
+    }
+}
+
 Editor.ItemSet.prototype.hide = function()
 {
     for (let i = 0, l = arguments.length; i !== l; ++i) {

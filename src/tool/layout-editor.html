@@ -56,11 +56,26 @@
 
                 <fieldset class="layers">
                     <legend>Layers</legend>
-                    <label class="behavior"><input type="checkbox" name="behavior" layer="behavior"> Behaviors</label>
-                    <label class="camera"><input type="checkbox" name="cameraPath" layer="cameraPath"> Camera Paths</label>
-                    <label class="checkpoint"><input type="checkbox" name="checkpoint" layer="checkpoint"> Checkpoints</label>
-                    <!--<label class="collision"><input type="checkbox" name="collisionGeometry" layer="collisionGeometry"> Collision Zones</label>-->
-                    <label class="object"><input type="checkbox" name="object" layer="object" checked> Visuals</label>
+                    <label class="behavior">
+                        <input type="checkbox" name="behavior" what="show">
+                        <input type="checkbox" name="behavior" what="lock">
+                        Behaviors
+                    </label>
+                    <label class="camera">
+                        <input type="checkbox" name="cameraPath" what="show">
+                        <input type="checkbox" name="cameraPath" what="lock">
+                        Camera Paths
+                    </label>
+                    <label class="checkpoint">
+                        <input type="checkbox" name="checkpoint" what="show">
+                        <input type="checkbox" name="checkpoint" what="lock">
+                        Checkpoints
+                    </label>
+                    <label class="object">
+                        <input type="checkbox" name="object" what="show" checked>
+                        <input type="checkbox" name="object" what="lock">
+                        Visuals
+                    </label>
                 </fieldset>
 
                 <fieldset class="camera">

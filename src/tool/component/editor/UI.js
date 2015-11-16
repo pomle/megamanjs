@@ -299,8 +299,16 @@ Editor.UI.prototype.createView = function(node)
 
     view.layers = view.find('.layers :input[type=checkbox]');
     view.layers.on('change', function(e) {
-        let layers = $(this).attr('layer').split('|'),
+        let layers = [this.name],
+            what = $(this).attr('what'),
+            func;
+
+        if (what === 'lock') {
+            func = this.checked ? editor.items.lock : editor.items.unlock;
+        }
+        else if (what === 'show') {
             func = this.checked ? editor.items.show : editor.items.hide;
+        }
 
         for (let layer of layers) {
             if (!editor.items.layers[layer]) {
@@ -308,11 +316,13 @@ Editor.UI.prototype.createView = function(node)
                 continue;
             }
             let items = [...editor.items.layers[layer]];
-            func.call(editor.items, items);
+            func.apply(editor.items, items);
         }
     });
     view.layers.each(function() {
-        let node = this;
+        let node = this,
+            what = $(this).attr('what');
+
         node.toggle = function() {
             this.checked = !this.checked;
             $(this).trigger('change');
@@ -329,7 +339,9 @@ Editor.UI.prototype.createView = function(node)
                 $(this).trigger('change');
             }
         }
-        view.layers[this.name] = node;
+        if (what === 'show') {
+            view.layers[this.name] = node;
+        }
     })
 
     view.zoom = view.find('button[name=zoom]').on('click', function(e) {
