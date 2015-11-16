@@ -144,7 +144,6 @@ Editor.UI.prototype.createItem = function(node)
                 nodeManager.addCameraPath(pathNode);
 
                 item = editor.componentFactory.createCameraPath(pathNode);
-                item.moveTo(editor.marker.position);
                 editor.ui.view.layers.cameraPath.on();
                 break;
 
@@ -153,7 +152,6 @@ Editor.UI.prototype.createItem = function(node)
                 nodeManager.addCheckpoint(checkpointNode);
 
                 item = editor.componentFactory.createCheckpoint(checkpointNode);
-                item.moveTo(editor.marker.position);
                 editor.ui.view.layers.checkpoint.on();
                 break;
 
@@ -192,11 +190,11 @@ Editor.UI.prototype.createItem = function(node)
 
                 item = editor.componentFactory.createObject(objectNode);
 
-                item.moveTo(editor.marker.position);
                 editor.ui.view.layers.object.on();
                 break;
         }
 
+        item.moveTo(editor.marker.position);
         editor.items.deselect();
         editor.items.select(item);
         editor.activeMode = editor.modes.edit;
