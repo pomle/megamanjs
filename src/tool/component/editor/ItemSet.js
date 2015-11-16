@@ -69,36 +69,6 @@ Editor.ItemSet.prototype.add = function()
     }
 }
 
-Editor.ItemSet.prototype.deselect = function()
-{
-    if (this.selected.length) {
-        for (let i = 0, l = this.selected.length; i !== l; ++i) {
-            let item = this.selected[i];
-            if (item.overlay) {
-                this.editor.overlays.remove(item.overlay);
-                item.overlay = undefined;
-            }
-        }
-    }
-
-    this.selected = [];
-
-    this.editor.ui.item.inputs.clear();
-}
-
-Editor.ItemSet.prototype.select = function(item)
-{
-    this.selected.unshift(item);
-
-    item.overlay = new THREE.WireframeHelper(item.model, 0x00ff00);
-    this.editor.overlays.add(item.overlay);
-    this.editor.ui.item.inputs.update(item);
-
-    if (item.node.length) {
-        this.editor.ui.console.textarea.val(item.node[0].outerHTML);
-    }
-}
-
 Editor.ItemSet.prototype.remove = function()
 {
     for (let i = 0, l = arguments.length; i !== l; ++i) {
@@ -130,6 +100,36 @@ Editor.ItemSet.prototype.remove = function()
         item.node.remove();
 
         this.items.delete(item);
+    }
+}
+
+Editor.ItemSet.prototype.deselect = function()
+{
+    if (this.selected.length) {
+        for (let i = 0, l = this.selected.length; i !== l; ++i) {
+            let item = this.selected[i];
+            if (item.overlay) {
+                this.editor.overlays.remove(item.overlay);
+                item.overlay = undefined;
+            }
+        }
+    }
+
+    this.selected = [];
+
+    this.editor.ui.item.inputs.clear();
+}
+
+Editor.ItemSet.prototype.select = function(item)
+{
+    this.selected.unshift(item);
+
+    item.overlay = new THREE.WireframeHelper(item.model, 0x00ff00);
+    this.editor.overlays.add(item.overlay);
+    this.editor.ui.item.inputs.update(item);
+
+    if (item.node.length) {
+        this.editor.ui.console.textarea.val(item.node[0].outerHTML);
     }
 }
 
