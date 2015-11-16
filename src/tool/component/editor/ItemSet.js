@@ -177,13 +177,13 @@ Editor.ItemSet.prototype.hide = function()
         }
 
         item.model.visible = false;
+        this.visible.delete(item);
 
         let toggler = this.editor.ui.view.layers[item.TYPE];
         if (toggler) {
             toggler.checked = false;
         }
 
-        this.lock(item);
     }
 }
 
@@ -197,7 +197,6 @@ Editor.ItemSet.prototype.show = function()
         }
 
         item.model.visible = true;
-
-        this.unlock(item);
+        this.visible.add(item);
     }
 }

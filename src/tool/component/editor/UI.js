@@ -313,7 +313,7 @@ Editor.UI.prototype.createView = function(node)
             func;
 
         if (what === 'lock') {
-            func = this.checked ? editor.items.lock : editor.items.unlock;
+            func = this.checked ? editor.items.unlock : editor.items.lock;
         }
         else if (what === 'show') {
             func = this.checked ? editor.items.show : editor.items.hide;
@@ -512,7 +512,17 @@ Editor.UI.prototype.createViewport = function(node)
                 }
             }
             else {
-                var item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
+                let candidateItems = [],
+                    inter = editor.items.interactable,
+                    visible = editor.items.visible;
+
+                for (let item of inter) {
+                    if (visible.has(item)) {
+                        candidateItems.push(item);
+                    }
+                }
+
+                var item = ui.mouseSelectItem(e.originalEvent, this, candidateItems);
                 if (item === false) {
                     if (!e.ctrlKey) {
                         editor.activeMode = editor.modes.view;
