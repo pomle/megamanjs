@@ -6,9 +6,13 @@
     <scenes>
         <!-- <scene type="cutscene" name="Intro" src="./Intro.xml" /> -->
         <scene type="stage-select" name="StageSelect" src="./StageSelect.xml" />
+        <scene type="level" name="Airman" src="./levels/Airman.xml" />
         <scene type="level" name="Bubbleman" src="./levels/Bubbleman.xml" />
+        <scene type="level" name="Crashman" src="./levels/Crashman.xml" />
         <scene type="level" name="Flashman" src="./levels/Flashman.xml" />
         <scene type="level" name="Heatman" src="./levels/Heatman.xml" />
+        <scene type="level" name="Metalman" src="./levels/Metalman.xml" />
+        <scene type="level" name="Woodman" src="./levels/Woodman.xml" />
 
         <!-- Debug Levels -->
             <scene type="level" name="Doors" src="./levels/debug/Doors.xml" />
@@ -29,7 +33,7 @@
     <level start-caption="READY" />
 
     <entrypoint>
-        <scene name="Heatman" />
+        <scene name="StageSelect" />
     </entrypoint>
 
     <characters>
