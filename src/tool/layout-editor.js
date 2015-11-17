@@ -151,6 +151,7 @@ $(function() {
                 var item = new Editor.Item.Mesh(mesh);
                 editor.layers.guides.add(mesh);
                 editor.items.visible.add(item);
+                editor.items.interactable.add(item);
                 texture.needsUpdate = true;
             };
             i.src = e.target.result;

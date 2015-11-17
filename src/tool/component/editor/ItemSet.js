@@ -66,6 +66,8 @@ Editor.ItemSet.prototype.add = function()
         }
 
         this.items.add(item);
+        this.interactable.add(item);
+        this.visible.add(item);
     }
 }
 
