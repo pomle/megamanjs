@@ -76,7 +76,7 @@ $(function() {
                         'h': parseFloat(slice.css('height')),
                         'duration': parseFloat(slice.data('duration')) || undefined,
                     });
-                var name = slice.attr('name') || 'slice_' + counter++;
+                var name = slice.data('id') || 'slice_' + counter++;
                 if (!animations[name]) {
                     animations[name] = $('<animation>').
                         attr({
