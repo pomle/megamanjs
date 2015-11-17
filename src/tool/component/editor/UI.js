@@ -379,6 +379,35 @@ Editor.UI.prototype.createViewport = function(node)
         event: undefined,
     }
 
+
+    function clearIndex(animator, index)
+    {
+        let i = undefined;
+        for (;;) {
+            i = animator.indices.indexOf(index);
+            if (i === -1) {
+                break;
+            }
+            console.log("Clear index %d", i);
+            animator.indices.splice(i, 1);
+        }
+    }
+
+    function getCandidateItems()
+    {
+        let candidateItems = [],
+            inter = editor.items.interactable,
+            visible = editor.items.visible;
+
+        for (let item of inter) {
+            if (visible.has(item)) {
+                candidateItems.push(item);
+            }
+        }
+
+        return candidateItems;
+    }
+
     viewport
         .on('mousemove', function(e) {
             if (editor.activeMode === editor.modes.edit) {
@@ -418,19 +447,6 @@ Editor.UI.prototype.createViewport = function(node)
             mouse.event = e;
             let pos = viewport.getPositionAtEvent(e.originalEvent);
             mouse.pos.copy(pos);
-
-            function clearIndex(animator, index)
-            {
-                let i = undefined;
-                for (;;) {
-                    i = animator.indices.indexOf(index);
-                    if (i === -1) {
-                        break;
-                    }
-                    console.log("Clear index %d", i);
-                    animator.indices.splice(i, 1);
-                }
-            }
 
             if (editor.activeMode === editor.modes.paint) {
                 let item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected[0]])),
@@ -512,17 +528,7 @@ Editor.UI.prototype.createViewport = function(node)
                 }
             }
             else {
-                let candidateItems = [],
-                    inter = editor.items.interactable,
-                    visible = editor.items.visible;
-
-                for (let item of inter) {
-                    if (visible.has(item)) {
-                        candidateItems.push(item);
-                    }
-                }
-
-                var item = ui.mouseSelectItem(e.originalEvent, this, candidateItems);
+                let item = ui.mouseSelectItem(e.originalEvent, this, getCandidateItems());
                 if (item === false) {
                     if (!e.ctrlKey) {
                         editor.activeMode = editor.modes.view;
@@ -557,8 +563,8 @@ Editor.UI.prototype.createViewport = function(node)
         .on('dblclick', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.visible);
-            if (item && item.item.TYPE === "object" && item.item === editor.items.selected[0]) {
+            let item = ui.mouseSelectItem(e.originalEvent, this, getCandidateItems());
+            if (item && item.item.TYPE === "object") {
                 editor.activeMode = editor.modes.paint;
                 var mat = item.item.overlay.material;
                 mat.color = new THREE.Color(Editor.Colors.overlayPaint);

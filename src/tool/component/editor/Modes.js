@@ -87,9 +87,11 @@ Editor.Modes = function(editor)
                         break;
                 }
             }
-        }
 
-        editor.ui.item.inputs.update(i);
+            if (editor.items.selected.length !== 0) {
+                editor.ui.item.inputs.update(editor.items.selected[0]);
+            }
+        }
     }
 
     this.paint = function(e)
