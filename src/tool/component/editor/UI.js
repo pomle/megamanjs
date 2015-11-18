@@ -379,20 +379,6 @@ Editor.UI.prototype.createViewport = function(node)
         event: undefined,
     }
 
-
-    function clearIndex(animator, index)
-    {
-        let i = undefined;
-        for (;;) {
-            i = animator.indices.indexOf(index);
-            if (i === -1) {
-                break;
-            }
-            console.log("Clear index %d", i);
-            animator.indices.splice(i, 1);
-        }
-    }
-
     viewport
         .on('mousemove', function(e) {
             if (editor.activeMode === editor.modes.edit) {
@@ -438,106 +424,34 @@ Editor.UI.prototype.createViewport = function(node)
             }
 
             if (editor.activeMode === editor.modes.paint) {
-                let item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected[0]])),
-                    paletteItem = editor.ui.palette.getSelectedAnimation();
+                let item = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
+                if (item) {
+                    let faceIndex = item.intersect.faceIndex;
+                    ui.paintUv(item.item, faceIndex - faceIndex % 2);
+                }
+                return;
+            }
 
-                if (paletteItem !== undefined && item) {
-                    let intersect = item.intersect,
-                        faceIndex = intersect.faceIndex,
-                        geometry = intersect.object.geometry,
-                        object = item.item.object;
-
-                    faceIndex -= faceIndex % 2;
-
-                    let node = item.item.sourceNode,
-                        name = paletteItem.name,
-                        geometryNode = node.find('> geometry'),
-                        faceNode = undefined;
-
-                    geometryNode.find('> face').each(function() {
-                        let node = $(this),
-                            nodeName = node.attr('animation'),
-                            indexJSON = node.attr('index'),
-                            indices = indexJSON ? JSON.parse(indexJSON) : [];
-
-                        for (;;) {
-                            let existingIndex = indices.indexOf(faceIndex);
-                            if (existingIndex === -1) {
-                                break;
-                            }
-                            console.log("Spliced faceIndex %d at index %d from %s", faceIndex, existingIndex, nodeName);
-                            indices.splice(existingIndex, 1);
-                        }
-
-                        indices.sort();
-                        node.attr('index', JSON.stringify(indices));
-
-                        if (nodeName === name) {
-                            faceNode = node;
-                        }
-                    });
-
-                    if (faceNode === undefined) {
-                        faceNode = $('<face>', editor.document).attr({
-                            'animation': name,
-                        });
-                        geometryNode.append(faceNode);
-                    }
-
-                    let indexJSON = faceNode.attr('index'),
-                        indices = indexJSON ? JSON.parse(indexJSON) : [];
-
-                    if (indices.indexOf(faceIndex) === -1) {
-                        indices.push(faceIndex);
-                        indices.sort();
-                        faceNode.attr('index', JSON.stringify(indices));
-                    }
-
-                    let animators = object.animators;
-                    let animator = undefined;
-                    for (let i = 0, l = animators.length; i !== l; ++i) {
-                        clearIndex(animators[i], faceIndex);
-                        if (animators[i].name === paletteItem.name) {
-                            animator = animators[i];
-                        }
-                    }
-
-                    if (animator === undefined) {
-                        console.log("Adding faceIndex to animator", faceIndex);
-                        object.geometry.faceVertexUvs[0][faceIndex] = paletteItem.uvCoords[0];
-                        object.geometry.faceVertexUvs[0][faceIndex+1] = paletteItem.uvCoords[1];
-                        object.geometry.uvsNeedUpdate = true;
-                    }
-                    else {
-                        console.log("Adding faceIndex to animator", faceIndex);
-                        animator.indices.push(faceIndex);
-                        animator._currentIndex = undefined;
-                        animator.update();
-                    }
+            let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
+            if (item === false) {
+                if (!e.ctrlKey) {
+                    editor.activeMode = editor.modes.view;
+                    editor.items.deselect();
                 }
             }
             else {
-                let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
-                if (item === false) {
+                console.log("Clicked item", item);
+                /* So far unselected. */
+                if (editor.items.selected.indexOf(item.item) === -1) {
                     if (!e.ctrlKey) {
-                        editor.activeMode = editor.modes.view;
                         editor.items.deselect();
                     }
-                }
-                else {
-                    console.log("Clicked item", item);
-                    /* So far unselected. */
-                    if (editor.items.selected.indexOf(item.item) === -1) {
-                        if (!e.ctrlKey) {
-                            editor.items.deselect();
-                        }
-                        editor.activeMode = editor.modes.edit;
-                        editor.items.select(item.item);
+                    editor.activeMode = editor.modes.edit;
+                    editor.items.select(item.item);
 
-                        if (item.item.object instanceof Game.objects.Character) {
-                            editor.game.player.setCharacter(item.item.object);
-                            console.log("Selected character", item.item.object);
-                        }
+                    if (item.item.object instanceof Game.objects.Character) {
+                        editor.game.player.setCharacter(item.item.object);
+                        console.log("Selected character", item.item.object);
                     }
                 }
             }
@@ -652,4 +566,88 @@ Editor.UI.prototype.mouseSelectItem = function(pos, viewport, items)
         }
     }
     return false;
+}
+
+Editor.UI.prototype.paintUv = function(item, faceIndex)
+{
+    let paletteItem = editor.ui.palette.getSelectedAnimation();
+    if (paletteItem === undefined) {
+        return;
+    }
+
+    let object = item.object,
+        geometry = object.geometry,
+        node = item.sourceNode,
+        geometryNode = node.find('> geometry'),
+        faceNode = undefined;
+
+    geometryNode.find('> face').each(function() {
+        let node = $(this),
+            nodeName = node.attr('animation'),
+            indexJSON = node.attr('index'),
+            indices = indexJSON ? JSON.parse(indexJSON) : [];
+
+        for (;;) {
+            let existingIndex = indices.indexOf(faceIndex);
+            if (existingIndex === -1) {
+                break;
+            }
+            console.log("Spliced faceIndex %d at index %d from %s", faceIndex, existingIndex, nodeName);
+            indices.splice(existingIndex, 1);
+        }
+
+        indices.sort();
+        node.attr('index', JSON.stringify(indices));
+
+        if (nodeName === paletteItem.name) {
+            faceNode = node;
+        }
+    });
+
+    if (faceNode === undefined) {
+        faceNode = $('<face>', editor.document).attr({
+            'animation': name,
+        });
+        geometryNode.append(faceNode);
+    }
+
+    let indexJSON = faceNode.attr('index'),
+        indices = indexJSON ? JSON.parse(indexJSON) : [];
+
+    if (indices.indexOf(faceIndex) === -1) {
+        indices.push(faceIndex);
+        indices.sort();
+        faceNode.attr('index', JSON.stringify(indices));
+    }
+
+    let animators = object.animators,
+        selectedAnimator = undefined;
+    for (let i = 0, l = animators.length; i !== l; ++i) {
+        let animator = animators[i];
+        for (;;) {
+            let i = animator.indices.indexOf(faceIndex);
+            if (i === -1) {
+                break;
+            }
+            console.log("Clear index %d", i);
+            animator.indices.splice(i, 1);
+        }
+
+        if (animator.name === paletteItem.name) {
+            selectedAnimator = animator;
+        }
+    }
+
+    if (selectedAnimator === undefined) {
+        console.log("Adding faceIndex to animator", faceIndex);
+        object.geometry.faceVertexUvs[0][faceIndex] = paletteItem.uvCoords[0];
+        object.geometry.faceVertexUvs[0][faceIndex+1] = paletteItem.uvCoords[1];
+        object.geometry.uvsNeedUpdate = true;
+    }
+    else {
+        console.log("Adding faceIndex to animator", faceIndex);
+        selectedAnimator.indices.push(faceIndex);
+        selectedAnimator._currentIndex = undefined;
+        selectedAnimator.update();
+    }
 }
