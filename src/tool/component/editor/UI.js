@@ -429,9 +429,13 @@ Editor.UI.prototype.createViewport = function(node)
             editor.camera.centerGrid();
         })
         .on('mousedown', function(e) {
-            mouse.event = e;
             let pos = viewport.getPositionAtEvent(e.originalEvent);
+            mouse.event = e;
             mouse.pos.copy(pos);
+
+            if (e.buttons & 1) {
+                viewport.placeMarker(pos);
+            }
 
             if (editor.activeMode === editor.modes.paint) {
                 let item = ui.mouseSelectItem(e.originalEvent, this, new Set([editor.items.selected[0]])),
@@ -567,6 +571,18 @@ Editor.UI.prototype.createViewport = function(node)
             }
         });
 
+    viewport.placeMarker = function(pos)
+    {
+        let marker = editor.marker;
+        marker.position.copy(pos);
+        if (editor.grid.snap) {
+            editor.grid.snapVector(marker.position);
+        }
+        marker.position.z = 0;
+        this.coords.find('.x > .value').text(marker.position.x.toFixed(2));
+        this.coords.find('.y > .value').text(marker.position.y.toFixed(2));
+    }
+
     viewport.getVectorAtEvent = function(event)
     {
         let bounds = this[0].getBoundingClientRect();
@@ -597,15 +613,14 @@ Editor.UI.prototype.freeCamera = function()
     unfollow.trigger('click');
 }
 
-Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
+Editor.UI.prototype.mouseSelectItem = function(pos, viewport, items)
 {
     let editor = this.editor,
         vector = new THREE.Vector3(0,0,0),
         raycaster = new THREE.Raycaster(),
         world = editor.game.scene.world,
         camera = world.camera.camera,
-        bounds = viewport.getBoundingClientRect(),
-        marker = editor.marker;
+        bounds = viewport.getBoundingClientRect();
 
     vector.set((event.layerX / bounds.width) * 2 - 1,
                -(event.layerY / bounds.height) * 2 + 1,
@@ -618,16 +633,6 @@ Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 
     var distance = -(camera.position.z / vector.z);
     var pos = camera.position.clone().add(vector.multiplyScalar(distance));
-    marker.position.copy(pos);
-
-    if (editor.grid.snap) {
-        editor.grid.snapVector(marker.position);
-    }
-
-    marker.position.z = 0;
-
-    this.viewport.coords.find('.x > .value').text(marker.position.x.toFixed(2));
-    this.viewport.coords.find('.y > .value').text(marker.position.y.toFixed(2));
 
     var intersectables = [];
     items.forEach(function(item) {
