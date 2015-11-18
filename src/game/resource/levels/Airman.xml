@@ -1,9 +1,414 @@
 <scene type="level" name="Airman">
+    <checkpoints>
+        <checkpoint x="4736" y="-600" r="100" z="0"/>
+        <checkpoint x="2432" y="-424" r="100" z="0"/>
+        <checkpoint x="128" y="-120" r="100" z="0"/>
+    </checkpoints>
+    <camera>
+        <path>
+            <window x1="0" x2="2560" y1="-240" y2="1.4210854715202004e-14"/>
+            <constraint x1="128" x2="2432" y1="-120" y2="-120"/>
+        </path>
+        <path>
+            <window x1="2304" x2="2560" y1="-480" y2="-240"/>
+            <constraint x1="2432" x2="2432" y1="-360" y2="-360"/>
+        </path>
+        <path>
+            <window x1="2304" x2="4608" y1="-720" y2="-480"/>
+            <constraint x1="2432" x2="4480" y1="-600" y2="-600"/>
+        </path>
+        <path>
+            <window x1="4608" x2="4864" y1="-720" y2="-480"/>
+            <constraint x1="4736" x2="4736" y1="-600" y2="-600"/>
+        </path>
+        <path>
+            <window x1="4864" x2="5120" y1="-720" y2="-480"/>
+            <constraint x1="4992" x2="4992" y1="-600" y2="-600"/>
+        </path>
+    </camera>
     <gravity x="0" y="9.81"/>
     <objects>
         <textures>
-            <texture url="./woodman/tiles.png" w="256" h="128"/>
+            <texture url="./airman/tiles.png" w="256" h="128"/>
         </textures>
-        <animations><animation id="bamboo"><frame x="1" y="1" w="16" h="16" /></animation><animation id="sky"><frame x="1" y="19" w="16" h="16" /></animation><animation id="black"><frame x="1" y="37" w="16" h="16" /></animation><animation id="ladder"><frame x="1" y="55" w="16" h="16" /></animation><animation id="slice_0"><frame x="19" y="55" w="16" h="16" /></animation><animation id="tree7"><frame x="19" y="37" w="16" h="16" /></animation><animation id="tree4"><frame x="19" y="19" w="16" h="16" /></animation><animation id="tree1"><frame x="19" y="1" w="16" h="16" /></animation><animation id="tree2"><frame x="37" y="1" w="16" h="16" /></animation><animation id="tree5"><frame x="37" y="19" w="16" h="16" /></animation><animation id="tree8"><frame x="37" y="37" w="16" h="16" /></animation><animation id="slice_1"><frame x="37" y="55" w="16" h="16" /></animation><animation id="grass1"><frame x="55" y="55" w="16" h="16" /></animation><animation id="tree9"><frame x="55" y="37" w="16" h="16" /></animation><animation id="tree6"><frame x="55" y="19" w="16" h="16" /></animation><animation id="tree3"><frame x="55" y="1" w="16" h="16" /></animation><animation id="tree10"><frame x="73" y="1" w="16" h="16" /></animation><animation id="tree11"><frame x="73" y="19" w="16" h="16" /></animation><animation id="tree12"><frame x="73" y="37" w="16" h="16" /></animation><animation id="grass2"><frame x="73" y="55" w="16" h="16" /></animation><animation id="door"><frame x="73" y="73" w="16" h="16" /></animation><animation id="slice_2"><frame x="91" y="73" w="16" h="16" /></animation><animation id="slice_3"><frame x="91" y="91" w="16" h="16" /></animation><animation id="slice_4"><frame x="109" y="73" w="16" h="16" /></animation><animation id="slice_5"><frame x="109" y="91" w="16" h="16" /></animation><animation id="drwily"><frame x="127" y="73" w="32" h="32" /></animation><animation id="dirt-shade"><frame x="91" y="19" w="16" h="16" /></animation><animation id="dirt"><frame x="91" y="37" w="16" h="16" /></animation><animation id="slice_6"><frame x="91" y="1" w="16" h="16" /></animation><animation id="clay1"><frame x="109" y="1" w="16" h="16" /></animation><animation id="clay2"><frame x="127" y="1" w="16" h="16" /></animation><animation id="board"><frame x="145" y="1" w="16" h="16" /></animation></animations>
+        <animations>
+            <animation id="sky">
+                <frame x="1" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="sign1">
+                <frame x="1" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="drwily">
+                <frame x="1" y="57" w="32" h="32"/>
+            </animation>
+            <animation id="sign3">
+                <frame x="1" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="sign2">
+                <frame x="19" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="door">
+                <frame x="19" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="cloud">
+                <frame x="1" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="spike">
+                <frame x="37" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="head1">
+                <frame x="37" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="head2">
+                <frame x="55" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="head3">
+                <frame x="73" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="head4">
+                <frame x="91" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="head5">
+                <frame x="109" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="head10">
+                <frame x="109" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="head15">
+                <frame x="109" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="head20">
+                <frame x="109" y="73" w="16" h="16"/>
+            </animation>
+            <animation id="head25">
+                <frame x="109" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="head24">
+                <frame x="91" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="head23">
+                <frame x="73" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="head22">
+                <frame x="55" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="head21">
+                <frame x="37" y="91" w="16" h="16"/>
+            </animation>
+            <animation id="head16">
+                <frame x="37" y="73" w="16" h="16"/>
+            </animation>
+            <animation id="head11">
+                <frame x="37" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="head6">
+                <frame x="37" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="head7">
+                <frame x="55" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="head-light">
+                <frame x="73" y="37" w="16" h="16" duration=".16"/>
+                <frame x="73" y="1" w="16" h="16" duration=".16"/>
+            </animation>
+            <animation id="head9">
+                <frame x="91" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="head14">
+                <frame x="91" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="head13">
+                <frame x="73" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="head12">
+                <frame x="55" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="head17">
+                <frame x="55" y="73" w="16" h="16"/>
+            </animation>
+            <animation id="head18">
+                <frame x="73" y="73" w="16" h="16"/>
+            </animation>
+            <animation id="head19">
+                <frame x="91" y="73" w="16" h="16"/>
+            </animation>
+            <animation id="beam-face1">
+                <frame x="127" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="beam-face2">
+                <frame x="145" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="beam">
+                <frame x="163" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="cloud1">
+                <frame x="127" y="37" w="16" h="16" duration=".28"/>
+                <frame x="163" y="37" w="16" h="16" duration=".28"/>
+                <frame x="199" y="37" w="16" h="16" duration=".28"/>
+                <frame x="163" y="37" w="16" h="16" duration=".28"/>
+            </animation>
+            <animation id="cloud2">
+                <frame x="145" y="37" w="16" h="16" duration=".28"/>
+                <frame x="181" y="37" w="16" h="16" duration=".28"/>
+                <frame x="217" y="37" w="16" h="16" duration=".28"/>
+                <frame x="181" y="37" w="16" h="16" duration=".28"/>
+            </animation>
+            <animation id="cloud3">
+                <frame x="127" y="55" w="16" h="16" duration=".28"/>
+                <frame x="163" y="55" w="16" h="16" duration=".28"/>
+                <frame x="199" y="55" w="16" h="16" duration=".28"/>
+                <frame x="163" y="55" w="16" h="16" duration=".28"/>
+            </animation>
+            <animation id="cloud4">
+                <frame x="145" y="55" w="16" h="16" duration=".28"/>
+                <frame x="181" y="55" w="16" h="16" duration=".28"/>
+                <frame x="217" y="55" w="16" h="16" duration=".28"/>
+                <frame x="181" y="55" w="16" h="16" duration=".28"/>
+            </animation>
+            <animation id="cloud5">
+                <frame x="127" y="73" w="16" h="16" duration=".28"/>
+                <frame x="163" y="73" w="16" h="16" duration=".28"/>
+                <frame x="199" y="73" w="16" h="16" duration=".28"/>
+                <frame x="163" y="73" w="16" h="16" duration=".28"/>
+            </animation>
+            <animation id="cloud7">
+                <frame x="127" y="91" w="16" h="16" duration=".28"/>
+                <frame x="163" y="91" w="16" h="16" duration=".28"/>
+                <frame x="199" y="91" w="16" h="16" duration=".28"/>
+                <frame x="163" y="91" w="16" h="16" duration=".28"/>
+            </animation>
+            <animation id="cloud6">
+                <frame x="145" y="73" w="16" h="16" duration=".28"/>
+                <frame x="181" y="73" w="16" h="16" duration=".28"/>
+                <frame x="217" y="73" w="16" h="16" duration=".28"/>
+                <frame x="181" y="73" w="16" h="16" duration=".28"/>
+            </animation>
+            <animation id="cloud8">
+                <frame x="145" y="91" w="16" h="16" duration=".28"/>
+                <frame x="181" y="91" w="16" h="16" duration=".28"/>
+                <frame x="217" y="91" w="16" h="16" duration=".28"/>
+                <frame x="181" y="91" w="16" h="16" duration=".28"/>
+            </animation>
+            <animation id="sign4">
+                <frame x="19" y="91" w="16" h="16"/>
+            </animation>
+        </animations>
+        <object id="object_91f107ccc6384f9aa26e013279556888">
+            <geometry type="plane" w="2560" h="240" w-segments="160" h-segments="15">
+                <face animation="cloud" index="[0,2,4,6,8,12,10,330,328,326,324,322,320,640,642,644,3520,3840,4160,4480,4482,4484,4486,4488,4490,4492,4494,4496,4498,4500,4502,4504,4506,4508,4182,4180,4170,4168,4166,4164,4162,3522,3842,3844,3846,3848,24,26,28,30,32,34,36,38,42,40,360,358,356,354,352,346,348,350,668,670,672,674,4560,4562,4564,4566,4572,4574,4254,4256,4258,4260,4262,4264,4586,4584,4582,4580,4578,4576,60,62,64,66,68,70,72,74,76,78,82,80,396,394,392,390,388,386,384,382,704,706,708,710,712,714,108,110,112,114,116,118,120,122,124,126,128,130,134,132,452,450,448,446,444,442,440,438,436,434,432,430,756,758,760,762,4302,4304,4306,4308,4310,4312,4634,4632,4630,4628,4626,4624,4622,4620,4650,4652,4654,4012,3692,3694,4014,4332,4334,4336,4656,4658,4660,4662,4664,4666,4668,4670,4672,4674,4676,4678,4680,4682,4684,4686,4366,4364,4044,4042,4360,4358,4356,4354,4352,4028,4026,4024,4022,4020,4016,4018,3696,3700,3698,3378,3380,3382,3064,3066,2746,2748,3068,3070,3072,3074,3394,3392,3390,3388,3386,3384,3702,3704,3706,3708,3710,3712,3714,3716,3718,3722,3720,4040,4038,4036,4034,4032,4030,4350,4348,4346,4344,4342,4340,4338,4362,210,212,214,216,218,220,222,224,226,228,230,232,544,542,540,538,536,546,864,862,860,858,4700,4702,4708,4710,4712,4714,4716,4718,4720,4722,4724,4726,4728,4730,4732,4734,4736,4738,4740,4742,4744,4746,4748,4750,4752,4754,4756,4758,4760,4762,4436,4434,4432,4430,4428,4426,4424,4422,4420,4418,4416,4414,4412,4410,4408,4406,4404,4402,4400,4398,4080,4082,4084,4086,4088,4090,4092,4094,4096,4098,4100,4102,4104,4106,4108,4110,4114,4112,3788,3786,3784,3782,3780,3778,3776,3774,3772,3770,3768,3766,3446,3126,3128,2808,2810,2490,2492,2494,2496,2816,3134,2812,3132,3130,3448,3450,3452,3454,3456,3462,3460,3458,3136,3138,3140,2818,2814,270,272,274,276,278,280,282,284,286,304,302,300,298,296,290,288,604,602,600,598,596,592,594,914,916,918,920,922,924,926,928,930,932,934,936,938,940,622,620,618,616,614,294,292,612,610,608,606,1240,1242,1244,1246,1248,1250,1252,1254,1568,1566,4778,4780,4782,4784,4786,4788,4790,4792,4794,4476,4796,4798,4478,4158,3838,3518,3198,2878,2238,2558,2556,2876,3196,3516,3836,4156,4474,4472,4470,4468,4466,4460,4462,4464,4144,4146,4148,4150,4152,4154,3834,3832,3828,3830,3510,3512,3514,3194,2874,2554,2552,2872,3192,3190,2870,3396]"/>
+                <face animation="cloud5" index="[2550,2868,2236,1918,3508,3826,4458,4776,4766,4698,4706,4396,4078,3764,2806,2488,2174,3124,3690,3058,2744,3062,3376,4330,4648,3982,3986,3990,4300,4618,3526,4178,4534,4538,4558,4570,4252,3934,3938,3942]"/>
+                <face animation="cloud1" index="[4140,2232,3466,3792,4440,2170,3760,4392,4388,4380,3372,3400,2752,2426,3200,3860,4174,4186,4240,4244]"/>
+                <face animation="cloud2" index="[4142,2234,4442,3794,3468,2172,3762,4394,4390,4382,2428,2754,3402,3374,3202,4176,4188,3862,4246,4242]"/>
+                <face animation="cloud7" index="[3188,268,590,912,1238,1564,1886,1258,3444,208,534,856,530,1182,550,4010,962,22,344,666,58,380,702,106,428,754,750,766,770]"/>
+                <face animation="cloud8" index="[306,624,942,1256,1570,1260,1888,234,552,548,866,1184,532,4688,960,646,332,14,964,676,362,44,716,398,84,136,454,772,764,752,768]"/>
+                <face animation="cloud3" index="[1234,1560,1572,1178,648,678,988,992,1024,1028,1032,400,1076,1080]"/>
+                <face animation="cloud4" index="[1574,1562,1236,1180,650,680,994,990,402,1034,1030,1026,1082,1078]"/>
+                <face animation="cloud6" index="[4768,4764,4438,4116,3790,3464,3142,2820,2498,2176,4704,3076,3398,3724,4046,4368,2750,3060,3984,3988,3992,4314,4636,4588,4266,3944,4568,4540,4536,4510,4184,4172,3850,3524,3528,3940,3936]"/>
+            </geometry>
+        </object>
+        <object id="object_dfbb90ffe0884a4f901ce1372f951c5e">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="cloud6" index="[324,358,392,426,2]"/>
+                <face animation="cloud1" index="[288,318]"/>
+                <face animation="cloud2" index="[290]"/>
+                <face animation="cloud" index="[456,424,422,390,388,356,354,322,320,352,384,416,448,450,454,452,420,418,386,474,442,410,412,380,350,382,414,446,478,476,444,126,124,122,120,88,90,92,94,62,30,28,26,24,22,20,18,16,14,10,12,44,46,48,50,52,54,56,58,60,86,84,82,32,0]"/>
+                <face animation="cloud7" index="[8,42,80,118,114,440]"/>
+                <face animation="cloud8" index="[458,34,64,116]"/>
+                <face animation="cloud5" index="[472,408,378,348]"/>
+                <face animation="cloud4" index="[158,154,78]"/>
+                <face animation="cloud3" index="[76,152,156]"/>
+            </geometry>
+        </object>
+        <object id="object_85643d115cdf4f15822127741123be51">
+            <geometry type="plane" w="2816" h="240" w-segments="176" h-segments="15">
+                <face animation="cloud8" index="[1396,1226,884,534,184,1210,1560,1556,112,92,442,792,704,354,8,38,388]"/>
+                <face animation="cloud" index="[0,2,4,6,352,2816,2818,2820,2466,2468,2116,2118,2470,2822,3174,3526,3878,4230,4582,4934,4932,4930,4928,4576,4224,3872,3520,3168,3170,3172,3524,3522,3874,4226,4578,4580,4228,3876,2472,2824,3176,3528,3880,4232,4584,4936,4938,4940,4942,4944,4946,4948,4950,4952,4954,4956,4958,4960,4962,4964,4966,4968,4970,4972,4974,4616,4614,4612,4610,4608,4606,4604,4602,4600,4598,4596,4594,4592,4590,4588,4586,4234,3882,3530,3178,2826,2828,2830,2478,2480,2832,3538,3890,4238,4236,3884,3532,3180,3182,3184,3536,3534,3886,3888,4240,4242,4244,4246,4248,4250,4252,4254,4256,4258,3904,3902,3900,3898,3896,3894,3892,3540,3186,2834,2836,3188,3542,3544,3546,3548,3550,3194,3192,3190,2838,2486,2488,2840,2842,3196,26,28,30,32,34,36,386,384,382,380,72,74,76,78,80,82,84,86,88,90,438,436,434,432,430,428,426,780,782,784,786,788,790,5016,5018,5020,5022,5024,5026,5028,5030,5032,5034,5036,5038,5040,5042,4684,4682,4680,4678,4676,4674,4672,4670,4668,4666,4316,4318,4320,4322,100,102,104,106,108,110,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,168,170,172,174,176,178,180,182,532,530,528,526,524,522,520,518,516,514,512,510,508,506,504,502,500,498,496,494,492,490,488,486,844,846,848,850,852,854,856,858,860,862,864,866,868,870,872,874,876,878,880,882,1224,1222,1208,1206,1204,1202,1200,1198,5078,5080,5082,5084,5086,5088,5090,5092,5094,5096,4742,4740,4738,4736,4734,4732,5102,5104,5106,5108,5110,5112,5114,5116,5118,5120,4766,4764,4762,4760,4758,4756,4754,4752,4406,4408,326,328,330,332,334,336,338,340,342,344,346,348,350,702,1054,1406,1758,1756,1754,700,1052,1404,1402,1050,698,696,694,692,690,688,686,684,682,680,1034,1036,1038,1040,1042,1044,1046,1048,1400,1392,1394,440]"/>
+                <face animation="cloud7" index="[324,678,1032,1390,1398,1752,2110,1558,1554,1220,1196,842,484,130,70,424,778,98,24,378]"/>
+                <face animation="cloud3" index="[2106,1744,1386,838,1550,1212,1216,1574,1228,1232,1132,1136,1140,452,456,460,356,732,736]"/>
+                <face animation="cloud4" index="[1746,1388,2108,1234,1230,1576,1218,1214,1552,840,1142,1138,1134,462,458,454,358,734,738]"/>
+                <face animation="cloud5" index="[5076,4726,4730,5100,4750,4404,4054,5014,4664,4314,4326,4330,5046,2464,2114,2476,2484]"/>
+                <face animation="cloud6" index="[5122,4768,4410,4056,5098,4744,4728,5044,5048,4686,4332,4328,4324,4622,4976,4618,4260,3906,3552,3198,2844,2490,2482,2474,2120]"/>
+                <face animation="cloud1" index="[4380,4384,4388,4400,4412,4688,3968,3964,1764,2126,2134,4262,4620,4978]"/>
+                <face animation="cloud2" index="[4414,4402,4390,4386,4382,3970,3966,4690,1766,2128,2136,4264,4980]"/>
+            </geometry>
+        </object>
+        <object id="object_9d579db8715249a98f52f86a5d4e5a5b">
+            <geometry type="plane" w="256" h="240" w-segments="1" h-segments="1">
+                <face animation="sky" index="[0]"/>
+            </geometry>
+        </object>
+        <object id="object_131b954129c24d89ab236169610f99dd">
+            <geometry type="plane" w="2560" h="240" w-segments="160" h-segments="15">
+                <face animation="beam" index="[2560,2562,2568,2570,2572,2574,2580,2582,2584,2586,1970,1972,1992,1694,2034,2054,2056,2058,2788,2790,2792,2794,2800,2802,2804,2806,2808,2810,2812,2814,2816,2818,2820,2822,2828,2830,2832,2834,2840,2842,2844,2846,2852,2854,2856,2858,2864,2866,2868,2870,2872,2874]"/>
+                <face animation="beam-face1" index="[2860,2848,2836,2824,2784,2796,2588,2576,2564]"/>
+                <face animation="beam-face2" index="[2566,2578,2590,2786,2798,2826,2838,2850,2862]"/>
+            </geometry>
+        </object>
+        <object id="object_478aa6e8ea2d472b98363097bf5f4f40">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="beam" index="[198,204,210,216,218,220,222,414,412,410,408,406,404,402,400,398,396,394,392,390,388,332,364,342,374]"/>
+            </geometry>
+        </object>
+        <object id="object_3e725c407912472d8af0b354882be0c2">
+            <geometry type="plane" w="2816" h="240" w-segments="176" h-segments="15">
+                <face animation="beam" index="[2846,2844,2842,2840,2838,2836,2834,2832,2830,2828,2826,2824,2822,2820,2818,2816,2884,2890,2896,2902,2904,2910,2912,2914,2920,2922,2220,2226,1524,1530,2940,2942,2948,2950,2956,2962,2968,2974,2980,2986,2992,2998,3000,2298,2304,1602,1608,1610,3032,3034,2338,2344,1644,1650,1656,1662,3072,3074,3076,3078,3080,3082,3084,3086,3088,3090,3092,3094,3096,3098,3100,3102,992,1344,1346,1348,1350,1352,1354,1356,1358,1008,1010,1012,1014,1368,1370,1372,1374,1376,672,320,1024,1022,1020,1018,1016,1366,1364,1362,1360,1006,1004,1002,1000,998,996,994,3104,3106,3108,3110,3112,3114,3116,3118,3120,3122,3124,3126,3128,3130,3132,3134,3136,3488,3486,3484,3482,3480,3478,3476,3474,3472,3470,3468,3466,3464,3462,3460,3458,3456,3840,4192,4544,4896,5248,5250,5252,5254,5256,5258,5260,5262,5264,5266,5268,5270,5272,5274,5276,5278,4926,4574,4222,3870,3518,3166,350,702,1054,1406,1758,2110,2462,2814,4572,4570,4568,4566,4564,4562,4560,4910,4908,4906,4904,4902,4900,4898,4546,4548,4550,4552,4554,4556,4558,4912,4914,4916,4918,4920,4922,4924]"/>
+                <face animation="sign3" index="[1338]"/>
+                <face animation="sign2" index="[284,286,638,990,988,636]"/>
+                <face animation="sign1" index="[986,634,282]"/>
+                <face animation="sign4" index="[1340,1342]"/>
+                <face animation="beam-face1" index="[2886,2898,2916,2222,1526,2944,2958,2970,2988,2300,1604,1612,3028,3036,2340,1646,1658]"/>
+                <face animation="beam-face2" index="[1660,1648,2342,3038,3030,1614,1606,2302,2990,2960,2972,2946,1528,2224,2918,2900,2888]"/>
+            </geometry>
+        </object>
+        <object id="head">
+            <geometry type="plane" w="80" h="80" w-segments="5" h-segments="5">
+                <face animation="head7" index="[12]"/>
+                <face animation="head9" index="[16]"/>
+                <face animation="head14" index="[26]"/>
+                <face animation="head12" index="[22]"/>
+                <face animation="head-light" index="[14]"/>
+                <face animation="head3" index="[4]"/>
+                <face animation="head4" index="[6]"/>
+                <face animation="head2" index="[2]"/>
+                <face animation="head1" index="[0]"/>
+                <face animation="head5" index="[8]"/>
+                <face animation="head10" index="[18]"/>
+                <face animation="head6" index="[10]"/>
+                <face animation="head11" index="[20]"/>
+                <face animation="head16" index="[30]"/>
+                <face animation="head13" index="[24]"/>
+                <face animation="head18" index="[34]"/>
+                <face animation="head17" index="[32]"/>
+                <face animation="head19" index="[36]"/>
+                <face animation="head15" index="[28]"/>
+                <face animation="head20" index="[38]"/>
+                <face animation="head25" index="[48]"/>
+                <face animation="head23" index="[44]"/>
+                <face animation="head21" index="[40]"/>
+                <face animation="head24" index="[46]"/>
+                <face animation="head22" index="[42]"/>
+            </geometry>
+        </object>
+        <object id="drwily">
+            <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
+                <face animation="drwily" index="[0]"/>
+            </geometry>
+        </object>
+        <object id="door">
+            <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
+                <face animation="door" index="[0,4,8,12,14,10,6,2]"/>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="32" h="64"/>
+            </collision>
+            <traits>
+                <trait source="Door">
+                    <direction x="-1" y="0"/>
+                </trait>
+            </traits>
+        </object>
     </objects>
+    <layout>
+        <objects>
+            <object id="object_91f107ccc6384f9aa26e013279556888" x="1280" y="-120" z="1"/>
+            <object id="object_dfbb90ffe0884a4f901ce1372f951c5e" x="2432" y="-360" z="1"/>
+            <object id="object_85643d115cdf4f15822127741123be51" x="3712" y="-600" z="1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="4992" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="4736" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="4480" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="4224" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="3968" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="3712" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="3456" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="3200" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="2944" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="2688" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="2432" y="-600" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="2432" y="-360" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="2432" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="2176" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="1920" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="1664" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="1408" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="1152" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="896" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="640" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="384" y="-120" z="-1"/>
+            <object id="object_9d579db8715249a98f52f86a5d4e5a5b" x="128" y="-120" z="-1"/>
+            <object id="object_131b954129c24d89ab236169610f99dd" x="1280" y="-120" z="0"/>
+            <object id="object_478aa6e8ea2d472b98363097bf5f4f40" x="2432" y="-360" z="0"/>
+            <object id="object_3e725c407912472d8af0b354882be0c2" x="3712" y="-600" z="0"/>
+            <object id="head" x="504" y="-168" z="0.1"/>
+            <object id="head" x="2744" y="-600" z="0.1"/>
+            <object id="head" x="2632" y="-632" z="0.1"/>
+            <object id="head" x="1000" y="-136" z="0.1"/>
+            <object id="head" x="840" y="-136" z="0.1"/>
+            <object id="head" x="664" y="-104" z="0.1"/>
+            <object id="head" x="328" y="-152" z="0"/>
+            <object id="drwily" x="4592" y="-512" z="0.1"/>
+            <object id="door" x="4608" y="-576" z="0"/>
+            <object id="door" x="4864" y="-576" z="0"/>
+        </objects>
+        <behaviors>
+            <solids>
+                <rect x="3912" y="-552" w="112" h="16"/>
+                <rect x="3344" y="-616" w="96" h="16"/>
+                <rect x="3112" y="-616" w="112" h="16"/>
+                <rect x="2984" y="-616" w="80" h="16"/>
+                <rect x="4048" y="-616" w="96" h="16"/>
+                <rect x="4320" y="-552" w="64" h="16"/>
+                <rect x="4224" y="-552" w="64" h="16"/>
+                <rect x="4144" y="-584" w="64" h="16"/>
+                <rect x="3824" y="-584" w="64" h="16"/>
+                <rect x="3696" y="-616" w="64" h="16"/>
+                <rect x="3776" y="-616" w="32" h="16"/>
+                <rect x="3624" y="-616" w="16" h="16"/>
+                <rect x="3552" y="-616" w="64" h="16"/>
+                <rect x="3456" y="-616" w="64" h="16"/>
+                <rect x="3264" y="-552" w="64" h="16"/>
+                <rect x="3200" y="-584" w="64" h="16"/>
+                <rect x="2880" y="-616" w="64" h="16"/>
+                <rect x="2528" y="-344" w="64" h="16"/>
+                <rect x="2448" y="-440" w="224" h="16"/>
+                <rect x="2456" y="-344" w="16" h="16"/>
+                <rect x="2488" y="-424" w="16" h="48"/>
+                <rect x="2408" y="-424" w="16" h="48"/>
+                <rect x="2408" y="-344" w="16" h="16"/>
+                <rect x="2360" y="-344" w="16" h="16"/>
+                <rect x="2432" y="-616" w="256" h="16"/>
+                <rect x="2416" y="-136" w="224" h="16"/>
+                <rect x="4992" y="-696" w="256" h="48"/>
+                <rect x="5112" y="-600" w="16" h="240"/>
+                <rect x="4720" y="-512" w="320" h="64"/>
+                <rect x="4736" y="-664" w="288" h="112"/>
+                <rect x="4992" y="-472" w="256" h="16"/>
+                <rect x="4480" y="-616" w="256" h="16"/>
+                <rect x="2176" y="-136" w="256" h="16"/>
+                <rect x="1096" y="-104" w="48" h="16"/>
+                <rect x="920" y="-104" w="16" h="16"/>
+                <rect x="760" y="-88" w="16" h="16"/>
+                <rect x="584" y="-104" w="16" h="16"/>
+                <rect x="416" y="-104" w="32" h="16"/>
+                <rect x="128" y="-136" w="256" h="16"/>
+                <rect x="1920" y="-136" w="256" h="16"/>
+                <rect x="2568" y="-360" w="16" h="240"/>
+                <rect x="2568" y="-120" w="16" h="240"/>
+                <rect x="2296" y="-600" w="16" h="240"/>
+                <rect x="2296" y="-360" w="16" h="240"/>
+                <rect x="-8" y="-120" w="16" h="240"/>
+            </solids>
+            <deathzones>
+                <rect x="4608" y="-768" w="512" h="32"/>
+                <rect x="4096" y="-768" w="512" h="32"/>
+                <rect x="3584" y="-768" w="512" h="32"/>
+                <rect x="3072" y="-768" w="512" h="32"/>
+                <rect x="2032" y="-288" w="512" h="32"/>
+                <rect x="-16" y="-288" w="512" h="32"/>
+                <rect x="496" y="-288" w="512" h="32"/>
+                <rect x="1008" y="-288" w="512" h="32"/>
+                <rect x="1520" y="-288" w="512" h="32"/>
+                <rect x="2560" y="-768" w="512" h="32"/>
+            </deathzones>
+        </behaviors>
+    </layout>
 </scene>
