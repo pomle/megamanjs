@@ -596,7 +596,6 @@ Editor.UI.prototype.paintUv = function(item, faceIndex)
             indices.splice(existingIndex, 1);
         }
 
-        indices.sort();
         node.attr('index', JSON.stringify(indices));
 
         if (nodeName === paletteItem.name) {
@@ -606,7 +605,7 @@ Editor.UI.prototype.paintUv = function(item, faceIndex)
 
     if (faceNode === undefined) {
         faceNode = $('<face>', editor.document).attr({
-            'animation': name,
+            'animation': paletteItem.name,
         });
         geometryNode.append(faceNode);
     }
@@ -616,7 +615,6 @@ Editor.UI.prototype.paintUv = function(item, faceIndex)
 
     if (indices.indexOf(faceIndex) === -1) {
         indices.push(faceIndex);
-        indices.sort();
         faceNode.attr('index', JSON.stringify(indices));
     }
 
