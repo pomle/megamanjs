@@ -22,15 +22,6 @@ var Editor = function()
     this.grid.material.transparent = true;
     this.grid.scale.multiplyScalar(8);
     this.grid.snap = false;
-    this.grid.snapVector = function(vec) {
-        let components = ['x','y'];
-        for (let c of components) {
-            let s = this.scale[c],
-                v = vec[c];
-            vec[c] = s * Math.round(v / s);
-        }
-        return vec;
-    }
 
     this.itemFactory = new Editor.ItemFactory();
 
@@ -46,6 +37,30 @@ var Editor = function()
     this.parser = undefined;
 
     this.ui = new Editor.UI(this);
+
+
+    let grid = this.grid,
+        ui = this.ui;
+
+    this.marker.moveTo = function(pos) {
+        this.position.copy(pos);
+        if (grid.snap) {
+            grid.snapVector(this.position);
+        }
+        this.position.z = 0;
+        ui.viewport.coords.find('.x > .value').text(this.position.x.toFixed(2));
+        ui.viewport.coords.find('.y > .value').text(this.position.y.toFixed(2));
+    }
+
+    this.grid.snapVector = function(vec) {
+        let components = ['x','y'];
+        for (let c of components) {
+            let s = this.scale[c],
+                v = vec[c];
+            vec[c] = s * Math.round(v / s);
+        }
+        return vec;
+    }
 }
 
 Editor.Colors = {
