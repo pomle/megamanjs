@@ -379,9 +379,19 @@ Editor.UI.prototype.createViewport = function(node)
         event: undefined,
     }
 
+    let lastPaintedFace = undefined;
+
     viewport
         .on('mousemove', function(e) {
-            if (editor.activeMode === editor.modes.edit) {
+
+            if (e.buttons === 4) {
+                e.preventDefault();
+                let to = new THREE.Vector2((mouse.event.clientX - e.clientX),
+                                           -(mouse.event.clientY - e.clientY));
+                to.multiplyScalar(editor.camera.position.z / 200);
+                editor.camera.nudge(to);
+            }
+            else if (e.buttons === 1 && editor.activeMode === editor.modes.edit) {
                 let selection = editor.items.selected;
 
                 if (e.buttons === 1 && selection.length !== 0) {
@@ -397,11 +407,17 @@ Editor.UI.prototype.createViewport = function(node)
                     mouse.pos.copy(pos);
                 }
             }
-            else if (e.buttons === 2 || e.buttons === 1) {
-                let to = new THREE.Vector2((mouse.event.clientX - e.clientX),
-                                           -(mouse.event.clientY - e.clientY));
-                to.multiplyScalar(editor.camera.position.z / 200);
-                editor.camera.nudge(to);
+            else if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
+                let item = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
+                if (item) {
+                    let faceIndex = item.intersect.faceIndex;
+                    faceIndex -= faceIndex % 2;
+                    if (faceIndex !== lastPaintedFace) {
+                        ui.paintUv(item.item, faceIndex);
+                        lastPaintedFace = faceIndex;
+                    }
+                }
+                return;
             }
             mouse.event = e;
         })
@@ -412,9 +428,11 @@ Editor.UI.prototype.createViewport = function(node)
                     editor.grid.snapVector(item);
                 }
             }
+            lastPaintedFace = undefined;
             editor.camera.centerGrid();
         })
         .on('mousedown', function(e) {
+            e.preventDefault();
             let pos = viewport.getPositionAtEvent(e.originalEvent);
             mouse.event = e;
             mouse.pos.copy(pos);
@@ -423,7 +441,7 @@ Editor.UI.prototype.createViewport = function(node)
                 viewport.placeMarker(pos);
             }
 
-            if (editor.activeMode === editor.modes.paint) {
+            if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
                 let item = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
                 if (item) {
                     let faceIndex = item.intersect.faceIndex;
@@ -432,26 +450,28 @@ Editor.UI.prototype.createViewport = function(node)
                 return;
             }
 
-            let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
-            if (item === false) {
-                if (!e.ctrlKey) {
-                    editor.activeMode = editor.modes.view;
-                    editor.items.deselect();
-                }
-            }
-            else {
-                console.log("Clicked item", item);
-                /* So far unselected. */
-                if (editor.items.selected.indexOf(item.item) === -1) {
+            if (e.buttons === 1) {
+                let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
+                if (item === false) {
                     if (!e.ctrlKey) {
+                        editor.activeMode = editor.modes.view;
                         editor.items.deselect();
                     }
-                    editor.activeMode = editor.modes.edit;
-                    editor.items.select(item.item);
+                }
+                else {
+                    console.log("Clicked item", item);
+                    /* So far unselected. */
+                    if (editor.items.selected.indexOf(item.item) === -1) {
+                        if (!e.ctrlKey) {
+                            editor.items.deselect();
+                        }
+                        editor.activeMode = editor.modes.edit;
+                        editor.items.select(item.item);
 
-                    if (item.item.object instanceof Game.objects.Character) {
-                        editor.game.player.setCharacter(item.item.object);
-                        console.log("Selected character", item.item.object);
+                        if (item.item.object instanceof Game.objects.Character) {
+                            editor.game.player.setCharacter(item.item.object);
+                            console.log("Selected character", item.item.object);
+                        }
                     }
                 }
             }
@@ -475,6 +495,9 @@ Editor.UI.prototype.createViewport = function(node)
             }
         })
         .on('mousewheel', function(e) {
+            if (e.buttons !== 0) {
+                return;
+            }
             e.preventDefault();
             let d = e.originalEvent.deltaY;
             if (d < 0) {
