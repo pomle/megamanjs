@@ -393,21 +393,6 @@ Editor.UI.prototype.createViewport = function(node)
         }
     }
 
-    function getCandidateItems()
-    {
-        let candidateItems = [],
-            inter = editor.items.interactable,
-            visible = editor.items.visible;
-
-        for (let item of inter) {
-            if (visible.has(item)) {
-                candidateItems.push(item);
-            }
-        }
-
-        return candidateItems;
-    }
-
     viewport
         .on('mousemove', function(e) {
             if (editor.activeMode === editor.modes.edit) {
@@ -528,7 +513,7 @@ Editor.UI.prototype.createViewport = function(node)
                 }
             }
             else {
-                let item = ui.mouseSelectItem(e.originalEvent, this, getCandidateItems());
+                let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
                 if (item === false) {
                     if (!e.ctrlKey) {
                         editor.activeMode = editor.modes.view;
@@ -563,7 +548,7 @@ Editor.UI.prototype.createViewport = function(node)
         .on('dblclick', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            let item = ui.mouseSelectItem(e.originalEvent, this, getCandidateItems());
+            let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
             if (item && item.item.TYPE === "object") {
                 editor.activeMode = editor.modes.paint;
                 var mat = item.item.overlay.material;

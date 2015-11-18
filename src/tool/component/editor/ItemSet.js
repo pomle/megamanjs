@@ -9,7 +9,7 @@ Editor.ItemSet = function(editor)
 
     this.selected = [];
 
-    this.interactable = new Set();
+    this.touchable = new Set();
     this.visible = new Set();
 
     for (let prop of ['entries']) {
@@ -18,6 +18,18 @@ Editor.ItemSet = function(editor)
 }
 
 Object.defineProperties(Editor.ItemSet.prototype, {
+    interactable: {
+        get: function()
+        {
+            let items = [];
+            for (let item of this.touchable) {
+                if (this.visible.has(item)) {
+                    items.push(item);
+                }
+            }
+            return items;
+        },
+    },
     scene: {
         get: function() {
             if (!this.world) {
@@ -66,7 +78,7 @@ Editor.ItemSet.prototype.add = function()
         }
 
         this.items.add(item);
-        this.interactable.add(item);
+        this.touchable.add(item);
         this.visible.add(item);
     }
 }
@@ -144,7 +156,7 @@ Editor.ItemSet.prototype.lock = function()
             this.lock.apply(this, item.children);
         }
 
-        this.interactable.delete(item);
+        this.touchable.delete(item);
     }
 }
 
@@ -157,7 +169,7 @@ Editor.ItemSet.prototype.unlock = function()
             this.unlock.apply(this, item.children);
         }
 
-        this.interactable.add(item);
+        this.touchable.add(item);
     }
 }
 
@@ -185,7 +197,6 @@ Editor.ItemSet.prototype.hide = function()
         if (toggler) {
             toggler.checked = false;
         }
-
     }
 }
 
