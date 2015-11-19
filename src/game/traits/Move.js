@@ -5,6 +5,7 @@ Game.traits.Move = function()
     this._interimSpeed = 0;
     this._physics = undefined;
 
+    this.enabled = true;
     this.acceleration = 500;
     this.speed = 90;
 }

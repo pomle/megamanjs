@@ -58,22 +58,6 @@ Game.Loader.XML.prototype.loadGame = function(url, callback)
     });
 }
 
-Game.Loader.XML.prototype.loadLevel = function(url, callback)
-{
-    var loader = this;
-    this.load(url, function(node) {
-        var level = loader.parseLevel(node, callback);
-    });
-}
-
-Game.Loader.XML.prototype.loadObjects = function(url, callback)
-{
-    var loader = this;
-    this.load(url, function(node) {
-        loader.parseObjects(node, callback);
-    });
-}
-
 Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.CharacterParser(this);
@@ -234,8 +218,13 @@ Game.Loader.XML.prototype.parseStageSelect = function(sceneNode, callback)
 
     scene.equalize(parseFloat(indicatorNode.attr('initial-index')));
 
+    var stageSelect = scene;
     scene.events.bind(scene.EVENT_STAGE_SELECTED, function(stage, index) {
-        loader.startScene(stage.name);
+        loader.startScene(stage.name, function(scene) {
+            scene.events.bind(scene.EVENT_END, function() {
+                loader.game.setScene(stageSelect);
+            })
+        });
     });
 
     callback(scene);
@@ -277,6 +266,9 @@ Game.Loader.XML.prototype.startScene = function(name, callback)
     this.load(this.sceneIndex[name].url, function(node) {
         loader.parseScene(node, function(scene) {
             loader.game.setScene(scene);
+            if (callback) {
+                callback(scene);
+            }
         });
     });
 }

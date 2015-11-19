@@ -36,6 +36,7 @@ Game.traits.Teleport.prototype._start = function()
     this.state = this.STATE_IN;
     this._startProgress = this.startDuration;
     this._host.collidable = false;
+    this._host.physics.zero();
     this._host.physics.enabled = false;
     this._host.trigger(this.EVENT_START);
 }
@@ -57,6 +58,8 @@ Game.traits.Teleport.prototype._stop = function()
 
 Game.traits.Teleport.prototype._handle = function(dt)
 {
+    this._host.aim.set(0,0);
+
     if (this._startProgress > 0) {
         this._startProgress -= dt;
     }

@@ -209,8 +209,8 @@ Game.scenes.Level.prototype.pauseGamePlay = function()
 {
     var engine = this.game.engine;
     engine.events.unbind(engine.EVENT_SIMULATE, this.simulateListener);
-
     this.inputs.character.disable();
+    this.game.player.character.aim.set(0,0);
     this.inputs.menu.enable();
     this.game.engine.isSimulating = false;
 }
@@ -221,6 +221,7 @@ Game.scenes.Level.prototype.resumeGamePlay = function()
     engine.events.bind(engine.EVENT_SIMULATE, this.simulateListener);
 
     this.inputs.menu.disable();
+    this.game.player.character.aim.set(0,0);
     this.inputs.character.enable();
     this.game.engine.isSimulating = true;
 }
