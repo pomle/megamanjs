@@ -1,8 +1,8 @@
 <scene type="level" name="Airman">
     <checkpoints>
-        <checkpoint x="4736" y="-600" r="100" z="0"/>
-        <checkpoint x="2432" y="-424" r="100" z="0"/>
         <checkpoint x="128" y="-120" r="100" z="0"/>
+        <checkpoint x="2432" y="-424" r="100" z="0"/>
+        <checkpoint x="4736" y="-600" r="100" z="0"/>
     </checkpoints>
     <camera>
         <path>
@@ -288,6 +288,12 @@
                 <face animation="head24" index="[46]"/>
                 <face animation="head22" index="[42]"/>
             </geometry>
+            <collision>
+                <rect x="0" y="0" w="80" h="80"/>
+            </collision>
+            <traits>
+                <trait source="Solid"/>
+            </traits>
         </object>
         <object id="drwily">
             <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
