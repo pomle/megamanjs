@@ -1,0 +1,254 @@
+<scene type="level" name="Dr. Wily Teleport">
+    <camera>
+        <path>
+            <window x1="0" x2="256" y1="-240" y2="0"/>
+            <constraint x1="128" x2="128" y1="-120" y2="-120"/>
+        </path>
+        <path>
+            <window x1="0" x2="256" y1="-544" y2="-304"/>
+            <constraint x1="128" x2="128" y1="-424" y2="-424"/>
+        </path>
+        <path>
+            <window x1="0" x2="256" y1="-848" y2="-608"/>
+            <constraint x1="128" x2="128" y1="-728" y2="-728"/>
+        </path>
+        <path>
+            <window x1="0" x2="256" y1="-1152" y2="-912"/>
+            <constraint x1="128" x2="128" y1="-1032" y2="-1032"/>
+        </path>
+    </camera>
+    <checkpoints>
+        <checkpoint x="120" y="-152" r="100" z="0"/>
+    </checkpoints>
+    <objects>
+        <textures>
+            <texture url="./drwilyteleport/tiles.png" w="256" h="128"/>
+        </textures>
+        <animations>
+            <animation id="screen">
+                <frame x="0" y="64" w="64" h="64" duration=".12"/>
+                <frame x="64" y="64" w="64" h="64" duration=".12"/>
+                <frame x="128" y="64" w="64" h="64" duration=".12"/>
+                <frame x="192" y="64" w="64" h="64" duration=".12"/>
+            </animation>
+            <animation id="transparent">
+                <frame x="1" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_0">
+                <frame x="1" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_1">
+                <frame x="19" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_2">
+                <frame x="37" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_3">
+                <frame x="55" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_4">
+                <frame x="73" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_5">
+                <frame x="91" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_6">
+                <frame x="91" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_7">
+                <frame x="109" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_8">
+                <frame x="109" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_9">
+                <frame x="91" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_10">
+                <frame x="73" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_11">
+                <frame x="73" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_12">
+                <frame x="55" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_13">
+                <frame x="55" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_14">
+                <frame x="37" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_15">
+                <frame x="19" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_16">
+                <frame x="19" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_17">
+                <frame x="37" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_18">
+                <frame x="127" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_19">
+                <frame x="127" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_20">
+                <frame x="145" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_21">
+                <frame x="145" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_22">
+                <frame x="127" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_23">
+                <frame x="145" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_24">
+                <frame x="163" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_25">
+                <frame x="163" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_26">
+                <frame x="163" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_27">
+                <frame x="181" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_28">
+                <frame x="181" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_29">
+                <frame x="181" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_30">
+                <frame x="109" y="1" w="16" h="16"/>
+            </animation>
+        </animations>
+        <object id="object_d47ac9042f0349859f572d76a80ed1dd">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="transparent" index="[262,264]">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="slice_12" index="[0,32,64,96,128,160,192,224,256,288,320,416,448,384,352,30,62,94,126,158,190,222,254,286,318,350,382,414,446,478]"/>
+                <face animation="slice_11" index="[422,424,426,436,438,440,6,8,10,12,14,16,18,20,22,24]"/>
+                <face animation="slice_26" index="[428,432,418,442,290,162,186,314]"/>
+                <face animation="slice_27" index="[430,434,444,420,316,188,164,292]"/>
+                <face animation="slice_24" index="[460,464,450,474,34,58]"/>
+                <face animation="slice_28" index="[462,466,452,476,36,60]"/>
+                <face animation="slice_14" index="[334,338]"/>
+                <face animation="slice_15" index="[332,336]"/>
+                <face animation="slice_25" index="[322,194,66,90,218,346]"/>
+                <face animation="slice_29" index="[324,196,68,92,220,348]"/>
+                <face animation="slice_3" index="[326,234,244,344]"/>
+                <face animation="slice_10" index="[38,40,42,44,46,48,50,52,54,56,2,4,26,28,454,456,458,468,470,472]"/>
+                <face animation="slice_9" index="[230,246]"/>
+                <face animation="slice_8" index="[248,232]"/>
+                <face animation="slice_7" index="[200,216]"/>
+                <face animation="slice_6" index="[214,198]"/>
+                <face animation="slice_4" index="[202,204,236,242,210,212,390,392,394,404,406,408]"/>
+                <face animation="slice_1" index="[78,142,206,270]"/>
+                <face animation="slice_2" index="[80,144,208,272]"/>
+                <face animation="slice_5" index="[302,238,174,110]"/>
+                <face animation="slice_30" index="[176,112,240,304]"/>
+                <face animation="slice_0" index="[364,396,398,366,368,370,402,400,410,378,380,412,284,252,250,282,154,122,124,156,130,132,100,98,226,258,260,228,354,386,388,356]"/>
+            </geometry>
+        </object>
+        <object id="screen">
+            <geometry type="plane" w="64" h="64" w-segments="1" h-segments="1">
+                <face animation="screen" index="[0]"/>
+            </geometry>
+        </object>
+        <object id="object_5355318497304934ae156f4396b18bf0">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="slice_12" index="[0,32,64,96,128,160,192,224,256,288,320,352,384,416,448,30,62,94,126,158,190,222,254,286,318,350,382,414,446,478]"/>
+                <face animation="slice_10" index="[34,36,38,40,42,44,46,48,50,52,54,56,58,60,422,424,426,428,430,432,434,436,438,440,442,444]"/>
+                <face animation="slice_11" index="[2,4,6,8,10,12,14,16,18,20,22,24,26,28,476,474,472,470,468,466,464,462,460,458,456,454,452,450,412,410,408,406,404,402,400,398,396,394,392,390]"/>
+                <face animation="slice_27" index="[388]"/>
+                <face animation="slice_26" index="[386]"/>
+                <face animation="slice_28" index="[420]"/>
+                <face animation="slice_24" index="[418]"/>
+                <face animation="slice_20" index="[354,356,380,348,316,284,252,220,188,156,124,122,120,118,116,114,112,110,108,106,104,102,100,98,130,162,194,226,258,260,228,196,164,132,134,136,138,140,142,144,146,148,150,152,154,186,218,250,282,314,346,378,376,374,372,370,368,366,364,362,360,358,326,294,262,230,198,166,168,170,172,174,176,178,180,182,184,216,248,280,312,344,342,340,338,336,334,332,330,328,296,264,232,234,202,204,206,208,210,212,214,246,278,310,308,306,304,302,300,298,266,268,270,272,274,276,244,242,240,238,236,200,322,324]"/>
+                <face animation="slice_19" index="[290]"/>
+                <face animation="slice_21" index="[292]"/>
+                <face animation="slice_18" index="[66,68,70,72,74,76,78,80,82,84,86,88,90,92]"/>
+            </geometry>
+        </object>
+        <object id="object_c03680b4bc8c401d98ddc43097ea5732">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="slice_10" index="[422,424,426,428,430,432,434,436,438,440,442,444,34,36,38,40,42,44,46,48,50,52,54,56,58,60]"/>
+                <face animation="slice_12" index="[30,62,94,126,158,190,222,254,286,318,350,382,414,446,478,448,416,384,352,320,288,256,224,192,160,128,96,64,32,0]"/>
+                <face animation="slice_11" index="[390,392,394,396,398,400,402,404,406,408,410,412,450,452,454,456,458,460,462,464,466,468,470,472,474,476,2,4,6,8,10,12,14,16,18,20,22,24,26,28]"/>
+                <face animation="slice_28" index="[420]"/>
+                <face animation="slice_24" index="[418]"/>
+                <face animation="slice_27" index="[388]"/>
+                <face animation="slice_26" index="[386]"/>
+                <face animation="slice_22" index="[290]"/>
+                <face animation="slice_23" index="[292]"/>
+                <face animation="slice_17" index="[322,354,324,356,358,360,362,364,366,368,370,372,374,376,378,380,348,346,344,342,340,338,336,334,332,330,328,326,294,296,298,300,302,304,306,308,310,312,314,316,98,100,102,104,106,108,110,112,114,116,118,120,122,124,156,188,220,252,284,282,280,278,276,274,272,270,268,266,264,262,260,258,226,194,162,130,132,134,136,138,140,142,144,146,148,150,152,154,186,218,250,248,246,244,242,240,238,236,234,232,230,228,196,164,166,168,170,172,174,176,178,180,182,184,216,214,212,210,208,206,204,202,200,198]"/>
+                <face animation="slice_16" index="[66,68,70,72,74,76,78,80,82,84,86,88,90,92]"/>
+            </geometry>
+        </object>
+        <object id="object_25d06fd83fa7415b9a838d6bde04dc3e">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="slice_0" index="[0,32,64,96,128,160,192,224,256,288,320,352,354,356,358,360,362,364,366,368,370,372,374,376,378,380,382,350,318,286,254,222,190,158,126,94,62,30,28,26,24,22,20,18,16,14,12,10,8,6]"/>
+            </geometry>
+        </object>
+        <object id="object_0fa6c10a42c446bca4b8470f77a03296">
+            <geometry type="plane" w="256" h="48" w-segments="16" h-segments="3">
+                <face animation="slice_13" index="[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,62,60,58,56,54,52,50,48,46,44,42,40,38,36,34,32,64,66,68,70,72,74,76,78,80,82,84,86,88,90,92,94]"/>
+            </geometry>
+        </object>
+        <object id="object_8b58d3ff8e44463a9a6e47467abefd09">
+            <geometry type="plane" w="256" h="240" w-segments="1" h-segments="1">
+                <face animation="slice_0" index="[0]"/>
+            </geometry>
+        </object>
+    </objects>
+    <layout>
+        <objects>
+            <object id="object_d47ac9042f0349859f572d76a80ed1dd" x="128" y="-120" z="0"/>
+            <object id="screen" x="80" y="-64" z="-0.1"/>
+            <object id="screen" x="176" y="-64" z="-0.1"/>
+            <object id="screen" x="80" y="-160" z="-0.1"/>
+            <object id="screen" x="176" y="-160" z="-0.1"/>
+            <object id="object_5355318497304934ae156f4396b18bf0" x="128" y="-424" z="0"/>
+            <object id="object_c03680b4bc8c401d98ddc43097ea5732" x="128" y="-728" z="0"/>
+            <object id="object_0fa6c10a42c446bca4b8470f77a03296" x="128" y="-1128" z="0"/>
+            <object id="object_8b58d3ff8e44463a9a6e47467abefd09" x="128" y="-1032" z="-0.1"/>
+        </objects>
+        <behaviors>
+            <solids>
+                <rect x="8" y="-120" w="16" h="240"/>
+                <rect x="248" y="-120" w="16" h="240"/>
+                <rect x="128" y="-16" w="256" h="32"/>
+                <rect x="128" y="-224" w="256" h="32"/>
+                <rect x="224" y="-160" w="32" h="32"/>
+                <rect x="32" y="-160" w="32" h="32"/>
+                <rect x="32" y="-32" w="32" h="32"/>
+                <rect x="224" y="-32" w="32" h="32"/>
+                <rect x="224" y="-96" w="32" h="32"/>
+                <rect x="32" y="-96" w="32" h="32"/>
+                <rect x="128" y="-168" w="64" h="16"/>
+                <rect x="200" y="-168" w="16" h="16"/>
+                <rect x="56" y="-168" w="16" h="16"/>
+                <rect x="88" y="-120" w="16" h="16"/>
+                <rect x="168" y="-120" w="16" h="16"/>
+                <rect x="8" y="-728" w="16" h="240"/>
+                <rect x="264" y="-1032" w="16" h="240"/>
+                <rect x="-8" y="-1032" w="16" h="240"/>
+                <rect x="248" y="-424" w="16" h="240"/>
+                <rect x="8" y="-424" w="16" h="240"/>
+                <rect x="128" y="-624" w="256" h="32"/>
+                <rect x="128" y="-320" w="256" h="32"/>
+                <rect x="128" y="-896" w="288" h="32"/>
+                <rect x="128" y="-1120" w="256" h="32"/>
+                <rect x="128" y="-816" w="256" h="32"/>
+                <rect x="128" y="-512" w="256" h="32"/>
+            </solids>
+        </behaviors>
+    </layout>
+</scene>
