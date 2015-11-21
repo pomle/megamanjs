@@ -83,6 +83,7 @@ var Game = {
             "game/traits/Invincibility.js",
             "game/traits/Jump.js",
             "game/traits/Translating.js",
+            "game/traits/Rotate.js",
             "game/traits/Physics.js",
             "game/traits/Move.js",
             "game/traits/Climber.js",
