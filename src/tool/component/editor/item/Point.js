@@ -17,7 +17,7 @@ Editor.Item.Point.prototype.getComponent = function(name)
 Editor.Item.Point.prototype.setComponent = function(name, value)
 {
     let k = name,
-        v = value,
+        v = Engine.Math.round(value, Editor.Item.PRECISION),
         n = this.node;
 
     this.propagateComponent(name, value);

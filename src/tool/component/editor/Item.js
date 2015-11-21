@@ -7,6 +7,8 @@ Editor.Item = function(object, node)
     this.node = $(node);
 }
 
+Editor.Item.PRECISION = 4;
+
 Object.defineProperties(Editor.Item.prototype, {
     h: {
         get: function() {

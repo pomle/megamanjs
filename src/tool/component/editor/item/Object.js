@@ -28,7 +28,7 @@ Editor.Item.Object.prototype.getComponent = function(name)
 Editor.Item.Object.prototype.setComponent = function(name, value)
 {
     let k = name,
-        v = value,
+        v = Engine.Math.round(value, Editor.Item.PRECISION),
         o = this.object,
         p = o.position,
         n = this.node;
