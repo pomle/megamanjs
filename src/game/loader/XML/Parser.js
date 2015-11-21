@@ -400,9 +400,21 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
             break;
 
         default:
-            return {
+            var def = {
                 'ref': ref,
+                'prop': {},
             }
+            $.each(traitNode[0].attributes, function(i, attr) {
+                if (attr.name === 'source') {
+                    return;
+                }
+                var value = parseFloat(attr.value)
+                if (!isFinite(value)) {
+                    value = attr.value;
+                }
+                def.prop[attr.name] = value;
+            });
+            return def;
             break;
     }
 
