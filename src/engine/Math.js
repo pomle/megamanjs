@@ -31,6 +31,12 @@ Engine.Math = {
             dy = v1.y - v2.y;
         return dx * dx + dy * dy;
     },
+
+    round: function(value, digits)
+    {
+        var m = Math.pow(10, digits || 0);
+        return Math.round(value * m) / m;
+    },
 }
 
 Engine.Math.Geometry = {
