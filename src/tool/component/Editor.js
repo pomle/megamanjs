@@ -53,11 +53,13 @@ var Editor = function()
     }
 
     this.grid.snapVector = function(vec) {
-        let components = ['x','y'];
+        let components = ['x','y'],
+            round
         for (let c of components) {
             let s = this.scale[c],
-                v = vec[c];
-            vec[c] = s * Math.round(v / s);
+                v = vec[c],
+                i = s * Math.round(v / s);
+            vec[c] = Engine.Math.round(i, 8);
         }
         return vec;
     }
