@@ -42,6 +42,12 @@
             <texture url="./drwily2/tiles.png" w="256" h="128"/>
         </textures>
         <animations>
+            <animation id="destructible-green">
+                <frame x="73" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="destructible-red">
+                <frame x="91" y="37" w="16" h="16"/>
+            </animation>
             <animation id="wall7">
                 <frame x="1" y="1" w="16" h="16"/>
             </animation>
@@ -194,6 +200,30 @@
                 <face animation="circuitry1" index="[200,202,204,206,208,210,212,214,324,326,328,330,332,334,336,338,470,468,466,464,462,460,458,456,620,622,624,626,628,630,632,634,742,744,746,748,750,752,754,756,838,840,842,844,846,848,850,852,950,948,946,944,942,940,938,936,934,1240,1340,1342,1312,1314]"/>
             </geometry>
         </object>
+        <object id="destructible-green">
+            <geometry type="plane" w="16" h="32" w-segments="1" h-segments="2">
+                <face animation="destructible-green" index="[0,2]"/>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="16" h="32"/>
+            </collision>
+            <traits>
+                <trait source="Solid"/>
+                <trait source="Destructible"/>
+            </traits>
+        </object>
+        <object id="destructible-red">
+            <geometry type="plane" w="16" h="32" w-segments="1" h-segments="2">
+                <face animation="destructible-red" index="[0,2]"/>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="16" h="32"/>
+            </collision>
+            <traits>
+                <trait source="Solid"/>
+                <trait source="Destructible"/>
+            </traits>
+        </object>
     </objects>
     <layout>
         <objects>
@@ -217,6 +247,11 @@
             <object id="object_3ceb6d511a60456fa862bb357121d0f5" x="1408" y="-360" z="-1"/>
             <object id="object_7180466c7f974d4d9a7049e636c4eb3f" x="768" y="-120" z="-0.1"/>
             <object id="object_478d51212a48427e9f4d616e870599cb" x="1408" y="-600" z="-0.1"/>
+            <object id="destructible-green" x="1416" y="-16" z="0"/>
+            <object id="destructible-green" x="1384" y="-16" z="0"/>
+            <object id="destructible-green" x="1352" y="-16" z="0"/>
+            <object id="destructible-red" x="1368" y="-672" z="0"/>
+            <object id="destructible-red" x="1368" y="-624" z="0"/>
         </objects>
         <behaviors>
             <climbables>
