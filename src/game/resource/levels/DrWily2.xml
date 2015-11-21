@@ -1,4 +1,42 @@
 <scene type="level" name="Woodman">
+    <checkpoints>
+        <checkpoint x="1376" y="-1112" r="100" z="0"/>
+        <checkpoint x="128" y="-72" r="100" z="0"/>
+    </checkpoints>
+    <camera>
+        <path>
+            <window x1="0" x2="1536" y1="-240" y2="0"/>
+            <constraint x1="128" x2="1408" y1="-120" y2="-120"/>
+        </path>
+        <path>
+            <window x1="1280" x2="1536" y1="-480.0000000000001" y2="-239.9999999999999"/>
+            <constraint x1="1408" x2="1408" y1="-360" y2="-360"/>
+        </path>
+        <path>
+            <window x1="1280" x2="1536" y1="-720" y2="-480"/>
+            <constraint x1="1408" x2="1408" y1="-600" y2="-600"/>
+        </path>
+        <path>
+            <window x1="1280" x2="1536" y1="-960" y2="-719.9999999999999"/>
+            <constraint x1="1408" x2="1408" y1="-840" y2="-840"/>
+        </path>
+        <path>
+            <window x1="1279.9999999999998" x2="2816" y1="-1199.9999999999998" y2="-960.0000000000001"/>
+            <constraint x1="1407.9999999999998" x2="2688" y1="-1080" y2="-1080"/>
+        </path>
+        <path>
+            <window x1="2560" x2="2816" y1="-1440" y2="-1200"/>
+            <constraint x1="2688" x2="2688" y1="-1320" y2="-1320"/>
+        </path>
+        <path>
+            <window x1="2560" x2="2816" y1="-1680" y2="-1440"/>
+            <constraint x1="2688" x2="2688" y1="-1560" y2="-1560"/>
+        </path>
+        <path>
+            <window x1="2560" x2="2816" y1="-1920" y2="-1680"/>
+            <constraint x1="2688" x2="2688" y1="-1800" y2="-1800"/>
+        </path>
+    </camera>
     <objects>
         <textures>
             <texture url="./drwily2/tiles.png" w="256" h="128"/>
