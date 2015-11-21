@@ -18,9 +18,9 @@ Editor.Item.Rectangle2.prototype.updateNode = function()
         n = this.node;
 
     n.attr({
-        "x": p.x,
-        "y": p.y,
-        "w": v[1].x - v[0].x,
-        "h": v[1].y - v[0].y,
+        "x": this.round(p.x),
+        "y": this.round(p.y),
+        "w": this.round(v[1].x - v[0].x),
+        "h": this.round(v[1].y - v[0].y),
     });
 }

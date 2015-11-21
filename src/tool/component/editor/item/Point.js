@@ -16,24 +16,19 @@ Editor.Item.Point.prototype.getComponent = function(name)
 
 Editor.Item.Point.prototype.setComponent = function(name, value)
 {
-    let k = name,
-        v = Engine.Math.round(value, Editor.Item.PRECISION),
-        n = this.node;
-
     this.propagateComponent(name, value);
-
-    this.point[name] = value;
-
+    this.point[name] = this.round(value);
     this.update();
 }
 
 Editor.Item.Point.prototype.updateNode = function()
 {
     let n = this.node;
+
     n.attr({
-        'x': this.point.x,
-        'y': this.point.y,
-        'z': this.point.z,
+        'x': this.round(this.point.x),
+        'y': this.round(this.point.y),
+        'z': this.round(this.point.z),
     });
 }
 

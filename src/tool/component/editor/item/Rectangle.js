@@ -18,23 +18,30 @@ Editor.Item.Rectangle.prototype.constructor = Editor.Item.Rectangle;
 
 Editor.Item.Rectangle.prototype.getComponent = function(name)
 {
+    let v;
     switch (name) {
         case 'x':
-            return this.vectors[0].x + (this.w / 2);
+            v = this.vectors[0].x + (this.w / 2);
+            break;
         case 'y':
-            return this.vectors[0].y + (this.h / 2);
+            v = this.vectors[0].y + (this.h / 2);
+            break;
         case 'w':
-            return this.vectors[1].x - this.vectors[0].x;
+            v = this.vectors[1].x - this.vectors[0].x;
+            break;
         case 'h':
-            return this.vectors[1].y - this.vectors[0].y;
+            v = this.vectors[1].y - this.vectors[0].y;
+            break;
     }
+
+    return this.round(v);
 }
 
 Editor.Item.Rectangle.prototype.setComponent = function(name, value)
 {
     let d, x, y,
         k = name,
-        v = Engine.Math.round(value, Editor.Item.PRECISION),
+        v = this.round(value),
         vec = this.vectors;
 
     switch (k) {
@@ -111,10 +118,10 @@ Editor.Item.Rectangle.prototype.updateNode = function()
         n = this.node;
 
     n.attr({
-        "x1": v[0].x,
-        "x2": v[1].x,
-        "y1": v[0].y,
-        "y2": v[1].y,
+        "x1": this.round(v[0].x),
+        "x2": this.round(v[1].x),
+        "y1": this.round(v[0].y),
+        "y2": this.round(v[1].y),
     });
 }
 

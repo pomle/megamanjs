@@ -5,6 +5,9 @@ Editor.Item = function(object, node)
     this.children = [];
     this.object = object;
     this.node = $(node);
+    this.round = function(v) {
+        return Engine.Math.round(v, Editor.Item.PRECISION);
+    }
 }
 
 Editor.Item.PRECISION = 4;
