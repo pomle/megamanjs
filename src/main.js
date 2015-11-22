@@ -1,11 +1,8 @@
-var game;
 Game.init(function() {
     game = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml', function() {
         console.log('Loading game done', game);
         game.attachToElement(document.getElementById('screen'));
     });
-
-    var dbg = new Game.Debug(game);
 
     var isTouchDevice = false;
 
@@ -35,16 +32,6 @@ Game.init(function() {
         .on('touchend', keyBoardEvent)
         .on('mousedown', keyBoardEvent)
         .on('mouseup', keyBoardEvent);
-
-
-    $(window).on('keydown', function(e) {
-        if (e.which === 72) {
-            dbg.toggleConsole();
-            dbg.toggleCameraPaths();
-            dbg.toggleCollisionZones();
-        }
-    });
-
 
     var gameElement = document.getElementById('game');
     function on_fullscreen_change() {
