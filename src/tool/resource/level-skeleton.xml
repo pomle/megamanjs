@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="">
-    <checkpoints/>
-    <camera/>
-    <objects/>
-    <layout/>
+    <objects>
+        <textures>
+            <texture url="./xxxx/tiles.png" w="256" h="128"/>
+        </textures>
+        <animations>
+        </animations>
+    </objects>
 </scene>
