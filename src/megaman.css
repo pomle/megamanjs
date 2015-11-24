@@ -126,6 +126,13 @@ input {
     zoom: .5;
 }
 
+.fullscreen #nes-controller {
+    visibility: none;
+}
+.touch-device .fullscreen #nes-controller {
+    visibility: visible;
+}
+
 #nes-controller a {
     cursor: pointer;
     display: block;
