@@ -363,10 +363,10 @@
         <objects>
             <object id="door" x="1280" y="3504" z="0"/>
             <object id="door" x="1024" y="3504" z="0"/>
-            <object id="object_4FBF48E9426F446698744A217AC1144F" x="128" y="360" z="0"/>
-            <object id="object_D26AB42BA8AB4AC79BF82823EB552AF8" x="384" y="1080" z="0"/>
-            <object id="object_540066CB92574BD690359F3A3BE72AA8" x="640" y="2520" z="0"/>
-            <object id="object_EA1ADF1AD35649ADA27295EEE280C334" x="1152" y="3480" z="0"/>
+            <object id="object_4FBF48E9426F446698744A217AC1144F" x="128" y="360" z="-0.01"/>
+            <object id="object_D26AB42BA8AB4AC79BF82823EB552AF8" x="384" y="1080" z="-0.01"/>
+            <object id="object_540066CB92574BD690359F3A3BE72AA8" x="640" y="2520" z="-0.01"/>
+            <object id="object_EA1ADF1AD35649ADA27295EEE280C334" x="1152" y="3480" z="-0.01"/>
             <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="96" z="0"/>
             <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="160" z="0"/>
             <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="176" y="432" z="0"/>
