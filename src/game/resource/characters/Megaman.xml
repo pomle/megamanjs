@@ -11,7 +11,7 @@
             <trait source="Jump" force="19740" duration=".18" falloff=".3" />
             <trait source="Physics" area=".04" drag=".045" mass="105" />
             <trait source="Move" />
-            <trait source="Climber" />
+            <trait source="Climber" speed="100" />
             <trait source="Invincibility" duration="2" />
             <trait source="Stun" force="10500" duration=".8" />
             <trait source="Teleport" />
