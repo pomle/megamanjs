@@ -124,10 +124,6 @@ $(function() {
         }
     }, undefined, '../');
 
-    editor.ui.workspace.on('dragenter', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-    });
     editor.ui.workspace.on('dragover', function (e) {
          e.stopPropagation();
          e.preventDefault();
