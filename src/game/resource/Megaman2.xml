@@ -12,6 +12,7 @@
         <scene type="level" name="Flashman" src="./levels/Flashman.xml" />
         <scene type="level" name="Heatman" src="./levels/Heatman.xml" />
         <scene type="level" name="Metalman" src="./levels/Metalman.xml" />
+        <scene type="level" name="Quickman" src="./levels/Quickman.xml" />
         <scene type="level" name="Woodman" src="./levels/Woodman.xml" />
 
         <!-- Debug Levels -->
