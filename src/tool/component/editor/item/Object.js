@@ -14,14 +14,28 @@ Editor.Item.Object.prototype.TYPE = 'object';
 
 Editor.Item.Object.prototype.getComponent = function(name)
 {
-    var o = this.object;
+    let o = this.object;
 
-    switch (name) {
-        case 'x':
-        case 'y':
-        case 'z':
-            return o.position[name];
-            break;
+    if (name === 'x' || name === 'y' || name === 'z') {
+        return o.position[name];
+    }
+    else if (name === 'w' || name === 'h') {
+        let v = o.geometry.vertices,
+            s = [new THREE.Vector2(), new THREE.Vector2()];
+        for (let i = 0, l = v.length; i !== l; ++i) {
+            let d = v[i];
+            s[0].x = Math.min(d.x, s[0].x);
+            s[1].x = Math.max(d.x, s[1].x);
+            s[0].y = Math.min(d.y, s[0].y);
+            s[1].y = Math.max(d.y, s[1].y);
+        }
+        if (name === 'w') {
+            return s[1].x - s[0].x;
+        }
+        else if (name === 'h') {
+            return s[1].y - s[0].y;
+        }
+
     }
 }
 
