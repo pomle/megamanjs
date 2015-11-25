@@ -1,0 +1,32 @@
+<objects>
+    <textures>
+        <texture id="batton" url="enemies/batton.png" w="256" h="32"/>
+    </textures>
+    <animations w="32" h="32">
+        <animation id="closed">
+            <frame x="0" y="0" />
+        </animation>
+        <animation id="opening">
+            <frame x="0" y="0" duration=".083" />
+            <frame x="32" y="0" duration=".083" />
+            <frame x="160" y="0" duration=".083" />
+            <frame x="192" y="0" duration=".083" />
+            <frame x="224" y="0" />
+        </animation>
+        <animation id="flapping">
+            <frame x="128" y="0" duration=".083"/>
+            <frame x="96" y="0" duration=".083"/>
+            <frame x="64" y="0" duration=".083"/>
+        </animation>
+    </animations>
+    <object type="character" id="Batton" source="Batton">
+        <geometry type="plane" w="32" h="32" />
+        <collision>
+            <rect x="0" y="8" w="16" h="16" />
+        </collision>
+        <traits>
+            <trait source="ContactDamage" points="4" />
+            <trait source="Health" max="2" />
+        </traits>
+    </object>
+</objects>
