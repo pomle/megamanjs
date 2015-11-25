@@ -184,9 +184,6 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
         this.name = objectId;
 
-        this.origo.x = -(geometries[0].size.x / 2);
-        this.origo.y = geometries[0].size.y / 2;
-
         for (var i in traitDescriptors) {
             var trait = traitDescriptors[i];
             var appliedTrait = parser.applyTrait(this, trait);
