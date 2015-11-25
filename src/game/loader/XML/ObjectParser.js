@@ -142,7 +142,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
                 /* If we had no ranges, and no indexes defined,
                    take index from order of <face> nodes. */
                 if (animator.indices.length === 0) {
-                    animator.indices = [nodeSiblingIndex];
+                    animator.indices = [nodeSiblingIndex * 2];
                 }
             });
         }
