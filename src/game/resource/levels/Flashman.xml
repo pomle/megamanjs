@@ -92,7 +92,7 @@
         </animations>
         <object id="sign-scaffold">
             <geometry type="plane" w="48" h="64" w-segments="3" h-segments="4">
-                <face animation="sign-scaffold-n" index="[2,8,14,16,10]"/>
+                <face animation="sign-scaffold-n" index="[2,8,14,16,10,4]"/>
                 <face animation="sign-scaffold-w" index="[0,6,12]"/>
                 <face animation="sign-scaffold-sw" index="[18]"/>
                 <face animation="sign-scaffold-s" index="[20,22]"/>
@@ -100,7 +100,7 @@
         </object>
         <object id="door">
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
-                <face animation="door">
+                <face animation="door" offset=".5">
                     <range x="*" y="*"/>
                 </face>
                 <collision>
