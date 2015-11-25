@@ -1,7 +1,9 @@
 <scene type="level" name="Flashman">
     <gravity x="0" y="9.81"/>
     <checkpoints>
-        <checkpoint x="136" y="149" z="0"/>
+        <checkpoint x="136" y="-152" z="0"/>
+        <checkpoint x="1664" y="-616" r="100" z="0"/>
+        <checkpoint x="2952" y="-1800" r="100" z="0"/>
     </checkpoints>
     <objects>
         <textures>
