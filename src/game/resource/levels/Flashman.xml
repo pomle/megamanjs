@@ -378,6 +378,9 @@
     </objects>
     <layout>
         <objects>
+            <object id="background1" x="896" y="-120" z="-0.1"/>
+            <object id="background2" x="1664" y="-960" z="-0.1"/>
+            <object id="background3" x="2432" y="-1800" z="-0.1"/>
             <object id="sign-scaffold" x="2792" y="-1712"/>
             <object id="block-single-1" x="8" y="-24"/>
             <object id="block-vert-duo-2" x="8" y="-48"/>
