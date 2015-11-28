@@ -1,4 +1,46 @@
 <scene type="level" name="Flashman">
+    <camera>
+        <path>
+            <window x1="-8" x2="1784" y1="-240" y2="0"/>
+            <constraint x1="120" x2="1656" y1="-120" y2="-120"/>
+        </path>
+        <path>
+            <window x1="1536" x2="2816" y1="-1920" y2="-1680"/>
+            <constraint x1="1664" x2="2688" y1="-1800" y2="-1800"/>
+        </path>
+        <path>
+            <window x1="1536" x2="1792" y1="-480" y2="-240"/>
+            <constraint x1="1664" x2="1664" y1="-360" y2="-360"/>
+        </path>
+        <path>
+            <window x1="1536" x2="1792" y1="-720" y2="-480"/>
+            <constraint x1="1664" x2="1664" y1="-600" y2="-600"/>
+        </path>
+        <path>
+            <window x1="1536" x2="1792" y1="-960" y2="-720"/>
+            <constraint x1="1664" x2="1664" y1="-840" y2="-840"/>
+        </path>
+        <path>
+            <window x1="1536" x2="1792" y1="-1200" y2="-960"/>
+            <constraint x1="1664" x2="1664" y1="-1080" y2="-1080"/>
+        </path>
+        <path>
+            <window x1="1536" x2="1792" y1="-1440" y2="-1200"/>
+            <constraint x1="1664" x2="1664" y1="-1320" y2="-1320"/>
+        </path>
+        <path>
+            <window x1="1536" x2="1792" y1="-1680" y2="-1440"/>
+            <constraint x1="1664" x2="1664" y1="-1560" y2="-1560"/>
+        </path>
+        <path>
+            <window x1="2816" x2="3072" y1="-1920" y2="-1680"/>
+            <constraint x1="2944" x2="2944" y1="-1800" y2="-1800"/>
+        </path>
+        <path>
+            <window x1="3072" x2="3328" y1="-1920" y2="-1680"/>
+            <constraint x1="3200" x2="3200" y1="-1800" y2="-1800"/>
+        </path>
+    </camera>
     <gravity x="0" y="9.81"/>
     <checkpoints>
         <checkpoint x="136" y="-152" r="100" z="0"/>
