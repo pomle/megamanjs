@@ -2,10 +2,28 @@
     <scripts>
         <bootstrap>
             function bootstrap(game, level) {
-                var lantern = new THREE.PointLight(0xffffff, 1, 100);
-                lantern.position.z = 10;
-                game.player.character.model.add(lantern);
-                level.world.ambientLight.color.setRGB(.4,.1,.1);
+                if (game.player.character) {
+                    var lantern = new THREE.PointLight(0xffffff, 1, 100);
+                    lantern.position.z = 10;
+                    game.player.character.model.add(lantern);
+                    level.world.ambientLight.color.setRGB(1,1,1);
+                }
+
+                var lightSwitch = new Engine.Object();
+                var lightControl = new Game.traits.LightControl();
+                lightControl.color.setRGB(.1,.03,.03);
+                lightSwitch.applyTrait(lightControl);
+                lightSwitch.addCollisionRect(32, 240);
+                lightSwitch.position.set(136,-1800, 0);
+                level.world.addObject(lightSwitch);
+
+                var lightSwitch = new Engine.Object();
+                var lightControl = new Game.traits.LightControl();
+                lightControl.color.setRGB(1,1,1);
+                lightSwitch.applyTrait(lightControl);
+                lightSwitch.addCollisionRect(32, 240);
+                lightSwitch.position.set(1032,-1800, 0);
+                level.world.addObject(lightSwitch);
             }
         </bootstrap>
     </scripts>
