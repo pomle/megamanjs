@@ -433,7 +433,7 @@
                 <face animation="wheel-h-2" index="[972,974,1132,1134]"/>
                 <face animation="screw-left" index="[1052]"/>
                 <face animation="screw-right" index="[1054]"/>
-                <face animation="sign-n" index="[12,14]"/>
+                <face animation="sign-n" index="[12,14,92,172,174,94]"/>
                 <face animation="sign-s" index="[252,254]"/>
                 <face animation="sign-sw" index="[250]"/>
                 <face animation="sign-w" index="[170,90,10]"/>
@@ -698,6 +698,11 @@
                 <face animation="piston-crank" offset=".12">
                     <range x="2" y="3"/>
                 </face>
+            </geometry>
+        </object>
+        <object id="object_257a939df522445c836ca551728c11c4">
+            <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
+                <face animation="dr-wily-logo" index="[0]"/>
             </geometry>
         </object>
     </objects>
@@ -1032,6 +1037,9 @@
             <object id="object_83FAE8F1BA81431BA32D63C7C8374371" x="3952" y="-696" z="0"/>
             <object id="object_CAB1AB1401554942AB92D6C6C4FAF40B" x="2432" y="-480" z="-2"/>
             <object id="object_B895B1756C9A44B5B05F12E77AA1937A" x="3552" y="-600" z="-2"/>
+            <object id="object_257a939df522445c836ca551728c11c4" x="4592" y="-512" z="0"/>
+            <object id="door" x="4864" y="-576" z="0"/>
+            <object id="door" x="4608" y="-576" z="0"/>
         </objects>
         <behaviors>
             <solids>
