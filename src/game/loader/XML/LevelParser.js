@@ -101,16 +101,21 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
     });
 
     levelNode.find('> scripts > bootstrap').each(function(i, node) {
-        switch (node.tagName) {
-            case 'bootstrap':
-                (function() {
-                    var bootstrap = undefined;
-                    eval(node.textContent);
-                    if (typeof bootstrap === "function") {
-                        bootstrap(loader.game, level);
-                    }
-                }());
-                break;
+        try {
+            switch (node.tagName) {
+                case 'bootstrap':
+                    (function() {
+                        var bootstrap = undefined;
+                        eval(node.textContent);
+                        if (typeof bootstrap === "function") {
+                            bootstrap(loader.game, level);
+                        }
+                    }());
+                    break;
+            }
+        }
+        catch (error) {
+            console.error("Could not parse XML script in node <%s>", node.tagName, error);
         }
     });
 
