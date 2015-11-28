@@ -1,4 +1,14 @@
 <scene type="level" name="Quickman">
+    <scripts>
+        <bootstrap>
+            function bootstrap(game, level) {
+                var lantern = new THREE.PointLight(0xffffff, 1, 100);
+                lantern.position.z = 10;
+                game.player.character.model.add(lantern);
+                level.world.ambientLight.color.setRGB(.4,.1,.1);
+            }
+        </bootstrap>
+    </scripts>
     <camera>
         <path>
             <window x1="0" x2="256" y1="-240" y2="0"/>

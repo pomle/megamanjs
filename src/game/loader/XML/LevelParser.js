@@ -100,6 +100,20 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         level.addCheckPoint(c.x, c.y, r || undefined);
     });
 
+    levelNode.find('> scripts > bootstrap').each(function(i, node) {
+        switch (node.tagName) {
+            case 'bootstrap':
+                (function() {
+                    var bootstrap = undefined;
+                    eval(node.textContent);
+                    if (typeof bootstrap === "function") {
+                        bootstrap(loader.game, level);
+                    }
+                }());
+                break;
+        }
+    });
+
     if (callback) {
         callback(this.level, parser);
     }
