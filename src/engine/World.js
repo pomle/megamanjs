@@ -1,6 +1,6 @@
 Engine.World = function()
 {
-    var ambientLight = new THREE.AmbientLight(0xffffff);
+    this.ambientLight = new THREE.AmbientLight(0xffffff);
 
     this.camera = new Engine.Camera(new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000));
 
@@ -12,12 +12,10 @@ Engine.World = function()
     this.atmosphericViscosity = .1;
     this.gravityForce = new THREE.Vector2(0, 9.81);
 
-
-
     this.objects = new Set();
 
     this.scene = new THREE.Scene();
-    this.scene.add(ambientLight);
+    this.scene.add(this.ambientLight);
 
     this.timeStretch = 1;
     this.timeTotal = 0;
