@@ -499,5 +499,11 @@
                 <rect x="2048" y="-3776" w="32" h="96"/>
             </solids>
         </behaviors>
+        <spawner x="352" y="-1792" count="1" max-distance="512">
+            <character id="ChangkeyMaker"/>
+        </spawner>
+        <spawner x="608" y="-1792" count="1" max-distance="512">
+            <character id="ChangkeyMaker"/>
+        </spawner>
     </layout>
 </scene>
