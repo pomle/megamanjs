@@ -14,7 +14,7 @@ Game.objects.Spawner = function()
     this.interval = 0;
     this.pool = [];
     this.roamingLimit = undefined;
-
+    this.spawns = 0;
 }
 
 Game.objects.Spawner.prototype = Object.create(Engine.Object.prototype);
@@ -49,13 +49,18 @@ Game.objects.Spawner.prototype.killOffRoaming = function()
     }
 }
 
+Game.objects.Spawner.prototype.reset = function()
+{
+    this.spawns = 0;
+}
+
 Game.objects.Spawner.prototype.spawnObject = function()
 {
     this.cleanReferences();
     if (this.children.size >= this.maxSimultaneousSpawns) {
         return false;
     }
-    if (this.count < 1 || this.pool.length === 0) {
+    if (this.spawns >= this.count || this.pool.length === 0) {
         return false;
     }
 
@@ -69,7 +74,7 @@ Game.objects.Spawner.prototype.spawnObject = function()
         }
     }
 
-    --this.count;
+    ++this.spawns;
     var index = Math.floor(Math.random() * this.pool.length);
     var object = new this.pool[index]();
     object.position.copy(this.position);
