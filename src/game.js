@@ -117,6 +117,7 @@ var Game = {
             "game/object/character/Flashman.js",
             "game/object/character/Heatman.js",
 
+            "game/object/enemy/ChangkeyMaker.js",
             "game/object/enemy/Telly.js",
             "game/object/enemy/Shotman.js",
             "game/object/enemy/SniperArmor.js",

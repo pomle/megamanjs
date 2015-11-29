@@ -1,0 +1,27 @@
+<objects>
+    <object type="character" source="ChangkeyMaker" id="ChangkeyMaker">
+        <geometry type="plane" w="56" h="40" />
+        <collision>
+            <rect x="0" y="0" w="24" h="32" />
+        </collision>
+        <traits>
+            <trait source="ContactDamage" points="8" />
+            <trait source="Health" max="10" />
+        </traits>
+    </object>
+
+    <textures>
+        <texture url="changkey.png" w="256" h="64"/>
+    </textures>
+
+    <animations w="56" h="40">
+        <animation id="idle">
+            <frame x="0" y="24" duration=".12" />
+            <frame x="56" y="24" duration=".12" />
+        </animation>
+        <animation id="throw">
+            <frame x="112" y="24" duration=".25" />
+            <frame x="168" y="24" duration=".5" />
+        </animation>
+    </animations>
+</objects>

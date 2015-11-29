@@ -53,6 +53,7 @@
         <objects src="./characters/Heatman.xml" />
         <objects src="./characters/Metalman.xml" />
 
+        <objects src="./characters/ChangkeyMaker.xml" />
         <objects src="./characters/Shotman.xml" />
         <objects src="./characters/SniperJoe.xml" />
         <objects src="./characters/SniperArmor.xml" />
