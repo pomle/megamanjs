@@ -41,7 +41,7 @@ Engine.Object.prototype.SURFACE_LEFT = 2;
 Engine.Object.prototype.SURFACE_RIGHT = 3;
 
 Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
-Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true});
+Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true, transparent: true, opacity: 0});
 Engine.Object.prototype.textures = {};
 
 Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
