@@ -72,7 +72,7 @@ Game.traits.Stun.prototype.bump = function()
 Game.traits.Stun.prototype.disengage = function()
 {
     if (this._engaged) {
-        this._move.on();
+        this._move.__on();
         this._engaged = false;
     }
 }
@@ -88,7 +88,7 @@ Game.traits.Stun.prototype.engage = function(points, direction)
         bump.setLength(this.force);
         this.bump();
 
-        this._move.off();
+        this._move.__off();
         this._engaged = true;
         this._elapsed = 0;
     }

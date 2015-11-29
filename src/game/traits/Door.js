@@ -130,7 +130,7 @@ Game.traits.Door.prototype._detain = function(object, destination)
     this.traverseObject.physics.zero();
     this.traverseObject.physics.enabled = false;
 
-    this.traverseObject.move.off();
+    this.traverseObject.move.__off();
     this.traverseDestination = destination;
     this.sequencer.start();
 }
@@ -139,6 +139,6 @@ Game.traits.Door.prototype._release = function()
 {
     this.traverseObject.collidable = true;
     this.traverseObject.physics.enabled = true;
-    this.traverseObject.move.on();
+    this.traverseObject.move.__on();
     this.traverseObject = undefined;
 }

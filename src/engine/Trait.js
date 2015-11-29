@@ -33,12 +33,12 @@ Engine.Trait.prototype.__attach = function(host)
     }
 
     this._host = host;
-    this.on();
+    this.__on();
 }
 
 Engine.Trait.prototype.__detach = function()
 {
-    this.off();
+    this.__off();
     this._host = undefined;
 }
 
@@ -57,7 +57,7 @@ Engine.Trait.prototype.__obstruct = undefined;
 Engine.Trait.prototype.__uncollides = undefined;
 Engine.Trait.prototype.__timeshift = undefined;
 
-Engine.Trait.prototype.off = function()
+Engine.Trait.prototype.__off = function()
 {
     var host = this._host;
     for (var method in this._bindables) {
@@ -65,7 +65,7 @@ Engine.Trait.prototype.off = function()
     }
 }
 
-Engine.Trait.prototype.on = function()
+Engine.Trait.prototype.__on = function()
 {
     var host = this._host;
     for (var method in this._bindables) {
