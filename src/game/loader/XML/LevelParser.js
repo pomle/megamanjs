@@ -281,7 +281,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode
 
         spawner.count = parser.getFloat(spawnerNode, 'count', Infinity);
         spawner.maxSimultaneousSpawns = parser.getFloat(spawnerNode, 'simultaneous', 1);
-        spawner.interval = parser.getFloat(spawnerNode, 'interval', 5);
+        spawner.interval = parser.getFloat(spawnerNode, 'interval', 0);
         spawner.minDistance = parser.getFloat(spawnerNode, 'min-distance', spawner.minDistance);
         spawner.maxDistance = parser.getFloat(spawnerNode, 'max-distance', spawner.maxDistance);
 

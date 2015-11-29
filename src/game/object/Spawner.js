@@ -11,7 +11,7 @@ Game.objects.Spawner = function()
     this.maxDistance = 256;
     this.minDistance = 32;
     this.maxSimultaneousSpawns = 1;
-    this.interval = undefined;
+    this.interval = 0;
     this.pool = [];
     this.roamingLimit = undefined;
 
