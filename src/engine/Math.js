@@ -113,5 +113,16 @@ Engine.Easing = {
   easeInOutQuart: function (t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
   easeInQuint: function (t) { return t*t*t*t*t },
   easeOutQuint: function (t) { return 1+(--t)*t*t*t*t },
-  easeInOutQuint: function (t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t }
+  easeInOutQuint: function (t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t },
+  easeOutElastic: function(t) {
+    var p = .3,
+        s = p / 4;
+    if (t === 0) {
+      return 0;
+    }
+    if (t === 1) {
+      return 1;
+    }
+    return Math.pow(2, -10 * t) * Math.sin((t * 1 - s) * (2 * Math.PI) / p) + 1;
+  },
 }
