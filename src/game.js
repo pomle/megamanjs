@@ -94,6 +94,8 @@ var Game = {
             "game/traits/Stun.js",
             "game/traits/Teleport.js",
             "game/traits/Weapon.js",
+            "game/traits/Light.js",
+            "game/traits/Glow.js",
             "game/traits/Headlight.js",
             "game/traits/LightControl.js",
 
