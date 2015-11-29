@@ -2,13 +2,6 @@
     <scripts>
         <bootstrap>
             function bootstrap(game, level) {
-                if (game.player.character) {
-                    var lantern = new THREE.PointLight(0xffffff, 1, 100);
-                    lantern.position.z = 10;
-                    game.player.character.model.add(lantern);
-                    level.world.ambientLight.color.setRGB(1,1,1);
-                }
-
                 var lightSwitch = new Engine.Object();
                 var lightControl = new Game.traits.LightControl();
                 lightControl.color.setRGB(.1,.03,.03);
