@@ -432,7 +432,6 @@ Editor.UI.prototype.createViewport = function(node)
             editor.camera.centerGrid();
         })
         .on('mousedown', function(e) {
-            e.preventDefault();
             let pos = viewport.getPositionAtEvent(e.originalEvent);
             mouse.event = e;
             mouse.pos.copy(pos);
