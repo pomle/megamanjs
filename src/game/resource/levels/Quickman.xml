@@ -2,21 +2,26 @@
     <scripts>
         <bootstrap>
             function bootstrap(game, level) {
-                var lightSwitch = new Engine.Object();
-                var lightControl = new Game.traits.LightControl();
-                lightControl.color.setRGB(.1,.03,.03);
-                lightSwitch.applyTrait(lightControl);
-                lightSwitch.addCollisionRect(32, 240);
-                lightSwitch.position.set(136,-1800, 0);
-                level.world.addObject(lightSwitch);
+                var switches = [
+                    {
+                        color: new THREE.Color(.1,.03,.03),
+                        pos: new THREE.Vector3(64,-1800, 0),
+                    },
+                    {
+                        color: new THREE.Color(1,1,1),
+                        pos: new THREE.Vector3(1120,-1800, 0),
+                    },
+                ];
 
-                var lightSwitch = new Engine.Object();
-                var lightControl = new Game.traits.LightControl();
-                lightControl.color.setRGB(1,1,1);
-                lightSwitch.applyTrait(lightControl);
-                lightSwitch.addCollisionRect(32, 240);
-                lightSwitch.position.set(1032,-1800, 0);
-                level.world.addObject(lightSwitch);
+                switches.forEach(function(opt) {
+                    var object = new Engine.Object();
+                    var light = new Game.traits.LightControl();
+                    light.color.copy(opt.color);
+                    object.applyTrait(light);
+                    object.addCollisionRect(64, 240);
+                    object.position.copy(opt.pos);
+                    level.world.addObject(object);
+                });
             }
         </bootstrap>
     </scripts>
