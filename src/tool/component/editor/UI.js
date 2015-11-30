@@ -22,7 +22,6 @@ Editor.UI = function(editor, workspace)
         if (k === 27 && d) { // ESC (reset)
             editor.items.deselect();
             $(':input').blur();
-            editor.ui.viewport.focus();
             editor.activeMode = editor.modes.view;
         }
         else if ($(e.target).is(':input')) {
@@ -30,10 +29,12 @@ Editor.UI = function(editor, workspace)
         }
         else {
             if (d && k === 107) { // -
+                e.preventDefault();
                 editor.camera.zoomOut();
                 return;
             }
             if (d && k === 109) { // +
+                e.preventDefault();
                 editor.camera.zoomIn();
                 return;
             }
@@ -383,7 +384,6 @@ Editor.UI.prototype.createViewport = function(node)
 
     viewport
         .on('mousemove', function(e) {
-
             if (e.buttons === 4) {
                 e.preventDefault();
                 let to = new THREE.Vector2((mouse.event.clientX - e.clientX),
@@ -479,8 +479,6 @@ Editor.UI.prototype.createViewport = function(node)
             e.preventDefault();
         })
         .on('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
         })
         .on('dblclick', function(e) {
             e.preventDefault();
