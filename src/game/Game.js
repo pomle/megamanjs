@@ -38,9 +38,8 @@ Game.prototype.attachToElement = function(element)
         'bossHealthBar': element.querySelector('.bossHealth'),
     }
 
-    var rect = this.element.getBoundingClientRect();
-    this.engine.renderer.setSize(rect.width, rect.height);
-    this.engine.renderer.domElement.removeAttribute("style");
+    this.adjustResolution();
+
     this.element.appendChild(this.engine.renderer.domElement);
 }
 
@@ -60,9 +59,10 @@ Game.prototype.adjustResolution = function()
     this.setResolution(rect.width, rect.height);
 }
 
-Game.prototype.setResolution = function(x, y)
+Game.prototype.setResolution = function(w, h)
 {
-    this.engine.renderer.setSize(x, y);
+    this.engine.renderer.setSize(w, h);
+    this.engine.renderer.domElement.removeAttribute("style");
 }
 
 Game.prototype.setScene = function(scene)
