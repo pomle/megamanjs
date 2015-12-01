@@ -2,6 +2,8 @@ Game.traits.Light = function()
 {
     Engine.Trait.call(this);
 
+    this.direction = new THREE.Vector2();
+
     this.lamps = [];
     this.threshold = .8;
     this.easeOn = Engine.Easing.easeOutElastic;
@@ -33,23 +35,41 @@ Game.traits.Light.prototype.__timeshift = function lightTimeshift(deltaTime)
             this.off();
         }
     }
-    this._nextUpdate += deltaTime;
 
     this._updateLight(deltaTime);
+    this._updateTweens(deltaTime);
+
+    this._nextUpdate += deltaTime;
 }
 
 Game.traits.Light.prototype._updateLight = function(deltaTime)
 {
-    if (this._tweens.length === 0) {
-        return;
+    var host = this._host,
+        lamps = this.lamps;
+
+    /* Ensure lights are always in Z front of host no matter rotation. */
+    if (host.direction.x !== this.direction.x) {
+        for (var i = 0, l = this.lamps.length; i !== l; ++i) {
+            var lamp = this.lamps[i],
+                dist = Math.abs(lamp.light.position.z);
+            lamp.light.position.z = host.direction.x > 0 ? dist : -dist;
+        }
+        this.direction.x = host.direction.x;
     }
-    for (var i = 0, l = this._tweens.length; i !== l; ++i) {
-        var t = this._tweens[i];
-        t.updateTime(deltaTime);
-        if (t.progress >= t.duration) {
-            this._tweens.splice(i, 1);
-            --i;
-            --l;
+
+}
+
+Game.traits.Light.prototype._updateTweens = function(deltaTime)
+{
+    if (this._tweens.length !== 0) {
+        for (var i = 0, l = this._tweens.length; i !== l; ++i) {
+            var t = this._tweens[i];
+            t.updateTime(deltaTime);
+            if (t.progress >= t.duration) {
+                this._tweens.splice(i, 1);
+                --i;
+                --l;
+            }
         }
     }
 }
