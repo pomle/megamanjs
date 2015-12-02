@@ -127,7 +127,7 @@ input {
 }
 
 .fullscreen #nes-controller {
-    visibility: none;
+    visibility: hidden;
 }
 .touch-device .fullscreen #nes-controller {
     visibility: visible;
