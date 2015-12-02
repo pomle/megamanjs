@@ -9,7 +9,6 @@ Game.traits.Light = function()
     this.easeOn = Engine.Easing.easeOutElastic;
     this.easeOff = Engine.Easing.easeOutQuint;
 
-    this._tweens = [];
     this._nextUpdate = 0;
     this._updateFrequency = 2.5;
 }
@@ -37,7 +36,6 @@ Game.traits.Light.prototype.__timeshift = function lightTimeshift(deltaTime)
     }
 
     this._updateLight(deltaTime);
-    this._updateTweens(deltaTime);
 
     this._nextUpdate += deltaTime;
 }
@@ -46,6 +44,18 @@ Game.traits.Light.prototype._updateLight = function(deltaTime)
 {
     var host = this._host,
         lamps = this.lamps;
+
+    for (var i = 0, l = this.lamps.length; i !== l; ++i) {
+        var lamp = this.lamps[i];
+        if (lamp.tween !== undefined) {
+            var tween = lamp.tween;
+            tween.updateTime(deltaTime);
+            this.events.trigger(this.EVENT_LAMP_CHANGE, [lamp]);
+            if (tween.progress >= tween.duration) {
+                lamp.tween = undefined;
+            }
+        }
+    }
 
     /* Ensure lights are always in Z front of host no matter rotation. */
     if (host.direction.x !== this.direction.x) {
@@ -57,21 +67,6 @@ Game.traits.Light.prototype._updateLight = function(deltaTime)
         this.direction.x = host.direction.x;
     }
 
-}
-
-Game.traits.Light.prototype._updateTweens = function(deltaTime)
-{
-    if (this._tweens.length !== 0) {
-        for (var i = 0, l = this._tweens.length; i !== l; ++i) {
-            var t = this._tweens[i];
-            t.updateTime(deltaTime);
-            if (t.progress >= t.duration) {
-                this._tweens.splice(i, 1);
-                --i;
-                --l;
-            }
-        }
-    }
 }
 
 Game.traits.Light.prototype._updateScene = function()
@@ -97,7 +92,7 @@ Game.traits.Light.prototype._startLamp = function(lamp)
         lamp.heatUpTime);
     tween.addObject(lamp.light);
     tween.progress = -1;
-    this._tweens.push(tween);
+    lamp.tween = tween;
 }
 
 Game.traits.Light.prototype._stopLamp = function(lamp)
@@ -108,7 +103,7 @@ Game.traits.Light.prototype._stopLamp = function(lamp)
         this.easeOff,
         lamp.coolDownTime);
     tween.addObject(lamp.light);
-    this._tweens.push(tween);
+    lamp.tween = tween;
 }
 
 Game.traits.Light.prototype.addLamp = function(light)
@@ -155,4 +150,6 @@ Game.traits.Light.Lamp = function(light)
     this.light.position.z = 20;
     this.light.intensity = 0;
     this.state = false;
+
+    this.tween = undefined;
 }
