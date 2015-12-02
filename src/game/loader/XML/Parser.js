@@ -199,7 +199,9 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
     var texture = resources.get('texture', textureId);
 
     if (!texture) {
+        var textureScale = this.getFloat(textureNode, 'scale', 4);
         var texture = new THREE.Texture();
+        texture.name = textureId;
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
 
@@ -213,9 +215,11 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
             });
         });
 
-        effects.push(function(canvas) {
-            return Engine.CanvasUtil.scale(canvas, 4);
-        });
+        if (textureScale !== 1) {
+            effects.push(function(canvas) {
+                return Engine.CanvasUtil.scale(canvas, textureScale);
+            });
+        }
 
         var image = new Image();
         image.onload = function() {
