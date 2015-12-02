@@ -173,7 +173,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
     {
         this.geometry = geometries[0].geometry.clone();
         if (this.textures.length) {
-            this.material = new THREE.MeshLambertMaterial({
+            this.material = new THREE.MeshPhongMaterial({
                 map: this.textures[0],
                 side: THREE.DoubleSide,
                 transparent: true,
