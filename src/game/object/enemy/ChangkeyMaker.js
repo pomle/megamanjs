@@ -10,8 +10,12 @@ Game.objects.characters.ChangkeyMaker = function()
     this.flickerIntensity = .25;
     this.flickerDelay = .05;
 
+    var light = new THREE.PointLight(0xff5400, 2, 256);
+    light.position.z = 20;
+
     var glow = new Game.traits.Glow();
-    glow.addLamp(new THREE.PointLight(0xff5400, 2, 256));
+    glow.addLamp(light);
+
     this.glow = this.applyTrait(glow);
 }
 
