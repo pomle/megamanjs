@@ -151,7 +151,6 @@ Game.traits.Light.Lamp = function(light)
     this.heatUpTime = .8;
     this.intensity = light.intensity;
 
-    this.light.position.z = 20;
     this.light.intensity = 0;
     this.state = false;
 
