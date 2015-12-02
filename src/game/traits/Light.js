@@ -3,6 +3,7 @@ Game.traits.Light = function()
     Engine.Trait.call(this);
 
     this.direction = new THREE.Vector2();
+    this.events = new Engine.Events();
 
     this.lamps = [];
     this.threshold = .8;
@@ -14,6 +15,8 @@ Game.traits.Light = function()
 }
 
 Engine.Util.extend(Game.traits.Light, Engine.Trait);
+
+Game.traits.Light.prototype.EVENT_LAMP_CHANGE = 'lamp_change';
 
 Game.traits.Light.prototype.NAME = 'headlight';
 
