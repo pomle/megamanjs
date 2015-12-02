@@ -82,6 +82,7 @@
     </animations>
 
     <textures>
+        <texture id="headlight_lensflare" url="../deco/headlight_lensflare.png" w="256" h="128" scale="1" />
         <texture id="megaman-p" url="megaman.png" w="256" h="256"/>
         <texture id="megaman-a" url="megaman.png" w="256" h="256">
             <effects>
