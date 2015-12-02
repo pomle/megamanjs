@@ -76,6 +76,7 @@ Game.traits.Light.prototype._updateScene = function()
 {
     var host = this._host;
     for (var i = 0, l = this.lamps.length; i !== l; ++i) {
+        host.model.remove(this.lamps[i].light);
         host.model.add(this.lamps[i].light);
     }
 
