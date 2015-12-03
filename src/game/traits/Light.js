@@ -95,7 +95,7 @@ Game.traits.Light.prototype._startLamp = function(lamp)
         this.easeOn,
         lamp.heatUpTime);
     tween.addObject(lamp.light);
-    tween.progress = -1;
+    tween.progress = 0;
     lamp.tween = tween;
 }
 
