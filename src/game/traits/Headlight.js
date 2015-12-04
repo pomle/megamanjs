@@ -14,7 +14,7 @@ Game.traits.Headlight = function()
     this.beam.position.z = 6;
     this.beam.target = target;
 
-    this.point = new THREE.PointLight(0x8cc6ff, 2, 30);
+    this.point = new THREE.PointLight(0x8cc6ff, 5, 30);
     this.point.position.copy(this.position);
 
     this.flare = new THREE.Mesh(
