@@ -90,11 +90,11 @@
     </bosses>
 
     <weapons>
-        <weapon source="AirShooter"  id="AirShooter"  code="p" name="Air Shooter"  />
-        <weapon source="Plasma"      id="Plasma"      code="p" name="Plasma"  />
-        <weapon source="CrashBomber" id="CrashBomber" code="c" name="Crash Bomber" />
-        <weapon source="MetalBlade"  id="MetalBlade"  code="m" name="Metal Blade"  />
-        <weapon source="TimeStopper" id="TimeStopper" code="f" name="Time Stopper" />
+        <weapon source="AirShooter"  id="AirShooter"  code="a" name="Air Shooter"/>
+        <weapon source="Plasma"      id="Plasma"      code="p" name="Plasma"/>
+        <weapon source="CrashBomber" id="CrashBomber" code="c" name="Crash Bomber"/>
+        <weapon source="MetalBlade"  id="MetalBlade"  code="m" name="Metal Blade"/>
+        <weapon source="TimeStopper" id="TimeStopper" code="f" name="Time Stopper"/>
         <!--
            sourceid="Atomic weapon id="Atomic Fire" object="AtomicFire" code="h"/>
            sourceid="Bubble weapon id="Bubble Lead" object="BubbleLead" code="b"/>
