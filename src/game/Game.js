@@ -7,9 +7,8 @@ var Game = function()
     }));
 
     this.loader = undefined;
-    this.hud = new Hud(this);
     this.player = new Game.Player();
-    this.player.hud = this.hud;
+    this.player.hud = new Hud(this);
 
     this.resource = new Game.ResourceManager();
 
@@ -33,7 +32,7 @@ Game.prototype.attachToElement = function(element)
 {
     this.element = element;
 
-    this.hud.elements = {
+    this.player.hud.elements = {
         'healthBar': element.querySelector('.health'),
         'weaponBar': element.querySelector('.weapon'),
         'bossHealthBar': element.querySelector('.bossHealth'),

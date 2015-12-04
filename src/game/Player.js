@@ -25,4 +25,5 @@ Game.Player.prototype.setCharacter = function(character)
     }
     this.character = character;
     this.character.isPlayer = true;
+    this.hud.equipCharacter(game.player.character);
 }

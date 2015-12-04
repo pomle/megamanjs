@@ -16,8 +16,6 @@ Game.Loader.XML.createFromXML = function(url, callback)
 
     var game = new Game();
     game.engine = new Engine(renderer);
-    game.player = new Game.Player();
-    game.player.hud = new Hud($('#screen'));
 
     var loader = new Game.Loader.XML(game);
     loader.loadGame(url, callback);
@@ -133,7 +131,6 @@ Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
         var character = new (loader.game.resource.get('character', characterId))();
         character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
         game.player.setCharacter(character);
-        game.hud.equipCharacter(game.player.character);
 
         entryPointParse();
         callback();
