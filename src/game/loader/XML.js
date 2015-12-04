@@ -22,6 +22,8 @@ Game.Loader.XML.createFromXML = function(url, callback)
     var loader = new Game.Loader.XML(game);
     loader.loadGame(url, callback);
 
+    game.loader = loader;
+
     return game;
 }
 

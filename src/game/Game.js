@@ -6,6 +6,7 @@ var Game = function()
         'antialias': false,
     }));
 
+    this.loader = undefined;
     this.hud = new Hud(this);
     this.player = new Game.Player();
     this.player.hud = this.hud;
