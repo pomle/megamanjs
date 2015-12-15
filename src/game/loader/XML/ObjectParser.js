@@ -163,6 +163,17 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
         traitDescriptors.push(parser.getTrait(traitNode));
     });
 
+    var animationRouterFunction = undefined;
+    objectNode.find('animation-router').each(function(index, node) {
+        (function() {
+            var animationRouter = undefined;
+            eval(node.textContent);
+            if (typeof animationRouter === "function") {
+                animationRouterFunction = animationRouter;
+            }
+        }());
+    });
+
     var collision = [];
     objectNode.find('> collision > rect').each(function() {
         var rectNode = $(this);
@@ -216,6 +227,9 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
     object.prototype.animations = animations;
     object.prototype.textures = localTextures;
+    if (animationRouterFunction !== undefined) {
+        object.prototype.routeAnimation = animationRouterFunction;
+    }
 
     this.items.add({
         object: object,
