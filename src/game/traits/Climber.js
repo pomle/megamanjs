@@ -70,6 +70,17 @@ Game.traits.Climber.prototype.__timeshift = function(deltaTime)
     host.velocity.copy(this.attached.velocity);
     host.velocity.add(host.aim.clone().setLength(this.speed));
 
+    if (host.position.y > this.bounds.climbable.top) {
+        if (host.aim.y > 0) {
+            this.bounds.host.bottom = this.bounds.climbable.top;
+            this.release();
+            return;
+        }
+        if (host.aim.y < 0) {
+            host.position.y = this.bounds.climbable.top;
+        }
+    }
+
     this.attached.climbable.constrain(host);
 }
 
