@@ -3,6 +3,10 @@ Game.traits.Climber = function()
     Engine.Trait.call(this);
 
     this.attached = undefined;
+    this.bounds = {
+        climbable: undefined,
+        host: undefined,
+    };
     this.attachMargin = 5;
     this.speed = 60;
 }
@@ -34,10 +38,11 @@ Game.traits.Climber.prototype.__collides = function(subject, ourZone, theirZone)
         return;
     }
 
+    this.bounds.climbable = new Engine.Collision.BoundingBox(subject.model, theirZone);
+    this.bounds.host = new Engine.Collision.BoundingBox(host.model, ourZone);
+
     if (host.aim.y > 0) {
-        var ourBounds = new Engine.Collision.BoundingBox(host.model, ourZone);
-        var theirBounds = new Engine.Collision.BoundingBox(subject.model, theirZone);
-        if (ourBounds.bottom > theirBounds.top - this.attachMargin) {
+        if (this.bounds.host.bottom > this.bounds.climbable.top - this.attachMargin) {
             return;
         }
     }
