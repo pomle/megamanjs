@@ -3,11 +3,11 @@ Game.traits.Climber = function()
     Engine.Trait.call(this);
 
     this.attached = undefined;
+    this.attachMargin = 5;
     this.bounds = {
         climbable: undefined,
         host: undefined,
     };
-    this.attachMargin = 5;
     this.speed = 60;
 }
 
