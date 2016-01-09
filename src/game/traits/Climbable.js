@@ -21,19 +21,14 @@ Game.traits.Climbable.prototype.attach = function(subject)
     this.ignore.add(subject);
 }
 
-/**
- * Restricts the subjects X position to
- * if frames has changed between previous and previous + deltaTime.
- *
- * @param {Number} [deltaTime]
- */
 Game.traits.Climbable.prototype.constrain = function(subject, constrainVertical)
 {
-    var host = this._host;
-    var collision = host.collision;
-    var model = host.model;
-    var constrainVertical = (constrainVertical === true);
-    for (var i = 0, l = collision.length; i < l; ++i) {
+    var host = this._host,
+        model = host.model,
+        collision = host.collision,
+        constrainVertical = (constrainVertical === true);
+
+    for (var i = 0, l = collision.length; i !== l; ++i) {
         var bounds = new Engine.Collision.BoundingBox(model, collision[i]);
         if (subject.position.x > bounds.right) {
             subject.position.x = bounds.right;
