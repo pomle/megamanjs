@@ -42,6 +42,9 @@
                     if (this.weapon._firing) {
                         return 'hang-shoot';
                     }
+                    if (this.position.y > this.climber.bounds.climbable.top - 5) {
+                        return 'bent-over';
+                    }
                     if (this.velocity.y !== 0) {
                         return 'climbing';
                     }
@@ -127,6 +130,9 @@
         </animation>
         <animation id="hang">
             <frame x="48" y="192" />
+        </animation>
+        <animation id="bent-over">
+            <frame x="144" y="192" />
         </animation>
         <animation id="hang-shoot">
             <frame x="96" y="192" />
