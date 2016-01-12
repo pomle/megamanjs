@@ -47,7 +47,7 @@ Editor.UI = function(editor, workspace)
     this.console.textarea = this.console.find('textarea');
     this.console.find('button[name=generate-xml]').on('click', function(e) {
         e.preventDefault();
-        let xml = editor.getXML();
+        let xml = '<?xml version="1.0" encoding="UTF-8"?>' + editor.getXML();
         xml = vkbeautify.xml(xml);
         editor.ui.console.textarea.val(xml);
     });
