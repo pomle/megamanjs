@@ -29,6 +29,10 @@ Engine.World.prototype.addObject = function(object, x, y)
         throw new Error('Invalid object');
     }
 
+    if (this.objects.indexOf(object) !== -1) {
+        return;
+    }
+
     object.position.x = x === undefined ? object.position.x : x;
     object.position.y = y === undefined ? object.position.y : y;
 

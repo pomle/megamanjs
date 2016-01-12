@@ -54,8 +54,7 @@ Editor.ItemSet.prototype.add = function()
         let item = arguments[i];
         let object = item.object;
 
-        if (object instanceof Engine.Object
-        && !this.world.objects.has(object)) {
+        if (object instanceof Engine.Object) {
             this.world.addObject(object);
         }
 
@@ -99,8 +98,7 @@ Editor.ItemSet.prototype.remove = function()
 
         let object = item.object;
 
-        if (object instanceof Engine.Object
-        && this.world.objects.has(object)) {
+        if (object instanceof Engine.Object) {
             this.world.removeObject(object);
         }
 

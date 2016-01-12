@@ -238,9 +238,11 @@ Game.scenes.Level.prototype.resetCheckpoint = function()
 
 Game.scenes.Level.prototype.resetObjects = function()
 {
-    for (var object of this.world.objects) {
-        for (var i = 0, l = object.traits.length; i < l; ++i) {
-            var trait = object.traits[i];
+    var objects = this.world.objects;
+    for (var i = 0, l = objects.length; i !== l; ++i) {
+        var object = objects[i];
+        for (var j = 0, k = object.traits.length; j !== k; ++j) {
+            var trait = object.traits[j];
             if (typeof trait.reset === 'function') {
                 trait.reset();
             }
