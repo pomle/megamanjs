@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <objects>
     <object type="character" source="Megaman" id="Megaman">
         <geometry type="plane" w="48" h="48" />
