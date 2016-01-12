@@ -7,11 +7,11 @@
         </path>
     </camera>
     <checkpoints>
-        <checkpoint x="0" y="0"/>
+        <checkpoint x="0" y="0" z="0"/>
     </checkpoints>
     <objects>
         <textures>
-            <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128"></texture>
+            <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128"/>
         </textures>
         <animations>
             <animation id="ladder">
@@ -34,17 +34,19 @@
     </objects>
     <layout>
         <objects>
-            <object id="ladder" x="32" y="0"/>
-            <object id="ladder" x="-48" y="32"/>
-            <object id="ladder" x="96" y="-96"/>
-            <object id="ladder" x="-32" y="-144"/>
+            <object id="ladder" x="32" y="0" z="-1"/>
+            <object id="ladder" x="-48" y="32" z="-1"/>
+            <object id="ladder" x="96" y="-96" z="-1"/>
+            <object id="ladder" x="-32" y="-144" z="-1"/>
         </objects>
-        <solids>
-            <rect x="-32" y="32" w="64" h="16"/>
-            <rect x="-112" y="32" w="64" h="16"/>
-            <rect x="-16" y="-32" w="32" h="16"/>
-            <rect x="48" y="32" w="64" h="16"/>
-            <rect x="48" y="-96" w="64" h="16"/>
-        </solids>
+        <behaviors>
+            <solids>
+                <rect x="8" y="-88" w="64" h="16"/>
+                <rect x="-72" y="-88" w="64" h="16"/>
+                <rect x="32" y="72" w="32" h="16"/>
+                <rect x="136" y="-40" w="64" h="16"/>
+                <rect x="72" y="-168" w="64" h="16"/>
+            </solids>
+        </behaviors>
     </layout>
 </scene>
