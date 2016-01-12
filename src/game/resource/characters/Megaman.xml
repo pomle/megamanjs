@@ -26,10 +26,10 @@
             animationRouter = function()
             {
                 if (this.teleport.state) {
-                    if (this.teleport.state == this.teleport.STATE_OUT) {
+                    if (this.teleport.state === this.teleport.STATE_OUT) {
                         return 'teleport-out';
                     }
-                    else if (this.teleport.state == this.teleport.STATE_IN) {
+                    else if (this.teleport.state === this.teleport.STATE_IN) {
                         return 'teleport-in';
                     }
                     return 'teleport';
