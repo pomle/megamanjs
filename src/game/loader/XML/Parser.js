@@ -6,16 +6,22 @@ Game.Loader.XML.Parser = function(loader)
 
 Game.Loader.XML.Parser.prototype.applyTrait = function(object, traitDescriptor)
 {
-    var trait = object.getTrait(traitDescriptor.ref);
-    if (!trait) {
-        trait = new traitDescriptor.ref();
+    if (typeof traitDescriptor === 'function') {
+        var trait = traitDescriptor();
         object[trait.NAME] = object.applyTrait(trait);
     }
+    else {
+        var trait = object.getTrait(traitDescriptor.ref);
+        if (!trait) {
+            trait = new traitDescriptor.ref();
+            object[trait.NAME] = object.applyTrait(trait);
+        }
 
-    for (var p in traitDescriptor.prop) {
-        var prop = traitDescriptor.prop[p];
-        if (prop !== undefined) {
-            trait[p] = prop;
+        for (var p in traitDescriptor.prop) {
+            var prop = traitDescriptor.prop[p];
+            if (prop !== undefined) {
+                trait[p] = prop;
+            }
         }
     }
     return trait;
@@ -242,6 +248,7 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
     var game = this.loader.game,
         source = traitNode.attr('source'),
         name = traitNode.attr('name'),
+        parser = this,
         ref = Game.traits[source];
 
     if (ref === undefined) {
@@ -299,6 +306,23 @@ Game.Loader.XML.Parser.prototype.getTrait = function(traitNode)
                     'oneWay': this.getBool(traitNode, 'one-way'),
                 }
             }
+            break;
+
+        case 'elevator':
+            var nodes = [];
+            traitNode.find('> path > node').each(function() {
+                var node = parser.getVector2($(this));
+                nodes.push(node);
+            });
+            var speed = parser.getFloat(traitNode.find('> path'), 'speed');
+            return function() {
+                var trait = new ref();
+                trait.speed = speed;
+                nodes.forEach(function(node) {
+                    trait.addNode(node);
+                });
+                return trait;
+            };
             break;
 
         case 'fallaway':
