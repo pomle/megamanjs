@@ -221,6 +221,10 @@
             <animation id="maze-v-b">
                 <frame x="55" y="108" w="16" h="16" duration=".5"/>
             </animation>
+            <animation id="elevator">
+                <frame x="143" y="55" w="24" h="16" duration=".12"/>
+                <frame x="143" y="72" w="24" h="16" duration=".12"/>
+            </animation>
         </animations>
         <object id="door">
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
@@ -264,6 +268,112 @@
                 <face animation="maze-v-b" index="[1090,1120]"/>
             </geometry>
         </object>
+
+        <object id="elevator1">
+            <geometry type="plane" w="24" h="16">
+                <face animation="elevator"/>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="24" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Elevator">
+                    <path speed="60">
+                        <node x="-176" y="0"/>
+                        <node x="0" y="96"/>
+                        <node x="176" y="0"/>
+                        <node x="0" y="-96"/>
+                    </path>
+                </trait>
+            </traits>
+        </object>
+
+        <object id="elevator2">
+            <geometry type="plane" w="24" h="16">
+                <face animation="elevator"/>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="24" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Elevator">
+                    <path speed="60">
+                        <node x="-112" y="0"/>
+                        <node x="0" y="32"/>
+                        <node x="48" y="0"/>
+                        <node x="0" y="32"/>
+                        <node x="32" y="0"/>
+                        <node x="0" y="32"/>
+                        <node x="-48" y="0"/>
+                        <node x="0" y="-32"/>
+                        <node x="-96" y="0"/>
+                        <node x="0" y="32"/>
+                        <node x="64" y="0"/>
+                        <node x="0" y="32"/>
+                        <node x="112" y="0"/>
+                        <node x="0" y="-128"/>
+                    </path>
+                </trait>
+            </traits>
+        </object>
+
+        <object id="elevator3">
+            <geometry type="plane" w="24" h="16">
+                <face animation="elevator"/>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="24" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Elevator">
+                    <path speed="60">
+                        <node x="-176" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="160" y="0"/>
+                        <node x="0" y="96"/>
+                        <node x="-32" y="0"/>
+                        <node x="0" y="-16"/>
+                        <node x="16" y="0"/>
+                        <node x="0" y="-16"/>
+                        <node x="-16" y="0"/>
+                        <node x="0" y="-16"/>
+                        <node x="16" y="0"/>
+                        <node x="0" y="-16"/>
+                        <node x="-16" y="0"/>
+                        <node x="0" y="-16"/>
+                        <node x="-32" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="16" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="-16" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="16" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="-16" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="-16" y="0"/>
+                        <node x="0" y="-80"/>
+                        <node x="-64" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="48" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="-48" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="48" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="-64" y="0"/>
+                        <node x="0" y="-48"/>
+                        <node x="-16" y="0"/>
+                        <node x="0" y="64"/>
+                        <node x="80" y="0"/>
+                        <node x="0" y="16"/>
+                        <node x="112" y="0"/>
+                        <node x="0" y="-128"/>
+                    </path>
+                </trait>
+            </traits>
+        </object>
+
         <object id="object_D26AB42BA8AB4AC79BF82823EB552AF8">
             <geometry type="plane" w="256" h="1200" w-segments="16" h-segments="75">
                 <face animation="transparent">
@@ -361,6 +471,9 @@
     </objects>
     <layout>
         <objects>
+            <object id="elevator1" x="472" y="796" z=".01"/>
+            <object id="elevator2" x="472" y="1036" z=".01"/>
+            <object id="elevator3" x="472" y="1276" z=".01"/>
             <object id="door" x="1280" y="3504" z="0"/>
             <object id="door" x="1024" y="3504" z="0"/>
             <object id="object_4FBF48E9426F446698744A217AC1144F" x="128" y="360" z="-0.01"/>
