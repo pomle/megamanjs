@@ -42,6 +42,17 @@ Engine.World.prototype.addObject = function(object, x, y)
     object.setWorld(this);
 }
 
+Engine.World.prototype.getObject = function(name)
+{
+    for (var i = 0, l = this.objects.length; i !== l; ++i) {
+        var object = this.objects[i];
+        if (object.name === name) {
+            return object;
+        }
+    }
+    return false;
+}
+
 Engine.World.prototype.removeObject = function(object)
 {
     if (object instanceof Engine.Object === false) {
