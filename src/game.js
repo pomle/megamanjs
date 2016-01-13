@@ -61,6 +61,7 @@ var Game = {
         "game/traits/Move.js",
         "game/traits/Climber.js",
         "game/traits/Solid.js",
+        "game/traits/Elevator.js",
         "game/traits/Climbable.js",
         "game/traits/Conveyor.js",
         "game/traits/Door.js",
