@@ -26,8 +26,10 @@ Game.traits.Physics.prototype.__obstruct = function(object, attack)
 {
     switch (attack) {
         case object.SURFACE_TOP:
-        case object.SURFACE_BOTTOM:
             this.velocity.copy(object.velocity);
+            break;
+        case object.SURFACE_BOTTOM:
+            this.velocity.y = object.velocity.y;
             break;
         case object.SURFACE_LEFT:
         case object.SURFACE_RIGHT:
