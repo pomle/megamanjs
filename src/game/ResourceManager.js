@@ -58,19 +58,6 @@ Game.ResourceManager.prototype.addWeapon = function(id, object)
     return this._addResource('weapon', id, object);
 }
 
-Game.ResourceManager.prototype.createTexture = function(location, callback)
-{
-    var texture = Engine.TextureManager.getScaledTexture(url, this.textureScale, callback);
-    var material = new THREE.MeshBasicMaterial({
-        //color: 0xffffff,
-        //wireframe: true,
-        side: THREE.DoubleSide,
-        map: texture,
-        transparent: true,
-    });
-    return texture;
-}
-
 Game.ResourceManager.prototype.get = function(type, id)
 {
     if (this.items[type] && this.items[type][id]) {
