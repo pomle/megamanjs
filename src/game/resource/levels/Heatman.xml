@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Heatman">
     <checkpoints>
         <checkpoint x="136" y="-165" z="0"/>
@@ -756,7 +757,7 @@
             <object id="pho-block" x="2216" y="-584">
                 <trait source="Disappearing" off="2" on="2" offset="-1"/>
             </object>
-            <object id="pho-block" x="2464" y="-640">
+            <object id="pho-block" x="2472" y="-640">
                 <trait source="Disappearing" off="2" on="2"/>
             </object>
             <object id="pho-block" x="2632" y="-648">
