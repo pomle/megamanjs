@@ -33,15 +33,6 @@ Game.traits.Headlight = function()
         new Game.traits.Light.Lamp(this.beam),
         new Game.traits.Light.Lamp(this.point),
     ];
-
-    function updateFlare(lamp)
-    {
-        if (lamp.light === this.point) {
-            this.flare.material.opacity = lamp.light.intensity / lamp.intensity;
-        }
-    }
-
-    this.events.bind(this.EVENT_LAMP_CHANGE, updateFlare.bind(this));
 }
 
 Engine.Util.extend(Game.traits.Headlight, Game.traits.Light);
@@ -74,6 +65,8 @@ Game.traits.Headlight.prototype.__timeshift = function(deltaTime)
 {
     var host = this._host,
         animator = host.animators[0];
+
+    this.flare.material.opacity = this.point.intensity / this.lamps[1].intensity;
 
     this.point.position.y = this.beam.position.y = this.position.y;
     if (animator._currentAnimation === host.animations.run) {
