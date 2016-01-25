@@ -112,7 +112,7 @@ Game.objects.projectiles.CrashBomb.prototype.timeShift = function(dt)
 
     Game.objects.Projectile.prototype.timeShift.call(this, dt);
 
-    if (this.attachPosition) {
+    if (this.attachPosition !== undefined) {
         this.position.copy(this.attachPosition);
         this.position.add(this.attachOffset);
     }
