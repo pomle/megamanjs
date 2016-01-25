@@ -67,7 +67,7 @@ Game.objects.Projectile.prototype.setEmitter = function(emitter, direction)
         throw new Error("Direction not specified");
     }
 
-    Engine.Object.prototype.setEmitter.call(this, emitter);
+    Engine.Object.prototype.setEmitter.apply(this, arguments);
 
     var origin = emitter.position.clone();
     origin.x += emitter.weapon.projectileEmitOffset.x * direction.x;
