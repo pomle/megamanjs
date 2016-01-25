@@ -15,6 +15,7 @@ Game.objects.projectiles.AirShot = function()
 
     this.setModel(model);
     this.setDamage(20);
+    this.setRange(150);
     this.setSpeed(80);
     this.penetratingForce = true;
     this.addCollisionRect(7, 8, 0, 0);
