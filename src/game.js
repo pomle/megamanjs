@@ -75,7 +75,6 @@ var Game = {
 
         "game/object/Solid.js",
         "game/object/Climbable.js",
-        "game/object/obstacle/AppearingSolid.js",
         "game/object/obstacle/DeathZone.js",
         "game/object/Character.js",
         "game/object/Item.js",
