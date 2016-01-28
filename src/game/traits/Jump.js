@@ -53,7 +53,7 @@ Game.traits.Jump.prototype.engage = function()
         return false;
     }
 
-    if (host.climber) {
+    if (host.climber !== undefined) {
         host.climber.release();
     }
 
