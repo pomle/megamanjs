@@ -13,14 +13,10 @@ var Game = function()
     this.resource = new Game.ResourceManager();
 
     window.addEventListener('focus', function() {
-        if (this.engine && !this.engine.isRunning) {
-            this.engine.run();
-        }
+        this.engine.run();
     }.bind(this));
     window.addEventListener('blur', function() {
-        if (this.engine && this.engine.isRunning) {
-            this.engine.pause();
-        }
+        this.engine.pause();
     }.bind(this));
 }
 

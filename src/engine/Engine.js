@@ -1,18 +1,25 @@
 var Engine = function(renderer)
 {
     this.events = new Engine.Events();
-    this.renderer = renderer;
-    this.isRunning = false;
-    this.isSimulating = true;
-    this.simulationSpeed = 1;
-    this.speedLimit = 1;
-    this.tick = 0;
+
     this.timeElapsedTotal = 0;
     this.timeMax = 1/60;
     this.timeStretch = 1;
+
+    this.renderer = renderer;
+    this.renderTimer = undefined;
+
+    this.simulationBusy = false;
+    this.simulationResolution = 1/120;
+    this.simulationRounds = 0;
+    this.simulationSpeed = 1;
+    this.simulationTime = undefined;
+    this.simulationTimer = undefined;
+
     this.world = undefined;
 
-    this.loop = this.loop.bind(this);
+    this.render = this.render.bind(this);
+    this.simulate = this.simulate.bind(this);
 }
 
 Engine.prototype.EVENT_RENDER = 'render';
@@ -22,61 +29,63 @@ Engine.prototype.EVENT_TIMEPASS = 'timepass';
 Engine.logic = {};
 Engine.traits = {};
 
-Engine.prototype.loop = function(timeElapsed)
-{
-    if (!this.isRunning || this.world === undefined) {
-        return false;
-    }
-
-    this.tick += this.speedLimit;
-    if (this.tick >= 1 && timeElapsed) {
-        timeElapsed /= 1000;
-        if (this.timeLastEvent !== undefined) {
-            var timeDiff = timeElapsed - this.timeLastEvent;
-            timeDiff *= this.timeStretch;
-
-            /* Never let more time than 1/60th of a second pass per frame in game world. */
-            timeDiff = Math.min(timeDiff, this.timeMax);
-            this.timeElapsedTotal += timeDiff;
-
-            if (this.isSimulating && this.simulationSpeed) {
-                var simTimeDiff = timeDiff * this.simulationSpeed;
-                this.world.updateTime(simTimeDiff);
-                this.world.camera.updateTime(simTimeDiff);
-
-                this.events.trigger(this.EVENT_SIMULATE, [simTimeDiff]);
-            }
-            this.events.trigger(this.EVENT_TIMEPASS, [timeDiff]);
-        }
-        this.render();
-        this.events.trigger(this.EVENT_RENDER);
-
-        this.tick = 0;
-        this.timeLastEvent = timeElapsed;
-    }
-
-    requestAnimationFrame(this.loop);
-}
-
 Engine.prototype.pause = function()
 {
-    this.isRunning = false;
+    if (this.renderTimer !== undefined) {
+        cancelAnimationFrame(this.renderTimer);
+        this.renderTimer = undefined;
+    }
+    if (this.simulationTimer !== undefined) {
+        clearInterval(this.simulationTimer);
+        this.simulationTimer = undefined;
+        this.simulationTime = undefined;
+    }
 }
 
 Engine.prototype.render = function()
 {
-    this.renderer.render(this.world.scene,
-                         this.world.camera.camera);
+    this.renderTimer = requestAnimationFrame(this.render);
+    this.renderer.render(this.world.scene, this.world.camera.camera);
+    this.events.trigger(this.EVENT_RENDER);
 }
 
 Engine.prototype.run = function()
 {
-    if (this.isRunning) {
-        throw new Error('Already running');
+    if (this.world === undefined) {
+        throw new Error('World not set');
     }
-    this.isRunning = true;
-    this.timeLastEvent = undefined;
-    this.loop(0);
+
+    if (this.simulationTimer === undefined) {
+        if (this.simulationTime === undefined) {
+            this.simulationTime = performance.now();
+        }
+        clearInterval(this.simulationTimer);
+        var interval = this.simulationResolution * 1000;
+        this.simulationTimer = setInterval(this.simulate, interval);
+        console.log('Starting engine with time resolution %dms', interval);
+    }
+    this.render();
+}
+
+Engine.prototype.simulate = function()
+{
+    if (this.simulationBusy === true) {
+        return;
+    }
+    this.simulationBusy = true;
+
+    var deltaTime = performance.now() - this.simulationTime,
+        deltaTimeWorld = (deltaTime / 1000) * this.simulationSpeed;
+
+    this.world.updateTime(deltaTimeWorld);
+    this.world.camera.updateTime(deltaTimeWorld);
+
+    this.events.trigger(this.EVENT_SIMULATE, [deltaTimeWorld]);
+    this.events.trigger(this.EVENT_TIMEPASS, [deltaTimeWorld]);
+
+    this.simulationTime += deltaTime;
+
+    this.simulationBusy = false;
 }
 
 Engine.prototype.setWorld = function(world)
