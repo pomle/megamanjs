@@ -72,7 +72,7 @@ Engine.prototype.render = function()
 Engine.prototype.run = function()
 {
     if (this.isRunning) {
-        throw new Error('Already running');
+        return;
     }
     this.isRunning = true;
     this.timeLastEvent = undefined;

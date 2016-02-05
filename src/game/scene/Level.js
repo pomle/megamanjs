@@ -24,8 +24,9 @@ Game.scenes.Level = function(game, world)
     this.simulateListener = this.simulateListener.bind(this);
 
     this.events.bind(this.EVENT_START, this.resetPlayer);
-    this.events.bind(this.EVENT_DESTROY, function() {
+    this.events.bind(this.EVENT_END, function() {
         level.pauseGamePlay();
+        engine.isSimulating = true;
     });
 }
 
