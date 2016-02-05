@@ -58,22 +58,6 @@ Game.Loader.XML.prototype.loadGame = function(url, callback)
     });
 }
 
-Game.Loader.XML.prototype.loadLevel = function(url, callback)
-{
-    var loader = this;
-    this.load(url, function(node) {
-        var level = loader.parseLevel(node, callback);
-    });
-}
-
-Game.Loader.XML.prototype.loadObjects = function(url, callback)
-{
-    var loader = this;
-    this.load(url, function(node) {
-        loader.parseObjects(node, callback);
-    });
-}
-
 Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
 {
     var parser = new Game.Loader.XML.Parser.CharacterParser(this);
