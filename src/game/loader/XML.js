@@ -217,8 +217,13 @@ Game.Loader.XML.prototype.parseStageSelect = function(sceneNode, callback)
 
     scene.equalize(parseFloat(indicatorNode.attr('initial-index')));
 
+    var stageSelect = scene;
     scene.events.bind(scene.EVENT_STAGE_SELECTED, function(stage, index) {
-        loader.startScene(stage.name);
+        loader.startScene(stage.name, function(scene) {
+            scene.events.bind(scene.EVENT_END, function() {
+                loader.game.setScene(stageSelect);
+            })
+        });
     });
 
     callback(scene);
@@ -260,6 +265,9 @@ Game.Loader.XML.prototype.startScene = function(name, callback)
     this.load(this.sceneIndex[name].url, function(node) {
         loader.parseScene(node, function(scene) {
             loader.game.setScene(scene);
+            if (callback) {
+                callback(scene);
+            }
         });
     });
 }
