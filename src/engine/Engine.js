@@ -29,7 +29,7 @@ Engine.prototype.loop = function(timeElapsed)
     }
 
     this.tick += this.speedLimit;
-    if (this.tick >= 1 && timeElapsed) {
+    if (this.tick >= 1 && timeElapsed !== 0) {
         timeElapsed /= 1000;
         if (this.timeLastEvent !== undefined) {
             var timeDiff = timeElapsed - this.timeLastEvent;
