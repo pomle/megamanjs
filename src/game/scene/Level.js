@@ -240,6 +240,9 @@ Game.scenes.Level.prototype.resetObjects = function()
 {
     var objects = this.world.objects;
     for (var i = 0, l = objects.length; i !== l; ++i) {
+        if (objects[i] === undefined) {
+            continue;
+        }
         var object = objects[i];
         for (var j = 0, k = object.traits.length; j !== k; ++j) {
             var trait = object.traits[j];
