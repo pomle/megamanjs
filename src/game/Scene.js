@@ -8,6 +8,7 @@ Game.Scene = function(game, world)
     }
     this.events = new Engine.Events();
     this.game = game;
+    this.input = new Engine.Keyboard();
     this.camera = world.camera;
     this.world = world;
 }
@@ -24,6 +25,7 @@ Game.Scene.prototype.__create = function()
 
 Game.Scene.prototype.__destroy = function()
 {
+    this.input.release();
     this.events.trigger(this.EVENT_DESTROY, arguments);
 }
 

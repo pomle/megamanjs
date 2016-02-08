@@ -44,10 +44,11 @@ Game.scenes.Level.prototype.addCheckPoint = function(x, y, r)
 
 Game.scenes.Level.prototype.createCharacterInput = function()
 {
-    var input = new Engine.Keyboard();
-    var game = this.game;
-    var player = this.game.player;
-    var levelrunner = this;
+    var input = new Engine.Keyboard(),
+        game = this.game,
+        player = this.game.player,
+        levelrunner = this;
+
     input.intermittent(input.LEFT,
         function() {
             --player.character.aim.x;
@@ -91,7 +92,7 @@ Game.scenes.Level.prototype.createCharacterInput = function()
         });
     input.hit(input.START,
         function() {
-            levelrunner.toggleMenu();
+            //levelrunner.toggleMenu();
         });
     input.hit(input.SELECT,
         function() {
@@ -211,8 +212,7 @@ Game.scenes.Level.prototype.pauseGamePlay = function()
     var engine = this.game.engine;
     engine.events.unbind(engine.EVENT_SIMULATE, this.simulateListener);
 
-    this.inputs.character.disable();
-    this.inputs.menu.enable();
+    this.input = this.inputs.menu;
     this.game.engine.isSimulating = false;
 }
 
@@ -221,8 +221,7 @@ Game.scenes.Level.prototype.resumeGamePlay = function()
     var engine = this.game.engine;
     engine.events.bind(engine.EVENT_SIMULATE, this.simulateListener);
 
-    this.inputs.menu.disable();
-    this.inputs.character.enable();
+    this.input = this.inputs.character;
     this.game.engine.isSimulating = true;
 }
 
