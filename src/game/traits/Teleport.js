@@ -57,6 +57,9 @@ Game.traits.Teleport.prototype._stop = function()
 
 Game.traits.Teleport.prototype._handle = function(dt)
 {
+    /* Block velocity. */
+    this._host.velocity.set(0, 0);
+
     if (this._startProgress > 0) {
         this._startProgress -= dt;
     }
