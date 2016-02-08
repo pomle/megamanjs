@@ -26,11 +26,13 @@ Engine.AI.prototype.findPlayer = function()
     }
 
     var objects = this.object.world.objects;
-    for (var o, i = 0, l = objects.length; i !== l; ++i) {
-        o = objects[i];
-        if (o.isPlayer) {
-            this.setTarget(o);
-            return o;
+    for (var i = 0, l = objects.length; i !== l; ++i) {
+        if (objects[i] !== undefined) {
+            var o = objects[i];
+            if (o.isPlayer) {
+                this.setTarget(o);
+                return o;
+            }
         }
     }
     return false;
