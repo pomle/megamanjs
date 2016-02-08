@@ -24,34 +24,30 @@ Game.scenes.StageSelect = function()
         }));
     this.world.scene.add(this.background);
 
-    var input = new Engine.Keyboard();
-
-    input.hit(input.LEFT,
+    this.input.hit(this.input.LEFT,
         function() {
             this.steer(-1, 0);
         }.bind(this));
 
-    input.hit(input.RIGHT,
+    this.input.hit(this.input.RIGHT,
         function() {
             this.steer(1, 0);
         }.bind(this));
 
-    input.hit(input.UP,
+    this.input.hit(this.input.UP,
         function() {
             this.steer(0, -1);
         }.bind(this));
 
-    input.hit(input.DOWN,
+    this.input.hit(this.input.DOWN,
         function() {
             this.steer(0, 1);
         }.bind(this));
 
-    input.hit(input.START,
+    this.input.hit(this.input.START,
         function() {
             this.enter();
         }.bind(this));
-
-    this.input = input;
 
     this.updateTime = this.updateTime.bind(this);
 
@@ -59,11 +55,9 @@ Game.scenes.StageSelect = function()
         engine = this.game.engine;
 
     this.events.bind(this.EVENT_CREATE, function() {
-        scene.input.enable();
         engine.events.bind(engine.EVENT_SIMULATE, scene.updateTime);
     });
     this.events.bind(this.EVENT_DESTROY, function() {
-        scene.input.disable();
         engine.events.unbind(engine.EVENT_SIMULATE, scene.updateTime);
     });
 }

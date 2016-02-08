@@ -28,6 +28,12 @@ Game.objects = {};
 Game.scenes = {};
 Game.traits = {};
 
+Game.prototype.attachController = function()
+{
+    window.addEventListener('keydown', this.handleInputEvent.bind(this));
+    window.addEventListener('keyup', this.handleInputEvent.bind(this));
+}
+
 Game.prototype.attachToElement = function(element)
 {
     this.element = element;
@@ -39,6 +45,7 @@ Game.prototype.attachToElement = function(element)
     }
 
     this.adjustResolution();
+    this.attachController();
 
     this.element.appendChild(this.engine.renderer.domElement);
 }
@@ -57,6 +64,15 @@ Game.prototype.adjustResolution = function()
 {
     var rect = this.element.getBoundingClientRect();
     this.setResolution(rect.width, rect.height);
+}
+
+Game.prototype.handleInputEvent = function(event)
+{
+    if (this.scene === undefined) {
+        console.error('No input receiver');
+        return false;
+    }
+    this.scene.input.triggerEvent(event);
 }
 
 Game.prototype.setResolution = function(w, h)
