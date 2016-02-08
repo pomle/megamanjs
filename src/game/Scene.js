@@ -24,13 +24,12 @@ Game.Scene.prototype.__create = function()
 
 Game.Scene.prototype.__destroy = function()
 {
-    this.game.engine.pause();
     this.events.trigger(this.EVENT_DESTROY, arguments);
 }
 
 Game.Scene.prototype.__end = function()
 {
-    this.__destroy();
+    this.game.engine.pause();
     this.events.trigger(this.EVENT_END, arguments);
 }
 

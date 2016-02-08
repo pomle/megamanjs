@@ -53,13 +53,19 @@ Game.scenes.StageSelect = function()
 
     this.input = input;
 
-    var scene = this;
+    this.updateTime = this.updateTime.bind(this);
 
-    this.events.bind(this.EVENT_START, function() { scene.input.enable(); });
-    this.events.bind(this.EVENT_END, function() { scene.input.disable(); });
+    var scene = this,
+        engine = this.game.engine;
 
-    /* Hijack worlds time-legacy hack needs to go. */
-    this.world.updateTime = this.updateTime.bind(this);
+    this.events.bind(this.EVENT_CREATE, function() {
+        scene.input.enable();
+        engine.events.bind(engine.EVENT_SIMULATE, scene.updateTime);
+    });
+    this.events.bind(this.EVENT_DESTROY, function() {
+        scene.input.disable();
+        engine.events.unbind(engine.EVENT_SIMULATE, scene.updateTime);
+    });
 }
 
 Engine.Util.extend(Game.scenes.StageSelect, Game.Scene);
@@ -191,6 +197,4 @@ Game.scenes.StageSelect.prototype.updateTime = function(dt)
         var intermediate = this.cameraDesiredPosition.clone().sub(this.world.camera.camera.position).divideScalar(this.cameraSmoothing);
         this.world.camera.camera.position.add(intermediate);
     }
-
-    Engine.World.prototype.updateTime.call(this.world, dt);
 }
