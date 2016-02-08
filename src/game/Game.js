@@ -87,6 +87,8 @@ Game.prototype.setScene = function(scene)
         throw new Error('Invalid scene');
     }
 
+    this.engine.pause();
+
     if (this.scene) {
         this.scene.__destroy();
         this.scene = undefined;
@@ -108,6 +110,7 @@ Game.prototype.setScene = function(scene)
     var game = this;
     function start() {
         game.scene.__start();
+        game.engine.run();
     }
 
     setTimeout(start, 0);

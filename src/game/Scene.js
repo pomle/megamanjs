@@ -31,12 +31,10 @@ Game.Scene.prototype.__destroy = function()
 
 Game.Scene.prototype.__end = function()
 {
-    this.game.engine.pause();
     this.events.trigger(this.EVENT_END, arguments);
 }
 
 Game.Scene.prototype.__start = function()
 {
     this.events.trigger(this.EVENT_START, arguments);
-    this.game.engine.run();
 }
