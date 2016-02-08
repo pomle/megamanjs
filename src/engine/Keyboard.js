@@ -29,6 +29,8 @@ Engine.Keyboard.prototype.triggerEvent = function(event)
 {
     var key = event.keyCode;
     if (this.map[key]) {
+        event.preventDefault();
+
         var keyName = this.map[key],
             eventName = keyName + '_' + event.type;
 
@@ -57,6 +59,6 @@ Engine.Keyboard.prototype.intermittent = function(code, downCallback, upCallback
 Engine.Keyboard.prototype.release = function()
 {
     for (var key in this.map) {
-        this.triggerEvent({keyCode: key, type: 'keyup'});
+        this.triggerEvent(new KeyboardEvent('keyup', {key: key}));
     }
 }
