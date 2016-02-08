@@ -286,6 +286,14 @@
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
                 <face animation="door" index="[0,10,12,14,2,4,6,8]"/>
             </geometry>
+            <collision>
+                <rect x="0" y="0" w="32" h="64"/>
+            </collision>
+            <traits>
+                <trait source="Door">
+                    <direction x="-1" y="0"/>
+                </trait>
+            </traits>
         </object>
         <object id="object_614910902e3b4d4284051314b662402f">
             <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
