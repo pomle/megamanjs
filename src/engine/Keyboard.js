@@ -3,14 +3,14 @@ Engine.Keyboard = function()
     this.events = new Engine.Events();
 
     this.map = {
-        '65': this.LEFT,
-        '68': this.RIGHT,
-        '87': this.UP,
-        '83': this.DOWN,
-        '80': this.A,
-        '79': this.B,
-        '81': this.SELECT,
-        '69': this.START,
+        65: this.LEFT,
+        68: this.RIGHT,
+        87: this.UP,
+        83: this.DOWN,
+        80: this.A,
+        79: this.B,
+        81: this.SELECT,
+        69: this.START,
     };
 
     this.state = {};
@@ -27,7 +27,7 @@ Engine.Keyboard.prototype.START = 'start';
 
 Engine.Keyboard.prototype.triggerEvent = function(event)
 {
-    var key = '' + event.keyCode;
+    var key = event.keyCode;
     if (this.map[key]) {
         var keyName = this.map[key],
             eventName = keyName + '_' + event.type;
