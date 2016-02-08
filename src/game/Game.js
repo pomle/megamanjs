@@ -95,8 +95,8 @@ Game.prototype.setScene = function(scene)
         this.engine.unsetWorld();
     }
 
-    scene.__create();
     this.scene = scene;
+    this.scene.__create();
     this.engine.setWorld(this.scene.world);
 
     /* Because the camera is instantiated per scene,
@@ -104,15 +104,6 @@ Game.prototype.setScene = function(scene)
        we roll. */
     this.adjustAspectRatio();
 
-    /* For some reason, if we start the engine immediately,
-       the performance is sluggish. Deferring it to end of call queue
-       fixes it. */
-    var game = this;
-    function start() {
-        game.scene.__start();
-        game.engine.run();
-    }
-
-    setTimeout(start, 0);
+    this.engine.run();
+    this.scene.__start();
 }
-

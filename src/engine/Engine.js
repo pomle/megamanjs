@@ -1,6 +1,7 @@
 var Engine = function(renderer)
 {
     this.events = new Engine.Events();
+    this.frameId = undefined;
     this.renderer = renderer;
     this.isRunning = false;
     this.isSimulating = true;
@@ -24,10 +25,6 @@ Engine.traits = {};
 
 Engine.prototype.loop = function(timeElapsed)
 {
-    if (!this.isRunning || this.world === undefined) {
-        return false;
-    }
-
     this.tick += this.speedLimit;
     if (this.tick >= 1 && timeElapsed !== 0) {
         timeElapsed /= 1000;
@@ -55,11 +52,12 @@ Engine.prototype.loop = function(timeElapsed)
         this.timeLastEvent = timeElapsed;
     }
 
-    requestAnimationFrame(this.loop);
+    this.frameId = requestAnimationFrame(this.loop);
 }
 
 Engine.prototype.pause = function()
 {
+    cancelAnimationFrame(this.frameId);
     this.isRunning = false;
 }
 
