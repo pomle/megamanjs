@@ -10,7 +10,6 @@ var Game = {
         "engine/Math.js",
         "engine/Verlet.js",
         "engine/Collision.js",
-        "engine/Sprite.js",
         "engine/Camera.js",
         "engine/World.js",
         "engine/Object.js",
