@@ -108,8 +108,7 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
     this.camera.position.x += this.velocity.x;
     this.camera.position.y += this.velocity.y;
     this.camera.position.z += this.velocity.z;
-}
-
+};
 
 Engine.Camera.Path = function()
 {
@@ -121,22 +120,13 @@ Engine.Camera.Path = function()
         new THREE.Vector2(),
         new THREE.Vector2(),
     ];
-}
-
-Engine.Camera.Path.prototype.components = ['x', 'y', 'z'];
+};
 
 Engine.Camera.Path.prototype.constrain = function(vec)
 {
-    for (var u of this.components) {
-        if (vec[u] < this.constraint[0][u]) {
-            vec[u] = this.constraint[0][u];
-        }
-        else if (vec[u] > this.constraint[1][u]) {
-            vec[u] = this.constraint[1][u];
-        }
-    }
+    vec.clamp(this.constraint[0], this.constraint[1]);
     return vec;
-}
+};
 
 Engine.Camera.Path.prototype.inWindow = function(vec)
 {
@@ -144,4 +134,4 @@ Engine.Camera.Path.prototype.inWindow = function(vec)
         && vec.x < this.window[1].x
         && vec.y > this.window[0].y
         && vec.y < this.window[1].y;
-}
+};
