@@ -126,6 +126,18 @@ Engine.SpriteManager.createSingleTile = function(location, w, h, offsetX, offset
     return model;
 }
 
+Engine.SpriteManager.createTile = function(texture, w, h, offsetX, offsetY, totalW, totalH)
+{
+    var geometry = new THREE.PlaneGeometry(w, h);
+    var material = new THREE.MeshBasicMaterial({
+        side: THREE.DoubleSide,
+        map: texture,
+        transparent: true,
+    });
+    geometry.faceVertexUvs[0] = new Engine.UVCoords(offsetX, offsetY, w, h, totalW, totalH);
+    return new THREE.Mesh(geometry, material);
+};
+
 Engine.SpriteManager.createTextSprite = function(string, align)
 {
     var text = Engine.TextureManager.createText(string, align);

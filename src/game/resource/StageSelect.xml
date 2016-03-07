@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scene type="stage-select" url="stageselect.png" w="256" h="256">
+<scene type="stage-select">
+    <texture url="stageselect.png" w="256" h="256" />
     <background color="0x0064ff"/>
     <camera distance="140" />
     <indicator w="48" h="48" x="48" y="0" blink-interval=".125" initial-index="4" />
