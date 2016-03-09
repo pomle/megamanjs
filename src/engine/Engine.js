@@ -52,7 +52,9 @@ Engine.prototype.loop = function(timeElapsed)
         this.timeLastEvent = timeElapsed;
     }
 
-    this.frameId = requestAnimationFrame(this.loop);
+    if (this.isRunning === true) {
+        this.frameId = requestAnimationFrame(this.loop);
+    }
 }
 
 Engine.prototype.pause = function()
