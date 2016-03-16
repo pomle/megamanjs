@@ -1,0 +1,13 @@
+{
+  "name": "megamanjs",
+  "version": "0.0.0",
+  "scripts": {
+    "test-unit": "mocha test/unit/tests/*.js"
+  },
+  "devDependencies": {
+    "expect.js": "*",
+    "mocha": "*",
+    "sinon": "*",
+    "three": ">=0.72.0"
+  }
+}
