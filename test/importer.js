@@ -1,3 +1,7 @@
+/**
+ * Script for require-ifying src files for use in tests.
+ */
+
 var fs = require('fs');
 var files = require('../src/script-manifest.json');
 
