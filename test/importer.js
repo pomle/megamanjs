@@ -1,5 +1,5 @@
 var fs = require('fs');
-var files = require('../script_order.json');
+var files = require('../src/script-manifest.json');
 
 var BASE_PATH = __dirname + '/../src/';
 
