@@ -2,9 +2,7 @@ var Game = function()
 {
     this.debugger = undefined;
 
-    this.engine = new Engine(new THREE.WebGLRenderer({
-        'antialias': false,
-    }));
+    this.engine = undefined;
 
     this.loader = undefined;
     this.player = new Game.Player();
