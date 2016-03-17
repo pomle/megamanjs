@@ -5,7 +5,6 @@ Engine.Timeline = function()
     this.accumulatedTime = 0;
     this.totalDuration = 0;
 
-    this.callbacks = [];
     this.frames = [];
 }
 
