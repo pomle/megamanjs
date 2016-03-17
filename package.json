@@ -2,6 +2,7 @@
   "name": "megamanjs",
   "version": "0.0.0",
   "scripts": {
+    "test": "npm run test-unit",
     "test-unit": "mocha test/unit/tests/*.js"
   },
   "devDependencies": {
