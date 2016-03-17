@@ -25,6 +25,39 @@ Engine.Keyboard.prototype.B = 'b';
 Engine.Keyboard.prototype.SELECT = 'select';
 Engine.Keyboard.prototype.START = 'start';
 
+Engine.Keyboard.prototype.ENGAGE = 'keydown';
+Engine.Keyboard.prototype.RELEASE = 'keyup';
+
+Engine.Keyboard.prototype.hit = function(key, engage)
+{
+    this.events.bind(key + '_' + this.ENGAGE, engage);
+}
+
+Engine.Keyboard.prototype.intermittent = function(key, engage, release)
+{
+    this.events.bind(key + '_' + this.ENGAGE, engage);
+    this.events.bind(key + '_' + this.RELEASE, release);
+}
+
+Engine.Keyboard.prototype.release = function()
+{
+    for (var key in this.map) {
+        this.trigger(key, this.RELEASE);
+    }
+}
+
+Engine.Keyboard.prototype.trigger = function(key, state)
+{
+    if (this.state[key] === state) {
+        return false;
+    }
+
+    this.state[key] = state;
+    this.events.trigger(key + '_' + state);
+
+    return true;
+}
+
 Engine.Keyboard.prototype.triggerEvent = function(event)
 {
     var key = event.keyCode;
@@ -33,34 +66,6 @@ Engine.Keyboard.prototype.triggerEvent = function(event)
             event.preventDefault();
         }
 
-        var keyName = this.map[key],
-            eventName = keyName + '_' + event.type;
-
-        if (this.state[keyName] === event.type) {
-            return false;
-        }
-
-        this.state[keyName] = event.type;
-        this.events.trigger(eventName);
-
-        return true;
-    }
-}
-
-Engine.Keyboard.prototype.hit = function(code, callback)
-{
-    this.events.bind(code + '_keydown', callback);
-}
-
-Engine.Keyboard.prototype.intermittent = function(code, downCallback, upCallback)
-{
-    this.events.bind(code + '_keydown', downCallback);
-    this.events.bind(code + '_keyup', upCallback);
-}
-
-Engine.Keyboard.prototype.release = function()
-{
-    for (var key in this.map) {
-        this.triggerEvent({type:'keyup', keyCode: key});
+        this.trigger(this.map[key], event.type);
     }
 }
