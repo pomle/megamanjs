@@ -1,28 +1,24 @@
-$(function() {
-    var game = Game.Loader.XML.createFromXML('resource/Megaman2.xml', function() {
-        game.attachToElement(document.getElementById('screen'));
-    });
+var game = Game.Loader.XML.createFromXML('resource/Megaman2.xml', function() {
+    game.attachToElement(document.getElementById('screen'));
+});
 
-    var gameElement = document.getElementById('game');
+var gameElement = document.getElementById('game');
 
-    function on_fullscreen_change() {
-        if(document.mozFullScreen || document.webkitIsFullScreen) {
-            $(gameElement).addClass('fullscreen');
-        }
-        else {
-            $(gameElement).removeClass('fullscreen');
-        }
-
-        game.adjustAspectRatio();
+function onFullscreenChange() {
+    if(document.mozFullScreen || document.webkitIsFullScreen) {
+        gameElement.classList.add('fullscreen');
+    }
+    else {
+        gameElement.classList.remove('fullscreen');
     }
 
-    window.addEventListener('resize', on_fullscreen_change);
-    document.addEventListener('mozfullscreenchange', on_fullscreen_change);
-    document.addEventListener('webkitfullscreenchange', on_fullscreen_change);
+    game.adjustAspectRatio();
+}
 
-    $('button.fullscreen').on('click', function() {
-        gameElement.webkitRequestFullScreen();
-    });
+window.addEventListener('resize', onFullscreenChange);
+document.addEventListener('mozfullscreenchange', onFullscreenChange);
+document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
-    window.game = game;
+document.querySelector('button.fullscreen').addEventListener('click', function() {
+    gameElement.webkitRequestFullScreen();
 });
