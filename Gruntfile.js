@@ -8,8 +8,11 @@ module.exports = function(grunt) {
                 {
                     expand: true,
                     cwd: 'src/',
-                    src: ['megaman.css'],
+                    src: ['prod.css'],
                     dest: 'build/',
+                    rename: function(dest, src) {
+                        return dest + 'megaman.css';
+                    },
                 },
             ]
         },

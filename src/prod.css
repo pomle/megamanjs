@@ -1,0 +1,117 @@
+* {
+    color: #666666;
+    border-color: #303030;
+    border-style: solid;
+    border-width: 0;
+}
+
+body {
+    background: #101010;
+    font-family: sans-serif;
+    font-size: 12px;
+    text-align: center;
+}
+
+input {
+    background: transparent;
+    border-width: 1px;
+}
+
+#game {
+    background: inherit;
+    margin: 0 auto;
+    position: relative;
+}
+
+#game.fullscreen {
+    height: 100%;
+    width: 100%;
+}
+
+#game #screen {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    height: 480px;
+    width: 850px;
+}
+
+#game.fullscreen #screen {
+    height: 100%;
+    width: 100%;
+}
+
+#screen > canvas {
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+#screen .overlay {
+    position: absolute;
+    z-index: 2;
+}
+
+#screen .overlay .energy {
+    left: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+#screen .overlay .energy {
+    display: flex;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+#screen .overlay .energy > * {
+    background: #000;
+    height: 112px;
+    margin-right: 5px;
+    position: relative;
+    width: 16px;
+}
+
+#screen .overlay .energy > * > .amount {
+    background-image: url('resource/meters.png');
+    background-position: 0 100%;
+    background-size: 160px 112px;
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#screen .overlay .energy > .weapon.p {
+    display: none;
+}
+#screen .overlay .energy > .weapon.item > .amount {
+    background-position-x: -16px;
+}
+#screen .overlay .energy > .weapon.c > .amount {
+    background-position-x: -32px;
+}
+#screen .overlay .energy > .weapon.f > .amount {
+    background-position-x: -48px;
+}
+#screen .overlay .energy > .weapon.m > .amount {
+    background-position-x: -64px;
+}
+#screen .overlay .energy > .weapon.q > .amount {
+    background-position-x: -80px;
+}
+#screen .overlay .energy > .weapon.b > .amount {
+    background-position-x: -96px;
+}
+#screen .overlay .energy > .weapon.a > .amount {
+    background-position-x: -112px;
+}
+#screen .overlay .energy > .weapon.h > .amount {
+    background-position-x: -144px;
+}
