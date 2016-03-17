@@ -35,11 +35,9 @@ $(function() {
             "mousedown": "keydown",
             "mouseup": "keyup",
         };
-        var name = map[event.type]
-        var event = document.createEvent("Event");
-        event.initEvent(name, true, true);
-        event.keyCode = Engine.Keyboard.prototype[this.rel];
-        window.dispatchEvent(event);
+
+        var key = this.getAttribute('data-key');
+        game.scene.input.trigger(key, map[event.type]);
     }
 
     $('#nes-controller a')
