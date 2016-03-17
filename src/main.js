@@ -1,5 +1,5 @@
-Game.init(function() {
-    game = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml', function() {
+$(function() {
+    var game = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml', function() {
         console.log('Loading game done', game);
         game.attachToElement(document.getElementById('screen'));
     });
@@ -59,4 +59,6 @@ Game.init(function() {
     $('.spawn button').on('click', function() {
         game.scene.spawnCharacter($(this).attr('spawn'));
     });
+
+    window.game = game;
 });

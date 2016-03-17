@@ -5,7 +5,7 @@ Game.objects.Spawner = function()
     this._timeSinceLastSpawn = 0;
 
     this.ai = new Engine.AI(this);
-    this.children = new Set();
+    this.children = [];
     this.count = Infinity;
     this.lifetime = undefined;
     this.maxDistance = 256;
@@ -23,29 +23,38 @@ Game.objects.Spawner.constructor = Game.objects.Spawner;
 Game.objects.Spawner.prototype.cleanReferences = function()
 {
     var worldObjects = this.world.objects;
-    for (var object of this.children) {
+    var object;
+    for (var i = 0, l = this.children.length; i !== l; ++i) {
+        object = this.children[i];
         if (worldObjects.indexOf(object) === -1) {
-            this.children.delete(object);
+            this.children.splice(i, 1);
+            --i;
+            --l;
         }
     }
 }
 
 Game.objects.Spawner.prototype.killOffElderly = function()
 {
-    for (var object of this.children) {
+    var object;
+    for (var i = 0, l = this.children.length; i !== l; ++i) {
+        object = this.children[i];
         if (object.time >= this.lifetime) {
             object.kill();
-            this.children.delete(object);
         }
     }
 }
 
 Game.objects.Spawner.prototype.killOffRoaming = function()
 {
-    for (var object of this.children) {
+    var object;
+    for (var i = 0, l = this.children.length; i !== l; ++i) {
+        object = this.children[i];
         if (object.position.distanceTo(this.position) > this.roamingLimit) {
             object.kill();
-            this.children.delete(object);
+            this.children.splice(i, 1);
+            --i;
+            --l;
         }
     }
 }
@@ -80,7 +89,7 @@ Game.objects.Spawner.prototype.spawnObject = function()
     var object = new this.pool[index]();
     object.position.copy(this.position);
     object.position.z = 0;
-    this.children.add(object);
+    this.children.push(object);
     this.world.addObject(object);
     return object;
 }

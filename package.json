@@ -6,6 +6,9 @@
   },
   "devDependencies": {
     "expect.js": "*",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
     "mocha": "*",
     "sinon": "*",
     "three": ">=0.72.0"
