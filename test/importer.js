@@ -12,7 +12,7 @@ files.forEach(function(src) {
     js += fs.readFileSync(BASE_PATH + src);
 });
 
-var $ = require('../src/lib/jquery-2.1.3.min.js');
+var $ = require('../src/lib/jquery-2.1.3.js');
 var THREE = require('three');
 eval(js);
 
