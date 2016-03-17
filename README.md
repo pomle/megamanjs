@@ -1,6 +1,6 @@
 # megamanjs 
 
-![Build status](https://travis-ci.org/pomle/megamanjs.svg)
+![Build Status](https://travis-ci.org/pomle/megamanjs.svg?branch=master)
 
 Project that aims at remaking Megaman 2 in JavaScript using WebGL as renderer. 
 
