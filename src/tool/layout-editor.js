@@ -113,17 +113,6 @@ $(function() {
         }
     }
 
-    Game.init(function() {
-        var game = new Game();
-        editor.attachGame(game);
-
-        var recent = editor.file.recent.get();
-        if (recent.length) {
-            editor.file.recent.updatelist();
-            loadLevel(recent[0]);
-        }
-    }, undefined, '../');
-
     editor.ui.workspace.on('dragover', function (e) {
          e.stopPropagation();
          e.preventDefault();
@@ -154,6 +143,16 @@ $(function() {
         };
         reader.readAsDataURL(file);
     });
+
+    var game = new Game();
+    game.engine = new Engine(new THREE.WebGLRenderer());
+    editor.attachGame(game);
+
+    var recent = editor.file.recent.get();
+    if (recent.length) {
+        editor.file.recent.updatelist();
+        loadLevel(recent[0]);
+    }
 
     window.editor = editor;
 });
