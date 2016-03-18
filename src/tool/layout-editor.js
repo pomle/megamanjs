@@ -59,13 +59,20 @@ $(function() {
             }
         });
     editor.file.recent = editor.file.find('.level [name=recent]')
-        .on('change', function() {
-            if (!this.value.length || !confirm("Load " + this.value + "?")) {
-                e.preventDefault();
-                return;
+        .on('change', (function() {
+            var currentSelection;
+            return function(e) {
+                if (currentSelection === this.value || !this.value.length || !confirm("Load " + this.value + "?")) {
+                    e.preventDefault();
+                    return;
+                }
+                currentSelection = this.value;
+                var src = this.value;
+                setTimeout(function() {
+                    loadLevel(src);
+                }, 0);
             }
-            loadLevel(this.value);
-        });
+        })());
     editor.file.recent.add = function(src) {
         var recent = this.get();
         for (;;) {
