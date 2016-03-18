@@ -7,14 +7,24 @@ var files = require('../src/script-manifest.json');
 
 var BASE_PATH = __dirname + '/../src/';
 
-var js = '';
-files.forEach(function(src) {
-    js += fs.readFileSync(BASE_PATH + src);
-});
-
 var $ = require('../src/lib/jquery-2.1.3.js');
 var THREE = require('three');
-eval(js);
+
+for (var i = 0; i < files.length; ++i) {
+    var src = BASE_PATH + files[i];
+
+    // Catch syntax error with line number.
+    try {
+        require(src);
+    } catch (e) {
+        if (e instanceof SyntaxError) {
+            throw e;
+        }
+    }
+
+    var code = fs.readFileSync(src, 'utf8');
+    eval(code);
+}
 
 module.exports = {
     THREE: THREE,
