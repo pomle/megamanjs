@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true,
+    "phantomjs": true,
+    "jest": true
+  },
+  "rules": {
+    "comma-dangle": 0,
+    "no-var": 0,
+    "func-names": 0,
+    "no-console": 0,
+    "semi": 2
+  },
+  "globals": {
+    "GLOBAL_TIMEOUT": true,
+    "system": false,
+    "Promise": true
+  }
+}

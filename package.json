@@ -2,10 +2,12 @@
   "name": "megamanjs",
   "version": "0.0.0",
   "scripts": {
+    "lint": "eslint src/",
     "test": "npm run test-unit",
     "test-unit": "mocha test/unit/tests/*.js"
   },
   "devDependencies": {
+    "eslint": "^2.4.0",
     "expect.js": "*",
     "grunt-contrib-concat": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
