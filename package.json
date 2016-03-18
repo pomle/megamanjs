@@ -1,18 +1,19 @@
 {
   "name": "megamanjs",
   "version": "0.0.0",
+  "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
     "test": "npm run test-unit",
     "test-unit": "mocha test/unit/tests/*.js"
   },
   "devDependencies": {
-    "expect.js": "*",
+    "expect.js": "^0.3.1",
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
-    "mocha": "*",
-    "sinon": "*",
-    "three": ">=0.72.0"
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3",
+    "three": "0.72.0"
   }
 }
