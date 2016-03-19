@@ -1,7 +1,5 @@
 var Game = function()
 {
-    this.debugger = undefined;
-
     this.engine = undefined;
 
     this.loader = undefined;
