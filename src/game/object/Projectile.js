@@ -4,6 +4,7 @@ Game.objects.Projectile = function()
 
     this.damage = 0;
     this.distanceCovered = 0;
+    this.events = new Engine.Events();
     this.lifetime = Infinity;
     this.origin = undefined;
     this.penetratingForce = false;
@@ -12,6 +13,8 @@ Game.objects.Projectile = function()
 }
 
 Engine.Util.extend(Game.objects.Projectile, Engine.Object);
+
+Game.objects.Projectile.prototype.EVENT_RECYCLE = 'recycle';
 
 Game.objects.Projectile.prototype.collides = function(withObject, ourZone, theirZone)
 {
@@ -26,7 +29,7 @@ Game.objects.Projectile.prototype.collides = function(withObject, ourZone, their
     if (withObject.impactProjectile) {
         if (withObject.impactProjectile(this)) {
             if (!this.penetratingForce || !withObject.health.depleted) {
-                this.world.removeObject(this);
+                this.recycle();
             }
         }
     }
@@ -53,7 +56,12 @@ Game.objects.Projectile.prototype.getLifetime = function()
 
 Game.objects.Projectile.prototype.rangeReached = function()
 {
-    this.world.removeObject(this);
+    this.recycle();
+}
+
+Game.objects.Projectile.prototype.recycle = function()
+{
+    this.events.trigger(this.EVENT_RECYCLE, [this]);
 }
 
 Game.objects.Projectile.prototype.setDamage = function(points)
