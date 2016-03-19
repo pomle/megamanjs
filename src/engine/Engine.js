@@ -8,7 +8,7 @@ var Engine = function(renderer) {
     this.simulationSpeed = 1;
     this.simulationTimeComputed = 0;
     this.simulationTimePassed = 0;
-    this.timeElapsedTotal = 0;
+    this.realTimePassed = 0;
     this.timeStep = 1/120;
     this.timeStretch = 1;
     this.world = undefined;
@@ -78,7 +78,7 @@ Engine.prototype.updateTime = function(dt) {
         }
     }
     this.events.trigger(this.EVENT_TIMEPASS, [dt]);
-    this.timeElapsedTotal += dt;
+    this.realTimePassed += dt;
 }
 
 Engine.prototype.setWorld = function(world) {
