@@ -6,7 +6,6 @@ var Engine = function(renderer) {
     this.isRunning = false;
     this.isSimulating = true;
     this.simulationSpeed = 1;
-    this.simulationTimeComputed = 0;
     this.simulationTimePassed = 0;
     this.realTimePassed = 0;
     this.timeStep = 1/120;
