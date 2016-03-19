@@ -8,6 +8,13 @@ describe('Engine', function() {
     render: sinon.spy(),
   };
 
+  var worldMock = {
+    updateTime: sinon.spy(),
+    camera: {
+      updateTime: sinon.spy(),
+    },
+  };
+
   beforeEach(function() {
     var frameId = 0;
     global.requestAnimationFrame = sinon.spy(function() {
@@ -28,41 +35,74 @@ describe('Engine', function() {
       expect(engine.frameId).to.be(undefined);
     });
   });
-
-  describe('#loop', function() {
+  describe('#eventLoop', function() {
+    it('should propagate deltaTime of passed total time to #updateTime in seconds', function() {
+      var engine = new Engine();
+      engine.updateTime = sinon.spy();
+      engine.render = sinon.spy();
+      engine.isRunning = true;
+      engine.eventLoop(0);
+      engine.eventLoop(312);
+      engine.eventLoop(312);
+      engine.eventLoop(1253);
+      expect(engine.updateTime.callCount).to.equal(3);
+      expect(engine.updateTime.getCall(0).args[0]).to.equal(0.312);
+      expect(engine.updateTime.getCall(1).args[0]).to.equal(0);
+      expect(engine.updateTime.getCall(2).args[0]).to.equal(0.9409999999999998);
+    });
     it('should bind itself to requestAnimationFrame if in running state', function() {
       var engine = new Engine();
+      engine.render = sinon.spy();
       engine.isRunning = true;
-      engine.loop(0);
+      engine.eventLoop(0);
       expect(requestAnimationFrame.called).to.be(true);
-      expect(requestAnimationFrame.lastCall.args[0]).to.be(engine.loop);
+      expect(requestAnimationFrame.lastCall.args[0]).to.be(engine.eventLoop);
+    });
+    it('should not affect time if no time given', function() {
+      var engine = new Engine();
+      engine.updateTime = sinon.spy();
+      engine.render = sinon.spy();
+      engine.isRunning = true;
+      engine.eventLoop();
+      expect(engine.updateTime.callCount).to.equal(0);
+      expect(engine.render.callCount).to.equal(1);
+      expect(engine.timeLastEvent).to.be(undefined);
     });
     it('should not bind itself to requestAnimationFrame if in paused state', function() {
       var engine = new Engine();
+      engine.render = sinon.spy();
       engine.isRunning = false;
-      engine.loop(0);
+      engine.eventLoop(0);
       expect(requestAnimationFrame.called).to.be(false);
     });
-    it('should feed time diff between loops in seconds to world', function() {
+    it('should feed fixed time to simulation regardless of time passed', function() {
       var engine = new Engine(rendererMock);
-      engine.world = {
-        updateTime: sinon.spy(),
-        camera: {
-          updateTime: sinon.spy(),
-        },
+      engine.render = sinon.spy();
+      engine.simulateTime = sinon.spy();
+      engine.eventLoop(0);
+      var timeMs = 0;
+      while (timeMs < 1000) {
+        timeMs += 100 * Math.random();
+        engine.eventLoop(Math.min(1000, timeMs));
       }
-      engine.loop(100);
-      engine.loop(113);
-      expect(engine.world.updateTime.calledOnce).to.be(true);
-      expect(engine.world.camera.updateTime.calledOnce).to.be(true);
-      expect(engine.world.updateTime.lastCall.args[0]).to.eql(0.012999999999999998);
-
+      expect(engine.simulateTime.callCount).to.be(120);
+      for (var i = 0, l = engine.simulateTime.callCount; i !== l; ++i) {
+        expect(engine.simulateTime.getCall(i).args[0]).to.equal(engine.timeStep);
+      }
+    });
+    it('should trigger EVENT_RENDER', function() {
+      var engine = new Engine();
+      engine.render = sinon.spy();
+      var callback = sinon.spy();
+      engine.events.bind(engine.EVENT_RENDER, callback);
+      engine.eventLoop();
+      expect(callback.callCount).to.equal(1);
     });
   });
-
   describe('#pause', function() {
     it('should cancel current frame', function() {
       var engine = new Engine();
+      engine.render = sinon.spy();
       engine.run();
       engine.pause();
       expect(cancelAnimationFrame.calledOnce).to.be(true);
@@ -70,17 +110,18 @@ describe('Engine', function() {
     });
     it('should prevent requestAnimationFrame from being called in current loop', function() {
       var engine = new Engine();
+      engine.render = sinon.spy();
       engine.run();
       expect(requestAnimationFrame.calledOnce).to.be(true);
       engine.pause();
-      engine.loop(0);
+      engine.eventLoop(0);
       expect(requestAnimationFrame.calledOnce).to.be(true);
     });
   });
-
   describe('#run', function() {
     it('should except if already running', function() {
       var engine = new Engine();
+      engine.render = sinon.spy();
       engine.run();
       expect(function() { engine.run(); })
         .to.throwError(function(error) {
@@ -90,11 +131,35 @@ describe('Engine', function() {
     });
     it('should start running loop indefinitely', function() {
       var engine = new Engine(rendererMock);
+      engine.render = sinon.spy();
       engine.run();
       expect(engine.isRunning).to.be(true);
       expect(requestAnimationFrame.calledOnce).to.be(true);
       expect(engine.frameId).to.equal(0);
-
+    });
+  });
+  describe('#simulateTime', function() {
+    it('should trigger EVENT_SIMULATE', function() {
+      var engine = new Engine();
+      engine.render = sinon.spy();
+      engine.world = worldMock;
+      var callback = sinon.spy();
+      engine.events.bind(engine.EVENT_SIMULATE, callback);
+      engine.simulateTime(.3);
+      expect(callback.callCount).to.equal(1);
+      expect(callback.lastCall.args[0]).to.equal(.3);
+    });
+  });
+  describe('#updateTime', function() {
+    it('should trigger EVENT_TIMEPASS', function() {
+      var engine = new Engine();
+      engine.render = sinon.spy();
+      engine.simulateTime = sinon.spy();
+      var callback = sinon.spy();
+      engine.events.bind(engine.EVENT_TIMEPASS, callback);
+      engine.updateTime(.3);
+      expect(callback.callCount).to.equal(1);
+      expect(callback.lastCall.args[0]).to.equal(.3);
     });
   });
 });
