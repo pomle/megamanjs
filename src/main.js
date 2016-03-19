@@ -27,6 +27,17 @@ $(function() {
         window.dispatchEvent(event);
     }
 
+    window.addEventListener('focus', function() {
+        if (!game.engine.isRunning) {
+            game.engine.run();
+        }
+    });
+    window.addEventListener('blur', function() {
+        if (game.engine.isRunning) {
+            game.engine.pause();
+        }
+    });
+
     $('#nes-controller a')
         .on('touchstart', keyBoardEvent)
         .on('touchend', keyBoardEvent)

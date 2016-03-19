@@ -7,17 +7,6 @@ var Game = function()
     this.player.hud = new Hud(this);
 
     this.resource = new Game.ResourceManager();
-
-    window.addEventListener('focus', function() {
-        if (this.engine && !this.engine.isRunning) {
-            this.engine.run();
-        }
-    }.bind(this));
-    window.addEventListener('blur', function() {
-        if (this.engine && this.engine.isRunning) {
-            this.engine.pause();
-        }
-    }.bind(this));
 }
 
 Game.objects = {};
