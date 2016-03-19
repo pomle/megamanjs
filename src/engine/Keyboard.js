@@ -28,6 +28,11 @@ Engine.Keyboard.prototype.START = 'start';
 Engine.Keyboard.prototype.ENGAGE = 'keydown';
 Engine.Keyboard.prototype.RELEASE = 'keyup';
 
+Engine.Keyboard.prototype.assign = function(code, name)
+{
+    this.map[code] = name;
+}
+
 Engine.Keyboard.prototype.hit = function(key, engage)
 {
     this.events.bind(key + '_' + this.ENGAGE, engage);
@@ -42,7 +47,7 @@ Engine.Keyboard.prototype.intermittent = function(key, engage, release)
 Engine.Keyboard.prototype.release = function()
 {
     for (var key in this.map) {
-        this.trigger(key, this.RELEASE);
+        this.trigger(this.map[key], this.RELEASE);
     }
 }
 
@@ -60,12 +65,16 @@ Engine.Keyboard.prototype.trigger = function(key, state)
 
 Engine.Keyboard.prototype.triggerEvent = function(event)
 {
-    var key = event.keyCode;
-    if (this.map[key]) {
+    var code = event.keyCode;
+    if (this.map[code]) {
         if (event.preventDefault) {
             event.preventDefault();
         }
-
-        this.trigger(this.map[key], event.type);
+        this.trigger(this.map[code], event.type);
     }
+}
+
+Engine.Keyboard.prototype.unassign = function(code)
+{
+    delete this.map[code];
 }
