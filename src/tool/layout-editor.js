@@ -59,13 +59,20 @@ $(function() {
             }
         });
     editor.file.recent = editor.file.find('.level [name=recent]')
-        .on('change', function() {
-            if (!this.value.length || !confirm("Load " + this.value + "?")) {
-                e.preventDefault();
-                return;
+        .on('change', (function() {
+            var currentSelection;
+            return function(e) {
+                if (currentSelection === this.value || !this.value.length || !confirm("Load " + this.value + "?")) {
+                    e.preventDefault();
+                    return;
+                }
+                currentSelection = this.value;
+                var src = this.value;
+                setTimeout(function() {
+                    loadLevel(src);
+                }, 0);
             }
-            loadLevel(this.value);
-        });
+        })());
     editor.file.recent.add = function(src) {
         var recent = this.get();
         for (;;) {
@@ -113,17 +120,6 @@ $(function() {
         }
     }
 
-    Game.init(function() {
-        var game = new Game();
-        editor.attachGame(game);
-
-        var recent = editor.file.recent.get();
-        if (recent.length) {
-            editor.file.recent.updatelist();
-            loadLevel(recent[0]);
-        }
-    }, undefined, '../');
-
     editor.ui.workspace.on('dragover', function (e) {
          e.stopPropagation();
          e.preventDefault();
@@ -154,6 +150,16 @@ $(function() {
         };
         reader.readAsDataURL(file);
     });
+
+    var game = new Game();
+    game.engine = new Engine(new THREE.WebGLRenderer());
+    editor.attachGame(game);
+
+    var recent = editor.file.recent.get();
+    if (recent.length) {
+        editor.file.recent.updatelist();
+        loadLevel(recent[0]);
+    }
 
     window.editor = editor;
 });
