@@ -1,10 +1,10 @@
 Game.Scene = function(game, world)
 {
     if (game instanceof Game === false) {
-        throw new Error("game instance of Game");
+        throw new TypeError("Expected instance of game");
     }
     if (world instanceof Engine.World === false) {
-        throw new Error("world not instance of Engine.World");
+        throw new TypeError("Expected instance of world");
     }
     this.events = new Engine.Events();
     this.game = game;
