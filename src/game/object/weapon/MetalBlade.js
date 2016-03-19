@@ -6,7 +6,9 @@ Game.objects.weapons.MetalBlade = function()
         new THREE.Vector2(-1, -1),
         new THREE.Vector2(1, 1),
     ];
-
+    for (var i = 0; i < 3; ++i) {
+        this.addProjectile(new Game.objects.projectiles.MetalBlade());
+    }
 }
 
 Game.objects.weapons.MetalBlade.prototype = Object.create(Game.objects.Weapon.prototype);
@@ -17,7 +19,7 @@ Game.objects.weapons.MetalBlade.prototype.fire = function()
     if (!Game.objects.Weapon.prototype.fire.call(this)) {
         return false;
     }
-    var projectile = new Game.objects.projectiles.MetalBlade();
-    this.emit(projectile, projectile.speed, 0)
+    var projectile = this.getProjectile();
+    this.emit(projectile);
     return true;
 }

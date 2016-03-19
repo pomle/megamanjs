@@ -161,5 +161,28 @@ describe('Engine', function() {
       expect(callback.callCount).to.equal(1);
       expect(callback.lastCall.args[0]).to.equal(.3);
     });
+    it('should consume all accumulated time', function() {
+      var engine = new Engine();
+      engine.simulateTime = sinon.spy();
+      engine.accumulator = engine.timeStep * 2.1;
+      engine.updateTime(engine.timeStep);
+      expect(engine.simulateTime.callCount).to.equal(3);
+      expect(engine.accumulator).to.equal(0.0008333333333333352);
+    });
+    it('should increment realTimePassed', function() {
+      var engine = new Engine();
+      engine.simulateTime = sinon.spy();
+      engine.updateTime(.0312);
+      engine.updateTime(.0421);
+      engine.updateTime(.2412);
+      expect(engine.realTimePassed).to.equal(0.3145);
+    });
+    it('should pass multiplied time to simulateTime', function() {
+      var engine = new Engine();
+      engine.world = worldMock;
+      engine.simulationSpeed = 1.3;
+      engine.updateTime(.59);
+      expect(engine.simulationTimePassed).to.equal(0.7666666666666664);
+    });
   });
 });

@@ -3,6 +3,12 @@ Game.objects.weapons.AirShooter = function()
     Game.objects.Weapon.call(this);
     this.setCoolDown(1);
     this.ammo.max = 16;
+
+    for (var i = 0; i < 3; ++i) {
+        this.addProjectile(new Game.objects.projectiles.AirShot());
+    }
+
+    this.speed = 80;
 }
 
 Game.objects.weapons.AirShooter.prototype = Object.create(Game.objects.Weapon.prototype);
@@ -14,16 +20,13 @@ Game.objects.weapons.AirShooter.prototype.fire = function()
         return false;
     }
 
-    var projectiles = [
-        new Game.objects.projectiles.AirShot(),
-        new Game.objects.projectiles.AirShot(),
-        new Game.objects.projectiles.AirShot(),
-    ];
-
     var velocityMultiplier = 1.2;
-    for (var i in projectiles) {
-        projectiles[i].speed *= Math.pow(velocityMultiplier, i);
-        this.emit(projectiles[i]);
+    var count = 0;
+    var projectile;
+    while (projectile = this.getProjectile()) {
+        projectile.speed = this.speed * Math.pow(velocityMultiplier, count++);
+        this.emit(projectile);
     }
+
     return true;
 }
