@@ -159,7 +159,7 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
     var loader = parser.loader;
 
     var textureId = textureNode.attr('id');
-    var textureUrl = loader.getAbsoluteUrl(textureNode, 'url');
+    var textureUrl = loader.resolveURL(textureNode, 'url');
     if (!textureId) {
         textureId = textureUrl;
     }
