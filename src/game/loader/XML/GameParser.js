@@ -32,7 +32,7 @@ Game.Loader.XML.Parser.GameParser.prototype.parseGame = function(gameNode)
         gameNode.find('> scenes > scene').each(function() {
             var sceneNode = $(this);
             loader.sceneIndex[sceneNode.attr('name')] = {
-                'url': loader.getAbsoluteUrl(sceneNode, 'src'),
+                'url': loader.resolveURL(sceneNode, 'src'),
             };
         });
 

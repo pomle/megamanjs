@@ -43,17 +43,19 @@ Game.Loader.XML.prototype.asyncLoadXml = function(url)
     });
 }
 
-Game.Loader.XML.prototype.getAbsoluteUrl = function(node, attr)
+Game.Loader.XML.prototype.resolveURL = function(node, attr)
 {
     var url = node.attr(attr || 'url');
     if (node[0].ownerDocument.baseURL === undefined) {
         return url;
     }
-
     if (url.indexOf('http') === 0) {
         return url;
     }
-    var baseUrl = node[0].ownerDocument.baseURL.split('/').slice(0, -1).join('/') + '/';
+    var baseUrl = node[0].ownerDocument.baseURL
+                         .split('/')
+                         .slice(0, -1)
+                         .join('/') + '/';
     return baseUrl + url;
 }
 
