@@ -43,6 +43,22 @@ Game.Loader.XML.prototype.asyncLoadXml = function(url)
     });
 }
 
+Game.Loader.XML.prototype.followNode = function(node)
+{
+    var loader = this;
+    return new Promise(function(resolve, reject) {
+        if (node.attr('src')) {
+            var url = loader.resolveURL(node, 'src');
+            console.log('Digging deeper', url);
+            loader.asyncLoadXml(url).then(function(node) {
+                resolve(loader.followNode(node));
+            });
+        } else {
+            resolve(node);
+        }
+    });
+}
+
 Game.Loader.XML.prototype.resolveURL = function(node, attr)
 {
     var url = node.attr(attr || 'url');
@@ -172,20 +188,4 @@ Game.Loader.XML.prototype.startScene = function(name)
             loader.game.setScene(scene);
             return scene;
         });
-}
-
-Game.Loader.XML.prototype.followNode = function(node)
-{
-    var loader = this;
-    return new Promise(function(resolve, reject) {
-        if (node.attr('src')) {
-            var url = loader.getAbsoluteUrl(node, 'src');
-            console.log('Digging deeper', url);
-            loader.asyncLoadXml(url).then(function(node) {
-                resolve(loader.followNode(node));
-            });
-        } else {
-            resolve(node);
-        }
-    });
 }
