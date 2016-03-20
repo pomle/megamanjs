@@ -26,7 +26,6 @@ Game.scenes.StageSelect = function()
 
     var input = this.input;
     var scene = this;
-    var engine = this.game.engine;
 
     input.hit(this.input.LEFT, function() {
         scene.steer(-1, 0);
@@ -48,10 +47,12 @@ Game.scenes.StageSelect = function()
         scene.updateTime(dt);
     }
 
-    this.events.bind(this.EVENT_CREATE, function() {
+    this.events.bind(this.EVENT_CREATE, function(game) {
+        var engine = game.engine;
         engine.events.bind(engine.EVENT_SIMULATE, onSimulate);
     });
-    this.events.bind(this.EVENT_DESTROY, function() {
+    this.events.bind(this.EVENT_DESTROY, function(game) {
+        var engine = game.engine;
         engine.events.unbind(engine.EVENT_SIMULATE, onSimulate);
     });
 }
