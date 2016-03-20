@@ -182,7 +182,9 @@ Game.scenes.StageSelect.prototype.updateTime = function(dt)
     }
 
     if (this.world.camera.camera.position.distanceToSquared(this.cameraDesiredPosition) > 1) {
-        var intermediate = this.cameraDesiredPosition.clone().sub(this.world.camera.camera.position).divideScalar(this.cameraSmoothing);
+        var intermediate = this.cameraDesiredPosition.clone()
+            .sub(this.world.camera.camera.position)
+            .multiplyScalar(dt * 3);
         this.world.camera.camera.position.add(intermediate);
     }
 }
