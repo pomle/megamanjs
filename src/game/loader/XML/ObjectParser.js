@@ -158,9 +158,10 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
 
     var traitDescriptors = [];
+    var traitParser = new Game.Loader.XML.Parser.TraitParser(this.loader);
     objectNode.find('> traits > trait').each(function() {
         var traitNode = $(this);
-        traitDescriptors.push(parser.getTrait(traitNode));
+        traitDescriptors.push(traitParser.getTrait(traitNode));
     });
 
     var animationRouterFunction = undefined;
@@ -198,7 +199,7 @@ Game.Loader.XML.Parser.ObjectParser.prototype.getObject = function(objectNode)
 
         for (var i in traitDescriptors) {
             var trait = traitDescriptors[i];
-            var appliedTrait = parser.applyTrait(this, trait);
+            var appliedTrait = traitParser.applyTrait(this, trait);
 
             switch (appliedTrait.NAME) {
                 case 'weapon':

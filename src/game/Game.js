@@ -1,12 +1,8 @@
 var Game = function()
 {
     this.engine = undefined;
-
-    this.loader = undefined;
     this.player = new Game.Player();
     this.player.hud = new Hud(this);
-
-    this.resource = new Game.ResourceManager();
 }
 
 Game.objects = {};

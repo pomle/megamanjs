@@ -1,9 +1,8 @@
 Game.Loader.XML = function(game)
 {
     Game.Loader.call(this, game);
+    this.resource = new Game.ResourceManager();
     this.sceneIndex = {};
-
-    this.parser = new Game.Loader.XML.Parser(this);
 }
 
 Engine.Util.extend(Game.Loader.XML, Game.Loader);
@@ -18,125 +17,52 @@ Game.Loader.XML.createFromXML = function(url, callback)
     game.engine = new Engine(renderer);
 
     var loader = new Game.Loader.XML(game);
-    loader.loadGame(url, callback);
-
-    game.loader = loader;
-
-    return game;
-}
-
-Game.Loader.XML.prototype.asyncLoadXml = function(url, callback)
-{
-    return $.ajax({
-        url: url,
-        dataType: 'xml',
-        error: function(jqXHR, status, e) {
-            throw e;
-        },
-        success: function(result) {
-            result.baseURL = url;
-            var node = $(result);
-            callback(node);
-        }
-    });
-}
-
-Game.Loader.XML.prototype.load = function(url, callback)
-{
-    var loader = this;
-    loader.asyncLoadXml(url, function(node) {
-        var firstNode = node.children(':first');
-        loader.traverseNode(firstNode, callback);
-    });
-}
-
-Game.Loader.XML.prototype.loadGame = function(url, callback)
-{
-    var loader = this;
-    this.load(url, function(node) {
-        loader.parseGame(node, callback);
-    });
-}
-
-Game.Loader.XML.prototype.parseCharacter = function(characterNode, callback)
-{
-    var parser = new Game.Loader.XML.Parser.CharacterParser(this);
-    return parser.parse(characterNode, callback);
-}
-
-Game.Loader.XML.prototype.parseGame = function(gameNode, callback)
-{
-    var loader = this;
-    if (!gameNode.is('game')) {
-        throw new TypeError('Node not <game>');
-    }
-
-    var configNode = gameNode.find('> config');
-    this.game.resource.textureScale = parseFloat(configNode.attr('texture-scale')) || this.game.resource.textureScale;
-
-    gameNode.find('> weapons > weapon').each(function() {
-        var weaponNode = $(this);
-        loader.parseWeapon(weaponNode, function(weapon) {
-            game.resource.addAuto(weaponNode.attr('id'), weapon);
-            var weapon = new weapon();
-            game.player.weapons[weapon.code] = weapon;
-        });
-    });
-
-    gameNode.find('> scenes > scene').each(function() {
-        var sceneNode = $(this);
-        loader.sceneIndex[sceneNode.attr('name')] = {
-            'url': loader.parser.getAbsoluteUrl(sceneNode, 'src'),
-        };
-    });
-
-    var entryPointParse = function()
-    {
-        gameNode.find('> level').each(function() {
-            levelNode = $(this);
-            Game.scenes.Level.prototype.assets['level-start-text']
-                = Engine.SpriteManager.createTextSprite(levelNode.attr('start-caption'));
-        });
-
-        var entrySceneName = gameNode.find('> entrypoint > scene').attr('name');
-        loader.startScene(entrySceneName);
-    }
-
-    var playerNode = gameNode.find('> player');
-    var playerCharacterId = playerNode.find('> character').attr('id');
-    game.player.defaultWeapon = playerNode.find('> weapon').attr('default');
-
-    var characterReady = function(characterId)
-    {
-        if (characterId !== playerCharacterId) {
-            return;
-        }
-
-        var character = new (loader.game.resource.get('character', characterId))();
-        character.invincibility.duration = parseFloat(playerNode.find('> invincibility').attr('duration'));
-        game.player.setCharacter(character);
-
-        entryPointParse();
-        callback();
-    }
-
-    gameNode.find('> characters > objects').each(function() {
-        var objectsNode = $(this);
-        loader.traverseNode(objectsNode, function(objectsNode) {
-            var characters = loader.parseObjects(objectsNode);
-            for (var characterId in characters) {
-                loader.game.resource.addAuto(characterId, characters[characterId]);
-                characterReady(characterId);
-            }
+    return new Promise(function(resolve, reject) {
+        loader.loadGame(url).then(function() {
+            resolve(loader);
         });
     });
 }
 
-Game.Loader.XML.prototype.parseLevel = function(levelNode, callback)
+Game.Loader.XML.prototype.asyncLoadXml = function(url)
 {
-    var parser = new Game.Loader.XML.Parser.LevelParser(this);
-    parser.parse(levelNode, callback);
-    return parser.level;
+    var loader = this;
+    return new Promise(function(resolve, reject) {
+        $.ajax({
+            url: url,
+            dataType: 'xml',
+            error: function(jqXHR, status, e) {
+                reject(e);
+            },
+            success: function(result) {
+                result.baseURL = url;
+                var node = $(result).children(':first');
+                resolve(node);
+            },
+        });
+    });
+}
+
+Game.Loader.XML.prototype.getAbsoluteUrl = function(node, attr)
+{
+    var url = node.attr(attr || 'url');
+    if (node[0].ownerDocument.baseURL === undefined) {
+        return url;
+    }
+
+    if (url.indexOf('http') === 0) {
+        return url;
+    }
+    var baseUrl = node[0].ownerDocument.baseURL.split('/').slice(0, -1).join('/') + '/';
+    return baseUrl + url;
+}
+
+Game.Loader.XML.prototype.loadGame = function(url)
+{
+    var gameParser = new Game.Loader.XML.Parser.GameParser(this);
+    return this.asyncLoadXml(url).then(function(node) {
+        return gameParser.parseGame(node);
+    });
 }
 
 Game.Loader.XML.prototype.parseObjects = function(objectsNode, callback)
@@ -145,139 +71,119 @@ Game.Loader.XML.prototype.parseObjects = function(objectsNode, callback)
     return parser.parse(objectsNode, callback);
 }
 
-Game.Loader.XML.prototype.parseScene = function(sceneNode, callback)
+Game.Loader.XML.prototype.parseScene = function(sceneNode)
 {
-    var loader = this;
     if (!sceneNode.is('scene')) {
         throw new TypeError('Node not <scene>');
     }
+
     var type = sceneNode.attr('type');
-    switch (type) {
-        case 'level':
-            this.parseLevel(sceneNode, callback);
-            break;
-        case 'stage-select':
-            this.parseStageSelect(sceneNode, callback);
-            break;
-        default:
-            throw new Error('Scene type "' + type + '" not recognized');
+    if (type === 'level') {
+        var levelParser = new Game.Loader.XML.Parser.LevelParser(this);
+        return levelParser.parse(sceneNode);
+    } else if (type === 'stage-select') {
+        return this.parseStageSelect(sceneNode);
     }
+
+    throw new Error('Scene type "' + type + '" not recognized');
 }
 
 Game.Loader.XML.prototype.parseStageSelect = function(sceneNode, callback)
 {
     var loader = this;
-    var parser = new Game.Loader.XML.Parser(this);
+    var parser = new Game.Loader.XML.Parser.GameParser(loader);
 
-    if (!sceneNode.is('scene[type=stage-select]')) {
-        throw new TypeError('Node not <scene type="stage-select">');
-    }
+    return new Promise(function(resolve) {
+        if (!sceneNode.is('scene[type=stage-select]')) {
+            throw new TypeError('Node not <scene type="stage-select">');
+        }
 
-    var scene = new Game.scenes.StageSelect(this.game, new Engine.World());
-    var textureNode = sceneNode.find('texture');
-    var texture = parser.getTexture(textureNode);
-    var textureSize = parser.getVector2(textureNode, 'w', 'h');
+        var scene = new Game.scenes.StageSelect(loader.game, new Engine.World());
+        var textureNode = sceneNode.find('texture');
+        var texture = parser.getTexture(textureNode);
+        var textureSize = parser.getVector2(textureNode, 'w', 'h');
 
-    var backgroundNode = sceneNode.children('background');
-    scene.setBackgroundColor(backgroundNode.attr('color'));
+        var backgroundNode = sceneNode.children('background');
+        scene.setBackgroundColor(backgroundNode.attr('color'));
 
-    var cameraNode = sceneNode.children('camera');
-    scene.cameraDistance = parseFloat(cameraNode.attr('distance')) || scene.cameraDistance;
+        var cameraNode = sceneNode.children('camera');
+        scene.cameraDistance = parseFloat(cameraNode.attr('distance')) || scene.cameraDistance;
 
-    var indicatorNode = sceneNode.children('indicator');
-    scene.setIndicator(Engine.SpriteManager.createTile(
-        texture,
-        parseFloat(indicatorNode.attr('w')), parseFloat(indicatorNode.attr('h')),
-        parseFloat(indicatorNode.attr('x')), parseFloat(indicatorNode.attr('y')),
-        textureSize.x, textureSize.y));
-
-    scene.indicatorInterval = parseFloat(indicatorNode.attr('blink-interval')) || scene.indicatorInterval;
-
-    var frameNode = sceneNode.children('frame');
-    scene.setFrame(Engine.SpriteManager.createTile(
-        texture,
-        parseFloat(frameNode.attr('w')), parseFloat(frameNode.attr('h')),
-        parseFloat(frameNode.attr('x')), parseFloat(frameNode.attr('y')),
-        textureSize.x, textureSize.y));
-
-    var stagesNode = sceneNode.find('> stage');
-    scene.rowLength = Math.ceil(Math.sqrt(stagesNode.length));
-    stagesNode.each(function() {
-        var stageNode = $(this);
-        var avatar = Engine.SpriteManager.createTile(
+        var indicatorNode = sceneNode.children('indicator');
+        scene.setIndicator(Engine.SpriteManager.createTile(
             texture,
-            parseFloat(stageNode.attr('w')), parseFloat(stageNode.attr('h')),
-            parseFloat(stageNode.attr('x')), parseFloat(stageNode.attr('y')),
-            textureSize.x, textureSize.y);
-        var index = parseFloat(stageNode.attr('index'));
-        var name = stageNode.attr('name');
-        var caption = stageNode.attr('caption');
-        scene.addStage(avatar, caption, name);
-    });
+            parseFloat(indicatorNode.attr('w')), parseFloat(indicatorNode.attr('h')),
+            parseFloat(indicatorNode.attr('x')), parseFloat(indicatorNode.attr('y')),
+            textureSize.x, textureSize.y));
 
-    scene.equalize(parseFloat(indicatorNode.attr('initial-index')));
+        scene.indicatorInterval = parseFloat(indicatorNode.attr('blink-interval')) || scene.indicatorInterval;
 
-    var stageSelect = scene;
-    scene.events.bind(scene.EVENT_STAGE_SELECTED, function(stage, index) {
-        loader.startScene(stage.name, function(scene) {
-            scene.events.bind(scene.EVENT_END, function() {
-                loader.game.setScene(stageSelect);
-            })
+        var frameNode = sceneNode.children('frame');
+        scene.setFrame(Engine.SpriteManager.createTile(
+            texture,
+            parseFloat(frameNode.attr('w')), parseFloat(frameNode.attr('h')),
+            parseFloat(frameNode.attr('x')), parseFloat(frameNode.attr('y')),
+            textureSize.x, textureSize.y));
+
+        var stagesNode = sceneNode.find('> stage');
+        scene.rowLength = Math.ceil(Math.sqrt(stagesNode.length));
+        stagesNode.each(function() {
+            var stageNode = $(this);
+            var avatar = Engine.SpriteManager.createTile(
+                texture,
+                parseFloat(stageNode.attr('w')), parseFloat(stageNode.attr('h')),
+                parseFloat(stageNode.attr('x')), parseFloat(stageNode.attr('y')),
+                textureSize.x, textureSize.y);
+            var index = parseFloat(stageNode.attr('index'));
+            var name = stageNode.attr('name');
+            var caption = stageNode.attr('caption');
+            scene.addStage(avatar, caption, name);
         });
+
+        scene.equalize(parseFloat(indicatorNode.attr('initial-index')));
+
+        var stageSelect = scene;
+        scene.events.bind(scene.EVENT_STAGE_SELECTED, function(stage, index) {
+            loader.startScene(stage.name, function(scene) {
+                scene.events.bind(scene.EVENT_END, function() {
+                    loader.game.setScene(stageSelect);
+                })
+            });
+        });
+
+        resolve(scene);
     });
-
-    callback(scene);
 }
 
-Game.Loader.XML.prototype.parseWeapon = function(weaponNode, callback)
-{
-    if (!weaponNode.is('weapon')) {
-        throw new TypeError('Node not <weapon>');
-    }
-
-    var sourceName = weaponNode.attr('source');
-    var source = Game.objects.weapons[sourceName];
-
-    var code = weaponNode.attr('code');
-    var name = weaponNode.attr('name');
-
-
-    var weapon = function()
-    {
-        source.call(this);
-        this._parentName = sourceName;
-        this.code = code;
-        this.name = name;
-    }
-
-    Engine.Util.extend(weapon, source);
-
-    callback(weapon);
-}
-
-Game.Loader.XML.prototype.startScene = function(name, callback)
+Game.Loader.XML.prototype.startScene = function(name)
 {
     if (!this.sceneIndex[name]) {
         throw new Error('Scene "' + name + '" does not exist');
     }
 
     var loader = this;
-    this.load(this.sceneIndex[name].url, function(node) {
-        loader.parseScene(node, function(scene) {
+    return this.asyncLoadXml(this.sceneIndex[name].url)
+        .then(function(node) {
+            return loader.parseScene(node);
+        })
+        .then(function(scene) {
             loader.game.setScene(scene);
-            if (callback) {
-                callback(scene);
-            }
+            return scene;
         });
-    });
 }
 
-Game.Loader.XML.prototype.traverseNode = function(node, callback)
+Game.Loader.XML.prototype.followNode = function(node)
 {
-    if (node.attr('src')) {
-        this.load(this.parser.getAbsoluteUrl(node, 'src'), callback);
-    }
-    else {
-        callback(node);
-    }
+    var loader = this;
+    return new Promise(function(resolve, reject) {
+        if (node.attr('src')) {
+            var url = loader.getAbsoluteUrl(node, 'src');
+            console.log('Digging deeper', url);
+            loader.asyncLoadXml(url).then(function(node) {
+                resolve(loader.followNode(node));
+            });
+        } else {
+            resolve(node);
+        }
+    });
 }
