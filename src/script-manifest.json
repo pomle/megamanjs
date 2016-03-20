@@ -37,8 +37,11 @@
     "game/Loader.js",
     "game/loader/XML.js",
     "game/loader/XML/Parser.js",
+    "game/loader/XML/GameParser.js",
     "game/loader/XML/LevelParser.js",
     "game/loader/XML/ObjectParser.js",
+    "game/loader/XML/TraitParser.js",
+    "game/loader/XML/WeaponParser.js",
     "game/Player.js",
 
     "game/Scene.js",
