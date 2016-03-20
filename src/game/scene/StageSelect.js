@@ -24,41 +24,35 @@ Game.scenes.StageSelect = function()
         }));
     this.world.scene.add(this.background);
 
-    this.input.hit(this.input.LEFT,
-        function() {
-            this.steer(-1, 0);
-        }.bind(this));
+    var input = this.input;
+    var scene = this;
+    var engine = this.game.engine;
 
-    this.input.hit(this.input.RIGHT,
-        function() {
-            this.steer(1, 0);
-        }.bind(this));
+    input.hit(this.input.LEFT, function() {
+        scene.steer(-1, 0);
+    });
+    input.hit(input.RIGHT, function() {
+        scene.steer(1, 0);
+    });
+    input.hit(input.UP, function() {
+        scene.steer(0, -1);
+    });
+    input.hit(input.DOWN, function() {
+        scene.steer(0, 1);
+    });
+    input.hit(input.START, function() {
+        scene.enter();
+    });
 
-    this.input.hit(this.input.UP,
-        function() {
-            this.steer(0, -1);
-        }.bind(this));
-
-    this.input.hit(this.input.DOWN,
-        function() {
-            this.steer(0, 1);
-        }.bind(this));
-
-    this.input.hit(this.input.START,
-        function() {
-            this.enter();
-        }.bind(this));
-
-    this.updateTime = this.updateTime.bind(this);
-
-    var scene = this,
-        engine = this.game.engine;
+    var onSimulate = function(dt) {
+        scene.updateTime(dt);
+    }
 
     this.events.bind(this.EVENT_CREATE, function() {
-        engine.events.bind(engine.EVENT_SIMULATE, scene.updateTime);
+        engine.events.bind(engine.EVENT_SIMULATE, onSimulate);
     });
     this.events.bind(this.EVENT_DESTROY, function() {
-        engine.events.unbind(engine.EVENT_SIMULATE, scene.updateTime);
+        engine.events.unbind(engine.EVENT_SIMULATE, onSimulate);
     });
 }
 
