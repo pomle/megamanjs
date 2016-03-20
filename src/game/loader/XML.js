@@ -83,12 +83,6 @@ Game.Loader.XML.prototype.loadGame = function(url)
     });
 }
 
-Game.Loader.XML.prototype.parseObjects = function(objectsNode, callback)
-{
-    var parser = new Game.Loader.XML.Parser.ObjectParser(this);
-    return parser.parse(objectsNode, callback);
-}
-
 Game.Loader.XML.prototype.parseScene = function(sceneNode)
 {
     if (!sceneNode.is('scene')) {
