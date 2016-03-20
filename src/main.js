@@ -15,6 +15,7 @@ $(function() {
             }
         });
 
+        window.loader = loader;
         window.game = game;
     });
 
