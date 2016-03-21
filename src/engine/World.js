@@ -23,18 +23,14 @@ Engine.World = function()
 
 Engine.World.prototype.EVENT_UPDATE = 'update';
 
-Engine.World.prototype.addObject = function(object, x, y)
+Engine.World.prototype.addObject = function(object)
 {
     if (object instanceof Engine.Object === false) {
         throw new Error('Invalid object');
     }
-
     if (this.objects.indexOf(object) !== -1) {
         return;
     }
-
-    object.position.x = x === undefined ? object.position.x : x;
-    object.position.y = y === undefined ? object.position.y : y;
 
     this.objects.push(object);
     this.collision.addObject(object);
