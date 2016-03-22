@@ -13,7 +13,6 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser,
                    Game.Loader.XML.Parser);
 
-
 Game.Loader.XML.Parser.LevelParser.prototype.createBehavior = function(node, behavior)
 {
     var parser = this,
