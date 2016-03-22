@@ -76,8 +76,12 @@ Engine.Object.prototype.applyTrait = function(trait)
     if (trait instanceof Engine.Trait === false) {
         throw new Error('Invalid trait');
     }
+    if (this[trait.NAME] !== undefined) {
+        throw new Error('Trait name occupied', trait.NAME);
+    }
     trait.__attach(this);
     this.traits.push(trait);
+    this[trait.NAME] = trait;
     return trait;
 }
 

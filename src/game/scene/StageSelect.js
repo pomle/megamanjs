@@ -24,41 +24,36 @@ Game.scenes.StageSelect = function()
         }));
     this.world.scene.add(this.background);
 
-    this.input.hit(this.input.LEFT,
-        function() {
-            this.steer(-1, 0);
-        }.bind(this));
+    var input = this.input;
+    var scene = this;
 
-    this.input.hit(this.input.RIGHT,
-        function() {
-            this.steer(1, 0);
-        }.bind(this));
-
-    this.input.hit(this.input.UP,
-        function() {
-            this.steer(0, -1);
-        }.bind(this));
-
-    this.input.hit(this.input.DOWN,
-        function() {
-            this.steer(0, 1);
-        }.bind(this));
-
-    this.input.hit(this.input.START,
-        function() {
-            this.enter();
-        }.bind(this));
-
-    this.updateTime = this.updateTime.bind(this);
-
-    var scene = this,
-        engine = this.game.engine;
-
-    this.events.bind(this.EVENT_CREATE, function() {
-        engine.events.bind(engine.EVENT_SIMULATE, scene.updateTime);
+    input.hit(this.input.LEFT, function() {
+        scene.steer(-1, 0);
     });
-    this.events.bind(this.EVENT_DESTROY, function() {
-        engine.events.unbind(engine.EVENT_SIMULATE, scene.updateTime);
+    input.hit(input.RIGHT, function() {
+        scene.steer(1, 0);
+    });
+    input.hit(input.UP, function() {
+        scene.steer(0, -1);
+    });
+    input.hit(input.DOWN, function() {
+        scene.steer(0, 1);
+    });
+    input.hit(input.START, function() {
+        scene.enter();
+    });
+
+    var onSimulate = function(dt) {
+        scene.updateTime(dt);
+    }
+
+    this.events.bind(this.EVENT_CREATE, function(game) {
+        var engine = game.engine;
+        engine.events.bind(engine.EVENT_SIMULATE, onSimulate);
+    });
+    this.events.bind(this.EVENT_DESTROY, function(game) {
+        var engine = game.engine;
+        engine.events.unbind(engine.EVENT_SIMULATE, onSimulate);
     });
 }
 
@@ -188,7 +183,9 @@ Game.scenes.StageSelect.prototype.updateTime = function(dt)
     }
 
     if (this.world.camera.camera.position.distanceToSquared(this.cameraDesiredPosition) > 1) {
-        var intermediate = this.cameraDesiredPosition.clone().sub(this.world.camera.camera.position).divideScalar(this.cameraSmoothing);
+        var intermediate = this.cameraDesiredPosition.clone()
+            .sub(this.world.camera.camera.position)
+            .multiplyScalar(dt * 3);
         this.world.camera.camera.position.add(intermediate);
     }
 }

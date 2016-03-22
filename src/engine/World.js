@@ -11,6 +11,7 @@ Engine.World = function()
     this.atmosphericDensity = .1;
     this.atmosphericViscosity = .1;
     this.gravityForce = new THREE.Vector2(0, 9.81);
+    this.windForce = new THREE.Vector2(0, 0);
 
     this.objects = [];
 
@@ -23,18 +24,14 @@ Engine.World = function()
 
 Engine.World.prototype.EVENT_UPDATE = 'update';
 
-Engine.World.prototype.addObject = function(object, x, y)
+Engine.World.prototype.addObject = function(object)
 {
     if (object instanceof Engine.Object === false) {
         throw new Error('Invalid object');
     }
-
     if (this.objects.indexOf(object) !== -1) {
         return;
     }
-
-    object.position.x = x === undefined ? object.position.x : x;
-    object.position.y = y === undefined ? object.position.y : y;
 
     this.objects.push(object);
     this.collision.addObject(object);

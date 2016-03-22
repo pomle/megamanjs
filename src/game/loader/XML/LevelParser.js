@@ -1,7 +1,7 @@
 Game.Loader.XML.Parser.LevelParser = function(loader)
 {
     Game.Loader.XML.Parser.call(this, loader);
-    this.world = undefined;
+
     this.level = undefined;
 
     this.behaviors = new Set();
@@ -12,7 +12,6 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
 
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser,
                    Game.Loader.XML.Parser);
-
 
 Game.Loader.XML.Parser.LevelParser.prototype.createBehavior = function(node, behavior)
 {
@@ -69,59 +68,55 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         parser = this,
         loader = parser.loader;
 
-    var world = new Engine.World(),
-        level = new Game.scenes.Level(loader.game, world);
+    var world = new Engine.World();
+    var level = new Game.scenes.Level(loader.game, world);
 
-    this.world = world;
     this.level = level;
 
-    if (!levelNode.is('scene[type=level]')) {
-        throw new TypeError('Node not <scene type="level">');
-    }
+    return new Promise(function(resolve) {
+        if (!levelNode.is('scene[type=level]')) {
+            throw new TypeError('Node not <scene type="level">');
+        }
 
-    this.node = levelNode;
-    level.debug = parser.getBool(levelNode, 'debug');
+        levelNode.find('> objects').each(function() {
+            var objectParser = new Game.Loader.XML.Parser.ObjectParser(loader);
+            parser.objects = objectParser.parse(this);
+            Array.prototype.push.apply(parser.textures, objectParser.textures);
+        });
 
-    levelNode.find('> objects').each(function() {
-        var objectParser = new Game.Loader.XML.Parser.ObjectParser(loader);
-        parser.objects = objectParser.parse(this);
-        Array.prototype.push.apply(parser.textures, objectParser.textures);
-    });
+        parser.parseCamera(levelNode);
+        parser.parseGravity(levelNode);
 
-    this.parseCamera(levelNode);
-    this.parseGravity(levelNode);
+        parser.parseLayout(levelNode);
 
-    this.parseLayout(levelNode);
+        levelNode.find('> checkpoints > checkpoint').each(function() {
+            var checkpointNode = $(this);
+            var c = parser.getPosition(checkpointNode);
+            var r = parseFloat(checkpointNode.attr('radius'));
+            level.addCheckPoint(c.x, c.y, r || undefined);
+        });
 
-    levelNode.find('> checkpoints > checkpoint').each(function() {
-        var checkpointNode = $(this);
-        var c = parser.getPosition(checkpointNode);
-        var r = parseFloat(checkpointNode.attr('radius'));
-        level.addCheckPoint(c.x, c.y, r || undefined);
-    });
-
-    levelNode.find('> scripts > bootstrap').each(function(i, node) {
-        try {
-            switch (node.tagName) {
-                case 'bootstrap':
-                    (function() {
-                        var bootstrap = undefined;
-                        eval(node.textContent);
-                        if (typeof bootstrap === "function") {
-                            bootstrap(loader.game, level);
-                        }
-                    }());
-                    break;
+        levelNode.find('> scripts > bootstrap').each(function(i, node) {
+            try {
+                switch (node.tagName) {
+                    case 'bootstrap':
+                        (function() {
+                            var bootstrap = undefined;
+                            eval(node.textContent);
+                            if (typeof bootstrap === "function") {
+                                bootstrap(loader.game, level);
+                            }
+                        }());
+                        break;
+                }
             }
-        }
-        catch (error) {
-            console.error("Could not parse XML script in node <%s>", node.tagName, error);
-        }
-    });
+            catch (error) {
+                console.error("Could not parse XML script in node <%s>", node.tagName, error);
+            }
+        });
 
-    if (callback) {
-        callback(this.level, parser);
-    }
+        resolve(level);
+    });
 }
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutNode)
@@ -215,6 +210,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
         loader = parser.loader,
         level = parser.level;
 
+    var traitParser = new Game.Loader.XML.Parser.TraitParser(loader);
+
     layoutNode.find('> objects > object').each(function() {
         var objectNode = $(this);
         var objectId = objectNode.attr('id');
@@ -228,8 +225,8 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
         object.position.copy(position);
 
         objectNode.find('> trait').each(function() {
-            var traitDescriptor = parser.getTrait($(this));
-            parser.applyTrait(object, traitDescriptor);
+            var traitDescriptor = traitParser.getTrait($(this));
+            traitParser.applyTrait(object, traitDescriptor);
         });
 
         parser.items.add({
@@ -237,7 +234,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
             object: object,
         });
 
-        parser.world.addObject(object);
+        level.world.addObject(object);
     });
 }
 
@@ -258,8 +255,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNod
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode)
 {
-    var parser = this,
-        level = parser.level;
+    var parser = this;
+    var level = parser.level;
+    var loader = parser.loader;
 
     layoutNode.find(' > spawner').each(function() {
         var spawnerNode = $(this);
@@ -271,7 +269,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode
         spawnerNode.find('> character').each(function() {
             var objectNode = $(this);
             var objectId = objectNode.attr('id');
-            var objectRef = parser.loader.game.resource.get('character', objectId);
+            var objectRef = loader.resource.get('character', objectId);
             if (!objectRef) {
                 console.error("Character " + objectId + " not found");
                 return;

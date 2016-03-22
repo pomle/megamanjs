@@ -1,5 +1,6 @@
 Engine.Trait = function()
 {
+    this._bound = false;
     this._bindables = {};
     this._host = undefined;
 
@@ -27,11 +28,9 @@ Engine.Trait.prototype.__attach = function(host)
     if (host instanceof Engine.Object === false) {
         throw new TypeError('Invalid host');
     }
-
-    if (this._host) {
-        this.__detach();
+    if (this._host !== undefined) {
+        throw new Error('Already attached');
     }
-
     this._host = host;
     this.__on();
 }
@@ -48,8 +47,7 @@ Engine.Trait.prototype.__require = function(host, traitReference)
     if (trait !== false) {
         return trait;
     }
-    console.error("%s depends on %s which could not be found on %s", this, new traitReference(), host);
-    throw new Error("Required trait not found");
+    throw new Error('Required trait "' + new traitReference().NAME + '" not found');
 }
 
 Engine.Trait.prototype.__collides = undefined;
@@ -59,16 +57,22 @@ Engine.Trait.prototype.__timeshift = undefined;
 
 Engine.Trait.prototype.__off = function()
 {
-    var host = this._host;
-    for (var method in this._bindables) {
-        host.unbind(this.MAGIC_METHODS[method], this[method]);
+    if (this._bound === true) {
+        var host = this._host;
+        for (var method in this._bindables) {
+            host.unbind(this.MAGIC_METHODS[method], this[method]);
+        }
+        this._bound = false;
     }
 }
 
 Engine.Trait.prototype.__on = function()
 {
-    var host = this._host;
-    for (var method in this._bindables) {
-        host.bind(this.MAGIC_METHODS[method], this[method]);
+    if (this._bound === false) {
+        var host = this._host;
+        for (var method in this._bindables) {
+            host.bind(this.MAGIC_METHODS[method], this[method]);
+        }
+        this._bound = true;
     }
 }

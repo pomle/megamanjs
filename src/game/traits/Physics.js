@@ -10,6 +10,7 @@ Game.traits.Physics = function()
     this.mass = 0;
 
     this.acceleration = new THREE.Vector2();
+    this.accelerationDelta = new THREE.Vector2();
     this.force = new THREE.Vector2();
     this.velocity = new THREE.Vector2();
 }
@@ -47,6 +48,7 @@ Game.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
     var g = this._host.world.gravityForce,
         v = this.velocity,
         a = this.acceleration,
+        å = this.accelerationDelta,
         F = this.force,
         m = this.mass;
 
@@ -56,7 +58,7 @@ Game.traits.Physics.prototype.__timeshift = function physicsTimeshift(dt)
     F.add(Fd);
     //console.log("Force: %f,%f, Resistance: %f,%f, Result: %f,%f", F.x, F.y, Fd.x, Fd.y, F.x - Fd.x, F.y - Fd.y);
 
-    var å = new THREE.Vector2(F.x / m, F.y / m);
+    å.set(F.x / m, F.y / m);
     a.copy(å);
     v.add(a);
 

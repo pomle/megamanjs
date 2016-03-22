@@ -1,7 +1,22 @@
 $(function() {
-    var game = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml', function() {
-        console.log('Loading game done', game);
+    Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml').then(function(loader) {
+        console.log('Loading game done', loader);
+        var game = loader.game;
         game.attachToElement(document.getElementById('screen'));
+
+        window.addEventListener('focus', function() {
+            if (!game.engine.isRunning) {
+                game.engine.run();
+            }
+        });
+        window.addEventListener('blur', function() {
+            if (game.engine.isRunning) {
+                game.engine.pause();
+            }
+        });
+
+        window.loader = loader;
+        window.game = game;
     });
 
     var isTouchDevice = false;
@@ -26,17 +41,6 @@ $(function() {
         event.keyCode = Engine.Keyboard.prototype[this.rel];
         window.dispatchEvent(event);
     }
-
-    window.addEventListener('focus', function() {
-        if (!game.engine.isRunning) {
-            game.engine.run();
-        }
-    });
-    window.addEventListener('blur', function() {
-        if (game.engine.isRunning) {
-            game.engine.pause();
-        }
-    });
 
     $('#nes-controller a')
         .on('touchstart', keyBoardEvent)
@@ -70,6 +74,4 @@ $(function() {
     $('.spawn button').on('click', function() {
         game.scene.spawnCharacter($(this).attr('spawn'));
     });
-
-    window.game = game;
 });
