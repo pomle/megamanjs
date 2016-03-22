@@ -10,13 +10,13 @@ Game.Loader.XML.Parser.TraitParser.prototype.applyTrait = function(object, trait
 {
     if (typeof traitDescriptor === 'function') {
         var trait = traitDescriptor();
-        object[trait.NAME] = object.applyTrait(trait);
+        object.applyTrait(trait);
     }
     else {
         var trait = object.getTrait(traitDescriptor.ref);
         if (!trait) {
             trait = new traitDescriptor.ref();
-            object[trait.NAME] = object.applyTrait(trait);
+            object.applyTrait(trait);
         }
 
         for (var p in traitDescriptor.prop) {
