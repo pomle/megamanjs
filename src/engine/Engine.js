@@ -70,10 +70,11 @@ Engine.prototype.simulateTime = function(dt) {
 Engine.prototype.updateTime = function(dt) {
     dt *= this.timeStretch;
     if (this.isSimulating === true && this.simulationSpeed !== 0) {
+        var step = Math.min(dt, this.timeStep);
         this.accumulator += dt * this.simulationSpeed;
-        while (this.accumulator >= this.timeStep) {
-            this.simulateTime(this.timeStep);
-            this.accumulator -= this.timeStep;
+        while (this.accumulator >= step) {
+            this.simulateTime(step);
+            this.accumulator -= step;
         }
     }
     this.events.trigger(this.EVENT_TIMEPASS, [dt]);
