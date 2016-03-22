@@ -6,7 +6,6 @@
 const fs = require('fs');
 const vm = require('vm');
 const path = require('path');
-const runInThisContext = vm.runInThisContext;
 
 const BASE_PATH = path.resolve(path.join(__dirname, '..', 'src'));
 
