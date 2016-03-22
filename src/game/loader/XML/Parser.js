@@ -73,13 +73,12 @@ Game.Loader.XML.Parser.prototype.getFloatValues = function(node, def)
 Game.Loader.XML.Parser.prototype.getGeometry = function(node)
 {
     var type = node.attr('type');
-    switch (type) {
-        case 'plane':
-            return new THREE.PlaneGeometry(
-                parseFloat(node.attr('w')),
-                parseFloat(node.attr('h')),
-                parseFloat(node.attr('w-segments')) || 1,
-                parseFloat(node.attr('h-segments')) || 1);
+    if (type === 'plane') {
+        return new THREE.PlaneGeometry(
+            parseFloat(node.attr('w')),
+            parseFloat(node.attr('h')),
+            parseFloat(node.attr('w-segments')) || 1,
+            parseFloat(node.attr('h-segments')) || 1);
     }
     throw new Error('Could not parse geometry type "' + type + '"');
 }
