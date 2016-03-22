@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
-    "test": "npm run test-unit",
-    "test-unit": "mocha test/unit/tests/*.js"
+    "test": "npm run test-unit-cov",
+    "test-unit": "mocha test/unit/tests",
+    "test-unit-cov": "istanbul cover _mocha test/unit/tests"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
@@ -12,6 +13,7 @@
     "grunt-contrib-concat": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
+    "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
     "three": "0.72.0"
