@@ -16,7 +16,7 @@ Game.objects.characters.ChangkeyMaker = function()
     var glow = new Game.traits.Glow();
     glow.addLamp(light);
 
-    this.glow = this.applyTrait(glow);
+    this.applyTrait(glow);
 }
 
 Engine.Util.extend(Game.objects.characters.ChangkeyMaker,
