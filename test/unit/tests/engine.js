@@ -1,21 +1,28 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-var Engine = require('../../importer.js').Engine;
+var env = require('../../importer.js');
+var Engine = env.Engine;
+var World = env.Engine.World;
 
 describe('Engine', function() {
-  var rendererMock = {
-    render: sinon.spy(),
-  };
-
-  var worldMock = {
-    updateTime: sinon.spy(),
-    camera: {
-      updateTime: sinon.spy(),
-    },
-  };
+  var rendererMock;
+  var worldMock;
 
   beforeEach(function() {
+    rendererMock = {
+      render: sinon.spy(),
+    };
+
+    worldMock = {
+      scene: {},
+      updateTime: sinon.spy(),
+      camera: {
+        camera: {},
+        updateTime: sinon.spy(),
+      },
+    };
+
     var frameId = 0;
     global.requestAnimationFrame = sinon.spy(function() {
       return frameId++;
@@ -99,6 +106,18 @@ describe('Engine', function() {
       expect(callback.callCount).to.equal(1);
     });
   });
+  describe('#render', function() {
+    it('should pass current world and camera into renderer', function() {
+      var engine = new Engine(rendererMock);
+      engine.world = worldMock;
+      engine.render();
+      expect(engine.renderer.render.callCount).to.equal(1);
+      expect(engine.renderer.render.lastCall.args[0])
+        .to.be(worldMock.scene);
+      expect(engine.renderer.render.lastCall.args[1])
+        .to.be(worldMock.camera.camera);
+    });
+  });
   describe('#pause', function() {
     it('should cancel current frame', function() {
       var engine = new Engine();
@@ -136,6 +155,42 @@ describe('Engine', function() {
       expect(engine.isRunning).to.be(true);
       expect(requestAnimationFrame.calledOnce).to.be(true);
       expect(engine.frameId).to.equal(0);
+    });
+  });
+  describe('#setWorld', function() {
+    it('should set world property', function() {
+      var engine = new Engine();
+      var world = new World();
+      engine.setWorld(world);
+      expect(engine.world).to.be(world);
+    });
+    it('should except if not instance of world', function() {
+      var engine = new Engine();
+      expect(function() {
+        engine.setWorld(1);
+      }).to.throwError(function(error) {
+        expect(error).to.be.a(TypeError);
+        expect(error.message).to.equal('Invalid world');
+      });
+    });
+  });
+  describe('#unsetWorld', function() {
+    it('should set world property to undefined', function() {
+      var engine = new Engine();
+      var world = new World();
+      engine.setWorld(world);
+      expect(engine.world).to.be(world);
+      engine.unsetWorld();
+      expect(engine.world).to.be(undefined);
+    });
+    it('should except if not instance of world', function() {
+      var engine = new Engine();
+      expect(function() {
+        engine.setWorld(1);
+      }).to.throwError(function(error) {
+        expect(error).to.be.a(TypeError);
+        expect(error.message).to.equal('Invalid world');
+      });
     });
   });
   describe('#simulateTime', function() {
@@ -183,6 +238,22 @@ describe('Engine', function() {
       engine.simulationSpeed = 1.3;
       engine.updateTime(.59);
       expect(engine.simulationTimePassed).to.equal(0.7666666666666664);
+    });
+    it('should not simulate if isSimulating flag untrue', function() {
+      var engine = new Engine();
+      engine.simulateTime = sinon.spy();
+      engine.isSimulating = false;
+      engine.simulationSpeed = 1;
+      engine.updateTime(1);
+      expect(engine.simulateTime.callCount).to.equal(0);
+    });
+    it('should not simulate if simulationSpeed is zero', function() {
+      var engine = new Engine();
+      engine.simulateTime = sinon.spy();
+      engine.isSimulating = true;
+      engine.simulationSpeed = 0;
+      engine.updateTime(1);
+      expect(engine.simulateTime.callCount).to.equal(0);
     });
   });
 });
