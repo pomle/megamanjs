@@ -4,18 +4,23 @@ var sinon = require('sinon');
 var Engine = require('../../importer.js').Engine;
 
 describe('Engine', function() {
-  var rendererMock = {
-    render: sinon.spy(),
-  };
-
-  var worldMock = {
-    updateTime: sinon.spy(),
-    camera: {
-      updateTime: sinon.spy(),
-    },
-  };
+  var rendererMock;
+  var worldMock;
 
   beforeEach(function() {
+    rendererMock = {
+      render: sinon.spy(),
+    };
+
+    worldMock = {
+      scene: {},
+      updateTime: sinon.spy(),
+      camera: {
+        camera: {},
+        updateTime: sinon.spy(),
+      },
+    };
+
     var frameId = 0;
     global.requestAnimationFrame = sinon.spy(function() {
       return frameId++;
