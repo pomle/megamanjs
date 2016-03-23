@@ -104,6 +104,18 @@ describe('Engine', function() {
       expect(callback.callCount).to.equal(1);
     });
   });
+  describe('#render', function() {
+    it('should pass current world and camera into renderer', function() {
+      var engine = new Engine(rendererMock);
+      engine.world = worldMock;
+      engine.render();
+      expect(engine.renderer.render.callCount).to.equal(1);
+      expect(engine.renderer.render.lastCall.args[0])
+        .to.be(worldMock.scene);
+      expect(engine.renderer.render.lastCall.args[1])
+        .to.be(worldMock.camera.camera);
+    });
+  });
   describe('#pause', function() {
     it('should cancel current frame', function() {
       var engine = new Engine();
