@@ -239,5 +239,21 @@ describe('Engine', function() {
       engine.updateTime(.59);
       expect(engine.simulationTimePassed).to.equal(0.7666666666666664);
     });
+    it('should not simulate if isSimulating flag untrue', function() {
+      var engine = new Engine();
+      engine.simulateTime = sinon.spy();
+      engine.isSimulating = false;
+      engine.simulationSpeed = 1;
+      engine.updateTime(1);
+      expect(engine.simulateTime.callCount).to.equal(0);
+    });
+    it('should not simulate if simulationSpeed is zero', function() {
+      var engine = new Engine();
+      engine.simulateTime = sinon.spy();
+      engine.isSimulating = true;
+      engine.simulationSpeed = 0;
+      engine.updateTime(1);
+      expect(engine.simulateTime.callCount).to.equal(0);
+    });
   });
 });
