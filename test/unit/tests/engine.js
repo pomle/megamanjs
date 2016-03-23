@@ -1,7 +1,9 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-var Engine = require('../../importer.js').Engine;
+var env = require('../../importer.js');
+var Engine = env.Engine;
+var World = env.Engine.World;
 
 describe('Engine', function() {
   var rendererMock;
@@ -153,6 +155,42 @@ describe('Engine', function() {
       expect(engine.isRunning).to.be(true);
       expect(requestAnimationFrame.calledOnce).to.be(true);
       expect(engine.frameId).to.equal(0);
+    });
+  });
+  describe('#setWorld', function() {
+    it('should set world property', function() {
+      var engine = new Engine();
+      var world = new World();
+      engine.setWorld(world);
+      expect(engine.world).to.be(world);
+    });
+    it('should except if not instance of world', function() {
+      var engine = new Engine();
+      expect(function() {
+        engine.setWorld(1);
+      }).to.throwError(function(error) {
+        expect(error).to.be.a(TypeError);
+        expect(error.message).to.equal('Invalid world');
+      });
+    });
+  });
+  describe('#unsetWorld', function() {
+    it('should set world property to undefined', function() {
+      var engine = new Engine();
+      var world = new World();
+      engine.setWorld(world);
+      expect(engine.world).to.be(world);
+      engine.unsetWorld();
+      expect(engine.world).to.be(undefined);
+    });
+    it('should except if not instance of world', function() {
+      var engine = new Engine();
+      expect(function() {
+        engine.setWorld(1);
+      }).to.throwError(function(error) {
+        expect(error).to.be.a(TypeError);
+        expect(error.message).to.equal('Invalid world');
+      });
     });
   });
   describe('#simulateTime', function() {
