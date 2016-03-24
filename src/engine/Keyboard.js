@@ -25,42 +25,56 @@ Engine.Keyboard.prototype.B = 'b';
 Engine.Keyboard.prototype.SELECT = 'select';
 Engine.Keyboard.prototype.START = 'start';
 
-Engine.Keyboard.prototype.triggerEvent = function(event)
+Engine.Keyboard.prototype.ENGAGE = 'keydown';
+Engine.Keyboard.prototype.RELEASE = 'keyup';
+
+Engine.Keyboard.prototype.assign = function(code, name)
 {
-    var key = event.keyCode;
-    if (this.map[key]) {
-        if (event.preventDefault) {
-            event.preventDefault();
-        }
-
-        var keyName = this.map[key],
-            eventName = keyName + '_' + event.type;
-
-        if (this.state[keyName] === event.type) {
-            return false;
-        }
-
-        this.state[keyName] = event.type;
-        this.events.trigger(eventName);
-
-        return true;
-    }
+    this.map[code] = name;
 }
 
-Engine.Keyboard.prototype.hit = function(code, callback)
+Engine.Keyboard.prototype.hit = function(key, engage)
 {
-    this.events.bind(code + '_keydown', callback);
+    this.events.bind(key + '_' + this.ENGAGE, engage);
 }
 
-Engine.Keyboard.prototype.intermittent = function(code, downCallback, upCallback)
+Engine.Keyboard.prototype.intermittent = function(key, engage, release)
 {
-    this.events.bind(code + '_keydown', downCallback);
-    this.events.bind(code + '_keyup', upCallback);
+    this.events.bind(key + '_' + this.ENGAGE, engage);
+    this.events.bind(key + '_' + this.RELEASE, release);
 }
 
 Engine.Keyboard.prototype.release = function()
 {
     for (var key in this.map) {
-        this.triggerEvent({type:'keyup', keyCode: key});
+        this.trigger(this.map[key], this.RELEASE);
     }
+}
+
+Engine.Keyboard.prototype.trigger = function(key, state)
+{
+    if (this.state[key] === state) {
+        return false;
+    }
+
+    this.state[key] = state;
+    this.events.trigger(key + '_' + state);
+
+    return true;
+}
+
+Engine.Keyboard.prototype.triggerEvent = function(event)
+{
+    var code = event.keyCode;
+    if (this.map[code]) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+        this.trigger(this.map[code], event.type);
+    }
+}
+
+Engine.Keyboard.prototype.unassign = function(code)
+{
+    delete this.map[code];
 }
