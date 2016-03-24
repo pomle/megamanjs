@@ -103,4 +103,34 @@ describe('Keyboard', function() {
       }
     });
   });
+  describe('#triggerEvent', function() {
+    context('when matching bound key', function() {
+      it('should call preventDefault() on event', function() {
+        var input = new Keyboard();
+        input.assign(2, input.LEFT);
+        input.trigger = sinon.spy();
+        var mockEvent = {
+          keyCode: 2,
+          preventDefault: sinon.spy(),
+          type: 'keydown',
+        };
+        input.triggerEvent(mockEvent);
+        expect(mockEvent.preventDefault.callCount).to.equal(1);
+        expect(mockEvent.preventDefault.lastCall.args).to.have.length(0);
+      });
+    });
+    context('when not matching bound key', function() {
+      it('should not call preventDefault on event', function() {
+        var input = new Keyboard();
+        input.trigger = sinon.spy();
+        var mockEvent = {
+          keyCode: 2,
+          preventDefault: sinon.spy(),
+          type: 'keydown',
+        };
+        input.triggerEvent(mockEvent);
+        expect(mockEvent.preventDefault.callCount).to.equal(0);
+      });
+    });
+  });
 });
