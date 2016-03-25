@@ -37,6 +37,49 @@ describe('Timeline', function() {
       expect(anim.getLoopTime(6.3)).to.be.within(6.3, 6.300000001);
     });
   });
+  describe('#getIndex', function() {
+    it('should return the index at the current time', function() {
+      var anim = new Timeline();
+      anim.addFrame('A', 4);
+      anim.addFrame('B', 2);
+      anim.addFrame('C', 3);
+      anim.accumulatedTime = 5;
+      expect(anim.getIndex()).to.equal(1);
+      anim.accumulatedTime = 2;
+      expect(anim.getIndex()).to.equal(0);
+      anim.accumulatedTime = 10;
+      expect(anim.getIndex()).to.equal(0);
+      anim.accumulatedTime = 16;
+      expect(anim.getIndex()).to.equal(2);
+    });
+  });
+  describe('#getValue', function() {
+    it('should return the value at the current time', function() {
+      var anim = new Timeline();
+      anim.addFrame('A', 4);
+      anim.addFrame('B', 2);
+      anim.addFrame('C', 3);
+      anim.accumulatedTime = 5;
+      expect(anim.getValue()).to.equal('B');
+      anim.accumulatedTime = 2;
+      expect(anim.getValue()).to.equal('A');
+      anim.accumulatedTime = 10;
+      expect(anim.getValue()).to.equal('A');
+      anim.accumulatedTime = 16;
+      expect(anim.getValue()).to.equal('C');
+    });
+  });
+  describe('#getValueAtIndex', function() {
+    it('should return the value at a specific index', function() {
+      var anim = new Timeline();
+      anim.addFrame('A', 4);
+      anim.addFrame('B', 2);
+      anim.addFrame('C', 3);
+      expect(anim.getValueAtIndex(0)).to.equal('A');
+      expect(anim.getValueAtIndex(1)).to.equal('B');
+      expect(anim.getValueAtIndex(2)).to.equal('C');
+    });
+  });
   describe('#get(Index|Value)AtTime', function() {
     it('should return the correct value or index given a time', function() {
       var anim = new Timeline();
@@ -51,6 +94,14 @@ describe('Timeline', function() {
       expect(anim.getValueAtTime(4)).to.equal('B');
       expect(anim.getIndexAtTime(8.999)).to.equal(2);
       expect(anim.getValueAtTime(8.999)).to.equal('C');
+    });
+  });
+  describe('#reset', function() {
+    it('should set accumulatedTime to zero', function() {
+      var anim = new Timeline();
+      anim.accumulatedTime = 12;
+      anim.reset();
+      expect(anim.accumulatedTime).to.equal(0);
     });
   });
 });
