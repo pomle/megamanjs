@@ -14,7 +14,7 @@ Engine.Camera = function(camera)
 Engine.Camera.prototype.addPath = function(path)
 {
     if (path instanceof Engine.Camera.Path === false) {
-        throw new Error("Invalid camera path");
+        throw new TypeError("Invalid camera path");
     }
     this.paths.push(path);
 }
@@ -41,7 +41,7 @@ Engine.Camera.prototype.findPath = function(pos)
         return;
     }
 
-    for (var i = 0, l = this.paths.length; i < l; i++) {
+    for (var i = 0, l = this.paths.length; i !== l; ++i) {
         var path = this.paths[i];
         if (path.inWindow(pos)) {
             this.pathIndex = i;
@@ -57,10 +57,10 @@ Engine.Camera.prototype.follow = function(object, offset)
     this.followObject = object;
     this.desiredPosition = object.position.clone();
     this.desiredPosition.z = this.camera.position.z;
-    if (offset) {
-        this.followOffset = offset;
+    if (offset === undefined) {
+        this.followOffset.set(0, 0);
     } else {
-        this.followOffset = new THREE.Vector2(0, 0);
+        this.followOffset.copy(offset);
     }
 }
 
@@ -79,7 +79,7 @@ Engine.Camera.prototype.jumpToPath = function(vec)
 
 Engine.Camera.prototype.panTo = function(vec)
 {
-    this.desiredPosition.copy(vec);
+    this.desiredPosition = vec.clone();
 }
 
 Engine.Camera.prototype.unfollow = function()
@@ -99,7 +99,7 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
         if (this.obeyPaths) {
             this.alignToPath(this.desiredPosition);
         }
-        this.velocity = this.desiredPosition.clone().sub(this.camera.position);
+        this.velocity.copy(this.desiredPosition).sub(this.camera.position);
         if (this.smoothing > 0) {
             this.velocity.divideScalar(this.smoothing);
         }
@@ -125,13 +125,26 @@ Engine.Camera.Path = function()
 Engine.Camera.Path.prototype.constrain = function(vec)
 {
     vec.clamp(this.constraint[0], this.constraint[1]);
-    return vec;
 };
 
 Engine.Camera.Path.prototype.inWindow = function(vec)
 {
-    return vec.x > this.window[0].x
-        && vec.x < this.window[1].x
-        && vec.y > this.window[0].y
-        && vec.y < this.window[1].y;
+    return vec.x >= this.window[0].x
+        && vec.x <= this.window[1].x
+        && vec.y >= this.window[0].y
+        && vec.y <= this.window[1].y;
 };
+
+Engine.Camera.Path.prototype.setConstraint = function(x1, y1, x2, y2) {
+    this.constraint[0].x = x1;
+    this.constraint[0].y = y1;
+    this.constraint[1].x = x2;
+    this.constraint[1].y = y2;
+}
+
+Engine.Camera.Path.prototype.setWindow = function(x1, y1, x2, y2) {
+    this.window[0].x = x1;
+    this.window[0].y = y1;
+    this.window[1].x = x2;
+    this.window[1].y = y2;
+}
