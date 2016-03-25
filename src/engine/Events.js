@@ -6,13 +6,11 @@ Engine.Events = function()
 Engine.Events.prototype.bind = function(name, callback)
 {
     if (typeof name !== 'string') {
-        throw new TypeError("Event name must be string, got " + name);
+        throw new TypeError('Event name must be string');
     }
-
     if (!this.events[name]) {
         this.events[name] = [];
     }
-
     this.events[name].push(callback);
     this.gc(name);
 }
@@ -33,7 +31,8 @@ Engine.Events.prototype.gc = function(name)
 
 Engine.Events.prototype.bound = function(name, callback)
 {
-    return this.events[name].indexOf(callback);
+    return this.events[name] !== undefined &&
+           this.events[name].indexOf(callback) !== -1;
 }
 
 Engine.Events.prototype.trigger = function(name, values)
@@ -48,20 +47,16 @@ Engine.Events.prototype.trigger = function(name, values)
                 events[i].apply(this, values);
             }
         }
-        return true;
     }
-    return false;
 }
 
 Engine.Events.prototype.unbind = function(name, callback)
 {
     if (this.events[name]) {
         var events = this.events[name];
-        var i = events.indexOf(callback);
-        if (i !== -1) {
-            events[i] = undefined;
-            return true;
+        var index = events.indexOf(callback);
+        if (index !== -1) {
+            events[index] = undefined;
         }
     }
-    return false;
 }

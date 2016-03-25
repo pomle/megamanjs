@@ -9,6 +9,7 @@ var THREE = env.THREE;
 describe('Camera', function() {
   var camera;
   var realCamera;
+
   beforeEach(function() {
     realCamera = new THREE.Camera();
     camera = new Camera(realCamera);
@@ -113,16 +114,16 @@ describe('Camera', function() {
   describe('#jumpTo()', function() {
     it('should set camera position to vector', function() {
       camera.jumpTo({x: 7, y: 13, z: 19});
-      expect(camera.camera.position.x).to.equal(7);
-      expect(camera.camera.position.y).to.equal(13);
-      expect(camera.camera.position.z).to.equal(19);
+      expect(realCamera.position.x).to.equal(7);
+      expect(realCamera.position.y).to.equal(13);
+      expect(realCamera.position.z).to.equal(19);
     });
     it('should ignore missing z from vector', function() {
-      camera.camera.position.z = 19;
+      realCamera.position.z = 19;
       camera.jumpTo({x: 13, y: 7});
-      expect(camera.camera.position.x).to.equal(13);
-      expect(camera.camera.position.y).to.equal(7);
-      expect(camera.camera.position.z).to.equal(19);
+      expect(realCamera.position.x).to.equal(13);
+      expect(realCamera.position.y).to.equal(7);
+      expect(realCamera.position.z).to.equal(19);
     });
   });
   describe('#jumpToPath()', function() {
@@ -131,8 +132,8 @@ describe('Camera', function() {
       camera.addPath(path);
       path.setConstraint(5, 7, 15, 17);
       camera.jumpToPath(new THREE.Vector2(0, 0));
-      expect(camera.camera.position.x).to.equal(5);
-      expect(camera.camera.position.y).to.equal(7);
+      expect(realCamera.position.x).to.equal(5);
+      expect(realCamera.position.y).to.equal(7);
     });
   });
   describe('#panTo()', function() {
@@ -141,8 +142,8 @@ describe('Camera', function() {
       var to = new THREE.Vector2(300, 200);
       camera.jumpTo(from);
       camera.panTo(to);
-      expect(camera.camera.position.x).to.equal(0);
-      expect(camera.camera.position.y).to.equal(0);
+      expect(realCamera.position.x).to.equal(0);
+      expect(realCamera.position.y).to.equal(0);
       expect(camera.desiredPosition.x).to.equal(300);
       expect(camera.desiredPosition.y).to.equal(200);
     });
@@ -159,7 +160,6 @@ describe('Camera', function() {
       camera.updateTime(.016);
       expect(camera.velocity.x).to.equal(14.25);
       expect(camera.velocity.y).to.equal(9.5);
-
     });
   });
 });

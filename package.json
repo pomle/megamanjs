@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
+    "build": "grunt build",
     "test": "npm run test-unit-cov",
     "test-unit": "mocha test/unit/tests",
-    "test-unit-cov": "istanbul cover _mocha test/unit/tests",
+    "test-unit-cov": "istanbul cover node_modules/mocha/bin/_mocha test/unit/tests",
     "upload-coverage": "codecov"
   },
   "devDependencies": {
