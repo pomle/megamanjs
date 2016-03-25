@@ -160,7 +160,6 @@ describe('Camera', function() {
       camera.updateTime(.016);
       expect(camera.velocity.x).to.equal(14.25);
       expect(camera.velocity.y).to.equal(9.5);
-
     });
   });
 });
