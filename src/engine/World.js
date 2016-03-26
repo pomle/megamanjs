@@ -27,7 +27,7 @@ Engine.World.prototype.EVENT_UPDATE = 'update';
 Engine.World.prototype.addObject = function(object)
 {
     if (object instanceof Engine.Object === false) {
-        throw new Error('Invalid object');
+        throw new TypeError('Invalid object');
     }
     if (this.objects.indexOf(object) !== -1) {
         return;
@@ -53,10 +53,11 @@ Engine.World.prototype.getObject = function(name)
 Engine.World.prototype.removeObject = function(object)
 {
     if (object instanceof Engine.Object === false) {
-        throw new Error('Invalid object');
+        throw new TypeError('Invalid object');
     }
     var index = this.objects.indexOf(object);
     if (index !== -1) {
+        object.unsetWorld();
         this.objects[index] = undefined;
         this.collision.removeObject(object);
         this.scene.remove(object.model);
