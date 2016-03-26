@@ -169,3 +169,7 @@ Engine.Object.prototype.uncollides = function(withObject)
 {
     this.trigger(this.EVENT_UNCOLLIDE, [withObject]);
 }
+
+Engine.Object.prototype.unsetWorld = function() {
+    this.world = undefined;
+}

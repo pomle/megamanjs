@@ -35,9 +35,9 @@ Engine.Collision.prototype.garbageCollect = function()
 
 Engine.Collision.prototype.removeObject = function(object)
 {
-    var i = this.objects.indexOf(object);
-    if (i > -1) {
-        this.objects[i] = undefined;
+    var index = this.objects.indexOf(object);
+    if (index !== -1) {
+        this.objects[index] = undefined;
     }
 }
 

@@ -108,6 +108,7 @@ describe('Trait', function() {
       expect(host.events[host.EVENT_OBSTRUCT]).not.to.contain(trait.__obstruct);
       expect(host.events[host.EVENT_UNCOLLIDE]).not.to.contain(trait.__uncollides);
       expect(host.events[host.EVENT_TIMESHIFT]).not.to.contain(trait.__timeshift);
+      trait.__off(); // Should be inert.
     });
   });
   describe('#__on', function() {
@@ -163,6 +164,12 @@ describe('Trait', function() {
         expect(error).to.be.an(Error);
         expect(error.message).to.equal('Required trait "mockTrait" not found');
       });
+    });
+    it('should return applied instance if found', function() {
+      var host = new Host();
+      var trait = new MockTrait();
+      host.applyTrait(trait);
+      expect(trait.__require(host, MockTrait)).to.be(trait);
     });
   });
 });
