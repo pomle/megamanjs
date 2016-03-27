@@ -10,7 +10,7 @@ Engine.Collision = function()
 Engine.Collision.prototype.addObject = function(object)
 {
     if (object instanceof Engine.Object !== true) {
-        throw new Error('Collidable wrong type');
+        throw new TypeError('Collidable wrong type');
     }
     this.objects.push(object);
     this.collisionIndex.push([]);
