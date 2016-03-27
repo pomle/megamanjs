@@ -4,6 +4,8 @@ Engine.Collision = function()
     this.collisionIndex = [];
     this.positionCache = [];
 
+    this.garbage = [];
+
     this.collisionMaxDistanceSq = undefined;
 }
 
@@ -19,24 +21,20 @@ Engine.Collision.prototype.addObject = function(object)
 
 Engine.Collision.prototype.garbageCollect = function()
 {
-    for (var i = 0, l = this.objects.length; i !== l; i++) {
-        if (this.objects[i] === undefined) {
-            this.objects.splice(i, 1);
-            this.collisionIndex.splice(i, 1);
-            this.positionCache.splice(i, 1);
-            l--;
-            i--;
-            continue;
-        }
-    }
+    var index;
+    this.garbage.forEach((object) => {
+        while ((index = this.objects.indexOf(object)) !== -1) {
+            this.objects.splice(index, 1);
+            this.collisionIndex.splice(index, 1);
+            this.positionCache.splice(index, 1);
+       }
+    });
+    this.garbage = [];
 }
 
 Engine.Collision.prototype.removeObject = function(object)
 {
-    var index = this.objects.indexOf(object);
-    if (index !== -1) {
-        this.objects[index] = undefined;
-    }
+    this.garbage.push(object);
 }
 
 Engine.Collision.prototype.objectNeedsRecheck = function(objectIndex)
@@ -51,22 +49,18 @@ Engine.Collision.prototype.objectNeedsRecheck = function(objectIndex)
 
 Engine.Collision.prototype.detect = function()
 {
+    this.garbageCollect();
+
     for (var i = 0, l = this.objects.length; i !== l; ++i) {
-        if (this.objects[i]
-        && this.objects[i].collidable
-        && this.objectNeedsRecheck(i)) {
+        if (this.objects[i].collidable && this.objectNeedsRecheck(i)) {
             for (var j = 0; j !== l; ++j) {
-                if (i !== j
-                && this.objects[i] !== undefined
-                && this.objects[j] !== undefined
-                && this.objects[j].collidable) {
+                if (i !== j && this.objects[j].collidable) {
                     this.objectIndexesCollide(i, j);
                 }
             }
         }
     }
 
-    this.garbageCollect();
     for (var i = 0, l = this.objects.length; i !== l; ++i) {
         if (this.positionCache[i] === undefined) {
             this.positionCache[i] = this.objects[i].position.clone();

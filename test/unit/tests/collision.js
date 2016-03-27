@@ -36,22 +36,6 @@ describe('Collision', function() {
     });
   });
   describe('#detect', function() {
-    it('should not test removed objects', function() {
-      var collision = new Collision();
-      var object = [
-        new Obj(),
-        new Obj(),
-      ];
-      object[0].collides = sinon.spy();
-      object[1].collides = sinon.spy();
-      object[0].addCollisionRect(7, 7);
-      object[1].addCollisionRect(13, 13);
-      collision.addObject(object[0]);
-      collision.addObject(object[1]);
-      collision.removeObject(object[1]);
-      collision.detect();
-      expect(object[1].collides.callCount).to.equal(0);
-    });
     it('should call collide callback on colliding objects', function() {
       var collision = new Collision();
       var object = [
@@ -94,7 +78,7 @@ describe('Collision', function() {
       collision.addObject(object[1]);
       collision.detect();
 
-      expect(object[0].collides.callCount).to.equal(1);
+      expect(object[0].collides.callCount).to.equal(2);
     });
   });
   describe('#garbageCollect', function() {
@@ -122,17 +106,21 @@ describe('Collision', function() {
     });
   });
   describe('#removeObject', function() {
-    context('when removing an object', function() {
+    it('should prevent an object from being collision detected', function() {
       var collision = new Collision();
-      var object = new Obj();
-      collision.addObject(object);
-      collision.removeObject(object);
-      it('should set object to undefined', function() {
-        expect(collision.objects[0]).to.be(undefined);
-      });
-      it('should ignore removal of non-existing objects', function() {
-        collision.removeObject(object);
-      });
+      var object = [
+        new Obj(),
+        new Obj(),
+      ];
+      object[0].collides = sinon.spy();
+      object[1].collides = sinon.spy();
+      object[0].addCollisionRect(7, 7);
+      object[1].addCollisionRect(13, 13);
+      collision.addObject(object[0]);
+      collision.addObject(object[1]);
+      collision.removeObject(object[1]);
+      collision.detect();
+      expect(object[1].collides.callCount).to.equal(0);
     });
   });
   describe('#objectsCollide', function() {

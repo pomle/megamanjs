@@ -82,8 +82,10 @@ describe('World', function() {
   });
   describe('#removeObject', function() {
     it('should remove object from collision detector', function() {
+      world.collision.removeObject = sinon.spy();
       world.removeObject(objects[0]);
-      expect(world.collision.objects).to.not.contain(objects[0]);
+      expect(world.collision.removeObject.callCount).to.equal(1);
+      expect(world.collision.removeObject.lastCall.args).to.eql([objects[0]]);
     });
     it('should remove object model from scene', function() {
       world.scene.remove = sinon.spy();
