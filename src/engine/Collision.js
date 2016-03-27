@@ -130,8 +130,11 @@ Engine.Collision.BoundingBox = function(model, zone)
     this.model = model;
     this.zone = zone;
 
-    this.width = rect.w;
     this.height = rect.h;
+    this.width = rect.w;
+
+    this._h = this.height / 2;
+    this._w = this.width / 2;
 }
 
 Object.defineProperties(Engine.Collision.BoundingBox.prototype, {
@@ -153,34 +156,34 @@ Object.defineProperties(Engine.Collision.BoundingBox.prototype, {
     },
     left: {
         get: function() {
-            return this.x - this.width / 2;
+            return this.x - this._w;
         },
         set: function(v) {
-            this.x = v + this.width / 2;
+            this.x = v + this._w;
         },
     },
     right: {
         get: function() {
-            return this.x + this.width / 2;
+            return this.x + this._w;
         },
         set: function(v) {
-            this.x = v - this.width / 2;
+            this.x = v - this._w;
         },
     },
     top: {
         get: function() {
-            return this.y + this.height / 2;
+            return this.y + this._h;
         },
         set: function(v) {
-            this.y = v - this.height / 2;
+            this.y = v - this._h;
         },
     },
     bottom: {
         get: function() {
-            return this.y - this.height / 2;
+            return this.y - this._h;
         },
         set: function(v) {
-            this.y = v + this.height / 2;
+            this.y = v + this._h;
         },
     },
 });
