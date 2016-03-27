@@ -44,7 +44,7 @@ Engine.Collision.prototype.objectNeedsRecheck = function(index)
     if (p.equals(o.position)) {
         return false;
     }
-    p.set();
+    p.copy(o.position);
     return true;
 }
 
@@ -59,12 +59,6 @@ Engine.Collision.prototype.detect = function()
                     this.objectIndexesCollide(i, j);
                 }
             }
-        }
-    }
-
-    for (var i = 0, l = this.objects.length; i !== l; ++i) {
-        if (this.positionCache[i].x === undefined) {
-            this.positionCache[i].copy(this.objects[i].position);
         }
     }
 }
