@@ -21,15 +21,15 @@ Engine.Collision.prototype.addObject = function(object)
 
 Engine.Collision.prototype.garbageCollect = function()
 {
+    var object;
     var index;
-    this.garbage.forEach((object) => {
+    while (object = this.garbage.pop()) {
         while ((index = this.objects.indexOf(object)) !== -1) {
             this.objects.splice(index, 1);
             this.collisionIndex.splice(index, 1);
             this.positionCache.splice(index, 1);
        }
-    });
-    this.garbage = [];
+    }
 }
 
 Engine.Collision.prototype.removeObject = function(object)
