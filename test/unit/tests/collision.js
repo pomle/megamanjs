@@ -7,6 +7,30 @@ var Collision = env.Engine.Collision;
 var Obj = env.Engine.Object;
 
 describe('Collision', function() {
+  it('should not re-test positionally static objects', function() {
+    var collision = new Collision();
+    var objects = [
+       new Obj(),
+       new Obj(),
+    ];
+    objects[0].collides = sinon.spy();
+    objects[1].collides = sinon.spy();
+    objects[0].addCollisionRect(5, 5);
+    objects[1].addCollisionRect(5, 5);
+    collision.addObject(objects[0]);
+    collision.addObject(objects[1]);
+    objects[0].position.x = 1;
+    collision.detect();
+    expect(objects[0].collides.callCount).to.equal(2);
+    expect(objects[1].collides.callCount).to.equal(2);
+    collision.detect();
+    expect(objects[0].collides.callCount).to.equal(2);
+    expect(objects[1].collides.callCount).to.equal(2);
+    objects[0].position.x = 2;
+    collision.detect();
+    expect(objects[0].collides.callCount).to.equal(3);
+    expect(objects[1].collides.callCount).to.equal(3);
+  });
   describe('#addObject', function() {
     context('when adding an object', function() {
       var collision = new Collision();
