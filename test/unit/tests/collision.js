@@ -46,7 +46,7 @@ describe('Collision', function() {
       });
       it('should create a placeholder in position cache', function() {
         expect(collision.positionCache).to.have.length(1);
-        expect(collision.positionCache[0]).to.be(undefined);
+        expect(collision.positionCache[0]).to.be.a(env.THREE.Vector3);
       });
     });
     it('should except if argument not an object', function() {
