@@ -215,4 +215,43 @@ describe('Collision', function() {
       expect(collision.collisionMaxDistanceSq).to.equal(144);
     });
   });
+  describe('BoundingBox', function() {
+    var host = new Obj();
+    host.addCollisionRect(5, 7);
+    var box = new Collision.BoundingBox(host.model, host.collision[0]);
+    it('should have x and y', function() {
+      expect(box.x).to.equal(0);
+      expect(box.y).to.equal(0);
+    });
+    it('should have width and height', function() {
+      expect(box.width).to.equal(5);
+      expect(box.height).to.equal(7);
+    });
+    it('should provide absolute left, right, top, bottom', function() {
+      expect(box.left).to.equal(-2.5);
+      expect(box.right).to.equal(2.5);
+      expect(box.top).to.equal(3.5);
+      expect(box.bottom).to.equal(-3.5);
+    });
+    it('should update automatically if host moves', function() {
+      host.position.x += 8;
+      host.position.y += 4;
+      expect(box.x).to.equal(8);
+      expect(box.y).to.equal(4);
+      expect(box.left).to.equal(5.5);
+      expect(box.right).to.equal(10.5);
+      expect(box.top).to.equal(7.5);
+      expect(box.bottom).to.equal(0.5);
+    });
+    it('should move host if values set', function() {
+      box.top = 0;
+      box.left = 0;
+      expect(host.position.x).to.equal(2.5);
+      expect(host.position.y).to.equal(-3.5);
+      box.bottom = 0;
+      box.right = 0;
+      expect(host.position.x).to.equal(-2.5);
+      expect(host.position.y).to.equal(3.5);
+    });
+  });
 });
