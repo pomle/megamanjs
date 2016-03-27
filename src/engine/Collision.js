@@ -4,8 +4,6 @@ Engine.Collision = function()
     this.collisionIndex = [];
     this.positionCache = [];
 
-    this.collisionCount = 0;
-    this.collisionTests = 0;
     this.collisionMaxDistanceSq = undefined;
 }
 
@@ -53,8 +51,6 @@ Engine.Collision.prototype.objectNeedsRecheck = function(objectIndex)
 
 Engine.Collision.prototype.detect = function()
 {
-    this.collisionTests = 0;
-    this.collisionCount = 0;
     for (var i = 0, l = this.objects.length; i !== l; ++i) {
         if (this.objects[i]
         && this.objects[i].collidable
@@ -106,7 +102,6 @@ Engine.Collision.prototype.objectsCollide = function(o1, o2)
         return false;
     }
 
-    ++this.collisionTests;
     for (var i = 0, l = o1.collision.length; i !== l; ++i) {
         var z1 = o1.collision[i];
         for (var j = 0, m = o2.collision.length; j !== m; ++j) {
@@ -114,7 +109,6 @@ Engine.Collision.prototype.objectsCollide = function(o1, o2)
             if (this.zonesCollide(o1, z1, o2, z2)) {
                 o1.collides.call(o1, o2, z1, z2);
                 o2.collides.call(o2, o1, z2, z1);
-                ++this.collisionCount;
                 return true;
             }
         }
