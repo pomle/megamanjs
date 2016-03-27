@@ -86,6 +86,32 @@ describe('Collision', function() {
       expect(call2.args[1]).to.be(object[1].collision[0]);
       expect(call2.args[2]).to.be(object[0].collision[0]);
     });
+    it('should call uncollide callback on objects that are no longer touching', function() {
+      var collision = new Collision();
+      var object = [
+        new Obj(),
+        new Obj(),
+      ];
+      object[0].collides = sinon.spy();
+      object[1].collides = sinon.spy();
+      object[0].uncollides = sinon.spy();
+      object[1].uncollides = sinon.spy();
+      object[0].addCollisionRect(7, 7);
+      object[1].addCollisionRect(13, 13);
+      collision.addObject(object[0]);
+      collision.addObject(object[1]);
+      collision.detect();
+      expect(object[0].collides.callCount).to.equal(2);
+      expect(object[1].collides.callCount).to.equal(2);
+      object[0].position.x = 20;
+      collision.detect();
+      expect(object[0].collides.callCount).to.equal(2);
+      expect(object[1].collides.callCount).to.equal(2);
+      expect(object[0].uncollides.callCount).to.equal(1);
+      expect(object[1].uncollides.callCount).to.equal(1);
+      expect(object[0].uncollides.lastCall.args[0]).to.be(object[1]);
+      expect(object[1].uncollides.lastCall.args[0]).to.be(object[0]);
+    });
     it('should gracefully handle object removal during loop', function() {
       var collision = new Collision();
       var object = [
