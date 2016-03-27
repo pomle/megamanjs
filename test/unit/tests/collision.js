@@ -124,9 +124,10 @@ describe('Collision', function() {
     });
   });
   describe('#objectsCollide', function() {
-    var collision = new Collision();
+    var collision;
     var o1, o2;
     beforeEach(function() {
+      collision = new Collision();
       o1 = new Obj();
       o2 = new Obj();
       o1.addCollisionRect(7, 7);
@@ -144,6 +145,24 @@ describe('Collision', function() {
       expect(collision.objectsCollide(o1, o2)).to.be(false);
       o1.collision[0].position.x = 1;
       expect(collision.objectsCollide(o1, o2)).to.be(true);
+    });
+    it('should return false if objects outside optimization range', function() {
+      delete o1.collision;
+      o1.position.distanceToSquared = sinon.spy(function() {
+        return 101;
+      })
+      collision.setCollisionRadius(10);
+      expect(collision.objectsCollide(o1, o2)).to.be(false);
+      expect(o1.position.distanceToSquared.calledOnce).to.be(true);
+    });
+  });
+  describe('#setCollisionRadius', function() {
+    it('should set value squared', function() {
+      var collision = new Collision();
+      collision.setCollisionRadius(10);
+      expect(collision.collisionMaxDistanceSq).to.equal(100);
+      collision.setCollisionRadius(12);
+      expect(collision.collisionMaxDistanceSq).to.equal(144);
     });
   });
 });
