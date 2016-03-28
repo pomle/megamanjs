@@ -10,20 +10,21 @@ var Character = env.Game.objects.Character;
 describe('Weapon', function() {
   var weapon;
   var worldMock;
+  var character;
   beforeEach(function() {
     worldMock = {
       addObject: sinon.spy(),
       removeObject: sinon.spy(),
     };
     weapon = new Weapon();
-    var character = new Character();
+    character = new Character();
     character.world = worldMock;
-    character.weapon = new WeaponTrait();
-    weapon.setUser(character);
+    character.applyTrait(new WeaponTrait());
+    character.weapon.equip(weapon);
   });
 
   describe('#fire', function() {
-    it('should honor cooldown time', function() {
+    it('should honor cooldown time if set', function() {
       weapon.setCoolDown(1);
       expect(weapon.fire()).to.be(true);
       expect(weapon.coolDownDelay).to.equal(weapon.coolDown);
@@ -31,6 +32,11 @@ describe('Weapon', function() {
       expect(weapon.fire()).to.be(false);
       weapon.timeShift(.1);
       expect(weapon.fire()).to.be(true);
+    });
+    it('should ignore cool down if not set', function() {
+      weapon.setCoolDown(0);
+      expect(weapon.fire()).to.be(true);
+      expect(weapon.coolDownDelay).to.be(undefined);
     });
     it('should honor projectile stash', function() {
       var projectile = new Projectile();
@@ -57,6 +63,14 @@ describe('Weapon', function() {
       weapon.fire();
       expect(callback.callCount).to.equal(1);
       expect(callback.lastCall.args[0]).to.be(weapon);
+    });
+    it('should not decrease ammo if infinite', function() {
+      weapon.ammo.infinite = true;
+      weapon.cost = 1;
+      expect(weapon.fire()).to.be(true);
+      expect(weapon.ammo.amount).to.equal(100);
+      expect(weapon.fire()).to.be(true);
+      expect(weapon.ammo.amount).to.equal(100);
     });
   });
   describe('#emit', function() {
@@ -161,6 +175,24 @@ describe('Weapon', function() {
       weapon.recycleProjectile(projectile);
       expect(worldMock.removeObject.callCount).to.equal(1);
       expect(worldMock.removeObject.lastCall.args[0]).to.be(projectile);
+    });
+  });
+  describe('#setUser', function() {
+    it('should except if user not character', function() {
+      expect(function() {
+        weapon.setUser(new env.Engine.Object());
+      }).to.throwError(function(error) {
+        expect(error).to.be.a(TypeError);
+        expect(error.message).to.equal('User not character');
+      });
+    });
+    it('should except if user weapon trait not applied', function() {
+      expect(function() {
+        weapon.setUser(new Character());
+      }).to.throwError(function(error) {
+        expect(error).to.be.a(TypeError);
+        expect(error.message).to.equal('User missing weapon trait');
+      });
     });
   });
 });

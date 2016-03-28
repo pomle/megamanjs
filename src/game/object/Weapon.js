@@ -131,7 +131,7 @@ Game.objects.Weapon.prototype.timeShift = function(dt)
         this._lastAmmoAmount = this.ammo.amount;
     }
 
-    if (this.coolDownDelay) {
+    if (this.coolDownDelay !== undefined) {
         this.coolDownDelay -= dt;
         if (this.coolDownDelay <= 0) {
             this.ready = true;

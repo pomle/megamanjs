@@ -16,7 +16,7 @@ Engine.Collision.prototype.addObject = function(object)
     }
     this.objects.push(object);
     this.collisionIndex.push([]);
-    this.positionCache.push(new THREE.Vector3().set());
+    this.positionCache.push(new THREE.Vector2().set());
 }
 
 Engine.Collision.prototype.garbageCollect = function()
@@ -44,8 +44,12 @@ Engine.Collision.prototype.objectNeedsRecheck = function(index)
     if (p.equals(o.position)) {
         return false;
     }
-    p.copy(o.position);
     return true;
+}
+
+Engine.Collision.prototype.updatePositionCache = function(index)
+{
+    this.positionCache[index].copy(this.objects[index].position);
 }
 
 Engine.Collision.prototype.detect = function()
@@ -60,6 +64,10 @@ Engine.Collision.prototype.detect = function()
                 }
             }
         }
+    }
+
+    for (var i = 0, l = this.objects.length; i !== l; ++i) {
+        this.updatePositionCache(i);
     }
 }
 
