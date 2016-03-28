@@ -16,7 +16,7 @@ Engine.Collision.prototype.addObject = function(object)
     }
     this.objects.push(object);
     this.collisionIndex.push([]);
-    this.positionCache.push(new THREE.Vector3().set());
+    this.positionCache.push(new THREE.Vector2().set());
 }
 
 Engine.Collision.prototype.garbageCollect = function()
