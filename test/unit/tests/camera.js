@@ -162,86 +162,86 @@ describe('Camera', function() {
       expect(camera.velocity.y).to.equal(9.5);
     });
   });
-});
 
-describe('CameraPath', function() {
-  context('when instantiating', function() {
-    var path = new Camera.Path();
-    it('should contain windows and constrait vectors', function() {
-      expect(path.constraint[0]).to.be.a(THREE.Vector3);
-      expect(path.constraint[1]).to.be.a(THREE.Vector3);
-      expect(path.window[0]).to.be.a(THREE.Vector2);
-      expect(path.window[1]).to.be.a(THREE.Vector2);
-    });
-  });
-  describe('#constrain()', function() {
-    var path = new Camera.Path();
-    path.setConstraint(-100, -10, 100, 10);
-    context('when vector inside constraint', function() {
-      it('should leave vector untouched', function() {
-        var vec = new THREE.Vector2();
-        vec.set(10, 5);
-        path.constrain(vec);
-        expect(vec.x).to.equal(10);
-        expect(vec.y).to.equal(5);
+  describe('Path', function() {
+    context('when instantiating', function() {
+      var path = new Camera.Path();
+      it('should contain windows and constraint vectors', function() {
+        expect(path.constraint[0]).to.be.a(THREE.Vector3);
+        expect(path.constraint[1]).to.be.a(THREE.Vector3);
+        expect(path.window[0]).to.be.a(THREE.Vector2);
+        expect(path.window[1]).to.be.a(THREE.Vector2);
       });
     });
-    context('when vector outside constraint', function() {
-      it('should mutate vector to fit within constraint ', function() {
-        var vec = new THREE.Vector2();
-        vec.set(-200, -15);
-        path.constrain(vec);
-        expect(vec.x).to.equal(-100);
-        expect(vec.y).to.equal(-10);
-        vec.set(200, 15);
-        path.constrain(vec);
-        expect(vec.x).to.equal(100);
-        expect(vec.y).to.equal(10);
+    describe('#constrain()', function() {
+      var path = new Camera.Path();
+      path.setConstraint(-100, -10, 100, 10);
+      context('when vector inside constraint', function() {
+        it('should leave vector untouched', function() {
+          var vec = new THREE.Vector2();
+          vec.set(10, 5);
+          path.constrain(vec);
+          expect(vec.x).to.equal(10);
+          expect(vec.y).to.equal(5);
+        });
+      });
+      context('when vector outside constraint', function() {
+        it('should mutate vector to fit within constraint ', function() {
+          var vec = new THREE.Vector2();
+          vec.set(-200, -15);
+          path.constrain(vec);
+          expect(vec.x).to.equal(-100);
+          expect(vec.y).to.equal(-10);
+          vec.set(200, 15);
+          path.constrain(vec);
+          expect(vec.x).to.equal(100);
+          expect(vec.y).to.equal(10);
+        });
       });
     });
-  });
-  describe('#inWindow()', function() {
-    var path = new Camera.Path();
-    path.setWindow(-5, -5, 5, 5);
-    it('should return false if any vector component outside window', function() {
-      var vec = new THREE.Vector2();
-      vec.set(0, 0);
-      expect(path.inWindow(vec)).to.be(true);
-      vec.set(-5.1, 0);
-      expect(path.inWindow(vec)).to.be(false);
-      vec.set(5.1, 0);
-      expect(path.inWindow(vec)).to.be(false);
-      vec.set(0, -5.1);
-      expect(path.inWindow(vec)).to.be(false);
-      vec.set(0, 5.1);
-      expect(path.inWindow(vec)).to.be(false);
-    });
-    it('should treat vectors on boundary as inside', function() {
-      var vec = new THREE.Vector2();
-      vec.set(-5, -5);
-      expect(path.inWindow(vec)).to.be(true);
-      vec.set(5, 5);
-      expect(path.inWindow(vec)).to.be(true);
-    });
-  });
-  describe('#setConstraint()', function() {
-    it('should assing constraint coordinates correctly', function() {
+    describe('#inWindow()', function() {
       var path = new Camera.Path();
-      path.setConstraint(-10, -15, 10, 15);
-      expect(path.constraint[0].x).to.equal(-10);
-      expect(path.constraint[0].y).to.equal(-15);
-      expect(path.constraint[1].x).to.equal(10);
-      expect(path.constraint[1].y).to.equal(15);
+      path.setWindow(-5, -5, 5, 5);
+      it('should return false if any vector component outside window', function() {
+        var vec = new THREE.Vector2();
+        vec.set(0, 0);
+        expect(path.inWindow(vec)).to.be(true);
+        vec.set(-5.1, 0);
+        expect(path.inWindow(vec)).to.be(false);
+        vec.set(5.1, 0);
+        expect(path.inWindow(vec)).to.be(false);
+        vec.set(0, -5.1);
+        expect(path.inWindow(vec)).to.be(false);
+        vec.set(0, 5.1);
+        expect(path.inWindow(vec)).to.be(false);
+      });
+      it('should treat vectors on boundary as inside', function() {
+        var vec = new THREE.Vector2();
+        vec.set(-5, -5);
+        expect(path.inWindow(vec)).to.be(true);
+        vec.set(5, 5);
+        expect(path.inWindow(vec)).to.be(true);
+      });
     });
-  });
-  describe('#setWindow()', function() {
-    it('should assign window coordinates correctly', function() {
-      var path = new Camera.Path();
-      path.setWindow(-10, -15, 10, 15);
-      expect(path.window[0].x).to.equal(-10);
-      expect(path.window[0].y).to.equal(-15);
-      expect(path.window[1].x).to.equal(10);
-      expect(path.window[1].y).to.equal(15);
+    describe('#setConstraint()', function() {
+      it('should assign constraint coordinates correctly', function() {
+        var path = new Camera.Path();
+        path.setConstraint(-10, -15, 10, 15);
+        expect(path.constraint[0].x).to.equal(-10);
+        expect(path.constraint[0].y).to.equal(-15);
+        expect(path.constraint[1].x).to.equal(10);
+        expect(path.constraint[1].y).to.equal(15);
+      });
+    });
+    describe('#setWindow()', function() {
+      it('should assign window coordinates correctly', function() {
+        var path = new Camera.Path();
+        path.setWindow(-10, -15, 10, 15);
+        expect(path.window[0].x).to.equal(-10);
+        expect(path.window[0].y).to.equal(-15);
+        expect(path.window[1].x).to.equal(10);
+        expect(path.window[1].y).to.equal(15);
+      });
     });
   });
 });
