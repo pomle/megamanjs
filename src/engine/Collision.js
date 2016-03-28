@@ -44,8 +44,12 @@ Engine.Collision.prototype.objectNeedsRecheck = function(index)
     if (p.equals(o.position)) {
         return false;
     }
-    p.copy(o.position);
     return true;
+}
+
+Engine.Collision.prototype.updatePositionCache = function(index)
+{
+    this.positionCache[index].copy(this.objects[index].position);
 }
 
 Engine.Collision.prototype.detect = function()
@@ -60,6 +64,10 @@ Engine.Collision.prototype.detect = function()
                 }
             }
         }
+    }
+
+    for (var i = 0, l = this.objects.length; i !== l; ++i) {
+        this.updatePositionCache(i);
     }
 }
 
