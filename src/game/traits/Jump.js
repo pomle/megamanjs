@@ -19,14 +19,10 @@ Game.traits.Jump.prototype.EVENT_JUMP_END    = 'jump-end';
 
 Game.traits.Jump.prototype.__obstruct = function(object, attack)
 {
-    switch (attack) {
-        case object.SURFACE_TOP:
-            this._host.isSupported = true;
-            break;
-
-        case object.SURFACE_BOTTOM:
-            this._end();
-            break;
+    if (attack === object.SURFACE_TOP) {
+        this._host.isSupported = true;
+    } else if (attack === object.SURFACE_BOTTOM) {
+        this._end();
     }
 }
 
