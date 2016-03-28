@@ -29,6 +29,19 @@ module.exports = function(grunt) {
                 },
             ]
         },
+        js: {
+            files: [
+                {
+                    expand: true,
+                    cwd: 'src/',
+                    src: ['prod.js'],
+                    dest: 'build/',
+                    rename: function(dest, src) {
+                        return dest + 'main.js';
+                    },
+                },
+            ]
+        },
         resources: {
             files: [
                 {
@@ -38,7 +51,7 @@ module.exports = function(grunt) {
                     dest: 'build/resource',
                 },
             ]
-        }
+        },
     },
 
     concat: {
@@ -59,10 +72,10 @@ module.exports = function(grunt) {
       },
       source: {
         src: 'build/megaman.js',
-        dest: 'build/megaman.min.js',
+        dest: 'build/megaman.js',
       },
       bootstrap: {
-        src: 'src/prod.js',
+        src: 'build/main.js',
         dest: 'build/main.js',
       },
     }
@@ -76,5 +89,10 @@ module.exports = function(grunt) {
     'copy',
     'concat',
     'uglify',
+  ]);
+
+  grunt.registerTask('build:no-ugly', [
+    'copy',
+    'concat',
   ]);
 };

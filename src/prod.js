@@ -1,10 +1,10 @@
 var screen = document.getElementById('screen');
 
-var game = Game.Loader.XML.createFromXML('resource/Megaman2.xml', function() {
+Game.Loader.XML.createFromXML('resource/Megaman2.xml').then(function(loader) {
+    var game = loader.game;
     game.attachToElement(screen);
 
     var gameElement = document.getElementById('game');
-
     function onFullscreenChange() {
         if(document.mozFullScreen || document.webkitIsFullScreen) {
             gameElement.classList.add('fullscreen');
