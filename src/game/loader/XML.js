@@ -1,3 +1,5 @@
+'use strict';
+
 Game.Loader.XML = function(game)
 {
     Game.Loader.call(this, game);
@@ -28,30 +30,30 @@ Game.Loader.XML.prototype.asyncLoadXml = function(url)
 {
     var loader = this;
     return new Promise(function(resolve, reject) {
-        $.ajax({
-            url: url,
-            dataType: 'xml',
-            error: function(jqXHR, status, e) {
-                reject(e);
-            },
-            success: function(result) {
-                result.baseURL = url;
-                var node = $(result).children(':first');
-                resolve(node);
-            },
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.addEventListener('load', function() {
+            if (xhr.status === 200) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(xhr.responseText, 'text/xml');
+                doc.baseURL = url;
+                resolve(doc);
+            } else {
+                reject(new Error('Failed to load ' + url + ' (' + xhr.status + ')'));
+            }
         });
+        xhr.send(null);
     });
 }
 
 Game.Loader.XML.prototype.followNode = function(node)
 {
-    var loader = this;
-    return new Promise(function(resolve, reject) {
-        if (node.attr('src')) {
-            var url = loader.resolveURL(node, 'src');
+    return new Promise((resolve, reject) => {
+        if (node.getAttribute('src')) {
+            const url = this.resolveURL(node, 'src');
             console.log('Digging deeper', url);
-            loader.asyncLoadXml(url).then(function(node) {
-                resolve(loader.followNode(node));
+            this.asyncLoadXml(url).then(function(doc) {
+                resolve(doc.children[0]);
             });
         } else {
             resolve(node);
@@ -61,14 +63,14 @@ Game.Loader.XML.prototype.followNode = function(node)
 
 Game.Loader.XML.prototype.resolveURL = function(node, attr)
 {
-    var url = node.attr(attr || 'url');
-    if (node[0].ownerDocument.baseURL === undefined) {
+    var url = node.getAttribute(attr || 'url');
+    if (node.ownerDocument.baseURL === undefined) {
         return url;
     }
     if (url.indexOf('http') === 0) {
         return url;
     }
-    var baseUrl = node[0].ownerDocument.baseURL
+    var baseUrl = node.ownerDocument.baseURL
                          .split('/')
                          .slice(0, -1)
                          .join('/') + '/';
@@ -78,18 +80,18 @@ Game.Loader.XML.prototype.resolveURL = function(node, attr)
 Game.Loader.XML.prototype.loadGame = function(url)
 {
     var gameParser = new Game.Loader.XML.Parser.GameParser(this);
-    return this.asyncLoadXml(url).then(function(node) {
-        return gameParser.parseGame(node);
+    return this.asyncLoadXml(url).then(function(doc) {
+        return gameParser.parse(doc.getElementsByTagName('game')[0]);
     });
 }
 
 Game.Loader.XML.prototype.parseScene = function(sceneNode)
 {
-    if (!sceneNode.is('scene')) {
+    if (sceneNode.tagName !== 'scene') {
         throw new TypeError('Node not <scene>');
     }
 
-    var type = sceneNode.attr('type');
+    var type = sceneNode.getAttribute('type');
     if (type === 'level') {
         var levelParser = new Game.Loader.XML.Parser.LevelParser(this);
         return levelParser.parse(sceneNode);
@@ -111,7 +113,7 @@ Game.Loader.XML.prototype.startScene = function(name)
     var loader = this;
     return this.asyncLoadXml(this.sceneIndex[name].url)
         .then(function(node) {
-            return loader.parseScene(node);
+            return loader.parseScene(node.children[0]);
         })
         .then(function(scene) {
             loader.game.setScene(scene);
