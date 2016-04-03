@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>MegaJS</title>
+
+    <link rel="stylesheet" type="text/css" href="megaman.css">
+
+    <script type="text/javascript" src="lib/jquery-2.1.3.js"></script>
+    <script type="text/javascript" src="lib/three.js"></script>
+
+    <!-- INJECT -->
+
+    <script type="text/javascript" src="main.js"></script>
+</head>
+
+<body>
+    <div id="game">
+        <div id="screen">
+            <div class="overlay">
+                <div class="energy">
+                    <div class="health">
+                        <div class="amount"></div>
+                    </div>
+                    <div class="weapon">
+                        <div class="amount"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="nes-controller">
+            <div class="direction">
+                <a class="up" data-key="up"></a>
+                <a class="down" data-key="down"></a>
+                <a class="left" data-key="left"></a>
+                <a class="right" data-key="right"></a>
+            </div>
+            <div class="action">
+                <a class="b" data-key="b"></a>
+                <a class="a" data-key="a"></a>
+            </div>
+            <div class="operation">
+                <a class="select" data-key="select"></a>
+                <a class="start" data-key="start"></a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <pre>[WASD] - [Q/E] - [O/P]</pre>
+    </div>
+
+    <fieldset class="weapons">
+        <legend>Weapon</legend>
+        <button weapon="p">Plasma</button>
+        <button weapon="a">Air Shooter</button>
+        <button weapon="m">Metal Blade</button>
+        <button weapon="c">Crash Bomber</button>
+        <button weapon="f">Time Stopper</button>
+    </fieldset>
+    <fieldset class="spawn">
+        <legend>Spawn</legend>
+        <button spawn="Airman">Air Man</button>
+        <button spawn="Crashman">Crash Man</button>
+        <button spawn="Flashman">Flash Man</button>
+        <button spawn="Heatman">Heat Man</button>
+        <button spawn="Metalman">Metal Man</button>
+        <button spawn"SniperArmor">SniperArmor</button>
+        <button spawn"SniperJoe">SniperJoe</button>
+        <button spawn"SillyCanon">SillyCanon</button>
+    </fieldset>
+    <fieldset>
+        <legend>Fullscreen</legend>
+        <button class="fullscreen">Fullscreen</button>
+    </fieldset>
+</body>
+</html>
+
