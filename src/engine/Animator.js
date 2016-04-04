@@ -88,26 +88,30 @@ Engine.Animator.Animation.prototype.addFrame = function(value, duration)
        object, copy static frame to Timeline and tranform
        behavior to a multi frame Animation. */
     else {
-        this.timeline = new Engine.Timeline();
-        this.addFrame = function(value, duration) {
-            ++this.length;
-            this.timeline.addFrame.call(this.timeline, value, duration);
-        }.bind(this);
-        this.getIndex = this.timeline.getIndexAtTime.bind(this.timeline);
-        this.getValue = this.timeline.getValueAtIndex.bind(this.timeline);
-        this.addFrame(this._value, this._duration);
-        this.addFrame(value, duration);
-        this._value = undefined;
-        this._duration = undefined;
+        if (this.timeline === undefined) {
+            this.timeline = new Engine.Timeline();
+            this.timeline.addFrame(this._value, this._duration);
+        }
+
+        this.timeline.addFrame(value, duration);
+        ++this.length;
     }
 }
 
-Engine.Animator.Animation.prototype.getIndex = function()
+Engine.Animator.Animation.prototype.getIndex = function(time)
 {
-    return 0;
+    if (this.timeline === undefined) {
+        return 0;
+    } else {
+        return this.timeline.getIndexAtTime(time);
+    }
 }
 
-Engine.Animator.Animation.prototype.getValue = function()
+Engine.Animator.Animation.prototype.getValue = function(index)
 {
-    return this._value;
+    if (this.timeline === undefined) {
+        return this._value;
+    } else {
+        return this.timeline.getValueAtIndex(index);
+    }
 }
