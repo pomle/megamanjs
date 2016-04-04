@@ -1,13 +1,13 @@
-Engine.UVCoords = function(x, y, w, h, totalW, totalH)
+Engine.UVCoords = function(offset, size, txSize)
 {
     Array.call(this);
 
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-    this.totalW = totalW;
-    this.totalH = totalH;
+    var x = offset.x;
+    var y = offset.y;
+    var w = size.x;
+    var h = size.y;
+    var totalW = txSize.x;
+    var totalH = txSize.y;
 
     var uvs = [
         new THREE.Vector2(x / totalW, (totalH - y) / totalH),
