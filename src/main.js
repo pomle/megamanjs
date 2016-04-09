@@ -46,22 +46,21 @@ $(function() {
         .on('mousedown', keyBoardEvent)
         .on('mouseup', keyBoardEvent);
 
-    var gameElement = document.getElementById('game');
-    function on_fullscreen_change() {
+
+    function onFullscreenChange() {
         if(document.mozFullScreen || document.webkitIsFullScreen) {
-            $(gameElement).addClass('fullscreen');
-        }
-        else {
-            $(gameElement).removeClass('fullscreen');
+            gameElement.classList.add('fullscreen');
+        } else {
+            gameElement.classList.remove('fullscreen');
         }
 
         game.adjustAspectRatio();
         //game.adjustResolution();
     }
 
-    window.addEventListener('resize', on_fullscreen_change);
-    document.addEventListener('mozfullscreenchange', on_fullscreen_change);
-    document.addEventListener('webkitfullscreenchange', on_fullscreen_change);
+    window.addEventListener('resize', onFullscreenChange);
+    document.addEventListener('mozfullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
     $('button.fullscreen').on('click', function() {
         gameElement.webkitRequestFullScreen();

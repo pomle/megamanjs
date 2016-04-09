@@ -11,7 +11,6 @@ const BASE_PATH = path.resolve(path.join(__dirname, '..', 'src'));
 
 const files = require('../src/script-manifest.json');
 
-global.$ = require('../src/lib/jquery-2.1.3.js');
 global.THREE = require('three');
 
 files.forEach((src) => {

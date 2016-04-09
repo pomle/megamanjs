@@ -35,12 +35,12 @@ var Hud = function(game)
 
     this.equipWeapon = function(newWeapon)
     {
-        var $weaponBar = $(this.elements.weaponBar);
+        var weaponBar = this.elements.weaponBar;
         if (weapon) {
-            $weaponBar.removeClass(weapon.code);
+            weaponBar.classList.remove(weapon.code);
         }
         weapon = newWeapon;
-        $weaponBar.addClass(weapon.code);
+        weaponBar.classList.add(weapon.code);
         this.setWeaponEnergy(weapon.ammo.fraction);
         weapon.bind(weapon.EVENT_AMMO_CHANGED, ammoChanged);
     }
