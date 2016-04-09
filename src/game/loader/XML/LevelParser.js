@@ -56,17 +56,17 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         }
 
         var layoutNode = levelNode.getElementsByTagName('layout')[0];
-        this.parseBackgrounds(layoutNode, objects).forEach(function(object) {
-            level.world.addObject(object);
-        });
-        this.parseBehaviors(layoutNode).forEach(function(object) {
-            level.world.addObject(object);
-        });
-        //this.parseSpawners(layoutNode);
 
         this.parseObjectLayout(layoutNode, objects).forEach(function(object) {
             level.world.addObject(object);
         });
+
+        this.parseBehaviors(layoutNode).forEach(function(object) {
+            level.world.addObject(object);
+        });
+
+        //this.parseSpawners(layoutNode);
+
 
         var checkpointsNode = levelNode.getElementsByTagName('checkpoints')[0];
         if (checkpointsNode) {
@@ -99,27 +99,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
 
         resolve(level);
     }.bind(this));
-}
-
-Game.Loader.XML.Parser.LevelParser.prototype.parseBackgrounds = function(layoutNode, objects)
-{
-    var backgrounds = [];
-    var backgroundNodes = layoutNode.getElementsByTagName('background');
-    for (var backgroundNode, i = 0; backgroundNode = backgroundNodes[i++];) {
-        var objectId = backgroundNode.getAttribute('model');
-        if (!objectId) {
-            throw new Error("Could not find object id on " + backgroundNode.outerHTML);
-        }
-        if (!objects[objectId]) {
-            throw new Error("Object " + objectId + " not defined");
-        }
-        var background = new objects[objectId]();
-        var position = this.getPosition(backgroundNode);
-        background.position.x = position.x;
-        background.position.y = position.y;
-        background.position.z = position.z;
-    }
-    return backgrounds;
 }
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNode)
