@@ -104,8 +104,8 @@ Game.traits.Climber.prototype.grab = function(subject, ourZone, theirZone)
     }
 
     var bounds = {
-        climbable: new Engine.Collision.BoundingBox(subject.model, theirZone),
-        host: new Engine.Collision.BoundingBox(host.model, ourZone),
+        climbable: new Engine.Collision.BoundingBox(subject, theirZone),
+        host: new Engine.Collision.BoundingBox(host, ourZone),
     };
 
     /* Don't grab ladder if on top and push up. */

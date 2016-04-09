@@ -41,8 +41,8 @@ Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, our
 
     if (withObject.solid) {
         var solid = withObject.solid;
-        var our = new Engine.Collision.BoundingBox(this.model, ourZone);
-        var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
+        var our = new Engine.Collision.BoundingBox(this, ourZone);
+        var their = new Engine.Collision.BoundingBox(withObject, theirZone);
         var dir = solid.attackDirection(our, their);
 
         /* If we are pushing Crash Bomb from the top or below, just nudge. */
