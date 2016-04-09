@@ -20,7 +20,9 @@ Engine.Object = function()
     this.velocity = new THREE.Vector2();
     this.world = undefined;
 
-    this.setModel(new THREE.Mesh(this.geometry, this.material));
+    if (this.geometry && this.material) {
+        this.setModel(new THREE.Mesh(this.geometry, this.material));
+    }
 }
 
 Engine.Util.mixin(Engine.Object, Engine.Events);
@@ -40,8 +42,8 @@ Engine.Object.prototype.SURFACE_BOTTOM = 1;
 Engine.Object.prototype.SURFACE_LEFT = 2;
 Engine.Object.prototype.SURFACE_RIGHT = 3;
 
-Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
-Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true, transparent: true, opacity: 0});
+Engine.Object.prototype.geometry = undefined;
+Engine.Object.prototype.material = undefined;
 Engine.Object.prototype.textures = {};
 
 Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
@@ -150,7 +152,7 @@ Engine.Object.prototype.timeShift = function(deltaTime)
 {
     this.deltaTime = deltaTime;
 
-    if (this.direction.x !== 0) {
+    if (this.model !== undefined && this.direction.x !== 0) {
         this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
     }
 

@@ -10,6 +10,10 @@ describe('World', function() {
   var world;
   var objects;
   beforeEach(function() {
+    var mesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(1, 1),
+      new THREE.MeshBasicMaterial()
+    );
     world = new World();
     objects = [
       new Obj(),
@@ -18,6 +22,7 @@ describe('World', function() {
     ];
     objects.forEach(function(o) {
       o.timeShift = sinon.spy();
+      o.setModel(mesh);
       world.addObject(o);
     });
   });
@@ -50,6 +55,13 @@ describe('World', function() {
       world.addObject(objects[0]);
       expect(world.scene.add.callCount).to.equal(1);
       expect(world.scene.add.lastCall.args).to.eql([objects[0].model]);
+    });
+    it('should not add object model to scene if not set', function() {
+      var world = new World();
+      world.scene.add = sinon.spy();
+      var obj = new Obj();
+      world.addObject(obj);
+      expect(world.scene.add.called).to.be(false);
     });
     it('should ignore object if already added', function() {
       expect(world.objects).to.have.length(3);
