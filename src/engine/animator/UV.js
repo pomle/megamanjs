@@ -20,9 +20,9 @@ Engine.Animator.UV.prototype._applyAnimation = function(animation)
         indices = this.indices,
         l = geos.length,
         k = indices.length;
-    for (var i = 0; i < l; ++i) {
+    for (var i = 0; i !== l; ++i) {
         var geo = geos[i];
-        for (var j = 0; j < k; ++j) {
+        for (var j = 0; j !== k; ++j) {
             var faceIndex = indices[j];
             geo.faceVertexUvs[0][faceIndex] = uv[0];
             geo.faceVertexUvs[0][faceIndex+1] = uv[1];
