@@ -9,6 +9,11 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
                    Game.Loader.XML.Parser,
 {
     createConstructor: function(blueprint) {
+        if (!blueprint.textures['__default'].texture) {
+            console.error(blueprint);
+            throw new Error('No default texture on blueprint');
+        }
+
         var constructor = this.createObject(blueprint.id, blueprint.constr, function blueprintConstructor() {
             this.geometry = blueprint.geometries[0].clone();
             this.material = new THREE.MeshPhongMaterial({
@@ -54,11 +59,11 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             throw new TypeError('Node not <objects>');
         }
 
-        var textureNodes = objectsNode.getElementsByTagName('texture');
-        var textures = this.parseTextures(textureNodes);
+        var texturesNode = objectsNode.getElementsByTagName('textures')[0];
+        var textures = this.parseTextures(texturesNode);
 
-        var animationNodes = objectsNode.getElementsByTagName('animation');
-        var animations = this.parseAnimations(animationNodes, textures);
+        var animationsNode = objectsNode.getElementsByTagName('animations')[0];
+        var animations = this.parseAnimations(animationsNode, textures);
 
         var objectNodes = objectsNode.getElementsByTagName('object');
         var objects = this.parseObjects(objectNodes, animations, textures);
@@ -88,6 +93,7 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         var blueprint = {
             id: objectId,
             constr: constr,
+            animations: animations,
             animators: [],
             geometries: [],
             textures: textures,
@@ -114,12 +120,12 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             throw new Error("No <geometry> defined in " + objectNode.outerHTML);
         }
 
-        for (var i = 0, geometryNode; geometryNode = geometryNodes[i++];) {
+        for (var i = 0, geometryNode; geometryNode = geometryNodes[i]; ++i) {
             var geometry = this.getGeometry(geometryNode);
             blueprint.geometries.push(geometry);
 
             var faceNodes = geometryNode.getElementsByTagName('face');
-            for (var j = 0, faceNode; faceNode = faceNodes[i++];) {
+            for (var j = 0, faceNode; faceNode = faceNodes[j]; ++j) {
                 var animator = new Engine.Animator.UV();
                 animator.indices = [];
                 animator.offset = this.getFloat(faceNode, 'offset') || 0;
@@ -134,14 +140,26 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
                 var animation = animations[animator.name];
 
                 animator.setAnimation(animation);
-                blueprint.animators.push(animator);
                 this.parseRanges(faceNode, animator);
 
                 var indexJSON = faceNode.getAttribute('index');
-                if (indexJSON !== undefined) {
+                if (indexJSON) {
                     var indices = JSON.parse(indexJSON);
                     Array.prototype.push.apply(animator.indices, indices);
                 }
+
+                if (animator.indices.length === 0) {
+                    animator.indices = [j * 2];
+                }
+
+                blueprint.animators.push(animator);
+            }
+
+            if (!blueprint.animators.length) {
+                var animator = new Engine.Animator.UV();
+                animator.setAnimation(animations['__default']);
+                animator.update();
+                blueprint.animators.push(animator);
             }
         }
 
@@ -162,13 +180,17 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
 
         return this.createConstructor(blueprint);
     },
-    parseAnimations: function(animationNodes, textures) {
+    parseAnimations: function(animationsNode, textures) {
+        if (animationsNode.tagName !== 'animations') {
+            throw new TypeError('Node not <animations>');
+        }
         function getTexture(textureId) {
             if (textureId) {
                 if (textures[textureId]) {
                     return textures[textureId];
                 } else {
-                    throw new Error('Texture not defined', textureId);
+                    console.log(textures);
+                    throw new Error('Texture "' + textureId + '" not defined');
                 }
             } else if (textures['__default']) {
                 return textures['__default'];
@@ -177,12 +199,19 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             }
         }
 
-        var animations = {};
+        var textureId = animationsNode.getAttribute('texture');
+        var texture = getTexture(textureId);
+
+        var animationNodes = animationsNode.getElementsByTagName('animation');
+        var animations = {
+            __default: undefined,
+        };
         for (var i = 0, node; node = animationNodes[i++];) {
-            var textureId = node.getAttribute('texture');
-            var texture = getTexture(textureId);
             var animation = this.parseAnimation(node, texture);
             animations[animation.id || '__default'] = animation;
+            if (animations['__default'] === undefined) {
+                animations['__default'] = animation;
+            }
         }
 
         return animations;
@@ -195,16 +224,14 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         var id = animationNode.getAttribute('id');
         var group = animationNode.getAttribute('group');
         var animation = new Engine.Animator.Animation(id, group);
-        animation.texture = texture.texture;
         var frameNodes = animationNode.getElementsByTagName('frame');
-        for (var i = 0, node; node = frameNodes[i++];) {
-            var offset = this.getVector2(node, 'x', 'y');
-            var size = this.getVector2(node, 'w', 'h') ||
-                       this.getVector2(node.parentNode, 'w', 'h') ||
-                       this.getVector2(node.parentNode.parentNode, 'w', 'h');
-
+        for (var i = 0, frameNode; frameNode = frameNodes[i]; ++i) {
+            var offset = this.getVector2(frameNode, 'x', 'y');
+            var size = this.getVector2(frameNode, 'w', 'h') ||
+                       this.getVector2(frameNode.parentNode, 'w', 'h') ||
+                       this.getVector2(frameNode.parentNode.parentNode, 'w', 'h');
             var uvMap = new Engine.UVCoords(offset, size, texture.size);
-            var duration = this.getFloat(node, 'duration') || undefined;
+            var duration = this.getFloat(frameNode, 'duration') || undefined;
             animation.addFrame(uvMap, duration);
         }
 
@@ -254,18 +281,18 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             }
         }
     },
-    parseTextures: function(nodes) {
+    parseTextures: function(texturesNode) {
         var textures = {
             __default: undefined,
         };
-        for (var i = 0, node; node = nodes[i++];) {
+        var textureNodes = texturesNode.getElementsByTagName('texture');
+        for (var i = 0, node; node = textureNodes[i++];) {
             var textureId = node.getAttribute('id') || '__default';
             textures[textureId] = {
                 id: textureId,
                 texture: this.getTexture(node),
                 size: this.getVector2(node, 'w', 'h'),
             };
-
             if (textures['__default'] === undefined) {
                 textures['__default'] = textures[textureId];
             }

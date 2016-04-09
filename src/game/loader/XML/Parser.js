@@ -4,9 +4,9 @@ Game.Loader.XML.Parser = function(loader)
 }
 
 Game.Loader.XML.Parser.prototype.DEFAULT_UV = [
-    new THREE.Vector3(),
-    new THREE.Vector3(),
-    new THREE.Vector3(),
+    new THREE.Vector2(),
+    new THREE.Vector2(),
+    new THREE.Vector2(),
 ];
 
 Game.Loader.XML.Parser.prototype.createObject = function(name, ext, func) {
@@ -14,6 +14,15 @@ Game.Loader.XML.Parser.prototype.createObject = function(name, ext, func) {
     var object = Engine.Util.renameFunction(fnname, func);
     Engine.Util.extend(object, ext);
     return object;
+}
+
+Game.Loader.XML.Parser.prototype.getAttr = function(node, name) {
+    var val = node.getAttribute(name);
+    if (val === null || val.length === 0) {
+        return null;
+    } else {
+        return val;
+    }
 }
 
 Game.Loader.XML.Parser.prototype.getBool = function(node, attr)
@@ -53,26 +62,16 @@ Game.Loader.XML.Parser.prototype.getColor = function(node, attr)
 
         return new THREE.Vector4(r, g, b, 1);
     }
-    return false;
+    return null;
 }
 
 Game.Loader.XML.Parser.prototype.getFloat = function(node, attr)
 {
     var value = node.getAttribute(attr);
-    if (value && isFinite(value)) {
+    if (value) {
         return parseFloat(value);
     }
-    return false;
-}
-
-
-Game.Loader.XML.Parser.prototype.getFloatValues = function(node, def)
-{
-    var value = node.attr(attr);
-    if (value && isFinite(value)) {
-        return parseFloat(value);
-    }
-    return def;
+    return null;
 }
 
 Game.Loader.XML.Parser.prototype.getGeometry = function(node)
@@ -99,7 +98,7 @@ Game.Loader.XML.Parser.prototype.getGeometry = function(node)
 
 Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
 {
-    var input = $(node).attr(attr || 'range');
+    var input = node.getAttribute(attr || 'range');
 
     var values = [];
     var groups, group, ranges, range, mod, upper, lower, i;
@@ -146,10 +145,10 @@ Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
 Game.Loader.XML.Parser.prototype.getRect = function(node, attrX, attrY, attrW, attrH)
 {
     return {
-        'x': parseFloat(node.getAttribute(attrX || 'x')),
-        'y': parseFloat(node.getAttribute(attrY || 'y')),
-        'w': parseFloat(node.getAttribute(attrW || 'w')),
-        'h': parseFloat(node.getAttribute(attrH || 'h')),
+        'x': this.getFloat(node, attrX || 'x'),
+        'y': this.getFloat(node, attrY || 'y'),
+        'w': this.getFloat(node, attrW || 'w'),
+        'h': this.getFloat(node, attrH || 'h'),
     }
 }
 
@@ -171,7 +170,7 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
     var textureId = textureNode.getAttribute('id');
     var textureUrl = this.resolveURL(textureNode, 'url');
 
-    var textureScale = this.getFloat(textureNode, 'scale', 4);
+    var textureScale = this.getFloat(textureNode, 'scale') || 4;
     var texture = new THREE.Texture();
     texture.name = textureId;
     texture.magFilter = THREE.LinearFilter;
@@ -216,10 +215,10 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 
 Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY)
 {
-    var x = node.getAttribute(attrX || 'x');
-    var y = node.getAttribute(attrY || 'y');
-    if (x === undefined || y === undefined) {
-        return false;
+    var x = this.getAttr(node, attrX || 'x');
+    var y = this.getAttr(node, attrY || 'y');
+    if (x === null || y === null) {
+        return null;
     }
     return new THREE.Vector2(parseFloat(x),
                              parseFloat(y));
@@ -227,11 +226,11 @@ Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY)
 
 Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ)
 {
-    var x = node.getAttribute(attrX || 'x');
-    var y = node.getAttribute(attrY || 'y');
-    var z = node.getAttribute(attrZ || 'z');
-    if (x === undefined || y === undefined) {
-        return false;
+    var x = this.getAttr(node, attrX || 'x');
+    var y = this.getAttr(node, attrY || 'y');
+    var z = this.getAttr(node, attrZ || 'z');
+    if (x === null || y === null) {
+        return null;
     }
     return new THREE.Vector3(parseFloat(x),
                              parseFloat(y),
@@ -240,7 +239,7 @@ Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ
 
 Game.Loader.XML.Parser.prototype.resolveURL = function(node, attr)
 {
-    var url = node.getAttribute(attr || 'url');
+    var url = this.getAttr(node, attr || 'url');
     if (node.ownerDocument.baseURL === undefined) {
         return url;
     }

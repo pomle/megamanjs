@@ -49,7 +49,11 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         }
 
         this.parseCamera(levelNode, level);
-        this.parseGravity(levelNode);
+
+        var gravity = this.parseGravity(levelNode);
+        if (gravity) {
+            level.world.gravityForce.copy(gravity);
+        }
 
         var layoutNode = levelNode.getElementsByTagName('layout')[0];
         this.parseBackgrounds(layoutNode, objects).forEach(function(object) {
@@ -140,7 +144,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode, l
     var cameraNode = levelNode.getElementsByTagName('camera')[0];
     if (cameraNode) {
         var smoothing = this.getFloat(cameraNode, 'smoothing');
-        if (isFinite(smoothing)) {
+        if (smoothing) {
             level.camera.smoothing = smoothing;
         }
 
@@ -149,13 +153,13 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode, l
             var position = this.getPosition(posNode);
             level.camera.camera.position.copy(position);
         }
-    }
 
-    var pathNodes = cameraNode.getElementsByTagName('path');
-    if (pathNodes) {
-        for (var pathNode, i = 0; pathNode = pathNodes[i++];) {
-            var path = this.getCameraPath(pathNode);
-            level.camera.addPath(path);
+        var pathNodes = cameraNode.getElementsByTagName('path');
+        if (pathNodes) {
+            for (var pathNode, i = 0; pathNode = pathNodes[i++];) {
+                var path = this.getCameraPath(pathNode);
+                level.camera.addPath(path);
+            }
         }
     }
 }
@@ -165,8 +169,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseGravity = function(levelNode)
     var gravityNode = levelNode.getElementsByTagName('gravity')[0];
     if (gravityNode) {
         var gravity = this.getVector2(gravityNode);
-        level.world.gravityForce.copy(gravity);
+        return gravity;
     }
+    return false;
 }
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseObject = function(objectNode, objects) {

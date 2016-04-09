@@ -13,7 +13,7 @@ Game.objects.characters.Megaman.prototype.changeDress = function(weapon)
 {
     var textureId = "megaman-" + weapon.code;
     if (this.textures[textureId]) {
-        this.model.material.map = this.textures[textureId];
+        this.model.material.map = this.textures[textureId].texture;
         this.model.material.needsUpdate = true;
     }
 }

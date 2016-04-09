@@ -46,8 +46,8 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseAttack = function(node, attr) 
 Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
 {
     var source = traitNode.getAttribute('source'),
-        name = traitNode.getAttribute('name'),
-        constr = Game.traits[source];
+        constr = Game.traits[source],
+        name = constr.prototype.NAME;
 
     if (constr === undefined) {
         throw new Error('Trait "' + source + '" does not exist');
@@ -58,30 +58,11 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
         source: source,
         name: name,
         setup: function() {
-            console.warn('Trait has not setup defined');
+            console.warn('Trait has no setup defined', this);
         },
     };
 
-    if (name === 'contactDamage') {
-        var points = this.getFloat(traitNode, 'points');
-        blueprint.setup = function(trait) {
-            trait.points = points;
-        };
-    } else if (name === 'deathSpawn') {
-        var chance = this.getFloat(traitNode, 'chance');
-        blueprint.setup = function(trait) {
-            trait.change = chance;
-        };
-    } else if (name === 'disappearing') {
-        var onDuration = this.getFloat(traitNode, 'on');
-        var offDuration = this.getFloat(traitNode, 'off');
-        var offset = this.getFloat(traitNode, 'offset');
-        blueprint.setup = function(trait) {
-            trait.onDuration = onDuration;
-            trait.offDuration = offDuration;
-            trait.offset = offset;
-        };
-    } else if (name === 'door') {
+    if (name === 'door') {
         var direction = this.getVector2(traitNode.getElementsByTagName('direction')[0]);
         var oneWay = this.getBool(traitNode, 'one-way');
         blueprint.setup = function(trait) {
@@ -108,27 +89,16 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
                 trait.addNode(node);
             });
         };
-    } else if (name === 'fallaway') {
-        var delay = this.getFloat(traitNode, 'delay');
-        blueprint.setup = function(trait) {
-            trait.delay = delay;
-        };
     } else if (name === 'jump') {
         var duration = this.getFloat(traitNode, 'duration');
-        var force = this.getVector2(traitNode, 'forward', 'force');
+        var force = new THREE.Vector2();
+        force.x = this.getFloat(traitNode, 'forward') || 0;
+        force.y = this.getFloat(traitNode, 'force') || 0;
         blueprint.setup = function(trait) {
-            trait.duration = duration;
+            if (duration) {
+                trait.duration = duration;
+            }
             trait.force.copy(force);
-        };
-    } else if (name === 'health') {
-        var max = this.getFloat(traitNode, 'max');
-        blueprint.setup = function(trait) {
-            trait.max = max;
-        };
-    } else if (name === 'invincibility') {
-        var duration = this.getFloat(traitNode, 'duration');
-        blueprint.setup = function(trait) {
-            trait.duration = duration;
         };
     } else if (name === 'translating') {
         var func = traitNode.attr('func');
@@ -139,33 +109,10 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
             trait.amplitude = amplitude;
             trait.speed = speed;
         };
-    } else if (name === 'move') {
-        var speed = traitNode.attr('speed');
-        var acceleration = this.getFloat(traitNode, 'acceleration');
-        blueprint.setup = function(trait) {
-            trait.speed = speed;
-            trait.acceleration = acceleration;
-        };
-    } else if (name === 'physics') {
-        var area = this.getFloat(traitNode, 'area');
-        var dragCoefficient = this.getFloat(traitNode, 'dragCoefficient');
-        var mass = this.getFloat(traitNode, 'mass');
-        blueprint.setup = function(trait) {
-            trait.area = area;
-            trait.dragCoefficient = dragCoefficient;
-            trait.mass = mass;
-        };
     } else if (name === 'solid') {
         var attackAccept = this.parseAttack(traitNode, 'attack');
         blueprint.setup = function(trait) {
             trait.attackAccept = attackAccept;
-        };
-    } else if (name === 'stun') {
-        var duration = this.getFloat(traitNode, 'duration');
-        var force = this.getFloat(traitNode, 'force');
-        blueprint.setup = function(trait) {
-            trait.duration = duration;
-            trait.force = force;
         };
     } else if (name === 'weapon') {
         /*
@@ -181,15 +128,16 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
         break;*/
     } else {
         var properties = {};
-        for (var attr, i = 0; attr = traitNode.attributes[i++];) {
+        for (var attr, parsed, i = 0; attr = traitNode.attributes[i++];) {
             if (attr.name === 'source' || attr.name === 'name') {
                 continue;
             }
-            var value = parseFloat(attr.value)
-            if (!isFinite(value)) {
-                value = attr.value;
+            parsed = parseFloat(attr.value);
+            if (isFinite(parsed)) {
+                properties[attr.name] = parsed;
+            } else {
+                properties[attr.name] = attr.value;
             }
-            properties[attr.name] = value;
         }
         blueprint.setup = function(trait) {
             for (var key in properties) {
