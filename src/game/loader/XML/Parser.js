@@ -51,15 +51,14 @@ Game.Loader.XML.Parser.prototype.getCameraPath = function(pathNode)
 
 Game.Loader.XML.Parser.prototype.getColor = function(node, attr)
 {
-    var c = node.attr(attr);
-    if (c.indexOf('#') === 0) {
+    var c = node.getAttribute(attr);
+    if (c && c[0] === '#') {
         var r = c.substr(1,2);
         var g = c.substr(3,2);
         var b = c.substr(5,2);
         r = parseInt(r, 16);
         g = parseInt(g, 16);
         b = parseInt(b, 16);
-
         return new THREE.Vector4(r, g, b, 1);
     }
     return null;
@@ -186,10 +185,14 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
                     this.getColor(effectNode, 'in'),
                     this.getColor(effectNode, 'out'),
                 ];
-                effects.push(function colorReplace(canvas) {
-                    return Engine.CanvasUtil.colorReplace(canvas,
-                      colors[0], colors[1]);
-                });
+                effects.push(function() {
+                    var colorIn = colors[0];
+                    var colorOut = colors[1];
+                    return function colorReplace(canvas) {
+                        return Engine.CanvasUtil.colorReplace(canvas,
+                            colorIn, colorOut);
+                    }
+                }());
             }
         }
     }
