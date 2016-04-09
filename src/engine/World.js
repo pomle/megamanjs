@@ -35,7 +35,9 @@ Engine.World.prototype.addObject = function(object)
 
     this.objects.push(object);
     this.collision.addObject(object);
-    this.scene.add(object.model);
+    if (object.model) {
+        this.scene.add(object.model);
+    }
     object.setWorld(this);
 }
 
@@ -60,7 +62,9 @@ Engine.World.prototype.removeObject = function(object)
         object.unsetWorld();
         this.objects[index] = undefined;
         this.collision.removeObject(object);
-        this.scene.remove(object.model);
+        if (object.model) {
+            this.scene.remove(object.model);
+        }
     }
 }
 
