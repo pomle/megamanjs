@@ -264,31 +264,61 @@ describe('Parser', function() {
     });
   });
   describe('for Levels', function() {
+    var level;
     it('should parse a level', function(done) {
       var game = new Game();
       game.player = new Game.Player();
       var sceneNode = getNode('level');
       var parser = new LevelParser({game: game});
       parser.parse(sceneNode)
-      .then(function(level) {
+      .then(function(_level) {
+        level = _level;
         expect(level).to.be.a(Game.Scene);
-        level.world.objects.forEach(function(object) {
-          expect(object.position.x).to.be.a('number');
-          expect(object.position.y).to.be.a('number');
-          expect(object.position.z).to.be.a('number');
-          if (object.model) {
-            expect(object.model.material.map).to.be.a(THREE.Texture);
-          }
-        });
-        level.world.scene.children.forEach(function(mesh) {
-          if (mesh.material && !mesh.material.map) {
-            console.error('Mesh missing texture', mesh);
-          }
-        });
-        expect(level.camera.smoothing).to.be.a('number');
         done();
       })
       .catch(done);
+    });
+    it('should create objects with valid positions', function() {
+      level.world.objects.forEach(function(object) {
+        expect(object.position.x).to.be.a('number');
+        expect(object.position.y).to.be.a('number');
+        expect(object.position.z).to.be.a('number');
+        if (object.model) {
+          expect(object.model.material.map).to.be.a(THREE.Texture);
+        }
+      });
+    });
+    it('should not put any objects in scene without texture ', function() {
+      level.world.scene.children.forEach(function(mesh) {
+        if (mesh.material && !mesh.material.map) {
+          console.error('Mesh missing texture', mesh);
+        }
+      });
+    });
+    context('Object Parsing', function() {
+      it('should take out face indices properly', function() {
+        console.log(level.world.objects);
+      });
+    });
+    it('should parse checkpoints', function() {
+      expect(level.checkPoints).to.have.length(3);
+      expect(level.checkPoints[0]).to.eql({pos: {x: 136, y: -165}, radius: 100});
+      expect(level.checkPoints[1]).to.eql({pos: {x: 1920, y: -661}, radius: 100});
+      expect(level.checkPoints[2]).to.eql({pos: { x: 4736, y: -1109}, radius: 13});
+    });
+    context('Camera', function() {
+      it('should have smoothing', function() {
+        expect(level.camera.smoothing).to.be.a('number');
+        expect(level.camera.smoothing).to.equal(13.5);
+      });
+      it('should have paths', function() {
+        var paths = level.camera.paths;
+        expect(paths).to.have.length(3);
+        expect(paths[0].window[0]).to.eql({x: 0, y: -208, z: 0});
+        expect(paths[0].window[1]).to.eql({x: 2048, y: 0, z: 0});
+        expect(paths[0].constraint[0]).to.eql({x: 180, y: -120, z: 150});
+        expect(paths[0].constraint[1]).to.eql({x: 1920, y: -120, z: 150});
+      });
     });
   });
   describe('for Traits', function() {
