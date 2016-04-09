@@ -53,9 +53,9 @@ Game.Loader.XML.Parser.prototype.getColor = function(node, attr)
 {
     var c = node.getAttribute(attr);
     if (c && c[0] === '#') {
-        var r = c.substr(1,2);
-        var g = c.substr(3,2);
-        var b = c.substr(5,2);
+        var r = c.substr(1, 2);
+        var g = c.substr(3, 2);
+        var b = c.substr(5, 2);
         r = parseInt(r, 16);
         g = parseInt(g, 16);
         b = parseInt(b, 16);
