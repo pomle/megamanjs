@@ -59,7 +59,8 @@ function characterReady(characterId) {
             .then(() => {
                 const entrySceneName = gameNode.querySelector('entrypoint > scene')
                                                .getAttribute('name');
-                this.loader.startScene(entrySceneName);
+                this.loader.entrypoint = entrySceneName;
+                resolve();
             });
     });
 }

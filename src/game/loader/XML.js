@@ -15,15 +15,22 @@ Game.Loader.XML.createFromXML = function(url, callback)
         'antialias': false,
     });
 
-    var game = new Game();
+    var game =  new Game();
     game.engine = new Engine(renderer);
 
     var loader = new Game.Loader.XML(game);
-    return new Promise(function(resolve, reject) {
+
+    var promise = new Promise(function(resolve, reject) {
         loader.loadGame(url).then(function() {
             resolve(loader);
         });
     });
+
+    return {
+        game: game,
+        loader: loader,
+        promise: promise,
+    }
 }
 
 Game.Loader.XML.prototype.asyncLoadXml = function(url)

@@ -1,8 +1,12 @@
-$(function() {
-    Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml').then(function(loader) {
-        console.log('Loading game done', loader);
-        var game = loader.game;
+(function() {
+    var megaman2 = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml');
+    window.megaman2 = megaman2;
+
+    megaman2.promise.then(function() {
+        var game = megaman2.game;
+        var loader = megaman2.loader;
         game.attachToElement(document.getElementById('screen'));
+        loader.startScene(loader.entrypoint);
 
         window.addEventListener('focus', function() {
             if (!game.engine.isRunning) {
@@ -14,9 +18,6 @@ $(function() {
                 game.engine.pause();
             }
         });
-
-        window.loader = loader;
-        window.game = game;
     });
 
     var isTouchDevice = false;
@@ -70,5 +71,5 @@ $(function() {
     });
     $('.spawn button').on('click', function() {
         game.scene.spawnCharacter($(this).attr('spawn'));
-    });
-});
+    });*/
+})();
