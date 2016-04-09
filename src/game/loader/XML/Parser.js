@@ -179,7 +179,8 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
     var effects = [];
     var effectsNode = textureNode.getElementsByTagName('effects')[0];
     if (effectsNode) {
-        for (var effectNode, i = 0; effectNode = effectsNode[i++];) {
+        var effectNodes = effectsNode.getElementsByTagName('*');
+        for (var effectNode, i = 0; effectNode = effectNodes[i++];) {
             if (effectNode.tagName === 'color-replace') {
                 var colors = [
                     this.getColor(effectNode, 'in'),
