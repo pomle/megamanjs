@@ -24,7 +24,6 @@ Game.Loader.XML.Parser.LevelParser.prototype.createBehavior = function(node, beh
     var rect = this.getRect(node);
     var object = new behaviorMap[behavior];
     object.addCollisionRect(rect.w, rect.h);
-    object.model.visible = false;
     object.position.x = rect.x;
     object.position.y = rect.y;
     object.position.z = 0;
