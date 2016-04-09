@@ -726,12 +726,13 @@
         </object>
     </objects>
     <layout>
-        <background model="upper-level" x="1024" y="-120" z="-0.1"/>
-        <background model="vertical-1" x="1920" y="-360" z="-0.1"/>
-        <background model="lower-level" x="3200" y="-600" z="-0.1"/>
-        <background model="vertical-2" x="4480" y="-840" z="-0.1"/>
-        <background model="boss-level" x="4736" y="-1080" z="-0.1"/>
         <objects>
+            <object id="upper-level" x="1024" y="-120" z="-0.1"/>
+            <object id="vertical-1" x="1920" y="-360" z="-0.1"/>
+            <object id="lower-level" x="3200" y="-600" z="-0.1"/>
+            <object id="vertical-2" x="4480" y="-840" z="-0.1"/>
+            <object id="boss-level" x="4736" y="-1080" z="-0.1"/>
+
             <object id="door" x="4608" y="-1088"/>
             <object id="door" x="4864" y="-1088"/>
             <!-- vertical room 1 -->
