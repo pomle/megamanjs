@@ -78,6 +78,39 @@ describe('Parser', function() {
     });
   });
 
+  context('#getVector3', function() {
+    it('should return null if x or y missing', function() {
+      var parser = new Parser();
+      var node;
+      node = createNode('<moot/>');
+      expect(parser.getVector3(node)).to.be(null);
+      node = createNode('<moot x="" y="" z=""/>');
+      expect(parser.getVector3(node)).to.be(null);
+      node = createNode('<moot x="12" y="" />');
+      expect(parser.getVector3(node)).to.be(null);
+      node = createNode('<moot x="" y="13"/>');
+      expect(parser.getVector3(node)).to.be(null);
+      node = createNode('<moot x="" y="13"/>');
+      expect(parser.getVector3(node)).to.be(null);
+    });
+    it('should default parse x, y, and z attributes', function() {
+      var parser = new Parser();
+      var node = createNode('<moot x="13" y="17" z="11" />');
+      expect(parser.getVector3(node)).to.eql({x: 13, y: 17, z: 11});
+    });
+    it('should default z to 0 if not available', function() {
+      var parser = new Parser();
+      var node = createNode('<moot x="13" y="17"/>');
+      expect(parser.getVector3(node)).to.eql({x: 13, y: 17, z: 0});
+    });
+    it('should allow attribute key substitution', function() {
+      var parser = new Parser();
+      var node;
+      node = createNode('<moot w="10" h="12" r="5"/>');
+      expect(parser.getVector3(node, 'w', 'h', 'r')).to.eql({x: 10, y: 12, z: 5});
+    });
+  });
+
   describe('for Objects', function() {
     describe('#parse', function() {
       var objects, character;
