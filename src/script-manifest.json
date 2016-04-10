@@ -53,6 +53,7 @@
     "game/traits/Destructible.js",
     "game/traits/Disappearing.js",
     "game/traits/Fallaway.js",
+    "game/traits/Lifetime.js",
     "game/traits/Health.js",
     "game/traits/Invincibility.js",
     "game/traits/Jump.js",
