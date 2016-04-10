@@ -40,6 +40,12 @@
 
             <frame x="144" y="144"/>
         </animation>
+
+        <animation id="sweat" w="32" h="16">
+            <frame x="144" y=" 0" duration=".15"/>
+            <frame x="144" y="16" duration=".15"/>
+            <frame x="144" y="32"/>
+        </animation>
     </animations>
 
     <object type="object" id="Explosion">
@@ -52,6 +58,16 @@
         <traits>
             <trait source="ContactDamage" points="25"/>
             <trait source="Lifetime" duration="1.12"/>
+        </traits>
+    </object>
+
+    <object type="object" id="Sweat">
+        <geometry type="plane" w="32" h="16">
+            <face animation="sweat"/>
+        </geometry>
+        <traits>
+            <trait source="Lifetime" duration=".45"/>
+            <trait source="Translate" x="0" y="12"/>
         </traits>
     </object>
 </objects>

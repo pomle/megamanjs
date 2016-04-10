@@ -120,6 +120,5 @@
 
     "game/object/Decoration.js",
     "game/object/decoration/Explosion.js",
-    "game/object/decoration/TinyExplosion.js",
-    "game/object/decoration/Sweat.js"
+    "game/object/decoration/TinyExplosion.js"
 ]

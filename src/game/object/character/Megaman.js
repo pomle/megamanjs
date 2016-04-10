@@ -17,17 +17,3 @@ Game.objects.characters.Megaman.prototype.changeDress = function(weapon)
         this.model.material.needsUpdate = true;
     }
 }
-
-Game.objects.characters.Megaman.prototype.damage = function(points, direction)
-{
-    /*
-    if (this.health.amount > 0) {
-        var sweat = this.decorations['sweat']
-        sweat.position.copy(this.position);
-        sweat.position.y += 12;
-        sweat.sprites.sprite.time = 0;
-        sweat.lifetime = 0;
-        this.world.addObject(sweat);
-    }
-    return true;*/
-}

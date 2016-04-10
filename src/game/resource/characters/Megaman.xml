@@ -17,6 +17,9 @@
             <trait source="Invincibility" duration="2" />
             <trait source="Stun" force="10500" duration=".8" />
             <trait source="Teleport" />
+            <trait source="Spawn" object="Sweat" event="hurt">
+                <offset x="0" y="12"/>
+            </trait>
             <trait source="Weapon">
                 <projectile-emit x="0" y="1" r="17" />
             </trait>
