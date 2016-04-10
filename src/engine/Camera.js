@@ -7,6 +7,7 @@ Engine.Camera = function(camera)
     this.obeyPaths = true;
     this.paths = [];
     this.pathIndex = -1;
+    this.position = this.camera.position;
     this.smoothing = 20;
     this.velocity = new THREE.Vector3(0, 0, 0);
 }

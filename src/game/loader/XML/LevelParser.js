@@ -126,20 +126,20 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseCamera = function(levelNode, l
     if (cameraNode) {
         var smoothing = this.getFloat(cameraNode, 'smoothing');
         if (smoothing) {
-            level.camera.smoothing = smoothing;
+            level.world.camera.smoothing = smoothing;
         }
 
         var posNode = cameraNode.getElementsByTagName('position')[0];
         if (posNode) {
             var position = this.getPosition(posNode);
-            level.camera.camera.position.copy(position);
+            level.world.camera.position.copy(position);
         }
 
         var pathNodes = cameraNode.getElementsByTagName('path');
         if (pathNodes) {
             for (var pathNode, i = 0; pathNode = pathNodes[i++];) {
                 var path = this.getCameraPath(pathNode);
-                level.camera.addPath(path);
+                level.world.camera.addPath(path);
             }
         }
     }
