@@ -1,7 +1,6 @@
 Game.objects.Projectile = function()
 {
     Engine.Object.call(this);
-    this.events = new Engine.Events();
 
     this.damage = 0;
     this.lifetime = Infinity;
@@ -61,7 +60,7 @@ Game.objects.Projectile.prototype.rangeReached = function()
 Game.objects.Projectile.prototype.recycle = function()
 {
     this.time = 0;
-    this.events.trigger(this.EVENT_RECYCLE, [this]);
+    this.trigger(this.EVENT_RECYCLE, [this]);
 }
 
 Game.objects.Projectile.prototype.setDamage = function(points)

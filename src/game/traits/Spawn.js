@@ -16,13 +16,13 @@ Game.traits.Spawn.prototype.__attach = function()
 {
     Engine.Trait.prototype.__attach.apply(this, arguments);
     var host = this._host;
-    host.events.bind(host.EVENT_RECYCLE, this.spawn);
+    host.bind(this.event, this.spawn);
 }
 
 Game.traits.Spawn.prototype.__detach = function()
 {
     var host = this._host;
-    host.events.unbind(host.EVENT_RECYCLE, this.spawn);
+    host.unbind(this.event, this.spawn);
     Engine.Trait.prototype.__detach.apply(this, arguments);
 }
 
