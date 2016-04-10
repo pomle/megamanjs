@@ -1,0 +1,10 @@
+<textures>
+    <texture id="moot" url="moot.png" w="256" h="128"/>
+    <texture id="foo" url="foo.png" w="129" h="256"/>
+    <texture id="bar" url="bar.png" w="64" h="96">
+        <effects>
+            <color-replace in="#0073F7" out="#F87858" />
+            <color-replace in="#00FFFF" out="#F8F8F8" />
+        </effects>
+    </texture>
+</textures>
