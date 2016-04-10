@@ -25,7 +25,6 @@
     "engine/UVAnimator.js",
 
     "engine/CanvasUtil.js",
-    "engine/SpriteManager.js",
     "engine/TextureManager.js",
 
     "engine/AI.js",
