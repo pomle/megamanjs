@@ -57,7 +57,7 @@ Engine.Camera.prototype.follow = function(object, offset)
 {
     this.followObject = object;
     this.desiredPosition = object.position.clone();
-    this.desiredPosition.z = this.camera.position.z;
+    this.desiredPosition.z = this.position.z;
     if (offset === undefined) {
         this.followOffset.set(0, 0);
     } else {
@@ -67,15 +67,15 @@ Engine.Camera.prototype.follow = function(object, offset)
 
 Engine.Camera.prototype.jumpTo = function(vec)
 {
-    this.camera.position.x = vec.x;
-    this.camera.position.y = vec.y;
-    this.camera.position.z = vec.z || this.camera.position.z;
+    this.position.x = vec.x;
+    this.position.y = vec.y;
+    this.position.z = vec.z || this.position.z;
 }
 
 Engine.Camera.prototype.jumpToPath = function(vec)
 {
     this.jumpTo(vec);
-    this.alignToPath(this.camera.position);
+    this.alignToPath(this.position);
 }
 
 Engine.Camera.prototype.panTo = function(vec)
@@ -100,15 +100,15 @@ Engine.Camera.prototype.updateTime = function(timeElapsed)
         if (this.obeyPaths) {
             this.alignToPath(this.desiredPosition);
         }
-        this.velocity.copy(this.desiredPosition).sub(this.camera.position);
+        this.velocity.copy(this.desiredPosition).sub(this.position);
         if (this.smoothing > 0) {
             this.velocity.divideScalar(this.smoothing);
         }
     }
 
-    this.camera.position.x += this.velocity.x;
-    this.camera.position.y += this.velocity.y;
-    this.camera.position.z += this.velocity.z;
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+    this.position.z += this.velocity.z;
 };
 
 Engine.Camera.Path = function()
