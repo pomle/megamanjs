@@ -308,7 +308,7 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
     },
     parseTraits: function(objectNode) {
         var traits = [];
-        var traitParser = new Game.Loader.XML.Parser.TraitParser();
+        var traitParser = new Game.Loader.XML.Parser.TraitParser(this.loader);
         var traitsNode = objectNode.getElementsByTagName('traits')[0];
         if (traitsNode) {
             var traitNodes = traitsNode.getElementsByTagName('trait');

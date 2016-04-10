@@ -114,6 +114,14 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
         blueprint.setup = function(trait) {
             trait.attackAccept = attackAccept;
         };
+    } else if (name === 'spawn') {
+        var chance = this.getFloat(traitNode, 'chance') || 1;
+        var object = this.getAttr(traitNode, 'object');
+        var constr = this.loader.resource.get('object', object);
+        blueprint.setup = function(trait) {
+            trait.chance = chance;
+            trait.pool.push(constr);
+        };
     } else if (name === 'weapon') {
         var emitNode = traitNode.getElementsByTagName('projectile-emit')[0];
         var projectileEmitOffset = emitNode && this.getVector2(emitNode) || new THREE.Vector2(0,0);
