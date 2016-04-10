@@ -22,60 +22,8 @@
         </traits>
         <animation-router>
             <![CDATA[
-            animationRouter = function()
-            {
-                if (this.teleport.state) {
-                    if (this.teleport.state === this.teleport.STATE_OUT) {
-                        return 'teleport-out';
-                    }
-                    else if (this.teleport.state === this.teleport.STATE_IN) {
-                        return 'teleport-in';
-                    }
-                    return 'teleport';
-                }
-
-                if (this.stun._engaged === true) {
-                    return 'stunned';
-                }
-
-                if (this.climber.attached !== undefined) {
-                    if (this.weapon._firing) {
-                        return 'hang-shoot';
-                    }
-                    if (this.position.y > this.climber.bounds.climbable.top - 5) {
-                        return 'bent-over';
-                    }
-                    if (this.velocity.y !== 0) {
-                        return 'climbing';
-                    }
-                    return 'hang';
-                }
-
-                if (!this.isSupported) {
-                    if (this.weapon._firing) {
-                        return 'jump-fire';
-                    }
-                    return 'jump';
-                }
-
-                if (this.move._interimSpeed) {
-                    if (this.move._interimSpeed < this.move.speed * .8) {
-                        if (this.weapon._firing) {
-                            return 'fire';
-                        }
-                        return 'lean';
-                    }
-                    if (this.weapon._firing) {
-                        return 'run-fire';
-                    }
-                    return 'run';
-                }
-
-                if (this.weapon._firing) {
-                    return 'fire';
-                }
-
-                return 'idle';
+            animationRouter = function() {
+                return 'test-value-is-fubar';
             }
             ]]>
         </animation-router>
