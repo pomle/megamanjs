@@ -152,6 +152,10 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
                     animator.indices = [j * 2];
                 }
 
+                animator.indices.sort(function(a, b) {
+                    return a - b;
+                });
+
                 blueprint.animators.push(animator);
             }
 
