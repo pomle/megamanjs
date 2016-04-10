@@ -112,8 +112,8 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
 
     this.cameraDesiredPosition.copy(center);
     this.cameraDesiredPosition.z += this.cameraDistance;
-    this.world.camera.camera.position.copy(center);
-    this.world.camera.camera.position.z = this.cameraDesiredPosition.z - 100;
+    this.world.camera.position.copy(center);
+    this.world.camera.position.z = this.cameraDesiredPosition.z - 100;
 
     this.selectIndex(index);
     this.background.position.copy(center);
@@ -122,7 +122,8 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
 
 Game.scenes.StageSelect.prototype.enter = function()
 {
-    this.events.trigger(this.EVENT_STAGE_SELECTED, [this.stages[this.currentIndex], this.currentIndex]);
+    this.events.trigger(this.EVENT_STAGE_SELECTED,
+        [this.stages[this.currentIndex], this.currentIndex]);
 }
 
 Game.scenes.StageSelect.prototype.selectIndex = function(index)
