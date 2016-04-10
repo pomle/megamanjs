@@ -8,6 +8,8 @@ Game.Loader.XML.Parser.LevelParser = function(loader)
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser,
                    Game.Loader.XML.Parser);
 
+Game.Loader.XML.Parser.LevelParser.prototype.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
+
 Game.Loader.XML.Parser.LevelParser.prototype.createBehavior = function(node, behavior)
 {
     var behaviorMap = {
@@ -161,7 +163,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObject = function(objectNode, 
     var constructor = objects[objectId];
 
     var object = new constructor();
-    var position = this.getPosition(objectNode);
+    var position = this.getPosition(objectNode) || this.DEFAULT_POS;
     object.position.copy(position);
 
     var traitNodes = objectNode.getElementsByTagName('trait');

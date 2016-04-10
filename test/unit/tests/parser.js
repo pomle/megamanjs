@@ -308,6 +308,7 @@ describe('Parser', function() {
     });
     it('should create objects with valid positions', function() {
       level.world.objects.forEach(function(object) {
+        expect(object.position).to.be.a(THREE.Vector3);
         expect(object.position.x).to.be.a('number');
         expect(object.position.y).to.be.a('number');
         expect(object.position.z).to.be.a('number');
