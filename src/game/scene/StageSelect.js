@@ -51,6 +51,9 @@ Game.scenes.StageSelect = function()
         var engine = game.engine;
         engine.events.bind(engine.EVENT_SIMULATE, onSimulate);
     });
+    this.events.bind(this.EVENT_START, function(game) {
+        scene.equalize(4);
+    });
     this.events.bind(this.EVENT_DESTROY, function(game) {
         var engine = game.engine;
         engine.events.unbind(engine.EVENT_SIMULATE, onSimulate);
