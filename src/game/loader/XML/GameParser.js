@@ -17,6 +17,7 @@ Game.Loader.XML.Parser.GameParser.prototype.parse = function(gameNode)
     return new Promise((resolve) => {
         const configNode = gameNode.querySelector('config');
         const characterNodes = gameNode.querySelectorAll('characters > objects');
+        const decorationNodes = gameNode.querySelectorAll('decorations > objects');
         const projectileNodes = gameNode.querySelectorAll('projectiles > objects');
         const playerNode = gameNode.querySelector('player');
         const sceneNodes = gameNode.querySelectorAll('scenes > scene');
@@ -35,30 +36,36 @@ Game.Loader.XML.Parser.GameParser.prototype.parse = function(gameNode)
             Object.keys(items).forEach((key) => {
                 resource.addAuto(key, items[key]);
             });
-            return items;
         }
-        const characterParser = this.parseObjects(characterNodes)
-            .then(addResource);
 
-        const projectileParser = this.parseObjects(projectileNodes)
-            .then(addResource)
-            .then(() => {
-                if (weaponsNode) {
-                    const weaponParser = new Game.Loader.XML.Parser.WeaponParser(this.loader);
-                    const weapons = weaponParser.parse(weaponsNode);
-                    addResource(weapons);
-                    Object.keys(weapons).forEach((key) => {
-                        const weaponInstance = new weapons[key]();
-                        const player = this.loader.game.player;
-                        player.weapons[weaponInstance.code] = weaponInstance;
-                    });
-                }
-            });
-
-        Promise.all([
-            characterParser,
-            projectileParser,
-        ])
+        this.parseObjects(decorationNodes)
+        .then((items) => {
+            addResource(items);
+        })
+        .then(() => {
+            return this.parseObjects(characterNodes);
+        })
+        .then((items) => {
+            addResource(items);
+        })
+        .then(() => {
+            return this.parseObjects(projectileNodes);
+        })
+        .then((items) => {
+            addResource(items);
+        })
+        .then(() => {
+            if (weaponsNode) {
+                const weaponParser = new Game.Loader.XML.Parser.WeaponParser(this.loader);
+                const weapons = weaponParser.parse(weaponsNode);
+                addResource(weapons);
+                Object.keys(weapons).forEach((key) => {
+                    const weaponInstance = new weapons[key]();
+                    const player = this.loader.game.player;
+                    player.weapons[weaponInstance.code] = weaponInstance;
+                });
+            }
+        })
         .then(() => {
             if (playerNode) {
                 this.parsePlayer(playerNode);

@@ -45,6 +45,9 @@
         <collision>
             <rect x="0" y="-1" w="8" h="8" />
         </collision>
+        <traits>
+            <trait source="Spawn" object="Explosion"/>
+        </traits>
     </object>
     <object type="projectile" source="MetalBlade" id="MetalBlade">
         <geometry type="plane" w="20" h="16">

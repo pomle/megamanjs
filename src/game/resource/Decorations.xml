@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+    <textures>
+        <texture id="explosions" url="explosions.png" w="256" h="256" />
+    </textures>
+
+    <animations texture="explosions">
+        <animation id="explosion" w="48" h="48" >
+            <frame x="0"   y="0" duration=".05"/>
+            <frame x="48"  y="0" duration=".05"/>
+            <frame x="96"  y="0" duration=".0333"/>
+
+            <frame x="0"  y="48" duration=".05"/>
+            <frame x="48" y="48" duration=".05"/>
+            <frame x="96" y="48" duration=".0333"/>
+
+            <frame x="0"  y="96" duration=".05"/>
+            <frame x="48" y="96" duration=".05"/>
+            <frame x="96" y="96" duration=".0333"/>
+
+            <frame x="0"  y="144" duration=".05"/>
+            <frame x="48" y="144" duration=".05"/>
+            <frame x="96" y="144" duration=".0333"/>
+
+            <frame x="0"   y="0" duration=".05"/>
+            <frame x="48"  y="0" duration=".05"/>
+            <frame x="96"  y="0" duration=".0333"/>
+
+            <frame x="0"  y="48" duration=".05"/>
+            <frame x="48" y="48" duration=".05"/>
+            <frame x="96" y="48" duration=".0333"/>
+
+            <frame x="0"  y="96" duration=".05"/>
+            <frame x="48" y="96" duration=".05"/>
+            <frame x="96" y="96" duration=".0333"/>
+
+            <frame x="0"  y="144" duration=".05"/>
+            <frame x="48" y="144" duration=".05"/>
+            <frame x="96" y="144" duration=".0333"/>
+
+            <frame x="144" y="144"/>
+        </animation>
+    </animations>
+
+    <object type="object" id="Explosion">
+        <geometry type="plane" w="48" h="48">
+            <face animation="explosion"/>
+        </geometry>
+        <collision>
+            <circ r="32" />
+        </collision>
+        <traits>
+            <trait source="ContactDamage" points="25"/>
+            <trait source="Lifetime" duration="1.12"/>
+        </traits>
+    </object>
+</objects>
