@@ -112,7 +112,6 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
     this.world.camera.camera.position.copy(center);
     this.world.camera.camera.position.z = this.cameraDesiredPosition.z - 100;
 
-
     this.selectIndex(index);
     this.background.position.copy(center);
     this.background.position.z -= 10;
