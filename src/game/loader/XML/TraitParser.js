@@ -100,15 +100,6 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
             }
             trait.force.copy(force);
         };
-    } else if (name === 'translating') {
-        var func = traitNode.attr('func');
-        var amplitude = this.getVector2(traitNode.getElementsByTagName('amplitude')[0]);
-        var speed = this.getFloat(traitNode, 'speed');
-        blueprint.setup = function(trait) {
-            trait.func = func;
-            trait.amplitude = amplitude;
-            trait.speed = speed;
-        };
     } else if (name === 'solid') {
         var attackAccept = this.parseAttack(traitNode, 'attack');
         blueprint.setup = function(trait) {
@@ -121,6 +112,11 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
         blueprint.setup = function(trait) {
             trait.chance = chance;
             trait.pool.push(constr);
+        };
+    } else if (name === 'translate') {
+        var velocity = this.getVector2(traitNode);
+        blueprint.setup = function(trait) {
+            trait.velocity.copy(velocity);
         };
     } else if (name === 'weapon') {
         var emitNode = traitNode.getElementsByTagName('projectile-emit')[0];

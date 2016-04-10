@@ -70,6 +70,7 @@
     "game/traits/Spawn.js",
     "game/traits/Stun.js",
     "game/traits/Teleport.js",
+    "game/traits/Translate.js",
     "game/traits/Weapon.js",
     "game/traits/Light.js",
     "game/traits/Glow.js",
