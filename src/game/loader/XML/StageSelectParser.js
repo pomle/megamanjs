@@ -22,7 +22,6 @@ Game.Loader.XML.Parser.StageSelectParser.prototype.parseStageSelect = function(s
         var objects = objectParser.parse(objectsNode);
 
         var backgroundNode = sceneNode.getElementsByTagName('background')[0];
-        console.log(backgroundNode);
         scene.setBackgroundColor(backgroundNode.getAttribute('color'));
 
         var cameraNode = sceneNode.getElementsByTagName('camera')[0];
