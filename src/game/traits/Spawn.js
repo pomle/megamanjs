@@ -3,6 +3,7 @@ Game.traits.Spawn = function()
     Engine.Trait.call(this);
 
     this.chance = 1;
+    this.event = undefined;
     this.offset = new THREE.Vector2();
     this.pool = [];
     this.spawn = this.spawn.bind(this);
