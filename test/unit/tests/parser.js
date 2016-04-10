@@ -246,6 +246,55 @@ describe('Parser', function() {
           expect(UVCoordsSpy.lastCall.args[2]).to.eql({x: 128, y: 128});
         });
       });
+      context('when wrapped in <loop>', function() {
+        it('should duplicate a single frame', function() {
+          var node = createNode('<animations w="48" h="48">' +
+            '<animation id="moot" w="24" h="22">' +
+              '<loop count="13">' +
+                '<frame x="32" y="16" duration="1"/>' +
+              '</loop>' +
+            '</animation>' +
+          '</animations>');
+          var parser = new ObjectParser();
+          var animation = parser.parseAnimation(node.childNodes[0], textureMock);
+          expect(animation.length).to.be(13);
+        });
+        it('should duplicate mixed frames', function() {
+          var node = createNode('<animations w="48" h="48">' +
+            '<animation id="moot" w="20" h="10">' +
+              '<frame x="1" y="1" duration="13"/>' +
+              '<frame x="1" y="1" duration="19"/>' +
+              '<loop count="2">' +
+                '<frame x="1" y="1" duration="1"/>' +
+                '<frame x="2" y="2" duration="2"/>' +
+              '</loop>' +
+              '<frame x="3" y="3" duration="16"/>' +
+              '<frame x="4" y="4" duration="8"/>' +
+              '<loop count="3">' +
+                '<frame x="5" y="5" duration="4"/>' +
+              '</loop>' +
+              '<frame x="6" y="6" duration="8"/>' +
+            '</animation>' +
+          '</animations>');
+          var parser = new ObjectParser();
+          var animation = parser.parseAnimation(node.childNodes[0], textureMock);
+          var frames = animation.timeline.frames;
+          expect(animation.length).to.be(12);
+          var f = 0;
+          expect(frames[f++].duration).to.be(13);
+          expect(frames[f++].duration).to.be(19);
+          expect(frames[f++].duration).to.be(1);
+          expect(frames[f++].duration).to.be(2);
+          expect(frames[f++].duration).to.be(1);
+          expect(frames[f++].duration).to.be(2);
+          expect(frames[f++].duration).to.be(16);
+          expect(frames[f++].duration).to.be(8);
+          expect(frames[f++].duration).to.be(4);
+          expect(frames[f++].duration).to.be(4);
+          expect(frames[f++].duration).to.be(4);
+          expect(frames[f++].duration).to.be(8);
+        });
+      });
       it('should parse an animation node', function() {
         var node = getNode('animations');
         var parser = new ObjectParser();

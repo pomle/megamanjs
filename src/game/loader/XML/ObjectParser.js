@@ -211,19 +211,55 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             throw new TypeError('Expected <animation>, got ' + animationNode.tagName);
         }
 
+        var parser = this;
+        function applyLoop(loopNode) {
+            if (loop.length === 0) {
+                return;
+            }
+            var count = loopNode && parser.getInt(loopNode, 'count') || 1;
+            console.log('Applying', loop.length * count);
+            for (var i = 0; i < count; ++i) {
+                loop.forEach(function(args) {
+                    animation.addFrame(args[0], args[1]);
+                });
+            }
+            loop = [];
+        }
+
         var id = animationNode.getAttribute('id');
         var group = animationNode.getAttribute('group') || undefined;
         var animation = new Engine.Animator.Animation(id, group);
         var frameNodes = animationNode.getElementsByTagName('frame');
-        for (var i = 0, frameNode; frameNode = frameNodes[i]; ++i) {
+        var loopNode = undefined;
+        var loop = [];
+        for (var frameNode, i = 0, l = frameNodes.length; i !== l; ++i) {
+            var frameNode = frameNodes[i];
             var offset = this.getVector2(frameNode, 'x', 'y');
             var size = this.getVector2(frameNode, 'w', 'h') ||
                        this.getVector2(frameNode.parentNode, 'w', 'h') ||
                        this.getVector2(frameNode.parentNode.parentNode, 'w', 'h');
+
             var uvMap = new Engine.UVCoords(offset, size, texture.size);
             var duration = this.getFloat(frameNode, 'duration') || undefined;
-            animation.addFrame(uvMap, duration);
+
+            // Inside loop
+            if (frameNode.parentNode.tagName === 'loop') {
+                loop.push([uvMap, duration]);
+                if (loopNode && loopNode !== frameNode.parentNode) {
+                    applyLoop(loopNode);
+                }
+                loopNode = frameNode.parentNode;
+            } else if (loopNode) {
+                applyLoop(loopNode);
+                loop.push([uvMap, duration]);
+                loopNode = undefined;
+            } else {
+                loop.push([uvMap, duration]);
+                applyLoop();
+            }
         }
+
+        applyLoop(loopNode);
 
         return animation;
     },
