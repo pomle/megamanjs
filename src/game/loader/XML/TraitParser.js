@@ -106,11 +106,18 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
             trait.attackAccept = attackAccept;
         };
     } else if (name === 'spawn') {
+        var offsetNode = traitNode.getElementsByTagName('offset')[0];
         var chance = this.getFloat(traitNode, 'chance') || 1;
+        var event = this.getAttr(traitNode, 'event') || 'death';
         var object = this.getAttr(traitNode, 'object');
+        var offset = offsetNode && this.getVector2(offsetNode) || undefined;
         var constr = this.loader.resource.get('object', object);
         blueprint.setup = function(trait) {
             trait.chance = chance;
+            trait.event = event;
+            if (offset) {
+                trait.offset.copy(offset);
+            }
             trait.pool.push(constr);
         };
     } else if (name === 'translate') {

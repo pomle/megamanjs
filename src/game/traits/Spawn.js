@@ -3,8 +3,8 @@ Game.traits.Spawn = function()
     Engine.Trait.call(this);
 
     this.chance = 1;
+    this.offset = new THREE.Vector2();
     this.pool = [];
-
     this.spawn = this.spawn.bind(this);
 }
 
@@ -38,6 +38,8 @@ Game.traits.Spawn.prototype.spawn = function()
             object = new this.pool[index]();
 
         object.position.copy(host.position);
+        object.position.x += this.offset.x;
+        object.position.y += this.offset.y;
         host.world.addObject(object);
     }
 }
