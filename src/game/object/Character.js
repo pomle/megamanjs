@@ -72,11 +72,7 @@ Game.objects.Character.prototype.timeShift = function(dt)
         this.direction.y = this.aim.y > 0 ? 1 : -1;
     }
 
-    var anim = this.routeAnimation();
-    if (anim !== this.anim) {
-        this.animators[0].setAnimation(this.animations[anim]);
-        this.anim = anim;
-    }
+    this.setAnimation(this.routeAnimation());
 
     this.isSupported = false;
     Engine.Object.prototype.timeShift.call(this, dt);

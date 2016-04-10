@@ -5,6 +5,7 @@ Engine.Object = function()
     this.uuid = THREE.Math.generateUUID();
     this.name = undefined;
 
+    this.anim = undefined;
     this.animators = [];
     this.collidable = true;
     this.collision = [];
@@ -124,6 +125,14 @@ Engine.Object.prototype.nudge = function(x, y)
 Engine.Object.prototype.obstruct = function(object, attack)
 {
     this.trigger(this.EVENT_OBSTRUCT, [object, attack]);
+}
+
+Engine.Object.prototype.setAnimation = function(name)
+{
+    if (name !== this.anim) {
+        this.animators[0].setAnimation(this.animations[name]);
+        this.anim = name;
+    }
 }
 
 Engine.Object.prototype.setEmitter = function(object)
