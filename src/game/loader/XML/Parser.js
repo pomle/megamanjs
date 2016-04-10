@@ -144,8 +144,8 @@ Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
 Game.Loader.XML.Parser.prototype.getRect = function(node, attrX, attrY, attrW, attrH)
 {
     return {
-        'x': this.getFloat(node, attrX || 'x'),
-        'y': this.getFloat(node, attrY || 'y'),
+        'x': this.getFloat(node, attrX || 'x') || 0,
+        'y': this.getFloat(node, attrY || 'y') || 0,
         'w': this.getFloat(node, attrW || 'w'),
         'h': this.getFloat(node, attrH || 'h'),
     }

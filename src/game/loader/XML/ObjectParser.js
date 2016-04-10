@@ -238,8 +238,8 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
                     collisionZones.push(this.getRect(collNode));
                 } else if (type === 'circ') {
                     collisionZones.push({
-                        x: this.getFloat(collNode, 'x'),
-                        y: this.getFloat(collNode, 'y'),
+                        x: this.getFloat(collNode, 'x') || 0,
+                        y: this.getFloat(collNode, 'y') || 0,
                         r: this.getFloat(collNode, 'r'),
                     });
                 } else {
