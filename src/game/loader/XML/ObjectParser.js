@@ -106,21 +106,6 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             traits: null,
         };
 
-        // For the local constructor
-        /*
-        for (var i = 0, l = this.animations.length; i < l; ++i) {
-            if (this.animations[i].id) {
-                animations[this.animations[i].id] = this.animations[i].animation;
-            }
-        }
-
-        for (var i = 0, l = this.textures.length; i < l; ++i) {
-            localTextures.push(this.textures[i].texture);
-            if (this.textures[i].id) {
-                localTextures[this.textures[i].id] = this.textures[i].texture;
-            }
-        }*/
-
         var geometryNodes = objectNode.getElementsByTagName('geometry');
         if (geometryNodes.length === 0) {
             throw new Error("No <geometry> defined in " + objectNode.outerHTML);
