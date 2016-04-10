@@ -34,6 +34,18 @@ Engine.Util.extend(Game.scenes.Level, Game.Scene);
 
 Game.scenes.Level.prototype.assets = {};
 
+Game.scenes.Level.prototype.__destroy = function()
+{
+    this.world.camera.unfollow();
+    for (var objects = this.world.objects, i = 0, l = objects.length; i !== l; ++i) {
+        var object = objects[i];
+        if (object !== undefined) {
+            this.world.removeObject(object);
+        }
+    }
+    Game.Scene.prototype.__destroy.apply(this, arguments);
+}
+
 Game.scenes.Level.prototype.addCheckPoint = function(x, y, r)
 {
     this.checkPoints.push({

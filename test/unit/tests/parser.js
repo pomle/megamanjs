@@ -345,11 +345,11 @@ describe('Parser', function() {
     });
     context('Camera', function() {
       it('should have smoothing', function() {
-        expect(level.camera.smoothing).to.be.a('number');
-        expect(level.camera.smoothing).to.equal(13.5);
+        expect(level.world.camera.smoothing).to.be.a('number');
+        expect(level.world.camera.smoothing).to.equal(13.5);
       });
       it('should have paths', function() {
-        var paths = level.camera.paths;
+        var paths = level.world.camera.paths;
         expect(paths).to.have.length(3);
         expect(paths[0].window[0]).to.eql({x: 0, y: -208, z: 0});
         expect(paths[0].window[1]).to.eql({x: 2048, y: 0, z: 0});
