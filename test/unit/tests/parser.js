@@ -185,6 +185,9 @@ describe('Parser', function() {
         expect(character.model.geometry.faceVertexUvs[0][0]).to.eql(uvs[0]);
         expect(character.model.geometry.faceVertexUvs[0][1]).to.eql(uvs[1]);
       });
+      it('should parse animation router', function() {
+        expect(character.routeAnimation()).to.be('test-value-is-fubar');
+      });
     });
     describe('#parseAnimations', function() {
       var textureMock = {size: {x: 128, y: 128}};
