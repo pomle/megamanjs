@@ -172,6 +172,13 @@ describe('Parser', function() {
           expect(uvs[1][2].x).to.equal(0.1875);
           expect(uvs[1][2].y).to.equal(1);
         });
+        it('should have group set to undefined if not specified', function() {
+          expect(character.animations['idle'].group).to.be(undefined);
+        });
+        it('should have group set to string if specified', function() {
+          expect(character.animations['run'].group).to.be('run');
+          expect(character.animations['run-fire'].group).to.be('run');
+        });
       });
       it('should have default animation on construction', function() {
         var uvs = character.animations['__default'].getValue(0);

@@ -212,7 +212,7 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         }
 
         var id = animationNode.getAttribute('id');
-        var group = animationNode.getAttribute('group');
+        var group = animationNode.getAttribute('group') || undefined;
         var animation = new Engine.Animator.Animation(id, group);
         var frameNodes = animationNode.getElementsByTagName('frame');
         for (var i = 0, frameNode; frameNode = frameNodes[i]; ++i) {
