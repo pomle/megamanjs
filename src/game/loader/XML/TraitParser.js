@@ -115,17 +115,13 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
             trait.attackAccept = attackAccept;
         };
     } else if (name === 'weapon') {
-        /*
         var emitNode = traitNode.getElementsByTagName('projectile-emit')[0];
-        return {
-            'ref': ref,
-            'prop': {
-                'projectileEmitOffset': emitNode && this.getVector2(emitNode) || new THREE.Vector2(0,0),
-                'projectileEmitRadius': emitNode && this.getFloat(emitNode, 'r') || 0,
-            },
-            'equip': traitNode.getAttribute('equip'),
+        var projectileEmitOffset = emitNode && this.getVector2(emitNode) || new THREE.Vector2(0,0);
+        var projectileEmitRadius = emitNode && this.getFloat(emitNode, 'r') || 0;
+        blueprint.setup = function(trait) {
+            trait.projectileEmitOffset.copy(projectileEmitOffset);
+            trait.projectileEmitRadius = projectileEmitRadius;
         }
-        break;*/
     } else {
         var properties = {};
         for (var attr, parsed, i = 0; attr = traitNode.attributes[i++];) {

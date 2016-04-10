@@ -16,79 +16,86 @@ Game.Loader.XML.Parser.GameParser.prototype.parse = function(gameNode)
 
     return new Promise((resolve) => {
         const configNode = gameNode.querySelector('config');
+        const characterNodes = gameNode.querySelectorAll('characters > objects');
+        const projectileNodes = gameNode.querySelectorAll('projectiles > objects');
+        const playerNode = gameNode.querySelector('player');
+        const sceneNodes = gameNode.querySelectorAll('scenes > scene');
+        const weaponsNode = gameNode.querySelectorAll('weapons')[0];
+
         if (configNode) {
             this.parseConfig(configNode);
         }
 
-        const weaponNodes = gameNode.querySelectorAll('weapons > weapon');
-        if (weaponNodes) {
-            this.parseWeapons(weaponNodes);
-        }
-
-        const sceneNodes = gameNode.querySelectorAll('scenes > scene');
         if(sceneNodes) {
             this.parseScenes(sceneNodes);
         }
 
-/*
-function characterReady(characterId) {
-            if (characterId !== playerCharacterId) {
-                return;
-            }
-
-
-
-            entryPointParse();
-        }
-
-
-        */
-        const characterNodes = gameNode.querySelectorAll('characters objects');
-        this.parseCharacters(characterNodes)
-            .then((characters) => {
-                Object.keys(characters).forEach((key) => {
-                    this.loader.resource.addAuto(key, characters[key]);
-                });
-            })
-            .then(() => {
-                const playerNode = gameNode.querySelector('player');
-                if (playerNode) {
-                    this.parsePlayer(playerNode);
-                }
-            })
-            .then(() => {
-                const entrySceneName = gameNode.querySelector('entrypoint > scene')
-                                               .getAttribute('name');
-                this.loader.entrypoint = entrySceneName;
-                resolve();
+        const resource = this.loader.resource;
+        function addResource(items) {
+            Object.keys(items).forEach((key) => {
+                resource.addAuto(key, items[key]);
             });
+            return items;
+        }
+        const characterParser = this.parseObjects(characterNodes)
+            .then(addResource);
+
+        const projectileParser = this.parseObjects(projectileNodes)
+            .then(addResource)
+            .then(() => {
+                if (weaponsNode) {
+                    const weaponParser = new Game.Loader.XML.Parser.WeaponParser(this.loader);
+                    const weapons = weaponParser.parse(weaponsNode);
+                    addResource(weapons);
+                    Object.keys(weapons).forEach((key) => {
+                        const weaponInstance = new weapons[key]();
+                        const player = this.loader.game.player;
+                        player.weapons[weaponInstance.code] = weaponInstance;
+                    });
+                }
+            });
+
+        Promise.all([
+            characterParser,
+            projectileParser,
+        ])
+        .then(() => {
+            if (playerNode) {
+                this.parsePlayer(playerNode);
+            }
+        })
+        .then(() => {
+            const entrySceneName = gameNode.querySelector('entrypoint > scene')
+                                           .getAttribute('name');
+            this.loader.entrypoint = entrySceneName;
+            resolve();
+        });
     });
 }
 
-Game.Loader.XML.Parser.GameParser.prototype.parseCharacters = function(characterNodes) {
+Game.Loader.XML.Parser.GameParser.prototype.parseObjects = function(objectNodes) {
     return new Promise((resolve) => {
-        const characters = {};
+        const objects = {};
         let pending = 0;
         const objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader);
-        Array.prototype.forEach.call(characterNodes, (characterNode) => {
+        Array.prototype.forEach.call(objectNodes, (objectNode) => {
             ++pending;
-            this.loader.followNode(characterNode).then(function(node) {
-
-                const _characters = objectParser.parse(node);
-                Object.keys(_characters).forEach((characterId) => {
-                    if (characters[characterId]) {
-                        throw new Error('Character ' + characterId + ' already defined');
+            this.loader.followNode(objectNode).then(function(node) {
+                const _objects = objectParser.parse(node);
+                Object.keys(_objects).forEach((objectId) => {
+                    if (objects[objectId]) {
+                        throw new Error('Object ' + objectId + ' already defined');
                     }
-                    characters[characterId] = _characters[characterId];
+                    objects[objectId] = _objects[objectId];
                 });
                 --pending;
                 if (pending === 0) {
-                    resolve(characters);
+                    resolve(objects);
                 }
             });
         });
         if (pending === 0) {
-            resolve(characters);
+            resolve(objects);
         }
     });
 }
@@ -128,20 +135,6 @@ Game.Loader.XML.Parser.GameParser.prototype.parseScenes = function(sceneNodes) {
             this.loader.sceneIndex[name] = {
                 'url': this.loader.resolveURL(sceneNode, 'src'),
             };
-        });
-        resolve();
-    });
-}
-
-Game.Loader.XML.Parser.GameParser.prototype.parseWeapons = function(weaponNodes) {
-    return new Promise((resolve) => {
-        const weaponParser = new Game.Loader.XML.Parser.WeaponParser(this.loader);
-        Array.prototype.forEach.call(weaponNodes, (weaponNode) => {
-            const Weapon = weaponParser.parse(weaponNode);
-            const weaponId = weaponNode.getAttribute('id');
-            const weaponInstance = new Weapon();
-            this.loader.resource.addAuto(weaponId, Weapon);
-            this.loader.game.player.weapons[weaponInstance.code] = weaponInstance;
         });
         resolve();
     });

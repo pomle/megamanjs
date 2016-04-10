@@ -1,13 +1,6 @@
 Game.objects.weapons.AirShooter = function()
 {
     Game.objects.Weapon.call(this);
-    this.setCoolDown(1);
-    this.ammo.max = 16;
-
-    for (var i = 0; i < 3; ++i) {
-        this.addProjectile(new Game.objects.projectiles.AirShot());
-    }
-
     this.speed = 80;
 }
 
