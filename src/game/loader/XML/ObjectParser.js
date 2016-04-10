@@ -42,7 +42,11 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
 
             for (var i in blueprint.collision) {
                 var r = blueprint.collision[i];
-                this.addCollisionRect(r.w, r.h, r.x, r.y);
+                if (r.r) {
+                    this.addCollisionZone(r.r, r.x, r.y);
+                } else {
+                    this.addCollisionRect(r.w, r.h, r.x, r.y);
+                }
             }
         });
 
@@ -242,9 +246,20 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         var collisionZones = [];
         var collisionNode = objectNode.getElementsByTagName('collision')[0];
         if (collisionNode) {
-            var rectNodes = collisionNode.getElementsByTagName('rect');
-            for (var rectNode, i = 0; rectNode = rectNodes[i++];) {
-                collisionZones.push(this.getRect(rectNode));
+            var collNodes = collisionNode.getElementsByTagName('*');
+            for (var collNode, i = 0; collNode = collNodes[i++];) {
+                var type = collNode.tagName;
+                if (type === 'rect') {
+                    collisionZones.push(this.getRect(collNode));
+                } else if (type === 'circ') {
+                    collisionZones.push({
+                        x: this.getFloat(collNode, 'x'),
+                        y: this.getFloat(collNode, 'y'),
+                        r: this.getFloat(collNode, 'r'),
+                    });
+                } else {
+                    throw new TypeError('No collision type "' + type + '"');
+                }
             }
         }
         return collisionZones;
