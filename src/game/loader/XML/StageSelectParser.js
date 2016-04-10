@@ -16,9 +16,10 @@ Game.Loader.XML.Parser.StageSelectParser.prototype.parseStageSelect = function(s
 
     return new Promise((resolve) => {
         var scene = new Game.scenes.StageSelect(this.loader.game, new Engine.World());
-        var textureNode = sceneNode.getElementsByTagName('texture')[0];
-        var texture = this.getTexture(textureNode);
-        var textureSize = this.getVector2(textureNode, 'w', 'h');
+
+        var objectsNode = sceneNode.getElementsByTagName('objects')[0];
+        var objectParser = new Game.Loader.XML.Parser.ObjectParser();
+        var objects = objectParser.parse(objectsNode);
 
         var backgroundNode = sceneNode.getElementsByTagName('background')[0];
         console.log(backgroundNode);
@@ -28,30 +29,16 @@ Game.Loader.XML.Parser.StageSelectParser.prototype.parseStageSelect = function(s
         scene.cameraDistance = parseFloat(cameraNode.getAttribute('distance')) || scene.cameraDistance;
 
         var indicatorNode = sceneNode.getElementsByTagName('indicator')[0];
-        scene.setIndicator(Engine.SpriteManager.createTile(
-            texture,
-            parseFloat(indicatorNode.getAttribute('w')), parseFloat(indicatorNode.getAttribute('h')),
-            parseFloat(indicatorNode.getAttribute('x')), parseFloat(indicatorNode.getAttribute('y')),
-            textureSize.x, textureSize.y));
-
+        scene.setIndicator(new objects['indicator']().model);
         scene.indicatorInterval = parseFloat(indicatorNode.getAttribute('blink-interval')) || scene.indicatorInterval;
 
-        var frameNode = sceneNode.getElementsByTagName('frame')[0];
-        scene.setFrame(Engine.SpriteManager.createTile(
-            texture,
-            parseFloat(frameNode.getAttribute('w')), parseFloat(frameNode.getAttribute('h')),
-            parseFloat(frameNode.getAttribute('x')), parseFloat(frameNode.getAttribute('y')),
-            textureSize.x, textureSize.y));
+        scene.setFrame(new objects['frame']().model);
 
         var stagesNode = sceneNode.getElementsByTagName('stage');
         scene.rowLength = Math.ceil(Math.sqrt(stagesNode.length));
         for (var stageNode, i = 0; stageNode = stagesNode[i++];) {
-            var avatar = Engine.SpriteManager.createTile(
-                texture,
-                parseFloat(stageNode.getAttribute('w')), parseFloat(stageNode.getAttribute('h')),
-                parseFloat(stageNode.getAttribute('x')), parseFloat(stageNode.getAttribute('y')),
-                textureSize.x, textureSize.y);
-            var index = parseFloat(stageNode.getAttribute('index'));
+            var id = stageNode.getAttribute('id');
+            var avatar = new objects[id]().model;
             var name = stageNode.getAttribute('name');
             var caption = stageNode.getAttribute('caption');
             scene.addStage(avatar, caption, name);
@@ -60,6 +47,7 @@ Game.Loader.XML.Parser.StageSelectParser.prototype.parseStageSelect = function(s
         scene.equalize(parseFloat(indicatorNode.getAttribute('initial-index')));
 
         var stageSelect = scene;
+        var loader = this.loader;
         scene.events.bind(scene.EVENT_STAGE_SELECTED, function(stage, index) {
             loader.startScene(stage.name).then(function(scene) {
                 scene.events.bind(scene.EVENT_END, function() {
