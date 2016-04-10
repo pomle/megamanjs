@@ -86,6 +86,8 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         var constr;
         if (type === 'character') {
             constr = Game.objects.characters[source] || Game.objects.Character;
+        } else if (type === 'projectile') {
+            constr = Game.objects.projectiles[source] || Game.objects.Projectile;
         } else {
             constr = Engine.Object;
         }
