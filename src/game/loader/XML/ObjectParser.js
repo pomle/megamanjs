@@ -140,13 +140,8 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
                 var animation = animations[animator.name];
 
                 animator.setAnimation(animation);
-                this.parseRanges(faceNode, animator);
 
-                var indexJSON = faceNode.getAttribute('index');
-                if (indexJSON) {
-                    var indices = JSON.parse(indexJSON);
-                    Array.prototype.push.apply(animator.indices, indices);
-                }
+                animator.indices = this.parseFaceIndices(faceNode);
 
                 if (animator.indices.length === 0) {
                     animator.indices = [j * 2];
@@ -252,38 +247,44 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         }
         return collisionZones;
     },
-    parseRanges: function(faceNode, animator) {
+    parseFaceIndices: function(faceNode) {
+        var indices = [];
+        var segs = this.getVector2(faceNode.parentNode, 'w-segments', 'h-segments')
+                   || new THREE.Vector2(1, 1);
+
         var rangeNodes = faceNode.getElementsByTagName('range');
-        var segs = this.getVector2(faceNode.parentNode, 'w-segments', 'h-segments') || new THREE.Vector2(1, 1);
-
-        for (var rangeNode, i = 0; rangeNode = rangeNodes[i++];) {
-            try {
-                var range = {
-                    'x': this.getRange(rangeNode, 'x', segs.x),
-                    'y': this.getRange(rangeNode, 'y', segs.y),
-                };
-            } catch (e) {
-                console.error('Range node %s range error (%d,%d)', rangeNode.outerHTML, segs.x, segs.y);
-                throw e;
-            }
-
-            this.applyAnimationIndices(range, animator, segs);
+        for (var rangeNode, i = 0; rangeNode = rangeNodes[i]; ++i) {
+            var coords = {
+                'x': this.getRange(rangeNode, 'x', segs.x),
+                'y': this.getRange(rangeNode, 'y', segs.y),
+            };
+            var rangeIndices = this.faceCoordsToIndex(coords, segs);
+            Array.prototype.push.apply(indices, rangeIndices);
         }
+
+        var indexJSON = faceNode.getAttribute('index');
+        if (indexJSON) {
+            var jsonIndices = JSON.parse(indexJSON);
+            Array.prototype.push.apply(indices, jsonIndices);
+        }
+
+        return indices;
     },
-    applyAnimationIndices: function(range, animator, segs) {
-        var i, j, x, y, faceIndex;
-        for (i in range.x) {
-            x = range.x[i] - 1;
-            for (j in range.y) {
-                y = range.y[j] - 1;
+    faceCoordsToIndex: function(coords, segs) {
+        var i, j, x, y, faceIndex, indices = [];
+        for (i in coords.x) {
+            x = coords.x[i] - 1;
+            for (j in coords.y) {
+                y = coords.y[j] - 1;
                 /* The face index is the first of the two triangles that make up a rectangular
                    face. The Animator.UV will set the UV map to the faceIndex and faceIndex+1.
                    Since we expect to paint two triangles at every index we need to 2x the index
                    count so that we skip two faces for every index jump. */
                 faceIndex = (x + (y * segs.x)) * 2;
-                animator.indices.push(faceIndex);
+                indices.push(faceIndex);
             }
         }
+        return indices;
     },
     parseTextures: function(texturesNode) {
         var textures = {

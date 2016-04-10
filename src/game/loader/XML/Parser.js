@@ -100,36 +100,36 @@ Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
     var input = node.getAttribute(attr || 'range');
 
     var values = [];
-    var groups, group, ranges, range, mod, upper, lower, i;
+    var groups, group, ranges, range, mod, upper, lower, comp;
 
     groups = input.split(',');
 
     while (group = groups.shift()) {
+        comp = group.split('/');
+        mod = comp[1] ? parseInt(comp[1], 10) : 1;
+        ranges = comp[0].split('-');
 
-        mod = parseFloat(group.split('/')[1]) || 1;
-        ranges = group.split('-');
-
-        if (ranges.length == 2) {
-            lower = parseFloat(ranges[0]);
-            upper = parseFloat(ranges[1]);
+        if (ranges.length === 2) {
+            lower = parseInt(ranges[0], 10);
+            upper = parseInt(ranges[1], 10);
         }
-        else if (ranges[0] == '*') {
+        else if (ranges[0] === '*') {
             lower = 1;
             upper = total;
         }
         else {
-            lower = parseFloat(ranges[0]);
+            lower = parseInt(ranges[0], 10);
             upper = lower;
         }
 
-        if (lower < 1) {
-            throw new RangeError("Lower range beyond 0");
+        if (lower > upper) {
+            throw new RangeError("Lower range greater then upper");
         }
         if (upper > total) {
             throw new RangeError("Upper range beyond " + total);
         }
 
-        i = 0;
+        var i = 0;
         while (lower <= upper) {
             if (i++ % mod === 0) {
                 values.push(lower);

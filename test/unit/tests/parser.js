@@ -52,6 +52,34 @@ describe('Parser', function() {
     });
   });
 
+  context('#getRange', function() {
+    var node, range, parser;
+    it('should interpret modulus', function() {
+      parser = new Parser();
+      node = createNode('<node range="0-10/2" />');
+      range = parser.getRange(node, 'range', 10);
+      expect(range).to.eql([0, 2, 4, 6, 8, 10]);
+      node = createNode('<node range="1-9/3" />');
+      range = parser.getRange(node, 'range', 10);
+      expect(range).to.eql([1, 4, 7]);
+    });
+    it('should honor ranges', function() {
+      node = createNode('<node range="3-13" />');
+      range = parser.getRange(node, 'range', 100);
+      expect(range).to.eql([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
+    });
+    it('should honor wildcard', function() {
+      node = createNode('<node range="*" />');
+      range = parser.getRange(node, 'range', 19);
+      expect(range).to.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]);
+    });
+    it('should parse and merge multiple groups', function() {
+      node = createNode('<node range="1-3,20-24,500-510/2,1013-1019" />');
+      range = parser.getRange(node, 'range');
+      expect(range).to.eql([1,2,3,20,21,22,23,24,500,502,504,506,508,510,1013,1014,1015,1016,1017,1018,1019]);
+    });
+  });
+
   context('#getVector2', function() {
     it('should return null if any attribute missing', function() {
       var parser = new Parser();
@@ -298,11 +326,14 @@ describe('Parser', function() {
     context('Object Parsing', function() {
       var object;
       it('should name object', function() {
-        object = level.world.objects[0];
-        expect(object.name).to.equal('upper-level');
+        object = level.world.getObject('test');
+        expect(object.name).to.equal('test');
       });
       it('should take out face indices properly', function() {
-        expect(object.animators[1].indices).to.eql([256,258,260,262,264,266,268,270,272,274,276,278,280,282,284,286,288,290,292,294,296,298,300,302,304,306,308,310,312,314,316,318,320,322,324,326,328,330,332,334,336,338,340,342,344,346,348,350,352,354,356,358,360,362,364,366,368,370,372,374,376,378,380,382,384,386,388,390,392,394,396,398,400,402,404,406,408,410,412,414,416,418,420,422,424,426,428,430,432,434,436,438,440,442,444,446,448,450,452,454,456,458,460,462,464,466,468,470,472,474,476,478,480,482,484,486,488,490,492,494,496,498,500,502,504,506,508,510]);
+        object = level.world.getObject('json-index-only');
+        expect(object.animators[0].indices).to.eql([0, 1, 2, 3, 4, 100, 112]);
+        object = level.world.getObject('range-index-star');
+        expect(object.animators[0].indices).to.eql([0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]);
       });
     });
     it('should parse checkpoints', function() {
