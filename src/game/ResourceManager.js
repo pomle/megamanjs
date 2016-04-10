@@ -64,7 +64,7 @@ Game.ResourceManager.prototype.get = function(type, id)
     if (this.items[type] && this.items[type][id]) {
         return this.items[type][id];
     }
-    return false;
+    throw new Error('No resource "' + id + '" of type ' + type);
 }
 
 Game.ResourceManager.prototype.loadTexture = function(url)
