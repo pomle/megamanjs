@@ -119,6 +119,5 @@
     "game/object/projectile/SillyShot.js",
 
     "game/object/Decoration.js",
-    "game/object/decoration/Explosion.js",
     "game/object/decoration/TinyExplosion.js"
 ]
