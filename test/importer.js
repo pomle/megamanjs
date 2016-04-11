@@ -1,7 +1,8 @@
-'use strict';
 /**
  * Script for require-ifying src files for use in tests.
  */
+
+'use strict';
 
 const fs = require('fs');
 const vm = require('vm');
