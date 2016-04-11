@@ -45,9 +45,14 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseAttack = function(node, attr) 
 
 Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
 {
-    var source = traitNode.getAttribute('source'),
-        constr = Game.traits[source],
-        name = constr.prototype.NAME;
+    var source = traitNode.getAttribute('source');
+
+    if (!Game.traits[source]) {
+        throw new TypeError('Trait "' + source + '" not defined');
+    }
+
+    var constr = Game.traits[source];
+    var name = constr.prototype.NAME;
 
     if (constr === undefined) {
         throw new Error('Trait "' + source + '" does not exist');
