@@ -7,8 +7,8 @@ Engine.Verlet = function(vec)
 
 Engine.Verlet.prototype.integrate = function(result, add, deltaTime)
 {
-    var i = 0, c, com = this.components;
-    while (c = com[i++]) {
+    var com = this.components;
+    for (var c, i = 0; c = com[i]; ++i) {
         result[c] += (this.vec[c] + add[c]) * 0.5 * deltaTime;
         this.vec[c] = add[c];
     }
