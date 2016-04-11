@@ -3,30 +3,44 @@ Game.Loader.XML.Parser = function(loader)
     this.loader = loader;
 }
 
-Game.Loader.XML.Parser.prototype.getBool = function(node, attr, def)
+Game.Loader.XML.Parser.prototype.DEFAULT_UV = [
+    new THREE.Vector2(),
+    new THREE.Vector2(),
+    new THREE.Vector2(),
+];
+
+Game.Loader.XML.Parser.prototype.createObject = function(name, ext, func) {
+    var fnname = name.replace(/-/g, '');
+    var object = Engine.Util.renameFunction(fnname, func);
+    Engine.Util.extend(object, ext);
+    return object;
+}
+
+Game.Loader.XML.Parser.prototype.getAttr = function(node, name) {
+    var val = node.getAttribute(name);
+    if (val === null || val.length === 0) {
+        return null;
+    } else {
+        return val;
+    }
+}
+
+Game.Loader.XML.Parser.prototype.getBool = function(node, attr)
 {
-    var b = node.attr(attr);
-    if (b === undefined) {
-        return def;
-    }
-    else if (b === 'true') {
-        return true;
-    }
-    return false;
+    return node.getAttribute(attr) === 'true';
 }
 
 Game.Loader.XML.Parser.prototype.getCameraPath = function(pathNode)
 {
     var z = 150;
-    var pathNode = $(pathNode);
     var path = new Engine.Camera.Path();
     /* y1 and y2 is swapped because they are converted to negative values and
        y2 should always be bigger than y1. */
-    var windowNode = pathNode.children('window');
+    var windowNode = pathNode.getElementsByTagName('window')[0];
     path.window[0] = this.getPosition(windowNode, 'x1', 'y1');
     path.window[1] = this.getPosition(windowNode, 'x2', 'y2');
 
-    var constraintNode = pathNode.children('constraint');
+    var constraintNode = pathNode.getElementsByTagName('constraint')[0];
     path.constraint[0] = this.getPosition(constraintNode, 'x1', 'y1', 'z');
     path.constraint[1] = this.getPosition(constraintNode, 'x2', 'y2', 'z');
     path.constraint[0].z = z;
@@ -48,44 +62,43 @@ Game.Loader.XML.Parser.prototype.getColor = function(node, attr)
 
         return new THREE.Vector4(r, g, b, 1);
     }
-    return false;
+    return null;
 }
 
-Game.Loader.XML.Parser.prototype.getFloat = function(node, attr, def)
+Game.Loader.XML.Parser.prototype.getFloat = function(node, attr)
 {
-    var value = node.attr(attr);
-    if (value && isFinite(value)) {
+    var value = node.getAttribute(attr);
+    if (value) {
         return parseFloat(value);
     }
-    return def;
-}
-
-
-Game.Loader.XML.Parser.prototype.getFloatValues = function(node, def)
-{
-    var value = node.attr(attr);
-    if (value && isFinite(value)) {
-        return parseFloat(value);
-    }
-    return def;
+    return null;
 }
 
 Game.Loader.XML.Parser.prototype.getGeometry = function(node)
 {
-    var type = node.attr('type');
+    var type = node.getAttribute('type');
+    var geo;
     if (type === 'plane') {
-        return new THREE.PlaneGeometry(
-            parseFloat(node.attr('w')),
-            parseFloat(node.attr('h')),
-            parseFloat(node.attr('w-segments')) || 1,
-            parseFloat(node.attr('h-segments')) || 1);
+        geo = new THREE.PlaneGeometry(
+            parseFloat(node.getAttribute('w')),
+            parseFloat(node.getAttribute('h')),
+            parseFloat(node.getAttribute('w-segments')) || 1,
+            parseFloat(node.getAttribute('h-segments')) || 1);
+    } else {
+        throw new Error('Could not parse geometry type "' + type + '"');
     }
-    throw new Error('Could not parse geometry type "' + type + '"');
+
+    var uvs = geo.faceVertexUvs[0];
+    for (var i = 0, l = uvs.length; i !== l; ++i) {
+        uvs[i] = this.DEFAULT_UV;
+    }
+
+    return geo;
 }
 
 Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
 {
-    var input = $(node).attr(attr || 'range');
+    var input = node.getAttribute(attr || 'range');
 
     var values = [];
     var groups, group, ranges, range, mod, upper, lower, i;
@@ -131,100 +144,111 @@ Game.Loader.XML.Parser.prototype.getRange = function(node, attr, total)
 
 Game.Loader.XML.Parser.prototype.getRect = function(node, attrX, attrY, attrW, attrH)
 {
-    var node = $(node);
     return {
-        'x': parseFloat(node.attr(attrX || 'x')),
-        'y': parseFloat(node.attr(attrY || 'y')),
-        'w': parseFloat(node.attr(attrW || 'w')),
-        'h': parseFloat(node.attr(attrH || 'h')),
+        'x': this.getFloat(node, attrX || 'x'),
+        'y': this.getFloat(node, attrY || 'y'),
+        'w': this.getFloat(node, attrW || 'w'),
+        'h': this.getFloat(node, attrH || 'h'),
     }
 }
 
 Game.Loader.XML.Parser.prototype.getPosition = function(node, attrX, attrY, attrZ)
 {
-    var node = $(node);
     var vec3 = this.getVector3.apply(this, arguments);
     return vec3;
 }
 
 Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
 {
-    textureNode = $(textureNode);
-    if (!textureNode.is('texture')) {
+    if (textureNode.tagName !== 'texture') {
         throw new Error("Node not <texture>");
     }
 
     var parser = this;
     var loader = parser.loader;
 
-    var textureId = textureNode.attr('id');
-    var textureUrl = loader.resolveURL(textureNode, 'url');
-    if (!textureId) {
-        textureId = textureUrl;
-    }
+    var textureId = textureNode.getAttribute('id');
+    var textureUrl = this.resolveURL(textureNode, 'url');
 
-    var texture = loader.resource.get('texture', textureId);
-    if (!texture) {
-        var textureScale = this.getFloat(textureNode, 'scale', 4);
-        var texture = new THREE.Texture();
-        texture.name = textureId;
-        texture.magFilter = THREE.LinearFilter;
-        texture.minFilter = THREE.LinearMipMapLinearFilter;
+    var textureScale = this.getFloat(textureNode, 'scale') || 4;
+    var texture = new THREE.Texture();
+    texture.name = textureId;
+    texture.magFilter = THREE.LinearFilter;
+    texture.minFilter = THREE.LinearMipMapLinearFilter;
 
-        var effects = [];
-        textureNode.find('> effects > color-replace').each(function() {
-            var crNode = $(this);
-            effects.push(function(canvas) {
-                return Engine.CanvasUtil.colorReplace(canvas,
-                                                      parser.getColor(crNode, 'in'),
-                                                      parser.getColor(crNode, 'out'));
-            });
-        });
-
-        if (textureScale !== 1) {
-            effects.push(function(canvas) {
-                return Engine.CanvasUtil.scale(canvas, textureScale);
-            });
-        }
-
-        var image = new Image();
-        image.onload = function() {
-            var canvas = Engine.CanvasUtil.clone(this);
-            for (var i in effects) {
-                canvas = effects[i](canvas);
+    var effects = [];
+    var effectsNode = textureNode.getElementsByTagName('effects')[0];
+    if (effectsNode) {
+        for (var effectNode, i = 0; effectNode = effectsNode[i++];) {
+            if (effectNode.tagName === 'color-replace') {
+                var colors = [
+                    this.getColor(effectNode, 'in'),
+                    this.getColor(effectNode, 'out'),
+                ];
+                effects.push(function colorReplace(canvas) {
+                    return Engine.CanvasUtil.colorReplace(canvas,
+                      colors[0], colors[1]);
+                });
             }
-            texture.image = canvas;
-            texture.needsUpdate = true;
         }
-        image.src = textureUrl;
-        loader.resource.addTexture(textureId, texture);
     }
+
+    if (textureScale !== 1) {
+        effects.push(function(canvas) {
+            return Engine.CanvasUtil.scale(canvas, textureScale);
+        });
+    }
+
+    var image = new Image();
+    image.onload = function() {
+        var canvas = Engine.CanvasUtil.clone(this);
+        for (var i in effects) {
+            canvas = effects[i](canvas);
+        }
+        texture.image = canvas;
+        texture.needsUpdate = true;
+    }
+    image.src = textureUrl;
 
     return texture;
 }
 
-Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY, def)
+Game.Loader.XML.Parser.prototype.getVector2 = function(node, attrX, attrY)
 {
-    var node = $(node);
-    var x = node.attr(attrX || 'x');
-    var y = node.attr(attrY || 'y');
-    if (x === undefined || y === undefined) {
-        return def;
+    var x = this.getAttr(node, attrX || 'x');
+    var y = this.getAttr(node, attrY || 'y');
+    if (x === null || y === null) {
+        return null;
     }
     return new THREE.Vector2(parseFloat(x),
                              parseFloat(y));
 }
 
-Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ, def)
+Game.Loader.XML.Parser.prototype.getVector3 = function(node, attrX, attrY, attrZ)
 {
-    var node = $(node);
-    var x = node.attr(attrX || 'x');
-    var y = node.attr(attrY || 'y');
-    var z = node.attr(attrZ || 'z');
-    if (x === undefined || y === undefined) {
-        return def;
+    var x = this.getAttr(node, attrX || 'x');
+    var y = this.getAttr(node, attrY || 'y');
+    var z = this.getAttr(node, attrZ || 'z');
+    if (x === null || y === null) {
+        return null;
     }
     return new THREE.Vector3(parseFloat(x),
                              parseFloat(y),
                              parseFloat(z));
+}
+
+Game.Loader.XML.Parser.prototype.resolveURL = function(node, attr)
+{
+    var url = this.getAttr(node, attr || 'url');
+    if (node.ownerDocument.baseURL === undefined) {
+        return url;
+    }
+    if (url.indexOf('http') === 0) {
+        return url;
+    }
+    var baseUrl = node.ownerDocument.baseURL
+                         .split('/')
+                         .slice(0, -1)
+                         .join('/') + '/';
+    return baseUrl + url;
 }

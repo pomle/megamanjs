@@ -33,7 +33,7 @@ Game.prototype.attachToElement = function(element)
 
 Game.prototype.adjustAspectRatio = function()
 {
-    if (this.scene.world) {
+    if (this.scene.world && this.element) {
         var rect = this.element.getBoundingClientRect();
         var cam = this.scene.world.camera.camera;
         cam.aspect = rect.width / rect.height;
