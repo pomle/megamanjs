@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-var env = require('../../importer.js');
+var env = require('../../env.js');
 var THREE = env.THREE;
 var Obj = env.Engine.Object;
 var World = env.Engine.World;

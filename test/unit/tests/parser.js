@@ -2,7 +2,7 @@ var expect = require('expect.js');
 var sinon = require('sinon');
 var fs = require('fs');
 
-var env = require('../../importer.js');
+var env = require('../../env.js');
 var Engine = env.Engine;
 var THREE = env.THREE;
 var DOMParser = require('xmldom').DOMParser;

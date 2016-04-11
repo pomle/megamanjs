@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-var Timeline = require('../../importer.js').Engine.Timeline;
+var Timeline = require('../../env.js').Engine.Timeline;
 
 describe('Timeline', function() {
   it('should hold frame forever if not duration given', function() {
