@@ -7,7 +7,6 @@ Game.traits.Jump = function()
 
     this.duration = .18;
     this.force = new THREE.Vector2(0, 100);
-    this.falloff =  1;
 }
 
 Engine.Util.extend(Game.traits.Jump, Engine.Trait);
@@ -30,14 +29,9 @@ Game.traits.Jump.prototype.__timeshift = function(deltaTime)
 {
     if (this._elapsed === undefined) {
         return;
-    }
-
-    if (this._elapsed >= this.duration) {
+    } else if (this._elapsed >= this.duration) {
         this._end();
-    }
-    else {
-        this._host.physics.force.add(this._bump);
-        this._bump.multiplyScalar(this.falloff);
+    } else {
         this._elapsed += deltaTime;
     }
 }
@@ -60,6 +54,7 @@ Game.traits.Jump.prototype.engage = function()
     host.isSupported = false;
     this._bump.copy(this.force);
     this._bump.x *= host.direction.x;
+    this._host.physics.velocity.add(this._bump);
     this._elapsed = 0;
 
     host.trigger(this.EVENT_JUMP_ENGAGE);
@@ -70,7 +65,6 @@ Game.traits.Jump.prototype.cancel = function()
     if (this._elapsed !== undefined) {
         var progress = (this.duration - this._elapsed) / this.duration;
         this._host.physics.force.y -= this.force.y * progress;
-
         this._host.trigger(this.EVENT_JUMP_CANCEL);
     }
     this._end();
