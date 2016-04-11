@@ -106,19 +106,23 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
             trait.attackAccept = attackAccept;
         };
     } else if (name === 'spawn') {
-        var offsetNode = traitNode.getElementsByTagName('offset')[0];
-        var chance = this.getFloat(traitNode, 'chance') || 1;
-        var event = this.getAttr(traitNode, 'event') || 'death';
-        var object = this.getAttr(traitNode, 'object');
-        var offset = offsetNode && this.getVector2(offsetNode) || undefined;
-        var constr = this.loader.resource.get('object', object);
-        blueprint.setup = function(trait) {
-            trait.chance = chance;
-            trait.event = event;
-            if (offset) {
-                trait.offset.copy(offset);
+        var itemNodes = traitNode.getElementsByTagName('item');
+        var items = [];
+        for (var itemNode, i = 0; itemNode = itemNodes[i]; ++i) {
+            var offsetNode = itemNode.getElementsByTagName('offset')[0];
+            var offset = undefined;
+            if (offsetNode) {
+                offset = this.getVector3(offsetNode) || undefined;
             }
-            trait.pool.push(constr);
+            var event = this.getAttr(itemNode, 'event') || 'death';
+            var object = this.getAttr(itemNode, 'object');
+            var constr = this.loader.resource.get('object', object);
+            items.push([event, constr, offset]);
+        }
+        blueprint.setup = function(trait) {
+            items.forEach(function(arg) {
+                trait.addItem(arg[0], arg[1], arg[2]);
+            });
         };
     } else if (name === 'translate') {
         var velocity = this.getVector2(traitNode);

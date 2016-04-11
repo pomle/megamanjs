@@ -1,46 +1,40 @@
+'use strict';
+
 Game.traits.Spawn = function()
 {
     Engine.Trait.call(this);
+    this._conditions = [];
 
-    this.chance = 1;
-    this.event = undefined;
-    this.offset = new THREE.Vector2();
-    this.pool = [];
-    this.spawn = this.spawn.bind(this);
+    this._bind = this._bind.bind(this);
+    this._unbind = this._unbind.bind(this);
 }
 
-Engine.Util.extend(Game.traits.Spawn, Engine.Trait);
-
-Game.traits.Spawn.prototype.NAME = 'spawn';
-
-Game.traits.Spawn.prototype.__attach = function()
-{
-    Engine.Trait.prototype.__attach.apply(this, arguments);
-    var host = this._host;
-    host.bind(this.event, this.spawn);
-}
-
-Game.traits.Spawn.prototype.__detach = function()
-{
-    var host = this._host;
-    host.unbind(this.event, this.spawn);
-    Engine.Trait.prototype.__detach.apply(this, arguments);
-}
-
-Game.traits.Spawn.prototype.spawn = function()
-{
-    if (this.pool.length !== 0) {
-        var rand = Math.random();
-        if (this.chance < rand) {
-            return;
-        }
-        var host = this._host,
-            index = Math.floor(rand * this.pool.length),
-            object = new this.pool[index]();
-
-        object.position.copy(host.position);
-        object.position.x += this.offset.x;
-        object.position.y += this.offset.y;
-        host.world.addObject(object);
-    }
-}
+Engine.Util.extend(Game.traits.Spawn, Engine.Trait, {
+    NAME: 'spawn',
+    __attach: function() {
+        Engine.Trait.prototype.__attach.apply(this, arguments);
+        this._conditions.forEach(this._bind);
+    },
+    __detach: function() {
+        this._conditions.forEach(this._unbind);
+        Engine.Trait.prototype.__detach.apply(this, arguments);
+    },
+    _bind: function(condition) {
+        this._host.bind(condition.event, condition.callback);
+    },
+    _unbind: function(condition) {
+        this._host.unbind(condition.event, condition.callback);
+    },
+    addItem: function(event, constr, offset) {
+        offset = offset || new THREE.Vector3(0, 0, 0);
+        this._conditions.push({
+            event: event,
+            callback: function() {
+                var object = new constr();
+                object.position.copy(this.position);
+                object.position.add(offset);
+                this.world.addObject(object);
+            },
+        });
+    },
+});

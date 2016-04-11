@@ -4,7 +4,9 @@ var fs = require('fs');
 
 var env = require('../../env.js');
 var Engine = env.Engine;
+var World = env.Engine.World;
 var THREE = env.THREE;
+var Obj = env.Engine.Object;
 var DOMParser = require('xmldom').DOMParser;
 var Parser = env.Game.Loader.XML.Parser;
 var ObjectParser = env.Game.Loader.XML.Parser.ObjectParser;
@@ -369,16 +371,63 @@ describe('Parser', function() {
     });
   });
   describe('for Traits', function() {
+    var parser = new TraitParser({
+        resource: new Game.ResourceManager(),
+    });
     context('when parsing by default scheme', function() {
       it('should prefer parsing floats', function() {
         var node = createNode('<trait source="Fallaway" test1="0" test2="13.12" test3="ab" test4="-124.0"/>');
-        var parser = new TraitParser();
         var Trait = parser.parseTrait(node);
         var trait = new Trait();
         expect(trait.test1).to.equal(0);
         expect(trait.test2).to.equal(13.12);
         expect(trait.test3).to.equal('ab');
         expect(trait.test4).to.equal(-124.0);
+      });
+    });
+    describe('Spawn', function() {
+      var spawn;
+      var hostMock;
+      beforeEach(function() {
+        hostMock = {
+          position: {x: 3, y: 5, z: 0},
+          world: {
+            addObject: sinon.spy(),
+          },
+        };
+      });
+
+      it('should discover a single item', function() {
+        parser.loader.resource.addObject('Explosion', Obj);
+        var node = createNode('<trait source="Spawn"><item event="recycle" object="Explosion"/></trait>');
+        var Spawn = parser.parseTrait(node);
+        spawn = new Spawn();
+        expect(spawn._conditions).to.have.length(1);
+      });
+      it('should discover multiple items', function() {
+        var node = createNode('<trait source="Spawn">' +
+          '<item event="recycle" object="Explosion"/>' +
+          '<item event="blast" object="Explosion">' +
+            '<offset x="13" y="11" z="5"/>' +
+          '</item>' +
+        '</trait>');
+        var Spawn = parser.parseTrait(node);
+        spawn = new Spawn();
+        expect(spawn._conditions).to.have.length(2);
+      });
+      it('should provide a default offset', function() {
+        spawn._conditions[0].callback.call(hostMock);
+        expect(hostMock.world.addObject.callCount).to.be(1);
+        var spawned = hostMock.world.addObject.lastCall.args[0];
+        expect(spawned).to.be.a(Obj);
+        expect(spawned.position).to.eql({x: 3, y: 5, z: 0});
+      });
+      it('should honor parsed offset', function() {
+        spawn._conditions[1].callback.call(hostMock);
+        expect(hostMock.world.addObject.callCount).to.be(1);
+        var spawned = hostMock.world.addObject.lastCall.args[0];
+        expect(spawned).to.be.a(Obj);
+        expect(spawned.position).to.eql({x: 3 + 13, y: 5 + 11, z: 0 + 5});
       });
     });
   });

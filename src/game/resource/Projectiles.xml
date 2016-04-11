@@ -46,7 +46,9 @@
             <rect x="0" y="-1" w="8" h="8" />
         </collision>
         <traits>
-            <trait source="Spawn" event="recycle" object="Explosion"/>
+            <trait source="Spawn">
+                 <item event="recycle" object="Explosion"/>
+            </trait>
         </traits>
     </object>
     <object type="projectile" source="MetalBlade" id="MetalBlade">
