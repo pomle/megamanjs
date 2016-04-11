@@ -17,6 +17,18 @@ Game.traits.Health.prototype.EVENT_HEALED = 'healed';
 Game.traits.Health.prototype.EVENT_HURT = 'hurt';
 Game.traits.Health.prototype.EVENT_HEALTH_CHANGED = 'health-changed';
 
+Game.traits.Health.prototype.__collides = function(withObject)
+{
+    if (withObject.pickupable && !this.full) {
+        var props = withObject.pickupable.properties;
+        if (props.type === 'energy-tank') {
+            withObject.world.removeObject(withObject);
+            this.amount += props.capacity;
+            this._host.trigger(this.EVENT_HEALED);
+        }
+    }
+}
+
 Game.traits.Health.prototype.__timeshift = function healthUpdate()
 {
     if (this._lastValue !== this._value) {

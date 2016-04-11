@@ -25,17 +25,13 @@ Game.traits.Physics.prototype.UNIT_SCALE = 182;
 
 Game.traits.Physics.prototype.__obstruct = function(object, attack)
 {
-    switch (attack) {
-        case object.SURFACE_TOP:
-            this.velocity.copy(object.velocity);
-            break;
-        case object.SURFACE_BOTTOM:
-            this.velocity.y = object.velocity.y;
-            break;
-        case object.SURFACE_LEFT:
-        case object.SURFACE_RIGHT:
-            this._host.velocity.x = object.velocity.x;
-            break;
+    if (attack === object.SURFACE_TOP) {
+        this.velocity.copy(object.velocity);
+    } else if (attack === object.SURFACE_BOTTOM) {
+        this.velocity.y = object.velocity.y;
+    } else if (attack === object.SURFACE_LEFT ||
+               attack === object.SURFACE_RIGHT) {
+        this._host.velocity.x = object.velocity.x;
     }
 }
 

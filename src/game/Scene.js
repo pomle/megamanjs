@@ -9,7 +9,6 @@ Game.Scene = function(game, world)
     this.events = new Engine.Events();
     this.game = game;
     this.input = new Engine.Keyboard();
-    this.camera = world.camera;
     this.world = world;
 }
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+    <textures>
+        <texture id="powerup" url="powerup.png" w="64" h="64" />
+    </textures>
+
+    <animations texture="powerup">
+        <animation id="extra-life" w="16" h="16">
+            <frame x="32" y="0"/>
+        </animation>
+
+        <animation id="energy-capsule" w="16" h="16">
+            <frame x="0" y="32" duration=".1"/>
+            <frame x="16" y="32" duration=".1"/>
+        </animation>
+
+        <animation id="energy-tank" w="16" h="16">
+            <frame x="0" y="0" duration=".1"/>
+            <frame x="16" y="0" duration=".1"/>
+        </animation>
+
+        <animation id="weapon-tank" w="16" h="16">
+            <frame x="0" y="20" duration=".1"/>
+            <frame x="16" y="20" duration=".1"/>
+        </animation>
+    </animations>
+
+    <object type="object" id="ExtraLife">
+        <geometry type="plane" w="16" h="16">
+            <face animation="extra-life"/>
+        </geometry>
+        <collision>
+            <circ r="8"/>
+        </collision>
+        <traits>
+            <trait source="Pickupable" event="pickup">
+                <property type="extra-life"/>
+            </trait>
+        </traits>
+    </object>
+
+    <object type="object" id="EnergyCapsule">
+        <geometry type="plane" w="16" h="16">
+            <face animation="energy-capsule"/>
+        </geometry>
+        <collision>
+            <rect w="16" h="16"/>
+        </collision>
+        <traits>
+            <trait source="Pickupable" event="pickup">
+                <property type="energy-capsule"/>
+            </trait>
+        </traits>
+    </object>
+
+    <object type="object" id="EnergyTank">
+        <geometry type="plane" w="16" h="16">
+            <face animation="energy-tank"/>
+        </geometry>
+        <collision>
+            <circ r="8"/>
+        </collision>
+        <traits>
+            <trait source="Pickupable">
+                <property type="energy-tank"/>
+                <property capacity="30"/>
+            </trait>
+        </traits>
+    </object>
+
+    <object type="object" id="WeaponTank">
+        <geometry type="plane" w="16" h="16">
+            <face animation="energy-capsule"/>
+        </geometry>
+        <collision>
+            <rect w="16" h="12"/>
+        </collision>
+        <traits>
+            <trait source="Pickupable">
+                <property type="weapon-tank"/>
+                <property capacity="30"/>
+            </trait>
+        </traits>
+    </object>
+</objects>

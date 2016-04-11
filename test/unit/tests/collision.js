@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-var env = require('../../importer.js');
+var env = require('../../env.js');
 
 var Collision = env.Engine.Collision;
 var Obj = env.Engine.Object;
@@ -220,7 +220,7 @@ describe('Collision', function() {
   describe('BoundingBox', function() {
     var host = new Obj();
     host.addCollisionRect(5, 7);
-    var box = new Collision.BoundingBox(host.model, host.collision[0]);
+    var box = new Collision.BoundingBox(host, host.collision[0]);
     it('should have x and y', function() {
       expect(box.x).to.equal(0);
       expect(box.y).to.equal(0);

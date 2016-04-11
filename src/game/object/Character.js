@@ -7,7 +7,6 @@ Game.objects.Character = function()
     this.anim = undefined;
     this.dead = false;
     this.direction.x = this.DIRECTION_RIGHT;
-    this.applyTrait(new Game.traits.Health(100));
     this.isSupported = false;
 }
 
@@ -16,11 +15,6 @@ Engine.Util.extend(Game.objects.Character, Engine.Object);
 Game.objects.Character.prototype.EVENT_DAMAGE = 'damage';
 Game.objects.Character.prototype.EVENT_DEATH = 'death';
 Game.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
-
-Game.objects.Character.prototype.getDeathObject = function()
-{
-    return new Game.objects.decorations.TinyExplosion();
-}
 
 Game.objects.Character.prototype.impactProjectile = function(projectile)
 {
@@ -42,11 +36,8 @@ Game.objects.Character.prototype.kill = function()
         this.weapon.__timeshift(0);
     }
 
-    var explosion = this.getDeathObject();
-    explosion.position.copy(this.position);
-    this.world.addObject(explosion);
-    this.world.removeObject(this);
     this.trigger(this.EVENT_DEATH);
+    this.world.removeObject(this);
 }
 
 Game.objects.Character.prototype.resurrect = function()
@@ -73,11 +64,7 @@ Game.objects.Character.prototype.timeShift = function(dt)
         this.direction.y = this.aim.y > 0 ? 1 : -1;
     }
 
-    var anim = this.routeAnimation();
-    if (anim !== this.anim) {
-        this.animators[0].setAnimation(this.animations[anim]);
-        this.anim = anim;
-    }
+    this.setAnimation(this.routeAnimation());
 
     this.isSupported = false;
     Engine.Object.prototype.timeShift.call(this, dt);

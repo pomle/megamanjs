@@ -60,6 +60,15 @@
         <objects src="./characters/Telly.xml" />
     </characters>
 
+    <items>
+        <objects src="./Decorations.xml" />
+        <objects src="./Powerup.xml" />
+    </items>
+
+    <projectiles>
+        <objects src="./Projectiles.xml" />
+    </projectiles>
+
     <player>
         <character id="Megaman" />
         <invincibility duration="2"/>
@@ -90,11 +99,20 @@
     </bosses>
 
     <weapons>
-        <weapon source="AirShooter"  id="AirShooter"  code="a" name="Air Shooter"/>
-        <weapon source="Plasma"      id="Plasma"      code="p" name="Plasma"/>
-        <weapon source="CrashBomber" id="CrashBomber" code="c" name="Crash Bomber"/>
-        <weapon source="MetalBlade"  id="MetalBlade"  code="m" name="Metal Blade"/>
-        <weapon source="TimeStopper" id="TimeStopper" code="f" name="Time Stopper"/>
+        <weapon source="AirShooter" id="AirShooter" name="Air Shooter" code="a" ammo="16">
+            <projectile id="AirShot" amount="3"/>
+        </weapon>
+        <weapon source="Plasma" id="Plasma" name="Plasma" code="p" >
+            <projectile id="Plasma" amount="3"/>
+            <directions x1="-1" y1="-1" x2="1" y2="1"/>
+        </weapon>
+        <weapon source="CrashBomber" id="CrashBomber" name="Crash Bomber" code="c" ammo="8" cool-down="1">
+            <projectile id="CrashBomb" amount="1"/>
+        </weapon>
+        <weapon source="MetalBlade" id="MetalBlade" code="m" name="Metal Blade" ammo="84">
+            <projectile id="MetalBlade" amount="3"/>
+        </weapon>
+        <weapon source="TimeStopper" id="TimeStopper" code="f" name="Time Stopper" ammo="30" />
         <!--
            sourceid="Atomic weapon id="Atomic Fire" object="AtomicFire" code="h"/>
            sourceid="Bubble weapon id="Bubble Lead" object="BubbleLead" code="b"/>

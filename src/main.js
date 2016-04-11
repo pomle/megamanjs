@@ -1,8 +1,12 @@
-$(function() {
-    Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml').then(function(loader) {
-        console.log('Loading game done', loader);
-        var game = loader.game;
+(function() {
+    var megaman2 = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml');
+    window.megaman2 = megaman2;
+
+    megaman2.promise.then(function() {
+        var game = megaman2.game;
+        var loader = megaman2.loader;
         game.attachToElement(document.getElementById('screen'));
+        loader.startScene(loader.entrypoint);
 
         window.addEventListener('focus', function() {
             if (!game.engine.isRunning) {
@@ -14,12 +18,44 @@ $(function() {
                 game.engine.pause();
             }
         });
+        document.addEventListener('click', function(e) {
+            var el = e.target;
+            if (el.matches('.weapons button')) {
+                game.player.equipWeapon(el.getAttribute('weapon'));
+            } else if (el.matches('.spawn button')) {
+                game.scene.spawnCharacter(el.getAttribute('spawn'));
+            }
+        });
 
-        window.loader = loader;
-        window.game = game;
+        gameElement = document.getElementById('game');
+
+        function onFullscreenChange() {
+            if(document.mozFullScreen || document.webkitIsFullScreen) {
+                gameElement.classList.add('fullscreen');
+            } else {
+                gameElement.classList.remove('fullscreen');
+            }
+
+            megaman2.game.adjustAspectRatio();
+        }
+
+        window.addEventListener('resize', onFullscreenChange);
+        document.addEventListener('mozfullscreenchange', onFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('button.fullscreen')) {
+                gameElement.webkitRequestFullScreen();
+            }
+        });
     });
 
-    var isTouchDevice = false;
+    /*$('#nes-controller a')
+        var isTouchDevice = false;
+        .on('touchstart', keyBoardEvent)
+        .on('touchend', keyBoardEvent)
+        .on('mousedown', keyBoardEvent)
+        .on('mouseup', keyBoardEvent);
 
     var keyBoardEvent = function(event) {
         event.stopPropagation();
@@ -38,38 +74,5 @@ $(function() {
 
         var key = this.getAttribute('data-key');
         game.scene.input.trigger(key, map[event.type]);
-    }
-
-    $('#nes-controller a')
-        .on('touchstart', keyBoardEvent)
-        .on('touchend', keyBoardEvent)
-        .on('mousedown', keyBoardEvent)
-        .on('mouseup', keyBoardEvent);
-
-    var gameElement = document.getElementById('game');
-    function on_fullscreen_change() {
-        if(document.mozFullScreen || document.webkitIsFullScreen) {
-            $(gameElement).addClass('fullscreen');
-        }
-        else {
-            $(gameElement).removeClass('fullscreen');
-        }
-
-        game.adjustAspectRatio();
-        //game.adjustResolution();
-    }
-
-    window.addEventListener('resize', on_fullscreen_change);
-    document.addEventListener('mozfullscreenchange', on_fullscreen_change);
-    document.addEventListener('webkitfullscreenchange', on_fullscreen_change);
-
-    $('button.fullscreen').on('click', function() {
-        gameElement.webkitRequestFullScreen();
-    });
-    $('.weapons button').on('click', function() {
-        game.player.equipWeapon($(this).attr('weapon'));
-    });
-    $('.spawn button').on('click', function() {
-        game.scene.spawnCharacter($(this).attr('spawn'));
-    });
-});
+    }*/
+})();

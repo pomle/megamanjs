@@ -5,22 +5,25 @@ Engine.Object = function()
     this.uuid = THREE.Math.generateUUID();
     this.name = undefined;
 
+    this.anim = undefined;
     this.animators = [];
     this.collidable = true;
     this.collision = [];
     this.deltaTime = undefined;
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
-    this.integrator = new Engine.Verlet(['x', 'y']);
+    this.integrator = new Engine.Verlet(new THREE.Vector2());
     this.origo = new THREE.Vector2();
-    this.position = undefined;
+    this.position = new THREE.Vector3();
     this.time = 0;
     this.timeStretch = 1;
     this.traits = [];
     this.velocity = new THREE.Vector2();
     this.world = undefined;
 
-    this.setModel(new THREE.Mesh(this.geometry, this.material));
+    if (this.geometry && this.material) {
+        this.setModel(new THREE.Mesh(this.geometry, this.material));
+    }
 }
 
 Engine.Util.mixin(Engine.Object, Engine.Events);
@@ -40,8 +43,8 @@ Engine.Object.prototype.SURFACE_BOTTOM = 1;
 Engine.Object.prototype.SURFACE_LEFT = 2;
 Engine.Object.prototype.SURFACE_RIGHT = 3;
 
-Engine.Object.prototype.geometry = new THREE.PlaneBufferGeometry(10, 10);
-Engine.Object.prototype.material = new THREE.MeshBasicMaterial({color: 'blue', wireframe: true, transparent: true, opacity: 0});
+Engine.Object.prototype.geometry = undefined;
+Engine.Object.prototype.material = undefined;
 Engine.Object.prototype.textures = {};
 
 Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
@@ -77,7 +80,7 @@ Engine.Object.prototype.applyTrait = function(trait)
         throw new Error('Invalid trait');
     }
     if (this[trait.NAME] !== undefined) {
-        throw new Error('Trait name occupied', trait.NAME);
+        throw new Error('Trait name "' + trait.NAME + '" occupied');
     }
     trait.__attach(this);
     this.traits.push(trait);
@@ -124,6 +127,14 @@ Engine.Object.prototype.obstruct = function(object, attack)
     this.trigger(this.EVENT_OBSTRUCT, [object, attack]);
 }
 
+Engine.Object.prototype.setAnimation = function(name)
+{
+    if (name !== this.anim) {
+        this.animators[0].setAnimation(this.animations[name]);
+        this.anim = name;
+    }
+}
+
 Engine.Object.prototype.setEmitter = function(object)
 {
     if (object instanceof Engine.Object !== true) {
@@ -150,7 +161,7 @@ Engine.Object.prototype.timeShift = function(deltaTime)
 {
     this.deltaTime = deltaTime;
 
-    if (this.direction.x !== 0) {
+    if (this.model !== undefined && this.direction.x !== 0) {
         this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
     }
 

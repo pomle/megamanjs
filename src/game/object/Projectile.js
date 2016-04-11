@@ -3,10 +3,8 @@ Game.objects.Projectile = function()
     Engine.Object.call(this);
 
     this.damage = 0;
-    this.distanceCovered = 0;
-    this.events = new Engine.Events();
     this.lifetime = Infinity;
-    this.origin = undefined;
+    this.origin = new THREE.Vector2();
     this.penetratingForce = false;
     this.setRange(300);
     this.setSpeed(100);
@@ -61,7 +59,8 @@ Game.objects.Projectile.prototype.rangeReached = function()
 
 Game.objects.Projectile.prototype.recycle = function()
 {
-    this.events.trigger(this.EVENT_RECYCLE, [this]);
+    this.time = 0;
+    this.trigger(this.EVENT_RECYCLE, [this]);
 }
 
 Game.objects.Projectile.prototype.setDamage = function(points)
@@ -89,7 +88,7 @@ Game.objects.Projectile.prototype.setEmitter = function(emitter, direction)
 Game.objects.Projectile.prototype.setOrigin = function(vec)
 {
     this.moveTo(vec);
-    this.origin = vec;
+    this.origin.copy(vec);
 }
 
 Game.objects.Projectile.prototype.setRange = function(distance)

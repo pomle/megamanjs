@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-var env = require('../../importer.js');
+var env = require('../../env.js');
 
 var extend = env.Engine.Util.extend;
 var Host = env.Engine.Object;
@@ -29,7 +29,7 @@ describe('Object', function() {
         host.applyTrait(trait);
       }).to.throwError(function(error) {
         expect(error).to.be.an(Error);
-        expect(error.message).to.equal('Trait name occupied');
+        expect(error.message).to.equal('Trait name "mockTrait" occupied');
       });
     });
   });

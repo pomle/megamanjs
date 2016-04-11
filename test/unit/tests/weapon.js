@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-var env = require('../../importer.js');
+var env = require('../../env.js');
 var Weapon = env.Game.objects.Weapon;
 var WeaponTrait = env.Game.traits.Weapon;
 var Projectile = env.Game.objects.Projectile;

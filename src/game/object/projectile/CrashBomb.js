@@ -2,47 +2,32 @@ Game.objects.projectiles.CrashBomb = function()
 {
     Game.objects.Projectile.call(this);
 
-    var model = Engine.SpriteManager.createSprite('projectiles.png', 20, 16);
-    this.sprites = new Engine.SpriteManager(model, 20, 16 , 128, 128);
-
-    var flying = this.sprites.addSprite('flying');
-    flying.addFrame(2, 20);
-
-    var gripping = this.sprites.addSprite('gripping');
-    gripping.addFrame(2, 36, .12);
-    gripping.addFrame(2, 52);
-
-    var ticking = this.sprites.addSprite('ticking');
-    ticking.addFrame(2, 68, .12);
-    ticking.addFrame(2, 52, .12);
-
-    this.attachOffset = undefined;
+    this.attachOffset = new THREE.Vector3();
     this.attachPosition = undefined;
-    this.attachTime = false;
+    this.attachTime = -1;
+    this._lifetimeLast = undefined;
 
-    this.setModel(model);
-    this.addCollisionRect(8, 8, 0, -1);
     this.setDamage(20);
     this.setSpeed(240);
     this.penetratingForce = true;
     this.setRange(200);
 
-    this.explosion = new Game.objects.decorations.Explosion();
+    //this.explosion = new Game.objects.decorations.Explosion();
 }
 
-Game.objects.projectiles.CrashBomb.prototype = Object.create(Game.objects.Projectile.prototype);
-Game.objects.projectiles.CrashBomb.constructor = Game.objects.Projectile;
+Engine.Util.extend(Game.objects.projectiles.CrashBomb,
+                   Game.objects.Projectile);
 
 Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    if (this.attachTime !== false) {
+    if (this.attachTime !== -1) {
         return false;
     }
 
     if (withObject.solid) {
         var solid = withObject.solid;
-        var our = new Engine.Collision.BoundingBox(this.model, ourZone);
-        var their = new Engine.Collision.BoundingBox(withObject.model, theirZone);
+        var our = new Engine.Collision.BoundingBox(this, ourZone);
+        var their = new Engine.Collision.BoundingBox(withObject, theirZone);
         var dir = solid.attackDirection(our, their);
 
         /* If we are pushing Crash Bomb from the top or below, just nudge. */
@@ -62,12 +47,12 @@ Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, our
 
             this.velocity.multiplyScalar(0);
             this.attachPosition = withObject.position;
-            this.attachOffset = this.position.clone().sub(this.attachPosition);
+            this.attachOffset.copy(this.position).sub(this.attachPosition);
             this.attachTime = 0;
 
             /* Prefer attach timer to lifetime timer. */
+            this.collidable = false;
             this.lifetime = Infinity;
-            this.dropCollision();
         }
     }
 
@@ -76,10 +61,19 @@ Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, our
 
 Game.objects.projectiles.CrashBomb.prototype.explode = function()
 {
-    this.explosion.position.copy(this.position);
+    /*this.explosion.position.copy(this.position);
     this.explosion.setEmitter(this.emitter);
-    this.world.addObject(this.explosion);
-    this.world.removeObject(this);
+    this.world.addObject(this.explosion);*/
+    this.recycle();
+}
+
+Game.objects.projectiles.CrashBomb.prototype.recycle = function()
+{
+    Game.objects.Projectile.prototype.recycle.call(this);
+    this.attachTime = -1;
+    this.attachPosition = undefined;
+    this.collidable = true;
+    this.lifetime = this.getLifetime();
 }
 
 Game.objects.projectiles.CrashBomb.prototype.rangeReached = function()
@@ -90,29 +84,25 @@ Game.objects.projectiles.CrashBomb.prototype.rangeReached = function()
 Game.objects.projectiles.CrashBomb.prototype.timeShift = function(dt)
 {
     if (this.velocity.x) {
-        this.sprites.setDirection(this.velocity.x > 0 ? 1 : -1);
+        this.direction.x = this.velocity.x > 0 ? 1 : -1;
     }
 
-    if (this.attachTime === false) {
-        this.sprites.selectSprite('flying');
+    if (this.attachTime === -1) {
+        this.setAnimation('flying');
     } else {
+        this.attachTime += dt;
         if (this.attachTime > 2) {
             this.explode();
+        } else if (this.attachTime > .25) {
+            this.setAnimation('ticking');
+        } else {
+            this.setAnimation('gripping');
         }
-        else if (this.attachTime > .25) {
-            this.sprites.selectSprite('ticking');
-        }
-        else {
-            this.sprites.selectSprite('gripping');
-        }
-        this.attachTime += dt;
     }
-
-    this.sprites.timeShift(dt);
 
     Game.objects.Projectile.prototype.timeShift.call(this, dt);
 
-    if (this.attachPosition !== undefined) {
+    if (this.attachTime !== -1) {
         this.position.copy(this.attachPosition);
         this.position.add(this.attachOffset);
     }

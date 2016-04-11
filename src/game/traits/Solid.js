@@ -32,8 +32,8 @@ Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
 
     var host = this._host;
 
-    var our = new Engine.Collision.BoundingBox(host.model, ourZone);
-    var their = new Engine.Collision.BoundingBox(subject.model, theirZone);
+    var our = new Engine.Collision.BoundingBox(host, ourZone);
+    var their = new Engine.Collision.BoundingBox(subject, theirZone);
 
     var attack = this.attackDirection(our, their);
 

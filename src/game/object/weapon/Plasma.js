@@ -1,11 +1,6 @@
 Game.objects.weapons.Plasma = function()
 {
     Game.objects.Weapon.call(this);
-    this.ammo.infinite = true;
-
-    for (var i = 0; i < 3; ++i) {
-        this.addProjectile(new Game.objects.projectiles.Plasma());
-    }
 }
 
 Game.objects.weapons.Plasma.prototype = Object.create(Game.objects.Weapon.prototype);

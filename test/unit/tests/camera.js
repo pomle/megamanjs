@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-var env = require('../../importer.js');
+var env = require('../../env.js');
 
 var Camera = env.Engine.Camera;
 var THREE = env.THREE;
@@ -16,6 +16,9 @@ describe('Camera', function() {
   });
 
   context('when instantiating', function() {
+    it('should reference real camera position', function() {
+      expect(camera.position).to.be(camera.camera.position);
+    });
     it('should have real camera as property', function() {
       expect(camera.camera).to.be(realCamera);
     });
@@ -28,7 +31,6 @@ describe('Camera', function() {
     });
   });
   describe('#addPath()', function() {
-    var camera = new Camera();
     it('should add a path to path array', function() {
       var path = new Camera.Path();
       camera.addPath(path);
@@ -74,7 +76,7 @@ describe('Camera', function() {
     });
   });
   describe('#findPath()', function() {
-    var camera = new Camera();
+    var camera = new Camera(new THREE.Camera());
     var path = [
       new Camera.Path(),
       new Camera.Path(),

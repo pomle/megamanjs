@@ -1,0 +1,18 @@
+<animations w="48" h="48" texture="foo">
+    <animation id="idle">
+        <frame x="0" y="0" duration="3.85" />
+        <frame x="48" y="0" duration=".15" />
+    </animation>
+    <animation id="lean">
+        <frame x="144" y="48" />
+    </animation>
+    <animation id="jump">
+        <frame x="144" y="0" />
+    </animation>
+    <animation id="fire">
+        <frame x="96" y="0" />
+    </animation>
+    <animation id="jump-fire">
+        <frame x="192" y="0" />
+    </animation>
+</animations>

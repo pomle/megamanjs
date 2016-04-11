@@ -6,256 +6,173 @@ Game.Loader.XML.Parser.TraitParser = function(loader)
 Engine.Util.extend(Game.Loader.XML.Parser.TraitParser,
                    Game.Loader.XML.Parser);
 
-Game.Loader.XML.Parser.TraitParser.prototype.applyTrait = function(object, traitDescriptor)
-{
-    if (typeof traitDescriptor === 'function') {
-        var trait = traitDescriptor();
-        object.applyTrait(trait);
-    }
-    else {
-        var trait = object.getTrait(traitDescriptor.ref);
-        if (!trait) {
-            trait = new traitDescriptor.ref();
-            object.applyTrait(trait);
-        }
+Game.Loader.XML.Parser.TraitParser.prototype.createConstructor = function(blueprint) {
+    var constructor = this.createObject(blueprint.name || blueprint.source, blueprint.constr, function blueprintConstructor() {
+        blueprint.constr.call(this);
+        blueprint.setup(this);
+    });
 
-        for (var p in traitDescriptor.prop) {
-            var prop = traitDescriptor.prop[p];
-            if (prop !== undefined) {
-                trait[p] = prop;
+    if (blueprint.name) {
+        constructor.prototype.NAME = blueprint.name;
+    }
+
+    return constructor;
+};
+
+Game.Loader.XML.Parser.TraitParser.prototype.parseAttack = function(node, attr) {
+    var attack = node.getAttribute(attr);
+    if (attack) {
+        var surfaces = [];
+        var S = Game.traits.Solid.prototype;
+        var map = {
+            'top': S.TOP,
+            'bottom': S.BOTTOM,
+            'left': S.LEFT,
+            'right': S.RIGHT,
+        }
+        attacks = attack.split(' ');
+        for (var i = 0, l = attacks.length; i !== l; ++i) {
+            var a = attacks[i];
+            if (map[a] === undefined) {
+                throw new Error('Invalid attack direction "' + a + '"');
             }
+            surfaces.push(map[a]);
         }
+        return surfaces;
     }
-    return trait;
-}
+    return undefined;
+};
 
-Game.Loader.XML.Parser.TraitParser.prototype.getTrait = function(traitNode)
+Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
 {
-    var source = traitNode.attr('source'),
-        name = traitNode.attr('name'),
-        parser = this,
-        ref = Game.traits[source];
+    var source = traitNode.getAttribute('source');
 
-    var loader = this.loader;
+    if (!Game.traits[source]) {
+        throw new TypeError('Trait "' + source + '" not defined');
+    }
 
-    if (ref === undefined) {
+    var constr = Game.traits[source];
+    var name = constr.prototype.NAME;
+
+    if (constr === undefined) {
         throw new Error('Trait "' + source + '" does not exist');
     }
 
-    switch (name || ref.prototype.NAME) {
-        case 'contactDamage':
-            return {
-                'ref': ref,
-                'prop': {
-                    'points': this.getFloat(traitNode, 'points'),
+    var blueprint = {
+        constr: constr,
+        source: source,
+        name: name,
+        setup: function() {
+            console.warn('Trait has no setup defined', this);
+        },
+    };
+
+    if (name === 'door') {
+        var direction = this.getVector2(traitNode.getElementsByTagName('direction')[0]);
+        var oneWay = this.getBool(traitNode, 'one-way');
+        blueprint.setup = function(trait) {
+            trait.direction = direction;
+            trait.oneWay = oneWay;
+        };
+    } else if (name === 'elevator') {
+        var nodes = [];
+        var speed = 0;
+        var pathNode = traitNode.getElementsByTagName('path')[0];
+        if (pathNode) {
+            var speed = this.getFloat(pathNode, 'speed');
+            var nodeNodes = pathNode.getElementsByTagName('node');
+            if (nodeNodes) {
+                for (var nodeNode, i = 0; nodeNode = nodeNodes[i++];) {
+                    var node = this.getVector2(nodeNode);
+                    nodes.push(node);
                 }
             }
-            break;
-
-        case 'deathSpawn':
-            return {
-                'ref': ref,
-                'prop': {
-                    'chance': this.getFloat(traitNode, 'chance'),
-                    'pool': (function() {
-                        var objects = [];
-                        traitNode.find('> objects > *').each(function() {
-                            var type = this.tagName,
-                                name = this.attributes.id.value;
-                            var object = loader.resource.get(type, name);
-                            if (!object) {
-                                throw new Error("No resource type " + type + " named " + name);
-                            }
-                            objects.push(object);
-                        });
-                        return objects;
-                    })(),
-                }
-            }
-            break;
-
-        case 'disappearing':
-            return {
-                'ref': ref,
-                'prop': {
-                    'onDuration': this.getFloat(traitNode, 'on'),
-                    'offDuration': this.getFloat(traitNode, 'off'),
-                    'offset': this.getFloat(traitNode, 'offset'),
-                }
-            }
-            break;
-
-        case 'door':
-            return {
-                'ref': ref,
-                'prop': {
-                    'direction': this.getVector2(traitNode.find('> direction')),
-                    'oneWay': this.getBool(traitNode, 'one-way'),
-                }
-            }
-            break;
-
-        case 'elevator':
-            var nodes = [];
-            traitNode.find('> path > node').each(function() {
-                var node = parser.getVector2($(this));
-                nodes.push(node);
-            });
-            var speed = parser.getFloat(traitNode.find('> path'), 'speed');
-            return function() {
-                var trait = new ref();
-                trait.speed = speed;
-                nodes.forEach(function(node) {
-                    trait.addNode(node);
-                });
-                return trait;
-            };
-            break;
-
-        case 'fallaway':
-            return {
-                'ref': ref,
-                'prop': {
-                    'delay': this.getFloat(traitNode, 'delay'),
-                }
-            }
-            break;
-
-        case 'jump':
-            return {
-                'ref': ref,
-                'prop': {
-                    'duration': this.getFloat(traitNode, 'duration'),
-                    'falloff': this.getFloat(traitNode, 'falloff'),
-                    'force': new THREE.Vector2(this.getFloat(traitNode, 'forward'),
-                                               this.getFloat(traitNode, 'force')),
-                }
-            }
-            break;
-
-        case 'health':
-            return {
-                'ref': ref,
-                'prop': {
-                    'max': this.getFloat(traitNode, 'max'),
-                }
-            }
-            break;
-
-        case 'invincibility':
-            return {
-                'ref': ref,
-                'prop': {
-                    'duration': this.getFloat(traitNode, 'duration'),
-                }
-            }
-            break;
-
-        case 'translating':
-            return {
-                'ref': ref,
-                'prop': {
-                    'func': traitNode.attr('func'),
-                    'amplitude': this.getVector2(traitNode.find('> amplitude')),
-                    'speed': this.getFloat(traitNode, 'speed'),
-                }
-            }
-            break;
-
-        case 'move':
-            return {
-                'ref': ref,
-                'prop': {
-                    'speed': this.getFloat(traitNode, 'speed'),
-                    'acceleration': this.getFloat(traitNode, 'acceleration'),
-                }
-            }
-            break;
-
-        case 'physics':
-            return {
-                'ref': ref,
-                'prop': {
-                    'area': this.getFloat(traitNode, 'area'),
-                    'dragCoefficient': this.getFloat(traitNode, 'drag'),
-                    'mass': this.getFloat(traitNode, 'mass'),
-                }
-            }
-            break;
-
-        case 'solid':
-            return {
-                'ref': ref,
-                'prop': {
-                    'attackAccept': extractAttack(),
-                }
-            }
-            break;
-
-        case 'stun':
-            return {
-                'ref': ref,
-                'prop': {
-                    'duration': this.getFloat(traitNode, 'duration'),
-                    'force': this.getFloat(traitNode, 'force'),
-                }
-            }
-            break;
-
-        case 'weapon':
-            var emitNode = traitNode.find('> projectile-emit');
-            return {
-                'ref': ref,
-                'prop': {
-                    'projectileEmitOffset': this.getVector2(emitNode),
-                    'projectileEmitRadius': this.getFloat(emitNode, 'r'),
-                },
-                'equip': traitNode.attr('equip'),
-            }
-            break;
-
-        default:
-            var def = {
-                'ref': ref,
-                'prop': {},
-            }
-            $.each(traitNode[0].attributes, function(i, attr) {
-                if (attr.name === 'source') {
-                    return;
-                }
-                var value = parseFloat(attr.value)
-                if (!isFinite(value)) {
-                    value = attr.value;
-                }
-                def.prop[attr.name] = value;
-            });
-            return def;
-            break;
-    }
-
-    function extractAttack()
-    {
-        var attack = traitNode.attr('attack');
-        if (attack) {
-            var surfaces = [];
-            var S = Game.traits.Solid.prototype;
-            var map = {
-                'top': S.TOP,
-                'bottom': S.BOTTOM,
-                'left': S.LEFT,
-                'right': S.RIGHT,
-            }
-            attacks = attack.split(' ');
-            for (var i = 0, l = attacks.length; i < l; ++i) {
-                var a = attacks[i];
-                if (map[a] === undefined) {
-                    throw new Error('Invalid attack direction "' + a + '"');
-                }
-                surfaces.push(map[a]);
-            }
-            return surfaces;
         }
-        return undefined;
+        blueprint.setup = function(trait) {
+            trait.speed = speed;
+            nodes.forEach(function(node) {
+                trait.addNode(node);
+            });
+        };
+    } else if (name === 'jump') {
+        var duration = this.getFloat(traitNode, 'duration');
+        var force = new THREE.Vector2();
+        force.x = this.getFloat(traitNode, 'forward') || 0;
+        force.y = this.getFloat(traitNode, 'force') || 0;
+        blueprint.setup = function(trait) {
+            if (duration) {
+                trait.duration = duration;
+            }
+            trait.force.copy(force);
+        };
+    } else if (name === 'pickupable') {
+        var props = {};
+        var propNodes = traitNode.getElementsByTagName('property');
+        for (var propNode, i = 0; propNode = propNodes[i]; ++i) {
+            var key = propNode.attributes[0].name;
+            var value = propNode.attributes[0].value;
+            props[key] = parseFloat(value) || value;
+        }
+        blueprint.setup = function(trait) {
+            for (var key in props) {
+                trait.properties[key] = props[key];
+            }
+        };
+    } else if (name === 'solid') {
+        var attackAccept = this.parseAttack(traitNode, 'attack');
+        blueprint.setup = function(trait) {
+            trait.attackAccept = attackAccept;
+        };
+    } else if (name === 'spawn') {
+        var itemNodes = traitNode.getElementsByTagName('item');
+        var items = [];
+        for (var itemNode, i = 0; itemNode = itemNodes[i]; ++i) {
+            var offsetNode = itemNode.getElementsByTagName('offset')[0];
+            var offset = undefined;
+            if (offsetNode) {
+                offset = this.getVector3(offsetNode) || undefined;
+            }
+            var event = this.getAttr(itemNode, 'event') || 'death';
+            var object = this.getAttr(itemNode, 'object');
+            var constr = this.loader.resource.get('object', object);
+            items.push([event, constr, offset]);
+        }
+        blueprint.setup = function(trait) {
+            items.forEach(function(arg) {
+                trait.addItem(arg[0], arg[1], arg[2]);
+            });
+        };
+    } else if (name === 'translate') {
+        var velocity = this.getVector2(traitNode);
+        blueprint.setup = function(trait) {
+            trait.velocity.copy(velocity);
+        };
+    } else if (name === 'weapon') {
+        var emitNode = traitNode.getElementsByTagName('projectile-emit')[0];
+        var projectileEmitOffset = emitNode && this.getVector2(emitNode) || new THREE.Vector2(0,0);
+        var projectileEmitRadius = emitNode && this.getFloat(emitNode, 'r') || 0;
+        blueprint.setup = function(trait) {
+            trait.projectileEmitOffset.copy(projectileEmitOffset);
+            trait.projectileEmitRadius = projectileEmitRadius;
+        }
+    } else {
+        var properties = {};
+        for (var attr, parsed, i = 0; attr = traitNode.attributes[i++];) {
+            if (attr.name === 'source' || attr.name === 'name') {
+                continue;
+            }
+            parsed = parseFloat(attr.value);
+            if (isFinite(parsed)) {
+                properties[attr.name] = parsed;
+            } else {
+                properties[attr.name] = attr.value;
+            }
+        }
+        blueprint.setup = function(trait) {
+            for (var key in properties) {
+                trait[key] = properties[key];
+            }
+        };
     }
+    return this.createConstructor(blueprint);
 }
-

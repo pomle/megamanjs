@@ -5,6 +5,7 @@ Game.ResourceManager = function()
     /* These must be defined in order of specificity. */
     this.typeMap = {
         'character': Game.objects.Character,
+        'projectile': Game.objects.Projectile,
         'weapon': Game.objects.Weapon,
         'object': Engine.Object,
         'texture': THREE.Texture,
@@ -48,6 +49,11 @@ Game.ResourceManager.prototype.addCharacter = function(id, object)
     return this._addResource('character', id, object);
 }
 
+Game.ResourceManager.prototype.addObject = function(id, object)
+{
+    return this._addResource('object', id, object);
+}
+
 Game.ResourceManager.prototype.addTexture = function(id, object)
 {
     return this._addResource('texture', id, object);
@@ -63,7 +69,7 @@ Game.ResourceManager.prototype.get = function(type, id)
     if (this.items[type] && this.items[type][id]) {
         return this.items[type][id];
     }
-    return false;
+    throw new Error('No resource "' + id + '" of type ' + type);
 }
 
 Game.ResourceManager.prototype.loadTexture = function(url)

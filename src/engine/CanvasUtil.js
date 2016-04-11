@@ -13,14 +13,14 @@ Engine.CanvasUtil = {
     {
         var context = canvas.getContext("2d");
         var pixels = context.getImageData(0, 0, canvas.width, canvas.height);
-
-        for (var i = 0, l = pixels.data.length; i < l; i += 4) {
-            if (pixels.data[i] == rgbIn.x
-            && pixels.data[i+1] == rgbIn.y
-            && pixels.data[i+2] == rgbIn.z) {
-                pixels.data[i] = rgbOut.x;
-                pixels.data[i+1] = rgbOut.y;
-                pixels.data[i+2] = rgbOut.z;
+        var data = pixels.data;
+        for (var i = 0, l = data.length; i < l; i += 4) {
+            if (data[i] == rgbIn.x
+            && data[i+1] == rgbIn.y
+            && data[i+2] == rgbIn.z) {
+                data[i] = rgbOut.x;
+                data[i+1] = rgbOut.y;
+                data[i+2] = rgbOut.z;
             }
         }
         context.putImageData(pixels, 0, 0);

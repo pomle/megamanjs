@@ -494,27 +494,29 @@
         </object>
     </objects>
     <layout>
-        <background model="waterfall" x="128" y="-120" z="-1"/>
-        <background model="waterfall" x="384" y="-120" z="-1"/>
-        <background model="waterfall" x="640" y="-120" z="-1"/>
-        <background model="waterfall" x="896" y="-120" z="-1"/>
-        <background model="waterfall" x="1152" y="-120" z="-1"/>
-        <background model="waterfall" x="1152" y="-344" z="-1"/>
-        <background model="waterfall" x="1152" y="-568" z="-1"/>
-        <background model="surface" x="1152" y="-696" z="-1"/>
-        <background model="water" x="1152" y="-840" z="-1"/>
-        <background model="waterfall" x="3392" y="-1080" z="-1"/>
-        <background model="waterfall" x="3456" y="-1080" z="-1"/>
-        <background model="waterfall" x="3968" y="-1080" z="-1"/>
-        <background model="waterfall" x="3712" y="-1080" z="-1"/>
-        <background model="water-lower-1" x="2176" y="-1080" z="-1"/>
-        <background model="water-lower-2" x="4288" y="-1080" z="-1"/>
-        <background model="level-1-platforms" x="640" y="-120" z="-.5"/>
-        <background model="vertical-platforms" x="1152" y="-600" z="-.5"/>
-        <background model="level-2-platforms" x="2176" y="-1080" z="-.5"/>
-        <background model="boss-platforms" x="3968" y="-1080" z="-.5"/>
-        <background model="dr-wily-logo" x="4080" y="-992" z="-.5"/>
         <objects>
+            <object id="waterfall" x="128" y="-120" z="-1"/>
+            <object id="waterfall" x="384" y="-120" z="-1"/>
+            <object id="waterfall" x="640" y="-120" z="-1"/>
+            <object id="waterfall" x="896" y="-120" z="-1"/>
+            <object id="waterfall" x="1152" y="-120" z="-1"/>
+            <object id="waterfall" x="1152" y="-344" z="-1"/>
+            <object id="waterfall" x="1152" y="-568" z="-1"/>
+            <object id="surface" x="1152" y="-696" z="-1"/>
+            <object id="water" x="1152" y="-840" z="-1"/>
+            <object id="waterfall" x="3392" y="-1080" z="-1"/>
+            <object id="waterfall" x="3456" y="-1080" z="-1"/>
+            <object id="waterfall" x="3968" y="-1080" z="-1"/>
+            <object id="waterfall" x="3712" y="-1080" z="-1"/>
+            <object id="water-lower-1" x="2176" y="-1080" z="-1"/>
+            <object id="water-lower-2" x="4288" y="-1080" z="-1"/>
+            <object id="level-1-platforms" x="640" y="-120" z="-.5"/>
+            <object id="vertical-platforms" x="1152" y="-600" z="-.5"/>
+            <object id="level-2-platforms" x="2176" y="-1080" z="-.5"/>
+            <object id="boss-platforms" x="3968" y="-1080" z="-.5"/>
+
+            <object id="dr-wily-logo" x="4080" y="-992" z="-.5"/>
+
             <object id="falling-block" x="752" y="-125"/>
             <object id="falling-block" x="800" y="-109"/>
             <object id="falling-block" x="864" y="-94"/>

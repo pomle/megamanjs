@@ -1,0 +1,152 @@
+<objects>
+    <object type="character" source="Megaman" id="Megaman">
+        <geometry type="plane" w="48" h="48" />
+
+        <collision>
+            <rect x="0" y="0" w="14" h="22" />
+        </collision>
+
+        <traits>
+            <trait source="Health" max="28" />
+            <trait source="Jump" force="19740" duration=".18" falloff=".3" />
+            <trait source="Physics" area=".04" drag=".045" mass="105" />
+            <trait source="Move" />
+            <trait source="Climber" speed="100" />
+            <trait source="Headlight"/>
+            <trait source="Invincibility" duration="2" />
+            <trait source="Stun" force="10500" duration=".8" />
+            <trait source="Teleport" />
+            <trait source="Weapon">
+                <projectile-emit x="0" y="1" r="17" />
+            </trait>
+        </traits>
+        <animation-router>
+            <![CDATA[
+            animationRouter = function() {
+                return 'test-value-is-fubar';
+            }
+            ]]>
+        </animation-router>
+    </object>
+
+    <animations w="48" h="48" texture="megaman-p">
+        <animation id="idle">
+            <frame x="0" y="0" duration="3.85" />
+            <frame x="48" y="0" duration=".15" />
+        </animation>
+        <animation id="lean">
+            <frame x="144" y="48" />
+        </animation>
+        <animation id="jump">
+            <frame x="144" y="0" />
+        </animation>
+        <animation id="fire">
+            <frame x="96" y="0" />
+        </animation>
+        <animation id="jump-fire">
+            <frame x="192" y="0" />
+        </animation>
+        <animation id="run" group="run">
+            <frame x="48" y="48" duration=".12" />
+            <frame x="0"  y="48" duration=".12" />
+            <frame x="48" y="48" duration=".12" />
+            <frame x="96" y="48" duration=".12" />
+        </animation>
+        <animation id="run-fire" group="run">
+            <frame x="48" y="96" duration=".12" />
+            <frame x="0"  y="96" duration=".12" />
+            <frame x="48" y="96" duration=".12" />
+            <frame x="96" y="96" duration=".12" />
+        </animation>
+        <animation id="teleport">
+            <frame x="0" y="144" />
+        </animation>
+        <animation id="teleport-in">
+            <frame x="44" y="144" duration=".05" />
+            <frame x="96" y="144" duration=".05" />
+            <frame x="0"  y="144" duration=".05" />
+            <frame x="0"  y="0" />
+        </animation>
+        <animation id="teleport-out">
+            <frame x="144" y="144" duration=".05" />
+            <frame x="96" y="144" duration=".05" />
+            <frame x="0"  y="144" />
+        </animation>
+        <animation id="stunned">
+            <frame x="192" y="48" duration=".08" />
+            <frame x="192" y="96" duration=".08" />
+        </animation>
+        <animation id="hang">
+            <frame x="48" y="192" />
+        </animation>
+        <animation id="bent-over">
+            <frame x="144" y="192" />
+        </animation>
+        <animation id="hang-shoot">
+            <frame x="96" y="192" />
+        </animation>
+        <animation id="climbing">
+            <frame x="48" y="192" duration=".16" />
+            <frame x="0" y="192" duration=".16" />
+        </animation>
+    </animations>
+
+    <textures>
+        <texture id="headlight_lensflare" url="../deco/headlight_lensflare.png" w="256" h="128" scale="1" />
+        <texture id="megaman-p" url="megaman.png" w="256" h="256"/>
+        <texture id="megaman-a" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#0078F8" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-b" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#7C7C7C" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-c" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#F87858" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-f" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#D800CC" />
+                <color-replace in="#00FFFF" out="#F8B8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-h" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#E40058" />
+                <color-replace in="#00FFFF" out="#F8B800" />
+            </effects>
+        </texture>
+        <texture id="megaman-m" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#ACAF00" />
+                <color-replace in="#00FFFF" out="#FFE0A8" />
+            </effects>
+        </texture>
+        <texture id="megaman-q" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#F85898" />
+                <color-replace in="#00FFFF" out="#F8B8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-w" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#00B800" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-m" url="megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#F83800" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+    </textures>
+</objects>

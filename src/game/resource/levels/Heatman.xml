@@ -719,19 +719,20 @@
                 </face>
             </geometry>
         </object>
-        <object id="object_f61e04f1d5e9496f8b813388d610c001">
+        <object id="drwily-sign">
             <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
                 <face animation="dr-wily-sign" index="[0]"/>
             </geometry>
         </object>
     </objects>
     <layout>
-        <background model="upper-level" x="1024" y="-120" z="-0.1"/>
-        <background model="vertical-1" x="1920" y="-360" z="-0.1"/>
-        <background model="lower-level" x="3200" y="-600" z="-0.1"/>
-        <background model="vertical-2" x="4480" y="-840" z="-0.1"/>
-        <background model="boss-level" x="4736" y="-1080" z="-0.1"/>
         <objects>
+            <object id="upper-level" x="1024" y="-120" z="-0.1"/>
+            <object id="vertical-1" x="1920" y="-360" z="-0.1"/>
+            <object id="lower-level" x="3200" y="-600" z="-0.1"/>
+            <object id="vertical-2" x="4480" y="-840" z="-0.1"/>
+            <object id="boss-level" x="4736" y="-1080" z="-0.1"/>
+
             <object id="door" x="4608" y="-1088"/>
             <object id="door" x="4864" y="-1088"/>
             <!-- vertical room 1 -->
@@ -848,7 +849,7 @@
             <object id="ironwall" x="2488" y="-656"/>
             <object id="ironwall" x="2648" y="-624"/>
             <object id="ironwall" x="2792" y="-656"/>
-            <object id="object_f61e04f1d5e9496f8b813388d610c001" x="4592" y="-1024" z="0"/>
+            <object id="drwily-sign" x="4592" y="-1024" z="0"/>
         </objects>
         <spawner x="680" y="-88" interval="4" simultaneous="2">
             <character id="Telly"/>

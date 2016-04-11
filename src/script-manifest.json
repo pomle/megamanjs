@@ -25,7 +25,6 @@
     "engine/UVAnimator.js",
 
     "engine/CanvasUtil.js",
-    "engine/SpriteManager.js",
     "engine/TextureManager.js",
 
     "engine/AI.js",
@@ -54,12 +53,14 @@
     "game/traits/Destructible.js",
     "game/traits/Disappearing.js",
     "game/traits/Fallaway.js",
+    "game/traits/Lifetime.js",
     "game/traits/Health.js",
     "game/traits/Invincibility.js",
     "game/traits/Jump.js",
     "game/traits/Translating.js",
     "game/traits/Rotate.js",
     "game/traits/Physics.js",
+    "game/traits/Pickupable.js",
     "game/traits/Move.js",
     "game/traits/Climber.js",
     "game/traits/Solid.js",
@@ -67,8 +68,10 @@
     "game/traits/Climbable.js",
     "game/traits/Conveyor.js",
     "game/traits/Door.js",
+    "game/traits/Spawn.js",
     "game/traits/Stun.js",
     "game/traits/Teleport.js",
+    "game/traits/Translate.js",
     "game/traits/Weapon.js",
     "game/traits/Light.js",
     "game/traits/Glow.js",
@@ -79,7 +82,6 @@
     "game/object/Climbable.js",
     "game/object/obstacle/DeathZone.js",
     "game/object/Character.js",
-    "game/object/Item.js",
     "game/object/Spawner.js",
     "game/object/Weapon.js",
     "game/object/Projectile.js",
@@ -97,11 +99,6 @@
     "game/object/enemy/SniperArmor.js",
     "game/object/enemy/SniperJoe.js",
 
-    "game/object/item/ExtraLife.js",
-    "game/object/item/EnergyTank.js",
-    "game/object/item/EnergyCapsule.js",
-    "game/object/item/WeaponTank.js",
-
     "game/object/weapon/AirShooter.js",
     "game/object/weapon/CrashBomber.js",
     "game/object/weapon/EnemyPlasma.js",
@@ -114,10 +111,5 @@
     "game/object/projectile/EnemyPlasma.js",
     "game/object/projectile/MetalBlade.js",
     "game/object/projectile/Plasma.js",
-    "game/object/projectile/SillyShot.js",
-
-    "game/object/Decoration.js",
-    "game/object/decoration/Explosion.js",
-    "game/object/decoration/TinyExplosion.js",
-    "game/object/decoration/Sweat.js"
+    "game/object/projectile/SillyShot.js"
 ]

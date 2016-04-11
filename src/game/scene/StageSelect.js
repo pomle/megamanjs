@@ -51,6 +51,9 @@ Game.scenes.StageSelect = function()
         var engine = game.engine;
         engine.events.bind(engine.EVENT_SIMULATE, onSimulate);
     });
+    this.events.bind(this.EVENT_START, function(game) {
+        scene.equalize(4);
+    });
     this.events.bind(this.EVENT_DESTROY, function(game) {
         var engine = game.engine;
         engine.events.unbind(engine.EVENT_SIMULATE, onSimulate);
@@ -73,7 +76,7 @@ Game.scenes.StageSelect.prototype.addStage = function(avatar, caption, name)
     caption[1] = Engine.Util.string.fill(" ", 6 - caption[1].length) + caption[1];
     caption = caption.join("\n");
 
-    var caption = Engine.SpriteManager.createTextSprite(caption);
+    //var caption = Engine.SpriteManager.createTextSprite(caption);
 
     this.stages.push({
         "avatar": avatar,
@@ -84,11 +87,11 @@ Game.scenes.StageSelect.prototype.addStage = function(avatar, caption, name)
 
     frame.position.set(pos.x, pos.y, 0);
     avatar.position.set(pos.x, pos.y, .1);
-    caption.position.copy(avatar.position);
-    caption.position.add(this.captionOffset);
+    //caption.position.copy(avatar.position);
+    //caption.position.add(this.captionOffset);
     this.world.scene.add(frame);
     this.world.scene.add(avatar);
-    this.world.scene.add(caption);
+    //this.world.scene.add(caption);
 }
 
 Game.scenes.StageSelect.prototype.equalize = function(index)
@@ -109,9 +112,8 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
 
     this.cameraDesiredPosition.copy(center);
     this.cameraDesiredPosition.z += this.cameraDistance;
-    this.world.camera.camera.position.copy(center);
-    this.world.camera.camera.position.z = this.cameraDesiredPosition.z - 100;
-
+    this.world.camera.position.copy(center);
+    this.world.camera.position.z = this.cameraDesiredPosition.z - 100;
 
     this.selectIndex(index);
     this.background.position.copy(center);
@@ -120,7 +122,8 @@ Game.scenes.StageSelect.prototype.equalize = function(index)
 
 Game.scenes.StageSelect.prototype.enter = function()
 {
-    this.events.trigger(this.EVENT_STAGE_SELECTED, [this.stages[this.currentIndex], this.currentIndex]);
+    this.events.trigger(this.EVENT_STAGE_SELECTED,
+        [this.stages[this.currentIndex], this.currentIndex]);
 }
 
 Game.scenes.StageSelect.prototype.selectIndex = function(index)

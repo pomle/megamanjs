@@ -1,140 +1,70 @@
-<character source="Megaman">
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+    <textures>
+        <texture id="projectiles" url="projectiles.png" w="128" h="128" />
+    </textures>
 
-    <traits>
-        <trait source="Health" max="28" />
-        <trait source="Jump" force="19740" duration=".18" falloff=".3" />
-        <trait source="Physics" area=".04" drag=".045" mass="105" />
-        <trait source="Move" />
-        <trait source="Climber" />
-        <trait source="Invincibility" duration="2" />
-        <trait source="Stun" force="10500" duration=".8" />
-        <trait source="Teleport" />
-        <trait source="Weapon">
-            <projectile-emit-offset x="17" y="1" />
-        </trait>
-    </traits>
+    <animations texture="projectiles">
+        <animation id="airshot-twirl" w="16" h="16" >
+            <frame x="48" y="0" duration=".06"/>
+            <frame x="64" y="0" duration=".06"/>
+            <frame x="80" y="0" duration=".06"/>
+        </animation>
+        <animation id="flying" w="20" h="16">
+            <frame x="2" y="20"/>
+        </animation>
+        <animation id="gripping" w="20" h="16">
+            <frame x="2" y="36" duration=".12"/>
+            <frame x="2" y="52"/>
+        </animation>
+        <animation id="ticking" w="20" h="16">
+            <frame x="2" y="68" duration=".12"/>
+            <frame x="2" y="52" duration=".12"/>
+        </animation>
+        <animation id="metal-blade" w="16" h="16">
+            <frame x="16" y="0" duration=".06"/>
+            <frame x="32" y="0" duration=".06"/>
+        </animation>
+        <animation id="plasma" w="8" h="8">
+            <frame x="4" y="4"/>
+        </animation>
+    </animations>
 
-    <model w="48" h="48">
+    <object type="projectile" source="AirShot" id="AirShot">
+        <geometry type="plane" w="16" h="16">
+            <face animation="airshot-twirl"/>
+        </geometry>
         <collision>
-            <rect x="0" y="0" w="14" h="22" />
+            <rect x="0" y="0" w="7" h="8" />
         </collision>
-        <textures>
-            <texture id="megaman-p" url="megaman.png" w="256" h="256">
-                <animations>
-                    <animation id="idle" default="true">
-                        <frame x="0" y="0" duration="3.85" />
-                        <frame x="48" y="0" duration=".15" />
-                    </animation>
-                    <animation id="lean">
-                        <frame x="144" y="48" />
-                    </animation>
-                    <animation id="jump">
-                        <frame x="144" y="0" />
-                    </animation>
-                    <animation id="fire">
-                        <frame x="96" y="0" />
-                    </animation>
-                    <animation id="jump-fire">
-                        <frame x="192" y="0" />
-                    </animation>
-                    <animation id="run" group="run">
-                        <frame x="48" y="48" duration=".12" />
-                        <frame x="0"  y="48" duration=".12" />
-                        <frame x="48" y="48" duration=".12" />
-                        <frame x="96" y="48" duration=".12" />
-                    </animation>
-                    <animation id="run-fire" group="run">
-                        <frame x="48" y="96" duration=".12" />
-                        <frame x="0"  y="96" duration=".12" />
-                        <frame x="48" y="96" duration=".12" />
-                        <frame x="96" y="96" duration=".12" />
-                    </animation>
-                    <animation id="teleport">
-                        <frame x="0" y="144" />
-                    </animation>
-                    <animation id="teleport-in">
-                        <frame x="44" y="144" duration=".05" />
-                        <frame x="96" y="144" duration=".05" />
-                        <frame x="0"  y="144" duration=".05" />
-                        <frame x="0"  y="0" />
-                    </animation>
-                    <animation id="teleport-out">
-                        <frame x="144" y="144" duration=".05" />
-                        <frame x="96" y="144" duration=".05" />
-                        <frame x="0"  y="144" />
-                    </animation>
-                    <animation id="stunned">
-                        <frame x="192" y="48" duration=".08" />
-                        <frame x="192" y="96" duration=".08" />
-                    </animation>
-                    <animation id="hang">
-                        <frame x="48" y="192" />
-                    </animation>
-                    <animation id="hang-shoot">
-                        <frame x="96" y="192" />
-                    </animation>
-                    <animation id="climbing">
-                        <frame x="48" y="192" duration=".16" />
-                        <frame x="0" y="192" duration=".16" />
-                    </animation>
-
-                </animations>
-            </texture>
-
-           <texture id="megaman-a" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#0078F8" />
-                    <color-replace in="#00FFFF" out="#F8F8F8" />
-                </effects>
-            </texture>
-            <texture id="megaman-b" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#7C7C7C" />
-                    <color-replace in="#00FFFF" out="#F8F8F8" />
-                </effects>
-            </texture>
-            <texture id="megaman-c" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#F87858" />
-                    <color-replace in="#00FFFF" out="#F8F8F8" />
-                </effects>
-            </texture>
-            <texture id="megaman-f" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#D800CC" />
-                    <color-replace in="#00FFFF" out="#F8B8F8" />
-                </effects>
-            </texture>
-            <texture id="megaman-h" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#E40058" />
-                    <color-replace in="#00FFFF" out="#F8B800" />
-                </effects>
-            </texture>
-            <texture id="megaman-m" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#ACAF00" />
-                    <color-replace in="#00FFFF" out="#FFE0A8" />
-                </effects>
-            </texture>
-            <texture id="megaman-q" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#F85898" />
-                    <color-replace in="#00FFFF" out="#F8B8F8" />
-                </effects>
-            </texture>
-            <texture id="megaman-w" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#00B800" />
-                    <color-replace in="#00FFFF" out="#F8F8F8" />
-                </effects>
-            </texture>
-            <texture id="megaman-m" url="megaman.png" w="256" h="256">
-                <effects>
-                    <color-replace in="#0073F7" out="#F83800" />
-                    <color-replace in="#00FFFF" out="#F8F8F8" />
-                </effects>
-            </texture>
-        </textures>
-    </model>
-</character>
+    </object>
+    <object type="projectile" source="CrashBomb" id="CrashBomb">
+        <geometry type="plane" w="20" h="16">
+            <face animation="flying"/>
+        </geometry>
+        <collision>
+            <rect x="0" y="-1" w="8" h="8" />
+        </collision>
+        <traits>
+            <trait source="Spawn">
+                 <item event="recycle" object="Explosion"/>
+            </trait>
+        </traits>
+    </object>
+    <object type="projectile" source="MetalBlade" id="MetalBlade">
+        <geometry type="plane" w="20" h="16">
+            <face animation="metal-blade"/>
+        </geometry>
+        <collision>
+            <circ x="0" y="0" r="8"/>
+        </collision>
+    </object>
+    <object type="projectile" source="Plasma" id="Plasma">
+        <geometry type="plane" w="8" h="8">
+            <face animation="plasma"/>
+        </geometry>
+        <collision>
+            <circ x="0" y="0" r="4"/>
+        </collision>
+    </object>
+</objects>
