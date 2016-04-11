@@ -29,7 +29,7 @@ describe('Object', function() {
         host.applyTrait(trait);
       }).to.throwError(function(error) {
         expect(error).to.be.an(Error);
-        expect(error.message).to.equal('Trait name occupied');
+        expect(error.message).to.equal('Trait name "mockTrait" occupied');
       });
     });
   });
