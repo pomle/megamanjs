@@ -60,9 +60,10 @@
         <objects src="./characters/Telly.xml" />
     </characters>
 
-    <decorations>
+    <items>
         <objects src="./Decorations.xml" />
-    </decorations>
+        <objects src="./Powerup.xml" />
+    </items>
 
     <projectiles>
         <objects src="./Projectiles.xml" />

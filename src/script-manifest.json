@@ -60,6 +60,7 @@
     "game/traits/Translating.js",
     "game/traits/Rotate.js",
     "game/traits/Physics.js",
+    "game/traits/Pickupable.js",
     "game/traits/Move.js",
     "game/traits/Climber.js",
     "game/traits/Solid.js",
@@ -81,7 +82,6 @@
     "game/object/Climbable.js",
     "game/object/obstacle/DeathZone.js",
     "game/object/Character.js",
-    "game/object/Item.js",
     "game/object/Spawner.js",
     "game/object/Weapon.js",
     "game/object/Projectile.js",
@@ -98,11 +98,6 @@
     "game/object/enemy/Shotman.js",
     "game/object/enemy/SniperArmor.js",
     "game/object/enemy/SniperJoe.js",
-
-    "game/object/item/ExtraLife.js",
-    "game/object/item/EnergyTank.js",
-    "game/object/item/EnergyCapsule.js",
-    "game/object/item/WeaponTank.js",
 
     "game/object/weapon/AirShooter.js",
     "game/object/weapon/CrashBomber.js",

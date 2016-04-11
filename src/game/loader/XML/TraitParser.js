@@ -105,6 +105,19 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
             }
             trait.force.copy(force);
         };
+    } else if (name === 'pickupable') {
+        var props = {};
+        var propNodes = traitNode.getElementsByTagName('property');
+        for (var propNode, i = 0; propNode = propNodes[i]; ++i) {
+            var key = propNode.attributes[0].name;
+            var value = propNode.attributes[0].value;
+            props[key] = parseFloat(value) || value;
+        }
+        blueprint.setup = function(trait) {
+            for (var key in props) {
+                trait.properties[key] = props[key];
+            }
+        };
     } else if (name === 'solid') {
         var attackAccept = this.parseAttack(traitNode, 'attack');
         blueprint.setup = function(trait) {

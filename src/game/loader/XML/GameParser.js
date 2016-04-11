@@ -17,7 +17,7 @@ Game.Loader.XML.Parser.GameParser.prototype.parse = function(gameNode)
     return new Promise((resolve) => {
         const configNode = gameNode.querySelector('config');
         const characterNodes = gameNode.querySelectorAll('characters > objects');
-        const decorationNodes = gameNode.querySelectorAll('decorations > objects');
+        const itemNodes = gameNode.querySelectorAll('items > objects');
         const projectileNodes = gameNode.querySelectorAll('projectiles > objects');
         const playerNode = gameNode.querySelector('player');
         const sceneNodes = gameNode.querySelectorAll('scenes > scene');
@@ -38,7 +38,7 @@ Game.Loader.XML.Parser.GameParser.prototype.parse = function(gameNode)
             });
         }
 
-        this.parseObjects(decorationNodes)
+        this.parseObjects(itemNodes)
         .then((items) => {
             addResource(items);
         })
