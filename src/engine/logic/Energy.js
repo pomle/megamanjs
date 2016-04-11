@@ -51,6 +51,12 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
             }
         },
     },
+    full: {
+        enumerable: true,
+        get: function() {
+            return this._value >= this._max;
+        },
+    },
     infinite: {
         enumerable: true,
         writable: true,
