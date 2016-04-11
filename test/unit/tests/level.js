@@ -17,7 +17,10 @@ describe('Level', function() {
       game.engine.world = world;
       level = new Level(game, world);
       level.game.player = new Game.Player();
-      level.game.player.character = new Game.objects.Character();
+
+      var character = new Game.objects.Character();
+      character.applyTrait(new Game.traits.Health());
+      level.game.player.character = character;
   });
 
   describe('#detectDeath', function() {
