@@ -4,7 +4,7 @@
         <geometry type="plane" w="48" h="48" />
 
         <collision>
-            <rect x="0" y="0" w="14" h="22" />
+            <rect w="14" h="22" />
         </collision>
 
         <traits>
