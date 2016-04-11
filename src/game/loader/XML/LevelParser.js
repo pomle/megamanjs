@@ -1,8 +1,6 @@
 Game.Loader.XML.Parser.LevelParser = function(loader)
 {
     Game.Loader.XML.Parser.call(this, loader);
-
-
 }
 
 Engine.Util.extend(Game.Loader.XML.Parser.LevelParser,
