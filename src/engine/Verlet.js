@@ -1,16 +1,9 @@
 Engine.Verlet = function(vec)
 {
-    var res = '';
-    for (var c, i = 0; c = this.components[i]; ++i) {
-        if (vec[c] !== undefined) {
-            res += c;
-        }
-    }
-    this.components = res;
+    this.components = Object.keys(vec).join('');
     this.vec = vec;
 }
 
-Engine.Verlet.prototype.components = 'xyz';
 
 Engine.Verlet.prototype.integrate = function(result, add, deltaTime)
 {
