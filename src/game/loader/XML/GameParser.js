@@ -27,7 +27,7 @@ Game.Loader.XML.Parser.GameParser.prototype.parse = function(gameNode)
             this.parseConfig(configNode);
         }
 
-        if(sceneNodes) {
+        if (sceneNodes) {
             this.parseScenes(sceneNodes);
         }
 
