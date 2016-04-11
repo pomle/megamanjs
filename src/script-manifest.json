@@ -116,8 +116,5 @@
     "game/object/projectile/EnemyPlasma.js",
     "game/object/projectile/MetalBlade.js",
     "game/object/projectile/Plasma.js",
-    "game/object/projectile/SillyShot.js",
-
-    "game/object/Decoration.js",
-    "game/object/decoration/TinyExplosion.js"
+    "game/object/projectile/SillyShot.js"
 ]

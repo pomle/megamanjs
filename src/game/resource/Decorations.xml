@@ -46,6 +46,13 @@
             <frame x="144" y="16" duration=".15"/>
             <frame x="144" y="32"/>
         </animation>
+
+        <animation id="tiny-explosion" w="16" h="16">
+            <frame x="0" y="192" duration=".05"/>
+            <frame x="16" y="192" duration=".05"/>
+            <frame x="32" y="192" duration=".05"/>
+            <frame x="48" y="192"/>
+        </animation>
     </animations>
 
     <object type="object" id="Explosion">
@@ -68,6 +75,15 @@
         <traits>
             <trait source="Lifetime" duration=".45"/>
             <trait source="Translate" x="0" y="12"/>
+        </traits>
+    </object>
+
+    <object type="object" id="TinyExplosion">
+        <geometry type="plane" w="16" h="16">
+            <face animation="tiny-explosion"/>
+        </geometry>
+        <traits>
+            <trait source="Lifetime" duration=".2"/>
         </traits>
     </object>
 </objects>

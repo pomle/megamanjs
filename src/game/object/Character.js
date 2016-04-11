@@ -16,11 +16,6 @@ Game.objects.Character.prototype.EVENT_DAMAGE = 'damage';
 Game.objects.Character.prototype.EVENT_DEATH = 'death';
 Game.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
 
-Game.objects.Character.prototype.getDeathObject = function()
-{
-    return new Game.objects.decorations.TinyExplosion();
-}
-
 Game.objects.Character.prototype.impactProjectile = function(projectile)
 {
     if (projectile instanceof Game.objects.Projectile !== true) {
@@ -41,11 +36,8 @@ Game.objects.Character.prototype.kill = function()
         this.weapon.__timeshift(0);
     }
 
-    var explosion = this.getDeathObject();
-    explosion.position.copy(this.position);
-    this.world.addObject(explosion);
-    this.world.removeObject(this);
     this.trigger(this.EVENT_DEATH);
+    this.world.removeObject(this);
 }
 
 Game.objects.Character.prototype.resurrect = function()
