@@ -76,7 +76,7 @@ Game.scenes.StageSelect.prototype.addStage = function(avatar, caption, name)
     caption[1] = Engine.Util.string.fill(" ", 6 - caption[1].length) + caption[1];
     caption = caption.join("\n");
 
-    var caption = Engine.SpriteManager.createTextSprite(caption);
+    //var caption = Engine.SpriteManager.createTextSprite(caption);
 
     this.stages.push({
         "avatar": avatar,
@@ -87,11 +87,11 @@ Game.scenes.StageSelect.prototype.addStage = function(avatar, caption, name)
 
     frame.position.set(pos.x, pos.y, 0);
     avatar.position.set(pos.x, pos.y, .1);
-    caption.position.copy(avatar.position);
-    caption.position.add(this.captionOffset);
+    //caption.position.copy(avatar.position);
+    //caption.position.add(this.captionOffset);
     this.world.scene.add(frame);
     this.world.scene.add(avatar);
-    this.world.scene.add(caption);
+    //this.world.scene.add(caption);
 }
 
 Game.scenes.StageSelect.prototype.equalize = function(index)

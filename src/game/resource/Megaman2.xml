@@ -42,7 +42,7 @@
     <level start-caption="READY" />
 
     <entrypoint>
-        <scene name="Heatman" />
+        <scene name="StageSelect" />
     </entrypoint>
 
     <characters>

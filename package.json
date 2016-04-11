@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
-    "build": "grunt build",
+    "build": "grunt build:no-ugly",
     "generate-dev": "node ./tools/generate-dev.js",
     "test": "npm run test-unit-cov",
     "test-unit": "mocha test/unit/tests",
