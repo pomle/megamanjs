@@ -4,10 +4,16 @@ Engine.Util = {
             " () { return call(this, arguments) }; };")())(Function.apply.bind(fn));
     },
 
-    extend: function(child, parent)
+    extend: function(child, parent, props)
     {
         child.prototype = Object.create(parent.prototype);
         child.prototype.constructor = child;
+
+        if (props) {
+            Object.keys(props).forEach(function(key) {
+                child.prototype[key] = props[key];
+            });
+        }
     },
 
     mixin: function()
