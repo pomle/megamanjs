@@ -48,7 +48,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         var objectsNode = levelNode.getElementsByTagName('objects')[0];
         var objects;
         if (objectsNode) {
-            var objectParser = new Game.Loader.XML.Parser.ObjectParser();
+            var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader);
             objects = objectParser.parse(objectsNode);
         }
 

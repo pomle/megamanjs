@@ -18,7 +18,7 @@ Game.Loader.XML.Parser.StageSelectParser.prototype.parseStageSelect = function(s
         var scene = new Game.scenes.StageSelect(this.loader.game, new Engine.World());
 
         var objectsNode = sceneNode.getElementsByTagName('objects')[0];
-        var objectParser = new Game.Loader.XML.Parser.ObjectParser();
+        var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader);
         var objects = objectParser.parse(objectsNode);
 
         var backgroundNode = sceneNode.getElementsByTagName('background')[0];
