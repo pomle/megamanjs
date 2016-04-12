@@ -169,7 +169,8 @@ Game.Loader.XML.Parser.prototype.getTexture = function(textureNode)
     var textureId = textureNode.getAttribute('id');
     var textureUrl = this.resolveURL(textureNode, 'url');
 
-    var textureScale = this.getFloat(textureNode, 'scale') || 4;
+    var textureScale = this.getFloat(textureNode, 'scale') || this.loader.resource.textureScale;
+
     var texture = new THREE.Texture();
     texture.name = textureId;
     texture.magFilter = THREE.LinearFilter;

@@ -25,7 +25,13 @@ function getNode(name) {
 }
 
 describe('Parser', function() {
+  var loaderMock;
+
   beforeEach(function() {
+    loaderMock = {
+      resource: new Game.ResourceManager(),
+    };
+
     global.Image = sinon.spy(function() {
       this.src = '';
       this.onload = undefined;
@@ -146,7 +152,7 @@ describe('Parser', function() {
       var objects, character;
       it('should return an object indexed by object names', function() {
         var objectsNode = getNode('character');
-        var parser = new ObjectParser();
+        var parser = new ObjectParser(loaderMock);
         objects = parser.parse(objectsNode);
         expect(objects).to.be.an(Object);
         expect(objects).to.have.property('Megaman');
@@ -278,7 +284,7 @@ describe('Parser', function() {
       var textures, character;
       it('should return an object indexed by texture names', function() {
         var texturesNode = getNode('textures');
-        var parser = new ObjectParser();
+        var parser = new ObjectParser(loaderMock);
         textures = parser.parseTextures(texturesNode);
         expect(textures).to.be.an(Object);
         expect(textures).to.have.property('moot');
