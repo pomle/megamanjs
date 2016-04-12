@@ -39,7 +39,7 @@ Game.Loader.XML.Parser.StageSelectParser.prototype.parseStageSelect = function(s
             var id = stageNode.getAttribute('id');
             var avatar = new objects[id]().model;
             var name = stageNode.getAttribute('name');
-            var caption = stageNode.getAttribute('caption');
+            var caption = this.createCaption(stageNode.getAttribute('caption'));
             scene.addStage(avatar, caption, name);
         }
 
@@ -57,4 +57,11 @@ Game.Loader.XML.Parser.StageSelectParser.prototype.parseStageSelect = function(s
 
         resolve(scene);
     });
+}
+
+Game.Loader.XML.Parser.StageSelectParser.prototype.createCaption = function(text) {
+    text = text.split(" ");
+    text[1] = Engine.Util.string.fill(" ", 6 - text[1].length) + text[1];
+    text = text.join("\n");
+    return this.loader.resource.items.font['nintendo'](text).createMesh();
 }

@@ -39,6 +39,12 @@
         <!-- End Debug Levels -->
     </scenes>
 
+    <fonts>
+        <font id="nintendo" url="./font.png" w="8" h="8">
+            <map><![CDATA[ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~]]></map>
+        </font>
+    </fonts>
+
     <level start-caption="READY" />
 
     <entrypoint>

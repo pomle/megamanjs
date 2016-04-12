@@ -9,6 +9,8 @@ Game.scenes.Level = function(game, world)
     this.checkPointIndex = 0;
     this.checkPointOffset = new THREE.Vector2(0, 200);
 
+    this.assets = {};
+
     this.inputs = {
         character: this.createCharacterInput(),
         menu: this.createMenuInput(),
@@ -166,7 +168,7 @@ Game.scenes.Level.prototype.readyBlink = function(callback)
     var interval = 9/60,
         duration = 2,
         elapsed = 0,
-        model = this.assets['level-start-text'],
+        model = this.assets['start-caption'],
         engine = this.game.engine,
         level = this;
 
