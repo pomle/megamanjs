@@ -1,8 +1,6 @@
 Game.Loader.XML.Parser.ObjectParser = function(loader)
 {
     Game.Loader.XML.Parser.call(this, loader);
-
-    this.objects = {};
 }
 
 Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
