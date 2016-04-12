@@ -51,6 +51,8 @@ Engine.BitmapFont.prototype.createText = function(string) {
         }
     }
     var texture = new THREE.Texture(canvas);
+    texture.magFilter = THREE.LinearFilter;
+    texture.minFilter = THREE.LinearMipMapLinearFilter;
     texture.needsUpdate = true;
     return new Engine.BitmapFont.Text(texture, textSize, textureSize);
 }
