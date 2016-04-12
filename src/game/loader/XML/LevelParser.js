@@ -37,9 +37,13 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         throw new TypeError('Node not <scene type="level">');
     }
 
+    var resource = this.loader.resource;
+
     return new Promise(function(resolve) {
         var world = new Engine.World();
         var level = new Game.scenes.Level(this.loader.game, world);
+
+        level.assets['start-caption'] = resource.items.font['nintendo']('READY').createMesh();
 
         var objectsNode = levelNode.getElementsByTagName('objects')[0];
         var objects;

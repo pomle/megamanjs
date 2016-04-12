@@ -306,10 +306,19 @@ describe('Parser', function() {
   describe('for Levels', function() {
     var level;
     it('should parse a level', function(done) {
+      var resourceMock = new Game.ResourceManager();
+      resourceMock.addFont('nintendo', sinon.spy(function() {
+        return {
+          createMesh: sinon.spy(),
+        };
+      }));
       var game = new Game();
       game.player = new Game.Player();
       var sceneNode = getNode('level');
-      var parser = new LevelParser({game: game});
+      var parser = new LevelParser({
+        game: game,
+        resource: resourceMock,
+      });
       parser.parse(sceneNode)
       .then(function(_level) {
         level = _level;

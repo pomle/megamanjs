@@ -3,6 +3,7 @@
     "engine/Util.js",
     "engine/Events.js",
     "engine/Animation.js",
+    "engine/BitmapFont.js",
     "engine/Sequencer.js",
     "engine/Tween.js",
     "engine/Keyboard.js",
@@ -25,7 +26,6 @@
     "engine/UVAnimator.js",
 
     "engine/CanvasUtil.js",
-    "engine/TextureManager.js",
 
     "engine/AI.js",
 
