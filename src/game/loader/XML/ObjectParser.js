@@ -4,8 +4,7 @@ Game.Loader.XML.Parser.ObjectParser = function(loader)
 }
 
 Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
-                   Game.Loader.XML.Parser,
-{
+                   Game.Loader.XML.Parser, {
     createConstructor: function(blueprint) {
         if (!blueprint.textures['__default'].texture) {
             console.error(blueprint);
