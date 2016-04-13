@@ -7,7 +7,6 @@ Game.objects.Character = function()
     this.anim = undefined;
     this.dead = false;
     this.direction.x = this.DIRECTION_RIGHT;
-    this.isSupported = false;
 }
 
 Engine.Util.extend(Game.objects.Character, Engine.Object);
@@ -66,7 +65,6 @@ Game.objects.Character.prototype.timeShift = function(dt)
 
     this.setAnimation(this.routeAnimation());
 
-    this.isSupported = false;
     Engine.Object.prototype.timeShift.call(this, dt);
 }
 

@@ -59,7 +59,7 @@
                     return 'hang';
                 }
 
-                if (!this.isSupported) {
+                if (!this.jump._ready) {
                     if (this.weapon._firing) {
                         return 'jump-fire';
                     }
