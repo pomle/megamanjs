@@ -22,8 +22,8 @@ Game.Loader.XML.createFromXML = function(url, callback)
 
     var promise = new Promise(function(resolve, reject) {
         loader.loadGame(url).then(function() {
-            resolve(loader);
-        });
+            resolve();
+        }).catch(reject);
     });
 
     return {
@@ -33,7 +33,7 @@ Game.Loader.XML.createFromXML = function(url, callback)
     }
 }
 
-Game.Loader.XML.prototype.asyncLoadXml = function(url)
+Game.Loader.XML.prototype.asyncLoadXML = function(url)
 {
     var loader = this;
     return new Promise(function(resolve, reject) {
@@ -59,7 +59,7 @@ Game.Loader.XML.prototype.followNode = function(node)
         if (node.getAttribute('src')) {
             const url = this.resolveURL(node, 'src');
             console.log('Digging deeper', url);
-            this.asyncLoadXml(url).then(function(doc) {
+            this.asyncLoadXML(url).then(function(doc) {
                 resolve(doc.children[0]);
             });
         } else {
@@ -87,7 +87,7 @@ Game.Loader.XML.prototype.resolveURL = function(node, attr)
 Game.Loader.XML.prototype.loadGame = function(url)
 {
     var gameParser = new Game.Loader.XML.Parser.GameParser(this);
-    return this.asyncLoadXml(url).then(function(doc) {
+    return this.asyncLoadXML(url).then(function(doc) {
         return gameParser.parse(doc.getElementsByTagName('game')[0]);
     });
 }
@@ -118,7 +118,7 @@ Game.Loader.XML.prototype.startScene = function(name)
 
     this.game.engine.pause();
     var loader = this;
-    return this.asyncLoadXml(this.sceneIndex[name].url)
+    return this.asyncLoadXML(this.sceneIndex[name].url)
         .then(function(node) {
             return loader.parseScene(node.children[0]);
         })
