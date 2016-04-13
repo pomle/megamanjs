@@ -15,8 +15,9 @@
                 </objects>
             </trait>
             <trait source="Health" max="20" />
-            <trait source="Physics" area=".5" drag=".1" mass="600" />
             <trait source="Jump" force="120000" forward="50000" duration=".18" falloff=".3" />
+            <trait source="Physics" area=".5" drag=".1" mass="600" />
+            <trait source="Solid" attack="bottom"/>
             <trait source="Spawn">
                 <item object="TinyExplosion" event="death"/>
             </trait>
