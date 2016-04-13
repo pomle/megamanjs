@@ -13,8 +13,12 @@ describe('Weapon', function() {
   var character;
   beforeEach(function() {
     worldMock = {
-      addObject: sinon.spy(),
-      removeObject: sinon.spy(),
+      addObject: sinon.spy(function(object) {
+        object.world = worldMock;
+      }),
+      removeObject: sinon.spy(function(object) {
+        object.unsetWorld();
+      }),
     };
     weapon = new Weapon();
     character = new Character();
@@ -159,7 +163,7 @@ describe('Weapon', function() {
     });
   });
   describe('#recycleProjectile', function() {
-    it('should move projectile from fired to idle pool', function() {
+    it('should move projectile from fired to idle pool and remove from world', function() {
       var projectile = new Projectile();
       weapon.addProjectile(projectile);
       weapon.emit(projectile);
@@ -167,6 +171,8 @@ describe('Weapon', function() {
       expect(weapon.projectilesIdle).to.have.length(1);
       expect(weapon.projectilesIdle[0]).to.be(projectile);
       expect(weapon.projectilesFired).to.have.length(0);
+      expect(worldMock.removeObject.calledOnce).to.be(true);
+      expect(worldMock.removeObject.lastCall.args[0]).to.be(projectile);
     });
     it('should remove projectile from world', function() {
       var projectile = new Projectile();

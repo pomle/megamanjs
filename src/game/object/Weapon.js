@@ -108,7 +108,7 @@ Game.objects.Weapon.prototype.recycleProjectile = function(projectile)
     if (index !== -1) {
         this.projectilesFired.splice(index, 1);
         this.projectilesIdle.push(projectile);
-        this.user.world.removeObject(projectile);
+        projectile.world.removeObject(projectile);
     }
 }
 
