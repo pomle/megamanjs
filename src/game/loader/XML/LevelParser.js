@@ -96,14 +96,16 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNode)
 {
-    var behaviorsNode = layoutNode.getElementsByTagName('behaviors')[0];
     var behaviors = [];
-    for (var behaviorNode, i = 0; behaviorNode = behaviorsNode.childNodes[i++];) {
-        var type = behaviorNode.tagName;
-        if (type) {
-            for (var rectNode, j = 0; rectNode = behaviorNode.childNodes[j++];) {
-                if (rectNode.tagName) {
-                    behaviors.push(this.createBehavior(rectNode, type));
+    var behaviorsNode = layoutNode.getElementsByTagName('behaviors')[0];
+    if (behaviorsNode) {
+        for (var behaviorNode, i = 0; behaviorNode = behaviorsNode.childNodes[i++];) {
+            var type = behaviorNode.tagName;
+            if (type) {
+                for (var rectNode, j = 0; rectNode = behaviorNode.childNodes[j++];) {
+                    if (rectNode.tagName) {
+                        behaviors.push(this.createBehavior(rectNode, type));
+                    }
                 }
             }
         }
