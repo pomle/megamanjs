@@ -400,6 +400,41 @@ describe('Parser', function() {
         expect(trait.test4).to.equal(-124.0);
       });
     });
+    describe('Solid', function() {
+      context('when instantiating', function() {
+        var trait = new Game.traits.Solid();
+        it('should have name set to "solid"', function() {
+          expect(trait.NAME).to.be('solid');
+        });
+        it('should have fixed set to false', function() {
+          expect(trait.fixed).to.be(false);
+        });
+      });
+      context('when no attack attribute set', function() {
+        it('should default to all surfaces', function() {
+          var trait;
+          var node = createNode('<trait source="Solid"/>');
+          var Trait = parser.parseTrait(node);
+          var trait = new Trait();
+          expect(trait.attackAccept).to
+            .eql([trait.TOP, trait.BOTTOM, trait.LEFT, trait.RIGHT]);
+        });
+      });
+      context('when attack attribute set', function() {
+        it('should honor attribute', function() {
+          var node = createNode('<trait source="Solid" attack="top"/>');
+          var Trait = parser.parseTrait(node);
+          var trait = new Trait();
+          expect(trait.attackAccept).to.eql([trait.TOP]);
+        });
+        it('should parse using space-separated', function() {
+          var node = createNode('<trait source="Solid" attack="bottom left right"/>');
+          var Trait = parser.parseTrait(node);
+          var trait = new Trait();
+          expect(trait.attackAccept).to.eql([trait.BOTTOM, trait.LEFT, trait.RIGHT]);
+        });
+      });
+    });
     describe('Spawn', function() {
       var spawn;
       var hostMock;

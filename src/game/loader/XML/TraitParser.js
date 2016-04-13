@@ -121,7 +121,9 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
     } else if (name === 'solid') {
         var attackAccept = this.parseAttack(traitNode, 'attack');
         blueprint.setup = function(trait) {
-            trait.attackAccept = attackAccept;
+            if (attackAccept) {
+                trait.attackAccept = attackAccept;
+            }
         };
     } else if (name === 'spawn') {
         var itemNodes = traitNode.getElementsByTagName('item');
