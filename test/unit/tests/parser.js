@@ -318,6 +318,9 @@ describe('Parser', function() {
           createMesh: sinon.spy(),
         };
       }));
+      resourceMock.get = sinon.spy(function(type, id) {
+        return Obj;
+      });
       var game = new Game();
       game.player = new Game.Player();
       var sceneNode = getNode('level');
