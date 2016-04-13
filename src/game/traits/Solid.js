@@ -25,7 +25,7 @@ Game.traits.Solid.prototype.RIGHT = Engine.Object.prototype.SURFACE_RIGHT;
 
 Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
 {
-    if (!subject.physics) {
+    if (!subject.solid) {
         return false;
     }
     if (this.ignore.has(subject)) {
