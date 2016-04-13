@@ -54,6 +54,11 @@ Engine.World.prototype.getObject = function(name)
     return false;
 }
 
+Engine.World.prototype.hasObject = function(object) {
+    var index = this.objects.indexOf(object);
+    return index !== -1 && this.objectsDead[index] === false;
+}
+
 Engine.World.prototype.removeObject = function(object)
 {
     if (object instanceof Engine.Object === false) {
