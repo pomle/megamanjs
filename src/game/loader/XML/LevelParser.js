@@ -37,6 +37,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         throw new TypeError('Node not <scene type="level">');
     }
 
+    var loader = this.loader;
     var resource = this.loader.resource;
 
     return new Promise(function(resolve) {
@@ -69,7 +70,9 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
             level.world.addObject(object);
         });
 
-        //this.parseSpawners(layoutNode);
+        this.parseSpawners(layoutNode).forEach(function(object) {
+            level.world.addObject(object)
+        });
 
 
         var checkpointsNode = levelNode.getElementsByTagName('checkpoints')[0];
@@ -81,25 +84,11 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
                 level.addCheckPoint(c.x, c.y, r);
             }
         }
-        /*
-        levelNode.find('> scripts > bootstrap').each(function(i, node) {
-            try {
-                switch (node.tagName) {
-                    case 'bootstrap':
-                        (function() {
-                            var bootstrap = undefined;
-                            eval(node.textContent);
-                            if (typeof bootstrap === "function") {
-                                bootstrap(loader.game, level);
-                            }
-                        }());
-                        break;
-                }
-            }
-            catch (error) {
-                console.error("Could not parse XML script in node <%s>", node.tagName, error);
-            }
-        });*/
+
+        var scriptsNode = levelNode.getElementsByTagName('scripts')[0];
+        if (scriptsNode) {
+            this.parseScripts(scriptsNode, level);
+        }
 
         resolve(level);
     }.bind(this));
@@ -107,14 +96,16 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseBehaviors = function(layoutNode)
 {
-    var behaviorsNode = layoutNode.getElementsByTagName('behaviors')[0];
     var behaviors = [];
-    for (var behaviorNode, i = 0; behaviorNode = behaviorsNode.childNodes[i++];) {
-        var type = behaviorNode.tagName;
-        if (type) {
-            for (var rectNode, j = 0; rectNode = behaviorNode.childNodes[j++];) {
-                if (rectNode.tagName) {
-                    behaviors.push(this.createBehavior(rectNode, type));
+    var behaviorsNode = layoutNode.getElementsByTagName('behaviors')[0];
+    if (behaviorsNode) {
+        for (var behaviorNode, i = 0; behaviorNode = behaviorsNode.childNodes[i++];) {
+            var type = behaviorNode.tagName;
+            if (type) {
+                for (var rectNode, j = 0; rectNode = behaviorNode.childNodes[j++];) {
+                    if (rectNode.tagName) {
+                        behaviors.push(this.createBehavior(rectNode, type));
+                    }
                 }
             }
         }
@@ -194,34 +185,44 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseObjectLayout = function(layout
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseSpawners = function(layoutNode)
 {
-    var parser = this;
-    var level = parser.level;
-    var loader = parser.loader;
-
-    layoutNode.find(' > spawner').each(function() {
-        var spawnerNode = $(this);
+    var spawners = [];
+    var spawnerNodes = layoutNode.getElementsByTagName('spawner');
+    for (var spawnerNode, i = 0; spawnerNode = spawnerNodes[i]; ++i) {
         var spawner = new Game.objects.Spawner();
-        var position = parser.getPosition(spawnerNode);
+        var position = this.getPosition(spawnerNode);
         spawner.position.copy(position);
-        spawner.position.z = -10;
+        spawner.position.z = 0;
 
-        spawnerNode.find('> character').each(function() {
-            var objectNode = $(this);
-            var objectId = objectNode.attr('id');
-            var objectRef = loader.resource.get('character', objectId);
-            if (!objectRef) {
-                console.error("Character " + objectId + " not found");
-                return;
-            }
+        var spawnableNodes = spawnerNode.getElementsByTagName('*');
+        for (var spawnableNode, j = 0; spawnableNode = spawnableNodes[j]; ++j) {
+            var objectId = spawnableNode.getAttribute('id');
+            var objectRef = this.loader.resource.get('character', objectId);
             spawner.pool.push(objectRef);
-        });
+        }
 
-        spawner.count = parser.getFloat(spawnerNode, 'count', Infinity);
-        spawner.maxSimultaneousSpawns = parser.getFloat(spawnerNode, 'simultaneous', 1);
-        spawner.interval = parser.getFloat(spawnerNode, 'interval', 0);
-        spawner.minDistance = parser.getFloat(spawnerNode, 'min-distance', spawner.minDistance);
-        spawner.maxDistance = parser.getFloat(spawnerNode, 'max-distance', spawner.maxDistance);
+        spawner.count = this.getFloat(spawnerNode, 'count') || Infinity;
+        spawner.maxSimultaneousSpawns = this.getFloat(spawnerNode, 'simultaneous') || 1;
+        spawner.interval = this.getFloat(spawnerNode, 'interval') || 0;
+        spawner.minDistance = this.getFloat(spawnerNode, 'min-distance') || spawner.minDistance;
+        spawner.maxDistance = this.getFloat(spawnerNode, 'max-distance') || spawner.maxDistance;
 
-        level.world.addObject(spawner);
-    });
+        spawners.push(spawner);
+    }
+    return spawners;
+}
+
+Game.Loader.XML.Parser.LevelParser.prototype.parseScripts = function(scriptsNode, level) {
+    var scriptNodes = scriptsNode.getElementsByTagName('*');
+    var loader = this.loader;
+    for (var scriptNode, i = 0; scriptNode = scriptNodes[i]; ++i) {
+        if (scriptNode.tagName === 'bootstrap') {
+            (function() {
+                var bootstrap = undefined;
+                eval(scriptNode.textContent);
+                if (typeof bootstrap === "function") {
+                    bootstrap(loader.game, level);
+                }
+            }());
+        }
+    }
 }

@@ -122,9 +122,9 @@ Engine.Object.prototype.nudge = function(x, y)
     this.moveTo(vec);
 }
 
-Engine.Object.prototype.obstruct = function(object, attack)
+Engine.Object.prototype.obstruct = function()
 {
-    this.trigger(this.EVENT_OBSTRUCT, [object, attack]);
+    this.trigger(this.EVENT_OBSTRUCT, arguments);
 }
 
 Engine.Object.prototype.setAnimation = function(name)

@@ -7,6 +7,9 @@
         <traits>
             <trait source="ContactDamage" points="8" />
             <trait source="Health" max="10" />
+            <trait source="Spawn">
+                <item object="TinyExplosion" event="death"/>
+            </trait>
         </traits>
     </object>
 

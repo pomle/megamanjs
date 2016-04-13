@@ -16,7 +16,7 @@ Engine.Util.extend(Game.objects.characters.SniperArmor,
 
 Game.objects.characters.SniperArmor.prototype.routeAnimation = function()
 {
-    if (!this.isSupported) {
+    if (!this.jump._ready) {
         return 'jumping';
     }
     if (this.jumpCharging || this.groundTime < .1) {

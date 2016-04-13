@@ -4,6 +4,7 @@ Game.traits.Jump = function()
 
     this._elapsed = undefined;
     this._bump = new THREE.Vector2();
+    this._ready = false;
 
     this.duration = .18;
     this.force = new THREE.Vector2(0, 100);
@@ -19,7 +20,7 @@ Game.traits.Jump.prototype.EVENT_JUMP_END    = 'jump-end';
 Game.traits.Jump.prototype.__obstruct = function(object, attack)
 {
     if (attack === object.SURFACE_TOP) {
-        this._host.isSupported = true;
+        this._ready = true;
     } else if (attack === object.SURFACE_BOTTOM) {
         this._end();
     }
@@ -27,6 +28,7 @@ Game.traits.Jump.prototype.__obstruct = function(object, attack)
 
 Game.traits.Jump.prototype.__timeshift = function(deltaTime)
 {
+    this._ready = false;
     if (this._elapsed === undefined) {
         return;
     } else if (this._elapsed >= this.duration) {
@@ -47,11 +49,10 @@ Game.traits.Jump.prototype.engage = function()
         host.climber.release();
     }
 
-    if (!host.isSupported) {
+    if (!this._ready) {
         return false;
     }
 
-    host.isSupported = false;
     this._bump.copy(this.force);
     this._bump.x *= host.direction.x;
     this._host.physics.velocity.add(this._bump);

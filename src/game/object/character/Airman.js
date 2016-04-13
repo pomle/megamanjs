@@ -13,7 +13,7 @@ Game.objects.characters.Airman.prototype.routeAnimation = function()
         return 'fire';
     }
 
-    if (!this.isSupported) {
+    if (!this.jump._ready) {
         return 'jump';
     }
 

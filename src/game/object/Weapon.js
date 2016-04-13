@@ -77,6 +77,10 @@ Game.objects.Weapon.prototype.fire = function()
         return false;
     }
 
+    if (!this.user.world) {
+        return false;
+    }
+
     if (!this.ammo.infinite && this.cost > 0) {
         if (this.ammo.amount < this.cost) {
             return false;
@@ -104,7 +108,7 @@ Game.objects.Weapon.prototype.recycleProjectile = function(projectile)
     if (index !== -1) {
         this.projectilesFired.splice(index, 1);
         this.projectilesIdle.push(projectile);
-        this.user.world.removeObject(projectile);
+        projectile.world.removeObject(projectile);
     }
 }
 

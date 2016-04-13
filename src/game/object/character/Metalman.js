@@ -8,7 +8,7 @@ Engine.Util.extend(Game.objects.characters.Metalman,
 
 Game.objects.characters.Metalman.prototype.routeAnimation = function()
 {
-    if (!this.isSupported) {
+    if (!this.jump._ready) {
         if (this.weapon._firing) {
             return 'jump-fire';
         }

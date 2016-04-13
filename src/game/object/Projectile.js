@@ -37,7 +37,7 @@ Game.objects.Projectile.prototype.collides = function(withObject, ourZone, their
 
 Game.objects.Projectile.prototype.deflect = function()
 {
-    this.dropCollision();
+    this.collidable = false;
     var l = this.velocity.length();
     this.velocity.x = -this.velocity.x;
     this.velocity.y = 100;
@@ -59,6 +59,7 @@ Game.objects.Projectile.prototype.rangeReached = function()
 
 Game.objects.Projectile.prototype.recycle = function()
 {
+    this.collidable = true;
     this.time = 0;
     this.trigger(this.EVENT_RECYCLE, [this]);
 }

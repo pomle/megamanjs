@@ -99,7 +99,7 @@ Game.traits.Climber.prototype.grab = function(subject, ourZone, theirZone)
     }
 
     /* Don't grab ladder if going down and is on the ground. */
-    if (host.aim.y < 0 && host.isSupported === true) {
+    if (host.aim.y < 0 && host.jump && host.jump._ready === true) {
         return false;
     }
 

@@ -11,8 +11,6 @@ Game.objects.projectiles.CrashBomb = function()
     this.setSpeed(240);
     this.penetratingForce = true;
     this.setRange(200);
-
-    //this.explosion = new Game.objects.decorations.Explosion();
 }
 
 Engine.Util.extend(Game.objects.projectiles.CrashBomb,
@@ -61,9 +59,6 @@ Game.objects.projectiles.CrashBomb.prototype.collides = function(withObject, our
 
 Game.objects.projectiles.CrashBomb.prototype.explode = function()
 {
-    /*this.explosion.position.copy(this.position);
-    this.explosion.setEmitter(this.emitter);
-    this.world.addObject(this.explosion);*/
     this.recycle();
 }
 
@@ -72,7 +67,6 @@ Game.objects.projectiles.CrashBomb.prototype.recycle = function()
     Game.objects.Projectile.prototype.recycle.call(this);
     this.attachTime = -1;
     this.attachPosition = undefined;
-    this.collidable = true;
     this.lifetime = this.getLifetime();
 }
 

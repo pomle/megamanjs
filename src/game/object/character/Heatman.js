@@ -24,7 +24,7 @@ Game.objects.characters.Heatman.prototype.routeAnimation = function()
             return 'fire';
         }
 
-        if (!this.isSupported) {
+        if (!this.jump._ready) {
             return 'jump';
         }
 

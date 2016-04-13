@@ -34,11 +34,11 @@ describe('Jump', function() {
     world.addObject(ground);
 
     var maxLoops = 40;
-    expect(jumper.isSupported).to.be(false);
-    while (jumper.isSupported === false && maxLoops--) {
+    expect(jumper.jump._ready).to.be(false);
+    while (jumper.jump._ready === false && maxLoops--) {
       world.updateTime(step);
     }
-    expect(jumper.isSupported).to.be(true);
+    expect(jumper.jump._ready).to.be(true);
     expect(jumper.position.y).to.equal(10);
   });
 });

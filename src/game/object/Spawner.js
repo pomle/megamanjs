@@ -1,5 +1,4 @@
-Game.objects.Spawner = function()
-{
+Game.objects.Spawner = function() {
     Engine.Object.call(this);
 
     this._timeSinceLastSpawn = 0;
@@ -17,96 +16,83 @@ Game.objects.Spawner = function()
     this.spawns = 0;
 }
 
-Game.objects.Spawner.prototype = Object.create(Engine.Object.prototype);
-Game.objects.Spawner.constructor = Game.objects.Spawner;
-
-Game.objects.Spawner.prototype.cleanReferences = function()
-{
-    var worldObjects = this.world.objects;
-    var object;
-    for (var i = 0, l = this.children.length; i !== l; ++i) {
-        object = this.children[i];
-        if (worldObjects.indexOf(object) === -1) {
-            this.children.splice(i, 1);
-            --i;
-            --l;
-        }
-    }
-}
-
-Game.objects.Spawner.prototype.killOffElderly = function()
-{
-    var object;
-    for (var i = 0, l = this.children.length; i !== l; ++i) {
-        object = this.children[i];
-        if (object.time >= this.lifetime) {
-            object.kill();
-        }
-    }
-}
-
-Game.objects.Spawner.prototype.killOffRoaming = function()
-{
-    var object;
-    for (var i = 0, l = this.children.length; i !== l; ++i) {
-        object = this.children[i];
-        if (object.position.distanceTo(this.position) > this.roamingLimit) {
-            object.kill();
-            this.children.splice(i, 1);
-            --i;
-            --l;
-        }
-    }
-}
-
-Game.objects.Spawner.prototype.reset = function()
-{
-    this.spawns = 0;
-}
-
-Game.objects.Spawner.prototype.spawnObject = function()
-{
-    this.cleanReferences();
-    if (this.children.size >= this.maxSimultaneousSpawns) {
-        return false;
-    }
-    if (this.spawns >= this.count || this.pool.length === 0) {
-        return false;
-    }
-
-    if (this.minDistance || this.maxDistance) {
-        var player = this.ai.findPlayer();
-        if (player) {
-            var dist = this.position.distanceTo(player.position);
-            if (dist > this.maxDistance || dist < this.minDistance) {
-                return false;
+Engine.Util.extend(Game.objects.Spawner, Engine.Object, {
+    cleanReferences: function() {
+        var world = this.world;
+        var object;
+        for (var i = 0, l = this.children.length; i !== l; ++i) {
+            if (!world.hasObject(this.children[i])) {
+                this.children.splice(i, 1);
+                --i;
+                --l;
             }
         }
-    }
-
-    ++this.spawns;
-    var index = Math.floor(Math.random() * this.pool.length);
-    var object = new this.pool[index]();
-    object.position.copy(this.position);
-    object.position.z = 0;
-    this.children.push(object);
-    this.world.addObject(object);
-    return object;
-}
-
-Game.objects.Spawner.prototype.timeShift = function(dt)
-{
-    this._timeSinceLastSpawn += dt;
-    if (this.lifetime !== undefined) {
-        this.killOffElderly();
-    }
-    if (this.roamingLimit !== undefined) {
-        this.killOffRoaming();
-    }
-
-    if (this._timeSinceLastSpawn >= this.interval) {
-        if (this.spawnObject()) {
-            this._timeSinceLastSpawn = 0;
+    },
+    killOffElderly: function() {
+        var object;
+        for (var i = 0, l = this.children.length; i !== l; ++i) {
+            object = this.children[i];
+            if (object.time >= this.lifetime) {
+                object.kill();
+            }
         }
-    }
-}
+    },
+    killOffRoaming: function() {
+        var object;
+        for (var i = 0, l = this.children.length; i !== l; ++i) {
+            object = this.children[i];
+            if (object.position.distanceTo(this.position) > this.roamingLimit) {
+                object.kill();
+                this.children.splice(i, 1);
+                --i;
+                --l;
+            }
+        }
+    },
+    reset: function() {
+        this.spawns = 0;
+    },
+    spawnObject: function() {
+        if (this.children.length >= this.maxSimultaneousSpawns) {
+            return false;
+        }
+        if (this.spawns >= this.count || this.pool.length === 0) {
+            return false;
+        }
+
+        if (this.minDistance || this.maxDistance) {
+            var player = this.ai.findPlayer();
+            if (player) {
+                var dist = this.position.distanceTo(player.position);
+                if (dist > this.maxDistance || dist < this.minDistance) {
+                    return false;
+                }
+            }
+        }
+
+        ++this.spawns;
+        var index = Math.floor(Math.random() * this.pool.length);
+        var object = new this.pool[index]();
+        object.position.copy(this.position);
+        object.position.z = 0;
+        this.children.push(object);
+        this.world.addObject(object);
+        return object;
+    },
+    timeShift: function(dt) {
+        this._timeSinceLastSpawn += dt;
+        if (this.lifetime !== undefined) {
+            this.killOffElderly();
+        }
+        if (this.roamingLimit !== undefined) {
+            this.killOffRoaming();
+        }
+
+        if (this._timeSinceLastSpawn >= this.interval) {
+            this.cleanReferences();
+            if (this.spawnObject()) {
+                this._timeSinceLastSpawn = 0;
+            }
+        }
+    },
+});

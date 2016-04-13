@@ -1,7 +1,9 @@
 Game.objects.Solid = function()
 {
     Engine.Object.call(this);
-    this.applyTrait(new Game.traits.Solid());
+    var solid = new Game.traits.Solid();
+    solid.fixed = true;
+    this.applyTrait(solid);
 }
 
 Engine.Util.extend(Game.objects.Solid, Engine.Object);
