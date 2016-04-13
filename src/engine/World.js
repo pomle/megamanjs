@@ -14,6 +14,7 @@ Engine.World = function()
     this.windForce = new THREE.Vector2(0, 0);
 
     this.objects = [];
+    this.objectsDead = [];
 
     this.scene = new THREE.Scene();
     this.scene.add(this.ambientLight);
@@ -34,6 +35,7 @@ Engine.World.prototype.addObject = function(object)
     }
 
     this.objects.push(object);
+    this.objectsDead.push(false);
     this.collision.addObject(object);
     if (object.model) {
         this.scene.add(object.model);
@@ -59,12 +61,15 @@ Engine.World.prototype.removeObject = function(object)
     }
     var index = this.objects.indexOf(object);
     if (index !== -1) {
-        object.unsetWorld();
-        this.objects[index] = undefined;
-        this.collision.removeObject(object);
-        if (object.model) {
-            this.scene.remove(object.model);
-        }
+        this.objectsDead[index] = true;
+    }
+}
+
+Engine.World.prototype._cleanObject = function(object) {
+    object.unsetWorld();
+    this.collision.removeObject(object);
+    if (object.model) {
+        this.scene.remove(object.model);
     }
 }
 
@@ -73,10 +78,13 @@ Engine.World.prototype.updateTime = function(deltaTime)
     deltaTime *= this.timeStretch;
     this.timeTotal += deltaTime;
 
+    var objectsDead = this.objectsDead;
     for (var object, objects = this.objects, i = 0, l = objects.length; i !== l; ++i) {
         object = objects[i];
-        if (object === undefined) {
+        if (objectsDead[i] === true) {
+            this._cleanObject(object);
             objects.splice(i, 1);
+            objectsDead.splice(i, 1);
             --i;
             --l;
         }

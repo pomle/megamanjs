@@ -96,12 +96,14 @@ describe('World', function() {
     it('should remove object from collision detector', function() {
       world.collision.removeObject = sinon.spy();
       world.removeObject(objects[0]);
+      world.updateTime(0);
       expect(world.collision.removeObject.callCount).to.equal(1);
       expect(world.collision.removeObject.lastCall.args).to.eql([objects[0]]);
     });
     it('should remove object model from scene', function() {
       world.scene.remove = sinon.spy();
       world.removeObject(objects[0]);
+      world.updateTime(0);
       expect(world.scene.remove.callCount).to.equal(1);
       expect(world.scene.remove.lastCall.args).to.eql([objects[0].model]);
     });
@@ -111,6 +113,7 @@ describe('World', function() {
     });
     it('should resign itself from object', function() {
       world.removeObject(objects[0]);
+      world.updateTime(0);
       expect(objects[0].world).to.be(undefined);
     });
     it('should except if argument is not an object', function() {
