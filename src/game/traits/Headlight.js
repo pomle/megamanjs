@@ -42,7 +42,7 @@ Game.traits.Headlight.prototype.NAME = 'headlight';
 Game.traits.Headlight.prototype.__attach = function(host)
 {
     if (host.textures['headlight_lensflare']) {
-        this.flare.material.map = host.textures['headlight_lensflare'];
+        this.flare.material.map = host.textures['headlight_lensflare'].texture;
         this.flare.material.needsUpdate = true;
     }
 
