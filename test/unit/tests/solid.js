@@ -12,12 +12,22 @@ var Solid = env.Game.traits.Solid;
 describe('Trait', function() {
   var step = 1/120;
   describe('Solid', function() {
+    context('when instantiating', function() {
+      var trait = new Game.traits.Solid();
+      it('should have name set to "solid"', function() {
+        expect(trait.NAME).to.be('solid');
+      });
+      it('should have fixed set to false', function() {
+        expect(trait.fixed).to.be(false);
+      });
+    });
     context('when supporting a character', function() {
       it('should consistently provide ground support', function() {
         var world = new World();
         world.gravityForce.set(0, 10);
         var ground = new Obj();
         ground.applyTrait(new Solid());
+        ground.solid.fixed = true;
         ground.addCollisionRect(100, 10);
         ground.position.set(0, 0, 0);
         var actor = new Character();

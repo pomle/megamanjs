@@ -9,6 +9,8 @@ Game.traits.Solid = function()
         this.RIGHT
     ];
 
+    this.fixed = false;
+
     this.ignore = new Set();
 }
 
@@ -47,24 +49,32 @@ Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
         return false;
     }
 
-    if (attack === this.TOP && subject.velocity.y < host.velocity.y) {
-        their.bottom = our.top;
-        subject.obstruct(host, attack);
-    }
-    else if (attack === this.BOTTOM && subject.velocity.y > host.velocity.y) {
-        their.top = our.bottom;
-        subject.obstruct(host, attack);
-    }
-    else if (attack === this.LEFT && subject.velocity.x > host.velocity.x) {
-        their.right = our.left;
-        subject.obstruct(host, attack);
-    }
-    else if (attack === this.RIGHT && subject.velocity.x < host.velocity.x) {
-        their.left = our.right;
-        subject.obstruct(host, attack);
+    var affect = (attack === this.TOP && subject.velocity.y < host.velocity.y) ||
+                 (attack === this.BOTTOM && subject.velocity.y > host.velocity.y) ||
+                 (attack === this.LEFT && subject.velocity.x > host.velocity.x) ||
+                 (attack === this.RIGHT && subject.velocity.x < host.velocity.x);
+
+    if (affect === true) {
+        subject.obstruct(host, attack, our, their);
     }
 
     return attack;
+}
+
+Game.traits.Solid.prototype.__obstruct = function(object, attack, ourZone, theirZone)
+{
+    if (this.fixed === true) {
+        return;
+    }
+    if (attack === object.SURFACE_TOP) {
+        theirZone.bottom = ourZone.top;
+    } else if (attack === object.SURFACE_BOTTOM) {
+        theirZone.top = ourZone.bottom;
+    } else if (attack === object.SURFACE_LEFT) {
+        theirZone.right = ourZone.left;
+    } else if (attack === object.SURFACE_RIGHT) {
+        theirZone.left = ourZone.right;
+    }
 }
 
 Game.traits.Solid.prototype.__uncollides = function(subject, ourZone, theirZone)
