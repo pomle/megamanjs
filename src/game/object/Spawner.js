@@ -67,7 +67,7 @@ Game.objects.Spawner.prototype.reset = function()
 Game.objects.Spawner.prototype.spawnObject = function()
 {
     this.cleanReferences();
-    if (this.children.size >= this.maxSimultaneousSpawns) {
+    if (this.children.length >= this.maxSimultaneousSpawns) {
         return false;
     }
     if (this.spawns >= this.count || this.pool.length === 0) {
