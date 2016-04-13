@@ -72,7 +72,6 @@ Game.objects.projectiles.CrashBomb.prototype.recycle = function()
     Game.objects.Projectile.prototype.recycle.call(this);
     this.attachTime = -1;
     this.attachPosition = undefined;
-    this.collidable = true;
     this.lifetime = this.getLifetime();
 }
 
