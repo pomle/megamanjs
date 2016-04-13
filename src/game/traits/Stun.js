@@ -46,7 +46,6 @@ Game.traits.Stun.prototype.__obstruct = function(object, attack)
 {
     if (this._engaged === true && attack === object.SURFACE_TOP) {
         this.bump();
-        console.log(this._host.physics.force);
         this._bumpForce.multiplyScalar(.8);
     }
 }
