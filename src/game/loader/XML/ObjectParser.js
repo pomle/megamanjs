@@ -212,6 +212,7 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         var group = animationNode.getAttribute('group') || undefined;
         var animation = new Engine.Animator.Animation(id, group);
         var frameNodes = animationNode.getElementsByTagName('frame');
+        var loop = [];
         for (var i = 0, frameNode; frameNode = frameNodes[i]; ++i) {
             var offset = this.getVector2(frameNode, 'x', 'y');
             var size = this.getVector2(frameNode, 'w', 'h') ||
@@ -220,6 +221,21 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             var uvMap = new Engine.UVCoords(offset, size, texture.size);
             var duration = this.getFloat(frameNode, 'duration') || undefined;
             animation.addFrame(uvMap, duration);
+
+            var parent = frameNode.parentNode;
+            if (parent.tagName === 'loop') {
+                loop.push([uvMap, duration]);
+                var next = frameNodes[i+1] && frameNodes[i+1].parentNode;
+                if (parent !== next) {
+                    var loopCount = parseInt(parent.getAttribute('count'), 10) || 1;
+                    while (--loopCount) {
+                        for (var j = 0; j < loop.length; ++j) {
+                            animation.addFrame(loop[j][0], loop[j][1]);
+                        }
+                    }
+                    loop = [];
+                }
+            }
         }
 
         return animation;
