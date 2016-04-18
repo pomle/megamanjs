@@ -851,34 +851,34 @@
             <object id="ironwall" x="2792" y="-656"/>
             <object id="drwily-sign" x="4592" y="-1024" z="0"/>
         </objects>
-        <spawner x="680" y="-88" interval="4" simultaneous="2">
+        <spawner x="680" y="-88" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="744" y="-120" interval="4" simultaneous="2">
+        <spawner x="744" y="-120" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="840" y="-72" interval="4" simultaneous="2">
+        <spawner x="840" y="-72" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="904" y="-104" interval="4" simultaneous="2">
+        <spawner x="904" y="-104" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="984" y="-152" interval="4" simultaneous="2">
+        <spawner x="984" y="-152" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="1064" y="-88" interval="4" simultaneous="2">
+        <spawner x="1064" y="-88" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="1160" y="-88" interval="4" simultaneous="2">
+        <spawner x="1160" y="-88" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="1256" y="-56" interval="4" simultaneous="2">
+        <spawner x="1256" y="-56" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="1352" y="-88" interval="4" simultaneous="2">
+        <spawner x="1352" y="-88" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
-        <spawner x="1480" y="-88" interval="4" simultaneous="2">
+        <spawner x="1480" y="-88" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>
         <spawner x="1976" y="-568" interval="7" simultaneous="1">
