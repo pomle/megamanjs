@@ -106,17 +106,17 @@
     </bosses>
 
     <weapons>
-        <weapon source="AirShooter" id="AirShooter" name="Air Shooter" code="a" ammo="16">
+        <weapon source="AirShooter" id="AirShooter" name="Air Shooter" code="a" ammo="28" cost="1.75">
             <projectile id="AirShot" amount="3"/>
         </weapon>
-        <weapon source="Plasma" id="Plasma" name="Plasma" code="p" >
+        <weapon source="Plasma" id="Plasma" name="Plasma" code="p">
             <projectile id="Plasma" amount="3"/>
             <directions x1="-1" y1="-1" x2="1" y2="1"/>
         </weapon>
-        <weapon source="CrashBomber" id="CrashBomber" name="Crash Bomber" code="c" ammo="8" cool-down="1">
+        <weapon source="CrashBomber" id="CrashBomber" name="Crash Bomber" code="c" ammo="28" cost="4" cool-down="1">
             <projectile id="CrashBomb" amount="1"/>
         </weapon>
-        <weapon source="MetalBlade" id="MetalBlade" code="m" name="Metal Blade" ammo="84">
+        <weapon source="MetalBlade" id="MetalBlade" code="m" name="Metal Blade" ammo="28" cost="0.3333">
             <projectile id="MetalBlade" amount="3"/>
         </weapon>
         <weapon source="TimeStopper" id="TimeStopper" code="f" name="Time Stopper" ammo="30" />
