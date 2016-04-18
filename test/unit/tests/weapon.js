@@ -31,7 +31,6 @@ describe('Weapon', function() {
     it('should honor cooldown time if set', function() {
       weapon.setCoolDown(1);
       expect(weapon.fire()).to.be(true);
-      expect(weapon.coolDownDelay).to.equal(weapon.coolDown);
       weapon.timeShift(.9);
       expect(weapon.fire()).to.be(false);
       weapon.timeShift(.1);

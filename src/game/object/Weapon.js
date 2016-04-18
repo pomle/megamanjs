@@ -2,10 +2,11 @@ Game.objects.Weapon = function()
 {
     Engine.Events.call(this);
 
+    this._coolDownDelay = undefined;
+
     this.ammo = new Engine.logic.Energy(100);
     this.code = undefined;
     this.coolDown = 0;
-    this.coolDownDelay = undefined;
     this.cost = 1;
     this.directions = [
         new THREE.Vector2(-1, 0),
@@ -91,7 +92,7 @@ Game.objects.Weapon.prototype.fire = function()
 
     if (this.coolDown > 0) {
         this.ready = false;
-        this.coolDownDelay = this.coolDown;
+        this._coolDownDelay = this.coolDown;
     }
 
     return true;
@@ -135,12 +136,12 @@ Game.objects.Weapon.prototype.timeShift = function(dt)
         this._lastAmmoAmount = this.ammo.amount;
     }
 
-    if (this.coolDownDelay !== undefined) {
-        this.coolDownDelay -= dt;
-        if (this.coolDownDelay <= 0) {
+    if (this._coolDownDelay !== undefined) {
+        this._coolDownDelay -= dt;
+        if (this._coolDownDelay <= 0) {
             this.ready = true;
             this.trigger(this.EVENT_READY);
-            this.coolDownDelay = undefined;
+            this._coolDownDelay = undefined;
         }
     }
 }
