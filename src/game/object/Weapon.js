@@ -33,9 +33,7 @@ Game.objects.Weapon.prototype.addProjectile = function(projectile)
     }
     this.projectiles.push(projectile);
     this.projectilesIdle.push(projectile);
-    projectile.bind(projectile.EVENT_RECYCLE, function() {
-        this.recycleProjectile(projectile);
-    }.bind(this));
+    projectile.bind(projectile.EVENT_RECYCLE, this.recycleProjectile.bind(this));
 }
 
 Game.objects.Weapon.prototype.emit = function(projectile)
