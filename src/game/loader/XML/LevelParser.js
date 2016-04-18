@@ -150,10 +150,15 @@ Game.Loader.XML.Parser.LevelParser.prototype.parseGravity = function(levelNode)
 
 Game.Loader.XML.Parser.LevelParser.prototype.parseObject = function(objectNode, objects) {
     var objectId = objectNode.getAttribute('id');
-    if (!objects[objectId]) {
+    var constructor;
+
+    if (objects[objectId]) {
+        constructor = objects[objectId];
+    } else if (this.loader.resource.has('object', objectId)) {
+        constructor = this.loader.resource.get('object', objectId);
+    } else {
         throw new Error('Object id "' + objectId + '" not defined');
     }
-    var constructor = objects[objectId];
 
     var object = new constructor();
     var position = this.getPosition(objectNode) || this.DEFAULT_POS;

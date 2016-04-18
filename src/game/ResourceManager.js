@@ -77,6 +77,12 @@ Game.ResourceManager.prototype.get = function(type, id)
     throw new Error('No resource "' + id + '" of type ' + type);
 }
 
+Game.ResourceManager.prototype.has = function(type, id)
+{
+    return this.items[type] !== undefined &&
+           this.items[type][id] !== undefined;
+}
+
 Game.ResourceManager.prototype.loadTexture = function(url)
 {
     return Engine.TextureManager.getScaledTexture(url, this.textureScale);
