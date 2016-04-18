@@ -10,6 +10,7 @@ Game.traits.Solid = function()
     ];
 
     this.fixed = false;
+    this.obstructs = false;
 
     this.ignore = new Set();
 }
@@ -49,13 +50,15 @@ Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
         return false;
     }
 
-    var affect = (attack === this.TOP && subject.velocity.y < host.velocity.y) ||
-                 (attack === this.BOTTOM && subject.velocity.y > host.velocity.y) ||
-                 (attack === this.LEFT && subject.velocity.x > host.velocity.x) ||
-                 (attack === this.RIGHT && subject.velocity.x < host.velocity.x);
+    if (this.obstructs) {
+        var affect = (attack === this.TOP && subject.velocity.y < host.velocity.y) ||
+                     (attack === this.BOTTOM && subject.velocity.y > host.velocity.y) ||
+                     (attack === this.LEFT && subject.velocity.x > host.velocity.x) ||
+                     (attack === this.RIGHT && subject.velocity.x < host.velocity.x);
 
-    if (affect === true) {
-        subject.obstruct(host, attack, our, their);
+        if (affect === true) {
+            subject.obstruct(host, attack, our, their);
+        }
     }
 
     return attack;

@@ -19,6 +19,7 @@ describe('Trait', function() {
       });
       it('should have fixed set to false', function() {
         expect(trait.fixed).to.be(false);
+        expect(trait.obstructs).to.be(false);
       });
     });
     context('when supporting a character', function() {
@@ -28,6 +29,7 @@ describe('Trait', function() {
         var ground = new Obj();
         ground.applyTrait(new Solid());
         ground.solid.fixed = true;
+        ground.solid.obstructs = true;
         ground.addCollisionRect(100, 10);
         ground.position.set(0, 0, 0);
         var actor = new Character();
