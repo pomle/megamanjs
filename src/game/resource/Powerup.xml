@@ -19,9 +19,19 @@
             <frame x="16" y="0" duration=".1"/>
         </animation>
 
-        <animation id="weapon-tank" w="16" h="16">
+        <animation id="energy-tank-small" w="8" h="8">
+            <frame x="32" y="16" duration=".1"/>
+            <frame x="40" y="16" duration=".1"/>
+        </animation>
+
+        <animation id="weapon-tank" w="16" h="12">
             <frame x="0" y="20" duration=".1"/>
             <frame x="16" y="20" duration=".1"/>
+        </animation>
+
+        <animation id="weapon-tank-small" w="8" h="8">
+            <frame x="32" y="24" duration=".1"/>
+            <frame x="40" y="24" duration=".1"/>
         </animation>
     </animations>
 
@@ -63,14 +73,29 @@
         <traits>
             <trait source="Pickupable">
                 <property type="energy-tank"/>
-                <property capacity="30"/>
+                <property capacity="10"/>
+            </trait>
+        </traits>
+    </object>
+
+    <object type="object" id="EnergyTankSmall">
+        <geometry type="plane" w="8" h="8">
+            <face animation="energy-tank-small"/>
+        </geometry>
+        <collision>
+            <circ r="4"/>
+        </collision>
+        <traits>
+            <trait source="Pickupable">
+                <property type="energy-tank"/>
+                <property capacity="3"/>
             </trait>
         </traits>
     </object>
 
     <object type="object" id="WeaponTank">
-        <geometry type="plane" w="16" h="16">
-            <face animation="energy-capsule"/>
+        <geometry type="plane" w="16" h="12">
+            <face animation="weapon-tank"/>
         </geometry>
         <collision>
             <rect w="16" h="12"/>
@@ -78,7 +103,22 @@
         <traits>
             <trait source="Pickupable">
                 <property type="weapon-tank"/>
-                <property capacity="30"/>
+                <property capacity="10"/>
+            </trait>
+        </traits>
+    </object>
+
+    <object type="object" id="WeaponTankSmall">
+        <geometry type="plane" w="8" h="8">
+            <face animation="weapon-tank-small"/>
+        </geometry>
+        <collision>
+            <rect w="8" h="8"/>
+        </collision>
+        <traits>
+            <trait source="Pickupable">
+                <property type="weapon-tank"/>
+                <property capacity="3"/>
             </trait>
         </traits>
     </object>
