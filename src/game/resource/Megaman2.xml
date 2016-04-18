@@ -36,6 +36,7 @@
             <scene type="level" name="Physics" src="./levels/debug/Physics.xml" />
             <scene type="level" name="BackgroundFaceAnimation" src="./levels/debug/BackgroundFaceAnimation.xml" />
             <scene type="level" name="Enemies" src="./levels/debug/Enemies.xml" />
+            <scene type="level" name="Powerups" src="./levels/debug/Powerups.xml" />
         <!-- End Debug Levels -->
     </scenes>
 
