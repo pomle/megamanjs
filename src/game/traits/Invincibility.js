@@ -5,6 +5,7 @@ Game.traits.Invincibility = function()
     this._engaged = false;
     this._elapsed = 0;
     this._health = undefined;
+    this._visibilityBlinkInterval = 1/60;
 
     this.duration = .5;
 
@@ -33,7 +34,7 @@ Game.traits.Invincibility.prototype.__detach = function()
 Game.traits.Invincibility.prototype.__timeshift = function(deltaTime)
 {
     if (this._engaged) {
-        this._host.model.visible = !this._host.model.visible;
+        this._host.model.visible = this._elapsed % (this._visibilityBlinkInterval * 2) > this._visibilityBlinkInterval;
         if (this._elapsed >= this.duration) {
             this.disengage();
         }
