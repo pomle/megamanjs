@@ -7,6 +7,7 @@ Game.traits.Weapon = function()
     // Duration host left in shooting state after fire.
     this._timeout = .25;
     this._duration = Infinity;
+    this._weapon = undefined;
     this.projectileEmitOffset = new THREE.Vector2();
     this.projectileEmitRadius = 0;
 }
@@ -18,6 +19,17 @@ Game.traits.Weapon.prototype.NAME = 'weapon';
 Game.traits.Weapon.prototype.EVENT_FIRE = 'weapon-fire';
 Game.traits.Weapon.prototype.EVENT_EQUIP = 'weapon-equip';
 
+Game.traits.Weapon.prototype.__collides = function(withObject)
+{
+    if (withObject.pickupable && this._weapon && this._weapon.ammo.full === false) {
+        var props = withObject.pickupable.properties;
+        if (props.type === 'weapon-tank') {
+            withObject.world.removeObject(withObject);
+            this._weapon.ammo.amount += props.capacity;
+        }
+    }
+}
+
 Game.traits.Weapon.prototype.__timeshift = function(deltaTime)
 {
     if (this._firing) {
@@ -28,8 +40,8 @@ Game.traits.Weapon.prototype.__timeshift = function(deltaTime)
         }
     }
 
-    if (this.weapon !== undefined) {
-        this.weapon.timeShift(deltaTime);
+    if (this._weapon !== undefined) {
+        this._weapon.timeShift(deltaTime);
     }
 }
 
@@ -38,8 +50,8 @@ Game.traits.Weapon.prototype.equip = function(weapon)
     if (weapon instanceof Game.objects.Weapon === false) {
         throw new Error('Invalid weapon');
     }
-    this.weapon = weapon;
-    this.weapon.setUser(this._host);
+    this._weapon = weapon;
+    this._weapon.setUser(this._host);
     this._host.trigger(this.EVENT_EQUIP, [weapon]);
 }
 
@@ -49,11 +61,11 @@ Game.traits.Weapon.prototype.fire = function()
         return false;
     }
 
-    if (this.weapon === undefined) {
+    if (this._weapon === undefined) {
         return false;
     }
 
-    if (!this.weapon.fire()) {
+    if (!this._weapon.fire()) {
         return false;
     }
 
