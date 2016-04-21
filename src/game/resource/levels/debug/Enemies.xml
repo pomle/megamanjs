@@ -50,7 +50,7 @@
 
         <behaviors>
             <solids>
-                <rect x="0" y="0" w="2000" h="16" />
+                <rect x="0" y="0" w="4096" h="16" />
             </solids>
         </behaviors>
     </layout>
