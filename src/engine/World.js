@@ -30,7 +30,7 @@ Engine.World.prototype.addObject = function(object)
     if (object instanceof Engine.Object === false) {
         throw new TypeError('Invalid object');
     }
-    if (this.objects.indexOf(object) !== -1) {
+    if (this.hasObject(object)) {
         return;
     }
 
