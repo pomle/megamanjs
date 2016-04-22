@@ -59,6 +59,8 @@ Game.traits.Jump.prototype.engage = function()
     this._elapsed = 0;
 
     host.trigger(this.EVENT_JUMP_ENGAGE);
+
+    return true;
 }
 
 Game.traits.Jump.prototype.cancel = function()
