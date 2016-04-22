@@ -72,7 +72,7 @@ Game.objects.characters.SniperArmor.prototype.timeShift = function(dt)
         }
     }
 
-    if (this.isSupported) {
+    if (this.jump._ready) {
         this.groundTime += dt;
         this.airTime = 0;
     }
