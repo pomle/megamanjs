@@ -3,8 +3,6 @@ Game.objects.Character = function()
     Engine.Object.call(this);
 
     this.ai = new Engine.AI(this);
-    this.aim = new THREE.Vector2();
-    this.anim = undefined;
     this.dead = false;
     this.direction.x = this.DIRECTION_RIGHT;
 }
