@@ -78,6 +78,13 @@ Engine.World.prototype._cleanObject = function(object) {
     }
 }
 
+Engine.World.prototype.updateAnimation = function(dt) {
+    var objects = this.objects;
+    for (var i = 0, l = objects.length; i !== l; ++i) {
+        objects[i].updateAnimators(dt);
+    }
+}
+
 Engine.World.prototype.updateTime = function(deltaTime)
 {
     deltaTime *= this.timeStretch;

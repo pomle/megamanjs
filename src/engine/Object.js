@@ -167,8 +167,6 @@ Engine.Object.prototype.timeShift = function(deltaTime)
 
     this.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
 
-    this.updateAnimators(deltaTime);
-
     this.integrator.integrate(this.position, this.velocity, deltaTime);
 
     this.time += deltaTime;
