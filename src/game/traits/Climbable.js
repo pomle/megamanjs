@@ -2,11 +2,13 @@ Game.traits.Climbable = function()
 {
     Game.traits.Solid.call(this);
     this.attackAccept = [this.TOP];
+    this.fixed = true;
+    this.obstructs = true;
 }
 
 Engine.Util.extend(Game.traits.Climbable, Game.traits.Solid);
-Game.traits.Climbable.prototype.NAME = 'climbable';
 
+Game.traits.Climbable.prototype.NAME = 'climbable';
 
 Game.traits.Climbable.prototype.__uncollides = function(subject)
 {

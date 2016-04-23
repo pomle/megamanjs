@@ -33,7 +33,6 @@ Game.traits.Climber.prototype.__collides = function(subject, ourZone, theirZone)
     if (subject.climbable === undefined) {
         return;
     }
-
     this.grab(subject, ourZone, theirZone);
 }
 
@@ -52,14 +51,15 @@ Game.traits.Climber.prototype.__timeshift = function(deltaTime)
     }
 
     var host = this._host;
-    this._host.physics.zero();
+    if (host.physics) {
+        host.physics.zero();
+    }
 
-    host.velocity.copy(this.attached.velocity);
-    host.velocity.add(host.aim.clone().setLength(this.speed));
+    host.velocity.copy(host.aim).setLength(this.speed);
+    host.velocity.add(this.attached.velocity);
 
     if (host.aim.y > 0 && host.position.y > this.bounds.climbable.top - this.thresholds.top) {
         this.bounds.host.bottom = this.bounds.climbable.top;
-        host.obstruct(this.attached, this.attached.SURFACE_TOP);
         this.release();
         return;
     }
@@ -69,21 +69,19 @@ Game.traits.Climber.prototype.__timeshift = function(deltaTime)
 
 Game.traits.Climber.prototype.constrain = function()
 {
-    var subject = this._host,
-        climbable = this.bounds.climbable,
-        thresh = this.thresholds;
+    var subject = this._host;
+    var climbable = this.bounds.climbable;
+    var thresh = this.thresholds;
 
     if (subject.position.x > climbable.right + thresh.right) {
         subject.position.x = climbable.right + thresh.right;
-    }
-    else if (subject.position.x < climbable.left - thresh.left) {
+    } else if (subject.position.x < climbable.left - thresh.left) {
         subject.position.x = climbable.left - thresh.left;
     }
 
     if (subject.position.y > climbable.top - thresh.top) {
         subject.position.y = climbable.top - thresh.top;
-    }
-    else if (subject.position.y < climbable.bottom + thresh.bottom) {
+    } else if (subject.position.y < climbable.bottom + thresh.bottom) {
         subject.position.y = climbable.bottom + thresh.bottom;
     }
 }
@@ -103,20 +101,15 @@ Game.traits.Climber.prototype.grab = function(subject, ourZone, theirZone)
         return false;
     }
 
-    var bounds = {
-        climbable: new Engine.Collision.BoundingBox(subject, theirZone),
-        host: new Engine.Collision.BoundingBox(host, ourZone),
-    };
-
     /* Don't grab ladder if on top and push up. */
     if (host.aim.y > 0) {
-        if (host.position.y > bounds.climbable.top - this.thresholds.top) {
+        if (host.position.y > theirZone.top - this.thresholds.top) {
             return false;
         }
     }
 
-    this.bounds.climbable = bounds.climbable;
-    this.bounds.host = bounds.host;
+    this.bounds.climbable = theirZone;
+    this.bounds.host = ourZone;
 
     this.attached = subject;
     this.attached.climbable.attach(host);
@@ -131,9 +124,12 @@ Game.traits.Climber.prototype.release = function()
     if (this.attached === undefined) {
         return;
     }
+    var host = this._host;
     this.bounds.climbable = undefined;
     this.bounds.host = undefined;
-    this.attached.climbable.detach(this._host);
+    this.attached.climbable.detach(host);
     this.attached = undefined;
-    this._host.physics.zero();
+    if (host.physics) {
+        host.physics.zero();
+    }
 }
