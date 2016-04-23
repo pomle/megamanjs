@@ -20,7 +20,6 @@ Engine.prototype.EVENT_SIMULATE = 'simulate';
 Engine.prototype.EVENT_TIMEPASS = 'timepass';
 
 Engine.logic = {};
-Engine.traits = {};
 
 Engine.prototype.eventLoop = function(timeElapsed) {
     if (timeElapsed !== undefined) {
