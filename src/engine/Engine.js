@@ -20,7 +20,6 @@ Engine.prototype.EVENT_SIMULATE = 'simulate';
 Engine.prototype.EVENT_TIMEPASS = 'timepass';
 
 Engine.logic = {};
-Engine.traits = {};
 
 Engine.prototype.eventLoop = function(timeElapsed) {
     if (timeElapsed !== undefined) {
@@ -67,6 +66,10 @@ Engine.prototype.simulateTime = function(dt) {
     this.simulationTimePassed += dt;
 }
 
+Engine.prototype.updateAnimation = function(dt) {
+    this.world.updateAnimation(dt);
+}
+
 Engine.prototype.updateTime = function(dt) {
     dt *= this.timeStretch;
     if (this.isSimulating === true && this.simulationSpeed !== 0) {
@@ -75,6 +78,7 @@ Engine.prototype.updateTime = function(dt) {
             this.simulateTime(this.timeStep);
             this.accumulator -= this.timeStep;
         }
+        this.updateAnimation(dt);
     }
     this.events.trigger(this.EVENT_TIMEPASS, [dt]);
     this.realTimePassed += dt;

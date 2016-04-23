@@ -167,13 +167,16 @@ Engine.Object.prototype.timeShift = function(deltaTime)
 
     this.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
 
-    for (var i = 0, l = this.animators.length; i < l; ++i) {
-        this.animators[i].update(deltaTime);
-    }
-
     this.integrator.integrate(this.position, this.velocity, deltaTime);
 
     this.time += deltaTime;
+}
+
+Engine.Object.prototype.updateAnimators = function(deltaTime) {
+    var animators = this.animators;
+    for (var i = 0, l = animators.length; i !== l; ++i) {
+        animators[i].update(deltaTime);
+    }
 }
 
 Engine.Object.prototype.uncollides = function(withObject)

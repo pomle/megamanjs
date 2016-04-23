@@ -30,7 +30,7 @@ Engine.World.prototype.addObject = function(object)
     if (object instanceof Engine.Object === false) {
         throw new TypeError('Invalid object');
     }
-    if (this.objects.indexOf(object) !== -1) {
+    if (this.hasObject(object)) {
         return;
     }
 
@@ -75,6 +75,13 @@ Engine.World.prototype._cleanObject = function(object) {
     this.collision.removeObject(object);
     if (object.model) {
         this.scene.remove(object.model);
+    }
+}
+
+Engine.World.prototype.updateAnimation = function(dt) {
+    var objects = this.objects;
+    for (var i = 0, l = objects.length; i !== l; ++i) {
+        objects[i].updateAnimators(dt);
     }
 }
 
