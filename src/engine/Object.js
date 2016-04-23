@@ -5,6 +5,7 @@ Engine.Object = function()
     this.uuid = THREE.Math.generateUUID();
     this.name = undefined;
 
+    this.aim = new THREE.Vector2();
     this.anim = undefined;
     this.animators = [];
     this.collidable = true;
