@@ -220,7 +220,7 @@ describe('Collision', function() {
   describe('BoundingBox', function() {
     var host = new Obj();
     host.addCollisionRect(5, 7);
-    var box = new Collision.BoundingBox(host, host.collision[0]);
+    var box = host.collision[0];
     it('should have x and y', function() {
       expect(box.x).to.equal(0);
       expect(box.y).to.equal(0);

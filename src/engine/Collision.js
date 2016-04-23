@@ -120,46 +120,40 @@ Engine.Collision.prototype.setCollisionRadius = function(units)
 
 Engine.Collision.prototype.zonesCollide = function(object1, zone1, object2, zone2)
 {
-    var pos1 = object1.position.clone().add(zone1.position);
-    var pos2 = object2.position.clone().add(zone2.position);
-
-    var rect1 = Engine.Math.Geometry.convertPlaneToRectangle(zone1.geometry);
-    var rect2 = Engine.Math.Geometry.convertPlaneToRectangle(zone2.geometry);
-
     return Engine.Math.Geometry.rectanglesIntersect(
-        pos1.x, pos1.y, rect1.w, rect1.h,
-        pos2.x, pos2.y, rect2.w, rect2.h);
+        zone1.x, zone1.y, zone1.w, zone1.h,
+        zone2.x, zone2.y, zone2.w, zone2.h);
 }
 
-Engine.Collision.BoundingBox = function(object, zone)
+Engine.Collision.BoundingBox = function(hostPos, size, offset)
 {
-    var rect = Engine.Math.Geometry.convertPlaneToRectangle(zone.geometry);
+    this.position = hostPos;
+    this.offset = offset;
 
-    this.position = object.position;
-    this.zone = zone;
+    this.w = size.x;
+    this.h = size.y;
+    this.width = size.x;
+    this.height = size.y;
 
-    this.height = rect.h;
-    this.width = rect.w;
-
-    this._h = this.height / 2;
-    this._w = this.width / 2;
+    this._w = this.w / 2;
+    this._h = this.h / 2;
 }
 
 Object.defineProperties(Engine.Collision.BoundingBox.prototype, {
     x: {
         get: function() {
-            return this.position.x + this.zone.position.x;
+            return this.position.x + this.offset.x;
         },
         set: function(v) {
-            this.position.x = v - this.zone.position.x;
+            this.position.x = v - this.offset.x;
         },
     },
     y: {
         get: function() {
-            return this.position.y + this.zone.position.y;
+            return this.position.y + this.offset.y;
         },
         set: function(v) {
-            this.position.y = v - this.zone.position.y;
+            this.position.y = v - this.offset.y;
         },
     },
     left: {

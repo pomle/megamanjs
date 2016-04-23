@@ -47,31 +47,16 @@ Engine.Object.prototype.geometry = undefined;
 Engine.Object.prototype.material = undefined;
 Engine.Object.prototype.textures = {};
 
-Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
-{
-    var material = new THREE.MeshBasicMaterial({
-        color: 'white',
-        wireframe: true,
-        side: THREE.DoubleSide,
-    });
-    var mesh = new THREE.Mesh(geometry, material);
-    mesh.position.x = offsetX || 0;
-    mesh.position.y = offsetY || 0;
-    mesh.position.z = 0;
-    this.collision.push(mesh);
-    return mesh;
-}
-
 Engine.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
 {
-    var rect = new THREE.PlaneGeometry(w, h, 1, 1);
-    return this.addCollisionGeometry(rect, offsetX, offsetY);
+    var boundingBox = new Engine.Collision.BoundingBox(
+        this.position, {x: w, y: h}, {x: offsetX || 0, y: offsetY || 0});
+    this.collision.push(boundingBox);
 }
 
 Engine.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 {
-    var circle = new THREE.CircleGeometry(r, 8);
-    return this.addCollisionGeometry(circle, offsetX, offsetY);
+    return this.addCollisionRect(r * 2, r * 2, offsetX, offsetY);
 }
 
 Engine.Object.prototype.applyTrait = function(trait)
@@ -145,6 +130,9 @@ Engine.Object.prototype.setEmitter = function(object)
 
 Engine.Object.prototype.setModel = function(model)
 {
+    if (this.collision.length) {
+        throw new Error('Can not update model after collision');
+    }
     this.model = model;
     this.position = this.model.position;
 }
