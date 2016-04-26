@@ -2,6 +2,8 @@ Game.traits.Jump = function()
 {
     Engine.Trait.call(this);
 
+    this._fallcount = 0;
+
     this._elapsed = undefined;
     this._bump = new THREE.Vector2();
     this._ready = false;
@@ -21,6 +23,7 @@ Game.traits.Jump.prototype.__obstruct = function(object, attack)
 {
     if (attack === object.SURFACE_TOP) {
         this._ready = true;
+        this._fallcount = 0;
     } else if (attack === object.SURFACE_BOTTOM) {
         this._end();
     }
@@ -28,7 +31,10 @@ Game.traits.Jump.prototype.__obstruct = function(object, attack)
 
 Game.traits.Jump.prototype.__timeshift = function(deltaTime)
 {
-    this._ready = false;
+    if (++this._fallcount >= 2) {
+        this._ready = false;
+    }
+
     if (this._elapsed === undefined) {
         return;
     } else if (this._elapsed >= this.duration) {
