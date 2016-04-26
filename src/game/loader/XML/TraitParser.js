@@ -120,8 +120,8 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
         };
     } else if (name === 'solid') {
         var attackAccept = this.parseAttack(traitNode, 'attack');
-        var fixed = this.getAttr(traitNode, 'fixed') || false;
-        var obstructs = this.getAttr(traitNode, 'obstructs') || false;
+        var fixed = this.getBool(traitNode, 'fixed') || false;
+        var obstructs = this.getBool(traitNode, 'obstructs') || false;
         blueprint.setup = function(trait) {
             trait.fixed = fixed;
             trait.obstructs = obstructs;
