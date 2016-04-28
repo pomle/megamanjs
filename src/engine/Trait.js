@@ -58,9 +58,9 @@ Engine.Trait.prototype.__timeshift = undefined;
 Engine.Trait.prototype.__off = function()
 {
     if (this._bound === true) {
-        var host = this._host;
+        var events = this._host.events;
         for (var method in this._bindables) {
-            host.unbind(this.MAGIC_METHODS[method], this[method]);
+            events.unbind(this.MAGIC_METHODS[method], this[method]);
         }
         this._bound = false;
     }
@@ -69,10 +69,25 @@ Engine.Trait.prototype.__off = function()
 Engine.Trait.prototype.__on = function()
 {
     if (this._bound === false) {
-        var host = this._host;
+        var events = this._host.events;
         for (var method in this._bindables) {
-            host.bind(this.MAGIC_METHODS[method], this[method]);
+            events.bind(this.MAGIC_METHODS[method], this[method]);
         }
         this._bound = true;
     }
+}
+
+Engine.Trait.prototype._bind = function(name, callback)
+{
+    this._host.events.bind(name, callback);
+}
+
+Engine.Trait.prototype._trigger = function(name, values)
+{
+    this._host.events.trigger(name, values);
+}
+
+Engine.Trait.prototype._unbind = function(name, callback)
+{
+    this._host.events.unbind(name, callback);
 }

@@ -37,7 +37,7 @@ Game.traits.Teleport.prototype._start = function()
     this._startProgress = this.startDuration;
     this._host.collidable = false;
     this._host.physics.enabled = false;
-    this._host.trigger(this.EVENT_START);
+    this._trigger(this.EVENT_START);
 }
 
 Game.traits.Teleport.prototype._end = function()
@@ -46,7 +46,7 @@ Game.traits.Teleport.prototype._end = function()
     this._endProgress = this.endDuration;
     this._host.collidable = true;
     this._host.physics.enabled = true;
-    this._host.trigger(this.EVENT_END);
+    this._trigger(this.EVENT_END);
 }
 
 Game.traits.Teleport.prototype._stop = function()
@@ -74,7 +74,7 @@ Game.traits.Teleport.prototype._handle = function(dt)
         var teleportDistance = Engine.Animation.vectorTraverse(
             this._host.position, this._destination, this.speed * dt);
         if (teleportDistance === 0) {
-            this._host.trigger(this.EVENT_DEST_REACHED);
+            this._trigger(this.EVENT_DEST_REACHED);
             this._end();
         }
     }

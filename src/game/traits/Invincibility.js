@@ -21,12 +21,12 @@ Game.traits.Invincibility.prototype.__attach = function(host)
 {
     this._health = this.__require(host, Game.traits.Health);
     Engine.Trait.prototype.__attach.call(this, host);
-    host.bind(this._health.EVENT_HURT, this.engage);
+    this._bind(this._health.EVENT_HURT, this.engage);
 }
 
 Game.traits.Invincibility.prototype.__detach = function()
 {
-    this._host.unbind(this._health.EVENT_HURT, this.engage);
+    this._unbind(this._health.EVENT_HURT, this.engage);
     this._health = undefined;
     Engine.Trait.prototype.__detach.call(this, host);
 }

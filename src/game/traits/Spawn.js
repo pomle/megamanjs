@@ -20,10 +20,10 @@ Engine.Util.extend(Game.traits.Spawn, Engine.Trait, {
         Engine.Trait.prototype.__detach.apply(this, arguments);
     },
     _bind: function(condition) {
-        this._host.bind(condition.event, condition.callback);
+        this._host.events.bind(condition.event, condition.callback);
     },
     _unbind: function(condition) {
-        this._host.unbind(condition.event, condition.callback);
+        this._host.events.unbind(condition.event, condition.callback);
     },
     addItem: function(event, constr, offset) {
         offset = offset || new THREE.Vector3(0, 0, 0);
