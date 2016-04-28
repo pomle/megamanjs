@@ -24,7 +24,7 @@ Game.traits.Health.prototype.__collides = function(withObject)
         if (props.type === 'energy-tank') {
             withObject.world.removeObject(withObject);
             this.amount += props.capacity;
-            this._host.trigger(this.EVENT_HEALED);
+            this._trigger(this.EVENT_HEALED);
         }
     }
 }
@@ -32,7 +32,7 @@ Game.traits.Health.prototype.__collides = function(withObject)
 Game.traits.Health.prototype.__timeshift = function healthUpdate()
 {
     if (this._lastValue !== this._value) {
-        this._host.trigger(this.EVENT_HEALTH_CHANGED);
+        this._trigger(this.EVENT_HEALTH_CHANGED);
         this._lastValue = this._value;
     }
 
@@ -47,6 +47,6 @@ Game.traits.Health.prototype.inflictDamage = function(points, direction)
         return false;
     }
     this.amount -= points;
-    this._host.trigger(this.EVENT_HURT, [points, direction]);
+    this._trigger(this.EVENT_HURT, [points, direction]);
     return true;
 }

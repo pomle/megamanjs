@@ -52,7 +52,7 @@ Game.traits.Weapon.prototype.equip = function(weapon)
     }
     this._weapon = weapon;
     this._weapon.setUser(this._host);
-    this._host.trigger(this.EVENT_EQUIP, [weapon]);
+    this._trigger(this.EVENT_EQUIP, [weapon]);
 }
 
 Game.traits.Weapon.prototype.fire = function()
@@ -72,7 +72,7 @@ Game.traits.Weapon.prototype.fire = function()
     this._firing = true;
     this._duration = 0;
 
-    this._host.trigger(this.EVENT_FIRE);
+    this._trigger(this.EVENT_FIRE);
     return true;
 }
 

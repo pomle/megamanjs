@@ -62,7 +62,7 @@ describe('Weapon', function() {
     it('should trigger ammo change event', function() {
       weapon.ammo.max = 10;
       var callback = sinon.spy();
-      weapon.bind(weapon.EVENT_AMMO_CHANGED, callback);
+      weapon.events.bind(weapon.EVENT_AMMO_CHANGED, callback);
       weapon.fire();
       expect(callback.callCount).to.equal(1);
       expect(callback.lastCall.args[0]).to.be(weapon);

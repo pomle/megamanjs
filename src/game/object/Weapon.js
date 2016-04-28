@@ -1,7 +1,5 @@
 Game.objects.Weapon = function()
 {
-    Engine.Events.call(this);
-
     this._coolDownDelay = undefined;
 
     this.ammo = new Engine.logic.Energy(100);
@@ -12,6 +10,7 @@ Game.objects.Weapon = function()
         new THREE.Vector2(-1, 0),
         new THREE.Vector2(1, 0),
     ];
+    this.events = new Engine.Events(this);
     this.projectiles = [];
     this.projectilesFired = [];
     this.projectilesIdle = [];
@@ -20,8 +19,6 @@ Game.objects.Weapon = function()
 
     this._lastAmmoAmount = undefined;
 }
-
-Engine.Util.mixin(Game.objects.Weapon, Engine.Events);
 
 Game.objects.Weapon.prototype.EVENT_AMMO_CHANGED = 'ammo-changed';
 Game.objects.Weapon.prototype.EVENT_READY = 'ready';
@@ -33,7 +30,7 @@ Game.objects.Weapon.prototype.addProjectile = function(projectile)
     }
     this.projectiles.push(projectile);
     this.projectilesIdle.push(projectile);
-    projectile.bind(projectile.EVENT_RECYCLE, this.recycleProjectile.bind(this));
+    projectile.events.bind(projectile.EVENT_RECYCLE, this.recycleProjectile.bind(this));
 }
 
 Game.objects.Weapon.prototype.emit = function(projectile)
@@ -85,7 +82,7 @@ Game.objects.Weapon.prototype.fire = function()
             return false;
         }
         this.ammo.amount -= this.cost;
-        this.trigger(this.EVENT_AMMO_CHANGED, [this]);
+        this.events.trigger(this.EVENT_AMMO_CHANGED, [this]);
     }
 
     if (this.coolDown > 0) {
@@ -130,7 +127,7 @@ Game.objects.Weapon.prototype.setUser = function(user)
 Game.objects.Weapon.prototype.timeShift = function(dt)
 {
     if (this._lastAmmoAmount !== this.ammo.amount) {
-        this.trigger(this.EVENT_AMMO_CHANGED);
+        this.events.trigger(this.EVENT_AMMO_CHANGED);
         this._lastAmmoAmount = this.ammo.amount;
     }
 
@@ -138,7 +135,7 @@ Game.objects.Weapon.prototype.timeShift = function(dt)
         this._coolDownDelay -= dt;
         if (this._coolDownDelay <= 0) {
             this.ready = true;
-            this.trigger(this.EVENT_READY);
+            this.events.trigger(this.EVENT_READY);
             this._coolDownDelay = undefined;
         }
     }

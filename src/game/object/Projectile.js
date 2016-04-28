@@ -61,7 +61,7 @@ Game.objects.Projectile.prototype.recycle = function()
 {
     this.collidable = true;
     this.time = 0;
-    this.trigger(this.EVENT_RECYCLE, [this]);
+    this.events.trigger(this.EVENT_RECYCLE, [this]);
 }
 
 Game.objects.Projectile.prototype.setDamage = function(points)

@@ -64,7 +64,7 @@ Game.traits.Jump.prototype.engage = function()
     this._host.physics.velocity.add(this._bump);
     this._elapsed = 0;
 
-    host.trigger(this.EVENT_JUMP_ENGAGE);
+    this._trigger(this.EVENT_JUMP_ENGAGE);
 
     return true;
 }
@@ -74,7 +74,7 @@ Game.traits.Jump.prototype.cancel = function()
     if (this._elapsed !== undefined) {
         var progress = (this.duration - this._elapsed) / this.duration;
         this._host.physics.velocity.y -= this.force.y * progress * .8;
-        this._host.trigger(this.EVENT_JUMP_CANCEL);
+        this._trigger(this.EVENT_JUMP_CANCEL);
     }
     this._end();
 }
@@ -82,5 +82,5 @@ Game.traits.Jump.prototype.cancel = function()
 Game.traits.Jump.prototype._end = function()
 {
     this._elapsed = undefined;
-    this._host.trigger(this.EVENT_JUMP_END);
+    this._trigger(this.EVENT_JUMP_END);
 }

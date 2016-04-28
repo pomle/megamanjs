@@ -21,10 +21,10 @@ Game.traits.__Skeleton.prototype.__detach = function()
 
 Game.traits.__Skeleton.prototype.__timeshift = function(deltaTime)
 {
-    this.__host.setSomething = true;
-    this.__host.doSomething();
-    if (this.__host.setSomething === true) {
-        this.__host.trigger(this.EVENT_NAME);
+    this._host.setSomething = true;
+    this._host.doSomething();
+    if (this._host.setSomething === true) {
+        this._trigger(this.EVENT_NAME);
     }
 }
 

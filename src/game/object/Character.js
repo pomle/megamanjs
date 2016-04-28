@@ -33,7 +33,7 @@ Game.objects.Character.prototype.kill = function()
         this.weapon.__timeshift(0);
     }
 
-    this.trigger(this.EVENT_DEATH);
+    this.events.trigger(this.EVENT_DEATH);
     this.world.removeObject(this);
 }
 
@@ -41,7 +41,7 @@ Game.objects.Character.prototype.resurrect = function()
 {
     this.dead = false;
     this.health.fill();
-    this.trigger(this.EVENT_RESURRECT);
+    this.events.trigger(this.EVENT_RESURRECT);
 }
 
 Game.objects.Character.prototype.routeAnimation = function()

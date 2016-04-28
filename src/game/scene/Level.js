@@ -305,9 +305,9 @@ Game.scenes.Level.prototype.resetPlayer = function()
         var level = this;
         var startFollow = function() {
             camera.follow(character);
-            this.unbind(this.teleport.EVENT_END, arguments.callee);
+            this.events.unbind(this.teleport.EVENT_END, arguments.callee);
         }
-        character.bind(character.teleport.EVENT_END, startFollow);
+        character.events.bind(character.teleport.EVENT_END, startFollow);
         this.resetCheckpoint();
     }
     else {

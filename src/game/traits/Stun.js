@@ -30,7 +30,7 @@ Game.traits.Stun.prototype.__attach = function(host)
     this._move = this.__require(host, Game.traits.Move);
 
     Engine.Trait.prototype.__attach.call(this, host);
-    this._host.bind(this._health.EVENT_HURT, this.engage);
+    this._bind(this._health.EVENT_HURT, this.engage);
 }
 
 Game.traits.Stun.prototype.__detach = function()

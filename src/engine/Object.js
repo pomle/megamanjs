@@ -1,7 +1,5 @@
 Engine.Object = function()
 {
-    Engine.Events.call(this);
-
     this.uuid = THREE.Math.generateUUID();
     this.name = undefined;
 
@@ -13,6 +11,7 @@ Engine.Object = function()
     this.deltaTime = undefined;
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
+    this.events = new Engine.Events(this);
     this.integrator = new Engine.Verlet(new THREE.Vector2());
     this.origo = new THREE.Vector2();
     this.position = new THREE.Vector3();
@@ -26,8 +25,6 @@ Engine.Object = function()
         this.setModel(new THREE.Mesh(this.geometry, this.material));
     }
 }
-
-Engine.Util.mixin(Engine.Object, Engine.Events);
 
 Engine.Object.prototype.DIRECTION_UP = 1;
 Engine.Object.prototype.DIRECTION_DOWN = -1;
@@ -76,7 +73,7 @@ Engine.Object.prototype.applyTrait = function(trait)
 
 Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    this.trigger(this.EVENT_COLLIDE, [withObject, ourZone, theirZone]);
+    this.events.trigger(this.EVENT_COLLIDE, [withObject, ourZone, theirZone]);
 }
 
 Engine.Object.prototype.dropCollision = function()
@@ -110,7 +107,7 @@ Engine.Object.prototype.nudge = function(x, y)
 
 Engine.Object.prototype.obstruct = function(object, attack, ourZone, theirZone)
 {
-    this.trigger(this.EVENT_OBSTRUCT, [object, attack, ourZone, theirZone]);
+    this.events.trigger(this.EVENT_OBSTRUCT, [object, attack, ourZone, theirZone]);
 }
 
 Engine.Object.prototype.setAnimation = function(name)
@@ -154,7 +151,7 @@ Engine.Object.prototype.timeShift = function(deltaTime)
         this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
     }
 
-    this.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
+    this.events.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
 
     this.integrator.integrate(this.position, this.velocity, deltaTime);
 
@@ -170,7 +167,7 @@ Engine.Object.prototype.updateAnimators = function(deltaTime) {
 
 Engine.Object.prototype.uncollides = function(withObject)
 {
-    this.trigger(this.EVENT_UNCOLLIDE, [withObject]);
+    this.events.trigger(this.EVENT_UNCOLLIDE, [withObject]);
 }
 
 Engine.Object.prototype.unsetWorld = function() {
