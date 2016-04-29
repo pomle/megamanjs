@@ -17,23 +17,14 @@ describe('Events', function() {
         expect(error).to.be.a(TypeError);
         expect(error.message).to.equal("Event name must be string");
       });
-      expect(events.events).to.eql({});
     });
-    it('should add callback to array in map', function() {
+    it('should accept a function as bindable', function() {
       events.bind('event1', callback1);
-      expect(events.events['event1']).to.be.an(Array);
-      expect(events.events['event1']).to.have.length(1);
-      expect(events.events['event1'][0]).to.be(callback1);
       events.bind('event1', callback2);
-      expect(events.events['event1'][1]).to.be(callback2);
     });
     it('should accept same callback to be bound to different events', function() {
       events.bind('event2', callback2);
       events.bind('event2', callback3);
-      expect(events.events['event1']).to.have.length(2);
-      expect(events.events['event2']).to.have.length(2);
-      expect(events.events['event2'][0]).to.be(callback2);
-      expect(events.events['event2'][1]).to.be(callback3);
     });
   });
   describe('#bound()', function() {
@@ -71,15 +62,6 @@ describe('Events', function() {
     it('should silently ignore unbinding of unbound events', function() {
       events.unbind('event1', callback1);
       events.unbind('not-defined-event-name', callback1);
-    });
-  });
-  describe('#gc()', function() {
-    it('should remove all unbound methods', function() {
-      events.gc('event1');
-      expect(events.events['event1']).to.have.length(1);
-    });
-    it('should gracefully handle undefined events', function() {
-      events.gc('not-defined-event-name');
     });
   });
 });
