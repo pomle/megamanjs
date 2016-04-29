@@ -10,6 +10,10 @@ var Trait = env.Engine.Trait;
 describe('Trait', function() {
   var MockTrait = function() {
     Trait.apply(this, arguments);
+    this.__collides = sinon.spy();
+    this.__obstruct = sinon.spy();
+    this.__uncollides = sinon.spy();
+    this.__timeshift = sinon.spy();
   }
   extend(MockTrait, Trait);
   MockTrait.prototype.NAME = 'mockTrait';
@@ -18,14 +22,26 @@ describe('Trait', function() {
   MockTrait.prototype.__uncollides = sinon.spy();
   MockTrait.prototype.__timeshift = sinon.spy();
 
-  it('should bind magic methods when applied', function() {
+  context('when applied', function() {
     var host = new Host();
     var trait = new MockTrait();
     host.applyTrait(trait);
-    expect(host.events[host.EVENT_COLLIDE]).to.contain(trait.__collides);
-    expect(host.events[host.EVENT_OBSTRUCT]).to.contain(trait.__obstruct);
-    expect(host.events[host.EVENT_UNCOLLIDE]).to.contain(trait.__uncollides);
-    expect(host.events[host.EVENT_TIMESHIFT]).to.contain(trait.__timeshift);
+    it('should bind collide method', function() {
+      host.events.trigger(host.EVENT_COLLIDE);
+      expect(trait.__collides.callCount).to.be(1);
+    });
+    it('should bind uncollide method', function() {
+      host.events.trigger(host.EVENT_UNCOLLIDE);
+      expect(trait.__uncollides.callCount).to.be(1);
+    });
+    it('should bind obstruct method', function() {
+      host.events.trigger(host.EVENT_OBSTRUCT);
+      expect(trait.__obstruct.callCount).to.be(1);
+    });
+    it('should bind timeshift method', function() {
+      host.events.trigger(host.EVENT_TIMESHIFT);
+      expect(trait.__timeshift.callCount).to.be(1);
+    });
   });
   describe('#__attach', function() {
     it('should bind magic methods automatically', function() {
@@ -92,66 +108,54 @@ describe('Trait', function() {
       });
     });
   });
-  describe('#__off', function() {
-    it('should unbind magic methods if bound', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+  context('when applied', function() {
+    var host;
+    var trait;
+    beforeEach(function() {
+      host = new Host();
+      trait = new MockTrait();
       host.applyTrait(trait);
-      expect(trait._bound).to.be(true);
-      expect(host.events[host.EVENT_COLLIDE]).to.contain(trait.__collides);
-      expect(host.events[host.EVENT_OBSTRUCT]).to.contain(trait.__obstruct);
-      expect(host.events[host.EVENT_UNCOLLIDE]).to.contain(trait.__uncollides);
-      expect(host.events[host.EVENT_TIMESHIFT]).to.contain(trait.__timeshift);
       trait.__off();
-      expect(trait._bound).to.be(false);
-      expect(host.events[host.EVENT_COLLIDE]).not.to.contain(trait.__collides);
-      expect(host.events[host.EVENT_OBSTRUCT]).not.to.contain(trait.__obstruct);
-      expect(host.events[host.EVENT_UNCOLLIDE]).not.to.contain(trait.__uncollides);
-      expect(host.events[host.EVENT_TIMESHIFT]).not.to.contain(trait.__timeshift);
-      trait.__off(); // Should be inert.
     });
-  });
-  describe('#__on', function() {
-    it('should bind magic methods if unbound', function() {
-      var host = new Host();
-      var trait = new MockTrait();
-      host.applyTrait(trait);
-      expect(trait._bound).to.be(true);
-      trait.__off();
-      expect(trait._bound).to.be(false);
-      expect(host.events[host.EVENT_COLLIDE]).not.to.contain(trait.__collides);
-      expect(host.events[host.EVENT_OBSTRUCT]).not.to.contain(trait.__obstruct);
-      expect(host.events[host.EVENT_UNCOLLIDE]).not.to.contain(trait.__uncollides);
-      expect(host.events[host.EVENT_TIMESHIFT]).not.to.contain(trait.__timeshift);
-      trait.__on();
-      expect(trait._bound).to.be(true);
-      expect(host.events[host.EVENT_COLLIDE]).to.contain(trait.__collides);
-      expect(host.events[host.EVENT_OBSTRUCT]).to.contain(trait.__obstruct);
-      expect(host.events[host.EVENT_UNCOLLIDE]).to.contain(trait.__uncollides);
-      expect(host.events[host.EVENT_TIMESHIFT]).to.contain(trait.__timeshift);
+    describe('#__off', function() {
+      it('should release collide method', function() {
+        host.events.trigger(host.EVENT_COLLIDE);
+        expect(trait.__collides.callCount).to.be(0);
+      });
+      it('should release uncollide method', function() {
+        host.events.trigger(host.EVENT_UNCOLLIDE);
+        expect(trait.__uncollides.callCount).to.be(0);
+      });
+      it('should release obstruct method', function() {
+        host.events.trigger(host.EVENT_OBSTRUCT);
+        expect(trait.__obstruct.callCount).to.be(0);
+      });
+      it('should release timeshift method', function() {
+        host.events.trigger(host.EVENT_TIMESHIFT);
+        expect(trait.__timeshift.callCount).to.be(0);
+      });
     });
-    it('should only bind each magic method once ever', function() {
-      var host = new Host();
-      var trait = new MockTrait();
-      host.applyTrait(trait);
-      expect(trait._bound).to.be(true);
-      expect(host.events[host.EVENT_COLLIDE]).to.contain(trait.__collides);
-      expect(host.events[host.EVENT_OBSTRUCT]).to.contain(trait.__obstruct);
-      expect(host.events[host.EVENT_UNCOLLIDE]).to.contain(trait.__uncollides);
-      expect(host.events[host.EVENT_TIMESHIFT]).to.contain(trait.__timeshift);
-
-      var lengths = {};
-      lengths[host.EVENT_COLLIDE] = host.events[host.EVENT_COLLIDE].length;
-      lengths[host.EVENT_OBSTRUCT] = host.events[host.EVENT_OBSTRUCT].length;
-      lengths[host.EVENT_UNCOLLIDE] = host.events[host.EVENT_UNCOLLIDE].length;
-      lengths[host.EVENT_TIMESHIFT] = host.events[host.EVENT_TIMESHIFT].length;
-
-      trait.__on();
-      expect(trait._bound).to.be(true);
-      expect(host.events[host.EVENT_COLLIDE]).to.have.length(lengths[host.EVENT_COLLIDE]);
-      expect(host.events[host.EVENT_OBSTRUCT]).to.have.length(lengths[host.EVENT_OBSTRUCT]);
-      expect(host.events[host.EVENT_UNCOLLIDE]).to.have.length(lengths[host.EVENT_UNCOLLIDE]);
-      expect(host.events[host.EVENT_TIMESHIFT]).to.have.length(lengths[host.EVENT_TIMESHIFT]);
+    describe('#__on', function() {
+      beforeEach(function() {
+        trait.__on();
+        trait.__on();
+      })
+      it('should bind collide method once', function() {
+        host.events.trigger(host.EVENT_COLLIDE);
+        expect(trait.__collides.callCount).to.be(1);
+      });
+      it('should bind uncollide method once', function() {
+        host.events.trigger(host.EVENT_UNCOLLIDE);
+        expect(trait.__uncollides.callCount).to.be(1);
+      });
+      it('should bind obstruct method once', function() {
+        host.events.trigger(host.EVENT_OBSTRUCT);
+        expect(trait.__obstruct.callCount).to.be(1);
+      });
+      it('should bind timeshift method once', function() {
+        host.events.trigger(host.EVENT_TIMESHIFT);
+        expect(trait.__timeshift.callCount).to.be(1);
+      });
     });
   });
   describe('#__require', function() {
