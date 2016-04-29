@@ -199,13 +199,6 @@ describe('Parser', function() {
     });
     describe('#parseAnimations', function() {
       var textureMock = {size: {x: 128, y: 128}};
-      var UVCoordsSpy;
-      beforeEach(function() {
-        UVCoordsSpy = sinon.spy(Engine, 'UVCoords');
-      });
-      afterEach(function() {
-        UVCoordsSpy.restore();
-      });
       context('when animation group node has size specified', function() {
         it('should use size from animation group node', function() {
           var node = createNode('<animations w="48" h="44">' +
@@ -216,10 +209,10 @@ describe('Parser', function() {
           var parser = new ObjectParser();
           var frameNode = node.childNodes[0];
           var animation = parser.parseAnimation(frameNode, textureMock);
-          expect(UVCoordsSpy.callCount).to.equal(1);
-          expect(UVCoordsSpy.lastCall.args[0]).to.eql({x: 32, y: 16});
-          expect(UVCoordsSpy.lastCall.args[1]).to.eql({x: 48, y: 44});
-          expect(UVCoordsSpy.lastCall.args[2]).to.eql({x: 128, y: 128});
+          expect(animation.getValue()).to.eql(new Engine.UVCoords(
+            {x: 32, y: 16},
+            {x: 48, y: 44},
+            {x: 128, y: 128}));
         });
       });
       context('when animation node has size specified', function() {
@@ -232,10 +225,10 @@ describe('Parser', function() {
           var parser = new ObjectParser();
           var frameNode = node.childNodes[0];
           var animation = parser.parseAnimation(frameNode, textureMock);
-          expect(UVCoordsSpy.callCount).to.equal(1);
-          expect(UVCoordsSpy.lastCall.args[0]).to.eql({x: 32, y: 16});
-          expect(UVCoordsSpy.lastCall.args[1]).to.eql({x: 24, y: 22});
-          expect(UVCoordsSpy.lastCall.args[2]).to.eql({x: 128, y: 128});
+          expect(animation.getValue()).to.eql(new Engine.UVCoords(
+            {x: 32, y: 16},
+            {x: 24, y: 22},
+            {x: 128, y: 128}));
         });
       });
       context('when frame has size specified', function() {
@@ -248,10 +241,10 @@ describe('Parser', function() {
           var parser = new ObjectParser();
           var frameNode = node.childNodes[0];
           var animation = parser.parseAnimation(frameNode, textureMock);
-          expect(UVCoordsSpy.callCount).to.equal(1);
-          expect(UVCoordsSpy.lastCall.args[0]).to.eql({x: 32, y: 16});
-          expect(UVCoordsSpy.lastCall.args[1]).to.eql({x: 12, y: 11});
-          expect(UVCoordsSpy.lastCall.args[2]).to.eql({x: 128, y: 128});
+          expect(animation.getValue()).to.eql(new Engine.UVCoords(
+            {x: 32, y: 16},
+            {x: 12, y: 11},
+            {x: 128, y: 128}));
         });
       });
       context('when wrapped in <loop>', function() {
