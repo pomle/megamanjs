@@ -23,8 +23,6 @@
 
     "engine/Trait.js",
 
-    "engine/UVAnimator.js",
-
     "engine/CanvasUtil.js",
 
     "engine/AI.js",
