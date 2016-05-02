@@ -1,80 +1,77 @@
-Engine.Keyboard = function()
-{
-    this.events = new Engine.Events();
+'use strict';
 
-    this.map = {
-        65: this.LEFT,
-        68: this.RIGHT,
-        87: this.UP,
-        83: this.DOWN,
-        80: this.A,
-        79: this.B,
-        81: this.SELECT,
-        69: this.START,
-    };
+Engine.Keyboard = class Keyboard {
+    constructor()
+    {
+        this.LEFT = 'left';
+        this.RIGHT = 'right';
+        this.UP = 'up';
+        this.DOWN = 'down';
+        this.A = 'a';
+        this.B = 'b';
+        this.SELECT = 'select';
+        this.START = 'start';
 
-    this.state = {};
-}
+        this.ENGAGE = 'keydown';
+        this.RELEASE = 'keyup';
 
-Engine.Keyboard.prototype.LEFT = 'left';
-Engine.Keyboard.prototype.RIGHT = 'right';
-Engine.Keyboard.prototype.UP = 'up';
-Engine.Keyboard.prototype.DOWN = 'down';
-Engine.Keyboard.prototype.A = 'a';
-Engine.Keyboard.prototype.B = 'b';
-Engine.Keyboard.prototype.SELECT = 'select';
-Engine.Keyboard.prototype.START = 'start';
+        this.events = new Engine.Events();
 
-Engine.Keyboard.prototype.ENGAGE = 'keydown';
-Engine.Keyboard.prototype.RELEASE = 'keyup';
+        this.map = {
+            65: this.LEFT,
+            68: this.RIGHT,
+            87: this.UP,
+            83: this.DOWN,
+            80: this.A,
+            79: this.B,
+            81: this.SELECT,
+            69: this.START,
+        };
 
-Engine.Keyboard.prototype.assign = function(code, name)
-{
-    this.map[code] = name;
-}
-
-Engine.Keyboard.prototype.hit = function(key, engage)
-{
-    this.events.bind(key + '_' + this.ENGAGE, engage);
-}
-
-Engine.Keyboard.prototype.intermittent = function(key, engage, release)
-{
-    this.events.bind(key + '_' + this.ENGAGE, engage);
-    this.events.bind(key + '_' + this.RELEASE, release);
-}
-
-Engine.Keyboard.prototype.release = function()
-{
-    for (var key in this.map) {
-        this.trigger(this.map[key], this.RELEASE);
+        this.state = {};
     }
-}
-
-Engine.Keyboard.prototype.trigger = function(key, state)
-{
-    if (this.state[key] === state) {
-        return false;
+    assign(code, name)
+    {
+        this.map[code] = name;
     }
-
-    this.state[key] = state;
-    this.events.trigger(key + '_' + state);
-
-    return true;
-}
-
-Engine.Keyboard.prototype.triggerEvent = function(event)
-{
-    var code = event.keyCode;
-    if (this.map[code]) {
-        if (event.preventDefault) {
-            event.preventDefault();
+    hit(key, engage)
+    {
+        this.events.bind(key + '_' + this.ENGAGE, engage);
+    }
+    intermittent(key, engage, release)
+    {
+        this.events.bind(key + '_' + this.ENGAGE, engage);
+        this.events.bind(key + '_' + this.RELEASE, release);
+    }
+    release()
+    {
+        for (var key in this.map) {
+            this.trigger(this.map[key], this.RELEASE);
         }
-        this.trigger(this.map[code], event.type);
     }
-}
+    trigger(key, state)
+    {
+        if (this.state[key] === state) {
+            return false;
+        }
 
-Engine.Keyboard.prototype.unassign = function(code)
-{
-    delete this.map[code];
+        this.state[key] = state;
+        this.events.trigger(key + '_' + state);
+
+        return true;
+    }
+    triggerEvent(event)
+    {
+        var code = event.keyCode;
+        if (this.map[code]) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            this.trigger(this.map[code], event.type);
+        }
+    }
+    unassign(code)
+    {
+        delete this.map[code];
+    }
 }
