@@ -175,7 +175,7 @@
             </collision>
             <traits>
                 <trait source="Physics" mass="500"/>
-                <trait source="Solid"/>
+                <trait source="Solid" fixed="true" obstructs="true" />
                 <trait source="Fallaway" delay=".2"/>
             </traits>
         </object>
