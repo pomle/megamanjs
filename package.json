@@ -5,9 +5,9 @@
   "scripts": {
     "build": "grunt build:no-ugly",
     "generate-dev": "node ./tools/generate-dev.js",
-    "test": "npm run test-unit-cov",
-    "test-unit": "mocha test/unit/tests",
-    "test-unit-cov": "istanbul cover node_modules/mocha/bin/_mocha test/unit/tests",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit/tests test/integration/tests",
+    "test:unit": "mocha test/unit/tests",
+    "test:integration": "mocha test/integration/tests",
     "upload-coverage": "codecov"
   },
   "devDependencies": {
