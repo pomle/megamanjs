@@ -201,7 +201,7 @@
                 <rect x="0" y="3" w="16" h="16"/>
             </collision>
             <traits>
-                <trait source="Solid"/>
+                <trait source="Solid" fixed="true" obstructs="true"/>
             </traits>
         </object>
         <object id="ironwall">
@@ -214,7 +214,7 @@
                 <rect x="0" y="0" w="16" h="32"/>
             </collision>
             <traits>
-                <trait source="Solid"/>
+                <trait source="Solid" fixed="true" obstructs="true"/>
                 <trait source="Destructible"/>
             </traits>
         </object>
