@@ -30,7 +30,7 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseAttack = function(node, attr) 
             'left': S.LEFT,
             'right': S.RIGHT,
         }
-        attacks = attack.split(' ');
+        var attacks = attack.split(' ');
         for (var i = 0, l = attacks.length; i !== l; ++i) {
             var a = attacks[i];
             if (map[a] === undefined) {

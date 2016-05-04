@@ -179,7 +179,7 @@ Game.scenes.Level.prototype.readyBlink = function(callback)
     function blink(dt) {
         if (elapsed > duration) {
             level.world.scene.remove(model);
-            engine.events.unbind(engine.EVENT_TIMEPASS, arguments.callee);
+            engine.events.unbind(engine.EVENT_TIMEPASS, blink);
             if (callback) {
                 callback();
             }
@@ -305,7 +305,7 @@ Game.scenes.Level.prototype.resetPlayer = function()
         var level = this;
         var startFollow = function() {
             camera.follow(character);
-            this.events.unbind(this.teleport.EVENT_END, arguments.callee);
+            this.events.unbind(this.teleport.EVENT_END, startFollow);
         }
         character.events.bind(character.teleport.EVENT_END, startFollow);
         this.resetCheckpoint();
