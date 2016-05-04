@@ -44,7 +44,7 @@ Game.Loader.XML.Parser.LevelParser.prototype.parse = function(levelNode, callbac
         var world = new Engine.World();
         var level = new Game.scenes.Level(this.loader.game, world);
 
-        level.assets['start-caption'] = resource.items.font['nintendo']('READY').createMesh();
+        level.assets['start-caption'] = resource.get('font', 'nintendo')('READY').createMesh();
 
         var objectsNode = levelNode.getElementsByTagName('objects')[0];
         var objects;

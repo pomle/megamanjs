@@ -2,26 +2,23 @@ var expect = require('expect.js');
 var sinon = require('sinon');
 var fs = require('fs');
 
+var xmlReader = require('../../xmlreader');
 var env = require('../../env.js');
 var Engine = env.Engine;
 var World = env.Engine.World;
 var THREE = env.THREE;
 var Obj = env.Engine.Object;
-var DOMParser = require('xmldom').DOMParser;
 var Parser = env.Game.Loader.XML.Parser;
 var ObjectParser = env.Game.Loader.XML.Parser.ObjectParser;
 var LevelParser = env.Game.Loader.XML.Parser.LevelParser;
 var TraitParser = env.Game.Loader.XML.Parser.TraitParser;
 
-function createNode(xml) {
-  var parser = new DOMParser();
-  var doc = parser.parseFromString(xml, 'text/xml');
-  return doc.childNodes[0];
+function createNode(x) {
+  return xmlReader.createNode(x).childNodes[0];
 }
 
 function getNode(name) {
-  var xml = fs.readFileSync(__dirname + '/fixtures/' + name + '.xml', 'utf8');
-  return createNode(xml);
+  return xmlReader.readXml(__dirname + '/fixtures/' + name + '.xml', 'utf8').childNodes[0];
 }
 
 describe('Parser', function() {
@@ -355,13 +352,16 @@ describe('Parser', function() {
     var level;
     it('should parse a level', function(done) {
       var resourceMock = new Game.ResourceManager();
-      resourceMock.addFont('nintendo', sinon.spy(function() {
-        return {
-          createMesh: sinon.spy(),
-        };
-      }));
       resourceMock.get = sinon.spy(function(type, id) {
-        return Obj;
+        if (type === 'font') {
+          return function() {
+            return {
+              createMesh: sinon.spy(),
+            }
+          };
+        } else {
+          return Obj;
+        }
       });
       var game = new Game();
       game.player = new Game.Player();
