@@ -140,12 +140,10 @@ Game.scenes.Level.prototype.detectDeath = function()
     if (this.deathCountdown === 0 && this.game.player.character.health.depleted) {
         --this.game.player.lives;
         this.deathCountdown = this.game.engine.realTimePassed + this.deathRespawnTime;
-    }
-    else if (this.deathCountdown > 0 && this.game.engine.realTimePassed >= this.deathCountdown) {
+    } else if (this.deathCountdown > 0 && this.game.engine.realTimePassed >= this.deathCountdown) {
         if (this.game.player.lives <= 0) {
             this.__end();
-        }
-        else {
+        } else {
             this.resetPlayer();
         }
     }
