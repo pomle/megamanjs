@@ -1,18 +1,20 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
 
-var Host = env.Engine.Object;
-var World = env.Engine.World;
-var Solid = env.Game.objects.Solid;
-var Character = env.Game.objects.Character;
-var Physics = env.Game.traits.Physics;
+const env = require('../../env.js');
+
+const Host = env.Engine.Object;
+const World = env.Engine.World;
+const Solid = env.Game.objects.Solid;
+const Character = env.Game.objects.Character;
+const Physics = env.Game.traits.Physics;
 
 describe('Physics', function() {
   it('should bind to timeshift event of host', function() {
-    var host = new Host();
-    var physics = new Physics();
+    const host = new Host();
+    const physics = new Physics();
     physics.__timeshift = sinon.spy();
     host.applyTrait(physics);
     host.timeShift(0.08);
@@ -20,9 +22,9 @@ describe('Physics', function() {
     expect(physics.__timeshift.lastCall.args[0]).to.equal(0.08);
   });
   it('should honor world gravity', function() {
-    var world = new World();
-    var host = new Host();
-    var physics = new Physics();
+    const world = new World();
+    const host = new Host();
+    const physics = new Physics();
     world.gravityForce.set(0, 10);
     physics.mass = 1;
     host.applyTrait(physics);
@@ -31,10 +33,10 @@ describe('Physics', function() {
     expect(host.velocity.y).to.equal(-10);
   });
   it('mass should not affect velocity from gravity', function() {
-    var world = new World();
+    const world = new World();
     world.gravityForce.set(0, 10);
 
-    var hosts = [
+    const hosts = [
       new Host(),
       new Host(),
     ];
@@ -53,14 +55,14 @@ describe('Physics', function() {
     expect(hosts[1].velocity.y).to.equal(-10);
   });
   it.skip('gravity pull should not be insignificantly affected by time step', function() {
-    var step;
-    var count;
+    let step;
+    let count;
 
-    var worlds = [
+    const worlds = [
       new World(),
       new World(),
     ];
-    var hosts = [
+    const hosts = [
       new Host(),
       new Host(),
     ];
@@ -90,9 +92,9 @@ describe('Physics', function() {
     expect(hosts[1].position.y).to.be.within(-90.5, -90);
   });
   it('should set host velocity when force excerted upon', function() {
-    var world = new World();
-    var host = new Host();
-    var physics = new Physics();
+    const world = new World();
+    const host = new Host();
+    const physics = new Physics();
     host.applyTrait(physics);
     physics.mass = 1;
     physics.force.set(10, 0);

@@ -1,15 +1,17 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
 
-var Collision = env.Engine.Collision;
-var Obj = env.Engine.Object;
+const env = require('../../env.js');
+
+const Collision = env.Engine.Collision;
+const Obj = env.Engine.Object;
 
 describe('Collision', function() {
   it('should not re-test positionally static objects', function() {
-    var collision = new Collision();
-    var objects = [
+    const collision = new Collision();
+    const objects = [
        new Obj(),
        new Obj(),
     ];
@@ -33,8 +35,8 @@ describe('Collision', function() {
   });
   describe('#addObject', function() {
     context('when adding an object', function() {
-      var collision = new Collision();
-      var object = new Obj();
+      const collision = new Collision();
+      const object = new Obj();
       collision.addObject(object);
       it('should add an object to object array', function() {
         expect(collision.objects).to.have.length(1);
@@ -52,7 +54,7 @@ describe('Collision', function() {
       });
     });
     it('should except if argument not an object', function() {
-      var collision = new Collision();
+      const collision = new Collision();
       expect(function() {
         collision.addObject(1);
       }).to.throwError(function(error) {
@@ -63,8 +65,8 @@ describe('Collision', function() {
   });
   describe('#detect', function() {
     it('should call collide callback on colliding objects', function() {
-      var collision = new Collision();
-      var object = [
+      const collision = new Collision();
+      const object = [
         new Obj(),
         new Obj(),
       ];
@@ -78,19 +80,19 @@ describe('Collision', function() {
       expect(object[0].collides.callCount).to.equal(2);
       expect(object[1].collides.callCount).to.equal(2);
 
-      var call1 = object[0].collides.getCall(0);
+      const call1 = object[0].collides.getCall(0);
       expect(call1.args[0]).to.be(object[1]);
       expect(call1.args[1]).to.be(object[0].collision[0]);
       expect(call1.args[2]).to.be(object[1].collision[0]);
 
-      var call2 = object[1].collides.getCall(0);
+      const call2 = object[1].collides.getCall(0);
       expect(call2.args[0]).to.be(object[0]);
       expect(call2.args[1]).to.be(object[1].collision[0]);
       expect(call2.args[2]).to.be(object[0].collision[0]);
     });
     it('should call uncollide callback on objects that are no longer touching', function() {
-      var collision = new Collision();
-      var object = [
+      const collision = new Collision();
+      const object = [
         new Obj(),
         new Obj(),
       ];
@@ -115,8 +117,8 @@ describe('Collision', function() {
       expect(object[1].uncollides.lastCall.args[0]).to.be(object[0]);
     });
     it('should gracefully handle object removal during loop', function() {
-      var collision = new Collision();
-      var object = [
+      const collision = new Collision();
+      const object = [
         new Obj(),
         new Obj(),
       ];
@@ -134,8 +136,8 @@ describe('Collision', function() {
     });
   });
   describe('#garbageCollect', function() {
-    var collision = new Collision();
-    var objects = [
+    const collision = new Collision();
+    const objects = [
       new Obj(),
       new Obj(),
       new Obj(),
@@ -159,8 +161,8 @@ describe('Collision', function() {
   });
   describe('#removeObject', function() {
     it('should prevent an object from being collision detected', function() {
-      var collision = new Collision();
-      var object = [
+      const collision = new Collision();
+      const object = [
         new Obj(),
         new Obj(),
       ];
@@ -176,8 +178,8 @@ describe('Collision', function() {
     });
   });
   describe('#objectsCollide', function() {
-    var collision;
-    var o1, o2;
+    let collision;
+    let o1, o2;
     beforeEach(function() {
       collision = new Collision();
       o1 = new Obj();
@@ -210,7 +212,7 @@ describe('Collision', function() {
   });
   describe('#setCollisionRadius', function() {
     it('should set value squared', function() {
-      var collision = new Collision();
+      const collision = new Collision();
       collision.setCollisionRadius(10);
       expect(collision.collisionMaxDistanceSq).to.equal(100);
       collision.setCollisionRadius(12);
@@ -218,9 +220,9 @@ describe('Collision', function() {
     });
   });
   describe('BoundingBox', function() {
-    var host = new Obj();
+    const host = new Obj();
     host.addCollisionRect(5, 7);
-    var box = host.collision[0];
+    const box = host.collision[0];
     it('should have x and y', function() {
       expect(box.x).to.equal(0);
       expect(box.y).to.equal(0);

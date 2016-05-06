@@ -1,19 +1,21 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
-var UVCoords = env.Engine.UVCoords;
+const expect = require('expect.js');
+const sinon = require('sinon');
+
+const env = require('../../env.js');
+const UVCoords = env.Engine.UVCoords;
 
 describe('UVCoords', function() {
   it('should correctly create UV coords from offsets', function() {
-    var offsetX = 48;
-    var offsetY = 96;
-    var sizeW = 48;
-    var sizeH = 48;
-    var textureW = 256;
-    var textureH = 256;
+    const offsetX = 48;
+    const offsetY = 96;
+    const sizeW = 48;
+    const sizeH = 48;
+    const textureW = 256;
+    const textureH = 256;
 
-    var uvCoord = new Engine.UVCoords({x: offsetX, y: offsetY},
+    const uvCoord = new Engine.UVCoords({x: offsetX, y: offsetY},
                                       {x: sizeW, y: sizeH},
                                       {x: textureW, y: textureH});
     expect(uvCoord).to.be.an(Array);

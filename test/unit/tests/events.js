@@ -1,14 +1,16 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
-var Engine = env.Engine;
+const expect = require('expect.js');
+const sinon = require('sinon');
+
+const env = require('../../env.js');
+const Engine = env.Engine;
 
 describe('Events', function() {
-  var events = new Engine.Events();
-  var callback1 = sinon.spy();
-  var callback2 = sinon.spy();
-  var callback3 = sinon.spy();
+  const events = new Engine.Events();
+  const callback1 = sinon.spy();
+  const callback2 = sinon.spy();
+  const callback3 = sinon.spy();
   describe('#bind()', function() {
     it('should except if name not string', function() {
       expect(function() {
@@ -43,7 +45,7 @@ describe('Events', function() {
       expect(callback3.callCount).to.equal(0);
     });
     it('should propagate values to callback as args', function() {
-      var values = ['a', 1, undefined];
+      const values = ['a', 1, undefined];
       events.trigger('event1', values);
       expect(callback1.callCount).to.equal(2);
       expect(callback2.callCount).to.equal(2);
