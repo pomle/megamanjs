@@ -3,6 +3,8 @@
 Engine.Keyboard = class Keyboard {
     constructor()
     {
+        this.EVENT_TRIGGER = 'trigger';
+
         this.LEFT = 'left';
         this.RIGHT = 'right';
         this.UP = 'up';
@@ -16,8 +18,9 @@ Engine.Keyboard = class Keyboard {
         this.RELEASE = 'keyup';
 
         this.events = new Engine.Events();
+        this._events = new Engine.Events();
 
-        this.map = {
+        this._map = {
             65: this.LEFT,
             68: this.RIGHT,
             87: this.UP,
@@ -28,50 +31,51 @@ Engine.Keyboard = class Keyboard {
             69: this.START,
         };
 
-        this.state = {};
+        this._state = {};
     }
     assign(code, name)
     {
-        this.map[code] = name;
+        this._map[code] = name;
     }
     hit(key, engage)
     {
-        this.events.bind(key + '_' + this.ENGAGE, engage);
+        this._events.bind(key + '_' + this.ENGAGE, engage);
     }
     intermittent(key, engage, release)
     {
-        this.events.bind(key + '_' + this.ENGAGE, engage);
-        this.events.bind(key + '_' + this.RELEASE, release);
+        this._events.bind(key + '_' + this.ENGAGE, engage);
+        this._events.bind(key + '_' + this.RELEASE, release);
     }
     release()
     {
-        for (var key in this.map) {
-            this.trigger(this.map[key], this.RELEASE);
+        for (let key in this._map) {
+            this.trigger(this._map[key], this.RELEASE);
         }
     }
     trigger(key, state)
     {
-        if (this.state[key] === state) {
+        if (this._state[key] === state) {
             return false;
         }
 
-        this.state[key] = state;
-        this.events.trigger(key + '_' + state);
+        this._state[key] = state;
+        this._events.trigger(key + '_' + state);
+        this.events.trigger(this.EVENT_TRIGGER, [key, state]);
 
         return true;
     }
     triggerEvent(event)
     {
-        var code = event.keyCode;
-        if (this.map[code]) {
+        const code = event.keyCode;
+        if (this._map[code]) {
             if (event.preventDefault) {
                 event.preventDefault();
             }
-            this.trigger(this.map[code], event.type);
+            this.trigger(this._map[code], event.type);
         }
     }
     unassign(code)
     {
-        delete this.map[code];
+        delete this._map[code];
     }
 }
