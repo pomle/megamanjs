@@ -1,38 +1,40 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
-var fs = require('fs');
+'use strict';
 
-var env = require('../../env.js');
-var DOMParser = require('xmldom').DOMParser;
-var ResourceManager = env.Game.ResourceManager;
-var ObjectParser = env.Game.Loader.XML.Parser.ObjectParser;
-var World = env.Engine.World;
-var Vector2 = env.THREE.Vector2;
+const expect = require('expect.js');
+const sinon = require('sinon');
+const fs = require('fs');
+
+const env = require('../../env.js');
+const DOMParser = require('xmldom').DOMParser;
+const ResourceManager = env.Game.ResourceManager;
+const ObjectParser = env.Game.Loader.XML.Parser.ObjectParser;
+const World = env.Engine.World;
+const Vector2 = env.THREE.Vector2;
 
 function createNode(xml) {
-  var parser = new DOMParser();
-  var doc = parser.parseFromString(xml, 'text/xml');
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xml, 'text/xml');
   return doc.childNodes[0];
 }
 
 function loadXml(file) {
-  var xml = fs.readFileSync(file, 'utf8');
+  const xml = fs.readFileSync(file, 'utf8');
   return createNode(xml);
 }
 
 function measureJump(object) {
-  var step = 1/120;
-  var distance = new Vector2(0, 0);
+  const step = 1/120;
+  const distance = new Vector2(0, 0);
 
   object.moveTo(distance);
   object.jump._ready = true;
 
-  var world = new World();
+  const world = new World();
   world.addObject(object);
 
   expect(object.jump.engage()).to.be(true);
 
-  var iterations = 120;
+  let iterations = 120;
   while (iterations--) {
     world.updateTime(step);
     if (object.position.y < 0) {
@@ -48,10 +50,10 @@ function measureJump(object) {
 }
 
 describe('Enemies', function() {
-  var parser;
+  let parser;
 
   before(function() {
-    var rm = new ResourceManager();
+    const rm = new ResourceManager();
 
     rm._addResource('object', 'TinyExplosion', env.Engine.Object);
 
@@ -67,15 +69,15 @@ describe('Enemies', function() {
   });
 
   describe('SniperArmor', function() {
-    var enemy;
+    let enemy;
     it('should be created from XML', function() {
-      var xml = loadXml(__dirname + '/../../../src/game/resource/characters/SniperArmor.xml');
-      var ret = parser.parse(xml);
+      const xml = loadXml(__dirname + '/../../../src/game/resource/characters/SniperArmor.xml');
+      const ret = parser.parse(xml);
       expect(ret).to.have.property('SniperArmor');
       enemy = new ret['SniperArmor']();
     });
     it('should jump 33 units high and 66 units far', function() {
-      var distance = measureJump(enemy);
+      const distance = measureJump(enemy);
       expect(distance.y).to.be.within(32.9, 33.1);
       expect(distance.x).to.be.within(65.5, 66.5);
     });

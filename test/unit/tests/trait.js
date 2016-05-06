@@ -1,14 +1,16 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
 
-var extend = env.Engine.Util.extend;
-var Host = env.Engine.Object;
-var Trait = env.Engine.Trait;
+const env = require('../../env.js');
+
+const extend = env.Engine.Util.extend;
+const Host = env.Engine.Object;
+const Trait = env.Engine.Trait;
 
 describe('Trait', function() {
-  var MockTrait = function() {
+  const MockTrait = function() {
     Trait.apply(this, arguments);
     this.__collides = sinon.spy();
     this.__obstruct = sinon.spy();
@@ -23,8 +25,8 @@ describe('Trait', function() {
   MockTrait.prototype.__timeshift = sinon.spy();
 
   context('when applied', function() {
-    var host = new Host();
-    var trait = new MockTrait();
+    const host = new Host();
+    const trait = new MockTrait();
     host.applyTrait(trait);
     it('should bind collide method', function() {
       host.events.trigger(host.EVENT_COLLIDE);
@@ -45,21 +47,21 @@ describe('Trait', function() {
   });
   describe('#__attach', function() {
     it('should bind magic methods automatically', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       trait.__on = sinon.spy();
       trait.__attach(host);
       expect(trait.__on.callCount).to.equal(1);
     });
     it('should set local host', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       trait.__attach(host);
       expect(trait._host).to.be(host);
     });
     it('should except if host not Object', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       expect(function() {
         trait.__attach('a');
       }).to.throwError(function(error) {
@@ -68,8 +70,8 @@ describe('Trait', function() {
       });
     });
     it('should except if host already set', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       trait.__attach(host);
       expect(function() {
         trait.__attach(host);
@@ -81,8 +83,8 @@ describe('Trait', function() {
   });
   describe('#__detach', function() {
     it('should unbind magic methods automatically', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       trait.__on = sinon.spy();
       trait.__off = sinon.spy();
       trait.__attach(host);
@@ -90,15 +92,15 @@ describe('Trait', function() {
       expect(trait.__off.callCount).to.equal(1);
     });
     it('should unset local host', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       trait.__attach(host);
       trait.__detach(host);
       expect(trait._host).to.be(undefined);
     });
     it('should except if host already set', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       trait.__attach(host);
       expect(function() {
         trait.__attach(host);
@@ -109,8 +111,8 @@ describe('Trait', function() {
     });
   });
   context('when applied', function() {
-    var host;
-    var trait;
+    let host;
+    let trait;
     beforeEach(function() {
       host = new Host();
       trait = new MockTrait();
@@ -160,8 +162,8 @@ describe('Trait', function() {
   });
   describe('#__require', function() {
     it('should except if required trait not already applied', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       expect(function() {
         trait.__require(host, MockTrait);
       }).to.throwError(function(error) {
@@ -170,8 +172,8 @@ describe('Trait', function() {
       });
     });
     it('should return applied instance if found', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       host.applyTrait(trait);
       expect(trait.__require(host, MockTrait)).to.be(trait);
     });

@@ -1,18 +1,20 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
 
-var World = env.Engine.World;
-var Host = env.Engine.Object;
-var Spawnable = env.Engine.Object;
-var Spawn = env.Game.traits.Spawn;
+const env = require('../../env.js');
+
+const World = env.Engine.World;
+const Host = env.Engine.Object;
+const Spawnable = env.Engine.Object;
+const Spawn = env.Game.traits.Spawn;
 
 describe('Trait', function() {
   describe('Spawn', function() {
-    var spawn = new Spawn();
-    var world = new World();
-    var host = new Host();
+    const spawn = new Spawn();
+    const world = new World();
+    const host = new Host();
     context('when instantiating', function() {
       it('should have name', function() {
         expect(spawn.NAME).to.be('spawn');
@@ -22,7 +24,7 @@ describe('Trait', function() {
       it('should add a condition to conditions array without supplied offset', function() {
         spawn.addItem('recycle', Spawnable);
         expect(spawn._conditions).to.have.length(1);
-        var cond = spawn._conditions[0];
+        const cond = spawn._conditions[0];
         expect(cond.event).to.be('recycle');
         expect(cond.callback).to.be.a('function');
       });
@@ -40,7 +42,7 @@ describe('Trait', function() {
     context('when bound event triggered', function() {
       it('should add an instance in host world', function() {
         world.addObject(host);
-        var spy = sinon.spy(world, 'addObject');
+        const spy = sinon.spy(world, 'addObject');
         host.events.trigger('recycle');
         expect(spy.callCount).to.be(1);
         expect(spy.lastCall.args[0]).to.be.a(Spawnable);
@@ -48,7 +50,7 @@ describe('Trait', function() {
         world.addObject.restore();
       });
       it('should honor offset', function() {
-        var spy = sinon.spy(world, 'addObject');
+        const spy = sinon.spy(world, 'addObject');
         host.events.trigger('death');
         expect(spy.callCount).to.be(1);
         expect(spy.lastCall.args[0]).to.be.a(Spawnable);
@@ -56,7 +58,7 @@ describe('Trait', function() {
         world.addObject.restore();
       });
       it('should inherit host offset', function() {
-        var spy = sinon.spy(world, 'addObject');
+        const spy = sinon.spy(world, 'addObject');
         host.position.set(19, 23, 3);
         host.events.trigger('death');
         expect(spy.callCount).to.be(1);

@@ -1,27 +1,29 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
 
-var Obj = env.Engine.Object;
-var World = env.Engine.World;
-var Character = env.Game.objects.Character;
-var Physics = env.Game.traits.Physics;
-var Jump = env.Game.traits.Jump;
-var Solid = env.Game.traits.Solid;
+const env = require('../../env.js');
+
+const Obj = env.Engine.Object;
+const World = env.Engine.World;
+const Character = env.Game.objects.Character;
+const Physics = env.Game.traits.Physics;
+const Jump = env.Game.traits.Jump;
+const Solid = env.Game.traits.Solid;
 
 describe('Jump', function() {
   it.skip('should maintain jump height despite variations in time', function() {
-    var step = 1/120;
+    const step = 1/120;
 
-    var world = new World();
+    const world = new World();
 
-    var ground = new Obj();
+    const ground = new Obj();
     ground.applyTrait(new Solid());
     ground.addCollisionRect(1000, 10);
     ground.position.set(0, 0);
 
-    var jumper = new Character();
+    const jumper = new Character();
     jumper.addCollisionRect(10, 10);
     jumper.position.set(0, 30);
     jumper.applyTrait(new Solid());
@@ -33,7 +35,7 @@ describe('Jump', function() {
     world.addObject(jumper);
     world.addObject(ground);
 
-    var maxLoops = 40;
+    const maxLoops = 40;
     expect(jumper.jump._ready).to.be(false);
     while (jumper.jump._ready === false && maxLoops--) {
       world.updateTime(step);

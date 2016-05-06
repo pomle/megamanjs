@@ -1,11 +1,13 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var Timeline = require('../../env.js').Engine.Timeline;
+const expect = require('expect.js');
+const sinon = require('sinon');
+
+const Timeline = require('../../env.js').Engine.Timeline;
 
 describe('Timeline', function() {
   it('should hold frame forever if not duration given', function() {
-    var anim = new Timeline();
+    const anim = new Timeline();
     anim.addFrame('A', 2);
     anim.addFrame('B', 3);
     anim.addFrame('C');
@@ -18,7 +20,7 @@ describe('Timeline', function() {
   });
   describe('#getLoopTime', function() {
     it('should find correct place in time for any input number', function() {
-      var anim = new Timeline();
+      const anim = new Timeline();
       anim.addFrame({}, 1);
       anim.addFrame({}, 4);
       anim.addFrame({}, 2);
@@ -26,7 +28,7 @@ describe('Timeline', function() {
       expect(anim.totalDuration).to.equal(7);
       expect(anim.accumulatedTime).to.equal(0);
 
-      var len = anim.totalDuration;
+      const len = anim.totalDuration;
       expect(anim.getLoopTime(-3)).to.equal(4);
       expect(anim.getLoopTime(2)).to.equal(2);
       // Big numbers
@@ -39,7 +41,7 @@ describe('Timeline', function() {
   });
   describe('#getIndex', function() {
     it('should return the index at the current time', function() {
-      var anim = new Timeline();
+      const anim = new Timeline();
       anim.addFrame('A', 4);
       anim.addFrame('B', 2);
       anim.addFrame('C', 3);
@@ -55,7 +57,7 @@ describe('Timeline', function() {
   });
   describe('#getValue', function() {
     it('should return the value at the current time', function() {
-      var anim = new Timeline();
+      const anim = new Timeline();
       anim.addFrame('A', 4);
       anim.addFrame('B', 2);
       anim.addFrame('C', 3);
@@ -71,7 +73,7 @@ describe('Timeline', function() {
   });
   describe('#getValueAtIndex', function() {
     it('should return the value at a specific index', function() {
-      var anim = new Timeline();
+      const anim = new Timeline();
       anim.addFrame('A', 4);
       anim.addFrame('B', 2);
       anim.addFrame('C', 3);
@@ -82,7 +84,7 @@ describe('Timeline', function() {
   });
   describe('#get(Index|Value)AtTime', function() {
     it('should return the correct value or index given a time', function() {
-      var anim = new Timeline();
+      const anim = new Timeline();
       anim.addFrame('A', 4);
       anim.addFrame('B', 2);
       anim.addFrame('C', 3);
@@ -98,7 +100,7 @@ describe('Timeline', function() {
   });
   describe('#reset', function() {
     it('should set accumulatedTime to zero', function() {
-      var anim = new Timeline();
+      const anim = new Timeline();
       anim.accumulatedTime = 12;
       anim.reset();
       expect(anim.accumulatedTime).to.equal(0);

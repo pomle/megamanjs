@@ -1,12 +1,14 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
+
+const env = require('../../env.js');
 
 describe('Climber / Climbable', function() {
-  var climber;
-  var climbable;
-  var world;
+  let climber;
+  let climbable;
+  let world;
   beforeEach(function() {
     world = new env.Engine.World();
 

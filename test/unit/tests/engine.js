@@ -1,26 +1,28 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
-var Engine = env.Engine;
-var World = env.Engine.World;
+const expect = require('expect.js');
+const sinon = require('sinon');
+
+const env = require('../../env.js');
+const Engine = env.Engine;
+const World = env.Engine.World;
 
 describe('Engine', function() {
-  var engine;
+  let engine;
 
   beforeEach(function() {
-    var rendererMock = {
+    const rendererMock = {
       render: sinon.spy(),
     };
 
     engine = new Engine(rendererMock);
 
-    var worldMock = new World();
+    const worldMock = new World();
     worldMock.updateTime = sinon.spy();
     worldMock.camera.updateTime = sinon.spy();
     engine.setWorld(worldMock);
 
-    var frameId = 0;
+    let frameId = 0;
     global.requestAnimationFrame = sinon.spy(function() {
       return frameId++;
     });
@@ -78,19 +80,19 @@ describe('Engine', function() {
       engine.render = sinon.spy();
       engine.simulateTime = sinon.spy();
       engine.eventLoop(0);
-      var timeMs = 0;
+      let timeMs = 0;
       while (timeMs < 1000) {
         timeMs += 100 * Math.random();
         engine.eventLoop(Math.min(1000, timeMs));
       }
       expect(engine.simulateTime.callCount).to.be(120);
-      for (var i = 0, l = engine.simulateTime.callCount; i !== l; ++i) {
+      for (let i = 0, l = engine.simulateTime.callCount; i !== l; ++i) {
         expect(engine.simulateTime.getCall(i).args[0]).to.equal(engine.timeStep);
       }
     });
     it('should trigger EVENT_RENDER', function() {
       engine.render = sinon.spy();
-      var callback = sinon.spy();
+      const callback = sinon.spy();
       engine.events.bind(engine.EVENT_RENDER, callback);
       engine.eventLoop();
       expect(callback.callCount).to.equal(1);
@@ -143,13 +145,13 @@ describe('Engine', function() {
   });
   describe('#setWorld', function() {
     it('should set world property', function() {
-      var engine = new Engine();
-      var world = new World();
+      const engine = new Engine();
+      const world = new World();
       engine.setWorld(world);
       expect(engine.world).to.be(world);
     });
     it('should except if not instance of world', function() {
-      var engine = new Engine();
+      const engine = new Engine();
       expect(function() {
         engine.setWorld(1);
       }).to.throwError(function(error) {
@@ -160,15 +162,15 @@ describe('Engine', function() {
   });
   describe('#unsetWorld', function() {
     it('should set world property to undefined', function() {
-      var engine = new Engine();
-      var world = new World();
+      const engine = new Engine();
+      const world = new World();
       engine.setWorld(world);
       expect(engine.world).to.be(world);
       engine.unsetWorld();
       expect(engine.world).to.be(undefined);
     });
     it('should except if not instance of world', function() {
-      var engine = new Engine();
+      const engine = new Engine();
       expect(function() {
         engine.setWorld(1);
       }).to.throwError(function(error) {
@@ -180,7 +182,7 @@ describe('Engine', function() {
   describe('#simulateTime', function() {
     it('should trigger EVENT_SIMULATE', function() {
       engine.render = sinon.spy();
-      var callback = sinon.spy();
+      const callback = sinon.spy();
       engine.events.bind(engine.EVENT_SIMULATE, callback);
       engine.simulateTime(.3);
       expect(callback.callCount).to.equal(1);
@@ -191,7 +193,7 @@ describe('Engine', function() {
     it('should trigger EVENT_TIMEPASS', function() {
       engine.render = sinon.spy();
       engine.simulateTime = sinon.spy();
-      var callback = sinon.spy();
+      const callback = sinon.spy();
       engine.events.bind(engine.EVENT_TIMEPASS, callback);
       engine.updateTime(.3);
       expect(callback.callCount).to.equal(1);

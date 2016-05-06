@@ -1,14 +1,16 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
 
-var Camera = env.Engine.Camera;
-var THREE = env.THREE;
+const env = require('../../env.js');
+
+const Camera = env.Engine.Camera;
+const THREE = env.THREE;
 
 describe('Camera', function() {
-  var camera;
-  var realCamera;
+  let camera;
+  let realCamera;
 
   beforeEach(function() {
     realCamera = new THREE.Camera();
@@ -32,7 +34,7 @@ describe('Camera', function() {
   });
   describe('#addPath()', function() {
     it('should add a path to path array', function() {
-      var path = new Camera.Path();
+      const path = new Camera.Path();
       camera.addPath(path);
       expect(camera.paths).to.have.length(1);
       expect(camera.paths[0]).to.be(path);
@@ -47,7 +49,7 @@ describe('Camera', function() {
     });
   });
   describe('#follow()', function() {
-    var mockObject;
+    let mockObject;
     beforeEach(function() {
       mockObject = {
         position: new THREE.Vector3(),
@@ -76,8 +78,8 @@ describe('Camera', function() {
     });
   });
   describe('#findPath()', function() {
-    var camera = new Camera(new THREE.Camera());
-    var path = [
+    const camera = new Camera(new THREE.Camera());
+    const path = [
       new Camera.Path(),
       new Camera.Path(),
     ];
@@ -130,7 +132,7 @@ describe('Camera', function() {
   });
   describe('#jumpToPath()', function() {
     it('should set camera position to vector and constrain it to path', function() {
-      var path = new Camera.Path();
+      const path = new Camera.Path();
       camera.addPath(path);
       path.setConstraint(5, 7, 15, 17);
       camera.jumpToPath(new THREE.Vector2(0, 0));
@@ -140,8 +142,8 @@ describe('Camera', function() {
   });
   describe('#panTo()', function() {
     it('should pan camera to new position', function() {
-      var from = new THREE.Vector2(0, 0);
-      var to = new THREE.Vector2(300, 200);
+      const from = new THREE.Vector2(0, 0);
+      const to = new THREE.Vector2(300, 200);
       camera.jumpTo(from);
       camera.panTo(to);
       expect(realCamera.position.x).to.equal(0);
@@ -152,8 +154,8 @@ describe('Camera', function() {
   });
   describe('#updateTime()', function() {
     it('should set velocity based on distance to desiredPosition', function() {
-      var from = new THREE.Vector2(0, 0);
-      var to = new THREE.Vector2(300, 200);
+      const from = new THREE.Vector2(0, 0);
+      const to = new THREE.Vector2(300, 200);
       camera.jumpTo(from);
       camera.panTo(to);
       camera.updateTime(.016);
@@ -167,7 +169,7 @@ describe('Camera', function() {
 
   describe('Path', function() {
     context('when instantiating', function() {
-      var path = new Camera.Path();
+      const path = new Camera.Path();
       it('should contain windows and constraint vectors', function() {
         expect(path.constraint[0]).to.be.a(THREE.Vector3);
         expect(path.constraint[1]).to.be.a(THREE.Vector3);
@@ -176,11 +178,11 @@ describe('Camera', function() {
       });
     });
     describe('#constrain()', function() {
-      var path = new Camera.Path();
+      const path = new Camera.Path();
       path.setConstraint(-100, -10, 100, 10);
       context('when vector inside constraint', function() {
         it('should leave vector untouched', function() {
-          var vec = new THREE.Vector2();
+          const vec = new THREE.Vector2();
           vec.set(10, 5);
           path.constrain(vec);
           expect(vec.x).to.equal(10);
@@ -189,7 +191,7 @@ describe('Camera', function() {
       });
       context('when vector outside constraint', function() {
         it('should mutate vector to fit within constraint ', function() {
-          var vec = new THREE.Vector2();
+          const vec = new THREE.Vector2();
           vec.set(-200, -15);
           path.constrain(vec);
           expect(vec.x).to.equal(-100);
@@ -202,10 +204,10 @@ describe('Camera', function() {
       });
     });
     describe('#inWindow()', function() {
-      var path = new Camera.Path();
+      const path = new Camera.Path();
       path.setWindow(-5, -5, 5, 5);
       it('should return false if any vector component outside window', function() {
-        var vec = new THREE.Vector2();
+        const vec = new THREE.Vector2();
         vec.set(0, 0);
         expect(path.inWindow(vec)).to.be(true);
         vec.set(-5.1, 0);
@@ -218,7 +220,7 @@ describe('Camera', function() {
         expect(path.inWindow(vec)).to.be(false);
       });
       it('should treat vectors on boundary as inside', function() {
-        var vec = new THREE.Vector2();
+        const vec = new THREE.Vector2();
         vec.set(-5, -5);
         expect(path.inWindow(vec)).to.be(true);
         vec.set(5, 5);
@@ -227,7 +229,7 @@ describe('Camera', function() {
     });
     describe('#setConstraint()', function() {
       it('should assign constraint coordinates correctly', function() {
-        var path = new Camera.Path();
+        const path = new Camera.Path();
         path.setConstraint(-10, -15, 10, 15);
         expect(path.constraint[0].x).to.equal(-10);
         expect(path.constraint[0].y).to.equal(-15);
@@ -237,7 +239,7 @@ describe('Camera', function() {
     });
     describe('#setWindow()', function() {
       it('should assign window coordinates correctly', function() {
-        var path = new Camera.Path();
+        const path = new Camera.Path();
         path.setWindow(-10, -15, 10, 15);
         expect(path.window[0].x).to.equal(-10);
         expect(path.window[0].y).to.equal(-15);

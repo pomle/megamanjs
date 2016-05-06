@@ -1,16 +1,18 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
-var THREE = env.THREE;
-var Obj = env.Engine.Object;
-var World = env.Engine.World;
+const expect = require('expect.js');
+const sinon = require('sinon');
+
+const env = require('../../env.js');
+const THREE = env.THREE;
+const Obj = env.Engine.Object;
+const World = env.Engine.World;
 
 describe('World', function() {
-  var world;
-  var objects;
+  let world;
+  let objects;
   beforeEach(function() {
-    var mesh = new THREE.Mesh(
+    const mesh = new THREE.Mesh(
       new THREE.PlaneGeometry(1, 1),
       new THREE.MeshBasicMaterial()
     );
@@ -28,7 +30,7 @@ describe('World', function() {
   });
 
   context('on instantiation', function() {
-    var world = new World();
+    const world = new World();
     it('should have an ambient light', function() {
       expect(world.ambientLight).to.be.a(THREE.AmbientLight);
       expect(world.ambientLight.color).to.eql({r: 1, g: 1, b: 1});
@@ -45,21 +47,21 @@ describe('World', function() {
   });
   describe('#addObject', function() {
     it('should add object to collision detector', function() {
-      var world = new World();
+      const world = new World();
       world.addObject(objects[0]);
       expect(world.collision.objects).to.contain(objects[0]);
     });
     it('should add object model to scene', function() {
-      var world = new World();
+      const world = new World();
       world.scene.add = sinon.spy();
       world.addObject(objects[0]);
       expect(world.scene.add.callCount).to.equal(1);
       expect(world.scene.add.lastCall.args).to.eql([objects[0].model]);
     });
     it('should not add object model to scene if not set', function() {
-      var world = new World();
+      const world = new World();
       world.scene.add = sinon.spy();
-      var obj = new Obj();
+      const obj = new Obj();
       world.addObject(obj);
       expect(world.scene.add.called).to.be(false);
     });
@@ -70,7 +72,7 @@ describe('World', function() {
       expect(world.objects).to.have.length(3);
     });
     it('should assign itself to object', function() {
-      var world = new World();
+      const world = new World();
       world.addObject(objects[0]);
       expect(objects[0].world).to.be(world);
     });
@@ -172,7 +174,7 @@ describe('World', function() {
       expect(world.objects).to.have.length(2);
     });
     it('should trigger EVENT_UPDATE with current and total time', function() {
-      var callback = sinon.spy();
+      const callback = sinon.spy();
       world.events.bind(world.EVENT_UPDATE, callback);
       world.timeTotal = 1.07;
       world.updateTime(0.16);

@@ -1,17 +1,19 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
-var fs = require('fs');
+'use strict';
 
-var xmlReader = require('../../xmlreader');
-var env = require('../../env.js');
-var Engine = env.Engine;
-var World = env.Engine.World;
-var THREE = env.THREE;
-var Obj = env.Engine.Object;
-var Parser = env.Game.Loader.XML.Parser;
-var ObjectParser = env.Game.Loader.XML.Parser.ObjectParser;
-var LevelParser = env.Game.Loader.XML.Parser.LevelParser;
-var TraitParser = env.Game.Loader.XML.Parser.TraitParser;
+const expect = require('expect.js');
+const sinon = require('sinon');
+const fs = require('fs');
+
+const xmlReader = require('../../xmlreader');
+const env = require('../../env.js');
+const Engine = env.Engine;
+const World = env.Engine.World;
+const THREE = env.THREE;
+const Obj = env.Engine.Object;
+const Parser = env.Game.Loader.XML.Parser;
+const ObjectParser = env.Game.Loader.XML.Parser.ObjectParser;
+const LevelParser = env.Game.Loader.XML.Parser.LevelParser;
+const TraitParser = env.Game.Loader.XML.Parser.TraitParser;
 
 function createNode(x) {
   return xmlReader.createNode(x).childNodes[0];
@@ -22,7 +24,7 @@ function getNode(name) {
 }
 
 describe('Parser', function() {
-  var loaderMock;
+  let loaderMock;
 
   beforeEach(function() {
     loaderMock = {
@@ -41,24 +43,24 @@ describe('Parser', function() {
 
   context('#getAttr', function() {
     it('should return null if attribute does not exist', function() {
-      var parser = new Parser();
-      var node = createNode('<moot/>');
+      const parser = new Parser();
+      const node = createNode('<moot/>');
       expect(parser.getAttr(node, 'foo')).to.be(null);
     });
     it('should return string if attribute set', function() {
-      var parser = new Parser();
-      var node = createNode('<moot foo="bar"/>');
+      const parser = new Parser();
+      const node = createNode('<moot foo="bar"/>');
       expect(parser.getAttr(node, 'foo')).to.equal("bar");
     });
     it('should return null if attribute empty', function() {
-      var parser = new Parser();
-      var node = createNode('<moot foo=""/>');
+      const parser = new Parser();
+      const node = createNode('<moot foo=""/>');
       expect(parser.getAttr(node, 'foo')).to.equal(null);
     });
   });
 
   context('#getRange', function() {
-    var node, range, parser;
+    let node, range, parser;
     it('should interpret modulus', function() {
       parser = new Parser();
       node = createNode('<node range="0-10/2" />');
@@ -87,8 +89,8 @@ describe('Parser', function() {
 
   context('#getVector2', function() {
     it('should return null if any attribute missing', function() {
-      var parser = new Parser();
-      var node;
+      const parser = new Parser();
+      let node;
       node = createNode('<moot/>');
       expect(parser.getVector2(node)).to.be(null);
       node = createNode('<moot x="" y=""/>');
@@ -99,13 +101,13 @@ describe('Parser', function() {
       expect(parser.getVector2(node)).to.be(null);
     });
     it('should default parse x and y attributes', function() {
-      var parser = new Parser();
-      var node = createNode('<moot x="13" y="17" />');
+      const parser = new Parser();
+      const node = createNode('<moot x="13" y="17" />');
       expect(parser.getVector2(node)).to.eql({x: 13, y: 17});
     });
     it('should allow attribute key substitution', function() {
-      var parser = new Parser();
-      var node;
+      const parser = new Parser();
+      let node;
       node = createNode('<moot w="10" h="12"/>');
       expect(parser.getVector2(node, 'w', 'h')).to.eql({x: 10, y: 12});
     });
@@ -113,8 +115,8 @@ describe('Parser', function() {
 
   context('#getVector3', function() {
     it('should return null if x or y missing', function() {
-      var parser = new Parser();
-      var node;
+      const parser = new Parser();
+      let node;
       node = createNode('<moot/>');
       expect(parser.getVector3(node)).to.be(null);
       node = createNode('<moot x="" y="" z=""/>');
@@ -127,18 +129,18 @@ describe('Parser', function() {
       expect(parser.getVector3(node)).to.be(null);
     });
     it('should default parse x, y, and z attributes', function() {
-      var parser = new Parser();
-      var node = createNode('<moot x="13" y="17" z="11" />');
+      const parser = new Parser();
+      const node = createNode('<moot x="13" y="17" z="11" />');
       expect(parser.getVector3(node)).to.eql({x: 13, y: 17, z: 11});
     });
     it('should default z to 0 if not available', function() {
-      var parser = new Parser();
-      var node = createNode('<moot x="13" y="17"/>');
+      const parser = new Parser();
+      const node = createNode('<moot x="13" y="17"/>');
       expect(parser.getVector3(node)).to.eql({x: 13, y: 17, z: 0});
     });
     it('should allow attribute key substitution', function() {
-      var parser = new Parser();
-      var node;
+      const parser = new Parser();
+      let node;
       node = createNode('<moot w="10" h="12" r="5"/>');
       expect(parser.getVector3(node, 'w', 'h', 'r')).to.eql({x: 10, y: 12, z: 5});
     });
@@ -146,10 +148,10 @@ describe('Parser', function() {
 
   describe('for Objects', function() {
     describe('#parse', function() {
-      var objects, character;
+      let objects, character;
       it('should return an object indexed by object names', function() {
-        var objectsNode = getNode('character');
-        var parser = new ObjectParser(loaderMock);
+        const objectsNode = getNode('character');
+        const parser = new ObjectParser(loaderMock);
         objects = parser.parse(objectsNode);
         expect(objects).to.be.an(Object);
         expect(objects).to.have.property('Megaman');
@@ -161,7 +163,7 @@ describe('Parser', function() {
       context('Animations', function() {
         it('should have correct UV maps', function() {
           expect(character.animations['idle']).to.be.an(Engine.Animator.Animation);
-          var uvs = character.animations['idle'].getValue(0);
+          const uvs = character.animations['idle'].getValue(0);
           expect(uvs).to.be.an(Engine.UVCoords);
           expect(uvs[0][0].x).to.equal(0);
           expect(uvs[0][0].y).to.equal(1);
@@ -186,7 +188,7 @@ describe('Parser', function() {
         });
       });
       it('should have default animation on construction', function() {
-        var uvs = character.animations['__default'].getValue(0);
+        const uvs = character.animations['__default'].getValue(0);
         expect(character.model.geometry.faceVertexUvs[0][0]).to.eql(uvs[0]);
         expect(character.model.geometry.faceVertexUvs[0][1]).to.eql(uvs[1]);
       });
@@ -195,17 +197,17 @@ describe('Parser', function() {
       });
     });
     describe('#parseAnimations', function() {
-      var textureMock = {size: {x: 128, y: 128}};
+      const textureMock = {size: {x: 128, y: 128}};
       context('when animation group node has size specified', function() {
         it('should use size from animation group node', function() {
-          var node = createNode('<animations w="48" h="44">' +
+          const node = createNode('<animations w="48" h="44">' +
             '<animation id="moot">' +
               '<frame x="32" y="16"/>' +
             '</animation>' +
           '</animations>');
-          var parser = new ObjectParser();
-          var frameNode = node.childNodes[0];
-          var animation = parser.parseAnimation(frameNode, textureMock);
+          const parser = new ObjectParser();
+          const frameNode = node.childNodes[0];
+          const animation = parser.parseAnimation(frameNode, textureMock);
           expect(animation.getValue()).to.eql(new Engine.UVCoords(
             {x: 32, y: 16},
             {x: 48, y: 44},
@@ -214,14 +216,14 @@ describe('Parser', function() {
       });
       context('when animation node has size specified', function() {
         it('should use size from animation node', function() {
-          var node = createNode('<animations w="48" h="48">' +
+          const node = createNode('<animations w="48" h="48">' +
             '<animation id="moot" w="24" h="22">' +
               '<frame x="32" y="16"/>' +
             '</animation>' +
           '</animations>');
-          var parser = new ObjectParser();
-          var frameNode = node.childNodes[0];
-          var animation = parser.parseAnimation(frameNode, textureMock);
+          const parser = new ObjectParser();
+          const frameNode = node.childNodes[0];
+          const animation = parser.parseAnimation(frameNode, textureMock);
           expect(animation.getValue()).to.eql(new Engine.UVCoords(
             {x: 32, y: 16},
             {x: 24, y: 22},
@@ -230,14 +232,14 @@ describe('Parser', function() {
       });
       context('when frame has size specified', function() {
         it('should use size from frame', function() {
-          var node = createNode('<animations w="48" h="48">' +
+          const node = createNode('<animations w="48" h="48">' +
             '<animation id="moot" w="24" h="22">' +
               '<frame x="32" y="16" w="12" h="11"/>' +
             '</animation>' +
           '</animations>');
-          var parser = new ObjectParser();
-          var frameNode = node.childNodes[0];
-          var animation = parser.parseAnimation(frameNode, textureMock);
+          const parser = new ObjectParser();
+          const frameNode = node.childNodes[0];
+          const animation = parser.parseAnimation(frameNode, textureMock);
           expect(animation.getValue()).to.eql(new Engine.UVCoords(
             {x: 32, y: 16},
             {x: 12, y: 11},
@@ -246,19 +248,19 @@ describe('Parser', function() {
       });
       context('when wrapped in <loop>', function() {
         it('should duplicate a single frame', function() {
-          var node = createNode('<animations w="48" h="48">' +
+          const node = createNode('<animations w="48" h="48">' +
             '<animation id="moot" w="24" h="22">' +
               '<loop count="13">' +
                 '<frame x="32" y="16" duration="1"/>' +
               '</loop>' +
             '</animation>' +
           '</animations>');
-          var parser = new ObjectParser();
-          var animation = parser.parseAnimation(node.childNodes[0], textureMock);
+          const parser = new ObjectParser();
+          const animation = parser.parseAnimation(node.childNodes[0], textureMock);
           expect(animation.length).to.be(13);
         });
         it('should duplicate mixed frames', function() {
-          var node = createNode('<animations w="48" h="48">' +
+          const node = createNode('<animations w="48" h="48">' +
             '<animation id="moot" w="20" h="10">' +
               '<frame x="1" y="1" duration="13"/>' +
               '<frame x="1" y="1" duration="19"/>' +
@@ -274,11 +276,11 @@ describe('Parser', function() {
               '<frame x="6" y="6" duration="8"/>' +
             '</animation>' +
           '</animations>');
-          var parser = new ObjectParser();
-          var animation = parser.parseAnimation(node.childNodes[0], textureMock);
-          var frames = animation.timeline.frames;
+          const parser = new ObjectParser();
+          const animation = parser.parseAnimation(node.childNodes[0], textureMock);
+          const frames = animation.timeline.frames;
           expect(animation.length).to.be(12);
-          var f = 0;
+          let f = 0;
           expect(frames[f++].duration).to.be(13);
           expect(frames[f++].duration).to.be(19);
           expect(frames[f++].duration).to.be(1);
@@ -294,15 +296,15 @@ describe('Parser', function() {
         });
       });
       it('should parse an animation node', function() {
-        var node = getNode('animations');
-        var parser = new ObjectParser();
-        var animations = parser.parseAnimations(node,
+        const node = getNode('animations');
+        const parser = new ObjectParser();
+        const animations = parser.parseAnimations(node,
                                                 {foo: {size: {x: 256, y: 256}}});
-        var animation = animations['__default'];
+        const animation = animations['__default'];
         expect(animation).to.be.a(Engine.Animator.Animation);
         expect(animation.id).to.equal('idle');
         expect(animation.length).to.equal(2);
-        var uvs = animation.getValue(0);
+        const uvs = animation.getValue(0);
         expect(uvs).to.be.an(Engine.UVCoords);
         expect(uvs[0][0].x).to.equal(0);
         expect(uvs[0][0].y).to.equal(1);
@@ -320,10 +322,10 @@ describe('Parser', function() {
       });
     });
     describe('#parseTextures', function() {
-      var textures, character;
+      let textures, character;
       it('should return an object indexed by texture names', function() {
-        var texturesNode = getNode('textures');
-        var parser = new ObjectParser(loaderMock);
+        const texturesNode = getNode('textures');
+        const parser = new ObjectParser(loaderMock);
         textures = parser.parseTextures(texturesNode);
         expect(textures).to.be.an(Object);
         expect(textures).to.have.property('moot');
@@ -349,9 +351,9 @@ describe('Parser', function() {
     });
   });
   describe('for Levels', function() {
-    var level;
+    let level;
     it('should parse a level', function(done) {
-      var resourceMock = new Game.ResourceManager();
+      const resourceMock = new Game.ResourceManager();
       resourceMock.get = sinon.spy(function(type, id) {
         if (type === 'font') {
           return function() {
@@ -363,10 +365,10 @@ describe('Parser', function() {
           return Obj;
         }
       });
-      var game = new Game();
+      const game = new Game();
       game.player = new Game.Player();
-      var sceneNode = getNode('level');
-      var parser = new LevelParser({
+      const sceneNode = getNode('level');
+      const parser = new LevelParser({
         game: game,
         resource: resourceMock,
       });
@@ -397,7 +399,7 @@ describe('Parser', function() {
       });
     });
     context('Object Parsing', function() {
-      var object;
+      let object;
       it('should name object', function() {
         object = level.world.getObject('test');
         expect(object.name).to.equal('test');
@@ -421,7 +423,7 @@ describe('Parser', function() {
         expect(level.world.camera.smoothing).to.equal(13.5);
       });
       it('should have paths', function() {
-        var paths = level.world.camera.paths;
+        const paths = level.world.camera.paths;
         expect(paths).to.have.length(3);
         expect(paths[0].window[0]).to.eql({x: 0, y: -208, z: 0});
         expect(paths[0].window[1]).to.eql({x: 2048, y: 0, z: 0});
@@ -431,14 +433,14 @@ describe('Parser', function() {
     });
   });
   describe('for Traits', function() {
-    var parser = new TraitParser({
+    const parser = new TraitParser({
         resource: new Game.ResourceManager(),
     });
     context('when parsing by default scheme', function() {
       it('should prefer parsing floats', function() {
-        var node = createNode('<trait source="Fallaway" test1="0" test2="13.12" test3="ab" test4="-124.0"/>');
-        var Trait = parser.parseTrait(node);
-        var trait = new Trait();
+        const node = createNode('<trait source="Fallaway" test1="0" test2="13.12" test3="ab" test4="-124.0"/>');
+        const Trait = parser.parseTrait(node);
+        const trait = new Trait();
         expect(trait.test1).to.equal(0);
         expect(trait.test2).to.equal(13.12);
         expect(trait.test3).to.equal('ab');
@@ -447,7 +449,7 @@ describe('Parser', function() {
     });
     describe('Solid', function() {
       context('when instantiating', function() {
-        var trait = new Game.traits.Solid();
+        const trait = new Game.traits.Solid();
         it('should have name set to "solid"', function() {
           expect(trait.NAME).to.be('solid');
         });
@@ -457,32 +459,31 @@ describe('Parser', function() {
       });
       context('when no attack attribute set', function() {
         it('should default to all surfaces', function() {
-          var trait;
-          var node = createNode('<trait source="Solid"/>');
-          var Trait = parser.parseTrait(node);
-          var trait = new Trait();
+          const node = createNode('<trait source="Solid"/>');
+          const Trait = parser.parseTrait(node);
+          const trait = new Trait();
           expect(trait.attackAccept).to
             .eql([trait.TOP, trait.BOTTOM, trait.LEFT, trait.RIGHT]);
         });
       });
       context('when attack attribute set', function() {
         it('should honor attribute', function() {
-          var node = createNode('<trait source="Solid" attack="top"/>');
-          var Trait = parser.parseTrait(node);
-          var trait = new Trait();
+          const node = createNode('<trait source="Solid" attack="top"/>');
+          const Trait = parser.parseTrait(node);
+          const trait = new Trait();
           expect(trait.attackAccept).to.eql([trait.TOP]);
         });
         it('should parse using space-separated', function() {
-          var node = createNode('<trait source="Solid" attack="bottom left right"/>');
-          var Trait = parser.parseTrait(node);
-          var trait = new Trait();
+          const node = createNode('<trait source="Solid" attack="bottom left right"/>');
+          const Trait = parser.parseTrait(node);
+          const trait = new Trait();
           expect(trait.attackAccept).to.eql([trait.BOTTOM, trait.LEFT, trait.RIGHT]);
         });
       });
     });
     describe('Spawn', function() {
-      var spawn;
-      var hostMock;
+      let spawn;
+      let hostMock;
       beforeEach(function() {
         hostMock = {
           position: {x: 3, y: 5, z: 0},
@@ -494,33 +495,33 @@ describe('Parser', function() {
 
       it('should discover a single item', function() {
         parser.loader.resource.addObject('Explosion', Obj);
-        var node = createNode('<trait source="Spawn"><item event="recycle" object="Explosion"/></trait>');
-        var Spawn = parser.parseTrait(node);
+        const node = createNode('<trait source="Spawn"><item event="recycle" object="Explosion"/></trait>');
+        const Spawn = parser.parseTrait(node);
         spawn = new Spawn();
         expect(spawn._conditions).to.have.length(1);
       });
       it('should discover multiple items', function() {
-        var node = createNode('<trait source="Spawn">' +
+        const node = createNode('<trait source="Spawn">' +
           '<item event="recycle" object="Explosion"/>' +
           '<item event="blast" object="Explosion">' +
             '<offset x="13" y="11" z="5"/>' +
           '</item>' +
         '</trait>');
-        var Spawn = parser.parseTrait(node);
+        const Spawn = parser.parseTrait(node);
         spawn = new Spawn();
         expect(spawn._conditions).to.have.length(2);
       });
       it('should provide a default offset', function() {
         spawn._conditions[0].callback.call(hostMock);
         expect(hostMock.world.addObject.callCount).to.be(1);
-        var spawned = hostMock.world.addObject.lastCall.args[0];
+        const spawned = hostMock.world.addObject.lastCall.args[0];
         expect(spawned).to.be.a(Obj);
         expect(spawned.position).to.eql({x: 3, y: 5, z: 0});
       });
       it('should honor parsed offset', function() {
         spawn._conditions[1].callback.call(hostMock);
         expect(hostMock.world.addObject.callCount).to.be(1);
-        var spawned = hostMock.world.addObject.lastCall.args[0];
+        const spawned = hostMock.world.addObject.lastCall.args[0];
         expect(spawned).to.be.a(Obj);
         expect(spawned.position).to.eql({x: 3 + 13, y: 5 + 11, z: 0 + 5});
       });
