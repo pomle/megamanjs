@@ -33,9 +33,9 @@ Engine.Keyboard = class Keyboard {
 
         this._state = {};
     }
-    assign(code, name)
+    assign(key, name)
     {
-        this._map[code] = name;
+        this._map[key] = name;
     }
     hit(key, engage)
     {
@@ -66,16 +66,16 @@ Engine.Keyboard = class Keyboard {
     }
     triggerEvent(event)
     {
-        const code = event.keyCode;
-        if (this._map[code]) {
+        const key = event.keyCode;
+        if (this._map[key]) {
             if (event.preventDefault) {
                 event.preventDefault();
             }
-            this.trigger(this._map[code], event.type);
+            this.trigger(this._map[key], event.type);
         }
     }
-    unassign(code)
+    unassign(key)
     {
-        delete this._map[code];
+        delete this._map[key];
     }
 }
