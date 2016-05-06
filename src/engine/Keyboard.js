@@ -76,6 +76,7 @@ Engine.Keyboard = class Keyboard {
     }
     unassign(key)
     {
+        this.trigger(this._map[key], this.RELEASE);
         delete this._map[key];
     }
 }

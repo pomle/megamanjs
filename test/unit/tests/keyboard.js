@@ -30,6 +30,20 @@ describe('Keyboard', function() {
       input.triggerEvent({keyCode: 2, type: 'keydown'});
       expect(spy.callCount).to.equal(0);
     });
+    it('should release assigned key', function() {
+      var code = 1;
+      var input = new Keyboard();
+      input.assign(code, input.LEFT);
+      var on = sinon.spy();
+      var off = sinon.spy();
+      input.intermittent(input.LEFT, on, off);
+      input.triggerEvent({keyCode: code, type: 'keydown'});
+      expect(on.callCount).to.equal(1);
+      expect(off.callCount).to.equal(0);
+      input.unassign(code);
+      expect(on.callCount).to.equal(1);
+      expect(off.callCount).to.equal(1);
+    });
   });
   describe('#intermittent', function() {
     it('should trigger engage callback on keydown event', function() {
