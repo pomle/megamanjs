@@ -6,6 +6,23 @@
         var game = megaman2.game;
         var loader = megaman2.loader;
         game.attachToElement(document.getElementById('screen'));
+
+        game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
+            if (scene instanceof Game.scenes.Level) {
+                window.inputRecorder = new Engine.InputRecorder(game, scene.inputs.character);
+                window.inputRecorder.listen();
+                window.inputRecorder.record();
+            }
+        });
+
+        game.events.bind(game.EVENT_SCENE_DESTROY, function(scene) {
+            if (window.inputRecorder) {
+                window.inputRecorder.stop();
+                window.inputRecorder.unlisten();
+                delete window.inputRecorder;
+            }
+        });
+
         loader.startScene(loader.entrypoint);
 
         window.addEventListener('focus', function() {
