@@ -2,6 +2,9 @@ Game.traits.Elevator = function()
 {
     Game.traits.Solid.call(this);
 
+    this.fixed = true;
+    this.obstructs = true;
+
     this.attackAccept = [this.TOP];
     this.distance = 0;
     this.origo = undefined;
