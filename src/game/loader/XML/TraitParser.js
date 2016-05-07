@@ -68,10 +68,16 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
     };
 
     if (name === 'door') {
-        var direction = this.getVector2(traitNode.getElementsByTagName('direction')[0]);
+        var directionNode = traitNode.getElementsByTagName('direction')[0];
+        var direction;
+        if (directionNode) {
+            direction = this.getVector2(directionNode);
+        }
         var oneWay = this.getBool(traitNode, 'one-way');
         blueprint.setup = function(trait) {
-            trait.direction = direction;
+            if (direction) {
+                trait.direction = direction;
+            }
             trait.oneWay = oneWay;
         };
     } else if (name === 'elevator') {
