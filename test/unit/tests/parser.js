@@ -447,6 +447,35 @@ describe('Parser', function() {
         expect(trait.test4).to.equal(-124.0);
       });
     });
+    describe('Door', function() {
+      context('when parsing defaults', function() {
+        const node = createNode('<trait source="Door"/>');
+        const Trait = parser.parseTrait(node);
+        it('should inherit Door trait', function() {
+          expect(new Trait).to.be.a(Game.traits.Door);
+        });
+        it('should default to universal direction', function() {
+          const trait = new Trait();
+          expect(trait.direction).to.eql({x: 0, y: 0});
+        });
+        it('should default to two way', function() {
+          const trait = new Trait();
+          expect(trait.oneWay).to.be(false);
+        });
+      });
+      it('should parse direction', function() {
+        const node = createNode('<trait source="Door"><direction x="13" y="17"/></trait>');
+        const Trait = parser.parseTrait(node);
+        const trait = new Trait();
+        expect(trait.direction).to.be.eql({x: 13, y: 17});
+      });
+      it('should parse one-way', function() {
+        const node = createNode('<trait source="Door" one-way="true"/>');
+        const Trait = parser.parseTrait(node);
+        const trait = new Trait();
+        expect(trait.oneWay).to.be(true);
+      });
+    });
     describe('Solid', function() {
       context('when instantiating', function() {
         const trait = new Game.traits.Solid();
