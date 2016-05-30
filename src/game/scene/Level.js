@@ -200,25 +200,6 @@ Game.scenes.Level.prototype.simulateListener = function()
     this.detectCheckpoint();
 }
 
-Game.scenes.Level.prototype.spawnCharacter = function(name)
-{
-    var c = this.game.resource.get('character', name);
-    if (!c) {
-        throw new Error('Character "' + name + '" does not exist');
-    }
-
-    var character = new c();
-    var player = this.game.player.character;
-    var distance = {
-        x: 32,
-        y: 32,
-    }
-    character.position.x = player.position.x + (player.direction > 0 ? distance.x : -distance.x);
-    character.position.y = player.position.y + distance.y;
-    this.world.addObject(character);
-    return character;
-}
-
 Game.scenes.Level.prototype.pauseGamePlay = function()
 {
     var engine = this.game.engine;

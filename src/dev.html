@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>MegaJS</title>
+    <title>MegaManJS</title>
 
     <link rel="stylesheet" type="text/css" href="megaman.css">
 
@@ -149,29 +149,37 @@
         <pre>[WASD] - [Q/E] - [O/P]</pre>
     </div>
 
-    <fieldset class="weapons">
+    <div id="toolbox">
+        <fieldset>
+            <legend>Game</legend>
+            <button name="toggleFullscreen">Fullscreen</button>
+        </fieldset>
+        <fieldset>
+            <legend>Player</legend>
+            <button name="resetPlayer">Reset Player</button>
+        </fieldset>
+        <fieldset class="weapons">
         <legend>Weapon</legend>
-        <button weapon="p">Plasma</button>
-        <button weapon="a">Air Shooter</button>
-        <button weapon="m">Metal Blade</button>
-        <button weapon="c">Crash Bomber</button>
-        <button weapon="f">Time Stopper</button>
-    </fieldset>
-    <fieldset class="spawn">
-        <legend>Spawn</legend>
-        <button spawn="Airman">Air Man</button>
-        <button spawn="Crashman">Crash Man</button>
-        <button spawn="Flashman">Flash Man</button>
-        <button spawn="Heatman">Heat Man</button>
-        <button spawn="Metalman">Metal Man</button>
-        <button spawn"SniperArmor">SniperArmor</button>
-        <button spawn"SniperJoe">SniperJoe</button>
-        <button spawn"SillyCanon">SillyCanon</button>
-    </fieldset>
-    <fieldset>
-        <legend>Fullscreen</legend>
-        <button class="fullscreen">Fullscreen</button>
-    </fieldset>
+            <button name="weapon" data-weapon="p">Plasma</button>
+            <button name="weapon" data-weapon="a">Air Shooter</button>
+            <button name="weapon" data-weapon="c">Crash Bomber</button>
+            <button name="weapon" data-weapon="m">Metal Blade</button>
+            <button name="weapon" data-weapon="f">Time Stopper</button>
+        </fieldset>
+        <fieldset>
+            <legend>Level</legend>
+            <button name="spawn" data-object="Airman">Air Man</button>
+            <button name="spawn" data-object="Crashman">Crash Man</button>
+            <button name="spawn" data-object="Flashman">Flash Man</button>
+            <button name="spawn" data-object="Heatman">Heat Man</button>
+            <button name="spawn" data-object="Metalman">Metal Man</button>
+            <button name="spawn" data-object="SniperArmor">SniperArmor</button>
+            <button name="spawn" data-object="SniperJoe">SniperJoe</button>
+            <button name="spawn" data-object="Shotman">Shotman</button>
+        </fieldset>
+    </div>
+
+
 </body>
 </html>
 

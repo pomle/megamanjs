@@ -12,13 +12,31 @@ body {
     text-align: center;
 }
 
+button {
+    background: #03a8ed;
+    border-radius: 10%;
+    color: #fff;
+    margin: .2em;
+    padding: .2em .5em;
+}
+
 input {
     background: transparent;
     border-width: 1px;
 }
 
+#toolbox {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 200px;
+}
+
+#toolbox fieldset {
+    margin: .5em 0;
+}
+
 #game {
-    background: inherit;
     margin: 0 auto;
     position: relative;
 }
