@@ -17,7 +17,23 @@
             <animation id="ladder">
                 <frame x="91" y="37" w="16" h="16"/>
             </animation>
+            <animation id="bricks-big">
+                <frame x="145" y="55" w="16" h="16"/>
+            </animation>
         </animations>
+        <object id="ground">
+            <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+                <face animation="bricks-big">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect w="64" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Solid" fixed="true" obstructs="true"/>
+            </traits>
+        </object>
         <object id="ladder">
             <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8">
                 <face animation="ladder">
@@ -38,15 +54,12 @@
             <object id="ladder" x="-48" y="32" z="-1"/>
             <object id="ladder" x="96" y="-96" z="-1"/>
             <object id="ladder" x="-32" y="-144" z="-1"/>
+
+            <object id="ground" x="8" y="-88" />
+            <object id="ground" x="-72" y="-88" />
+            <object id="ground" x="32" y="72" />
+            <object id="ground" x="136" y="-40" />
+            <object id="ground" x="72" y="-168" />
         </objects>
-        <behaviors>
-            <solids>
-                <rect x="8" y="-88" w="64" h="16"/>
-                <rect x="-72" y="-88" w="64" h="16"/>
-                <rect x="32" y="72" w="32" h="16"/>
-                <rect x="136" y="-40" w="64" h="16"/>
-                <rect x="72" y="-168" w="64" h="16"/>
-            </solids>
-        </behaviors>
     </layout>
 </scene>

@@ -2,8 +2,8 @@ Game.objects.characters.Megaman = function()
 {
     Game.objects.Character.call(this);
 
-    this.bind(Game.traits.Weapon.prototype.EVENT_EQUIP, this.changeDress);
-    this.bind(Game.traits.Health.prototype.EVENT_HURT, this.damage);
+    this.events.bind(Game.traits.Weapon.prototype.EVENT_EQUIP, this.changeDress);
+    this.events.bind(Game.traits.Health.prototype.EVENT_HURT, this.damage);
 }
 
 Engine.Util.extend(Game.objects.characters.Megaman,

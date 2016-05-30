@@ -1,80 +1,82 @@
-Engine.Keyboard = function()
-{
-    this.events = new Engine.Events();
+'use strict';
 
-    this.map = {
-        65: this.LEFT,
-        68: this.RIGHT,
-        87: this.UP,
-        83: this.DOWN,
-        80: this.A,
-        79: this.B,
-        81: this.SELECT,
-        69: this.START,
-    };
+Engine.Keyboard = class Keyboard {
+    constructor()
+    {
+        this.EVENT_TRIGGER = 'trigger';
 
-    this.state = {};
-}
+        this.LEFT = 'left';
+        this.RIGHT = 'right';
+        this.UP = 'up';
+        this.DOWN = 'down';
+        this.A = 'a';
+        this.B = 'b';
+        this.SELECT = 'select';
+        this.START = 'start';
 
-Engine.Keyboard.prototype.LEFT = 'left';
-Engine.Keyboard.prototype.RIGHT = 'right';
-Engine.Keyboard.prototype.UP = 'up';
-Engine.Keyboard.prototype.DOWN = 'down';
-Engine.Keyboard.prototype.A = 'a';
-Engine.Keyboard.prototype.B = 'b';
-Engine.Keyboard.prototype.SELECT = 'select';
-Engine.Keyboard.prototype.START = 'start';
+        this.ENGAGE = 'keydown';
+        this.RELEASE = 'keyup';
 
-Engine.Keyboard.prototype.ENGAGE = 'keydown';
-Engine.Keyboard.prototype.RELEASE = 'keyup';
+        this.events = new Engine.Events();
+        this._events = new Engine.Events();
 
-Engine.Keyboard.prototype.assign = function(code, name)
-{
-    this.map[code] = name;
-}
+        this._map = {
+            65: this.LEFT,
+            68: this.RIGHT,
+            87: this.UP,
+            83: this.DOWN,
+            80: this.A,
+            79: this.B,
+            81: this.SELECT,
+            69: this.START,
+        };
 
-Engine.Keyboard.prototype.hit = function(key, engage)
-{
-    this.events.bind(key + '_' + this.ENGAGE, engage);
-}
-
-Engine.Keyboard.prototype.intermittent = function(key, engage, release)
-{
-    this.events.bind(key + '_' + this.ENGAGE, engage);
-    this.events.bind(key + '_' + this.RELEASE, release);
-}
-
-Engine.Keyboard.prototype.release = function()
-{
-    for (var key in this.map) {
-        this.trigger(this.map[key], this.RELEASE);
+        this._state = {};
     }
-}
-
-Engine.Keyboard.prototype.trigger = function(key, state)
-{
-    if (this.state[key] === state) {
-        return false;
+    assign(key, name)
+    {
+        this._map[key] = name;
     }
-
-    this.state[key] = state;
-    this.events.trigger(key + '_' + state);
-
-    return true;
-}
-
-Engine.Keyboard.prototype.triggerEvent = function(event)
-{
-    var code = event.keyCode;
-    if (this.map[code]) {
-        if (event.preventDefault) {
-            event.preventDefault();
+    hit(key, engage)
+    {
+        this._events.bind(key + '_' + this.ENGAGE, engage);
+    }
+    intermittent(key, engage, release)
+    {
+        this._events.bind(key + '_' + this.ENGAGE, engage);
+        this._events.bind(key + '_' + this.RELEASE, release);
+    }
+    release()
+    {
+        for (let key in this._map) {
+            this.trigger(this._map[key], this.RELEASE);
         }
-        this.trigger(this.map[code], event.type);
     }
-}
+    trigger(key, state)
+    {
+        if (this._state[key] === state) {
+            return false;
+        }
 
-Engine.Keyboard.prototype.unassign = function(code)
-{
-    delete this.map[code];
+        this._state[key] = state;
+        this._events.trigger(key + '_' + state);
+        this.events.trigger(this.EVENT_TRIGGER, [key, state]);
+
+        return true;
+    }
+    triggerEvent(event)
+    {
+        const key = event.keyCode;
+        if (this._map[key]) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            this.trigger(this._map[key], event.type);
+        }
+    }
+    unassign(key)
+    {
+        this.trigger(this._map[key], this.RELEASE);
+        delete this._map[key];
+    }
 }

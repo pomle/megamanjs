@@ -35,10 +35,7 @@ Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
 
     var host = this._host;
 
-    var our = new Engine.Collision.BoundingBox(host, ourZone);
-    var their = new Engine.Collision.BoundingBox(subject, theirZone);
-
-    var attack = this.attackDirection(our, their);
+    var attack = this.attackDirection(ourZone, theirZone);
 
     if (this.attackAccept.indexOf(attack) < 0) {
         /*
@@ -57,7 +54,7 @@ Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
                      (attack === this.RIGHT && subject.velocity.x < host.velocity.x);
 
         if (affect === true) {
-            subject.obstruct(host, attack, our, their);
+            subject.obstruct(host, attack, ourZone, theirZone);
         }
     }
 

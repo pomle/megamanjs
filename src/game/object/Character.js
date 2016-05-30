@@ -3,8 +3,6 @@ Game.objects.Character = function()
     Engine.Object.call(this);
 
     this.ai = new Engine.AI(this);
-    this.aim = new THREE.Vector2();
-    this.anim = undefined;
     this.dead = false;
     this.direction.x = this.DIRECTION_RIGHT;
 }
@@ -35,7 +33,7 @@ Game.objects.Character.prototype.kill = function()
         this.weapon.__timeshift(0);
     }
 
-    this.trigger(this.EVENT_DEATH);
+    this.events.trigger(this.EVENT_DEATH);
     this.world.removeObject(this);
 }
 
@@ -43,7 +41,7 @@ Game.objects.Character.prototype.resurrect = function()
 {
     this.dead = false;
     this.health.fill();
-    this.trigger(this.EVENT_RESURRECT);
+    this.events.trigger(this.EVENT_RESURRECT);
 }
 
 Game.objects.Character.prototype.routeAnimation = function()

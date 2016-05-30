@@ -1,9 +1,13 @@
 var Game = function()
 {
     this.engine = undefined;
+    this.events = new Engine.Events();
     this.player = new Game.Player();
     this.player.hud = new Hud(this);
 }
+
+Game.prototype.EVENT_SCENE_CREATE = 'scene_create';
+Game.prototype.EVENT_SCENE_DESTROY = 'scene_destroy';
 
 Game.objects = {};
 Game.scenes = {};
@@ -72,12 +76,14 @@ Game.prototype.setScene = function(scene)
 
     if (this.scene) {
         this.scene.__destroy(this);
+        this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
         this.scene = undefined;
         this.engine.unsetWorld();
     }
 
     this.scene = scene;
     this.scene.__create(this);
+    this.events.trigger(this.EVENT_SCENE_CREATE, [this.scene]);
     this.engine.setWorld(this.scene.world);
 
     /* Because the camera is instantiated per scene,

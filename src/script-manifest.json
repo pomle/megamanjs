@@ -23,9 +23,9 @@
 
     "engine/Trait.js",
 
-    "engine/UVAnimator.js",
-
     "engine/CanvasUtil.js",
+    "engine/InputPlayer.js",
+    "engine/InputRecorder.js",
 
     "engine/AI.js",
 

@@ -1,24 +1,26 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
-var Engine = env.Engine;
-var World = env.Engine.World;
-var Game = env.Game;
-var Level = env.Game.scenes.Level;
+const expect = require('expect.js');
+const sinon = require('sinon');
+
+const env = require('../../env.js');
+const Engine = env.Engine;
+const World = env.Engine.World;
+const Game = env.Game;
+const Level = env.Game.scenes.Level;
 
 describe('Level', function() {
-  var level;
+  let level;
   beforeEach(function() {
-      var world = new World();
-      var game = new Game();
+      const world = new World();
+      const game = new Game();
       game.engine = new Engine();
       game.engine.render = sinon.spy();
       game.engine.world = world;
       level = new Level(game, world);
       level.game.player = new Game.Player();
 
-      var character = new Game.objects.Character();
+      const character = new Game.objects.Character();
       character.applyTrait(new Game.traits.Health());
       level.game.player.character = character;
   });

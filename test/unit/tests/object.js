@@ -1,14 +1,16 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
 
-var extend = env.Engine.Util.extend;
-var Host = env.Engine.Object;
-var Trait = env.Engine.Trait;
+const env = require('../../env.js');
+
+const extend = env.Engine.Util.extend;
+const Host = env.Engine.Object;
+const Trait = env.Engine.Trait;
 
 describe('Object', function() {
-  var MockTrait = function() {
+  const MockTrait = function() {
     Trait.apply(this, arguments);
   }
   extend(MockTrait, Trait);
@@ -16,14 +18,14 @@ describe('Object', function() {
 
   describe('#applyTrait', function() {
     it('should exposed trait name on host', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       host.applyTrait(trait);
       expect(host.mockTrait).to.be(trait);
     });
     it('should except if trait name occupied', function() {
-      var host = new Host();
-      var trait = new MockTrait();
+      const host = new Host();
+      const trait = new MockTrait();
       host.applyTrait(trait);
       expect(function() {
         host.applyTrait(trait);

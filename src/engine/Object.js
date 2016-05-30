@@ -1,10 +1,9 @@
 Engine.Object = function()
 {
-    Engine.Events.call(this);
-
     this.uuid = THREE.Math.generateUUID();
     this.name = undefined;
 
+    this.aim = new THREE.Vector2();
     this.anim = undefined;
     this.animators = [];
     this.collidable = true;
@@ -12,6 +11,7 @@ Engine.Object = function()
     this.deltaTime = undefined;
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
+    this.events = new Engine.Events(this);
     this.integrator = new Engine.Verlet(new THREE.Vector2());
     this.origo = new THREE.Vector2();
     this.position = new THREE.Vector3();
@@ -25,8 +25,6 @@ Engine.Object = function()
         this.setModel(new THREE.Mesh(this.geometry, this.material));
     }
 }
-
-Engine.Util.mixin(Engine.Object, Engine.Events);
 
 Engine.Object.prototype.DIRECTION_UP = 1;
 Engine.Object.prototype.DIRECTION_DOWN = -1;
@@ -47,31 +45,16 @@ Engine.Object.prototype.geometry = undefined;
 Engine.Object.prototype.material = undefined;
 Engine.Object.prototype.textures = {};
 
-Engine.Object.prototype.addCollisionGeometry = function(geometry, offsetX, offsetY)
-{
-    var material = new THREE.MeshBasicMaterial({
-        color: 'white',
-        wireframe: true,
-        side: THREE.DoubleSide,
-    });
-    var mesh = new THREE.Mesh(geometry, material);
-    mesh.position.x = offsetX || 0;
-    mesh.position.y = offsetY || 0;
-    mesh.position.z = 0;
-    this.collision.push(mesh);
-    return mesh;
-}
-
 Engine.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
 {
-    var rect = new THREE.PlaneGeometry(w, h, 1, 1);
-    return this.addCollisionGeometry(rect, offsetX, offsetY);
+    var boundingBox = new Engine.Collision.BoundingBox(
+        this.position, {x: w, y: h}, {x: offsetX || 0, y: offsetY || 0});
+    this.collision.push(boundingBox);
 }
 
 Engine.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 {
-    var circle = new THREE.CircleGeometry(r, 8);
-    return this.addCollisionGeometry(circle, offsetX, offsetY);
+    return this.addCollisionRect(r * 2, r * 2, offsetX, offsetY);
 }
 
 Engine.Object.prototype.applyTrait = function(trait)
@@ -90,7 +73,7 @@ Engine.Object.prototype.applyTrait = function(trait)
 
 Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
 {
-    this.trigger(this.EVENT_COLLIDE, [withObject, ourZone, theirZone]);
+    this.events.trigger(this.EVENT_COLLIDE, [withObject, ourZone, theirZone]);
 }
 
 Engine.Object.prototype.dropCollision = function()
@@ -122,9 +105,9 @@ Engine.Object.prototype.nudge = function(x, y)
     this.moveTo(vec);
 }
 
-Engine.Object.prototype.obstruct = function()
+Engine.Object.prototype.obstruct = function(object, attack, ourZone, theirZone)
 {
-    this.trigger(this.EVENT_OBSTRUCT, arguments);
+    this.events.trigger(this.EVENT_OBSTRUCT, [object, attack, ourZone, theirZone]);
 }
 
 Engine.Object.prototype.setAnimation = function(name)
@@ -145,6 +128,9 @@ Engine.Object.prototype.setEmitter = function(object)
 
 Engine.Object.prototype.setModel = function(model)
 {
+    if (this.collision.length) {
+        throw new Error('Can not update model after collision');
+    }
     this.model = model;
     this.position = this.model.position;
 }
@@ -165,7 +151,7 @@ Engine.Object.prototype.timeShift = function(deltaTime)
         this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
     }
 
-    this.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
+    this.events.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
 
     this.integrator.integrate(this.position, this.velocity, deltaTime);
 
@@ -181,7 +167,7 @@ Engine.Object.prototype.updateAnimators = function(deltaTime) {
 
 Engine.Object.prototype.uncollides = function(withObject)
 {
-    this.trigger(this.EVENT_UNCOLLIDE, [withObject]);
+    this.events.trigger(this.EVENT_UNCOLLIDE, [withObject]);
 }
 
 Engine.Object.prototype.unsetWorld = function() {

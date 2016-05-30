@@ -30,7 +30,7 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseAttack = function(node, attr) 
             'left': S.LEFT,
             'right': S.RIGHT,
         }
-        attacks = attack.split(' ');
+        var attacks = attack.split(' ');
         for (var i = 0, l = attacks.length; i !== l; ++i) {
             var a = attacks[i];
             if (map[a] === undefined) {
@@ -68,10 +68,16 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
     };
 
     if (name === 'door') {
-        var direction = this.getVector2(traitNode.getElementsByTagName('direction')[0]);
+        var directionNode = traitNode.getElementsByTagName('direction')[0];
+        var direction;
+        if (directionNode) {
+            direction = this.getVector2(directionNode);
+        }
         var oneWay = this.getBool(traitNode, 'one-way');
         blueprint.setup = function(trait) {
-            trait.direction = direction;
+            if (direction) {
+                trait.direction = direction;
+            }
             trait.oneWay = oneWay;
         };
     } else if (name === 'elevator') {
@@ -120,8 +126,8 @@ Game.Loader.XML.Parser.TraitParser.prototype.parseTrait = function(traitNode)
         };
     } else if (name === 'solid') {
         var attackAccept = this.parseAttack(traitNode, 'attack');
-        var fixed = this.getAttr(traitNode, 'fixed') || false;
-        var obstructs = this.getAttr(traitNode, 'obstructs') || false;
+        var fixed = this.getBool(traitNode, 'fixed') || false;
+        var obstructs = this.getBool(traitNode, 'obstructs') || false;
         blueprint.setup = function(trait) {
             trait.fixed = fixed;
             trait.obstructs = obstructs;

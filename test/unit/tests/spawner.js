@@ -1,15 +1,17 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
+'use strict';
 
-var env = require('../../env.js');
+const expect = require('expect.js');
+const sinon = require('sinon');
 
-var World = env.Engine.World;
-var Spawnable = env.Engine.Object;
-var Spawner = env.Game.objects.Spawner;
+const env = require('../../env.js');
+
+const World = env.Engine.World;
+const Spawnable = env.Engine.Object;
+const Spawner = env.Game.objects.Spawner;
 
 describe('Spawner', function() {
   context('on instantiation', function() {
-    var spawner = new Spawner();
+    const spawner = new Spawner();
     it('should have a max and min distance set', function() {
       expect(spawner.maxDistance).to.be.a('number');
       expect(spawner.minDistance).to.be.a('number');
@@ -38,8 +40,8 @@ describe('Spawner', function() {
     });
   });
   describe('#cleanReferences', function() {
-    var world = new World();
-    var spawner = new Spawner();
+    const world = new World();
+    const spawner = new Spawner();
     spawner.pool.push(Spawnable);
     world.addObject(spawner);
     it('should remove children that are no longer in world', function() {
@@ -52,8 +54,8 @@ describe('Spawner', function() {
     });
   });
   context('when active', function() {
-    var world = new World();
-    var spawner = new Spawner();
+    const world = new World();
+    const spawner = new Spawner();
     spawner.pool.push(Spawnable);
     spawner.minDistance = 0;
     spawner.maxDistance = 0;

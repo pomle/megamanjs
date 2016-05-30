@@ -140,12 +140,10 @@ Game.scenes.Level.prototype.detectDeath = function()
     if (this.deathCountdown === 0 && this.game.player.character.health.depleted) {
         --this.game.player.lives;
         this.deathCountdown = this.game.engine.realTimePassed + this.deathRespawnTime;
-    }
-    else if (this.deathCountdown > 0 && this.game.engine.realTimePassed >= this.deathCountdown) {
+    } else if (this.deathCountdown > 0 && this.game.engine.realTimePassed >= this.deathCountdown) {
         if (this.game.player.lives <= 0) {
             this.__end();
-        }
-        else {
+        } else {
             this.resetPlayer();
         }
     }
@@ -179,7 +177,7 @@ Game.scenes.Level.prototype.readyBlink = function(callback)
     function blink(dt) {
         if (elapsed > duration) {
             level.world.scene.remove(model);
-            engine.events.unbind(engine.EVENT_TIMEPASS, arguments.callee);
+            engine.events.unbind(engine.EVENT_TIMEPASS, blink);
             if (callback) {
                 callback();
             }
@@ -305,9 +303,9 @@ Game.scenes.Level.prototype.resetPlayer = function()
         var level = this;
         var startFollow = function() {
             camera.follow(character);
-            this.unbind(this.teleport.EVENT_END, arguments.callee);
+            this.events.unbind(this.teleport.EVENT_END, startFollow);
         }
-        character.bind(character.teleport.EVENT_END, startFollow);
+        character.events.bind(character.teleport.EVENT_END, startFollow);
         this.resetCheckpoint();
     }
     else {
