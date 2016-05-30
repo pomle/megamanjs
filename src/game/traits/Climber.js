@@ -33,13 +33,14 @@ Game.traits.Climber.prototype.__collides = function(subject, ourZone, theirZone)
     if (subject.climbable === undefined) {
         return;
     }
+
     this.grab(subject, ourZone, theirZone);
 }
 
 Game.traits.Climber.prototype.__obstruct = function(object, attack)
 {
     /* If we touch ground, release climbable. */
-    if (object.SURFACE_TOP === attack) {
+    if (this._host.aim.y < 0 && attack === object.SURFACE_TOP) {
         this.release();
     }
 }
