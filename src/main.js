@@ -41,6 +41,9 @@
         const gameElement = document.getElementById('game');
 
         const actions = {
+            'adjustResolution': () => {
+                game.adjustResolution();
+            },
             'resetPlayer': (e) => {
                 if (game.scene.resetPlayer) {
                     game.scene.resetPlayer();
@@ -48,6 +51,10 @@
             },
             'toggleFullscreen': (e) => {
                 gameElement.webkitRequestFullScreen();
+            },
+            'setResolution': (e) => {
+                const res = e.target.value.split('x');
+                game.setResolution(parseFloat(res[0]), parseFloat(res[1]));
             },
             'spawn': (e) => {
                 const Obj = loader.resource.get('character', e.target.dataset.object);
@@ -64,7 +71,7 @@
             }
         }
 
-        document.addEventListener('click', function(e) {
+        const actionRouter = function(e) {
             const name = e.target.name;
             for (const action in actions) {
                 if (name === action) {
@@ -72,7 +79,10 @@
                     return;
                 }
             }
-        });
+        };
+
+        document.addEventListener('click', actionRouter);
+        document.addEventListener('change', actionRouter);
 
         function onFullscreenChange() {
             if(document.mozFullScreen || document.webkitIsFullScreen) {
