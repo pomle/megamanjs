@@ -61,37 +61,45 @@ Game.scenes.Level.prototype.createCharacterInput = function()
     var input = new Engine.Keyboard(),
         game = this.game,
         player = this.game.player,
-        levelrunner = this;
+        levelrunner = this,
+        aim = player.character.aim;
 
     input.intermittent(input.LEFT,
         function() {
-            --player.character.aim.x;
+            aim.x = -1;
         },
         function() {
-            ++player.character.aim.x;
+            if (aim.x === -1) {
+                aim.x = 0;
+            }
         });
     input.intermittent(input.RIGHT,
         function() {
-            ++player.character.aim.x;
+            aim.x = 1;
         },
         function() {
-            --player.character.aim.x;
+            if (aim.x === 1) {
+                aim.x = 0;
+            }
         });
     input.intermittent(input.UP,
         function() {
-            ++player.character.aim.y;
+            aim.y = 1;
         },
         function() {
-            --player.character.aim.y;
+            if (aim.y === 1) {
+                aim.y = 0;
+            }
         });
     input.intermittent(input.DOWN,
         function() {
-            --player.character.aim.y;
+            aim.y = -1;
         },
         function() {
-            ++player.character.aim.y;
+            if (aim.y === -1) {
+                aim.y = 0;
+            }
         });
-
 
     input.intermittent(input.A,
         function() {
