@@ -60,6 +60,18 @@ Game.prototype.handleInputEvent = function(event)
     this.scene.input.triggerEvent(event);
 }
 
+Game.prototype.pause = function()
+{
+    this.scene.__pause();
+    this.engine.pause();
+}
+
+Game.prototype.resume = function()
+{
+    this.scene.__resume();
+    this.engine.run();
+}
+
 Game.prototype.setResolution = function(w, h)
 {
     this.engine.renderer.setSize(w, h);

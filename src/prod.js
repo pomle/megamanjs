@@ -9,14 +9,10 @@
         loader.startScene(loader.entrypoint);
 
         window.addEventListener('focus', function() {
-            if (!game.engine.isRunning) {
-                game.engine.run();
-            }
+            game.resume();
         });
         window.addEventListener('blur', function() {
-            if (game.engine.isRunning) {
-                game.engine.pause();
-            }
+            game.pause();
         });
 
         var gameElement = document.getElementById('game');

@@ -30,6 +30,16 @@ Game.Scene.prototype.__destroy = function()
     this.events.trigger(this.EVENT_DESTROY, arguments);
 }
 
+Game.Scene.prototype.__pause = function()
+{
+    this.audioPlayer.pause();
+}
+
+Game.Scene.prototype.__resume = function()
+{
+    this.audioPlayer.resume();
+}
+
 Game.Scene.prototype.__end = function()
 {
     this.audioPlayer.stop();

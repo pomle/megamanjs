@@ -35,6 +35,14 @@ Engine.AudioPlayer = class AudioPlayer
         source.start(0);
         this._playing.push(source);
     }
+    pause()
+    {
+        this._context.suspend();
+    }
+    resume()
+    {
+        this._context.resume();
+    }
     stop()
     {
         const playing = this._playing;
