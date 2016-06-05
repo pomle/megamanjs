@@ -1,89 +1,80 @@
-Game.ResourceManager = function()
+'use strict';
+
+Game.ResourceManager = class ResourceManager
 {
-    this.textureScale = 4;
+    constructor()
+    {
+        this.textureScale = 4;
 
-    /* These must be defined in order of specificity. */
-    this.typeMap = {
-        'character': Game.objects.Character,
-        'projectile': Game.objects.Projectile,
-        'weapon': Game.objects.Weapon,
-        'object': Engine.Object,
-        'texture': THREE.Texture,
-    }
-
-    this.items = {};
-}
-
-Game.ResourceManager.prototype._addResource = function(type, id, object)
-{
-    if (!type) {
-        throw new Error('Empty type');
-    }
-    if (!id) {
-        throw new Error('Empty id');
-    }
-    if (!this.items[type]) {
-        this.items[type] = {};
-    }
-    if (this.items[type][id]) {
-        throw new Error("Object " + id + " already defined");
-    }
-
-    this.items[type][id] = object;
-}
-
-Game.ResourceManager.prototype.addAuto = function(id, object)
-{
-    for (var type in this.typeMap) {
-        var proto = this.typeMap[type].prototype;
-        if (proto.isPrototypeOf(object.prototype)) {
-            this._addResource(type, id, object);
-            return true;
+        /* These must be defined in order of specificity. */
+        this.typeMap = {
+            'character': Game.objects.Character,
+            'projectile': Game.objects.Projectile,
+            'weapon': Game.objects.Weapon,
+            'object': Engine.Object,
+            'texture': THREE.Texture,
         }
+
+        this.items = {};
     }
-    throw new Error('Could not determine type from ' + object);
-}
+    _addResource(type, id, object)
+    {
+        if (!type) {
+            throw new Error('Empty type');
+        }
+        if (!id) {
+            throw new Error('Empty id');
+        }
+        if (!this.items[type]) {
+            this.items[type] = {};
+        }
+        if (this.items[type][id]) {
+            throw new Error("Object " + id + " already defined");
+        }
 
-Game.ResourceManager.prototype.addCharacter = function(id, object)
-{
-    return this._addResource('character', id, object);
-}
-
-Game.ResourceManager.prototype.addFont = function(id, object)
-{
-    return this._addResource('font', id, object);
-}
-
-Game.ResourceManager.prototype.addObject = function(id, object)
-{
-    return this._addResource('object', id, object);
-}
-
-Game.ResourceManager.prototype.addTexture = function(id, object)
-{
-    return this._addResource('texture', id, object);
-}
-
-Game.ResourceManager.prototype.addWeapon = function(id, object)
-{
-    return this._addResource('weapon', id, object);
-}
-
-Game.ResourceManager.prototype.get = function(type, id)
-{
-    if (this.items[type] && this.items[type][id]) {
-        return this.items[type][id];
+        this.items[type][id] = object;
     }
-    throw new Error('No resource "' + id + '" of type ' + type);
-}
-
-Game.ResourceManager.prototype.has = function(type, id)
-{
-    return this.items[type] !== undefined &&
-           this.items[type][id] !== undefined;
-}
-
-Game.ResourceManager.prototype.loadTexture = function(url)
-{
-    return Engine.TextureManager.getScaledTexture(url, this.textureScale);
+    addAuto(id, object)
+    {
+        for (const type in this.typeMap) {
+            const proto = this.typeMap[type].prototype;
+            if (proto.isPrototypeOf(object.prototype)) {
+                this._addResource(type, id, object);
+                return true;
+            }
+        }
+        throw new Error('Could not determine type from ' + object);
+    }
+    addCharacter(id, object)
+    {
+        return this._addResource('character', id, object);
+    }
+    addFont(id, object)
+    {
+        return this._addResource('font', id, object);
+    }
+    addObject(id, object)
+    {
+        return this._addResource('object', id, object);
+    }
+    addTexture(id, object)
+    {
+        return this._addResource('texture', id, object);
+    }
+    addWeapon(id, object)
+    {
+        return this._addResource('weapon', id, object);
+    }
+    get(type, id)
+    {
+        if (this.items[type] && this.items[type][id]) {
+            return this.items[type][id];
+        }
+        throw new Error('No resource "' + id + '" of type ' + type);
+    }
+    has(type, id)
+    {
+        return this.items[type] !== undefined &&
+               this.items[type][id] !== undefined;
+    }
 }
