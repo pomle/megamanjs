@@ -7,8 +7,9 @@
         <traits>
             <trait source="ContactDamage" points="4" />
             <trait source="Health" max="28" />
-            <trait source="Jump" force="26250" duration=".18" falloff=".3" />
+            <trait source="Jump" force="600" duration=".18" />
             <trait source="Physics" area=".04" drag=".045" mass="105" />
+            <trait source="Solid" attack="bottom"/>
             <trait source="Move" />
             <trait source="Invincibility" duration=".5" />
             <trait source="Weapon">

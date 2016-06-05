@@ -2,13 +2,14 @@
     <object type="character" id="Flashman" source="Flashman">
         <geometry type="plane" w="48" h="48" />
         <collision>
-            <rect x="0" y="0" w="12" h="24" />
+            <rect w="12" h="24" />
         </collision>
         <traits>
             <trait source="ContactDamage" points="4" />
             <trait source="Health" max="28" />
-            <trait source="Jump" force="16800" duration=".18" falloff=".3" />
+            <trait source="Jump" force="400" duration=".18" />
             <trait source="Physics" area=".04" drag=".045" mass="105" />
+            <trait source="Solid" attack="bottom"/>
             <trait source="Move" />
             <trait source="Invincibility" duration=".5" />
             <trait source="Weapon">

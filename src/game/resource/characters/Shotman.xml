@@ -10,7 +10,7 @@
             <trait source="ContactDamage" points="4" />
             <trait source="Health" max="5" />
             <trait source="Physics" area=".06" drag=".045" mass="135" />
-            <trait source="Solid" />
+            <trait source="Solid" attack="bottom" />
             <trait source="Spawn">
                 <item object="TinyExplosion" event="death"/>
             </trait>
