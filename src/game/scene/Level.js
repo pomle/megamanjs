@@ -169,37 +169,40 @@ Game.scenes.Level.prototype.goToCheckpoint = function(index)
     this.resetPlayer();
 }
 
-Game.scenes.Level.prototype.readyBlink = function(callback)
+Game.scenes.Level.prototype.readyBlink = function()
 {
     var interval = 9/60,
         duration = 2,
         elapsed = 0,
         model = this.assets['start-caption'],
         engine = this.game.engine,
-        level = this;
+        level = this,
+        camera = level.world.camera.camera;
 
-    if (!model) {
-        return callback();
-    }
+    return new Promise(resolve => {
+        if (!model) {
+            return resolve();
+        }
 
-    function blink(dt) {
-        if (elapsed > duration) {
-            level.world.scene.remove(model);
-            engine.events.unbind(engine.EVENT_TIMEPASS, blink);
-            if (callback) {
-                callback();
+        model.visible = true;
+
+        function blink(dt) {
+            if (elapsed > duration) {
+                level.world.scene.remove(model);
+                engine.events.unbind(engine.EVENT_TIMEPASS, blink);
+                resolve();
+            }
+            else {
+                model.position.x = camera.position.x;
+                model.position.y = camera.position.y;
+                model.visible = elapsed % (interval * 2) < interval;
+                elapsed += dt;
             }
         }
-        else {
-            model.position.x = level.world.camera.camera.position.x;
-            model.position.y = level.world.camera.camera.position.y;
-            model.visible = elapsed % (interval * 2) < interval;
-            elapsed += dt;
-        }
-    }
 
-    level.world.scene.add(model);
-    engine.events.bind(engine.EVENT_TIMEPASS, blink);
+        level.world.scene.add(model);
+        engine.events.bind(engine.EVENT_TIMEPASS, blink);
+    });
 }
 
 Game.scenes.Level.prototype.simulateListener = function()
@@ -228,13 +231,11 @@ Game.scenes.Level.prototype.resumeGamePlay = function()
 
 Game.scenes.Level.prototype.resetCheckpoint = function()
 {
-    var level = this;
     this.resetObjects();
-
-    this.readyBlink(function() {
-        level.resumeGamePlay();
-    });
     this.game.engine.world.updateTime(0);
+    return this.readyBlink().then(() => {
+        this.resumeGamePlay();
+    });
 }
 
 Game.scenes.Level.prototype.resetObjects = function()
@@ -260,7 +261,6 @@ Game.scenes.Level.prototype.resetPlayer = function()
         character = player.character;
 
     this.deathCountdown = 0;
-    this.pauseGamePlay();
 
     if (player.defaultWeapon) {
         player.equipWeapon(player.defaultWeapon);
@@ -283,6 +283,7 @@ Game.scenes.Level.prototype.resetPlayer = function()
         var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
         var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
         var camera = this.world.camera;
+        camera.velocity.set(0, 0, 0);
 
         character.moveTo(playerPosition);
         character.teleport.to(startPosition);
@@ -295,13 +296,13 @@ Game.scenes.Level.prototype.resetPlayer = function()
             this.events.unbind(this.teleport.EVENT_END, startFollow);
         }
         character.events.bind(character.teleport.EVENT_END, startFollow);
-        this.resetCheckpoint();
+        this.resetCheckpoint().then(() => {
+            this.world.addObject(character);
+        });
     }
     else {
         character.moveTo(new THREE.Vector2(0, 0));
         this.world.camera.follow(character);
-        this.resumeGamePlay();
+        this.world.addObject(character);
     }
-
-    this.world.addObject(character);
 }
