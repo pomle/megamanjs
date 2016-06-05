@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="stage-select">
+    <audio>
+        <music src="stage-select.ogg">
+            <loop start="1.364" end="6.690"/>
+        </music>
+    </audio>
     <background color="0x0064ff"/>
     <camera distance="140" />
     <indicator id="indicator" blink-interval=".125" initial-index="4" />

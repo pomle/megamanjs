@@ -1,5 +1,7 @@
 [
     "engine/Engine.js",
+    "engine/Audio.js",
+    "engine/AudioPlayer.js",
     "engine/Util.js",
     "engine/Events.js",
     "engine/Animation.js",
@@ -33,6 +35,7 @@
     "game/Game.js",
     "game/Hud.js",
     "game/ResourceManager.js",
+    "game/ResourceLoader.js",
     "game/Loader.js",
     "game/loader/XML.js",
     "game/loader/XML/Parser.js",
