@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Heatman">
+    <audio>
+        <music src="./heatman/music.ogg">
+            <loop />
+        </music>
+    </audio>
     <checkpoints>
         <checkpoint x="136" y="-165" z="0"/>
         <checkpoint x="1920" y="-661" z="0"/>

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="stage-select">
     <audio>
-        <music src="stage-select.ogg">
+        <music src="./stage-select/wait-music.ogg" id="wait-music">
             <loop start="1.364" end="6.690"/>
         </music>
+        <effect src="./stage-select/stage-select-selection.ogg" id="selection"/>
     </audio>
     <background color="0x0064ff"/>
     <camera distance="140" />
@@ -19,9 +20,18 @@
     <stage name="Flashman"    caption="FLASH MAN"  id="f" />
     <stage name="Crashman"    caption="CRASH MAN"  id="c" />
 
+    <events>
+        <event name="start">
+            <action type="audio" id="wait-music"/>
+        </event>
+        <event name="selection-changed">
+            <action type="audio" id="selection"/>
+        </event>
+    </events>
+
     <objects>
         <textures>
-            <texture url="stageselect.png" w="256" h="256" />
+            <texture url="./stage-select/stageselect.png" w="256" h="256" />
         </textures>
         <animations w="48" h="48">
             <animation id="indicator">

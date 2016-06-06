@@ -2,13 +2,13 @@
 
 Game.ResourceLoader = class ResourceLoader
 {
-    constructor(scene)
+    constructor(loader)
     {
+        this.loader = loader;
+
         this.PENDING = 0;
         this.RUNNING = 1;
         this.COMPLETE = 2;
-
-        this._scene = scene;
         this._jobs = [];
     }
     _createJob()
@@ -26,12 +26,14 @@ Game.ResourceLoader = class ResourceLoader
         const jobs = this._jobs.map(job => {
             return job.promise;
         });
-        return Promise.all(jobs);
+        return Promise.all(jobs).then(() => {
+            this._jobs = [];
+        });
     }
     loadAudio(url)
     {
         const job = this._createJob();
-        const context = this._scene.audioPlayer.getContext();
+        const context = this.loader.game.audioPlayer.getContext();
         job.promise = new Promise((resolve, reject) => {
             const request = new XMLHttpRequest();
             request.open('GET', url, true);

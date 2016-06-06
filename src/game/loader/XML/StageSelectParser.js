@@ -1,14 +1,13 @@
 'use strict';
 
 Game.Loader.XML.Parser.StageSelectParser =
-    class StageSelectParser
-    extends Game.Loader.XML.Parser
+class StageSelectParser
+extends Game.Loader.XML.Parser
 {
     constructor(loader)
     {
         super(loader);
         this._scene = new Game.scenes.StageSelect();
-        this._resourceLoader = new Game.ResourceLoader(this._scene);
     }
     parseStageSelect(sceneNode)
     {
@@ -16,20 +15,19 @@ Game.Loader.XML.Parser.StageSelectParser =
             throw new TypeError('Node not <scene type="stage-select">');
         }
 
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             const scene = this._scene;
 
-            var audioNode = sceneNode.getElementsByTagName('audio')[0];
-            var musicNode = audioNode.getElementsByTagName('music')[0];
-            this._resourceLoader.loadAudio(this.resolveURL(musicNode, 'src'))
-                .then(audio => {
-                    const loopNode = musicNode.getElementsByTagName('loop')[0];
-                    if (loopNode) {
-                        audio.setLoop(this.getFloat(loopNode, 'start'),
-                                      this.getFloat(loopNode, 'end'));
-                    }
-                    scene.music = audio;
-                });
+            const audioNodes = sceneNode.querySelectorAll('audio > *');
+            for (let audioNode, i = 0; audioNode = audioNodes[i++];) {
+                this.getAudio(audioNode)
+                    .then(audio => {
+                        const id = this.getAttr(audioNode, 'id');
+                        scene.audio[id] = audio;
+                    });
+            }
+
+            this.parseEvents(sceneNode);
 
             var objectsNode = sceneNode.getElementsByTagName('objects')[0];
             var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader);
@@ -59,25 +57,46 @@ Game.Loader.XML.Parser.StageSelectParser =
 
             scene.equalize(parseFloat(indicatorNode.getAttribute('initial-index')));
 
-            var stageSelect = scene;
-            var loader = this.loader;
-            scene.events.bind(scene.EVENT_STAGE_SELECTED, function(stage, index) {
-                loader.startScene(stage.name).then(function(scene) {
-                    scene.events.bind(scene.EVENT_END, function() {
-                        loader.game.setScene(stageSelect);
+            const stageSelectScene = scene;
+            scene.events.bind(scene.EVENT_STAGE_SELECTED, (stage, index) => {
+                this.loader.startScene(stage.name).then((scene) => {
+                    scene.events.bind(scene.EVENT_END, () => {
+                        this.loader.game.setScene(stageSelectScene);
                     });
                 });
             });
 
-            this._resourceLoader.complete().then(() => {
+            this.loader.resourceLoader.complete().then(() => {
                 resolve(scene);
             });
         });
+    }
+    parseEvents(sceneNode)
+    {
+        const scene = this._scene;
+        const eventNodes = sceneNode.querySelectorAll('events > event');
+        for (let eventNode, i = 0; eventNode = eventNodes[i++];) {
+            const name = this.getAttr(eventNode, 'name');
+            const actionNodes = eventNode.querySelectorAll('action');
+            for (let actionNode, j = 0; actionNode = actionNodes[j++];) {
+                const type = this.getAttr(actionNode, 'type');
+                switch (type) {
+                    case 'audio':
+                        const id = this.getAttr(actionNode, 'id');
+                        scene.events.bind(name, () => {
+                            if (scene.game) {
+                                scene.game.audioPlayer.play(scene.audio[id]);
+                            }
+                        });
+                        break;
+                }
+            }
+        }
     }
     createCaption(text) {
         text = text.split(" ");
         text[1] = Engine.Util.string.fill(" ", 6 - text[1].length) + text[1];
         text = text.join("\n");
-        return this.loader.resource.items.font['nintendo'](text).createMesh();
+        return this.loader.resourceManager.get('font', 'nintendo')(text).createMesh();
     }
 }

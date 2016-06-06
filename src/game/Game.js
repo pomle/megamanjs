@@ -1,6 +1,7 @@
 var Game = function()
 {
-    this.events = new Engine.Events();
+    this.events = new Engine.Events(this);
+    this.audioPlayer = new Engine.AudioPlayer();
     this.renderer = new THREE.WebGLRenderer({
         'antialias': false,
     });
@@ -66,14 +67,14 @@ Game.prototype.handleInputEvent = function(event)
 Game.prototype.pause = function()
 {
     if (this.scene) {
-        this.scene.__pause();
+        this.scene.__pause(this);
     }
 }
 
 Game.prototype.resume = function()
 {
     if (this.scene) {
-        this.scene.__resume();
+        this.scene.__resume(this);
     }
 }
 
@@ -105,6 +106,6 @@ Game.prototype.setScene = function(scene)
        we roll. */
     this.adjustAspectRatio();
 
-    this.scene.__start();
-    this.scene.__resume();
+    this.scene.__start(this);
+    this.scene.__resume(this);
 }
