@@ -32,7 +32,9 @@ Game.Scene = class Scene
         };
 
         const render = () => {
-            this.game.renderer.render(scene, camera);
+            if (this.game) {
+                this.game.renderer.render(scene, camera);
+            }
         };
 
         this.events.bind(this.EVENT_CREATE, (game) => {
@@ -40,6 +42,7 @@ Game.Scene = class Scene
             timer.events.bind(timer.EVENT_UPDATE, animate);
             timer.events.bind(timer.EVENT_RENDER, render);
         });
+
         this.events.bind(this.EVENT_DESTROY, (game) => {
             timer.events.bind(timer.EVENT_SIMULATE, simulate);
             timer.events.bind(timer.EVENT_UPDATE, animate);
