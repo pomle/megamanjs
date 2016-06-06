@@ -1,13 +1,8 @@
 var Game = function()
 {
-    this.engine = new Engine();
     this.events = new Engine.Events();
     this.renderer = new THREE.WebGLRenderer({
         'antialias': false,
-    });
-    this.engine.events.bind('render', () => {
-        this.renderer.render(this.scene.world.scene,
-                             this.scene.world.camera.camera);
     });
 
     this.player = new Game.Player();
@@ -70,14 +65,16 @@ Game.prototype.handleInputEvent = function(event)
 
 Game.prototype.pause = function()
 {
-    this.scene.__pause();
-    this.engine.pause();
+    if (this.scene) {
+        this.scene.__pause();
+    }
 }
 
 Game.prototype.resume = function()
 {
-    this.scene.__resume();
-    this.engine.run();
+    if (this.scene) {
+        this.scene.__resume();
+    }
 }
 
 Game.prototype.setResolution = function(w, h)
@@ -92,25 +89,22 @@ Game.prototype.setScene = function(scene)
         throw new Error('Invalid scene');
     }
 
-    this.engine.pause();
-
     if (this.scene) {
         this.scene.__destroy(this);
         this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
         this.scene = undefined;
-        this.engine.unsetWorld();
     }
 
     this.scene = scene;
     this.scene.__create(this);
     this.events.trigger(this.EVENT_SCENE_CREATE, [this.scene]);
-    this.engine.setWorld(this.scene.world);
+
 
     /* Because the camera is instantiated per scene,
        we make sure the aspect ratio is correct before
        we roll. */
     this.adjustAspectRatio();
 
-    this.engine.run();
     this.scene.__start();
+    this.scene.__resume();
 }

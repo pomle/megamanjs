@@ -4,6 +4,7 @@
     "engine/AudioPlayer.js",
     "engine/Util.js",
     "engine/Events.js",
+    "engine/Timer.js",
     "engine/Animation.js",
     "engine/BitmapFont.js",
     "engine/Sequencer.js",

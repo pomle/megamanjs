@@ -7,7 +7,7 @@ Game.Loader.XML.Parser.StageSelectParser =
     constructor(loader)
     {
         super(loader);
-        this._scene = new Game.scenes.StageSelect(loader.game, new Engine.World());
+        this._scene = new Game.scenes.StageSelect();
         this._resourceLoader = new Game.ResourceLoader(this._scene);
     }
     parseStageSelect(sceneNode)
