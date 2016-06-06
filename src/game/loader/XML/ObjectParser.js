@@ -218,11 +218,11 @@ extends Game.Loader.XML.Parser
         const animation = new Engine.Animator.Animation(id, group);
         const frameNodes = animationNode.getElementsByTagName('frame');
         let loop = [];
-        for (let i = 0, frameNode; frameNode = frameNodes[i]; ++i) {
+        for (let i = 0, frameNode; frameNode = frameNodes[i++];) {
             const offset = this.getVector2(frameNode, 'x', 'y');
             const size = this.getVector2(frameNode, 'w', 'h') ||
-                       this.getVector2(frameNode.parentNode, 'w', 'h') ||
-                       this.getVector2(frameNode.parentNode.parentNode, 'w', 'h');
+                         this.getVector2(frameNode.parentNode, 'w', 'h') ||
+                         this.getVector2(frameNode.parentNode.parentNode, 'w', 'h');
             const uvMap = new Engine.UVCoords(offset, size, texture.size);
             const duration = this.getFloat(frameNode, 'duration') || undefined;
             animation.addFrame(uvMap, duration);

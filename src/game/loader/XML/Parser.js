@@ -169,57 +169,51 @@ class Parser
             throw new Error("Node not <texture>");
         }
 
-        var parser = this;
-        var loader = parser.loader;
+        const textureScale = this.getFloat(textureNode, 'scale') || this.loader.resourceLoader.textureScale;
+        const textureUrl = this.resolveURL(textureNode, 'url');
+        const textureId = textureNode.getAttribute('id');
 
-        var textureId = textureNode.getAttribute('id');
-        var textureUrl = this.resolveURL(textureNode, 'url');
-
-        var textureScale = this.getFloat(textureNode, 'scale') || this.loader.resourceLoader.textureScale;
-
-        var texture = new THREE.Texture();
-        texture.name = textureId;
+        const texture = new THREE.Texture();
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
 
-        var effects = [];
-        var effectsNode = textureNode.getElementsByTagName('effects')[0];
-        if (effectsNode) {
-            var effectNodes = effectsNode.getElementsByTagName('*');
-            for (var effectNode, i = 0; effectNode = effectNodes[i++];) {
-                if (effectNode.tagName === 'color-replace') {
-                    var colors = [
-                        this.getColor(effectNode, 'in'),
-                        this.getColor(effectNode, 'out'),
-                    ];
-                    effects.push(function() {
-                        var colorIn = colors[0];
-                        var colorOut = colors[1];
-                        return function colorReplace(canvas) {
-                            return Engine.CanvasUtil.colorReplace(canvas,
-                                colorIn, colorOut);
+        this.loader.resourceLoader.loadImage(textureUrl)
+            .then(canvas => {
+                texture.name = textureId;
+                const effects = [];
+                const effectsNode = textureNode.getElementsByTagName('effects')[0];
+                if (effectsNode) {
+                    const effectNodes = effectsNode.getElementsByTagName('*');
+                    for (let effectNode, i = 0; effectNode = effectNodes[i++];) {
+                        if (effectNode.tagName === 'color-replace') {
+                            const colors = [
+                                this.getColor(effectNode, 'in'),
+                                this.getColor(effectNode, 'out'),
+                            ];
+                            effects.push(function() {
+                                const colorIn = colors[0];
+                                const colorOut = colors[1];
+                                return function colorReplace(canvas) {
+                                    return Engine.CanvasUtil.colorReplace(canvas,
+                                        colorIn, colorOut);
+                                }
+                            }());
                         }
-                    }());
+                    }
                 }
-            }
-        }
 
-        if (textureScale !== 1) {
-            effects.push(function(canvas) {
-                return Engine.CanvasUtil.scale(canvas, textureScale);
+                if (textureScale !== 1) {
+                    effects.push(function(canvas) {
+                        return Engine.CanvasUtil.scale(canvas, textureScale);
+                    });
+                }
+
+                for (const i in effects) {
+                    canvas = effects[i](canvas);
+                }
+                texture.image = canvas;
+                texture.needsUpdate = true;
             });
-        }
-
-        var image = new Image();
-        image.addEventListener('load', function() {
-            var canvas = Engine.CanvasUtil.clone(this);
-            for (var i in effects) {
-                canvas = effects[i](canvas);
-            }
-            texture.image = canvas;
-            texture.needsUpdate = true;
-        });
-        image.src = textureUrl;
 
         return texture;
     }

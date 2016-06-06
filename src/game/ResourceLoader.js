@@ -53,4 +53,18 @@ Game.ResourceLoader = class ResourceLoader
         });
         return job.promise;
     }
+    loadImage(url)
+    {
+        const job = this._createJob();
+        job.promise = new Promise((resolve, reject) => {
+            const image = new Image();
+            image.addEventListener('load', function() {
+                const canvas = Engine.CanvasUtil.clone(this);
+                resolve(canvas);
+            });
+            image.addEventListener('error', reject);
+            image.src = url;
+        });
+        return job.promise;
+    }
 }
