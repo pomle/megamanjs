@@ -11,13 +11,7 @@ Engine.Util.extend(Game.Loader.XML, Game.Loader);
 
 Game.Loader.XML.createFromXML = function(url, callback)
 {
-    var renderer = new THREE.WebGLRenderer({
-        'antialias': false,
-    });
-
     var game =  new Game();
-    game.engine = new Engine(renderer);
-
     var loader = new Game.Loader.XML(game);
 
     var promise = new Promise(function(resolve, reject) {

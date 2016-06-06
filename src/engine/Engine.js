@@ -1,7 +1,7 @@
 'use strict';
 
 class Engine {
-    constructor(renderer)
+    constructor()
     {
         this.EVENT_RENDER = 'render';
         this.EVENT_SIMULATE = 'simulate';
@@ -10,7 +10,6 @@ class Engine {
         this.accumulator = 0;
         this.events = new Engine.Events();
         this.frameId = undefined;
-        this.renderer = renderer;
         this.isRunning = false;
         this.isSimulating = true;
         this.simulationSpeed = 1;
@@ -34,7 +33,6 @@ class Engine {
             this.timeLastEvent = timeElapsed;
         }
 
-        this.render();
         this.events.trigger(this.EVENT_RENDER);
 
         if (this.isRunning === true) {
@@ -45,11 +43,6 @@ class Engine {
     {
         cancelAnimationFrame(this.frameId);
         this.isRunning = false;
-    }
-    render()
-    {
-        this.renderer.render(this.world.scene,
-                             this.world.camera.camera);
     }
     run()
     {

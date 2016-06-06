@@ -1,7 +1,15 @@
 var Game = function()
 {
-    this.engine = undefined;
+    this.engine = new Engine();
     this.events = new Engine.Events();
+    this.renderer = new THREE.WebGLRenderer({
+        'antialias': false,
+    });
+    this.engine.events.bind('render', () => {
+        this.renderer.render(this.scene.world.scene,
+                             this.scene.world.camera.camera);
+    });
+
     this.player = new Game.Player();
     this.player.hud = new Hud(this);
 }
@@ -32,7 +40,7 @@ Game.prototype.attachToElement = function(element)
     this.adjustResolution();
     this.attachController();
 
-    this.element.appendChild(this.engine.renderer.domElement);
+    this.element.appendChild(this.renderer.domElement);
 }
 
 Game.prototype.adjustAspectRatio = function()
@@ -74,8 +82,8 @@ Game.prototype.resume = function()
 
 Game.prototype.setResolution = function(w, h)
 {
-    this.engine.renderer.setSize(w, h);
-    this.engine.renderer.domElement.removeAttribute("style");
+    this.renderer.setSize(w, h);
+    this.renderer.domElement.removeAttribute("style");
 }
 
 Game.prototype.setScene = function(scene)
