@@ -11,7 +11,7 @@ extends Game.Loader.XML.Parser
             throw new Error('No default texture on blueprint');
         }
 
-        var constructor = this.createObject(blueprint.id, blueprint.constr, function blueprintConstructor() {
+        const constructor = this.createObject(blueprint.id, blueprint.constr, function blueprintConstructor() {
             this.geometry = blueprint.geometries[0].clone();
             this.material = new THREE.MeshPhongMaterial({
                 depthWrite: false,
@@ -24,21 +24,21 @@ extends Game.Loader.XML.Parser
 
             this.name = blueprint.id;
 
-            for (var i in blueprint.traits) {
-                var trait = new blueprint.traits[i]();
+            for (const i in blueprint.traits) {
+                const trait = new blueprint.traits[i]();
                 this.applyTrait(trait);
             }
 
             /* Run initial update of all UV maps. */
-            for (var i in blueprint.animators) {
-                var animator = blueprint.animators[i].clone();
+            for (const i in blueprint.animators) {
+                const animator = blueprint.animators[i].clone();
                 animator.addGeometry(this.geometry);
                 animator.update();
                 this.animators.push(animator);
             }
 
-            for (var i in blueprint.collision) {
-                var r = blueprint.collision[i];
+            for (const i in blueprint.collision) {
+                const r = blueprint.collision[i];
                 if (r.r) {
                     this.addCollisionZone(r.r, r.x, r.y);
                 } else {
@@ -61,33 +61,33 @@ extends Game.Loader.XML.Parser
             throw new TypeError('Node not <objects>');
         }
 
-        var texturesNode = objectsNode.getElementsByTagName('textures')[0];
-        var textures = this.parseTextures(texturesNode);
+        const texturesNode = objectsNode.getElementsByTagName('textures')[0];
+        const textures = this.parseTextures(texturesNode);
 
-        var animationsNode = objectsNode.getElementsByTagName('animations')[0];
-        var animations = this.parseAnimations(animationsNode, textures);
+        const animationsNode = objectsNode.getElementsByTagName('animations')[0];
+        const animations = this.parseAnimations(animationsNode, textures);
 
-        var objectNodes = objectsNode.getElementsByTagName('object');
-        var objects = this.parseObjects(objectNodes, animations, textures);
+        const objectNodes = objectsNode.getElementsByTagName('object');
+        const objects = this.parseObjects(objectNodes, animations, textures);
         return objects;
     }
     parseObjects(objectNodes, animations, textures)
     {
-        var objects = {};
-        for (var i = 0, node; node = objectNodes[i++];) {
-            var object = this.parseObject(node, animations, textures);
-            var id = node.getAttribute('id');
+        const objects = {};
+        for (let i = 0, node; node = objectNodes[i++];) {
+            const object = this.parseObject(node, animations, textures);
+            const id = node.getAttribute('id');
             objects[id] = object;
         }
         return objects;
     }
     parseObject(objectNode, animations, textures)
     {
-        var objectId = objectNode.getAttribute('id');
-        var type = objectNode.getAttribute('type');
-        var source = objectNode.getAttribute('source');
+        const objectId = objectNode.getAttribute('id');
+        const type = objectNode.getAttribute('type');
+        const source = objectNode.getAttribute('source');
 
-        var constr;
+        let constr;
         if (type === 'character') {
             constr = Game.objects.characters[source] || Game.objects.Character;
         } else if (type === 'projectile') {
@@ -96,7 +96,7 @@ extends Game.Loader.XML.Parser
             constr = Engine.Object;
         }
 
-        var blueprint = {
+        const blueprint = {
             id: objectId,
             constr: constr,
             animations: animations,
@@ -106,18 +106,18 @@ extends Game.Loader.XML.Parser
             traits: null,
         };
 
-        var geometryNodes = objectNode.getElementsByTagName('geometry');
+        const geometryNodes = objectNode.getElementsByTagName('geometry');
         if (geometryNodes.length === 0) {
             throw new Error("No <geometry> defined in " + objectNode.outerHTML);
         }
 
-        for (var i = 0, geometryNode; geometryNode = geometryNodes[i]; ++i) {
-            var geometry = this.getGeometry(geometryNode);
+        for (let i = 0, geometryNode; geometryNode = geometryNodes[i]; ++i) {
+            const geometry = this.getGeometry(geometryNode);
             blueprint.geometries.push(geometry);
 
-            var faceNodes = geometryNode.getElementsByTagName('face');
-            for (var j = 0, faceNode; faceNode = faceNodes[j]; ++j) {
-                var animator = new Engine.Animator.UV();
+            const faceNodes = geometryNode.getElementsByTagName('face');
+            for (let j = 0, faceNode; faceNode = faceNodes[j]; ++j) {
+                const animator = new Engine.Animator.UV();
                 animator.indices = [];
                 animator.offset = this.getFloat(faceNode, 'offset') || 0;
 
@@ -128,7 +128,7 @@ extends Game.Loader.XML.Parser
                 if (!animations[animator.name]) {
                     throw new Error("Animation " + animator.name + " not defined");
                 }
-                var animation = animations[animator.name];
+                const animation = animations[animator.name];
 
                 animator.setAnimation(animation);
 
@@ -146,7 +146,7 @@ extends Game.Loader.XML.Parser
             }
 
             if (!blueprint.animators.length) {
-                var animator = new Engine.Animator.UV();
+                const animator = new Engine.Animator.UV();
                 animator.setAnimation(animations['__default']);
                 animator.update();
                 blueprint.animators.push(animator);
@@ -155,10 +155,10 @@ extends Game.Loader.XML.Parser
 
         blueprint.traits = this.parseTraits(objectNode);
 
-        var animationRouterNode = objectNode.getElementsByTagName('animation-router')[0];
+        const animationRouterNode = objectNode.getElementsByTagName('animation-router')[0];
         if (animationRouterNode) {
             (function() {
-                var animationRouter = undefined;
+                let animationRouter = undefined;
                 eval(animationRouterNode.textContent);
                 if (typeof animationRouter === "function") {
                     blueprint.animationRouter = animationRouter;
@@ -190,15 +190,15 @@ extends Game.Loader.XML.Parser
             }
         }
 
-        var textureId = animationsNode.getAttribute('texture');
-        var texture = getTexture(textureId);
+        const textureId = animationsNode.getAttribute('texture');
+        const texture = getTexture(textureId);
 
-        var animationNodes = animationsNode.getElementsByTagName('animation');
-        var animations = {
+        const animationNodes = animationsNode.getElementsByTagName('animation');
+        const animations = {
             __default: undefined,
         };
-        for (var i = 0, node; node = animationNodes[i++];) {
-            var animation = this.parseAnimation(node, texture);
+        for (let i = 0, node; node = animationNodes[i++];) {
+            const animation = this.parseAnimation(node, texture);
             animations[animation.id || '__default'] = animation;
             if (animations['__default'] === undefined) {
                 animations['__default'] = animation;
@@ -213,28 +213,28 @@ extends Game.Loader.XML.Parser
             throw new TypeError('Expected <animation>, got ' + animationNode.tagName);
         }
 
-        var id = animationNode.getAttribute('id');
-        var group = animationNode.getAttribute('group') || undefined;
-        var animation = new Engine.Animator.Animation(id, group);
-        var frameNodes = animationNode.getElementsByTagName('frame');
-        var loop = [];
-        for (var i = 0, frameNode; frameNode = frameNodes[i]; ++i) {
-            var offset = this.getVector2(frameNode, 'x', 'y');
-            var size = this.getVector2(frameNode, 'w', 'h') ||
+        const id = animationNode.getAttribute('id');
+        const group = animationNode.getAttribute('group') || undefined;
+        const animation = new Engine.Animator.Animation(id, group);
+        const frameNodes = animationNode.getElementsByTagName('frame');
+        let loop = [];
+        for (let i = 0, frameNode; frameNode = frameNodes[i]; ++i) {
+            const offset = this.getVector2(frameNode, 'x', 'y');
+            const size = this.getVector2(frameNode, 'w', 'h') ||
                        this.getVector2(frameNode.parentNode, 'w', 'h') ||
                        this.getVector2(frameNode.parentNode.parentNode, 'w', 'h');
-            var uvMap = new Engine.UVCoords(offset, size, texture.size);
-            var duration = this.getFloat(frameNode, 'duration') || undefined;
+            const uvMap = new Engine.UVCoords(offset, size, texture.size);
+            const duration = this.getFloat(frameNode, 'duration') || undefined;
             animation.addFrame(uvMap, duration);
 
-            var parent = frameNode.parentNode;
+            const parent = frameNode.parentNode;
             if (parent.tagName === 'loop') {
                 loop.push([uvMap, duration]);
-                var next = frameNodes[i+1] && frameNodes[i+1].parentNode;
+                const next = frameNodes[i+1] && frameNodes[i+1].parentNode;
                 if (parent !== next) {
-                    var loopCount = parseInt(parent.getAttribute('count'), 10) || 1;
+                    let loopCount = parseInt(parent.getAttribute('count'), 10) || 1;
                     while (--loopCount) {
-                        for (var j = 0; j < loop.length; ++j) {
+                        for (let j = 0; j < loop.length; ++j) {
                             animation.addFrame(loop[j][0], loop[j][1]);
                         }
                     }
@@ -247,12 +247,12 @@ extends Game.Loader.XML.Parser
     }
     parseCollision(objectNode)
     {
-        var collisionZones = [];
-        var collisionNode = objectNode.getElementsByTagName('collision')[0];
+        const collisionZones = [];
+        const collisionNode = objectNode.getElementsByTagName('collision')[0];
         if (collisionNode) {
-            var collNodes = collisionNode.getElementsByTagName('*');
-            for (var collNode, i = 0; collNode = collNodes[i++];) {
-                var type = collNode.tagName;
+            const collNodes = collisionNode.getElementsByTagName('*');
+            for (let collNode, i = 0; collNode = collNodes[i++];) {
+                const type = collNode.tagName;
                 if (type === 'rect') {
                     collisionZones.push(this.getRect(collNode));
                 } else if (type === 'circ') {
@@ -270,23 +270,23 @@ extends Game.Loader.XML.Parser
     }
     parseFaceIndices(faceNode)
     {
-        var indices = [];
-        var segs = this.getVector2(faceNode.parentNode, 'w-segments', 'h-segments')
+        const indices = [];
+        const segs = this.getVector2(faceNode.parentNode, 'w-segments', 'h-segments')
                    || new THREE.Vector2(1, 1);
 
-        var rangeNodes = faceNode.getElementsByTagName('range');
-        for (var rangeNode, i = 0; rangeNode = rangeNodes[i]; ++i) {
-            var coords = {
+        const rangeNodes = faceNode.getElementsByTagName('range');
+        for (let rangeNode, i = 0; rangeNode = rangeNodes[i]; ++i) {
+            const coords = {
                 'x': this.getRange(rangeNode, 'x', segs.x),
                 'y': this.getRange(rangeNode, 'y', segs.y),
             };
-            var rangeIndices = this.faceCoordsToIndex(coords, segs);
+            const rangeIndices = this.faceCoordsToIndex(coords, segs);
             Array.prototype.push.apply(indices, rangeIndices);
         }
 
-        var indexJSON = faceNode.getAttribute('index');
+        const indexJSON = faceNode.getAttribute('index');
         if (indexJSON) {
-            var jsonIndices = JSON.parse(indexJSON);
+            const jsonIndices = JSON.parse(indexJSON);
             Array.prototype.push.apply(indices, jsonIndices);
         }
 
@@ -294,7 +294,7 @@ extends Game.Loader.XML.Parser
     }
     faceCoordsToIndex(coords, segs)
     {
-        var i, j, x, y, faceIndex, indices = [];
+        let i, j, x, y, faceIndex, indices = [];
         for (i in coords.x) {
             x = coords.x[i] - 1;
             for (j in coords.y) {
@@ -311,12 +311,12 @@ extends Game.Loader.XML.Parser
     }
     parseTextures(texturesNode)
     {
-        var textures = {
+        const textures = {
             __default: undefined,
         };
-        var textureNodes = texturesNode.getElementsByTagName('texture');
-        for (var i = 0, node; node = textureNodes[i++];) {
-            var textureId = node.getAttribute('id') || '__default';
+        const textureNodes = texturesNode.getElementsByTagName('texture');
+        for (let i = 0, node; node = textureNodes[i++];) {
+            const textureId = node.getAttribute('id') || '__default';
             textures[textureId] = {
                 id: textureId,
                 texture: this.getTexture(node),
@@ -330,12 +330,12 @@ extends Game.Loader.XML.Parser
     }
     parseTraits(objectNode)
     {
-        var traits = [];
-        var traitParser = new Game.Loader.XML.Parser.TraitParser(this.loader);
-        var traitsNode = objectNode.getElementsByTagName('traits')[0];
+        const traits = [];
+        const traitParser = new Game.Loader.XML.Parser.TraitParser(this.loader);
+        const traitsNode = objectNode.getElementsByTagName('traits')[0];
         if (traitsNode) {
-            var traitNodes = traitsNode.getElementsByTagName('trait');
-            for (var traitNode, i = 0; traitNode = traitNodes[i++];) {
+            const traitNodes = traitsNode.getElementsByTagName('trait');
+            for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
                 traits.push(traitParser.parseTrait(traitNode));
             }
         }
