@@ -5,7 +5,7 @@ Engine.AudioPlayer = class AudioPlayer
     constructor()
     {
         this._context = new AudioContext();
-        this._playing = [];
+        this._playing = new Map();
     }
     destroy()
     {
@@ -15,16 +15,18 @@ Engine.AudioPlayer = class AudioPlayer
     {
         return this._context;
     }
-    play(audio)
+    play(audio, overwrite = true)
     {
+        if (overwrite && this._playing.has(audio)) {
+            const current = this._playing.get(audio);
+            current.stop();
+        }
+
         const source = this._context.createBufferSource();
         source.connect(this._context.destination);
         source.buffer = audio.getBuffer();
         source.addEventListener('ended', () => {
-            const index = this._playing.indexOf(source);
-            if (index !== -1) {
-                this._playing.splice(index, 1);
-            }
+            this._playing.delete(audio);
         });
         const loop = audio.getLoop();
         if (loop) {
@@ -33,7 +35,8 @@ Engine.AudioPlayer = class AudioPlayer
             source.loop = true;
         }
         source.start(0);
-        this._playing.push(source);
+        this._playing.set(audio, source);
+
     }
     pause()
     {
@@ -45,10 +48,9 @@ Engine.AudioPlayer = class AudioPlayer
     }
     stop()
     {
-        const playing = this._playing;
-        this._playing = [];
-        playing.forEach(source => {
+        this._playing.forEach((audio, source) => {
             source.stop();
         });
+        this._playing.clear();
     }
 }
