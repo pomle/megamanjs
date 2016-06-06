@@ -48,7 +48,7 @@ Engine.AudioPlayer = class AudioPlayer
     }
     stop()
     {
-        this._playing.forEach((audio, source) => {
+        this._playing.forEach(source => {
             source.stop();
         });
         this._playing.clear();
