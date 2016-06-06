@@ -18,20 +18,32 @@ Game.Scene = class Scene
         this.world = new Engine.World();
         this.music = null;
 
+        const timer = this.timer;
+        const scene = this.world.scene;
+        const camera = this.world.camera.camera;
+
+        const simulate = (dt) => {
+            this.world.updateTime(dt);
+            this.world.camera.updateTime(dt);
+        };
+
+        const animate = (dt) => {
+            this.world.updateAnimation(dt);
+        };
+
+        const render = () => {
+            this.game.renderer.render(scene, camera);
+        };
+
         this.events.bind(this.EVENT_CREATE, (game) => {
-            const timer = this.timer;
-            const scene = this.world.scene;
-            const camera = this.world.camera.camera;
-            timer.events.bind(timer.EVENT_SIMULATE, dt => {
-                this.world.updateTime(dt);
-                this.world.camera.updateTime(dt);
-            });
-            timer.events.bind(timer.EVENT_UPDATE, (dt) => {
-                this.world.updateAnimation(dt);
-            });
-            timer.events.bind(timer.EVENT_RENDER, () => {
-                game.renderer.render(scene, camera);
-            });
+            timer.events.bind(timer.EVENT_SIMULATE, simulate);
+            timer.events.bind(timer.EVENT_UPDATE, animate);
+            timer.events.bind(timer.EVENT_RENDER, render);
+        });
+        this.events.bind(this.EVENT_DESTROY, (game) => {
+            timer.events.bind(timer.EVENT_SIMULATE, simulate);
+            timer.events.bind(timer.EVENT_UPDATE, animate);
+            timer.events.bind(timer.EVENT_RENDER, render);
         });
     }
     __create(game)
@@ -41,7 +53,6 @@ Game.Scene = class Scene
     }
     __start(game)
     {
-        console.trace('START');
         this.events.trigger(this.EVENT_START, [game]);
     }
     __resume(game)
