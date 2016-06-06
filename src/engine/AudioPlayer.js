@@ -23,7 +23,7 @@ Engine.AudioPlayer = class AudioPlayer
         source.addEventListener('ended', () => {
             const index = this._playing.indexOf(source);
             if (index !== -1) {
-                this._playing.splice(i, 1);
+                this._playing.splice(index, 1);
             }
         });
         const loop = audio.getLoop();
