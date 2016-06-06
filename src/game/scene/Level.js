@@ -139,8 +139,8 @@ Game.scenes.Level = class Level extends Game.Scene
     {
         if (this.deathCountdown === 0 && this.player.character.health.depleted) {
             --this.player.lives;
-            this.deathCountdown = this.game.engine.realTimePassed + this.deathRespawnTime;
-        } else if (this.deathCountdown > 0 && this.game.engine.realTimePassed >= this.deathCountdown) {
+            this.deathCountdown = this.timer.realTimePassed + this.deathRespawnTime;
+        } else if (this.deathCountdown > 0 && this.timer.realTimePassed >= this.deathCountdown) {
             if (this.player.lives <= 0) {
                 this.__end();
             } else {
