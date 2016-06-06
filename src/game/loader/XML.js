@@ -110,7 +110,7 @@ Game.Loader.XML.prototype.startScene = function(name)
         throw new Error('Scene "' + name + '" does not exist');
     }
 
-    this.game.engine.pause();
+    this.game.pause();
     var loader = this;
     return this.asyncLoadXml(this.sceneIndex[name].url)
         .then(function(node) {

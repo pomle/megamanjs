@@ -9,9 +9,9 @@ Engine.InputPlayer = class InputPlayer {
         this._resume = null;
         this._stop = null;
 
-        const engine = this._game.engine;
+        const timer = this._game.scene.timer;
         this._watcher = (dt) => {
-            if (engine.simulationTimePassed >= this._nextTime) {
+            if (timer.simulationTimePassed >= this._nextTime) {
                 console.log("%f reached", this._nextTime);
                 engine.pause();
                 this._resume();
@@ -24,16 +24,16 @@ Engine.InputPlayer = class InputPlayer {
         return new Promise((resolve, reject) => {
             this._resume = resolve;
             this._stop = reject;
-            this._game.engine.run();
+            this._game.scene.timer.run();
         });
     }
     play(log)
     {
-        const engine = this._game.engine;
-        engine.events.bind(engine.EVENT_TIMEPASS, this._watcher);
-        engine.pause();
+        const timer = this._game.scene.timer;
+        timer.events.bind(engine.EVENT_TIMEPASS, this._watcher);
+        timer.pause();
 
-        this._nextTime = engine.simulationTimePassed;
+        this._nextTime = timer.simulationTimePassed;
         let chain = this._waitFor(log[0].time);
         let i = 0;
         for (let j = 0; j < log.length - 1; ++j) {
@@ -43,7 +43,7 @@ Engine.InputPlayer = class InputPlayer {
             });
         }
         chain.then(() => {
-            engine.events.unbind(engine.EVENT_TIMEPASS, this._watcher);
+            timer.events.unbind(engine.EVENT_TIMEPASS, this._watcher);
         });
     }
     stop()

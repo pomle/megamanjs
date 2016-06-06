@@ -1,55 +1,71 @@
-Game.Scene = function(game, world)
+'use strict';
+
+Game.Scene = class Scene
 {
-    if (game instanceof Game === false) {
-        throw new TypeError("Expected instance of game");
+    constructor()
+    {
+        this.EVENT_CREATE = 'create';
+        this.EVENT_DESTROY = 'destroy';
+        this.EVENT_END = 'end';
+        this.EVENT_START = 'start';
+        this.EVENT_PAUSE = 'pause';
+        this.EVENT_RESUME = 'resume';
+
+        this.audioPlayer = new Engine.AudioPlayer();
+        this.events = new Engine.Events();
+        this.timer = new Engine.Timer();
+        this.input = new Engine.Keyboard();
+        this.world = new Engine.World();
+        this.music = null;
+
+        this.events.bind(this.EVENT_CREATE, (game) => {
+            const timer = this.timer;
+            const scene = this.world.scene;
+            const camera = this.world.camera.camera;
+            timer.events.bind(timer.EVENT_SIMULATE, dt => {
+                this.world.updateTime(dt);
+                this.world.camera.updateTime(dt);
+            });
+            timer.events.bind(timer.EVENT_UPDATE, (dt) => {
+                this.world.updateAnimation(dt);
+            });
+            timer.events.bind(timer.EVENT_RENDER, () => {
+                game.renderer.render(scene, camera);
+            });
+        });
     }
-    if (world instanceof Engine.World === false) {
-        throw new TypeError("Expected instance of world");
+    __create()
+    {
+        this.events.trigger(this.EVENT_CREATE, arguments);
     }
-    this.audioPlayer = new Engine.AudioPlayer();
-    this.events = new Engine.Events();
-    this.input = new Engine.Keyboard();
-    this.game = game;
-    this.world = world;
-}
-
-Game.Scene.prototype.EVENT_CREATE = 'create';
-Game.Scene.prototype.EVENT_DESTROY = 'destroy';
-Game.Scene.prototype.EVENT_END = 'end';
-Game.Scene.prototype.EVENT_START = 'start';
-
-Game.Scene.prototype.__create = function()
-{
-    this.events.trigger(this.EVENT_CREATE, arguments);
-}
-
-Game.Scene.prototype.__destroy = function()
-{
-    this.audioPlayer.destroy();
-    this.input.release();
-    this.events.trigger(this.EVENT_DESTROY, arguments);
-}
-
-Game.Scene.prototype.__pause = function()
-{
-    this.audioPlayer.pause();
-}
-
-Game.Scene.prototype.__resume = function()
-{
-    this.audioPlayer.resume();
-}
-
-Game.Scene.prototype.__end = function()
-{
-    this.audioPlayer.stop();
-    this.events.trigger(this.EVENT_END, arguments);
-}
-
-Game.Scene.prototype.__start = function()
-{
-    if (this.music) {
-        this.audioPlayer.play(this.music);
+    __start()
+    {
+        if (this.music) {
+            this.audioPlayer.play(this.music);
+        }
+        this.events.trigger(this.EVENT_START, arguments);
     }
-    this.events.trigger(this.EVENT_START, arguments);
+    __resume()
+    {
+        this.audioPlayer.resume();
+        this.timer.run();
+        this.events.trigger(this.EVENT_RESUME, arguments);
+    }
+    __pause()
+    {
+        this.input.release();
+        this.audioPlayer.pause();
+        this.timer.pause();
+        this.events.trigger(this.EVENT_PAUSE, arguments);
+    }
+    __end()
+    {
+        this.events.trigger(this.EVENT_END, arguments);
+
+    }
+    __destroy()
+    {
+        this.audioPlayer.stop();
+        this.events.trigger(this.EVENT_DESTROY, arguments);
+    }
 }
