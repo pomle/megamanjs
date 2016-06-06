@@ -43,7 +43,7 @@ Engine.Events = class Events {
             /* Notice that this method expects to
                get the arguments to be passed as an
                array as second argument. */
-            for (let i = 0, l = events.length; i < l; ++i) {
+            for (let i = 0, l = events.length; i !== l; ++i) {
                 if (events[i] !== undefined) {
                     events[i].apply(host, values);
                 }
