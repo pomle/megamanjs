@@ -11,8 +11,8 @@ Game.Scene = class Scene
         this.EVENT_PAUSE = 'pause';
         this.EVENT_RESUME = 'resume';
 
-        this.audioPlayer = new Engine.AudioPlayer();
-        this.events = new Engine.Events();
+        this.game = null;
+        this.events = new Engine.Events(this);
         this.timer = new Engine.Timer();
         this.input = new Engine.Keyboard();
         this.world = new Engine.World();
@@ -34,38 +34,37 @@ Game.Scene = class Scene
             });
         });
     }
-    __create()
+    __create(game)
     {
-        this.events.trigger(this.EVENT_CREATE, arguments);
+        this.game = game;
+        this.events.trigger(this.EVENT_CREATE, [game]);
     }
-    __start()
+    __start(game)
     {
-        if (this.music) {
-            this.audioPlayer.play(this.music);
-        }
-        this.events.trigger(this.EVENT_START, arguments);
+        console.trace('START');
+        this.events.trigger(this.EVENT_START, [game]);
     }
-    __resume()
+    __resume(game)
     {
-        this.audioPlayer.resume();
+        game.audioPlayer.resume();
         this.timer.run();
-        this.events.trigger(this.EVENT_RESUME, arguments);
+        this.events.trigger(this.EVENT_RESUME, [game]);
     }
-    __pause()
+    __pause(game)
     {
+        game.audioPlayer.pause();
         this.input.release();
-        this.audioPlayer.pause();
         this.timer.pause();
-        this.events.trigger(this.EVENT_PAUSE, arguments);
+        this.events.trigger(this.EVENT_PAUSE, [game]);
     }
-    __end()
+    __end(game)
     {
-        this.events.trigger(this.EVENT_END, arguments);
-
+        this.events.trigger(this.EVENT_END, [game]);
     }
-    __destroy()
+    __destroy(game)
     {
-        this.audioPlayer.stop();
-        this.events.trigger(this.EVENT_DESTROY, arguments);
+        game.audioPlayer.stop();
+        this.events.trigger(this.EVENT_DESTROY, [game]);
+        this.game = null;
     }
 }

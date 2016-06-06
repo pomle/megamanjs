@@ -7,7 +7,9 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         super();
 
         this.EVENT_STAGE_SELECTED = 'stage-selected';
+        this.EVENT_SELECTION_CHANGED = 'selection-changed';
 
+        this.audio = {};
         this.world.camera.camera.position.z = 120;
         this.cameraDesiredPosition = new THREE.Vector3();
         this.cameraDistance = 140;
@@ -54,15 +56,13 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         }
 
         this.events.bind(this.EVENT_CREATE, (game) => {
-            var engine = this.timer;
-            engine.events.bind(engine.EVENT_SIMULATE, onSimulate);
+            this.timer.events.bind(this.timer.EVENT_SIMULATE, onSimulate);
         });
         this.events.bind(this.EVENT_START, (game) => {
             scene.equalize(4);
         });
         this.events.bind(this.EVENT_DESTROY, (game) => {
-            var engine = this.timer;
-            engine.events.unbind(engine.EVENT_SIMULATE, onSimulate);
+            this.timer.events.unbind(this.timer.EVENT_SIMULATE, onSimulate);
         });
     }
     addStage(avatar, caption, name)
@@ -128,9 +128,12 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.indicator.position.y = avatar.position.y;
         this.indicator.visible = true;
         this.indicatorStateTimer = 0;
-        //this.cameraDesiredPosition.copy(this.indicator.position);
-        //this.cameraDesiredPosition.z = 140;
+
+        if (index !== this.currentIndex) {
+            this.events.trigger(this.EVENT_SELECTION_CHANGED, [index]);
+        }
         this.currentIndex = index;
+
         return this.currentIndex;
     }
     setBackgroundColor(hexcolor)

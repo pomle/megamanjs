@@ -1,11 +1,11 @@
-Game.Loader.XML.Parser.ObjectParser = function(loader)
-{
-    Game.Loader.XML.Parser.call(this, loader);
-}
+'use strict';
 
-Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
-                   Game.Loader.XML.Parser, {
-    createConstructor: function(blueprint) {
+Game.Loader.XML.Parser.ObjectParser =
+class ObjectParser
+extends Game.Loader.XML.Parser
+{
+    createConstructor(blueprint)
+    {
         if (!blueprint.textures['__default'].texture) {
             console.error(blueprint);
             throw new Error('No default texture on blueprint');
@@ -54,8 +54,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         }
 
         return constructor;
-    },
-    parse: function(objectsNode) {
+    }
+    parse(objectsNode)
+    {
         if (objectsNode.tagName !== 'objects') {
             throw new TypeError('Node not <objects>');
         }
@@ -69,8 +70,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         var objectNodes = objectsNode.getElementsByTagName('object');
         var objects = this.parseObjects(objectNodes, animations, textures);
         return objects;
-    },
-    parseObjects: function(objectNodes, animations, textures) {
+    }
+    parseObjects(objectNodes, animations, textures)
+    {
         var objects = {};
         for (var i = 0, node; node = objectNodes[i++];) {
             var object = this.parseObject(node, animations, textures);
@@ -78,8 +80,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             objects[id] = object;
         }
         return objects;
-    },
-    parseObject: function(objectNode, animations, textures) {
+    }
+    parseObject(objectNode, animations, textures)
+    {
         var objectId = objectNode.getAttribute('id');
         var type = objectNode.getAttribute('type');
         var source = objectNode.getAttribute('source');
@@ -166,8 +169,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         blueprint.collision = this.parseCollision(objectNode);
 
         return this.createConstructor(blueprint);
-    },
-    parseAnimations: function(animationsNode, textures) {
+    }
+    parseAnimations(animationsNode, textures)
+    {
         if (animationsNode.tagName !== 'animations') {
             throw new TypeError('Node not <animations>');
         }
@@ -202,8 +206,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         }
 
         return animations;
-    },
-    parseAnimation: function(animationNode, texture) {
+    }
+    parseAnimation(animationNode, texture)
+    {
         if (animationNode.tagName !== 'animation') {
             throw new TypeError('Expected <animation>, got ' + animationNode.tagName);
         }
@@ -239,8 +244,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         }
 
         return animation;
-    },
-    parseCollision: function(objectNode) {
+    }
+    parseCollision(objectNode)
+    {
         var collisionZones = [];
         var collisionNode = objectNode.getElementsByTagName('collision')[0];
         if (collisionNode) {
@@ -261,8 +267,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             }
         }
         return collisionZones;
-    },
-    parseFaceIndices: function(faceNode) {
+    }
+    parseFaceIndices(faceNode)
+    {
         var indices = [];
         var segs = this.getVector2(faceNode.parentNode, 'w-segments', 'h-segments')
                    || new THREE.Vector2(1, 1);
@@ -284,8 +291,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         }
 
         return indices;
-    },
-    faceCoordsToIndex: function(coords, segs) {
+    }
+    faceCoordsToIndex(coords, segs)
+    {
         var i, j, x, y, faceIndex, indices = [];
         for (i in coords.x) {
             x = coords.x[i] - 1;
@@ -300,8 +308,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             }
         }
         return indices;
-    },
-    parseTextures: function(texturesNode) {
+    }
+    parseTextures(texturesNode)
+    {
         var textures = {
             __default: undefined,
         };
@@ -318,8 +327,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
             }
         }
         return textures;
-    },
-    parseTraits: function(objectNode) {
+    }
+    parseTraits(objectNode)
+    {
         var traits = [];
         var traitParser = new Game.Loader.XML.Parser.TraitParser(this.loader);
         var traitsNode = objectNode.getElementsByTagName('traits')[0];
@@ -331,4 +341,4 @@ Engine.Util.extend(Game.Loader.XML.Parser.ObjectParser,
         }
         return traits;
     }
-});
+}

@@ -1,12 +1,11 @@
 'use strict';
 
-Game.Loader.XML.Parser.WeaponParser = function(loader) {
-    Game.Loader.XML.Parser.call(this, loader);
-}
-
-Engine.Util.extend(Game.Loader.XML.Parser.WeaponParser,
-                   Game.Loader.XML.Parser, {
-    createConstructor: function(blueprint) {
+Game.Loader.XML.Parser.WeaponParser =
+class WeaponParser
+extends Game.Loader.XML.Parser
+{
+    createConstructor(blueprint)
+    {
         var constructor = this.createObject(blueprint.id, blueprint.constr, function weaponConstructor() {
             blueprint.constr.call(this);
 
@@ -32,8 +31,9 @@ Engine.Util.extend(Game.Loader.XML.Parser.WeaponParser,
             }
         });
         return constructor;
-    },
-    parse: function(weaponsNode) {
+    }
+    parse(weaponsNode)
+    {
         if (weaponsNode.tagName !== 'weapons') {
             throw new TypeError('Node not <weapons>');
         }
@@ -47,22 +47,24 @@ Engine.Util.extend(Game.Loader.XML.Parser.WeaponParser,
         }
 
         return weapons;
-    },
-    parseProjectiles: function(projectileNodes) {
+    }
+    parseProjectiles(projectileNodes)
+    {
         const projectiles = [];
         if (projectileNodes) {
             for (let projectileNode, i = 0; projectileNode = projectileNodes[i]; ++i) {
                 let projectileId = projectileNode.getAttribute('id');
                 let amount = this.getFloat(projectileNode, 'amount') || 1;
                 projectiles.push({
-                    constr: this.loader.resource.get('projectile', projectileId),
+                    constr: this.loader.resourceManager.get('projectile', projectileId),
                     amount: amount,
                 });
             }
         }
         return projectiles;
-    },
-    parseWeapon: function(weaponNode) {
+    }
+    parseWeapon(weaponNode)
+    {
         var objectId = weaponNode.getAttribute('id');
         var source = weaponNode.getAttribute('source');
 
@@ -87,5 +89,4 @@ Engine.Util.extend(Game.Loader.XML.Parser.WeaponParser,
 
         return this.createConstructor(blueprint);
     }
-});
-
+}
