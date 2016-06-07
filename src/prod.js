@@ -1,10 +1,6 @@
 (function() {
-    var megaman2 = Game.Loader.XML.createFromXML('./resource/Megaman2.xml');
-    window.megaman2 = megaman2;
-
-    megaman2.promise.then(function() {
-        var game = megaman2.game;
-        var loader = megaman2.loader;
+    Game.Loader.XML.createFromXML('./resource/Megaman2.xml').then(loader => {
+        const game = loader.game;
         game.attachToElement(document.getElementById('screen'));
         loader.startScene(loader.entrypoint);
 
@@ -24,7 +20,7 @@
                 gameElement.classList.remove('fullscreen');
             }
 
-            megaman2.game.adjustAspectRatio();
+            loader.game.adjustAspectRatio();
         }
 
         window.addEventListener('resize', onFullscreenChange);
@@ -36,5 +32,7 @@
                 gameElement.webkitRequestFullScreen();
             }
         });
+
+        window.megaman2 = loader;
     });
 })();

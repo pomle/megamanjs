@@ -1,12 +1,9 @@
 'use strict';
 
 (function() {
-    const megaman2 = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml');
-    window.megaman2 = megaman2;
-
-    megaman2.promise.then(function() {
+    Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml').then(megaman2 => {
+        window.megaman2 = megaman2;
         const game = megaman2.game;
-        const loader = megaman2.loader;
         game.attachToElement(document.getElementById('screen'));
 
         game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
@@ -25,7 +22,7 @@
             }
         });
 
-        loader.startScene(loader.entrypoint);
+        megaman2.startScene(megaman2.entrypoint);
 
         window.addEventListener('focus', function() {
             game.resume();
