@@ -15,9 +15,9 @@ Engine.AudioPlayer = class AudioPlayer
     {
         return this._context;
     }
-    play(audio, overwrite = true)
+    play(audio)
     {
-        if (overwrite && this._playing.has(audio)) {
+        if (this._playing.has(audio)) {
             const current = this._playing.get(audio);
             current.stop();
         }
@@ -36,7 +36,6 @@ Engine.AudioPlayer = class AudioPlayer
         }
         source.start(0);
         this._playing.set(audio, source);
-
     }
     pause()
     {
