@@ -1,4 +1,14 @@
 <scene type="level" name="Flashman">
+    <audio>
+        <music src="./flashman/music.ogg" id="music">
+            <loop start="25.794" />
+        </music>
+    </audio>
+    <events>
+        <event name="start">
+            <action type="play-audio" id="music"/>
+        </event>
+    </events>
     <camera>
         <path>
             <window x1="-8" x2="1784" y1="-240" y2="0"/>

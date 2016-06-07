@@ -47,7 +47,7 @@
     </camera>
     <events>
         <event name="start">
-            <action type="audio" id="music"/>
+            <action type="play-audio" id="music"/>
         </event>
     </events>
     <objects>
