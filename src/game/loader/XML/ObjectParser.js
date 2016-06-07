@@ -45,10 +45,16 @@ extends Game.Loader.XML.Parser
                     this.addCollisionRect(r.w, r.h, r.x, r.y);
                 }
             }
+
+            blueprint.events.forEach(event => {
+                this.events.bind(event.name, event.callback);
+            });
         });
 
         constructor.prototype.animations = blueprint.animations;
+        constructor.prototype.audio = blueprint.audio;
         constructor.prototype.textures = blueprint.textures;
+
         if (blueprint.animationRouter !== undefined) {
             constructor.prototype.routeAnimation = blueprint.animationRouter;
         }
@@ -99,8 +105,10 @@ extends Game.Loader.XML.Parser
         const blueprint = {
             id: objectId,
             constr: constr,
+            audio: null,
             animations: animations,
             animators: [],
+            events: null,
             geometries: [],
             textures: textures,
             traits: null,
@@ -153,6 +161,8 @@ extends Game.Loader.XML.Parser
             }
         }
 
+        blueprint.audio = this.parseAudio(objectNode);
+        blueprint.events = this.parseEvents(objectNode);
         blueprint.traits = this.parseTraits(objectNode);
 
         const animationRouterNode = objectNode.getElementsByTagName('animation-router')[0];
@@ -245,6 +255,19 @@ extends Game.Loader.XML.Parser
 
         return animation;
     }
+    parseAudio(objectNode)
+    {
+        const audioDef = {};
+        const audioNodes = objectNode.querySelectorAll('audio > *');
+        for (let audioNode, i = 0; audioNode = audioNodes[i++];) {
+            this.getAudio(audioNode)
+                .then(audio => {
+                    const id = this.getAttr(audioNode, 'id');
+                    audioDef[id] = audio;
+                });
+        }
+        return audioDef;
+    }
     parseCollision(objectNode)
     {
         const collisionZones = [];
@@ -267,6 +290,28 @@ extends Game.Loader.XML.Parser
             }
         }
         return collisionZones;
+    }
+    parseEvents(objectNode)
+    {
+        const events = [];
+        const eventNodes = objectNode.querySelectorAll('events > event');
+        for (let eventNode, i = 0; eventNode = eventNodes[i++];) {
+            const name = this.getAttr(eventNode, 'name');
+            const actionNodes = eventNode.querySelectorAll('action');
+            for (let actionNode, j = 0; actionNode = actionNodes[j++];) {
+                const type = this.getAttr(actionNode, 'type');
+                if (type === 'audio') {
+                    const id = this.getAttr(actionNode, 'id');
+                    events.push({
+                        name: name,
+                        callback: function() {
+                            this.world.emitAudio(this.audio[id]);
+                        },
+                    });
+                }
+            }
+        }
+        return events;
     }
     parseFaceIndices(faceNode)
     {

@@ -41,6 +41,7 @@ Engine.Object.prototype.SURFACE_BOTTOM = 1;
 Engine.Object.prototype.SURFACE_LEFT = 2;
 Engine.Object.prototype.SURFACE_RIGHT = 3;
 
+Engine.Object.prototype.audio = {};
 Engine.Object.prototype.geometry = undefined;
 Engine.Object.prototype.material = undefined;
 Engine.Object.prototype.textures = {};
