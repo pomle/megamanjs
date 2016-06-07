@@ -6,9 +6,11 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     {
         super();
 
+        this.EVENT_STAGE_ENTER = 'stage-enter';
         this.EVENT_STAGE_SELECTED = 'stage-selected';
         this.EVENT_SELECTION_CHANGED = 'selection-changed';
 
+        this.animations = {};
         this.world.camera.camera.position.z = 120;
         this.cameraDesiredPosition = new THREE.Vector3();
         this.cameraDistance = 140;
@@ -21,56 +23,64 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
             x: 64,
             y: -64,
         };
-        this.indicatorInterval = 1/8;
-        this.indicatorStateTimer = 0;
 
         this.background = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(500, 500),
-            new THREE.MeshBasicMaterial({
-                color: 'blue'
-            }));
+            new THREE.PlaneGeometry(500, 500),
+            new THREE.MeshLambertMaterial());
         this.world.scene.add(this.background);
 
-        var input = this.input;
-        var scene = this;
+        const input = this.input;
+        input.disable();
+        input.hit(input.LEFT, () => {
+            this.steer(-1, 0);
+        });
+        input.hit(input.RIGHT, () => {
+            this.steer(1, 0);
+        });
+        input.hit(input.UP, () => {
+            this.steer(0, -1);
+        });
+        input.hit(input.DOWN, () => {
+            this.steer(0, 1);
+        });
+        input.hit(input.START, () => {
+            this.enter();
+        });
 
-        input.hit(this.input.LEFT, function() {
-            scene.steer(-1, 0);
-        });
-        input.hit(input.RIGHT, function() {
-            scene.steer(1, 0);
-        });
-        input.hit(input.UP, function() {
-            scene.steer(0, -1);
-        });
-        input.hit(input.DOWN, function() {
-            scene.steer(0, 1);
-        });
-        input.hit(input.START, function() {
-            scene.enter();
-        });
+        const simulate = (dt) => {
+            this.update(dt);
+        };
 
-        var onSimulate = function(dt) {
-            scene.updateTime(dt);
-        }
+        this.modifiers = new Set();
 
         this.events.bind(this.EVENT_CREATE, (game) => {
-            this.timer.events.bind(this.timer.EVENT_SIMULATE, onSimulate);
+            this.modifiers.clear();
+            this.animations = {
+                'camera': this.createCameraAnimation(),
+                'flash': this.createFlashAnimation(),
+                'indicator': this.createIndicatorAnimation(),
+            };
+            if (game.state) {
+
+            }
         });
         this.events.bind(this.EVENT_START, (game) => {
-            scene.equalize(4);
+            this.timer.events.bind(this.timer.EVENT_SIMULATE, simulate);
+            this.modifiers.add(this.animations.camera);
+            this.enableIndicator();
+            this.input.enable();
         });
         this.events.bind(this.EVENT_DESTROY, (game) => {
-            this.timer.events.unbind(this.timer.EVENT_SIMULATE, onSimulate);
+            this.timer.events.unbind(this.timer.EVENT_SIMULATE, simulate);
         });
     }
     addStage(avatar, caption, name)
     {
-        var x = this.stages.length % this.rowLength;
-        var y = Math.floor(this.stages.length / this.rowLength);
+        const x = this.stages.length % this.rowLength;
+        const y = Math.floor(this.stages.length / this.rowLength);
 
-        var pos = new THREE.Vector2(this.spacing.x * x, this.spacing.y * y);
-        var frame = this.frame.clone();
+        const pos = new THREE.Vector2(this.spacing.x * x, this.spacing.y * y);
+        const frame = this.frame.clone();
 
         this.stages.push({
             "avatar": avatar,
@@ -87,13 +97,78 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.world.scene.add(avatar);
         this.world.scene.add(caption);
     }
+    createCameraAnimation(dt)
+    {
+        const camera = this.world.camera.camera;
+        const pos = this.cameraDesiredPosition;
+        return (dt) => {
+            if (camera.position.distanceToSquared(pos) > 1) {
+                const intermediate = pos.clone()
+                    .sub(camera.position)
+                    .multiplyScalar(dt * 3);
+                camera.position.add(intermediate);
+            }
+        };
+    }
+    createFlashAnimation()
+    {
+        const backgroundColor = this.background.material.ambient;
+        const defaultBackgroundColor = backgroundColor.clone();
+        const light = this.world.ambientLight.color;
+        const defaultLight = light.clone();
+
+        const interval = (3/60) * 2;
+        let time = 0;
+        let state = false;
+
+        const on = () => {
+            backgroundColor.setRGB(1,1,1);
+            light.setRGB(5,5,5);
+            state = true;
+        };
+        const off = () => {
+            backgroundColor.copy(defaultBackgroundColor);
+            light.copy(defaultLight);
+            state = false;
+        };
+
+        return (dt) => {
+            if (dt === -1) {
+                time = 0;
+                off();
+            } else {
+                time += dt;
+                const prog = (time % interval) / interval;
+                if (state === true && prog < .5) {
+                    off();
+                } else if (state === false && prog > .5) {
+                    on();
+                }
+            }
+        }
+    }
+    createIndicatorAnimation()
+    {
+        const interval = (1/8) * 2;
+        const indicator = this.indicator;
+        let time = 0;
+        return (dt) => {
+            if (dt === -1) {
+                time = 0;
+                indicator.visible = false;
+            } else {
+                time += dt;
+            }
+            indicator.visible = (time % interval) / interval < .5;
+        }
+    }
     equalize(index)
     {
         if (!this.stages[index]) {
             index = 0;
         }
 
-        var center = new THREE.Vector3();
+        const center = new THREE.Vector3();
         center.x = this.stages[0].avatar.position.x
                  + this.stages[this.rowLength - 1].avatar.position.x;
         center.x /= 2;
@@ -114,19 +189,28 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     }
     enter()
     {
-        this.events.trigger(this.EVENT_STAGE_SELECTED,
-            [this.stages[this.currentIndex], this.currentIndex]);
+        this.input.release();
+        this.input.disable();
+        this.disableIndicator();
+        this.events.trigger(this.EVENT_STAGE_SELECTED);
+        const args = [this.stages[this.currentIndex], this.currentIndex];
+        this.modifiers.add(this.animations.flash);
+        this.waitFor(1.0)
+            .then(() => {
+                this.modifiers.delete(this.animations.flash);
+                this.animations.flash(-1);
+                this.events.trigger(this.EVENT_STAGE_ENTER, args);
+            });
     }
     selectIndex(index)
     {
         if (!this.stages[index]) {
             return false;
         }
-        var avatar = this.stages[index].avatar;
+        const avatar = this.stages[index].avatar;
         this.indicator.position.x = avatar.position.x;
         this.indicator.position.y = avatar.position.y;
-        this.indicator.visible = true;
-        this.indicatorStateTimer = 0;
+        this.animations.indicator(-1);
 
         this.currentIndex = index;
 
@@ -134,11 +218,20 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     }
     setBackgroundColor(hexcolor)
     {
-        this.background.material.color.setHex(hexcolor);
+        this.background.material.ambient.setHex(hexcolor);
     }
     setFrame(model)
     {
         this.frame = model;
+    }
+    disableIndicator()
+    {
+        this.animations.indicator(-1);
+        this.modifiers.delete(this.animations.indicator);
+    }
+    enableIndicator()
+    {
+        this.modifiers.add(this.animations.indicator);
     }
     setIndicator(model)
     {
@@ -148,8 +241,8 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     }
     steer(x, y)
     {
-        var newIndex = this.currentIndex;
-        var d = (this.currentIndex % this.rowLength) + x;
+        let newIndex = this.currentIndex;
+        let d = (this.currentIndex % this.rowLength) + x;
         if (d >= 0 && d < this.rowLength) {
             newIndex += x;
         }
@@ -166,19 +259,10 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
 
         this.events.trigger(this.EVENT_SELECTION_CHANGED, [this.currentIndex]);
     }
-    updateTime(dt)
+    update(dt)
     {
-        this.indicatorStateTimer += dt;
-        if (this.indicatorStateTimer >= this.indicatorInterval) {
-            this.indicator.visible = !this.indicator.visible;
-            this.indicatorStateTimer = 0;
-        }
-
-        if (this.world.camera.camera.position.distanceToSquared(this.cameraDesiredPosition) > 1) {
-            var intermediate = this.cameraDesiredPosition.clone()
-                .sub(this.world.camera.camera.position)
-                .multiplyScalar(dt * 3);
-            this.world.camera.camera.position.add(intermediate);
-        }
+        this.modifiers.forEach(mod => {
+            mod(dt);
+        });
     }
 }
