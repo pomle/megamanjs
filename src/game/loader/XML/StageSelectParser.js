@@ -2,12 +2,13 @@
 
 Game.Loader.XML.Parser.StageSelectParser =
 class StageSelectParser
-extends Game.Loader.XML.Parser.SceneParser
+extends Game.Loader.XML.Parser
 {
     constructor(loader)
     {
         super(loader);
         this._scene = new Game.scenes.StageSelect();
+        this.sceneParser = new Game.Loader.XML.Parser.SceneParser(loader, this._scene);
     }
     parseStageSelect(sceneNode)
     {
@@ -18,16 +19,8 @@ extends Game.Loader.XML.Parser.SceneParser
         return new Promise(resolve => {
             const scene = this._scene;
 
-            const audioNodes = sceneNode.querySelectorAll('audio > *');
-            for (let audioNode, i = 0; audioNode = audioNodes[i++];) {
-                this.getAudio(audioNode)
-                    .then(audio => {
-                        const id = this.getAttr(audioNode, 'id');
-                        scene.audio[id] = audio;
-                    });
-            }
-
-            this.parseEvents(sceneNode);
+            this.sceneParser.parseAudio(sceneNode);
+            this.sceneParser.parseEvents(sceneNode);
 
             var objectsNode = sceneNode.getElementsByTagName('objects')[0];
             var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader);
