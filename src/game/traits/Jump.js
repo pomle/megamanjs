@@ -18,10 +18,14 @@ Game.traits.Jump.prototype.NAME = 'jump';
 Game.traits.Jump.prototype.EVENT_JUMP_ENGAGE = 'jump-engage';
 Game.traits.Jump.prototype.EVENT_JUMP_CANCEL = 'jump-cancel';
 Game.traits.Jump.prototype.EVENT_JUMP_END    = 'jump-end';
+Game.traits.Jump.prototype.EVENT_JUMP_LAND    = 'jump-land';
 
 Game.traits.Jump.prototype.__obstruct = function(object, attack)
 {
     if (attack === object.SURFACE_TOP) {
+        if (this._ready === false) {
+            this._trigger(this.EVENT_JUMP_LAND);
+        }
         this._ready = true;
         this._fallcount = 0;
     } else if (attack === object.SURFACE_BOTTOM) {
