@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Heatman">
     <audio>
-        <music src="./heatman/music.ogg">
+        <music src="./heatman/music.ogg" id="music">
             <loop />
         </music>
     </audio>
@@ -45,6 +45,11 @@
             <constraint x1="4992" x2="4992" y1="-1080" y2="-1080"/>
         </path>
     </camera>
+    <events>
+        <event name="start">
+            <action type="audio" id="music"/>
+        </event>
+    </events>
     <objects>
         <textures>
             <texture id="heatman-stage" url="./heatman/tiles.png" w="256" h="128"/>

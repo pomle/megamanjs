@@ -2,7 +2,7 @@
 
 Game.Loader.XML.Parser.LevelParser =
 class LevelParser
-extends Game.Loader.XML.Parser
+extends Game.Loader.XML.Parser.SceneParser
 {
     constructor(loader)
     {
@@ -48,8 +48,11 @@ extends Game.Loader.XML.Parser
             var musicNode = audioNode.getElementsByTagName('music')[0];
             this.getAudio(musicNode)
                 .then(audio => {
-                    level.music = audio;
+                    const id = this.getAttr(audioNode, 'id');
+                    level.audio[id] = audio;
                 });
+
+            this.parseEvents(levelNode);
 
             level.assets['start-caption'] = resource.get('font', 'nintendo')('READY').createMesh();
 

@@ -2,7 +2,7 @@
 
 Game.Loader.XML.Parser.StageSelectParser =
 class StageSelectParser
-extends Game.Loader.XML.Parser
+extends Game.Loader.XML.Parser.SceneParser
 {
     constructor(loader)
     {
@@ -70,28 +70,6 @@ extends Game.Loader.XML.Parser
                 resolve(scene);
             });
         });
-    }
-    parseEvents(sceneNode)
-    {
-        const scene = this._scene;
-        const eventNodes = sceneNode.querySelectorAll('events > event');
-        for (let eventNode, i = 0; eventNode = eventNodes[i++];) {
-            const name = this.getAttr(eventNode, 'name');
-            const actionNodes = eventNode.querySelectorAll('action');
-            for (let actionNode, j = 0; actionNode = actionNodes[j++];) {
-                const type = this.getAttr(actionNode, 'type');
-                switch (type) {
-                    case 'audio':
-                        const id = this.getAttr(actionNode, 'id');
-                        scene.events.bind(name, () => {
-                            if (scene.game) {
-                                scene.game.audioPlayer.play(scene.audio[id]);
-                            }
-                        });
-                        break;
-                }
-            }
-        }
     }
     createCaption(text) {
         text = text.split(" ");
