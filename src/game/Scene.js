@@ -107,4 +107,18 @@ Game.Scene = class Scene
         const audio = this.getAudio(id);
         this.game.audioPlayer.stop(audio);
     }
+    waitFor(seconds)
+    {
+        const timer = this.timer;
+        const time = seconds + timer.realTimePassed;
+        return new Promise(resolve => {
+            const wait = () => {
+                if (timer.realTimePassed >= time) {
+                    timer.events.unbind(timer.EVENT_UPDATE, wait);
+                    resolve();
+                }
+            };
+            timer.events.bind(timer.EVENT_UPDATE, wait);
+        });
+    }
 }
