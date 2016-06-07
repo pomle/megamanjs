@@ -4,7 +4,9 @@
         <music src="./stage-select/wait-music.ogg" id="wait-music">
             <loop start="1.364" end="6.690"/>
         </music>
-        <effect src="./stage-select/stage-select-selection.ogg" id="selection"/>
+        <music src="./stage-select/boss-reveal.ogg" id="boss-reveal"/>
+        <effect src="./stage-select/change-selection.ogg" id="change-selection"/>
+        <effect src="./stage-select/make-selection.ogg" id="make-selection"/>
     </audio>
     <background color="0x0064ff"/>
     <camera distance="140" />
@@ -22,10 +24,17 @@
 
     <events>
         <event name="start">
-            <action type="audio" id="wait-music"/>
+            <action type="play-audio" id="wait-music"/>
+        </event>
+        <event name="stage-selected">
+            <action type="stop-audio" id="wait-music"/>
+            <action type="play-audio" id="make-selection"/>
+        </event>
+        <event name="boss-reveal">
+            <action type="play-audio" id="boss-reveal"/>
         </event>
         <event name="selection-changed">
-            <action type="audio" id="selection"/>
+            <action type="play-audio" id="change-selection"/>
         </event>
     </events>
 

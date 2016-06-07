@@ -48,10 +48,12 @@ extends Game.Loader.XML.Parser
                 scene.addStage(avatar, caption, name);
             }
 
-            scene.equalize(parseFloat(indicatorNode.getAttribute('initial-index')));
-
             const stageSelectScene = scene;
-            scene.events.bind(scene.EVENT_STAGE_SELECTED, (stage, index) => {
+            const initialIndex = parseFloat(indicatorNode.getAttribute('initial-index'));
+            scene.events.bind(scene.EVENT_CREATE, () => {
+                scene.equalize(initialIndex);
+            });
+            scene.events.bind(scene.EVENT_STAGE_ENTER, (stage, index) => {
                 this.loader.startScene(stage.name).then((scene) => {
                     scene.events.bind(scene.EVENT_END, () => {
                         this.loader.game.setScene(stageSelectScene);
