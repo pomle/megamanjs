@@ -2,13 +2,14 @@
 
 Game.Loader.XML.Parser.LevelParser =
 class LevelParser
-extends Game.Loader.XML.Parser.SceneParser
+extends Game.Loader.XML.Parser
 {
     constructor(loader)
     {
         super(loader);
         this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
         this._scene = new Game.scenes.Level();
+        this.sceneParser = new Game.Loader.XML.Parser.SceneParser(loader, this._scene);
     }
     createBehavior(node, behavior)
     {
@@ -44,15 +45,8 @@ extends Game.Loader.XML.Parser.SceneParser
         return new Promise(resolve => {
             const level = this._scene;
 
-            var audioNode = levelNode.getElementsByTagName('audio')[0];
-            var musicNode = audioNode.getElementsByTagName('music')[0];
-            this.getAudio(musicNode)
-                .then(audio => {
-                    const id = this.getAttr(audioNode, 'id');
-                    level.audio[id] = audio;
-                });
-
-            this.parseEvents(levelNode);
+            this.sceneParser.parseAudio(levelNode);
+            this.sceneParser.parseEvents(levelNode);
 
             level.assets['start-caption'] = resource.get('font', 'nintendo')('READY').createMesh();
 
