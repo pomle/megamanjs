@@ -34,23 +34,18 @@ Game.ResourceLoader = class ResourceLoader
     {
         const job = this._createJob();
         const context = this.loader.game.audioPlayer.getContext();
-        job.promise = new Promise((resolve, reject) => {
-            const request = new XMLHttpRequest();
-            request.open('GET', url, true);
-            request.responseType = 'arraybuffer';
-            request.addEventListener('load', event => {
-                if (request.status === 200) {
-                    context.decodeAudioData(request.response, (buffer) => {
-                        job.progress = 1;
-                        job.status = this.COMPLETE;
-                        resolve(new Engine.Audio(buffer));
-                    });
-                } else {
-                    reject(request.status);
-                }
+        job.promise = fetch(url)
+            .then(response => {
+                return response.arrayBuffer();
+            })
+            .then(arrayBuffer => {
+                return context.decodeAudioData(arrayBuffer);
+            })
+            .then(buffer => {
+                job.progress = 1;
+                job.status = this.COMPLETE;
+                return new Engine.Audio(buffer);
             });
-            request.send();
-        });
         return job.promise;
     }
     loadImage(url)
