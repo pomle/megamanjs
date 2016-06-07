@@ -5,6 +5,7 @@ Engine.World = class World
     constructor()
     {
         this.EVENT_UPDATE = 'update';
+        this.EVENT_EMIT_AUDIO = 'emit-audio';
 
         this.ambientLight = new THREE.AmbientLight(0xffffff);
 
@@ -12,7 +13,7 @@ Engine.World = class World
 
         this.collision = new Engine.Collision();
 
-        this.events = new Engine.Events();
+        this.events = new Engine.Events(this);
 
         this.atmosphericDensity = .1;
         this.atmosphericViscosity = .1;
@@ -44,6 +45,10 @@ Engine.World = class World
             this.scene.add(object.model);
         }
         object.setWorld(this);
+    }
+    emitAudio(positionalAudio)
+    {
+        this.events.trigger(this.EVENT_EMIT_AUDIO, [positionalAudio]);
     }
     getObject(name)
     {

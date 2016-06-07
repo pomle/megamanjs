@@ -80,10 +80,8 @@ class GameParser extends Game.Loader.XML.Parser
                 });
 
             tasks.push(mainTask);
-            console.log(tasks);
 
             Promise.all(tasks).then(function() {
-                console.log('RESOLVE');
                 resolve();
             })
         });

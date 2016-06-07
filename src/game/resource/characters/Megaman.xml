@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects>
     <object type="character" source="Megaman" id="Megaman">
+        <audio>
+            <effect src="../stage-select/stage-select-selection.ogg" id="jump"/>
+        </audio>
+
         <geometry type="plane" w="48" h="48" />
 
         <collision>
             <rect w="14" h="22" />
         </collision>
+
+        <events>
+            <event name="jump-engage">
+                <action type="audio" id="jump"/>
+            </event>
+        </events>
 
         <traits>
             <trait source="Health" max="28" />
