@@ -45,6 +45,10 @@ Game.ResourceManager = class ResourceManager
         }
         throw new Error('Could not determine type from ' + object);
     }
+    addAudio(id, object)
+    {
+        return this._addResource('audio', id, object);
+    }
     addCharacter(id, object)
     {
         return this._addResource('character', id, object);
