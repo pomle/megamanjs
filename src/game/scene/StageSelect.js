@@ -128,9 +128,6 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.indicator.visible = true;
         this.indicatorStateTimer = 0;
 
-        if (index !== this.currentIndex) {
-            this.events.trigger(this.EVENT_SELECTION_CHANGED, [index]);
-        }
         this.currentIndex = index;
 
         return this.currentIndex;
@@ -164,7 +161,10 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         if (newIndex === this.currentIndex) {
             return;
         }
+
         this.selectIndex(newIndex);
+
+        this.events.trigger(this.EVENT_SELECTION_CHANGED, [this.currentIndex]);
     }
     updateTime(dt)
     {
