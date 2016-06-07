@@ -44,14 +44,16 @@ Game.traits.Teleport.prototype._end = function()
 {
     this.state = this.STATE_OUT;
     this._endProgress = this.endDuration;
-    this._host.collidable = true;
-    this._host.physics.enabled = true;
     this._trigger(this.EVENT_END);
 }
 
 Game.traits.Teleport.prototype._stop = function()
 {
     this.state = this.STATE_OFF;
+    var host = this._host;
+    host.collidable = true;
+    host.physics.enabled = true;
+    host.jump.reset();
     this._destination = undefined;
 }
 
