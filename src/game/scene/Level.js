@@ -33,7 +33,7 @@ Game.scenes.Level = class Level extends Game.Scene
         this.events.bind(this.EVENT_START, () => {
             this.resetPlayer();
         });
-   }
+    }
     __destroy()
     {
         this.world.camera.unfollow();

@@ -11,6 +11,7 @@ Game.Scene = class Scene
         this.EVENT_PAUSE = 'pause';
         this.EVENT_RESUME = 'resume';
 
+        this.audio = {};
         this.game = null;
         this.events = new Engine.Events(this);
         this.timer = new Engine.Timer();

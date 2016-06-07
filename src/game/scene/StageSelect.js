@@ -9,7 +9,6 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.EVENT_STAGE_SELECTED = 'stage-selected';
         this.EVENT_SELECTION_CHANGED = 'selection-changed';
 
-        this.audio = {};
         this.world.camera.camera.position.z = 120;
         this.cameraDesiredPosition = new THREE.Vector3();
         this.cameraDistance = 140;
