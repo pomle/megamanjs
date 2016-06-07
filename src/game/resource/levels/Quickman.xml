@@ -25,6 +25,16 @@
             }
         </bootstrap>
     </scripts>
+    <audio>
+        <music src="./quickman/music.ogg" id="music">
+            <loop />
+        </music>
+    </audio>
+    <events>
+        <event name="start">
+            <action type="play-audio" id="music"/>
+        </event>
+    </events>
     <camera>
         <path>
             <window x1="0" x2="256" y1="-240" y2="0"/>

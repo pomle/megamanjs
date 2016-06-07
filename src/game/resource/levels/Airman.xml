@@ -1,9 +1,14 @@
 <scene type="level" name="Airman">
     <audio>
-        <music src="./airman/music.ogg">
+        <music src="./airman/music.ogg" id="music">
             <loop />
         </music>
     </audio>
+    <events>
+        <event name="start">
+            <action type="play-audio" id="music"/>
+        </event>
+    </events>
     <checkpoints>
         <checkpoint x="128" y="-120" r="100" z="0"/>
         <checkpoint x="2432" y="-424" r="100" z="0"/>

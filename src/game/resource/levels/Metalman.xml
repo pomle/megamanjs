@@ -4,6 +4,16 @@
             <image-overlay data="" x="0" y="0"/>
         </guides>
     </editor>
+    <audio>
+        <music src="./metalman/music.ogg" id="music">
+            <loop />
+        </music>
+    </audio>
+    <events>
+        <event name="start">
+            <action type="play-audio" id="music"/>
+        </event>
+    </events>
     <gravity x="0" y="9.81"/>
     <checkpoints>
         <checkpoint x="128" y="-168" z="0"/>
