@@ -17,10 +17,7 @@ Engine.AudioPlayer = class AudioPlayer
     }
     play(audio)
     {
-        if (this._playing.has(audio)) {
-            const current = this._playing.get(audio);
-            current.stop();
-        }
+        this.stop(audio);
 
         const source = this._context.createBufferSource();
         source.connect(this._context.destination);
@@ -45,11 +42,18 @@ Engine.AudioPlayer = class AudioPlayer
     {
         this._context.resume();
     }
-    stop()
+    stop(audio)
     {
-        this._playing.forEach(source => {
-            source.stop();
-        });
-        this._playing.clear();
+        if (audio) {
+            if (this._playing.has(audio)) {
+                const current = this._playing.get(audio);
+                current.stop();
+            }
+        } else {
+            this._playing.forEach(source => {
+                source.stop();
+            });
+            this._playing.clear();
+        }
     }
 }

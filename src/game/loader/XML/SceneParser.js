@@ -40,12 +40,15 @@ extends Game.Loader.XML.Parser
     {
         const scene = this.getScene();
         const type = this.getAttr(actionNode, 'type');
-        if (type === 'audio') {
+        if (type === 'play-audio') {
             const id = this.getAttr(actionNode, 'id');
-            scene.events.bind(eventName, () => {
-                if (scene.game) {
-                    scene.game.audioPlayer.play(scene.audio[id]);
-                }
+            scene.events.bind(eventName, function() {
+                this.playAudio(id);
+            });
+        } else if (type === 'stop-audio') {
+            const id = this.getAttr(actionNode, 'id');
+            scene.events.bind(eventName, function() {
+                this.stopAudio(id);
             });
         }
     }
