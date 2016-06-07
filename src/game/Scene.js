@@ -90,4 +90,21 @@ Game.Scene = class Scene
         this.events.trigger(this.EVENT_DESTROY, [game]);
         this.game = null;
     }
+    getAudio(id)
+    {
+        if (!this.audio[id]) {
+            throw new Error('Audio id ' + id + ' not found');
+        }
+        return this.audio[id];
+    }
+    playAudio(id)
+    {
+        const audio = this.getAudio(id);
+        this.game.audioPlayer.play(audio);
+    }
+    stopAudio(id)
+    {
+        const audio = this.getAudio(id);
+        this.game.audioPlayer.stop(audio);
+    }
 }
