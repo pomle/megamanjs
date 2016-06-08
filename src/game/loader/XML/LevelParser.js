@@ -48,7 +48,9 @@ extends Game.Loader.XML.Parser
             this.sceneParser.parseAudio(levelNode);
             this.sceneParser.parseEvents(levelNode);
 
-            level.assets['start-caption'] = resource.get('font', 'nintendo')('READY').createMesh();
+            if (resource.has('font', 'nintendo')) {
+                level.assets['start-caption'] = resource.get('font', 'nintendo')('READY').createMesh();
+            }
 
             var objectsNode = levelNode.getElementsByTagName('objects')[0];
             var objects;
@@ -65,19 +67,17 @@ extends Game.Loader.XML.Parser
             }
 
             var layoutNode = levelNode.getElementsByTagName('layout')[0];
-
-            this.parseObjectLayout(layoutNode, objects).forEach(function(object) {
-                level.world.addObject(object);
-            });
-
-            this.parseBehaviors(layoutNode).forEach(function(object) {
-                level.world.addObject(object);
-            });
-
-            this.parseSpawners(layoutNode).forEach(function(object) {
-                level.world.addObject(object)
-            });
-
+            if (layoutNode) {
+                this.parseObjectLayout(layoutNode, objects).forEach(function(object) {
+                    level.world.addObject(object);
+                });
+                this.parseBehaviors(layoutNode).forEach(function(object) {
+                    level.world.addObject(object);
+                });
+                this.parseSpawners(layoutNode).forEach(function(object) {
+                    level.world.addObject(object)
+                });
+            }
 
             var checkpointsNode = levelNode.getElementsByTagName('checkpoints')[0];
             if (checkpointsNode) {

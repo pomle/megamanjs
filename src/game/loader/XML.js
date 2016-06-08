@@ -33,6 +33,13 @@ extends Game.Loader
                 return doc.children[0];
             });
     }
+    loadScene(url)
+    {
+        return this.asyncLoadXML(url)
+            .then(node => {
+                return this.parseScene(node.children[0]);
+            });
+    }
     parseScene(sceneNode)
     {
         if (sceneNode.tagName !== 'scene') {
@@ -76,11 +83,7 @@ extends Game.Loader
         }
 
         this.game.pause();
-
-        return this.asyncLoadXML(this.sceneIndex[name].url)
-            .then(node => {
-                return this.parseScene(node.children[0]);
-            })
+        return this.loadScene(this.sceneIndex[name].url)
             .then(scene => {
                 this.game.setScene(scene);
                 return scene;
