@@ -118,7 +118,7 @@ class GameParser extends Game.Loader.XML.Parser
         return new Promise(resolve => {
             let textureScale = configNode.getAttribute('texture-scale');
             if (textureScale) {
-                this.loader.resourceLoader.textureScale = parseFloat(textureScale);
+                this.loader.textureScale = parseFloat(textureScale) || 1;
             }
             resolve();
         });
@@ -136,7 +136,7 @@ class GameParser extends Game.Loader.XML.Parser
                 const image = new Image();
                 image.addEventListener('load', function() {
                     const font = new Engine.BitmapFont(map, size, this);
-                    font.scale = loader.resourceLoader.textureScale;
+                    font.scale = loader.textureScale;
                     loader.resourceManager.addFont(fontId, function(text) {
                         return font.createText(text);
                     });

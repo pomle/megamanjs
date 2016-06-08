@@ -4,8 +4,6 @@ Game.ResourceManager = class ResourceManager
 {
     constructor()
     {
-        this.textureScale = 4;
-
         /* These must be defined in order of specificity. */
         this.typeMap = {
             'character': Game.objects.Character,

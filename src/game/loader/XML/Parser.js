@@ -169,7 +169,7 @@ class Parser
             throw new Error("Node not <texture>");
         }
 
-        const textureScale = this.getFloat(textureNode, 'scale') || this.loader.resourceLoader.textureScale;
+        const textureScale = this.getFloat(textureNode, 'scale') || this.loader.textureScale;
         const textureUrl = this.resolveURL(textureNode, 'url');
         const textureId = textureNode.getAttribute('id');
 
