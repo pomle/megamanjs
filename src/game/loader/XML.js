@@ -45,7 +45,7 @@ extends Game.Loader
             return levelParser.parse(sceneNode);
         } else if (type === 'stage-select') {
             const stageSelectParser = new Game.Loader.XML.Parser.StageSelectParser(this);
-            return stageSelectParser.parseStageSelect(sceneNode);
+            return stageSelectParser.parse(sceneNode);
         }
 
         throw new Error('Scene type "' + type + '" not recognized');

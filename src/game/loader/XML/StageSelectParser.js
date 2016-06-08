@@ -10,7 +10,7 @@ extends Game.Loader.XML.Parser
         this._scene = new Game.scenes.StageSelect();
         this.sceneParser = new Game.Loader.XML.Parser.SceneParser(loader, this._scene);
     }
-    parseStageSelect(sceneNode)
+    parse(sceneNode)
     {
         if (sceneNode.tagName !== 'scene' || sceneNode.getAttribute('type') !== 'stage-select') {
             throw new TypeError('Node not <scene type="stage-select">');
