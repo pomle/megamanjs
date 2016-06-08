@@ -1,8 +1,8 @@
 <scene type="level" name="Quickman">
     <scripts>
         <bootstrap>
-            function bootstrap(game, level) {
-                var switches = [
+            const func = function(level) {
+                const switches = [
                     {
                         color: new THREE.Color(.1,.03,.03),
                         pos: new THREE.Vector3(64,-1800, 0),
@@ -14,8 +14,8 @@
                 ];
 
                 switches.forEach(function(opt) {
-                    var object = new Engine.Object();
-                    var light = new Game.traits.LightControl();
+                    const object = new Engine.Object();
+                    const light = new Game.traits.LightControl();
                     light.color.copy(opt.color);
                     object.applyTrait(light);
                     object.addCollisionRect(64, 240);
@@ -23,6 +23,7 @@
                     level.world.addObject(object);
                 });
             }
+            func
         </bootstrap>
     </scripts>
     <audio>
