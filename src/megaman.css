@@ -97,7 +97,7 @@ input {
 }
 
 #screen .overlay .energy > * > .amount {
-    background-image: url('game/resource/meters.png');
+    background-image: url('resource/meters.png');
     background-position: 0 100%;
     background-size: 160px 112px;
     position: absolute;
