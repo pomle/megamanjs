@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-    Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml').then(megaman2 => {
+    Game.Loader.XML.createFromXML('./resource/Megaman2.xml').then(megaman2 => {
         window.megaman2 = megaman2;
         const game = megaman2.game;
         game.attachToElement(document.getElementById('screen'));
