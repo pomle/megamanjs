@@ -34,16 +34,15 @@ Game.scenes.Level = class Level extends Game.Scene
             this.resetPlayer();
         });
     }
-    __destroy()
+    __destroy(game)
     {
         this.world.camera.unfollow();
-        for (var objects = this.world.objects, i = 0, l = objects.length; i !== l; ++i) {
-            var object = objects[i];
+        this.world.objects.forEach(object => {
             if (object !== undefined) {
                 this.world.removeObject(object);
             }
-        }
-        Game.Scene.prototype.__destroy.apply(this, arguments);
+        });
+        super.__destroy(game);
     }
     addCheckPoint(x, y, r)
     {
@@ -54,66 +53,64 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     createCharacterInput(game)
     {
-        var input = new Engine.Keyboard(),
-            player = game.player,
-            levelrunner = this,
-            aim = player.character.aim;
+        const input = new Engine.Keyboard();
+        const player = game.player;
 
         input.intermittent(input.LEFT,
-            function() {
-                aim.x = -1;
+            () => {
+                player.character.aim.x = -1;
             },
-            function() {
-                if (aim.x === -1) {
-                    aim.x = 0;
+            () => {
+                if (player.character.aim.x === -1) {
+                    player.character.aim.x = 0;
                 }
             });
         input.intermittent(input.RIGHT,
-            function() {
-                aim.x = 1;
+            () => {
+                player.character.aim.x = 1;
             },
-            function() {
-                if (aim.x === 1) {
-                    aim.x = 0;
+            () => {
+                if (player.character.aim.x === 1) {
+                    player.character.aim.x = 0;
                 }
             });
         input.intermittent(input.UP,
-            function() {
-                aim.y = 1;
+            () => {
+                player.character.aim.y = 1;
             },
-            function() {
-                if (aim.y === 1) {
-                    aim.y = 0;
+            () => {
+                if (player.character.aim.y === 1) {
+                    player.character.aim.y = 0;
                 }
             });
         input.intermittent(input.DOWN,
-            function() {
-                aim.y = -1;
+            () => {
+                player.character.aim.y = -1;
             },
-            function() {
-                if (aim.y === -1) {
-                    aim.y = 0;
+            () => {
+                if (player.character.aim.y === -1) {
+                    player.character.aim.y = 0;
                 }
             });
 
         input.intermittent(input.A,
-            function() {
+            () => {
                 player.character.jump.engage();
             },
-            function() {
+            () => {
                 player.character.jump.cancel();
             });
         input.hit(input.B,
-            function() {
+            () => {
                 player.character.weapon.fire();
             });
         input.hit(input.START,
-            function() {
+            () => {
                 //levelrunner.toggleMenu();
             });
         input.hit(input.SELECT,
-            function() {
-                levelrunner.__end();
+            () => {
+                this.__end();
             });
 
         return input;
