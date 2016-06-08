@@ -219,17 +219,14 @@ extends Game.Loader.XML.Parser
     }
     parseScripts(scriptsNode, level)
     {
-        var scriptNodes = scriptsNode.getElementsByTagName('*');
-        var loader = this.loader;
-        for (var scriptNode, i = 0; scriptNode = scriptNodes[i]; ++i) {
-            if (scriptNode.tagName === 'bootstrap') {
-                (function() {
-                    var bootstrap = undefined;
-                    eval(scriptNode.textContent);
-                    if (typeof bootstrap === "function") {
-                        bootstrap(loader.game, level);
-                    }
-                }());
+        const scriptNodes = scriptsNode.getElementsByTagName('*');
+        for (let scriptNode, i = 0; scriptNode = scriptNodes[i++];) {
+            const type = scriptNode.tagName;
+            const func = eval(scriptNode.textContent);
+            if (typeof func === "function") {
+                if (type === 'bootstrap') {
+                    func(level);
+                }
             }
         }
     }
