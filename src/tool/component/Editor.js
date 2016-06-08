@@ -77,15 +77,13 @@ Editor.Colors = {
 
 Editor.prototype.attachGame = function(game)
 {
-    let editor = this,
-        engine = game.engine,
-        overlays = this.guides;
-
     this.game = game;
+    game.renderer.autoClear = false;
     game.attachToElement(this.ui.viewport[0]);
-
-    engine.renderer.autoClear = false;
-    engine.events.bind(engine.EVENT_RENDER, this.renderOverlays.bind(this));
+    game.events.bind(game.EVENT_SCENE_CREATE, scene => {
+        const timer = scene.timer;
+        timer.events.bind(timer.EVENT_RENDER, this.renderOverlays.bind(this));
+    });
 }
 
 Editor.prototype.clear = function()
@@ -117,30 +115,22 @@ Editor.prototype.getXML = function()
     return this.document[0].outerHTML;
 }
 
-Editor.prototype.loadUrl = function(url, callback)
+Editor.prototype.loadUrl = function(url)
 {
-    let editor = this,
-        loader = new Game.Loader.XML(editor.game);
-    loader.load(url, function(node) {
-        editor.load(node, callback);
-    });
+    const loader = new Game.Loader.XML(this.game);
+    let node;
+    return loader.asyncLoadXML(url)
+        .then(doc => {
+            node = doc.children[0];
+            return loader.parseScene(node);
+        })
+        .then(scene => {
+            this.open(scene, loader, node);
+        });
 }
 
-Editor.prototype.load = function(node, callback)
-{
-    let editor = this,
-        parser = new Game.Loader.XML.Parser.LevelParser(this);
 
-    node = $(node);
-    parser.parse(node, function(level, parser) {
-        editor.open(level, parser);
-        if (callback) {
-            callback();
-        }
-    });
-}
-
-Editor.prototype.open = function(level, parser)
+Editor.prototype.open = function(level, loader, node)
 {
     this.clear();
 
@@ -150,12 +140,11 @@ Editor.prototype.open = function(level, parser)
 
     editor.marker.position.set(0,0,0);
 
-    editor.parser = parser;
-    editor.document = parser.node;
+    editor.document = node;
     editor.nodeManager.document = editor.document;
 
-    let objectParser = new Game.Loader.XML.Parser.ObjectParser(this);
-    objectParser.parse(editor.document.find('> objects'));
+    let objectParser = new Game.Loader.XML.Parser.ObjectParser(loader);
+    objectParser.parse(editor.document.querySelector(':scope > objects'));
 
     editor.document.objectSources = {};
     for (let item of objectParser.items) {

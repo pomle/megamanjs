@@ -2,13 +2,13 @@
 $(function() {
     function loadLevel(src)
     {
-        editor.loadUrl(src, function() {
-            editor.file.recent.add(src);
-            lastLoadedLevel = src;
-            editor.ui.applyState();
-        });
+        editor.loadUrl(src)
+            .then(() => {
+                editor.file.recent.add(src);
+                lastLoadedLevel = src;
+                editor.ui.applyState();
+            });
     }
-
 
     var editor = new Editor();
 
@@ -151,9 +151,7 @@ $(function() {
         reader.readAsDataURL(file);
     });
 
-    var game = new Game();
-    game.engine = new Engine(new THREE.WebGLRenderer());
-    editor.attachGame(game);
+    editor.attachGame(new Game());
 
     var recent = editor.file.recent.get();
     if (recent.length) {
