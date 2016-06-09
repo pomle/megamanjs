@@ -20,7 +20,6 @@ Game.scenes.Level = class Level extends Game.Scene
         this.deathCountdown = 0;
         this.deathRespawnTime = 4;
 
-        this.resetPlayer = this.resetPlayer.bind(this);
         this.simulateListener = this.simulateListener.bind(this);
 
         this.events.bind(this.EVENT_CREATE, (game) => {
@@ -157,37 +156,33 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     readyBlink()
     {
-        var interval = 9/60,
-            duration = 2,
-            elapsed = 0,
-            model = this.assets['start-caption'],
-            timer = this.timer,
-            level = this,
-            camera = level.world.camera.camera;
+        if (!this.assets['start-caption']) {
+            return Promise.resolve();
+        }
+
+        const interval = 9/60;
+        const duration = 2;
+        let elapsed = 0;
+        const model = this.assets['start-caption'];
+        const camera = level.world.camera.camera;
 
         return new Promise(resolve => {
-            if (!model) {
-                return resolve();
-            }
-
             model.visible = true;
-
-            function blink(dt) {
+            const blink = (dt) => {
                 if (elapsed > duration) {
-                    level.world.scene.remove(model);
-                    timer.events.unbind(timer.EVENT_TIMEPASS, blink);
+                    this.world.scene.remove(model);
+                    this.timer.events.unbind(timer.EVENT_TIMEPASS, blink);
                     resolve();
-                }
-                else {
+                } else {
                     model.position.x = camera.position.x;
                     model.position.y = camera.position.y;
                     model.visible = elapsed % (interval * 2) < interval;
                     elapsed += dt;
                 }
-            }
+            };
 
-            level.world.scene.add(model);
-            timer.events.bind(timer.EVENT_TIMEPASS, blink);
+            this.world.scene.add(model);
+            this.timer.events.bind(this.timer.EVENT_TIMEPASS, blink);
         });
     }
     simulateListener()
@@ -197,7 +192,7 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     pauseGamePlay()
     {
-        var timer = this.timer;
+        const timer = this.timer;
         timer.events.unbind(timer.EVENT_SIMULATE, this.simulateListener);
 
         this.input = this.inputs.menu;
@@ -205,7 +200,7 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     resumeGamePlay()
     {
-        var timer = this.timer;
+        const timer = this.timer;
         timer.events.bind(timer.EVENT_SIMULATE, this.simulateListener);
 
         this.input = this.inputs.character;
@@ -215,25 +210,22 @@ Game.scenes.Level = class Level extends Game.Scene
     {
         this.resetObjects();
         this.world.updateTime(0);
-        return this.readyBlink().then(() => {
-            this.resumeGamePlay();
-        });
+        return this.readyBlink()
+            .then(() => {
+                this.resumeGamePlay();
+            });
     }
     resetObjects()
     {
-        var objects = this.world.objects;
-        for (var i = 0, l = objects.length; i !== l; ++i) {
-            if (objects[i] === undefined) {
-                continue;
+        this.world.objects.forEach(obj => {
+            if (obj) {
+                obj.traits.forEach(trait => {
+                    if (typeof trait.reset === 'function') {
+                        trait.reset();
+                    }
+                });
             }
-            var object = objects[i];
-            for (var j = 0, k = object.traits.length; j !== k; ++j) {
-                var trait = object.traits[j];
-                if (typeof trait.reset === 'function') {
-                    trait.reset();
-                }
-            }
-        }
+        });
     }
     resetPlayer()
     {
