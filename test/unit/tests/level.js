@@ -4,25 +4,17 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
-const Engine = env.Engine;
-const World = env.Engine.World;
 const Game = env.Game;
 const Level = env.Game.scenes.Level;
 
 describe('Level', function() {
   let level;
   beforeEach(function() {
-      const world = new World();
-      const game = new Game();
-      game.engine = new Engine();
-      game.engine.render = sinon.spy();
-      game.engine.world = world;
-      level = new Level(game, world);
-      level.game.player = new Game.Player();
+      level = new Level();
 
       const character = new Game.objects.Character();
       character.applyTrait(new Game.traits.Health());
-      level.game.player.character = character;
+      level.player.character = character;
   });
 
   describe('#detectDeath', function() {
@@ -54,6 +46,20 @@ describe('Level', function() {
       level.detectDeath();
       expect(level.resetPlayer.callCount).to.equal(0);
       expect(level.__end.callCount).to.equal(1);
+    });
+  });
+  describe('#resetObjects', function() {
+    it('should run reset function on every trait of every object if available', function() {
+      const level = new Level();
+      const thing = new Engine.Object();
+      const resetSpy = sinon.spy();
+      thing.traits = [
+        { reset: resetSpy },
+        { dummy: null },
+      ];
+      level.world.addObject(thing);
+      level.resetObjects();
+      expect(resetSpy.callCount).to.be(1);
     });
   });
 });
