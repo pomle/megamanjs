@@ -46,8 +46,10 @@
                 gameElement.webkitRequestFullScreen();
             },
             'setResolution': (e) => {
-                const res = e.target.value.split('x');
-                game.setResolution(parseFloat(res[0]), parseFloat(res[1]));
+                if (e.type === 'change') {
+                    const res = e.target.value.split('x');
+                    game.setResolution(parseFloat(res[0]), parseFloat(res[1]));
+                }
             },
             'spawn': (e) => {
                 const Obj = loader.resource.get('character', e.target.dataset.object);
