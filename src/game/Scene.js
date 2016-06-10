@@ -14,9 +14,9 @@ Game.Scene = class Scene
         this.audio = {};
         this.game = null;
         this.events = new Engine.Events(this);
-        this.timer = new Engine.Timer();
-        this.input = new Engine.Keyboard();
-        this.world = new Engine.World();
+        this.timer = new Engine.Timer;
+        this.input = new Engine.Keyboard;
+        this.world = new Engine.World;
 
         const timer = this.timer;
         const world = this.world;
@@ -51,7 +51,7 @@ Game.Scene = class Scene
             world.events.bind(world.EVENT_EMIT_AUDIO, audioListener);
         });
 
-        this.events.bind(this.EVENT_DESTROY, (game) => {
+        this.events.bind(this.EVENT_DESTROY, () => {
             this.stopSimulation();
             timer.events.unbind(timer.EVENT_UPDATE, animate);
             timer.events.unbind(timer.EVENT_RENDER, render);
@@ -63,31 +63,32 @@ Game.Scene = class Scene
         this.game = game;
         this.events.trigger(this.EVENT_CREATE, [game]);
     }
-    __start(game)
+    __start()
     {
-        this.events.trigger(this.EVENT_START, [game]);
+        this.events.trigger(this.EVENT_START);
     }
-    __resume(game)
+    __resume()
     {
-        game.audioPlayer.resume();
+        this.game.audioPlayer.resume();
         this.timer.run();
-        this.events.trigger(this.EVENT_RESUME, [game]);
+        this.events.trigger(this.EVENT_RESUME);
     }
-    __pause(game)
+    __pause()
     {
-        game.audioPlayer.pause();
+        this.game.audioPlayer.pause();
         this.input.release();
         this.timer.pause();
-        this.events.trigger(this.EVENT_PAUSE, [game]);
+        this.events.trigger(this.EVENT_PAUSE);
     }
-    __end(game)
+    __end()
     {
-        this.events.trigger(this.EVENT_END, [game]);
+        this.__pause();
+        this.game.audioPlayer.stop();
+        this.events.trigger(this.EVENT_END);
     }
-    __destroy(game)
+    __destroy()
     {
-        game.audioPlayer.stop();
-        this.events.trigger(this.EVENT_DESTROY, [game]);
+        this.events.trigger(this.EVENT_DESTROY);
         this.game = null;
     }
     doFor(seconds, callback)
