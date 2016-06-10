@@ -17,11 +17,25 @@
         </collision>
 
         <events>
+            <event name="weapon-fire">
+                <action type="play-audio" id="plasma">
+                    <condition value="Plasma"/>
+                </action>
+                <action type="play-audio" id="metalblade">
+                    <condition value="MetalBlade"/>
+                </action>
+                <action type="play-audio" id="airshot">
+                    <condition value="AirShooter"/>
+                </action>
+            </event>
+            <event name="hurt">
+                <action type="play-audio" id="damage" />
+            </event>
             <event name="teleport-end">
-                <action type="audio" id="teleport-in"/>
+                <action type="play-audio" id="teleport-in"/>
             </event>
             <event name="jump-land">
-                <action type="audio" id="jump-land"/>
+                <action type="play-audio" id="jump-land"/>
             </event>
         </events>
 
