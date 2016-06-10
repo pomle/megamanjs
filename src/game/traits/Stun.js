@@ -4,6 +4,8 @@ Game.traits.Stun = function()
 
     this._health = undefined;
     this._move = undefined;
+    this._physics = undefined;
+    this._jump = undefined;
 
     this._bumpForce = new THREE.Vector2();
     this._elapsed = 0;
@@ -28,6 +30,7 @@ Game.traits.Stun.prototype.__attach = function(host)
     this._health = this.__require(host, Game.traits.Health);
     this._physics = this.__require(host, Game.traits.Physics);
     this._move = this.__require(host, Game.traits.Move);
+    this._jump = host.getTrait(Game.traits.Jump);
 
     Engine.Trait.prototype.__attach.call(this, host);
     this._bind(this._health.EVENT_HURT, this.engage);
@@ -71,7 +74,13 @@ Game.traits.Stun.prototype.bump = function()
 Game.traits.Stun.prototype.disengage = function()
 {
     if (this._engaged) {
-        this._move.__on();
+        if (this._move) {
+            this._move.__on();
+        }
+        if (this._jump) {
+            this._jump.__on();
+            this._jump.reset();
+        }
         this._engaged = false;
     }
 }
@@ -87,7 +96,13 @@ Game.traits.Stun.prototype.engage = function(points, direction)
         bump.setLength(this.force);
         this.bump();
 
-        this._move.__off();
+        if (this._move) {
+            this._move.__off();
+        }
+        if (this._jump) {
+            this._jump.__off();
+        }
+
         this._engaged = true;
         this._elapsed = 0;
     }
