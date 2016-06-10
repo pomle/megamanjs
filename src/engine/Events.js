@@ -35,6 +35,10 @@ Engine.Events = class Events {
         return this._events[name] !== undefined &&
                this._events[name].indexOf(callback) !== -1;
     }
+    clear()
+    {
+        this._events = {};
+    }
     trigger(name, values)
     {
         if (this._events[name]) {
