@@ -23,9 +23,9 @@ Game.Scene = class Scene
         const scene = world.scene;
         const camera = world.camera.camera;
 
-        const simulate = (dt) => {
-            world.updateTime(dt);
-            world.camera.updateTime(dt);
+        this.simulate = (dt) => {
+            this.world.updateTime(dt);
+            this.world.camera.updateTime(dt);
         };
 
         const animate = (dt) => {
@@ -45,14 +45,14 @@ Game.Scene = class Scene
         };
 
         this.events.bind(this.EVENT_CREATE, (game) => {
-            timer.events.bind(timer.EVENT_SIMULATE, simulate);
+            this.startSimulation();
             timer.events.bind(timer.EVENT_UPDATE, animate);
             timer.events.bind(timer.EVENT_RENDER, render);
             world.events.bind(world.EVENT_EMIT_AUDIO, audioListener);
         });
 
         this.events.bind(this.EVENT_DESTROY, (game) => {
-            timer.events.unbind(timer.EVENT_SIMULATE, simulate);
+            this.stopSimulation();
             timer.events.unbind(timer.EVENT_UPDATE, animate);
             timer.events.unbind(timer.EVENT_RENDER, render);
             world.events.unbind(world.EVENT_EMIT_AUDIO, audioListener);
@@ -119,6 +119,14 @@ Game.Scene = class Scene
     {
         const audio = this.getAudio(id);
         this.game.audioPlayer.stop(audio);
+    }
+    startSimulation()
+    {
+        this.timer.events.bind(this.timer.EVENT_SIMULATE, this.simulate);
+    }
+    stopSimulation()
+    {
+        this.timer.events.unbind(this.timer.EVENT_SIMULATE, this.simulate);
     }
     waitFor(seconds)
     {
