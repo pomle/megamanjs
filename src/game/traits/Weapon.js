@@ -72,7 +72,7 @@ Game.traits.Weapon.prototype.fire = function()
     this._firing = true;
     this._duration = 0;
 
-    this._trigger(this.EVENT_FIRE);
+    this._trigger(this.EVENT_FIRE, [this._weapon.id]);
     return true;
 }
 
