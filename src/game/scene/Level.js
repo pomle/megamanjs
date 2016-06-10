@@ -6,6 +6,9 @@ Game.scenes.Level = class Level extends Game.Scene
     {
         super();
 
+        this.EVENT_PLAYER_RESET = 'player-reset';
+        this.EVENT_PLAYER_DEATH = 'player-death';
+
         this.assets = {};
         this.player = null;
         this.world.camera.camera.position.z = 150;
@@ -20,6 +23,7 @@ Game.scenes.Level = class Level extends Game.Scene
         this.deathCountdown = 0;
         this.deathRespawnTime = 4;
 
+        this.resetPlayer = this.resetPlayer.bind(this);
         this.simulateListener = this.simulateListener.bind(this);
 
         this.events.bind(this.EVENT_CREATE, (game) => {
@@ -29,9 +33,7 @@ Game.scenes.Level = class Level extends Game.Scene
             };
             this.player = game.player;
         });
-        this.events.bind(this.EVENT_START, () => {
-            this.resetPlayer();
-        });
+        this.events.bind(this.EVENT_START, this.resetPlayer);
     }
     __destroy(game)
     {
@@ -135,6 +137,7 @@ Game.scenes.Level = class Level extends Game.Scene
     {
         if (this.deathCountdown === 0 && this.player.character.health.depleted) {
             --this.player.lives;
+            this.events.trigger(this.EVENT_PLAYER_DEATH);
             this.deathCountdown = this.timer.realTimePassed + this.deathRespawnTime;
         } else if (this.deathCountdown > 0 && this.timer.realTimePassed >= this.deathCountdown) {
             if (this.player.lives <= 0) {
@@ -160,29 +163,19 @@ Game.scenes.Level = class Level extends Game.Scene
             return Promise.resolve();
         }
 
-        const interval = 9/60;
-        const duration = 2;
-        let elapsed = 0;
         const model = this.assets['start-caption'];
-        const camera = level.world.camera.camera;
+        const camera = this.world.camera.camera;
+        const interval = 9/60;
 
-        return new Promise(resolve => {
-            model.visible = true;
-            const blink = (dt) => {
-                if (elapsed > duration) {
-                    this.world.scene.remove(model);
-                    this.timer.events.unbind(timer.EVENT_TIMEPASS, blink);
-                    resolve();
-                } else {
-                    model.position.x = camera.position.x;
-                    model.position.y = camera.position.y;
-                    model.visible = elapsed % (interval * 2) < interval;
-                    elapsed += dt;
-                }
-            };
+        model.visible = true;
+        this.world.scene.add(model);
 
-            this.world.scene.add(model);
-            this.timer.events.bind(this.timer.EVENT_TIMEPASS, blink);
+        return this.doFor(2, (elapsed) => {
+            model.position.x = camera.position.x;
+            model.position.y = camera.position.y;
+            model.visible = elapsed % (interval * 2) < interval;
+        }).then(() => {
+            this.world.scene.remove(model);
         });
     }
     simulateListener()
@@ -277,5 +270,7 @@ Game.scenes.Level = class Level extends Game.Scene
             this.world.camera.follow(character);
             this.world.addObject(character);
         }
+
+        this.events.trigger(this.EVENT_PLAYER_RESET);
     }
 }
