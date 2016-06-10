@@ -90,6 +90,19 @@ Game.Scene = class Scene
         this.events.trigger(this.EVENT_DESTROY, [game]);
         this.game = null;
     }
+    doFor(seconds, callback)
+    {
+        var elapsed = 0;
+        const wrapper = (dt) => {
+            callback(elapsed);
+            elapsed += dt;
+        };
+        const timer = this.timer;
+        this.timer.events.bind(this.timer.EVENT_TIMEPASS, wrapper);
+        return this.waitFor(seconds).then(() => {
+            this.timer.events.unbind(this.timer.EVENT_TIMEPASS, wrapper);
+        });
+    }
     getAudio(id)
     {
         if (!this.audio[id]) {
@@ -110,12 +123,14 @@ Game.Scene = class Scene
     waitFor(seconds)
     {
         const timer = this.timer;
-        const time = seconds + timer.realTimePassed;
+        var elapsed = 0;
         return new Promise(resolve => {
-            const wait = () => {
-                if (timer.realTimePassed >= time) {
+            const wait = (dt) => {
+                if (elapsed >= seconds) {
                     timer.events.unbind(timer.EVENT_UPDATE, wait);
                     resolve();
+                } else {
+                    elapsed += dt;
                 }
             };
             timer.events.bind(timer.EVENT_UPDATE, wait);
