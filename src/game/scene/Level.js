@@ -20,11 +20,19 @@ Game.scenes.Level = class Level extends Game.Scene
 
         this.assets = {};
 
-        this.deathCountdown = 0;
         this.deathRespawnTime = 4;
 
-        this.resetPlayer = this.resetPlayer.bind(this);
-        this.simulateListener = this.simulateListener.bind(this);
+        const onDeath = () => {
+            --this.player.lives;
+            this.events.trigger(this.EVENT_PLAYER_DEATH);
+            this.waitFor(this.deathRespawnTime).then(() => {
+                if (this.player.lives <= 0) {
+                    this.__end();
+                } else {
+                    this.resetPlayer();
+                }
+            });
+        };
 
         this.events.bind(this.EVENT_CREATE, (game) => {
             this.inputs = {
@@ -32,18 +40,29 @@ Game.scenes.Level = class Level extends Game.Scene
                 menu: this.createMenuInput(game),
             };
             this.player = game.player;
+
+            const char = this.player.character;
+            char.events.bind(char.EVENT_DEATH, onDeath);
         });
-        this.events.bind(this.EVENT_START, this.resetPlayer);
-    }
-    __destroy(game)
-    {
-        this.world.camera.unfollow();
-        this.world.objects.forEach(object => {
-            if (object !== undefined) {
-                this.world.removeObject(object);
-            }
+        this.events.bind(this.EVENT_DESTROY, () => {
+            const char = this.player.character;
+            char.events.unbind(char.EVENT_DEATH, onDeath);
+
+            this.world.camera.unfollow();
+            this.world.objects.forEach(object => {
+                if (object !== undefined) {
+                    this.world.removeObject(object);
+                }
+            });
         });
-        super.__destroy(game);
+
+        this.timer.events.bind(this.timer.EVENT_UPDATE, () => {
+            this.detectCheckpoint();
+        });
+
+        this.events.bind(this.EVENT_START, () => {
+            this.resetPlayer()
+        });
     }
     addCheckPoint(x, y, r)
     {
@@ -118,7 +137,7 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     createMenuInput()
     {
-        var input = new Engine.Keyboard();
+        var input = new Engine.Keyboard;
         return input;
     }
     detectCheckpoint()
@@ -132,20 +151,6 @@ Game.scenes.Level = class Level extends Game.Scene
             }
         }
         return false;
-    }
-    detectDeath()
-    {
-        if (this.deathCountdown === 0 && this.player.character.health.depleted) {
-            --this.player.lives;
-            this.events.trigger(this.EVENT_PLAYER_DEATH);
-            this.deathCountdown = this.timer.realTimePassed + this.deathRespawnTime;
-        } else if (this.deathCountdown > 0 && this.timer.realTimePassed >= this.deathCountdown) {
-            if (this.player.lives <= 0) {
-                this.__end();
-            } else {
-                this.resetPlayer();
-            }
-        }
     }
     followPlayer()
     {
@@ -177,11 +182,6 @@ Game.scenes.Level = class Level extends Game.Scene
         }).then(() => {
             this.world.scene.remove(model);
         });
-    }
-    simulateListener()
-    {
-        this.detectDeath();
-        this.detectCheckpoint();
     }
     pauseGamePlay()
     {
