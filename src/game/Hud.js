@@ -94,8 +94,8 @@ var Hud = function(game)
 
         /* If energy should be increasing. */
         if (element.dataset.value !== undefined && element.dataset.value < frac) {
-            var engine = game.engine,
-                simulationSpeed = engine.simulationSpeed,
+            var scene = game.scene,
+                timer = scene.timer,
                 current = parseFloat(element.dataset.value),
                 target = frac,
                 fillSpeed = this.fillSpeed;
@@ -103,8 +103,8 @@ var Hud = function(game)
             function iteration(dt)
             {
                 if (current === target) {
-                    engine.simulationSpeed = simulationSpeed;
-                    engine.events.unbind(engine.EVENT_TIMEPASS, arguments.callee);
+                    scene.startSimulation();
+                    timer.events.unbind(timer.EVENT_TIMEPASS, iteration);
                 }
                 else {
                     current += fillSpeed * dt;
@@ -115,8 +115,8 @@ var Hud = function(game)
                 }
             }
 
-            engine.simulationSpeed = 0;
-            engine.events.bind(engine.EVENT_TIMEPASS, iteration);
+            scene.stopSimulation();
+            timer.events.bind(timer.EVENT_TIMEPASS, iteration);
         }
         else {
             setAmount(element, frac);
