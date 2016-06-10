@@ -18,7 +18,6 @@ Engine.Timer = class Timer
         this.simulationTimePassed = 0;
         this.realTimePassed = 0;
         this.timeStep = 1/120;
-        this.timeStretch = 1;
 
         this.eventLoop = this.eventLoop.bind(this);
     }
@@ -65,12 +64,12 @@ Engine.Timer = class Timer
     }
     updateTime(dt)
     {
-        dt *= this.timeStretch;
+        const step = this.timeStep;
         if (this.isSimulating === true && this.simulationSpeed !== 0) {
             this.accumulator += dt * this.simulationSpeed;
-            while (this.accumulator >= this.timeStep) {
-                this.simulateTime(this.timeStep);
-                this.accumulator -= this.timeStep;
+            while (this.accumulator >= step) {
+                this.simulateTime(step);
+                this.accumulator -= step;
             }
             this.events.trigger(this.EVENT_UPDATE, [dt]);
         }
