@@ -9,12 +9,17 @@ Editor.Camera = function(editor)
 Object.defineProperties(Editor.Camera.prototype, {
     camera: {
         get: function() {
-            return this.editor.game.scene.camera.camera;
+            return this.editor.scene.world.camera;
+        },
+    },
+    realCamera: {
+        get: function() {
+            return this.camera.camera;
         },
     },
     position: {
         get: function() {
-            return this.camera.position;
+            return this.realCamera.position;
         },
     },
 });
@@ -42,14 +47,13 @@ Editor.Camera.prototype.followSelected = function()
 
 Editor.Camera.prototype.moveTo = function(vec2)
 {
-    let c = this.editor.game.scene.camera.camera;
-    c.position.x = vec2.x;
-    c.position.y = vec2.y;
+    this.position.x = vec2.x;
+    this.position.y = vec2.y;
 }
 
 Editor.Camera.prototype.nudge = function(vec2)
 {
-    let c = this.editor.game.scene.camera.camera,
+    let c = this.realCamera,
         p = c.position.clone();
     p.x += vec2.x;
     p.y += vec2.y;
@@ -58,9 +62,8 @@ Editor.Camera.prototype.nudge = function(vec2)
 
 Editor.Camera.prototype.zoom = function(factor)
 {
-    let c = this.editor.game.scene.camera.camera;
     this.editor.ui.freeCamera();
-    c.position.z = c.position.z * factor;
+    this.position.z = this.position.z * factor;
 }
 
 Editor.Camera.prototype.zoomOut = function()
