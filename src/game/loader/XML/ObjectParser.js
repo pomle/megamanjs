@@ -4,6 +4,27 @@ Game.Loader.XML.Parser.ObjectParser =
 class ObjectParser
 extends Game.Loader.XML.Parser
 {
+    constructor(loader, node)
+    {
+        if (!node || node.tagName !== 'objects') {
+            throw new TypeError('Node not <objects>');
+        }
+
+        super(loader);
+
+        this.REGEX_INT = /^\d+$/;
+        this.REGEX_FLOAT = /^\d?\.\d+$/;
+
+        this._node = node;
+        this._objects = null;
+    }
+    getObjects()
+    {
+        if (!this._objects) {
+            this._objects = this.parse();
+        }
+        return Promise.resolve(this._objects);
+    }
     createConstructor(blueprint)
     {
         if (!blueprint.textures['__default'].texture) {
@@ -61,11 +82,9 @@ extends Game.Loader.XML.Parser
 
         return constructor;
     }
-    parse(objectsNode)
+    parse()
     {
-        if (objectsNode.tagName !== 'objects') {
-            throw new TypeError('Node not <objects>');
-        }
+        const objectsNode = this._node;
 
         const texturesNode = objectsNode.getElementsByTagName('textures')[0];
         const textures = this.parseTextures(texturesNode);
@@ -75,15 +94,23 @@ extends Game.Loader.XML.Parser
 
         const objectNodes = objectsNode.getElementsByTagName('object');
         const objects = this.parseObjects(objectNodes, animations, textures);
+
         return objects;
     }
     parseObjects(objectNodes, animations, textures)
     {
         const objects = {};
         for (let i = 0, node; node = objectNodes[i++];) {
-            const object = this.parseObject(node, animations, textures);
+            const constructor = this.parseObject(node, animations, textures);
             const id = node.getAttribute('id');
-            objects[id] = object;
+            if (objects[id]) {
+                console.error(node);
+                throw new Error('Object id ' + id + ' already defined');
+            }
+            objects[id] = {
+                node,
+                constructor,
+            };
         }
         return objects;
     }
@@ -293,25 +320,15 @@ extends Game.Loader.XML.Parser
     }
     parseEvents(objectNode)
     {
-        const events = [];
-        const eventNodes = objectNode.querySelectorAll('events > event');
-        for (let eventNode, i = 0; eventNode = eventNodes[i++];) {
-            const name = this.getAttr(eventNode, 'name');
-            const actionNodes = eventNode.querySelectorAll('action');
-            for (let actionNode, j = 0; actionNode = actionNodes[j++];) {
-                const type = this.getAttr(actionNode, 'type');
-                if (type === 'audio') {
-                    const id = this.getAttr(actionNode, 'id');
-                    events.push({
-                        name: name,
-                        callback: function() {
-                            this.world.emitAudio(this.audio[id]);
-                        },
-                    });
-                }
-            }
+        const eventsNode = objectNode.querySelector(':scope > events');
+        if (eventsNode) {
+            const parser = new Game.Loader.XML.Parser.EventParser(this.loader, eventsNode);
+            const events = parser.getEvents();
+            return events;
         }
-        return events;
+        else {
+            return [];
+        }
     }
     parseFaceIndices(faceNode)
     {
