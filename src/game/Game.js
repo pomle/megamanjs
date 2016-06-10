@@ -90,11 +90,7 @@ Game.prototype.setScene = function(scene)
         throw new Error('Invalid scene');
     }
 
-    if (this.scene) {
-        this.scene.__destroy(this);
-        this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
-        this.scene = undefined;
-    }
+    this.unsetScene();
 
     this.scene = scene;
     this.scene.__create(this);
@@ -106,6 +102,15 @@ Game.prototype.setScene = function(scene)
        we roll. */
     this.adjustAspectRatio();
 
-    this.scene.__start(this);
-    this.scene.__resume(this);
+    this.scene.__start();
+    this.scene.__resume();
+}
+
+Game.prototype.unsetScene = function()
+{
+    if (this.scene) {
+        this.scene.__destroy();
+        this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
+        this.scene = undefined;
+    }
 }
