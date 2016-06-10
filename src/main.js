@@ -52,7 +52,7 @@
                 }
             },
             'spawn': (e) => {
-                const Obj = loader.resource.get('character', e.target.dataset.object);
+                const Obj = megaman2.resourceManager.get('character', e.target.dataset.object);
                 const obj = new Obj();
                 const player = game.player.character;
                 obj.moveTo({
