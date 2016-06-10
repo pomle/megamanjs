@@ -15,7 +15,7 @@ extends Game.Loader.XML.Parser
     }
     _parseAudio(sceneNode)
     {
-        const scene = this.getScene();
+        const scene = this._scene;
         const nodes = this._node.querySelectorAll(':scope > audio > *');
         const tasks = [];
         for (let node, i = 0; node = nodes[i++];) {
@@ -36,7 +36,7 @@ extends Game.Loader.XML.Parser
 
         const parser = new Game.Loader.XML.EventParser(this.loader, node);
         return parser.getEvents().then(events => {
-            const scene = this.getScene();
+            const scene = this._scene;
             events.forEach(event => {
                 scene.events.bind(event.name, event.callback);
             });
