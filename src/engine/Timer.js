@@ -10,7 +10,7 @@ Engine.Timer = class Timer
         this.EVENT_TIMEPASS = 'timepass';
 
         this.accumulator = 0;
-        this.events = new Engine.Events();
+        this.events = new Engine.Events(this);
         this.frameId = undefined;
         this.isRunning = false;
         this.isSimulating = true;
