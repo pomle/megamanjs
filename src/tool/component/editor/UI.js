@@ -264,14 +264,14 @@ Editor.UI.prototype.createPlayback = function(node)
 
     playback.simulate = playback.find('[name=simulate]');
     playback.simulate.on('change', function() {
-        editor.game.engine.isSimulating = this.checked;
+        editor.scene.timer.isSimulating = this.checked;
     });
 
     playback.simulationSpeed = playback.find('[name=simulationSpeed]');
     playback.simulationSpeed.on('change', function() {
         var speed = parseFloat(this.value);
         console.log("Setting simulation speed to", speed);
-        editor.game.engine.simulationSpeed = speed;
+        editor.scene.timer.simulationSpeed = speed;
     });
 
     return playback;
@@ -292,14 +292,14 @@ Editor.UI.prototype.createView = function(node)
 
     view.camera.unfollow = view.camera.find('button[name=unfollow]');
     view.camera.unfollow.on('click', function(e) {
-        let camera = editor.game.scene.camera;
+        let camera = editor.camera.camera;
         camera.unfollow();
         camera.velocity.set(0,0,0);
     });
 
     view.camera.obeyPaths = view.camera.find(':input[name=obeyPaths]');
     view.camera.obeyPaths.on('change', function(e) {
-        editor.game.scene.camera.obeyPaths = this.checked;
+        editor.game.scene.world.camera.obeyPaths = this.checked;
     });
 
     view.meta = view.find('.meta :input[type=checkbox]');

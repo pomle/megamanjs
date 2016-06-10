@@ -154,10 +154,11 @@ $(function() {
     editor.attachGame(new Game());
 
     var recent = editor.file.recent.get();
-    if (recent.length) {
+    /*if (recent.length) {
         editor.file.recent.updatelist();
         loadLevel(recent[0]);
-    }
+    }*/
+    loadLevel('../resource/Intro.xml');
 
     window.editor = editor;
 });

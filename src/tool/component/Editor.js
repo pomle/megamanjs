@@ -146,7 +146,7 @@ Editor.prototype.open = function(level, loader, node)
     let objectParser = new Game.Loader.XML.Parser.ObjectParser(loader);
     objectParser.parse(editor.document.querySelector(':scope > objects'));
 
-    editor.document.objectSources = {};
+    /*editor.document.objectSources = {};
     for (let item of objectParser.items) {
         editor.document.objectSources[item.object.name] = item;
     }
@@ -155,21 +155,23 @@ Editor.prototype.open = function(level, loader, node)
     editor.document.find('> objects > object').each(function() {
         let objectNode = $(this);
         objectNodeMap[objectNode.attr('id')] = objectNode;
-    });
+    });*/
 
-    level.events.unbind(level.EVENT_START, level.resetPlayer);
+    level.events.clear();
 
-    game.engine.isSimulating = false;
+    level.timer.isSimulating = false;
+    level.world.updateTime(0);
     game.setScene(level);
-    game.engine.world.updateTime(0);
 
-    var factory = new Editor.ItemFactory();
 
-    level.camera.camera.far = 4000;
-    level.camera.camera.position.z = 300;
-    level.camera.camera.updateProjectionMatrix();
+    const factory = new Editor.ItemFactory();
+
+    const camera = level.world.camera;
+    camera.camera.far = 4000;
+    camera.camera.position.z = 300;
+    camera.camera.updateProjectionMatrix();
     if (level.checkPoints.length) {
-        let checkPointNodes = editor.document.find('> checkpoints > checkpoint');
+        let checkPointNodes = editor.document.querySelectorAll(':scope > checkpoints > checkpoint');
 
         for (let i = 0, l = level.checkPoints.length; i < l; ++i) {
             let item = new Editor.Item.Checkpoint(level.checkPoints[i], checkPointNodes[i]);
@@ -179,18 +181,19 @@ Editor.prototype.open = function(level, loader, node)
         editor.marker.position.x = level.checkPoints[0].pos.x;
         editor.marker.position.y = level.checkPoints[0].pos.y;
 
-        level.camera.jumpTo(level.checkPoints[0].pos);
+        camera.jumpTo(level.checkPoints[0].pos);
     }
 
-    if (level.camera.paths.length) {
-        let pathNodes = editor.document.find('> camera > path');
-        for (let i = 0, l = level.camera.paths.length; i < l; ++i) {
-            let p = level.camera.paths[i],
+    if (camera.paths.length) {
+        let pathNodes = editor.document.querySelectorAll(':scope > camera > path');
+        for (let i = 0, l = camera.paths.length; i < l; ++i) {
+            let p = camera.paths[i],
                 n = $(pathNodes[i]);
             componentFactory.createCameraPath(n, p);
         }
     }
 
+    /*
     for (let _item of parser.items) {
         let item = new Editor.Item.Object(_item.object, _item.node, objectNodeMap[_item.object.name]);
         editor.items.add(item);
@@ -230,19 +233,19 @@ Editor.prototype.open = function(level, loader, node)
                 editor.ui.palette.append(item);
             });
         });
-    });
+    });*/
+
+    this.scene = level;
 }
 
 Editor.prototype.renderOverlays = function()
 {
-    let engine = this.game.engine,
-        camera = engine.world.camera.camera;
-
-    for (let i = 0, l = this.layers.length; i !== l; ++i) {
-        let layer = this.layers[i];
+    const renderer = this.game.renderer;
+    const camera = this.game.scene.world.camera.camera;
+    this.layers.forEach(layer => {
         if (layer.visible) {
-            engine.renderer.clearDepth();
-            engine.renderer.render(layer, camera);
+            renderer.clearDepth();
+            renderer.render(layer, camera);
         }
-    }
+    });
 }
