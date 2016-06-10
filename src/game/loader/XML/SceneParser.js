@@ -1,6 +1,6 @@
 'use strict';
 
-Game.Loader.XML.Parser.SceneParser =
+Game.Loader.XML.SceneParser =
 class SceneParser
 extends Game.Loader.XML.Parser
 {
@@ -34,7 +34,7 @@ extends Game.Loader.XML.Parser
             return Promise.resolve();
         }
 
-        const parser = new Game.Loader.XML.Parser.EventParser(this.loader, node);
+        const parser = new Game.Loader.XML.EventParser(this.loader, node);
         return parser.getEvents().then(events => {
             const scene = this.getScene();
             events.forEach(event => {

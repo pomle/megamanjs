@@ -48,10 +48,10 @@ extends Game.Loader
 
         const type = node.getAttribute('type');
         if (type === 'level') {
-            const parser = new Game.Loader.XML.Parser.LevelParser(this, node);
+            const parser = new Game.Loader.XML.LevelParser(this, node);
             return parser.parse();
         } else if (type === 'stage-select') {
-            const parser = new Game.Loader.XML.Parser.StageSelectParser(this, node);
+            const parser = new Game.Loader.XML.StageSelectParser(this, node);
             return parser.parse();
         }
 
@@ -98,7 +98,7 @@ Game.Loader.XML.createFromXML = function(url, callback)
     return loader.asyncLoadXML(url)
         .then(doc => {
             const node = doc.getElementsByTagName('game')[0];
-            const gameParser = new Game.Loader.XML.Parser.GameParser(loader, node);
+            const gameParser = new Game.Loader.XML.GameParser(loader, node);
             return gameParser.parse();
         })
         .then(() => {

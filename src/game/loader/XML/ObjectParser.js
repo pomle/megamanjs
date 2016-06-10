@@ -1,6 +1,6 @@
 'use strict';
 
-Game.Loader.XML.Parser.ObjectParser =
+Game.Loader.XML.ObjectParser =
 class ObjectParser
 extends Game.Loader.XML.Parser
 {
@@ -382,7 +382,7 @@ extends Game.Loader.XML.Parser
     {
         const eventsNode = objectNode.querySelector(':scope > events');
         if (eventsNode) {
-            const parser = new Game.Loader.XML.Parser.EventParser(this.loader, eventsNode);
+            const parser = new Game.Loader.XML.EventParser(this.loader, eventsNode);
             return parser.getEvents();
         }
         else {
@@ -392,7 +392,7 @@ extends Game.Loader.XML.Parser
     _parseObjectTraits(objectNode)
     {
         const traits = [];
-        const traitParser = new Game.Loader.XML.Parser.TraitParser(this.loader);
+        const traitParser = new Game.Loader.XML.TraitParser(this.loader);
         const traitsNode = objectNode.getElementsByTagName('traits')[0];
         if (traitsNode) {
             const traitNodes = traitsNode.getElementsByTagName('trait');

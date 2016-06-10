@@ -1,6 +1,6 @@
 'use strict';
 
-Game.Loader.XML.Parser.EventParser =
+Game.Loader.XML.EventParser =
 class EventParser
 extends Game.Loader.XML.Parser
 {

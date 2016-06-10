@@ -1,6 +1,6 @@
 'use strict';
 
-Game.Loader.XML.Parser.TraitParser =
+Game.Loader.XML.TraitParser =
 class TraitParser
 extends Game.Loader.XML.Parser
 {

@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.Parser.StageSelectParser =
+Game.Loader.XML.StageSelectParser =
 class StageSelectParser
-extends Game.Loader.XML.Parser.SceneParser
+extends Game.Loader.XML.SceneParser
 {
     constructor(loader, node)
     {
@@ -23,7 +23,7 @@ extends Game.Loader.XML.Parser.SceneParser
             this._parseEvents();
 
             var objectsNode = sceneNode.getElementsByTagName('objects')[0];
-            var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader, objectsNode);
+            var objectParser = new Game.Loader.XML.ObjectParser(this.loader, objectsNode);
             objectParser.getObjects().then(objects => {
                 var backgroundNode = sceneNode.getElementsByTagName('background')[0];
                 scene.setBackgroundColor(backgroundNode.getAttribute('color'));

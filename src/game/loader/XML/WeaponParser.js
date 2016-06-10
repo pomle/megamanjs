@@ -1,6 +1,6 @@
 'use strict';
 
-Game.Loader.XML.Parser.WeaponParser =
+Game.Loader.XML.WeaponParser =
 class WeaponParser
 extends Game.Loader.XML.Parser
 {

@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.Parser.LevelParser =
+Game.Loader.XML.LevelParser =
 class LevelParser
-extends Game.Loader.XML.Parser.SceneParser
+extends Game.Loader.XML.SceneParser
 {
     constructor(loader, node)
     {
@@ -131,7 +131,7 @@ extends Game.Loader.XML.Parser.SceneParser
     {
         const node = this._node.getElementsByTagName('objects')[0];
         if (node) {
-            const objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader, node);
+            const objectParser = new Game.Loader.XML.ObjectParser(this.loader, node);
             return objectParser.getObjects().then(objects => {
                 this._objects = objects;
             });
@@ -171,7 +171,7 @@ extends Game.Loader.XML.Parser.SceneParser
 
         const traitNodes = node.getElementsByTagName('trait');
         if (traitNodes) {
-            const traitParser = new Game.Loader.XML.Parser.TraitParser();
+            const traitParser = new Game.Loader.XML.TraitParser();
             const traits = [];
             for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
                 const Trait = traitParser.parseTrait(traitNode);

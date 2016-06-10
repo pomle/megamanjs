@@ -11,9 +11,9 @@ const World = env.Engine.World;
 const THREE = env.THREE;
 const Obj = env.Engine.Object;
 const Parser = env.Game.Loader.XML.Parser;
-const ObjectParser = env.Game.Loader.XML.Parser.ObjectParser;
-const LevelParser = env.Game.Loader.XML.Parser.LevelParser;
-const TraitParser = env.Game.Loader.XML.Parser.TraitParser;
+const ObjectParser = env.Game.Loader.XML.ObjectParser;
+const LevelParser = env.Game.Loader.XML.LevelParser;
+const TraitParser = env.Game.Loader.XML.TraitParser;
 
 function createNode(x) {
   return xmlReader.createNode(x).childNodes[0];
