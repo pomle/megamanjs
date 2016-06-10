@@ -25,23 +25,22 @@ extends Game.Loader.XML.Parser
         const projectileNodes = this._node
             .querySelectorAll(':scope > projectiles > objects');
 
-        return this.parseConfig().then(() => {
+        return this._parseConfig().then(() => {
             return Promise.all([
-                this.parseEntrypoint(),
-                this.parseFonts(),
-                this.parseObjects(itemNodes),
-                this.parseObjects(characterNodes),
-                this.parseObjects(projectileNodes),
-                this.parseScenes(),
+                this._parseEntrypoint(),
+                this._parseFonts(),
+                this._parseObjects(itemNodes),
+                this._parseObjects(characterNodes),
+                this._parseObjects(projectileNodes),
+                this._parseScenes(),
             ]);
         }).then(() => {
-            return this.parsePlayer();
+            return this._parsePlayer();
         }).then(() => {
-            return this.parseWeapons();
-
+            return this._parseWeapons();
         });
     }
-    parseConfig()
+    _parseConfig()
     {
         const configNode = this._node.querySelector(':scope > config');
         const textureScale = this.getInt(configNode, 'texture-scale');
@@ -50,7 +49,7 @@ extends Game.Loader.XML.Parser
         }
         return Promise.resolve();
     }
-    parseEntrypoint()
+    _parseEntrypoint()
     {
         const entrypoint= this._node.querySelector(':scope > entrypoint');
         if (entrypoint) {
@@ -58,7 +57,7 @@ extends Game.Loader.XML.Parser
         }
         return Promise.resolve();
     }
-    parseFonts()
+    _parseFonts()
     {
         const nodes = this._node.querySelectorAll(':scope > fonts > font');
         const tasks = [];
@@ -79,7 +78,7 @@ extends Game.Loader.XML.Parser
         }
         return Promise.all(tasks);
     }
-    parseObjects(nodes)
+    _parseObjects(nodes)
     {
         const tasks = [];
         const objects = {};
@@ -100,8 +99,7 @@ extends Game.Loader.XML.Parser
         }
         return Promise.all(tasks);
     }
-
-    parsePlayer()
+    _parsePlayer()
     {
         const playerNode = this._node.querySelector('player');
         const player = this.loader.game.player;
@@ -121,7 +119,7 @@ extends Game.Loader.XML.Parser
 
         return Promise.resolve();
     }
-    parseScenes()
+    _parseScenes()
     {
         const nodes = this._node.querySelectorAll(':scope > scenes > scene');
         const index = this.loader.sceneIndex;
@@ -133,7 +131,7 @@ extends Game.Loader.XML.Parser
         }
         return Promise.resolve();
     }
-    parseWeapons()
+    _parseWeapons()
     {
         const weaponsNode = this._node.querySelector(':scope > weapons');
         if (weaponsNode) {
