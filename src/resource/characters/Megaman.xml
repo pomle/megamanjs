@@ -4,6 +4,10 @@
         <audio>
             <effect src="./megaman/teleport-in.ogg" id="teleport-in"/>
             <effect src="./megaman/jump-land.ogg" id="jump-land"/>
+            <effect src="./megaman/damage.ogg" id="damage"/>
+            <effect src="./megaman/plasma.ogg" id="plasma"/>
+            <effect src="./megaman/metalblade.ogg" id="metalblade"/>
+            <effect src="./megaman/airshot.ogg" id="airshot"/>
         </audio>
 
         <geometry type="plane" w="48" h="48" />
