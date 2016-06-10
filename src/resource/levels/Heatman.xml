@@ -45,11 +45,6 @@
             <constraint x1="4992" x2="4992" y1="-1080" y2="-1080"/>
         </path>
     </camera>
-    <events>
-        <event name="start">
-            <action type="play-audio" id="music"/>
-        </event>
-    </events>
     <objects>
         <textures>
             <texture id="heatman-stage" url="./heatman/tiles.png" w="256" h="128"/>

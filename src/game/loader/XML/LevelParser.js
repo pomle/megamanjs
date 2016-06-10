@@ -2,208 +2,204 @@
 
 Game.Loader.XML.Parser.LevelParser =
 class LevelParser
-extends Game.Loader.XML.Parser
+extends Game.Loader.XML.Parser.SceneParser
 {
-    constructor(loader)
+    constructor(loader, node)
     {
-        super(loader);
-        this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
-        this._scene = new Game.scenes.Level();
-        this.sceneParser = new Game.Loader.XML.Parser.SceneParser(loader, this._scene);
-    }
-    createBehavior(node, behavior)
-    {
-        var behaviorMap = {
-            'deathzones': Game.objects.obstacles.DeathZone,
-            'environments': Engine.Object,
-            'solids': Game.objects.Solid,
-            'climbables': Game.objects.Climbable,
-        };
-
-        if (behaviorMap[behavior] === undefined) {
-            throw new Error('Behavior ' + behavior + ' not in behavior map');
-        }
-
-        var rect = this.getRect(node);
-        var object = new behaviorMap[behavior];
-        object.addCollisionRect(rect.w, rect.h);
-        object.position.x = rect.x;
-        object.position.y = rect.y;
-        object.position.z = 0;
-
-        return object;
-    }
-    parse(levelNode, callback)
-    {
-        if (levelNode.tagName !== 'scene' || levelNode.getAttribute('type') !== 'level') {
+        if (node.tagName !== 'scene' || node.getAttribute('type') !== 'level') {
             throw new TypeError('Node not <scene type="level">');
         }
 
-        var loader = this.loader;
-        var resource = this.loader.resourceManager;
+        super(loader);
 
-        return new Promise(resolve => {
-            const level = this._scene;
+        this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
+        this.BEHAVIOR_MAP = {
+            'climbables': Game.objects.Climbable,
+            'deathzones': Game.objects.obstacles.DeathZone,
+            'environments': Engine.Object,
+            'solids': Game.objects.Solid,
+        };
 
-            this.sceneParser.parseAudio(levelNode);
-            this.sceneParser.parseEvents(levelNode);
+        this._node = node;
+        this._scene = new Game.scenes.Level();
 
-            if (resource.has('font', 'nintendo')) {
-                level.assets['start-caption'] = resource.get('font', 'nintendo')('READY').createMesh();
-            }
+        this._objects = null;
+        this._layoutObjects = null;
+    }
+    parse()
+    {
+        this._parseAudio();
+        this._parseEvents();
+        this._parseMusic();
+        this._parseBehaviors();
+        this._parseCamera();
+        this._parseCheckpoints();
+        this._parseGravity();
+        this._parseSpawners();
+        this._parseText();
 
-            var objectsNode = levelNode.getElementsByTagName('objects')[0];
-            var objects;
-            if (objectsNode) {
-                var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader);
-                objects = objectParser.parse(objectsNode);
-            }
+        this._parseObjects().then(() => {
+            return this._parseLayout();
+        }).then(() => {
+            return this._parseScripts();
+        });
 
-            this.parseCamera(levelNode, level);
-
-            var gravity = this.parseGravity(levelNode);
-            if (gravity) {
-                level.world.gravityForce.copy(gravity);
-            }
-
-            var layoutNode = levelNode.getElementsByTagName('layout')[0];
-            if (layoutNode) {
-                this.parseObjectLayout(layoutNode, objects).forEach(function(object) {
-                    level.world.addObject(object);
-                });
-                this.parseBehaviors(layoutNode).forEach(function(object) {
-                    level.world.addObject(object);
-                });
-                this.parseSpawners(layoutNode).forEach(function(object) {
-                    level.world.addObject(object)
-                });
-            }
-
-            var checkpointsNode = levelNode.getElementsByTagName('checkpoints')[0];
-            if (checkpointsNode) {
-                var checkpointNodes = checkpointsNode.getElementsByTagName('checkpoint');
-                for (var checkpointNode, i = 0; checkpointNode = checkpointNodes[i++];) {
-                    var c = this.getPosition(checkpointNode);
-                    var r = this.getFloat(checkpointNode, 'radius') || undefined;
-                    level.addCheckPoint(c.x, c.y, r);
-                }
-            }
-
-            var scriptsNode = levelNode.getElementsByTagName('scripts')[0];
-            if (scriptsNode) {
-                this.parseScripts(scriptsNode, level);
-            }
-
-            this.loader.resourceLoader.complete().then(() => {
-                resolve(level);
-            });
+        return this.loader.resourceLoader.complete().then(() => {
+            return this._scene;
         });
     }
-    parseBehaviors(layoutNode)
+    _parseBehaviors()
     {
-        var behaviors = [];
-        var behaviorsNode = layoutNode.getElementsByTagName('behaviors')[0];
-        if (behaviorsNode) {
-            for (var behaviorNode, i = 0; behaviorNode = behaviorsNode.childNodes[i++];) {
-                var type = behaviorNode.tagName;
-                if (type) {
-                    for (var rectNode, j = 0; rectNode = behaviorNode.childNodes[j++];) {
-                        if (rectNode.tagName) {
-                            behaviors.push(this.createBehavior(rectNode, type));
-                        }
-                    }
-                }
+        const nodes = this._node.querySelectorAll(':scope > layout > behaviors > * > rect');
+        const world = this._scene.world;
+        for (let node, i = 0; node = nodes[i]; ++i) {
+            const type = node.parentNode.tagName;
+            if (!this.BEHAVIOR_MAP[type]) {
+                throw new Error('Behavior ' + type + ' not in behavior map');
             }
+            const rect = this.getRect(node);
+            const object = new this.BEHAVIOR_MAP[type];
+            object.addCollisionRect(rect.w, rect.h);
+            object.position.x = rect.x;
+            object.position.y = rect.y;
+            object.position.z = 0;
+
+            world.addObject(object);
         }
-        return behaviors;
+        return Promise.resolve();
     }
-    parseCamera(levelNode, level)
+    _parseCamera()
     {
-        var cameraNode = levelNode.getElementsByTagName('camera')[0];
+        const cameraNode = this._node.querySelector(':scope > camera');
         if (cameraNode) {
-            var smoothing = this.getFloat(cameraNode, 'smoothing');
+            const camera = this._scene.world.camera;
+            const smoothing = this.getFloat(cameraNode, 'smoothing');
             if (smoothing) {
-                level.world.camera.smoothing = smoothing;
+                camera.smoothing = smoothing;
             }
 
-            var posNode = cameraNode.getElementsByTagName('position')[0];
+            const posNode = cameraNode.querySelector(':scope > position');
             if (posNode) {
-                var position = this.getPosition(posNode);
-                level.world.camera.position.copy(position);
+                const position = this.getPosition(posNode);
+                camera.position.copy(position);
             }
 
-            var pathNodes = cameraNode.getElementsByTagName('path');
-            if (pathNodes) {
-                for (var pathNode, i = 0; pathNode = pathNodes[i++];) {
-                    var path = this.getCameraPath(pathNode);
-                    level.world.camera.addPath(path);
-                }
+            const pathNodes = cameraNode.querySelectorAll(':scope > path');
+            for (let pathNode, i = 0; pathNode = pathNodes[i]; ++i) {
+                const path = this.getCameraPath(pathNode);
+                camera.addPath(path);
             }
         }
+
+        return Promise.resolve();
     }
-    parseGravity(levelNode)
+    _parseCheckpoints()
     {
-        var gravityNode = levelNode.getElementsByTagName('gravity')[0];
-        if (gravityNode) {
-            var gravity = this.getVector2(gravityNode);
-            return gravity;
+        const checkpointNodes = this._node.querySelectorAll(':scope > checkpoints > checkpoint');
+        const level = this._scene;
+        for (let checkpointNode, i = 0; checkpointNode = checkpointNodes[i]; ++i) {
+            const p = this.getPosition(checkpointNode);
+            const r = this.getFloat(checkpointNode, 'radius') || undefined;
+            level.addCheckPoint(p.x, p.y, r);
         }
-        return false;
+        return Promise.resolve();
     }
-    parseObject(objectNode, objects)
+    _parseGravity()
     {
-        var objectId = objectNode.getAttribute('id');
-        var constructor;
+        const node = this._node.getElementsByTagName('gravity')[0];
+        if (node) {
+            const gravity = this.getVector2(node);
+            this._scene.world.gravityForce.copy(gravity);
+        }
+        return Promise.resolve();
+    }
+    _parseMusic()
+    {
+        const musicNode = this._node.querySelector(':scope > audio > music');
+        if (musicNode) {
+            const scene = this._scene;
+            const id = this.getAttr(musicNode, 'id')
+            scene.events.bind(scene.EVENT_PLAYER_RESET, function() {
+                this.playAudio(id);
+            });
+            scene.events.bind(scene.EVENT_PLAYER_DEATH, function() {
+                this.stopAudio(id);
+            });
+        }
+    }
+    _parseObjects()
+    {
+        const node = this._node.getElementsByTagName('objects')[0];
+        if (node) {
+            const objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader, node);
+            return objectParser.getObjects().then(objects => {
+                this._objects = objects;
+            });
+        } else {
+            return Promise.resolve();
+        }
+    }
+    _parseLayout()
+    {
+        this._layoutObjects = [];
+        const objectNodes = this._node.querySelectorAll(':scope > layout > objects > object');
+        const world = this._scene.world;
+        for (let objectNode, i = 0; objectNode = objectNodes[i]; ++i) {
+            const layoutObject = this._parseLayoutObject(objectNode);
+            world.addObject(layoutObject.instance);
+            this._layoutObjects.push(layoutObject);
+        };
+        return Promise.resolve();
+    }
+    _parseLayoutObject(node)
+    {
+        const objectId = node.getAttribute('id');
         const resource = this.loader.resourceManager;
 
-        if (objects[objectId]) {
-            constructor = objects[objectId];
+        let object;
+        if (this._objects[objectId]) {
+            object = this._objects[objectId];
         } else if (resource.has('object', objectId)) {
-            constructor = resource.get('object', objectId);
+            object = resource.get('object', objectId);
         } else {
             throw new Error('Object id "' + objectId + '" not defined');
         }
 
-        var object = new constructor();
-        var position = this.getPosition(objectNode) || this.DEFAULT_POS;
-        object.position.copy(position);
+        const instance = new object.constructor;
+        const position = this.getPosition(node) || this.DEFAULT_POS;
+        instance.position.copy(position);
 
-        var traitNodes = objectNode.getElementsByTagName('trait');
+        const traitNodes = node.getElementsByTagName('trait');
         if (traitNodes) {
-            var traitParser = new Game.Loader.XML.Parser.TraitParser();
-            var traits = [];
-            for (var traitNode, i = 0; traitNode = traitNodes[i++];) {
-                var Trait = traitParser.parseTrait(traitNode);
-                var trait = new Trait();
-                object.applyTrait(trait);
+            const traitParser = new Game.Loader.XML.Parser.TraitParser();
+            const traits = [];
+            for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
+                const Trait = traitParser.parseTrait(traitNode);
+                const trait = new Trait;
+                instance.applyTrait(trait);
             }
         }
-        return object;
-    }
-    parseObjectLayout(layoutNode, objects)
-    {
-        var layoutObjects = [];
-        var objectNodes = layoutNode.getElementsByTagName('object');
-        for (var objectNode, i = 0; objectNode = objectNodes[i++];) {
-            var layoutObject = this.parseObject(objectNode, objects);
-            layoutObjects.push(layoutObject);
+
+        return {
+            node: node,
+            constructor: object.constructor,
+            instance: instance,
         };
-        return layoutObjects;
     }
-    parseSpawners(layoutNode)
+    _parseSpawners()
     {
-        var spawners = [];
-        var spawnerNodes = layoutNode.getElementsByTagName('spawner');
-        for (var spawnerNode, i = 0; spawnerNode = spawnerNodes[i]; ++i) {
-            var spawner = new Game.objects.Spawner();
-            var position = this.getPosition(spawnerNode);
+        const world = this._scene.world;
+        const spawnerNodes = this._node.querySelectorAll('layout > spawner');
+        for (let spawnerNode, i = 0; spawnerNode = spawnerNodes[i]; ++i) {
+            const spawner = new Game.objects.Spawner();
+            const position = this.getPosition(spawnerNode);
             spawner.position.copy(position);
             spawner.position.z = 0;
 
-            var spawnableNodes = spawnerNode.getElementsByTagName('*');
-            for (var spawnableNode, j = 0; spawnableNode = spawnableNodes[j]; ++j) {
-                var objectId = spawnableNode.getAttribute('id');
-                var objectRef = this.loader.resourceManager.get('character', objectId);
+            const spawnableNodes = spawnerNode.getElementsByTagName('*');
+            for (let spawnableNode, j = 0; spawnableNode = spawnableNodes[j]; ++j) {
+                const objectId = spawnableNode.getAttribute('id');
+                const objectRef = this.loader.resourceManager.get('character', objectId);
                 spawner.pool.push(objectRef);
             }
 
@@ -213,13 +209,13 @@ extends Game.Loader.XML.Parser
             spawner.minDistance = this.getFloat(spawnerNode, 'min-distance') || spawner.minDistance;
             spawner.maxDistance = this.getFloat(spawnerNode, 'max-distance') || spawner.maxDistance;
 
-            spawners.push(spawner);
+            world.addObject(spawner);
         }
-        return spawners;
+        return Promise.resolve();
     }
-    parseScripts(scriptsNode, level)
+    _parseScripts(scriptsNode, level)
     {
-        const scriptNodes = scriptsNode.getElementsByTagName('*');
+        const scriptNodes = this._node.querySelectorAll(':scope > scripts > *');
         for (let scriptNode, i = 0; scriptNode = scriptNodes[i++];) {
             const type = scriptNode.tagName;
             const func = eval(scriptNode.textContent);
@@ -228,6 +224,13 @@ extends Game.Loader.XML.Parser
                     func(level);
                 }
             }
+        }
+    }
+    _parseText()
+    {
+        const res = this.loader.resourceManager;
+        if (res.has('font', 'nintendo')) {
+            this._scene.assets['start-caption'] = res.get('font', 'nintendo')('READY').createMesh();
         }
     }
 }

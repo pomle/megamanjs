@@ -40,19 +40,19 @@ extends Game.Loader
                 return this.parseScene(node.children[0]);
             });
     }
-    parseScene(sceneNode)
+    parseScene(node)
     {
-        if (sceneNode.tagName !== 'scene') {
+        if (node.tagName !== 'scene') {
             throw new TypeError('Node not <scene>');
         }
 
-        const type = sceneNode.getAttribute('type');
+        const type = node.getAttribute('type');
         if (type === 'level') {
-            const levelParser = new Game.Loader.XML.Parser.LevelParser(this);
-            return levelParser.parse(sceneNode);
+            const parser = new Game.Loader.XML.Parser.LevelParser(this, node);
+            return parser.parse();
         } else if (type === 'stage-select') {
-            const stageSelectParser = new Game.Loader.XML.Parser.StageSelectParser(this);
-            return stageSelectParser.parse(sceneNode);
+            const parser = new Game.Loader.XML.Parser.StageSelectParser(this, node);
+            return parser.parse();
         }
 
         throw new Error('Scene type "' + type + '" not recognized');
@@ -97,8 +97,9 @@ Game.Loader.XML.createFromXML = function(url, callback)
     const loader = new Game.Loader.XML(game);
     return loader.asyncLoadXML(url)
         .then(doc => {
-            const gameParser = new Game.Loader.XML.Parser.GameParser(loader);
-            return gameParser.parse(doc.getElementsByTagName('game')[0]);
+            const node = doc.getElementsByTagName('game')[0];
+            const gameParser = new Game.Loader.XML.Parser.GameParser(loader, node);
+            return gameParser.parse();
         })
         .then(() => {
             return loader;

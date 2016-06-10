@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game name="Megaman 2">
-    <config
-        texture-scale="4" />
+    <config texture-scale="4" />
+    <entrypoint scene="StageSelect" />
 
     <scenes>
         <!-- <scene type="cutscene" name="Intro" src="./Intro.xml" /> -->
@@ -48,10 +48,6 @@
 
     <level start-caption="READY" />
 
-    <entrypoint>
-        <scene name="StageSelect" />
-    </entrypoint>
-
     <characters>
         <objects src="./characters/Megaman.xml" />
         <objects src="./characters/Airman.xml" />
@@ -76,7 +72,7 @@
         <objects src="./Projectiles.xml" />
     </projectiles>
 
-    <player>
+    <player retries="1">
         <character id="Megaman" />
         <invincibility duration="2"/>
         <weapon default="p" />

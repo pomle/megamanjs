@@ -13,43 +13,33 @@ extends Game.Loader.XML.Parser
     {
         return this._scene;
     }
-    parseAudio(sceneNode)
+    _parseAudio(sceneNode)
     {
         const scene = this.getScene();
-        const audioNodes = sceneNode.querySelectorAll('audio > *');
-        for (let audioNode, i = 0; audioNode = audioNodes[i++];) {
-            this.getAudio(audioNode)
-                .then(audio => {
-                    const id = this.getAttr(audioNode, 'id');
-                    scene.audio[id] = audio;
-                });
-        }
-    }
-    parseEvents(sceneNode)
-    {
-        const eventNodes = sceneNode.querySelectorAll('events > event');
-        for (let eventNode, i = 0; eventNode = eventNodes[i++];) {
-            const name = this.getAttr(eventNode, 'name');
-            const actionNodes = eventNode.querySelectorAll('action');
-            for (let actionNode, j = 0; actionNode = actionNodes[j++];) {
-                this._parseEventAction(name, actionNode);
-            }
-        }
-    }
-    _parseEventAction(eventName, actionNode)
-    {
-        const scene = this.getScene();
-        const type = this.getAttr(actionNode, 'type');
-        if (type === 'play-audio') {
-            const id = this.getAttr(actionNode, 'id');
-            scene.events.bind(eventName, function() {
-                this.playAudio(id);
+        const nodes = this._node.querySelectorAll(':scope > audio > *');
+        const tasks = [];
+        for (let node, i = 0; node = nodes[i++];) {
+            const id = this.getAttr(node, 'id');
+            const task = this.getAudio(node).then(audio => {
+                scene.audio[id] = audio;
             });
-        } else if (type === 'stop-audio') {
-            const id = this.getAttr(actionNode, 'id');
-            scene.events.bind(eventName, function() {
-                this.stopAudio(id);
-            });
+            tasks.push(task);
         }
+        return Promise.all(tasks);
+    }
+    _parseEvents()
+    {
+        const node = this._node.querySelector(':scope > events');
+        if (!node) {
+            return Promise.resolve();
+        }
+
+        const parser = new Game.Loader.XML.Parser.EventParser(this.loader, node);
+        return parser.getEvents().then(events => {
+            const scene = this.getScene();
+            events.forEach(event => {
+                scene.events.bind(event.name, event.callback);
+            });
+        });
     }
 }

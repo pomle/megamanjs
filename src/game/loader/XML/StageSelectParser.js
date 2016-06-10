@@ -2,71 +2,72 @@
 
 Game.Loader.XML.Parser.StageSelectParser =
 class StageSelectParser
-extends Game.Loader.XML.Parser
+extends Game.Loader.XML.Parser.SceneParser
 {
-    constructor(loader)
+    constructor(loader, node)
     {
-        super(loader);
-        this._scene = new Game.scenes.StageSelect();
-        this.sceneParser = new Game.Loader.XML.Parser.SceneParser(loader, this._scene);
-    }
-    parse(sceneNode)
-    {
-        if (sceneNode.tagName !== 'scene' || sceneNode.getAttribute('type') !== 'stage-select') {
+        if (node.tagName !== 'scene' || node.getAttribute('type') !== 'stage-select') {
             throw new TypeError('Node not <scene type="stage-select">');
         }
 
+        super(loader, new Game.scenes.StageSelect);
+        this._node = node;
+    }
+    parse()
+    {
         return new Promise(resolve => {
-            const scene = this._scene;
+            const scene = this.getScene();
+            const sceneNode = this._node;
 
-            this.sceneParser.parseAudio(sceneNode);
-            this.sceneParser.parseEvents(sceneNode);
+            this._parseAudio();
+            this._parseEvents();
 
             var objectsNode = sceneNode.getElementsByTagName('objects')[0];
-            var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader);
-            var objects = objectParser.parse(objectsNode);
+            var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader, objectsNode);
+            objectParser.getObjects().then(objects => {
+                var backgroundNode = sceneNode.getElementsByTagName('background')[0];
+                scene.setBackgroundColor(backgroundNode.getAttribute('color'));
 
-            var backgroundNode = sceneNode.getElementsByTagName('background')[0];
-            scene.setBackgroundColor(backgroundNode.getAttribute('color'));
+                var cameraNode = sceneNode.getElementsByTagName('camera')[0];
+                scene.cameraDistance = parseFloat(cameraNode.getAttribute('distance')) || scene.cameraDistance;
 
-            var cameraNode = sceneNode.getElementsByTagName('camera')[0];
-            scene.cameraDistance = parseFloat(cameraNode.getAttribute('distance')) || scene.cameraDistance;
+                var indicatorNode = sceneNode.getElementsByTagName('indicator')[0];
+                scene.setIndicator(new objects['indicator'].constructor().model);
+                scene.indicatorInterval = parseFloat(indicatorNode.getAttribute('blink-interval')) || scene.indicatorInterval;
 
-            var indicatorNode = sceneNode.getElementsByTagName('indicator')[0];
-            scene.setIndicator(new objects['indicator']().model);
-            scene.indicatorInterval = parseFloat(indicatorNode.getAttribute('blink-interval')) || scene.indicatorInterval;
+                scene.setFrame(new objects['frame'].constructor().model);
 
-            scene.setFrame(new objects['frame']().model);
+                var stagesNode = sceneNode.getElementsByTagName('stage');
+                scene.rowLength = Math.ceil(Math.sqrt(stagesNode.length));
+                for (var stageNode, i = 0; stageNode = stagesNode[i++];) {
+                    var id = stageNode.getAttribute('id');
+                    var avatar = new objects[id].constructor().model;
+                    var name = stageNode.getAttribute('name');
+                    var caption = this._createCaption(stageNode.getAttribute('caption'));
+                    scene.addStage(avatar, caption, name);
+                }
 
-            var stagesNode = sceneNode.getElementsByTagName('stage');
-            scene.rowLength = Math.ceil(Math.sqrt(stagesNode.length));
-            for (var stageNode, i = 0; stageNode = stagesNode[i++];) {
-                var id = stageNode.getAttribute('id');
-                var avatar = new objects[id]().model;
-                var name = stageNode.getAttribute('name');
-                var caption = this.createCaption(stageNode.getAttribute('caption'));
-                scene.addStage(avatar, caption, name);
-            }
-
-            const stageSelectScene = scene;
-            const initialIndex = parseFloat(indicatorNode.getAttribute('initial-index'));
-            scene.events.bind(scene.EVENT_CREATE, () => {
-                scene.equalize(initialIndex);
-            });
-            scene.events.bind(scene.EVENT_STAGE_ENTER, (stage, index) => {
-                this.loader.startScene(stage.name).then((scene) => {
-                    scene.events.bind(scene.EVENT_END, () => {
-                        this.loader.game.setScene(stageSelectScene);
+                const stageSelectScene = scene;
+                const initialIndex = parseFloat(indicatorNode.getAttribute('initial-index'));
+                scene.events.bind(scene.EVENT_CREATE, () => {
+                    scene.equalize(initialIndex);
+                });
+                scene.events.bind(scene.EVENT_STAGE_ENTER, (stage, index) => {
+                    this.loader.startScene(stage.name).then(scene => {
+                        scene.events.bind(scene.EVENT_END, () => {
+                            this.loader.game.setScene(stageSelectScene);
+                        });
                     });
                 });
-            });
-
-            this.loader.resourceLoader.complete().then(() => {
+            }).then(() => {
+                return this.loader.resourceLoader.complete();
+            }).then(() => {
                 resolve(scene);
             });
         });
     }
-    createCaption(text) {
+    _createCaption(text)
+    {
         text = text.split(" ");
         text[1] = Engine.Util.string.fill(" ", 6 - text[1].length) + text[1];
         text = text.join("\n");

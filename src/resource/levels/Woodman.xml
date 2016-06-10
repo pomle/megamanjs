@@ -4,11 +4,6 @@
             <loop start="7.853" end="42.629"/>
         </music>
     </audio>
-    <events>
-        <event name="start">
-            <action type="play-audio" id="music"/>
-        </event>
-    </events>
     <camera>
         <path>
             <window x1="0" x2="1280" y1="-240" y2="0"/>

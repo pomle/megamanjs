@@ -4,11 +4,6 @@
             <loop start="10.683" end="42.629"/>
         </music>
     </audio>
-    <events>
-        <event name="start">
-            <action type="play-audio" id="music"/>
-        </event>
-    </events>
     <gravity x="0" y="9.81"/>
     <checkpoints>
         <checkpoint x="128" y="-101"/>

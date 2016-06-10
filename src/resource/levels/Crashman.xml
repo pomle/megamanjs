@@ -5,11 +5,6 @@
             <loop start="12.814" />
         </music>
     </audio>
-    <events>
-        <event name="start">
-            <action type="play-audio" id="music"/>
-        </event>
-    </events>
     <checkpoints>
         <checkpoint x="128" y="56" r="100" z="0"/>
         <checkpoint x="640" y="1496" r="100" z="0"/>

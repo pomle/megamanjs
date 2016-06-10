@@ -12,13 +12,15 @@ class Parser
             new THREE.Vector2(),
         ];
     }
-    createObject(name, ext, func) {
+    createObject(name, ext, func)
+    {
         var fnname = name.replace(/-/g, '');
         var object = Engine.Util.renameFunction(fnname, func);
         Engine.Util.extend(object, ext);
         return object;
     }
-    getAttr(node, name) {
+    getAttr(node, name)
+    {
         var val = node.getAttribute(name);
         if (val === null || val.length === 0) {
             return null;
@@ -103,6 +105,14 @@ class Parser
         }
 
         return geo;
+    }
+    getInt(node, attr)
+    {
+        var value = node.getAttribute(attr);
+        if (value) {
+            return parseInt(value, 10);
+        }
+        return null;
     }
     getRange(node, attr, total)
     {

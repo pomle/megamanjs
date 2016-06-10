@@ -16,9 +16,12 @@ extends Game.Loader.XML.Parser
     }
     getEvents()
     {
-        return this._parse();
+        if (!this._events) {
+            this._events = this._parseEvents()
+        }
+        return Promise.resolve(this._events);
     }
-    _parse()
+    _parseEvents()
     {
         const events = [];
         const actionNodes = this._node.querySelectorAll(':scope > event > action');
@@ -60,13 +63,22 @@ extends Game.Loader.XML.Parser
     _resolveFunction(node)
     {
         const type = this.getAttr(node, 'type');
-        if (type === 'emit-audio') {
-            const id = this.getAttr(node, 'id');
+        const id = this.getAttr(node, 'id');
+
+        if (type === 'play-audio') {
+            return function() {
+                this.playAudio(id);
+            };
+        } else if (type === 'stop-audio') {
+            return function() {
+                this.stopAudio(id);
+            };
+        } else if (type === 'emit-audio') {
             return function() {
                 this.world.emitAudio(this.audio[id]);
             };
         }
 
-        throw new Error(`No action ${type}`);
+        throw new Error(`No action "${type}"`);
     }
 }
