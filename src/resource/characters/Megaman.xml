@@ -18,24 +18,24 @@
 
         <events>
             <event name="weapon-fire">
-                <action type="play-audio" id="plasma">
+                <action type="emit-audio" id="plasma">
                     <condition value="Plasma"/>
                 </action>
-                <action type="play-audio" id="metalblade">
+                <action type="emit-audio" id="metalblade">
                     <condition value="MetalBlade"/>
                 </action>
-                <action type="play-audio" id="airshot">
+                <action type="emit-audio" id="airshot">
                     <condition value="AirShooter"/>
                 </action>
             </event>
             <event name="hurt">
-                <action type="play-audio" id="damage" />
+                <action type="emit-audio" id="damage" />
             </event>
             <event name="teleport-end">
-                <action type="play-audio" id="teleport-in"/>
+                <action type="emit-audio" id="teleport-in"/>
             </event>
             <event name="jump-land">
-                <action type="play-audio" id="jump-land"/>
+                <action type="emit-audio" id="jump-land"/>
             </event>
         </events>
 

@@ -60,7 +60,7 @@ extends Game.Loader.XML.Parser
     _resolveFunction(node)
     {
         const type = this.getAttr(node, 'type');
-        if (type === 'play-audio') {
+        if (type === 'emit-audio') {
             const id = this.getAttr(node, 'id');
             return function() {
                 this.world.emitAudio(this.audio[id]);
