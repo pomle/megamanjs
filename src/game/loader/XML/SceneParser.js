@@ -11,7 +11,10 @@ extends Game.Loader.XML.Parser
     }
     getScene()
     {
-        return this._scene;
+        if (!this._promise) {
+            this._promise = this._parse();
+        }
+        return this._promise;
     }
     _parseAudio(sceneNode)
     {

@@ -13,10 +13,10 @@ extends Game.Loader.XML.SceneParser
         super(loader, new Game.scenes.StageSelect);
         this._node = node;
     }
-    parse()
+    _parse()
     {
         return new Promise(resolve => {
-            const scene = this.getScene();
+            const scene = this._scene;
             const sceneNode = this._node;
 
             this._parseAudio();

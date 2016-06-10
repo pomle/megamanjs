@@ -26,7 +26,7 @@ extends Game.Loader.XML.SceneParser
         this._objects = null;
         this._layoutObjects = null;
     }
-    parse()
+    _parse()
     {
         this._parseAudio();
         this._parseEvents();

@@ -13,20 +13,16 @@ extends Game.Loader.XML.Parser
         super(loader);
 
         this._node = node;
-        this._objects = null;
 
         this._animations = null;
         this._textures = null;
     }
     getObjects()
     {
-        if (this._objects) {
-            return Promise.resolve(this._objects);
+        if (!this._promise) {
+            this._promise =  this._parse();
         }
-        return this._parse().then(objects => {
-            this._objects = objects;
-            return objects;
-        });
+        return this._promise;
     }
     _createConstructor(blueprint)
     {
@@ -35,7 +31,7 @@ extends Game.Loader.XML.Parser
             throw new Error('No default texture on blueprint');
         }
 
-        const constructor = this.createObject(blueprint.id, blueprint.constructor, function blueprintConstructor() {
+        const constructor = this.createObject(blueprint.id, blueprint.constructor, function objectConstructor() {
             this.geometry = blueprint.geometries[0].clone();
             this.material = new THREE.MeshPhongMaterial({
                 depthWrite: false,
