@@ -30,6 +30,7 @@ extends Game.Loader.XML.Parser
                 }
             }
         });
+        constructor.prototype.id = blueprint.id;
         return constructor;
     }
     parse(weaponsNode)
