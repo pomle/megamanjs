@@ -45,14 +45,14 @@ Engine.Timeline = class Timeline {
     {
         return this.resolveTime(time).value;
     }
-    resolveTime(time)
+    resolveTime(totalTime)
     {
         /*
             Because all JavaScript numbers are floats with finite precision
             there's a chance this will crash because the accumulative durations
             are less than infiniteTime.
         */
-        time = this.getLoopTime(time);
+        const time = this.getLoopTime(totalTime);
 
         let i = 0;
         let incrementalTime = 0;
@@ -60,7 +60,7 @@ Engine.Timeline = class Timeline {
 
         do {
             index = i++;
-            incrementalTime += this.frames[index].duration;
+            incrementalTime = incrementalTime + this.frames[index].duration;
         }
         while (time >= incrementalTime);
 
@@ -69,7 +69,7 @@ Engine.Timeline = class Timeline {
             value: this.frames[index].value,
             passedLength: incrementalTime - this.frames[index].duration,
             resolvedLength: time,
-        }
+        };
     }
     reset()
     {
