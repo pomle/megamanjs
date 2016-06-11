@@ -99,9 +99,9 @@ Game.Scene = class Scene
             elapsed += dt;
         };
         const timer = this.timer;
-        this.timer.events.bind(this.timer.EVENT_TIMEPASS, wrapper);
+        timer.events.bind(timer.EVENT_TIMEPASS, wrapper);
         return this.waitFor(seconds).then(() => {
-            this.timer.events.unbind(this.timer.EVENT_TIMEPASS, wrapper);
+            timer.events.unbind(timer.EVENT_TIMEPASS, wrapper);
         });
     }
     getAudio(id)
@@ -135,11 +135,10 @@ Game.Scene = class Scene
         var elapsed = 0;
         return new Promise(resolve => {
             const wait = (dt) => {
+                elapsed += dt;
                 if (elapsed >= seconds) {
                     timer.events.unbind(timer.EVENT_UPDATE, wait);
                     resolve();
-                } else {
-                    elapsed += dt;
                 }
             };
             timer.events.bind(timer.EVENT_UPDATE, wait);
