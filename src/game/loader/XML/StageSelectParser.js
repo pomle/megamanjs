@@ -1,67 +1,96 @@
 'use strict';
 
-Game.Loader.XML.Parser.StageSelectParser = function(loader)
+Game.Loader.XML.StageSelectParser =
+class StageSelectParser
+extends Game.Loader.XML.SceneParser
 {
-    Game.Loader.XML.Parser.call(this, loader);
-}
+    constructor(loader, node)
+    {
+        if (node.tagName !== 'scene' || node.getAttribute('type') !== 'stage-select') {
+            throw new TypeError('Node not <scene type="stage-select">');
+        }
 
-Engine.Util.extend(Game.Loader.XML.Parser.StageSelectParser,
-                   Game.Loader.XML.Parser);
-
-Game.Loader.XML.Parser.StageSelectParser.prototype.parseStageSelect = function(sceneNode)
-{
-    if (sceneNode.tagName !== 'scene' || sceneNode.getAttribute('type') !== 'stage-select') {
-        throw new TypeError('Node not <scene type="stage-select">');
+        super(loader, new Game.scenes.StageSelect);
+        this._node = node;
     }
+    _parse()
+    {
+        this._parseAudio();
+        this._parseEvents();
+        this._setupBehavior();
+        return this._parseObjects().then(() => {
+            return this._parseLayout();
+        }).then(() => {
+            return this.loader.resourceLoader.complete();
+        }).then(() => {
+            return this._scene;
+        });
+    }
+    _createCaption(text)
+    {
+        text = text.split(" ");
+        text[1] = Engine.Util.string.fill(" ", 6 - text[1].length) + text[1];
+        text = text.join("\n");
+        return this.loader.resourceManager.get('font', 'nintendo')(text).createMesh();
+    }
+    _parseLayout()
+    {
+        const sceneNode = this._node;
+        const scene = this._scene;
+        const objects = this._objects;
 
-    return new Promise((resolve) => {
-        var scene = new Game.scenes.StageSelect(this.loader.game, new Engine.World());
+        const backgroundNode = sceneNode.getElementsByTagName('background')[0];
+        const cameraNode = sceneNode.getElementsByTagName('camera')[0];
+        const indicatorNode = sceneNode.getElementsByTagName('indicator')[0];
+        const spacingNode = sceneNode.querySelector('spacing');
 
-        var objectsNode = sceneNode.getElementsByTagName('objects')[0];
-        var objectParser = new Game.Loader.XML.Parser.ObjectParser(this.loader);
-        var objects = objectParser.parse(objectsNode);
+        scene.setBackgroundColor(this.getAttr(backgroundNode, 'color'));
+        scene.setIndicator(new objects['indicator'].constructor().model);
+        scene.setFrame(new objects['frame'].constructor().model);
 
-        var backgroundNode = sceneNode.getElementsByTagName('background')[0];
-        scene.setBackgroundColor(backgroundNode.getAttribute('color'));
+        if (spacingNode) {
+            scene.spacing.copy(this.getVector2(spacingNode));
+        }
+        if (cameraNode) {
+            scene.cameraDistance = this.getFloat(cameraNode, 'distance');
+        }
+        if (indicatorNode) {
+            scene.indicatorInterval = this.getFloat(indicatorNode, 'blink-interval');
+        }
 
-        var cameraNode = sceneNode.getElementsByTagName('camera')[0];
-        scene.cameraDistance = parseFloat(cameraNode.getAttribute('distance')) || scene.cameraDistance;
-
-        var indicatorNode = sceneNode.getElementsByTagName('indicator')[0];
-        scene.setIndicator(new objects['indicator']().model);
-        scene.indicatorInterval = parseFloat(indicatorNode.getAttribute('blink-interval')) || scene.indicatorInterval;
-
-        scene.setFrame(new objects['frame']().model);
-
-        var stagesNode = sceneNode.getElementsByTagName('stage');
+        const stagesNode = sceneNode.getElementsByTagName('stage');
         scene.rowLength = Math.ceil(Math.sqrt(stagesNode.length));
-        for (var stageNode, i = 0; stageNode = stagesNode[i++];) {
-            var id = stageNode.getAttribute('id');
-            var avatar = new objects[id]().model;
-            var name = stageNode.getAttribute('name');
-            var caption = this.createCaption(stageNode.getAttribute('caption'));
+        for (let stageNode, i = 0; stageNode = stagesNode[i++];) {
+            const id = this.getAttr(stageNode, 'id')
+            const name = this.getAttr(stageNode, 'name');
+            const text = this.getAttr(stageNode, 'caption');
+            const caption = this._createCaption(text);
+            const avatar = new objects[id].constructor().model;
             scene.addStage(avatar, caption, name);
         }
 
-        scene.equalize(parseFloat(indicatorNode.getAttribute('initial-index')));
-
-        var stageSelect = scene;
-        var loader = this.loader;
-        scene.events.bind(scene.EVENT_STAGE_SELECTED, function(stage, index) {
-            loader.startScene(stage.name).then(function(scene) {
-                scene.events.bind(scene.EVENT_END, function() {
-                    loader.game.setScene(stageSelect);
-                });
-            });
+        const initialIndex = this.getInt(indicatorNode, 'initial-index');
+        scene.events.bind(scene.EVENT_CREATE, () => {
+            scene.equalize(initialIndex);
         });
 
-        resolve(scene);
-    });
-}
-
-Game.Loader.XML.Parser.StageSelectParser.prototype.createCaption = function(text) {
-    text = text.split(" ");
-    text[1] = Engine.Util.string.fill(" ", 6 - text[1].length) + text[1];
-    text = text.join("\n");
-    return this.loader.resource.items.font['nintendo'](text).createMesh();
+        return Promise.resolve();
+    }
+    _setupBehavior()
+    {
+        const stageSelectScene = this._scene;
+        const game = this.loader.game;
+        this._scene.events.bind(this._scene.EVENT_STAGE_ENTER, (stage, index) => {
+            try {
+                this.loader.loadSceneByName(stage.name).then(scene => {
+                    scene.events.bind(scene.EVENT_END, () => {
+                        game.setScene(stageSelectScene);
+                    });
+                    game.setScene(scene);
+                });
+            } catch (err) {
+                game.setScene(stageSelectScene);
+            }
+        });
+    }
 }

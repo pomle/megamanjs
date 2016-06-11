@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="stage-select">
+    <audio>
+        <music src="./stage-select/wait-music.ogg" id="wait-music">
+            <loop start="1.364" end="6.690"/>
+        </music>
+        <music src="./stage-select/boss-reveal.ogg" id="boss-reveal"/>
+        <effect src="./stage-select/change-selection.ogg" id="change-selection"/>
+        <effect src="./stage-select/make-selection.ogg" id="make-selection"/>
+    </audio>
+    <background color="0x0064ff"/>
+    <camera distance="140" />
+    <spacing x="64" y="64" />
+    <indicator id="indicator" blink-interval=".125" initial-index="4" />
+    <frame id="frame" />
+    <stages>
+        <stage name="Bubbleman"   caption="BUBBLE MAN" id="b" />
+        <stage name="Airman"      caption="AIR MAN"    id="a" />
+        <stage name="Quickman"    caption="QUICK MAN"  id="q" />
+        <stage name="Heatman"     caption="HEAT MAN"   id="h" />
+        <stage name="Dr. Wily"    caption="Dr. WILY"   id="dr"/>
+        <stage name="Woodman"     caption="WOOD MAN"   id="w" />
+        <stage name="Metalman"    caption="METAL MAN"  id="m" />
+        <stage name="Flashman"    caption="FLASH MAN"  id="f" />
+        <stage name="Crashman"    caption="CRASH MAN"  id="c" />
+    </stages>
+
+    <events>
+        <event name="start">
+            <action type="play-audio" id="wait-music"/>
+        </event>
+        <event name="stage-selected">
+            <action type="stop-audio" id="wait-music"/>
+            <action type="play-audio" id="make-selection"/>
+        </event>
+        <event name="boss-reveal">
+            <action type="play-audio" id="boss-reveal"/>
+        </event>
+        <event name="selection-changed">
+            <action type="play-audio" id="change-selection"/>
+        </event>
+    </events>
+
+    <objects>
+        <textures>
+            <texture url="./stage-select/stageselect.png" w="256" h="256" />
+        </textures>
+        <animations w="48" h="48">
+            <animation id="indicator">
+                <frame x="48" y="0"/>
+            </animation>
+            <animation id="frame">
+                <frame x="0" y="0"/>
+            </animation>
+            <animation id="b">
+                <frame x="0" y="48"/>
+            </animation>
+            <animation id="a">
+                <frame x="48" y="48"/>
+            </animation>
+            <animation id="q">
+                <frame x="96" y="48"/>
+            </animation>
+            <animation id="h">
+                <frame x="48" y="96"/>
+            </animation>
+            <animation id="dr">
+                <frame x="144" y="0"/>
+            </animation>
+            <animation id="w">
+                <frame x="144" y="48"/>
+            </animation>
+            <animation id="m">
+                <frame x="144" y="96"/>
+            </animation>
+            <animation id="f">
+                <frame x="96" y="96"/>
+            </animation>
+            <animation id="c">
+                <frame x="0" y="96"/>
+            </animation>
+        </animations>
+        <object id="indicator">
+            <geometry type="plane" w="48" h="48">
+                <face animation="indicator"/>
+            </geometry>
+        </object>
+        <object id="frame">
+            <geometry type="plane" w="48" h="48">
+                <face animation="frame"/>
+            </geometry>
+        </object>
+        <object id="b">
+            <geometry type="plane" w="48" h="48">
+                <face animation="b"/>
+            </geometry>
+        </object>
+        <object id="a">
+            <geometry type="plane" w="48" h="48">
+                <face animation="a"/>
+            </geometry>
+        </object>
+        <object id="q">
+            <geometry type="plane" w="48" h="48">
+                <face animation="q"/>
+            </geometry>
+        </object>
+        <object id="h">
+            <geometry type="plane" w="48" h="48">
+                <face animation="h"/>
+            </geometry>
+        </object>
+        <object id="dr">
+            <geometry type="plane" w="48" h="48">
+                <face animation="dr"/>
+            </geometry>
+        </object>
+        <object id="w">
+            <geometry type="plane" w="48" h="48">
+                <face animation="w"/>
+            </geometry>
+        </object>
+        <object id="m">
+            <geometry type="plane" w="48" h="48">
+                <face animation="m"/>
+            </geometry>
+        </object>
+        <object id="f">
+            <geometry type="plane" w="48" h="48">
+                <face animation="f"/>
+            </geometry>
+        </object>
+        <object id="c">
+            <geometry type="plane" w="48" h="48">
+                <face animation="c"/>
+            </geometry>
+        </object>
+    </objects>
+</scene>

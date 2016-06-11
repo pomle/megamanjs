@@ -35,6 +35,10 @@ Engine.Events = class Events {
         return this._events[name] !== undefined &&
                this._events[name].indexOf(callback) !== -1;
     }
+    clear()
+    {
+        this._events = {};
+    }
     trigger(name, values)
     {
         if (this._events[name]) {
@@ -43,7 +47,7 @@ Engine.Events = class Events {
             /* Notice that this method expects to
                get the arguments to be passed as an
                array as second argument. */
-            for (let i = 0, l = events.length; i < l; ++i) {
+            for (let i = 0, l = events.length; i !== l; ++i) {
                 if (events[i] !== undefined) {
                     events[i].apply(host, values);
                 }

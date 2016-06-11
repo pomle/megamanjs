@@ -11,7 +11,7 @@ Engine.InputRecorder = class InputRecorder {
 
         this._listener = (key, type) => {
             if (this._recording === true) {
-                const time = this._game.engine.simulationTimePassed;
+                const time = this._game.scene.timer.simulationTimePassed;
                 this._log.push({
                     time: time - this._lastTime,
                     key: key,
@@ -33,7 +33,7 @@ Engine.InputRecorder = class InputRecorder {
     }
     record()
     {
-        this._lastTime = this._game.engine.simulationTimePassed;
+        this._lastTime = this._game.scene.timer.simulationTimePassed;
         this._recording = true;
     }
     stop()

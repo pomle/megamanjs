@@ -5,6 +5,8 @@ Engine.Keyboard = class Keyboard {
     {
         this.EVENT_TRIGGER = 'trigger';
 
+        this._enabled = true;
+
         this.LEFT = 'left';
         this.RIGHT = 'right';
         this.UP = 'up';
@@ -37,6 +39,14 @@ Engine.Keyboard = class Keyboard {
     {
         this._map[key] = name;
     }
+    enable()
+    {
+        this._enabled = true;
+    }
+    disable()
+    {
+        this._enabled = false;
+    }
     hit(key, engage)
     {
         this._events.bind(key + '_' + this.ENGAGE, engage);
@@ -54,6 +64,10 @@ Engine.Keyboard = class Keyboard {
     }
     trigger(key, state)
     {
+        if (!this._enabled) {
+            return false;
+        }
+
         if (this._state[key] === state) {
             return false;
         }

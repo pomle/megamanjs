@@ -4,56 +4,79 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
-const Engine = env.Engine;
-const World = env.Engine.World;
+const THREE = env.THREE;
 const Game = env.Game;
 const Level = env.Game.scenes.Level;
 
 describe('Level', function() {
-  let level;
-  beforeEach(function() {
-      const world = new World();
+  function createLevel() {
+      global.AudioContext = sinon.spy();
+      sinon.stub(THREE, 'WebGLRenderer');
+      const level = new Level();
       const game = new Game();
-      game.engine = new Engine();
-      game.engine.render = sinon.spy();
-      game.engine.world = world;
-      level = new Level(game, world);
-      level.game.player = new Game.Player();
+      const character = new Game.objects.Character;
+      character.applyTrait(new Game.traits.Health);
+      game.player.setCharacter(character);
+      level.__create(game);
+      THREE.WebGLRenderer.restore();
+      delete global.AudioContext;
+      return level;
+  }
 
-      const character = new Game.objects.Character();
-      character.applyTrait(new Game.traits.Health());
-      level.game.player.character = character;
+  it('should decrease player lives if player dies', function() {
+    const level = createLevel();
+    level.world.addObject(level.player.character);
+    level.player.lives = 3;
+    level.player.character.kill();
+    expect(level.player.lives).to.equal(2);
   });
 
-  describe('#detectDeath', function() {
-    it('should decrease player lives if player is dead and set deathCountdown', function() {
-      expect(level.game.player.lives).to.equal(3);
-      level.detectDeath();
-      expect(level.game.player.lives).to.equal(3);
-      level.game.player.character.health.amount = 0;
-      level.detectDeath();
-      expect(level.game.player.lives).to.equal(2);
-      expect(level.deathCountdown).to.equal(4);
+  it('should run resetPlayer 4 seconds after death if lives > 1', function(done) {
+    const level = createLevel();
+    sinon.stub(level, 'resetPlayer', function() {
+      try {
+        expect(level.timer.realTimePassed).to.be(4);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    it('should run resetPlayer 4 seconds after death if lives > 0', function() {
-      level.resetPlayer = sinon.spy();
-      level.game.player.character.health.amount = 0;
-      level.game.player.lives = 2;
-      level.detectDeath();
-      level.game.engine.updateTime(4);
-      level.detectDeath();
-      expect(level.resetPlayer.callCount).to.equal(1);
+    level.world.addObject(level.player.character);
+    level.player.lives = 2;
+    level.player.character.kill();
+    level.timer.updateTime(3.999);
+    level.timer.updateTime(0.001);
+  });
+
+  it('should run __end 4 seconds after death if lives <= 1', function() {
+    const level = createLevel();
+    sinon.stub(level, '__end', function() {
+      try {
+        expect(level.timer.realTimePassed).to.be(4);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    it('should run __end 4 seconds after death if lives <= 0', function() {
-      level.resetPlayer = sinon.spy();
-      level.__end = sinon.spy();
-      level.game.player.character.health.amount = 0;
-      level.game.player.lives = 1;
-      level.detectDeath();
-      level.game.engine.updateTime(4);
-      level.detectDeath();
-      expect(level.resetPlayer.callCount).to.equal(0);
-      expect(level.__end.callCount).to.equal(1);
+    level.world.addObject(level.player.character);
+    level.player.lives = 1;
+    level.player.character.kill();
+    level.timer.updateTime(3.999);
+    level.timer.updateTime(0.001);
+  });
+
+  describe('#resetObjects', function() {
+    it('should run reset function on every trait of every object if available', function() {
+      const level = new Level();
+      const thing = new Engine.Object();
+      const resetSpy = sinon.spy();
+      thing.traits = [
+        { reset: resetSpy },
+        { dummy: null },
+      ];
+      level.world.addObject(thing);
+      level.resetObjects();
+      expect(resetSpy.callCount).to.be(1);
     });
   });
 });

@@ -1,7 +1,11 @@
 var Game = function()
 {
-    this.engine = undefined;
-    this.events = new Engine.Events();
+    this.events = new Engine.Events(this);
+    this.audioPlayer = new Engine.AudioPlayer();
+    this.renderer = new THREE.WebGLRenderer({
+        'antialias': false,
+    });
+
     this.player = new Game.Player();
     this.player.hud = new Hud(this);
 }
@@ -32,7 +36,7 @@ Game.prototype.attachToElement = function(element)
     this.adjustResolution();
     this.attachController();
 
-    this.element.appendChild(this.engine.renderer.domElement);
+    this.element.appendChild(this.renderer.domElement);
 }
 
 Game.prototype.adjustAspectRatio = function()
@@ -60,10 +64,24 @@ Game.prototype.handleInputEvent = function(event)
     this.scene.input.triggerEvent(event);
 }
 
+Game.prototype.pause = function()
+{
+    if (this.scene) {
+        this.scene.__pause(this);
+    }
+}
+
+Game.prototype.resume = function()
+{
+    if (this.scene) {
+        this.scene.__resume(this);
+    }
+}
+
 Game.prototype.setResolution = function(w, h)
 {
-    this.engine.renderer.setSize(w, h);
-    this.engine.renderer.domElement.removeAttribute("style");
+    this.renderer.setSize(w, h);
+    this.renderer.domElement.removeAttribute("style");
 }
 
 Game.prototype.setScene = function(scene)
@@ -72,25 +90,27 @@ Game.prototype.setScene = function(scene)
         throw new Error('Invalid scene');
     }
 
-    this.engine.pause();
-
-    if (this.scene) {
-        this.scene.__destroy(this);
-        this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
-        this.scene = undefined;
-        this.engine.unsetWorld();
-    }
+    this.unsetScene();
 
     this.scene = scene;
     this.scene.__create(this);
     this.events.trigger(this.EVENT_SCENE_CREATE, [this.scene]);
-    this.engine.setWorld(this.scene.world);
+
 
     /* Because the camera is instantiated per scene,
        we make sure the aspect ratio is correct before
        we roll. */
     this.adjustAspectRatio();
 
-    this.engine.run();
     this.scene.__start();
+    this.scene.__resume();
+}
+
+Game.prototype.unsetScene = function()
+{
+    if (this.scene) {
+        this.scene.__destroy();
+        this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
+        this.scene = undefined;
+    }
 }

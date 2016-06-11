@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level" name="Heatman">
+    <audio>
+        <music src="./heatman/music.ogg" id="music">
+            <loop />
+        </music>
+    </audio>
+    <checkpoints>
+        <checkpoint x="136" y="-165" z="0"/>
+        <checkpoint x="1920" y="-661" z="0"/>
+        <checkpoint x="4736" y="-1109" z="0"/>
+    </checkpoints>
+    <camera>
+        <!-- Upper level -->
+        <path>
+            <window x1="0" x2="2048" y1="-208" y2="0"/>
+            <constraint x1="180" x2="1920" y1="-120" y2="-120"/>
+        </path>
+        <path>
+            <window x1="1792" x2="2048" y1="-480" y2="-240"/>
+            <constraint x1="1920" x2="1920" y1="-360" y2="-360"/>
+        </path>
+        <!-- Lower level -->
+        <path>
+            <window x1="1792" x2="4608" y1="-720" y2="-480"/>
+            <constraint x1="1920" x2="4480" y1="-600" y2="-600"/>
+        </path>
+        <path>
+            <window x1="4352" x2="4608" y1="-960" y2="-720"/>
+            <constraint x1="4480" x2="4480" y1="-840" y2="-840"/>
+        </path>
+        <!-- Sign room -->
+        <path>
+            <window x1="4352" x2="4608" y1="-1200" y2="-960"/>
+            <constraint x1="4480" x2="4480" y1="-1080" y2="-1080"/>
+        </path>
+        <!-- Boss corridor -->
+        <path>
+            <window x1="4608" x2="4864" y1="-1200" y2="-960"/>
+            <constraint x1="4736" x2="4736" y1="-1080" y2="-1080"/>
+        </path>
+        <!-- Boss arena -->
+        <path>
+            <window x1="4864" x2="5120" y1="-1200" y2="-960"/>
+            <constraint x1="4992" x2="4992" y1="-1080" y2="-1080"/>
+        </path>
+    </camera>
+    <objects>
+        <textures>
+            <texture id="heatman-stage" url="./heatman/tiles.png" w="256" h="128"/>
+        </textures>
+        <animations texture="heatman-stage">
+            <animation id="bricks-big">
+                <frame x="145" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="bricks-big-bottom">
+                <frame x="199" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="bricks-big-top">
+                <frame x="127" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="bricks-small">
+                <frame x="181" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="concrete-bottom">
+                <frame x="37" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="concrete-fill">
+                <frame x="19" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="concrete-lower">
+                <frame x="73" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="concrete-top">
+                <frame x="1" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="concrete-upper">
+                <frame x="55" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="darkness">
+                <frame x="235" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="door">
+                <frame x="109" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="dr-wily-sign">
+                <frame x="217" y="39" w="32" h="30"/>
+            </animation>
+            <animation id="hole">
+                <frame x="91" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="ladder">
+                <frame x="91" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="lava-hori-1">
+                <frame x="127" y="1" w="16" h="16" duration=".11"/>
+                <frame x="127" y="19" w="16" h="16" duration=".11"/>
+                <frame x="127" y="37" w="16" h="16" duration=".11"/>
+            </animation>
+            <animation id="lava-hori-2">
+                <frame x="145" y="1" w="16" h="16" duration=".11"/>
+                <frame x="145" y="19" w="16" h="16" duration=".11"/>
+                <frame x="145" y="37" w="16" h="16" duration=".11"/>
+            </animation>
+            <animation id="lava-vert-1">
+                <frame x="181" y="1" w="16" h="16" duration=".11"/>
+                <frame x="181" y="19" w="16" h="16" duration=".11"/>
+                <frame x="181" y="37" w="16" h="16" duration=".11"/>
+            </animation>
+            <animation id="lava-vert-2">
+                <frame x="199" y="1" w="16" h="16" duration=".11"/>
+                <frame x="199" y="19" w="16" h="16" duration=".11"/>
+                <frame x="199" y="37" w="16" h="16" duration=".11"/>
+            </animation>
+            <animation id="lava-edge">
+                <frame x="163" y="1" w="16" h="16" duration=".11"/>
+                <frame x="163" y="19" w="16" h="16" duration=".11"/>
+                <frame x="163" y="37" w="16" h="16" duration=".11"/>
+            </animation>
+            <animation id="mortar-1">
+                <frame x="1" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-10">
+                <frame x="37" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-2">
+                <frame x="19" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-3">
+                <frame x="37" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-3-shaded">
+                <frame x="55" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-4">
+                <frame x="55" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-4-shaded">
+                <frame x="109" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-5">
+                <frame x="73" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-5-shaded">
+                <frame x="1" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-6">
+                <frame x="91" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-6-shaded">
+                <frame x="19" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-7">
+                <frame x="109" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-7-shaded">
+                <frame x="37" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-8">
+                <frame x="1" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-8-shaded">
+                <frame x="55" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-9">
+                <frame x="19" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="mortar-9-shaded">
+                <frame x="73" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="pillar">
+                <frame x="163" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="dr-wily-sign">
+                <frame x="217" y="39" w="32" h="32"/>
+            </animation>
+            <animation id="sign-n">
+                <frame x="109" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="sign-s">
+                <frame x="217" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="sign-sw">
+                <frame x="235" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="sign-w">
+                <frame x="217" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="pho">
+                <frame x="1" y="73" w="16" h="22" duration=".117"/>
+                <frame x="19" y="73" w="16" h="22" duration=".117"/>
+                <frame x="37" y="73" w="16" h="22" duration=".117"/>
+                <frame x="55" y="73" w="16" h="22" duration=".117"/>
+                <frame x="73" y="73" w="16" h="22" duration=".117"/>
+                <frame x="19" y="73" w="16" h="22"/>
+            </animation>
+            <animation id="destructible-wall">
+                <frame x="91" y="73" w="16" h="16"/>
+            </animation>
+        </animations>
+        <object id="pho-block">
+            <geometry type="plane" w="16" h="22" w-segments="1" h-segments="1">
+                <face animation="pho"/>
+            </geometry>
+            <collision>
+                <rect x="0" y="3" w="16" h="16"/>
+            </collision>
+            <traits>
+                <trait source="Solid" fixed="true" obstructs="true"/>
+            </traits>
+        </object>
+        <object id="ironwall">
+            <geometry type="plane" w="16" h="32" w-segments="1" h-segments="2">
+                <face animation="destructible-wall">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="16" h="32"/>
+            </collision>
+            <traits>
+                <trait source="Solid" fixed="true" obstructs="true"/>
+                <trait source="Destructible"/>
+            </traits>
+        </object>
+        <object id="door">
+            <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
+                <face animation="door">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect x="0" y="0" w="32" h="64"/>
+            </collision>
+            <traits>
+                <trait source="Door">
+                    <direction x="-1" y="0"/>
+                </trait>
+            </traits>
+        </object>
+        <!--
+        <model id="dr-wily-sign"><geometry type="plane" w="32" h="32" /><face animation="dr-wily-sign"></model>
+        -->
+        <object id="upper-level">
+            <geometry type="plane" w="2048" h="240" w-segments="128" h-segments="15">
+                <face animation="darkness">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="mortar-1">
+                    <range x="*" y="2"/>
+                </face>
+                <face animation="mortar-2">
+                    <range x="*" y="3"/>
+                </face>
+                <face animation="mortar-3">
+                    <range x="*" y="4"/>
+                </face>
+                <face animation="mortar-4">
+                    <range x="*" y="5"/>
+                </face>
+                <face animation="mortar-5">
+                    <range x="*" y="6-8"/>
+                </face>
+                <face animation="mortar-5-shaded">
+                    <range x="101,121-124" y="6"/>
+                    <range x="60,64,71,113-116" y="8"/>
+                </face>
+                <face animation="mortar-6">
+                    <range x="*" y="9"/>
+                </face>
+                <face animation="mortar-6-shaded">
+                    <range x="54-55,100,107" y="9"/>
+                </face>
+                <face animation="mortar-7">
+                    <range x="*" y="10"/>
+                </face>
+                <face animation="mortar-7-shaded">
+                    <range x="68,75,78,81,84,87,90,94,97,119-122" y="10"/>
+                </face>
+                <face animation="mortar-8">
+                    <range x="*" y="11"/>
+                </face>
+                <face animation="mortar-8-shaded">
+                    <range x="1-16,20-24,28-32,36-47,50-51,58,61,105" y="11"/>
+                </face>
+                <face animation="mortar-9">
+                    <range x="*" y="12"/>
+                </face>
+                <face animation="mortar-9-shaded">
+                    <range x="111-118,125" y="12"/>
+                </face>
+                <face animation="mortar-10">
+                    <range x="*" y="13"/>
+                </face>
+                <face animation="hole">
+                    <range x="79" y="4"/>
+                    <range x="53" y="5"/>
+                    <range x="43,67,73,85,93" y="6"/>
+                    <range x="57" y="7"/>
+                    <range x="47" y="8"/>
+                    <range x="62" y="10"/>
+                </face>
+                <face animation="lava-hori-1">
+                    <range x="1,5,7,11,16,18,20,22,24,26,28,32,34,36,39-49/2,52-94/2" y="13"/>
+                </face>
+                <face animation="lava-hori-2">
+                    <range x="2,6,8,12,15,17,19,23,25,27,29,33,35,40,44,48,53-93/2" y="13"/>
+                </face>
+                <face animation="lava-edge">
+                    <range x="95" y="13"/>
+                </face>
+                <face animation="lava-vert-1">
+                    <range x="95" y="14"/>
+                </face>
+                <face animation="lava-vert-2">
+                    <range x="95" y="15"/>
+                </face>
+                <face animation="concrete-lower">
+                    <range x="111-125" y="13"/>
+                </face>
+                <face animation="concrete-fill">
+                    <range x="119-124" y="12"/>
+                </face>
+                <face animation="concrete-upper">
+                    <range x="1-16,20-24,28-32,36-47,50-51" y="12"/>
+                </face>
+                <face animation="concrete-lower">
+                    <range x="1-94" y="14"/>
+                </face>
+                <face animation="concrete-top">
+                    <range x="119-124" y="11"/>
+                    <range x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="12"/>
+                </face>
+                <face animation="concrete-fill">
+                    <range x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="13"/>
+                </face>
+                <face animation="concrete-bottom">
+                    <range x="119-124" y="13"/>
+                    <range x="3-4,9-10,13-14,21,30-31,37-38,42,46,50-51" y="14"/>
+                </face>
+                <face animation="pillar">
+                    <range x="101" y="7"/>
+                    <range x="60,64,71" y="9"/>
+                    <range x="54-55,60,64,71,100,107" y="10"/>
+                    <range x="54-55,60,64,68,71,75,78,81,84,87,90,94,97" y="11"/>
+                    <range x="54-55,58,60-61,64,68,71,75,78,81,84,87,90,94,105" y="12"/>
+                </face>
+                <face animation="bricks-small">
+                    <range x="1-2,11-22,25-30,33-40,43-96,113-128" y="1"/>
+                    <range x="1-2" y="1-10"/>
+                    <range x="127-128" y="*"/>
+                    <range x="123-124" y="8-9"/>
+                    <range x="113-114,125" y="15"/>
+                </face>
+                <face animation="bricks-big">
+                    <range x="115-118" y="6"/>
+                    <range x="121-122" y="7"/>
+                    <range x="113-116" y="9"/>
+                </face>
+                <face animation="bricks-big-bottom">
+                    <range x="11-22,25-30,33-40,43-96,113-126" y="2"/>
+                    <range x="1-2" y="11"/>
+                    <range x="123-124" y="10"/>
+                </face>
+                <face animation="bricks-big-top">
+                    <range x="123-124" y="7"/>
+                    <range x="113-114,125" y="14"/>
+                    <range x="1-6" y="15"/>
+                </face>
+                <face animation="ladder">
+                    <range x="126" y="13-15"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="vertical-1">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="darkness">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="mortar-1">
+                    <range x="*" y="2"/>
+                </face>
+                <face animation="mortar-2">
+                    <range x="*" y="3"/>
+                </face>
+                <face animation="mortar-3">
+                    <range x="*" y="4"/>
+                </face>
+                <face animation="mortar-3-shaded">
+                    <range x="4" y="4"/>
+                </face>
+                <face animation="mortar-4">
+                    <range x="*" y="5"/>
+                </face>
+                <face animation="mortar-5">
+                    <range x="*" y="6-8"/>
+                </face>
+                <face animation="mortar-6">
+                    <range x="*" y="9"/>
+                </face>
+                <face animation="mortar-7">
+                    <range x="*" y="10"/>
+                </face>
+                <face animation="mortar-8">
+                    <range x="*" y="11"/>
+                </face>
+                <face animation="mortar-8-shaded">
+                    <range x="1-16" y="11"/>
+                </face>
+                <face animation="mortar-9">
+                    <range x="*" y="12"/>
+                </face>
+                <face animation="mortar-10">
+                    <range x="*" y="13"/>
+                </face>
+                <face animation="pillar">
+                    <range x="6,9,12,14" y="11"/>
+                </face>
+                <face animation="bricks-small">
+                    <range x="1-2" y="*"/>
+                    <range x="13" y="1"/>
+                    <range x="15-16" y="*"/>
+                    <range x="4" y="6-14"/>
+                    <range x="4-16" y="15"/>
+                </face>
+                <face animation="bricks-big-top">
+                    <range x="4" y="5"/>
+                    <range x="5-14" y="14"/>
+                </face>
+                <face animation="bricks-big-bottom">
+                    <range x="13" y="2"/>
+                </face>
+                <face animation="ladder">
+                    <range x="14" y="1-10"/>
+                    <range x="3" y="5-15"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="lower-level">
+            <geometry type="plane" w="2816" h="240" w-segments="176" h-segments="15">
+                <face animation="darkness">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="mortar-1">
+                    <range x="*" y="2"/>
+                </face>
+                <face animation="mortar-2">
+                    <range x="*" y="3"/>
+                </face>
+                <face animation="mortar-3">
+                    <range x="*" y="4"/>
+                </face>
+                <face animation="mortar-3-shaded"/>
+                <face animation="mortar-4">
+                    <range x="*" y="5"/>
+                </face>
+                <face animation="mortar-5">
+                    <range x="*" y="6-8"/>
+                </face>
+                <face animation="mortar-6">
+                    <range x="*" y="9"/>
+                </face>
+                <face animation="mortar-6-shaded">
+                    <range x="83-86" y="9"/>
+                </face>
+                <face animation="mortar-7">
+                    <range x="*" y="10"/>
+                </face>
+                <face animation="mortar-7-shaded"/>
+                <face animation="mortar-8">
+                    <range x="*" y="11"/>
+                </face>
+                <face animation="mortar-9">
+                    <range x="*" y="12"/>
+                </face>
+                <face animation="mortar-9-shaded">
+                    <range x="3-21,24-28,31-40,43-50,53-59,63-66,69-72,75-110,161-173" y="12"/>
+                </face>
+                <face animation="mortar-10">
+                    <range x="*" y="13"/>
+                </face>
+                <face animation="bricks-small">
+                    <range x="1-2,4-80" y="1"/>
+                    <range x="1-2,175-176" y="*"/>
+                    <range x="1-21,24-28,31-40,43-50,53-59,63-66,69-72,75-110,161-173" y="14-15"/>
+                </face>
+                <face animation="bricks-big-top">
+                    <range x="3-21,24-28,31-40,43-50,53-59,63-66,69-72,75-110,161-173" y="13"/>
+                </face>
+                <face animation="bricks-big-bottom">
+                    <range x="4-80" y="2"/>
+                </face>
+                <!-- Middle big platform -->
+                <face animation="bricks-big">
+                    <range x="83-86" y="10"/>
+                </face>
+                <face animation="bricks-big-top">
+                    <range x="87-92" y="9"/>
+                </face>
+                <face animation="bricks-big-bottom">
+                    <range x="87-92" y="10"/>
+                </face>
+                <face animation="mortar-5-shaded">
+                    <range x="87-92" y="8"/>
+                </face>
+                <!-- Pillars and their shadows -->
+                <face animation="pillar">
+                    <range x="21" y="9-12"/>
+                    <range x="28" y="6-12"/>
+                    <range x="44,63" y="9-10"/>
+                    <range x="54" y="6-8,11-12"/>
+                </face>
+                <face animation="mortar-4-shaded">
+                    <range x="28,54" y="5"/>
+                </face>
+                <face animation="mortar-5-shaded">
+                    <range x="21,44,63" y="8"/>
+                </face>
+                <face animation="hole">
+                    <range x="22,39,46,58" y="5"/>
+                    <range x="12" y="6"/>
+                    <range x="15,36" y="8"/>
+                    <range x="33" y="9"/>
+                </face>
+                <!-- Lava pit -->
+                <face animation="concrete-top">
+                    <range x="111,140" y="12"/>
+                </face>
+                <face animation="mortar-8-shaded">
+                    <range x="111,140" y="11"/>
+                </face>
+                <face animation="concrete-bottom">
+                    <range x="111,140" y="14"/>
+                </face>
+                <face animation="concrete-lower">
+                    <range x="112-139" y="14"/>
+                </face>
+                <face animation="concrete-fill">
+                    <range x="111,140" y="13"/>
+                </face>
+                <face animation="lava-hori-1">
+                    <range x="112-139/2" y="13"/>
+                </face>
+                <face animation="lava-hori-2">
+                    <range x="113-139/2" y="13"/>
+                </face>
+                <face animation="lava-edge">
+                    <range x="141" y="13"/>
+                </face>
+                <face animation="lava-vert-1">
+                    <range x="141" y="14"/>
+                </face>
+                <face animation="lava-vert-2">
+                    <range x="141" y="15"/>
+                </face>
+                <face animation="ladder">
+                    <range x="3" y="1-2"/>
+                    <range x="174" y="13-15"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="vertical-2">
+            <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+                <face animation="darkness">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="mortar-1">
+                    <range x="*" y="2"/>
+                </face>
+                <face animation="mortar-2">
+                    <range x="*" y="3"/>
+                </face>
+                <face animation="mortar-3">
+                    <range x="*" y="4"/>
+                </face>
+                <face animation="mortar-4">
+                    <range x="*" y="5"/>
+                </face>
+                <face animation="mortar-5">
+                    <range x="*" y="6-8"/>
+                </face>
+                <face animation="mortar-6">
+                    <range x="*" y="9"/>
+                </face>
+                <face animation="mortar-7">
+                    <range x="*" y="10"/>
+                </face>
+                <face animation="mortar-8">
+                    <range x="*" y="11"/>
+                </face>
+                <face animation="mortar-8-shaded">
+                    <range x="5-13" y="11"/>
+                </face>
+                <face animation="bricks-small">
+                    <range x="1-3,15-16" y="6-10"/>
+                </face>
+                <face animation="bricks-big-top">
+                    <range x="1-3,15-16" y="5"/>
+                    <range x="1-8" y="15"/>
+                </face>
+                <face animation="bricks-big-bottom">
+                    <range x="*" y="1"/>
+                    <range x="1-3,15-16" y="11"/>
+                </face>
+                <face animation="concrete-fill">
+                    <range x="*" y="3,13"/>
+                </face>
+                <face animation="concrete-top">
+                    <range x="*" y="2,12"/>
+                </face>
+                <face animation="concrete-bottom">
+                    <range x="*" y="4,14"/>
+                </face>
+                <face animation="concrete-upper">
+                    <range x="3-7,11-12" y="2"/>
+                    <range x="1-2,7-8,10-14" y="12"/>
+                </face>
+                <face animation="concrete-lower">
+                    <range x="3-7,11-12" y="4"/>
+                    <range x="1-2,7-8,10-14" y="14"/>
+                </face>
+                <face animation="lava-hori-1">
+                    <range x="3-7/2,11" y="3"/>
+                    <range x="1,7,10-14/2" y="13"/>
+                </face>
+                <face animation="lava-hori-2">
+                    <range x="4-7/2,12" y="3"/>
+                    <range x="2,8,11-14/2" y="13"/>
+                </face>
+                <face animation="ladder">
+                    <range x="14" y="1-11"/>
+                    <range x="4" y="12-15"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="boss-level">
+            <geometry type="plane" w="768" h="240" w-segments="48" h-segments="15">
+                <face animation="darkness">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="mortar-1">
+                    <range x="*" y="2"/>
+                </face>
+                <face animation="mortar-2">
+                    <range x="*" y="3"/>
+                </face>
+                <face animation="mortar-3">
+                    <range x="*" y="4"/>
+                </face>
+                <face animation="mortar-4">
+                    <range x="*" y="5"/>
+                </face>
+                <face animation="mortar-5">
+                    <range x="*" y="6-8"/>
+                </face>
+                <face animation="mortar-6">
+                    <range x="*" y="9"/>
+                </face>
+                <face animation="mortar-7">
+                    <range x="*" y="10"/>
+                </face>
+                <face animation="mortar-8">
+                    <range x="*" y="11"/>
+                </face>
+                <face animation="mortar-9-shaded">
+                    <range x="*" y="12"/>
+                </face>
+                <face animation="bricks-small">
+                    <range x="5-8" y="1-2"/>
+                    <range x="33-48" y="1"/>
+                    <range x="1-3" y="*"/>
+                    <range x="1-16" y="12-15"/>
+                    <range x="33" y="2-6"/>
+                    <range x="48" y="2-12"/>
+                </face>
+                <face animation="bricks-big-top">
+                    <range x="4-33" y="11"/>
+                    <range x="17-32" y="5"/>
+                </face>
+                <face animation="bricks-big-bottom">
+                    <range x="17-33" y="6,12"/>
+                    <range x="34-47" y="2"/>
+                    <range x="5-8" y="3"/>
+                </face>
+                <!-- Sign -->
+                <face animation="sign-w">
+                    <range x="14" y="1-5"/>
+                </face>
+                <face animation="sign-sw">
+                    <range x="14" y="6"/>
+                </face>
+                <face animation="sign-s">
+                    <range x="15-16" y="6"/>
+                </face>
+                <face animation="sign-n">
+                    <range x="15-16" y="1-5"/>
+                </face>
+                <face animation="ladder">
+                    <range x="4" y="1-3"/>
+                </face>
+                <face animation="concrete-top">
+                    <range x="33-48" y="13"/>
+                </face>
+                <face animation="concrete-fill">
+                    <range x="33-48" y="14"/>
+                </face>
+                <face animation="concrete-bottom">
+                    <range x="33-48" y="15"/>
+                </face>
+                <face animation="concrete-upper">
+                    <range x="34-35,38-43,46-47" y="13"/>
+                </face>
+                <face animation="concrete-lower">
+                    <range x="34-35,38-43,46-47" y="15"/>
+                </face>
+                <face animation="lava-hori-1">
+                    <range x="34,38-43/2,46" y="14"/>
+                </face>
+                <face animation="lava-hori-2">
+                    <range x="35,39-43/2,47" y="14"/>
+                </face>
+                <face animation="darkness">
+                    <range x="17-32" y="1-4"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="drwily-sign">
+            <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
+                <face animation="dr-wily-sign" index="[0]"/>
+            </geometry>
+        </object>
+    </objects>
+    <layout>
+        <objects>
+            <object id="upper-level" x="1024" y="-120" z="-0.1"/>
+            <object id="vertical-1" x="1920" y="-360" z="-0.1"/>
+            <object id="lower-level" x="3200" y="-600" z="-0.1"/>
+            <object id="vertical-2" x="4480" y="-840" z="-0.1"/>
+            <object id="boss-level" x="4736" y="-1080" z="-0.1"/>
+
+            <object id="door" x="4608" y="-1088"/>
+            <object id="door" x="4864" y="-1088"/>
+            <!-- vertical room 1 -->
+            <object id="pho-block" x="1960" y="-360">
+                <trait source="Disappearing" off="2" on="2"/>
+            </object>
+            <object id="pho-block" x="1896" y="-296">
+                <trait source="Disappearing" off="2" on="2"/>
+            </object>
+            <object id="pho-block" x="1960" y="-312">
+                <trait source="Disappearing" off="2" on="2" offset="-1"/>
+            </object>
+            <object id="pho-block" x="1912" y="-328">
+                <trait source="Disappearing" off="2" on="2" offset="-2"/>
+            </object>
+            <!-- lower level, section 1 -->
+            <object id="pho-block" x="2104" y="-648">
+                <trait source="Disappearing" off="2" on="2" offset="-1"/>
+            </object>
+            <object id="pho-block" x="2216" y="-632">
+                <trait source="Disappearing" off="2" on="2" offset="0"/>
+            </object>
+            <object id="pho-block" x="2216" y="-584">
+                <trait source="Disappearing" off="2" on="2" offset="-1"/>
+            </object>
+            <object id="pho-block" x="2472" y="-640">
+                <trait source="Disappearing" off="2" on="2"/>
+            </object>
+            <object id="pho-block" x="2632" y="-648">
+                <trait source="Disappearing" off="2" on="2"/>
+            </object>
+            <object id="pho-block" x="2632" y="-600">
+                <trait source="Disappearing" off="2" on="2" offset="-2"/>
+            </object>
+            <object id="pho-block" x="2776" y="-664">
+                <trait source="Disappearing" off="2" on="2"/>
+            </object>
+            <!-- lava trap -->
+            <object id="pho-block" x="3304" y="-600">
+                <trait source="Disappearing" off="2" on="2" offset="0"/>
+            </object>
+            <object id="pho-block" x="3352" y="-600">
+                <trait source="Disappearing" off="2" on="2" offset="-.5"/>
+            </object>
+            <object id="pho-block" x="3400" y="-600">
+                <trait source="Disappearing" off="2" on="2" offset="-2.5"/>
+            </object>
+            <object id="pho-block" x="3400" y="-552">
+                <trait source="Disappearing" off="2" on="2" offset="-3.8"/>
+            </object>
+            <object id="pho-block" x="3448" y="-552">
+                <trait source="Disappearing" off="2" on="2" offset="-3.5"/>
+            </object>
+            <object id="pho-block" x="3496" y="-600">
+                <trait source="Disappearing" off="2" on="2" offset="-5"/>
+            </object>
+            <object id="pho-block" x="3544" y="-600">
+                <trait source="Disappearing" off="6" on="2" offset="-2"/>
+            </object>
+            <object id="pho-block" x="3544" y="-552">
+                <trait source="Disappearing" off="6" on="2" offset="-1.5"/>
+            </object>
+            <object id="pho-block" x="3592" y="-552">
+                <trait source="Disappearing" off="6" on="2" offset="-3"/>
+            </object>
+            <object id="pho-block" x="3640" y="-552">
+                <trait source="Disappearing" off="6" on="2" offset="-4"/>
+            </object>
+            <object id="pho-block" x="3688" y="-584">
+                <trait source="Disappearing" off="6" on="2" offset="-5"/>
+            </object>
+            <object id="pho-block" x="3736" y="-584">
+                <trait source="Disappearing" off="6" on="2" offset="-6"/>
+            </object>
+            <object id="pho-block" x="3784" y="-584">
+                <trait source="Disappearing" off="6" on="2" offset="-7"/>
+            </object>
+            <object id="pho-block" x="3832" y="-584">
+                <trait source="Disappearing" off="6" on="2" offset="-8"/>
+            </object>
+            <object id="pho-block" x="3880" y="-584">
+                <trait source="Disappearing" off="6" on="2" offset="-9"/>
+            </object>
+            <object id="pho-block" x="3928" y="-600">
+                <trait source="Disappearing" off="6" on="2" offset="-10"/>
+            </object>
+            <object id="pho-block" x="3976" y="-584">
+                <trait source="Disappearing" off="6" on="2" offset="-11"/>
+            </object>
+            <object id="pho-block" x="4024" y="-568">
+                <trait source="Disappearing" off="6" on="2" offset="-12"/>
+            </object>
+            <object id="pho-block" x="4072" y="-552">
+                <trait source="Disappearing" off="6" on="2" offset="-13"/>
+            </object>
+            <object id="pho-block" x="4120" y="-632">
+                <trait source="Disappearing" off="6" on="2" offset="-14"/>
+            </object>
+            <object id="pho-block" x="4168" y="-632">
+                <trait source="Disappearing" off="6" on="2" offset="-15"/>
+            </object>
+            <object id="pho-block" x="4216" y="-632">
+                <trait source="Disappearing" off="6" on="2" offset="-16"/>
+            </object>
+            <object id="pho-block" x="4216" y="-584">
+                <trait source="Disappearing" off="6" on="2" offset="-18"/>
+            </object>
+            <object id="pho-block" x="4264" y="-600">
+                <trait source="Disappearing" off="6" on="2" offset="-17"/>
+            </object>
+            <object id="pho-block" x="4312" y="-584">
+                <trait source="Disappearing" off="6" on="2" offset="-18.5"/>
+            </object>
+            <object id="ironwall" x="2488" y="-656"/>
+            <object id="ironwall" x="2648" y="-624"/>
+            <object id="ironwall" x="2792" y="-656"/>
+            <object id="drwily-sign" x="4592" y="-1024" z="0"/>
+        </objects>
+        <spawner x="680" y="-88" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="744" y="-120" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="840" y="-72" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="904" y="-104" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="984" y="-152" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="1064" y="-88" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="1160" y="-88" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="1256" y="-56" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="1352" y="-88" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="1480" y="-88" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="1976" y="-568" interval="7" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="2024" y="-600" interval="6" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="2136" y="-552" interval="8" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="2312" y="-616" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="2360" y="-600" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="2408" y="-552" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="2520" y="-552" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <spawner x="2712" y="-552" interval="4" simultaneous="1">
+            <character id="Telly"/>
+        </spawner>
+        <behaviors>
+            <deathzones>
+                <rect x="272" y="-200" w="96" h="16"/>
+                <rect x="400" y="-200" w="128" h="16"/>
+                <rect x="536" y="-200" w="80" h="16"/>
+                <rect x="760" y="-200" w="48" h="16"/>
+                <rect x="928" y="-200" w="256" h="16"/>
+                <rect x="1168" y="-200" w="256" h="16"/>
+                <rect x="1400" y="-200" w="240" h="16"/>
+                <rect x="1656" y="-248" w="304" h="16"/>
+            </deathzones>
+            <climbables>
+                <rect x="2008" y="-296" w="0" h="208"/>
+                <rect x="1832" y="-408" w="0" h="208"/>
+                <rect x="4568" y="-784" w="0" h="224"/>
+                <rect x="4408" y="-952" w="0" h="112"/>
+            </climbables>
+            <solids>
+                <rect x="136" y="-184" w="240" h="16"/>
+                <rect x="344" y="-184" w="80" h="16"/>
+                <rect x="472" y="-184" w="80" h="16"/>
+                <rect x="656" y="-184" w="192" h="16"/>
+                <rect x="800" y="-184" w="32" h="16"/>
+                <rect x="864" y="-168" w="32" h="48"/>
+                <rect x="920" y="-184" w="16" h="16"/>
+                <rect x="952" y="-160" w="16" h="64"/>
+                <rect x="968" y="-184" w="16" h="16"/>
+                <rect x="1016" y="-160" w="16" h="64"/>
+                <rect x="1080" y="-176" w="16" h="32"/>
+                <rect x="1128" y="-160" w="16" h="64"/>
+                <rect x="1192" y="-176" w="16" h="32"/>
+                <rect x="1240" y="-176" w="16" h="32"/>
+                <rect x="1288" y="-176" w="16" h="32"/>
+                <rect x="1336" y="-176" w="16" h="32"/>
+                <rect x="1384" y="-176" w="16" h="32"/>
+                <rect x="1432" y="-176" w="16" h="32"/>
+                <rect x="1496" y="-176" w="16" h="32"/>
+                <rect x="24" y="-96" w="16" h="192"/>
+                <rect x="1824" y="-136" w="64" h="16"/>
+                <rect x="1856" y="-88" w="64" h="16"/>
+                <rect x="1952" y="-104" w="64" h="16"/>
+                <rect x="1968" y="-152" w="32" h="112"/>
+                <rect x="1880" y="-200" w="240" h="16"/>
+                <rect x="1936" y="-184" w="96" h="48"/>
+                <rect x="2024" y="-152" w="16" h="272"/>
+                <rect x="2024" y="-368" w="16" h="192"/>
+                <rect x="1848" y="-384" w="16" h="160"/>
+                <rect x="1936" y="-456" w="192" h="16"/>
+                <rect x="1816" y="-328" w="16" h="272"/>
+                <rect x="1816" y="-568" w="16" h="240"/>
+                <rect x="2464" y="-416" w="128" h="16"/>
+                <rect x="1936" y="-680" w="256" h="16"/>
+                <rect x="2088" y="-696" w="80" h="48"/>
+                <rect x="2120" y="-648" w="16" h="80"/>
+                <rect x="2232" y="-624" w="16" h="128"/>
+                <rect x="2200" y="-696" w="80" h="48"/>
+                <rect x="2352" y="-696" w="160" h="48"/>
+                <rect x="2528" y="-696" w="128" h="48"/>
+                <rect x="2680" y="-696" w="112" h="48"/>
+                <rect x="2816" y="-696" w="64" h="48"/>
+                <rect x="2648" y="-664" w="16" h="48"/>
+                <rect x="2648" y="-584" w="16" h="48"/>
+                <rect x="2792" y="-624" w="16" h="32"/>
+                <rect x="2488" y="-624" w="16" h="32"/>
+                <rect x="3184" y="-632" w="160" h="16"/>
+                <rect x="3216" y="-624" w="96" h="32"/>
+                <rect x="2912" y="-696" w="64" h="48"/>
+                <rect x="3104" y="-696" w="256" h="48"/>
+                <rect x="3344" y="-696" w="256" h="48"/>
+                <rect x="3512" y="-696" w="112" h="48"/>
+                <rect x="3560" y="-688" w="16" h="64"/>
+                <rect x="4024" y="-688" w="16" h="64"/>
+                <rect x="4456" y="-728" w="208" h="112"/>
+                <rect x="4592" y="-624" w="32" h="256"/>
+                <rect x="4592" y="-840" w="32" h="208"/>
+                <rect x="4376" y="-912" w="48" h="256"/>
+                <rect x="4448" y="-952" w="64" h="112"/>
+                <rect x="4512" y="-920" w="192" h="48"/>
+                <rect x="4376" y="-1096" w="48" h="144"/>
+                <rect x="4512" y="-1144" w="256" h="48"/>
+                <rect x="4752" y="-1144" w="256" h="48"/>
+                <rect x="4720" y="-1008" w="320" h="96"/>
+                <rect x="4992" y="-976" w="256" h="32"/>
+                <rect x="5112" y="-1072" w="16" h="192"/>
+                <rect x="4992" y="-1176" w="256" h="48"/>
+                <rect x="1544" y="-168" w="16" h="16"/>
+                <rect x="1592" y="-152" w="16" h="16"/>
+                <rect x="1608" y="-104" w="16" h="16"/>
+                <rect x="1672" y="-184" w="16" h="16"/>
+                <rect x="1704" y="-152" w="16" h="16"/>
+                <rect x="1912" y="-16" w="240" h="32"/>
+                <rect x="1880" y="-408" w="16" h="16"/>
+                <rect x="1928" y="-408" w="16" h="16"/>
+                <rect x="1976" y="-408" w="16" h="16"/>
+                <rect x="2008" y="-408" w="16" h="16"/>
+            </solids>
+        </behaviors>
+    </layout>
+</scene>

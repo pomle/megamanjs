@@ -1,9 +1,11 @@
 'use strict';
 
-Engine.World = class World {
+Engine.World = class World
+{
     constructor()
     {
         this.EVENT_UPDATE = 'update';
+        this.EVENT_EMIT_AUDIO = 'emit-audio';
 
         this.ambientLight = new THREE.AmbientLight(0xffffff);
 
@@ -11,7 +13,7 @@ Engine.World = class World {
 
         this.collision = new Engine.Collision();
 
-        this.events = new Engine.Events();
+        this.events = new Engine.Events(this);
 
         this.atmosphericDensity = .1;
         this.atmosphericViscosity = .1;
@@ -44,10 +46,14 @@ Engine.World = class World {
         }
         object.setWorld(this);
     }
+    emitAudio(positionalAudio)
+    {
+        this.events.trigger(this.EVENT_EMIT_AUDIO, [positionalAudio]);
+    }
     getObject(name)
     {
-        for (var i = 0, l = this.objects.length; i !== l; ++i) {
-            var object = this.objects[i];
+        for (let i = 0, l = this.objects.length; i !== l; ++i) {
+            const object = this.objects[i];
             if (object.name === name) {
                 return object;
             }
@@ -56,7 +62,7 @@ Engine.World = class World {
     }
     hasObject(object)
     {
-        var index = this.objects.indexOf(object);
+        const index = this.objects.indexOf(object);
         return index !== -1 && this.objectsDead[index] === false;
     }
     removeObject(object)
@@ -64,7 +70,7 @@ Engine.World = class World {
         if (object instanceof Engine.Object === false) {
             throw new TypeError('Invalid object');
         }
-        var index = this.objects.indexOf(object);
+        const index = this.objects.indexOf(object);
         if (index !== -1) {
             this.objectsDead[index] = true;
         }
@@ -79,8 +85,8 @@ Engine.World = class World {
     }
     updateAnimation(dt)
     {
-        var objects = this.objects;
-        for (var i = 0, l = objects.length; i !== l; ++i) {
+        const objects = this.objects;
+        for (let i = 0, l = objects.length; i !== l; ++i) {
             objects[i].updateAnimators(dt);
         }
     }
@@ -89,8 +95,8 @@ Engine.World = class World {
         deltaTime *= this.timeStretch;
         this.timeTotal += deltaTime;
 
-        var objectsDead = this.objectsDead;
-        for (var object, objects = this.objects, i = 0, l = objects.length; i !== l; ++i) {
+        const objectsDead = this.objectsDead;
+        for (let object, objects = this.objects, i = 0, l = objects.length; i !== l; ++i) {
             object = objects[i];
             if (objectsDead[i] === true) {
                 this._cleanObject(object);

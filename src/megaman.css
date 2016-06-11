@@ -12,13 +12,31 @@ body {
     text-align: center;
 }
 
+button {
+    background: #03a8ed;
+    border-radius: 10%;
+    color: #fff;
+    margin: .2em;
+    padding: .2em .5em;
+}
+
 input {
     background: transparent;
     border-width: 1px;
 }
 
+#toolbox {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 200px;
+}
+
+#toolbox fieldset {
+    margin: .5em 0;
+}
+
 #game {
-    background: inherit;
     margin: 0 auto;
     position: relative;
 }
@@ -54,7 +72,36 @@ input {
 
 #screen .overlay {
     position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
     z-index: 2;
+}
+
+#screen .throbber {
+    align-items: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, .5);
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+#game.busy #screen .throbber {
+    display: flex;
+}
+#screen .throbber .progress-bar {
+    background-color: transparent;
+    border: solid 4px #fff;
+    margin: auto;
+    height: 5%;
+    width: 40%;
+}
+
+#screen .throbber .progress-bar .progress {
+    background-color: #fff;
+    height: 100%;
+    width: 0;
 }
 
 #screen .overlay .energy {
@@ -79,7 +126,7 @@ input {
 }
 
 #screen .overlay .energy > * > .amount {
-    background-image: url('game/resource/meters.png');
+    background-image: url('resource/meters.png');
     background-position: 0 100%;
     background-size: 160px 112px;
     position: absolute;

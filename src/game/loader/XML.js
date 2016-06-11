@@ -1,129 +1,87 @@
 'use strict';
 
-Game.Loader.XML = function(game)
+Game.Loader.XML =
+class XMLLoader
+extends Game.Loader
 {
-    Game.Loader.call(this, game);
-    this.resource = new Game.ResourceManager();
-    this.sceneIndex = {};
-}
-
-Engine.Util.extend(Game.Loader.XML, Game.Loader);
-
-Game.Loader.XML.createFromXML = function(url, callback)
-{
-    var renderer = new THREE.WebGLRenderer({
-        'antialias': false,
-    });
-
-    var game =  new Game();
-    game.engine = new Engine(renderer);
-
-    var loader = new Game.Loader.XML(game);
-
-    var promise = new Promise(function(resolve, reject) {
-        loader.loadGame(url).then(function() {
-            resolve(loader);
-        });
-    });
-
-    return {
-        game: game,
-        loader: loader,
-        promise: promise,
+    constructor()
+    {
+        super(new Game());
+        this.entryPoint = null;
+        this.sceneIndex = {};
     }
-}
-
-Game.Loader.XML.prototype.asyncLoadXml = function(url)
-{
-    var loader = this;
-    return new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.addEventListener('load', function() {
-            if (xhr.status === 200) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(xhr.responseText, 'text/xml');
-                doc.baseURL = url;
-                resolve(doc);
-            } else {
-                reject(new Error('Failed to load ' + url + ' (' + xhr.status + ')'));
-            }
-        });
-        xhr.send(null);
-    });
-}
-
-Game.Loader.XML.prototype.followNode = function(node)
-{
-    return new Promise((resolve, reject) => {
-        if (node.getAttribute('src')) {
-            const url = this.resolveURL(node, 'src');
-            console.log('Digging deeper', url);
-            this.asyncLoadXml(url).then(function(doc) {
-                resolve(doc.children[0]);
-            });
-        } else {
-            resolve(node);
+    asyncLoadXML(url)
+    {
+        return this.resourceLoader.loadXML(url);
+    }
+    followNode(node)
+    {
+        const url = this.resolveURL(node, 'src');
+        if (!url) {
+            return Promise.resolve(node);
         }
-    });
-}
-
-Game.Loader.XML.prototype.resolveURL = function(node, attr)
-{
-    var url = node.getAttribute(attr || 'url');
-    if (node.ownerDocument.baseURL === undefined) {
-        return url;
+        return this.asyncLoadXML(url)
+            .then(doc => {
+                return doc.children[0];
+            });
     }
-    if (url.indexOf('http') === 0) {
-        return url;
-    }
-    var baseUrl = node.ownerDocument.baseURL
-                         .split('/')
-                         .slice(0, -1)
-                         .join('/') + '/';
-    return baseUrl + url;
-}
-
-Game.Loader.XML.prototype.loadGame = function(url)
-{
-    var gameParser = new Game.Loader.XML.Parser.GameParser(this);
-    return this.asyncLoadXml(url).then(function(doc) {
-        return gameParser.parse(doc.getElementsByTagName('game')[0]);
-    });
-}
-
-Game.Loader.XML.prototype.parseScene = function(sceneNode)
-{
-    if (sceneNode.tagName !== 'scene') {
-        throw new TypeError('Node not <scene>');
-    }
-
-    var type = sceneNode.getAttribute('type');
-    if (type === 'level') {
-        var levelParser = new Game.Loader.XML.Parser.LevelParser(this);
-        return levelParser.parse(sceneNode);
-    } else if (type === 'stage-select') {
-        var stageSelectParser = new Game.Loader.XML.Parser.StageSelectParser(this);
-        return stageSelectParser.parseStageSelect(sceneNode);
-    }
-
-    throw new Error('Scene type "' + type + '" not recognized');
-}
-
-Game.Loader.XML.prototype.startScene = function(name)
-{
-    if (!this.sceneIndex[name]) {
-        throw new Error('Scene "' + name + '" does not exist');
-    }
-
-    this.game.engine.pause();
-    var loader = this;
-    return this.asyncLoadXml(this.sceneIndex[name].url)
-        .then(function(node) {
-            return loader.parseScene(node.children[0]);
-        })
-        .then(function(scene) {
-            loader.game.setScene(scene);
-            return scene;
+    loadGame(url)
+    {
+        return this.asyncLoadXML(url).then(doc => {
+            const node = doc.querySelector('game');
+            const parser = new Game.Loader.XML.GameParser(this, node);
+            return parser.parse();
         });
+    }
+    loadScene(url)
+    {
+        return this.asyncLoadXML(url)
+            .then(node => {
+                const sceneNode = node.querySelector('scene');
+                return this.parseScene(sceneNode);
+            });
+    }
+    loadSceneByName(name)
+    {
+        if (!this.sceneIndex[name]) {
+            throw new Error(`Scene "${name}" does not exist.`);
+        }
+
+        return this.loadScene(this.sceneIndex[name].url);
+    }
+    parseScene(node)
+    {
+        if (node.tagName !== 'scene') {
+            throw new TypeError('Node not <scene>');
+        }
+
+        const type = node.getAttribute('type');
+        if (type === 'level') {
+            const parser = new Game.Loader.XML.LevelParser(this, node);
+            return parser.getScene();
+        } else if (type === 'stage-select') {
+            const parser = new Game.Loader.XML.StageSelectParser(this, node);
+            return parser.getScene();
+        }
+
+        throw new Error(`Scene type "${type}" not recognized`);
+    }
+    resolveURL(node, attr)
+    {
+        const url = node.getAttribute(attr || 'url');
+        if (!url) {
+            return null;
+        }
+
+        if (node.ownerDocument.baseURL === undefined) {
+            return url;
+        }
+        if (url.indexOf('http') === 0) {
+            return url;
+        }
+        const baseUrl = node.ownerDocument.baseURL
+            .split('/').slice(0, -1).join('/') + '/';
+
+        return baseUrl + url;
+    }
 }

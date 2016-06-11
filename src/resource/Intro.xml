@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level">
+    <audio>
+        <music src="./intro/intro.ogg" id="intro"/>
+    </audio>
+    <events>
+        <event name="start">
+            <action type="play-audio" id="intro"/>
+        </event>
+    </events>
+
+    <objects>
+        <textures>
+            <texture url="./intro/intro.png" w="256" h="256" />
+        </textures>
+        <animations>
+            <animation id="slice_0">
+                <frame x="1" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_1">
+                <frame x="1" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_2">
+                <frame x="1" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_3">
+                <frame x="1" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_4">
+                <frame x="19" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_5">
+                <frame x="19" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_6">
+                <frame x="19" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_7">
+                <frame x="19" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_8">
+                <frame x="37" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_9">
+                <frame x="37" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_10">
+                <frame x="37" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_11">
+                <frame x="37" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_12">
+                <frame x="55" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_13">
+                <frame x="55" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_14">
+                <frame x="55" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_15">
+                <frame x="55" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_16">
+                <frame x="73" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_17">
+                <frame x="73" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_18">
+                <frame x="73" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_19">
+                <frame x="73" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_20">
+                <frame x="91" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_21">
+                <frame x="91" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_22">
+                <frame x="109" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_23">
+                <frame x="109" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_24">
+                <frame x="127" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_25">
+                <frame x="127" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_26">
+                <frame x="145" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_27">
+                <frame x="145" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_28">
+                <frame x="163" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_29">
+                <frame x="163" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_30">
+                <frame x="181" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="slice_31">
+                <frame x="181" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="slice_32">
+                <frame x="127" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_33">
+                <frame x="145" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_34">
+                <frame x="163" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_35">
+                <frame x="181" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_36">
+                <frame x="127" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_37">
+                <frame x="145" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_38">
+                <frame x="163" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_39">
+                <frame x="181" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_40">
+                <frame x="91" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_41">
+                <frame x="109" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="slice_42">
+                <frame x="109" y="19" w="16" h="16"/>
+            </animation>
+            <animation id="slice_43">
+                <frame x="91" y="19" w="16" h="16"/>
+            </animation>
+        </animations>
+    </objects>
+</scene>

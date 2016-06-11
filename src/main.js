@@ -1,80 +1,120 @@
+'use strict';
+
 (function() {
-    var megaman2 = Game.Loader.XML.createFromXML('./game/resource/Megaman2.xml');
-    window.megaman2 = megaman2;
+    const loader = new Game.Loader.XML;
+    window.megaman2 = loader;
 
-    megaman2.promise.then(function() {
-        var game = megaman2.game;
-        var loader = megaman2.loader;
-        game.attachToElement(document.getElementById('screen'));
+    const game = loader.game;
+    const gameElement = document.getElementById('game');
+    const screenElement = document.getElementById('screen');
 
-        game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
-            if (scene instanceof Game.scenes.Level) {
-                window.inputRecorder = new Engine.InputRecorder(game, scene.inputs.character);
-                window.inputRecorder.listen();
-                window.inputRecorder.record();
-            }
-        });
+    game.attachToElement(screenElement);
 
-        game.events.bind(game.EVENT_SCENE_DESTROY, function(scene) {
-            if (window.inputRecorder) {
-                window.inputRecorder.stop();
-                window.inputRecorder.unlisten();
-                delete window.inputRecorder;
-            }
-        });
-
-        loader.startScene(loader.entrypoint);
-
-        window.addEventListener('focus', function() {
-            if (!game.engine.isRunning) {
-                game.engine.run();
-            }
-        });
-        window.addEventListener('blur', function() {
-            if (game.engine.isRunning) {
-                game.engine.pause();
-            }
-        });
-        document.addEventListener('click', function(e) {
-            var el = e.target;
-            if (el.matches('.weapons button')) {
-                game.player.equipWeapon(el.getAttribute('weapon'));
-            } else if (el.matches('.spawn button')) {
-                game.scene.spawnCharacter(el.getAttribute('spawn'));
-            }
-        });
-
-        gameElement = document.getElementById('game');
-
-        function onFullscreenChange() {
-            if(document.mozFullScreen || document.webkitIsFullScreen) {
-                gameElement.classList.add('fullscreen');
-            } else {
-                gameElement.classList.remove('fullscreen');
-            }
-
-            megaman2.game.adjustAspectRatio();
+    game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
+        if (scene instanceof Game.scenes.Level) {
+            window.inputRecorder = new Engine.InputRecorder(game, scene.inputs.character);
+            window.inputRecorder.listen();
+            window.inputRecorder.record();
         }
+    });
 
-        window.addEventListener('resize', onFullscreenChange);
-        document.addEventListener('mozfullscreenchange', onFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+    game.events.bind(game.EVENT_SCENE_DESTROY, function(scene) {
+        if (window.inputRecorder) {
+            window.inputRecorder.stop();
+            window.inputRecorder.unlisten();
+            delete window.inputRecorder;
+        }
+    });
 
-        document.addEventListener('click', function(e) {
-            if (e.target.matches('button.fullscreen')) {
-                gameElement.webkitRequestFullScreen();
+    const progress = gameElement.querySelector('.progress-bar > .progress');
+    loader.resourceLoader.events.bind(loader.resourceLoader.EVENT_PROGRESS, frac => {
+        progress.style.width = frac * 100 + '%';
+        gameElement.classList.add('busy');
+    });
+    loader.resourceLoader.events.bind(loader.resourceLoader.EVENT_COMPLETE, frac => {
+        gameElement.classList.remove('busy');
+    });
+
+    window.addEventListener('focus', function() {
+        game.resume();
+    });
+    window.addEventListener('blur', function() {
+        game.pause();
+    });
+
+    const actions = {
+        'adjustResolution': () => {
+            game.adjustResolution();
+        },
+        'resetPlayer': (e) => {
+            if (game.scene.resetPlayer) {
+                game.scene.resetPlayer();
             }
-        });
+        },
+        'toggleFullscreen': (e) => {
+            gameElement.webkitRequestFullScreen();
+        },
+        'setResolution': (e) => {
+            if (e.type === 'change') {
+                const res = e.target.value.split('x');
+                game.setResolution(parseFloat(res[0]), parseFloat(res[1]));
+            }
+        },
+        'spawn': (e) => {
+            const Obj = loader.resourceManager.get('character', e.target.dataset.object);
+            const obj = new Obj();
+            const player = game.player.character;
+            obj.moveTo({
+                x: player.position.x + 32,
+                y: player.position.y + 32,
+            });
+            game.scene.world.addObject(obj);
+        },
+        'weapon': (e) => {
+            game.player.equipWeapon(e.target.dataset.weapon);
+        }
+    }
+
+    const actionRouter = function(e) {
+        const name = e.target.name;
+        for (const action in actions) {
+            if (name === action) {
+                actions[action](e);
+                return;
+            }
+        }
+    };
+
+    document.addEventListener('click', actionRouter);
+    document.addEventListener('change', actionRouter);
+
+    function onFullscreenChange() {
+        if(document.mozFullScreen || document.webkitIsFullScreen) {
+            gameElement.classList.add('fullscreen');
+        } else {
+            gameElement.classList.remove('fullscreen');
+        }
+        game.adjustAspectRatio();
+    }
+
+    window.addEventListener('resize', onFullscreenChange);
+    document.addEventListener('mozfullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+
+    loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
+        return loader.loadSceneByName(entrypoint);
+    }).then(scene => {
+        game.setScene(scene);
     });
 
     /*$('#nes-controller a')
-        var isTouchDevice = false;
+        const isTouchDevice = false;
         .on('touchstart', keyBoardEvent)
         .on('touchend', keyBoardEvent)
         .on('mousedown', keyBoardEvent)
         .on('mouseup', keyBoardEvent);
 
-    var keyBoardEvent = function(event) {
+    const keyBoardEvent = function(event) {
         event.stopPropagation();
         if (isTouchDevice && ["mousedown", "mouseup"].indexOf(event.type) > -1) {
             return;
@@ -82,14 +122,14 @@
             isTouchDevice = true;
         }
 
-        var map = {
+        const map = {
             "touchstart": "keydown",
             "touchend": "keyup",
             "mousedown": "keydown",
             "mouseup": "keyup",
         };
 
-        var key = this.getAttribute('data-key');
+        const key = this.getAttribute('data-key');
         game.scene.input.trigger(key, map[event.type]);
     }*/
 })();

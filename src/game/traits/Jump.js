@@ -18,12 +18,15 @@ Game.traits.Jump.prototype.NAME = 'jump';
 Game.traits.Jump.prototype.EVENT_JUMP_ENGAGE = 'jump-engage';
 Game.traits.Jump.prototype.EVENT_JUMP_CANCEL = 'jump-cancel';
 Game.traits.Jump.prototype.EVENT_JUMP_END    = 'jump-end';
+Game.traits.Jump.prototype.EVENT_JUMP_LAND    = 'jump-land';
 
 Game.traits.Jump.prototype.__obstruct = function(object, attack)
 {
     if (attack === object.SURFACE_TOP) {
-        this._ready = true;
-        this._fallcount = 0;
+        if (this._ready === false) {
+            this._trigger(this.EVENT_JUMP_LAND);
+        }
+        this.reset();
     } else if (attack === object.SURFACE_BOTTOM) {
         this._end();
     }
@@ -42,6 +45,12 @@ Game.traits.Jump.prototype.__timeshift = function(deltaTime)
     } else {
         this._elapsed += deltaTime;
     }
+}
+
+Game.traits.Jump.prototype._end = function()
+{
+    this._elapsed = undefined;
+    this._trigger(this.EVENT_JUMP_END);
 }
 
 Game.traits.Jump.prototype.engage = function()
@@ -79,8 +88,8 @@ Game.traits.Jump.prototype.cancel = function()
     this._end();
 }
 
-Game.traits.Jump.prototype._end = function()
+Game.traits.Jump.prototype.reset = function()
 {
-    this._elapsed = undefined;
-    this._trigger(this.EVENT_JUMP_END);
+    this._ready = true;
+    this._fallcount = 0;
 }

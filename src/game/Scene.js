@@ -1,39 +1,147 @@
-Game.Scene = function(game, world)
+'use strict';
+
+Game.Scene = class Scene
 {
-    if (game instanceof Game === false) {
-        throw new TypeError("Expected instance of game");
+    constructor()
+    {
+        this.EVENT_CREATE = 'create';
+        this.EVENT_DESTROY = 'destroy';
+        this.EVENT_END = 'end';
+        this.EVENT_START = 'start';
+        this.EVENT_PAUSE = 'pause';
+        this.EVENT_RESUME = 'resume';
+
+        this.audio = {};
+        this.game = null;
+        this.events = new Engine.Events(this);
+        this.timer = new Engine.Timer;
+        this.input = new Engine.Keyboard;
+        this.world = new Engine.World;
+
+        const timer = this.timer;
+        const world = this.world;
+        const scene = world.scene;
+        const camera = world.camera.camera;
+
+        this.simulate = (dt) => {
+            this.world.updateTime(dt);
+            this.world.camera.updateTime(dt);
+        };
+
+        const animate = (dt) => {
+            world.updateAnimation(dt);
+        };
+
+        const render = () => {
+            if (this.game) {
+                this.game.renderer.render(scene, camera);
+            }
+        };
+
+        const audioListener = (audio) => {
+            if (this.game) {
+                this.game.audioPlayer.play(audio);
+            }
+        };
+
+        this.events.bind(this.EVENT_CREATE, (game) => {
+            this.startSimulation();
+            timer.events.bind(timer.EVENT_UPDATE, animate);
+            timer.events.bind(timer.EVENT_RENDER, render);
+            world.events.bind(world.EVENT_EMIT_AUDIO, audioListener);
+        });
+
+        this.events.bind(this.EVENT_DESTROY, () => {
+            this.stopSimulation();
+            timer.events.unbind(timer.EVENT_UPDATE, animate);
+            timer.events.unbind(timer.EVENT_RENDER, render);
+            world.events.unbind(world.EVENT_EMIT_AUDIO, audioListener);
+        });
     }
-    if (world instanceof Engine.World === false) {
-        throw new TypeError("Expected instance of world");
+    __create(game)
+    {
+        this.game = game;
+        this.events.trigger(this.EVENT_CREATE, [game]);
     }
-    this.events = new Engine.Events();
-    this.game = game;
-    this.input = new Engine.Keyboard();
-    this.world = world;
-}
-
-Game.Scene.prototype.EVENT_CREATE = 'create';
-Game.Scene.prototype.EVENT_DESTROY = 'destroy';
-Game.Scene.prototype.EVENT_END = 'end';
-Game.Scene.prototype.EVENT_START = 'start';
-
-Game.Scene.prototype.__create = function()
-{
-    this.events.trigger(this.EVENT_CREATE, arguments);
-}
-
-Game.Scene.prototype.__destroy = function()
-{
-    this.input.release();
-    this.events.trigger(this.EVENT_DESTROY, arguments);
-}
-
-Game.Scene.prototype.__end = function()
-{
-    this.events.trigger(this.EVENT_END, arguments);
-}
-
-Game.Scene.prototype.__start = function()
-{
-    this.events.trigger(this.EVENT_START, arguments);
+    __start()
+    {
+        this.events.trigger(this.EVENT_START);
+    }
+    __resume()
+    {
+        this.game.audioPlayer.resume();
+        this.timer.run();
+        this.events.trigger(this.EVENT_RESUME);
+    }
+    __pause()
+    {
+        this.game.audioPlayer.pause();
+        this.input.release();
+        this.timer.pause();
+        this.events.trigger(this.EVENT_PAUSE);
+    }
+    __end()
+    {
+        this.__pause();
+        this.game.audioPlayer.stop();
+        this.events.trigger(this.EVENT_END);
+    }
+    __destroy()
+    {
+        this.events.trigger(this.EVENT_DESTROY);
+        this.game = null;
+    }
+    doFor(seconds, callback)
+    {
+        var elapsed = 0;
+        const wrapper = (dt) => {
+            callback(elapsed);
+            elapsed += dt;
+        };
+        const timer = this.timer;
+        timer.events.bind(timer.EVENT_TIMEPASS, wrapper);
+        return this.waitFor(seconds).then(() => {
+            timer.events.unbind(timer.EVENT_TIMEPASS, wrapper);
+        });
+    }
+    getAudio(id)
+    {
+        if (!this.audio[id]) {
+            throw new Error('Audio id ' + id + ' not found');
+        }
+        return this.audio[id];
+    }
+    playAudio(id)
+    {
+        const audio = this.getAudio(id);
+        this.game.audioPlayer.play(audio);
+    }
+    stopAudio(id)
+    {
+        const audio = this.getAudio(id);
+        this.game.audioPlayer.stop(audio);
+    }
+    startSimulation()
+    {
+        this.timer.events.bind(this.timer.EVENT_SIMULATE, this.simulate);
+    }
+    stopSimulation()
+    {
+        this.timer.events.unbind(this.timer.EVENT_SIMULATE, this.simulate);
+    }
+    waitFor(seconds)
+    {
+        const timer = this.timer;
+        var elapsed = 0;
+        return new Promise(resolve => {
+            const wait = (dt) => {
+                elapsed += dt;
+                if (elapsed >= seconds) {
+                    timer.events.unbind(timer.EVENT_UPDATE, wait);
+                    resolve();
+                }
+            };
+            timer.events.bind(timer.EVENT_UPDATE, wait);
+        });
+    }
 }

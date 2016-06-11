@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+    <object type="character" source="Megaman" id="Megaman">
+        <audio>
+            <effect src="./megaman/teleport-in.ogg" id="teleport-in"/>
+            <effect src="./megaman/jump-land.ogg" id="jump-land"/>
+            <effect src="./megaman/damage.ogg" id="damage"/>
+            <effect src="./megaman/death.ogg" id="death"/>
+            <effect src="./megaman/plasma.ogg" id="plasma"/>
+            <effect src="./megaman/metalblade.ogg" id="metalblade"/>
+            <effect src="./megaman/airshot.ogg" id="airshot"/>
+        </audio>
+
+        <geometry type="plane" w="48" h="48" />
+
+        <collision>
+            <rect w="14" h="22" />
+        </collision>
+
+        <events>
+            <event name="death">
+                <action type="emit-audio" id="death"/>
+            </event>
+            <event name="weapon-fire">
+                <action type="emit-audio" id="plasma">
+                    <condition value="Plasma"/>
+                </action>
+                <action type="emit-audio" id="metalblade">
+                    <condition value="MetalBlade"/>
+                </action>
+                <action type="emit-audio" id="airshot">
+                    <condition value="AirShooter"/>
+                </action>
+            </event>
+            <event name="hurt">
+                <action type="emit-audio" id="damage" />
+            </event>
+            <event name="teleport-end">
+                <action type="emit-audio" id="teleport-in"/>
+            </event>
+            <event name="jump-land">
+                <action type="emit-audio" id="jump-land"/>
+            </event>
+        </events>
+
+        <traits>
+            <trait source="Health" max="28" />
+            <trait source="Jump" force="400" duration=".18" />
+            <trait source="Physics" area=".04" drag=".045" mass="105" />
+            <trait source="Move" />
+            <trait source="Climber" speed="100" />
+            <trait source="Headlight"/>
+            <trait source="Invincibility" duration="2" />
+            <trait source="Solid" attack="bottom"/>
+            <trait source="Stun" force="10500" duration=".8" />
+            <trait source="Teleport" />
+            <trait source="Spawn">
+                <item object="Sweat" event="hurt">
+                    <offset x="0" y="12"/>
+                </item>
+                <item object="TinyExplosion" event="death"/>
+            </trait>
+            <trait source="Weapon">
+                <projectile-emit x="0" y="1" r="17" />
+            </trait>
+        </traits>
+        <animation-router>
+            <![CDATA[
+            animationRouter = function()
+            {
+                if (this.teleport.state) {
+                    if (this.teleport.state === this.teleport.STATE_OUT) {
+                        return 'teleport-out';
+                    }
+                    else if (this.teleport.state === this.teleport.STATE_IN) {
+                        return 'teleport-in';
+                    }
+                    return 'teleport';
+                }
+
+                if (this.stun._engaged === true) {
+                    return 'stunned';
+                }
+
+                if (this.climber.attached !== undefined) {
+                    if (this.weapon._firing) {
+                        return 'hang-shoot';
+                    }
+                    if (this.position.y > this.climber.bounds.climbable.top - 5) {
+                        return 'bent-over';
+                    }
+                    if (this.velocity.y !== 0) {
+                        return 'climbing';
+                    }
+                    return 'hang';
+                }
+
+                if (!this.jump._ready) {
+                    if (this.weapon._firing) {
+                        return 'jump-fire';
+                    }
+                    return 'jump';
+                }
+
+                if (this.move._interimSpeed) {
+                    if (this.move._interimSpeed < this.move.speed * .8) {
+                        if (this.weapon._firing) {
+                            return 'fire';
+                        }
+                        return 'lean';
+                    }
+                    if (this.weapon._firing) {
+                        return 'run-fire';
+                    }
+                    return 'run';
+                }
+
+                if (this.weapon._firing) {
+                    return 'fire';
+                }
+
+                return 'idle';
+            }
+            ]]>
+        </animation-router>
+    </object>
+
+    <animations w="48" h="48" texture="megaman-p">
+        <animation id="idle">
+            <frame x="0" y="0" duration="3.85" />
+            <frame x="48" y="0" duration=".15" />
+        </animation>
+        <animation id="lean">
+            <frame x="144" y="48" />
+        </animation>
+        <animation id="jump">
+            <frame x="144" y="0" />
+        </animation>
+        <animation id="fire">
+            <frame x="96" y="0" />
+        </animation>
+        <animation id="jump-fire">
+            <frame x="192" y="0" />
+        </animation>
+        <animation id="run" group="run">
+            <frame x="48" y="48" duration=".12" />
+            <frame x="0"  y="48" duration=".12" />
+            <frame x="48" y="48" duration=".12" />
+            <frame x="96" y="48" duration=".12" />
+        </animation>
+        <animation id="run-fire" group="run">
+            <frame x="48" y="96" duration=".12" />
+            <frame x="0"  y="96" duration=".12" />
+            <frame x="48" y="96" duration=".12" />
+            <frame x="96" y="96" duration=".12" />
+        </animation>
+        <animation id="teleport">
+            <frame x="0" y="144" />
+        </animation>
+        <animation id="teleport-in">
+            <frame x="44" y="144" duration=".05" />
+            <frame x="96" y="144" duration=".05" />
+            <frame x="0"  y="144" duration=".05" />
+            <frame x="0"  y="0" />
+        </animation>
+        <animation id="teleport-out">
+            <frame x="144" y="144" duration=".05" />
+            <frame x="96" y="144" duration=".05" />
+            <frame x="0"  y="144" />
+        </animation>
+        <animation id="stunned">
+            <frame x="192" y="48" duration=".08" />
+            <frame x="192" y="96" duration=".08" />
+        </animation>
+        <animation id="hang">
+            <frame x="48" y="192" />
+        </animation>
+        <animation id="bent-over">
+            <frame x="144" y="192" />
+        </animation>
+        <animation id="hang-shoot">
+            <frame x="96" y="192" />
+        </animation>
+        <animation id="climbing">
+            <frame x="48" y="192" duration=".16" />
+            <frame x="0" y="192" duration=".16" />
+        </animation>
+    </animations>
+
+    <textures>
+        <texture id="headlight_lensflare" url="../deco/headlight_lensflare.png" w="256" h="128" scale="1" />
+        <texture id="megaman-p" url="./megaman/megaman.png" w="256" h="256"/>
+        <texture id="megaman-a" url="./megaman/megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#0078F8" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-b" url="./megaman/megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#7C7C7C" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-c" url="./megaman/megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#F87858" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-f" url="./megaman/megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#D800CC" />
+                <color-replace in="#00FFFF" out="#F8B8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-h" url="./megaman/megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#E40058" />
+                <color-replace in="#00FFFF" out="#F8B800" />
+            </effects>
+        </texture>
+        <texture id="megaman-m" url="./megaman/megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#ACAF00" />
+                <color-replace in="#00FFFF" out="#FFE0A8" />
+            </effects>
+        </texture>
+        <texture id="megaman-q" url="./megaman/megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#F85898" />
+                <color-replace in="#00FFFF" out="#F8B8F8" />
+            </effects>
+        </texture>
+        <texture id="megaman-w" url="./megaman/megaman.png" w="256" h="256">
+            <effects>
+                <color-replace in="#0073F7" out="#00B800" />
+                <color-replace in="#00FFFF" out="#F8F8F8" />
+            </effects>
+        </texture>
+    </textures>
+</objects>
