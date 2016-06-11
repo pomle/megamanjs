@@ -1,11 +1,15 @@
 'use strict';
 
+const sinon = require('sinon');
+
 const env = require('./env');
 const xmlReader = require('./xmlreader');
-const LevelParser = env.Game.Loader.XML.Parser.LevelParser;
+const LevelParser = env.Game.Loader.XML.LevelParser;
 
 function loadLevel(levelName) {
+  global.AudioContext = function() {};
   global.Image = function() {};
+  sinon.stub(env.THREE, 'WebGLRenderer');
 
   const loaderMock = {
     game: new env.Game(),
@@ -23,14 +27,17 @@ function loadLevel(levelName) {
     }
   }
 
-  const levelParser = new LevelParser(loaderMock);
-
   const xml = xmlReader.readXml(__dirname +
-    '/../src/game/resource/levels/' + levelName + '.xml');
+    '/../src/resource/levels/' + levelName + '.xml');
 
-  const promise = levelParser.parse(xml.getElementsByTagName('scene')[0]);
+  const node = xml.getElementsByTagName('scene')[0];
+  const levelParser = new LevelParser(loaderMock, node);
 
+  const promise = levelParser.getScene();
+
+  delete global.AudioContext;
   delete global.Image;
+  env.THREE.WebGLRenderer.restore();
 
   return promise;
 }
