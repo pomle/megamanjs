@@ -82,13 +82,10 @@ Game.Loader.XML.createFromXML = function(url, callback)
 {
     const game =  new Game();
     const loader = new Game.Loader.XML(game);
-    return loader.asyncLoadXML(url)
-        .then(doc => {
-            const node = doc.getElementsByTagName('game')[0];
-            const gameParser = new Game.Loader.XML.GameParser(loader, node);
-            return gameParser.parse();
-        })
-        .then(() => {
-            return loader;
-        });
+    loader.asyncLoadXML(url).then(doc => {
+        const node = doc.querySelector('game');
+        const parser = new Game.Loader.XML.GameParser(loader, node);
+        return parser.parse();
+    });
+    return loader;
 }
