@@ -4,6 +4,7 @@ Game.ResourceLoader = class ResourceLoader
 {
     constructor(loader)
     {
+        this.EVENT_COMPLETE = 'complete';
         this.EVENT_PROGRESS = 'progress';
 
         this.loader = loader;
@@ -13,7 +14,11 @@ Game.ResourceLoader = class ResourceLoader
         this.PENDING = 0;
         this.RUNNING = 1;
         this.COMPLETE = 2;
+
         this._tasks = [];
+
+        this.started = 0;
+        this.completed = 0;
     }
     _createTask()
     {
@@ -22,22 +27,32 @@ Game.ResourceLoader = class ResourceLoader
             promise: null,
         };
         this._tasks.push(task);
-        this.events.trigger(this.EVENT_NEW_TASK, [task]);
+        ++this.started;
+        this.events.trigger(this.EVENT_PROGRESS, [this.progress()]);
         return task;
     }
     _completeTask(task)
     {
         task.status = this.COMPLETE;
-        this.events.trigger(this.EVENT_PROGRESS, [this]);
+        ++this.completed;
+        this.events.trigger(this.EVENT_PROGRESS, [this.progress()]);
     }
     complete()
     {
         const tasks = this._tasks.map(task => {
             return task.promise;
         });
+        this._tasks = [];
         return Promise.all(tasks).then(() => {
-            this._tasks = [];
+            this.started = 0;
+            this.completed = 0;
+            this.events.trigger(this.EVENT_PROGRESS, [1]);
+            this.events.trigger(this.EVENT_COMPLETE);
         });
+    }
+    progress()
+    {
+        return this.completed / this.started;
     }
     loadAudio(url)
     {

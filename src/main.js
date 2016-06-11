@@ -26,6 +26,15 @@
         }
     });
 
+    const progress = gameElement.querySelector('.progress-bar > .progress');
+    loader.resourceLoader.events.bind(loader.resourceLoader.EVENT_PROGRESS, frac => {
+        progress.style.width = frac * 100 + '%';
+        gameElement.classList.add('busy');
+    });
+    loader.resourceLoader.events.bind(loader.resourceLoader.EVENT_COMPLETE, frac => {
+        gameElement.classList.remove('busy');
+    });
+
     window.addEventListener('focus', function() {
         game.resume();
     });
