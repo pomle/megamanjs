@@ -1,38 +1,31 @@
 (function() {
-    Game.Loader.XML.createFromXML('./resource/Megaman2.xml').then(loader => {
-        const game = loader.game;
-        game.attachToElement(document.getElementById('screen'));
-        loader.startScene(loader.entrypoint);
+    const loader = new Game.Loader.XML;
+    window.megaman2 = loader;
 
-        window.addEventListener('focus', function() {
-            game.resume();
-        });
-        window.addEventListener('blur', function() {
-            game.pause();
-        });
+    const game = loader.game;
+    const gameElement = document.getElementById('game');
+    const screenElement = document.getElementById('screen');
 
-        var gameElement = document.getElementById('game');
+    game.attachToElement(screenElement);
 
-        function onFullscreenChange() {
-            if(document.mozFullScreen || document.webkitIsFullScreen) {
-                gameElement.classList.add('fullscreen');
-            } else {
-                gameElement.classList.remove('fullscreen');
-            }
+    const progress = gameElement.querySelector('.progress-bar > .progress');
+    loader.resourceLoader.events.bind(loader.resourceLoader.EVENT_PROGRESS, frac => {
+        progress.style.width = frac * 100 + '%';
+        gameElement.classList.add('busy');
+    });
+    loader.resourceLoader.events.bind(loader.resourceLoader.EVENT_COMPLETE, frac => {
+        gameElement.classList.remove('busy');
+    });
 
-            loader.game.adjustAspectRatio();
-        }
-
-        window.addEventListener('resize', onFullscreenChange);
-        document.addEventListener('mozfullscreenchange', onFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', onFullscreenChange);
-
-        document.addEventListener('click', function(e) {
-            if (e.target.matches('button.fullscreen')) {
-                gameElement.webkitRequestFullScreen();
-            }
-        });
-
-        window.megaman2 = loader;
+    window.addEventListener('focus', function() {
+        game.resume();
+    });
+    window.addEventListener('blur', function() {
+        game.pause();
+    });
+    loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
+        return loader.loadSceneByName(entrypoint);
+    }).then(scene => {
+        game.setScene(scene);
     });
 })();
