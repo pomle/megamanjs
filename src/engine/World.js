@@ -9,8 +9,6 @@ Engine.World = class World
 
         this.ambientLight = new THREE.AmbientLight(0xffffff);
 
-        this.camera = new Engine.Camera(new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000));
-
         this.collision = new Engine.Collision();
 
         this.events = new Engine.Events(this);

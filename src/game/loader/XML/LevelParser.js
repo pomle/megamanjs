@@ -71,7 +71,7 @@ extends Game.Loader.XML.SceneParser
     {
         const cameraNode = this._node.querySelector(':scope > camera');
         if (cameraNode) {
-            const camera = this._scene.world.camera;
+            const camera = this._scene.camera;
             const smoothing = this.getFloat(cameraNode, 'smoothing');
             if (smoothing) {
                 camera.smoothing = smoothing;

@@ -43,7 +43,7 @@ Game.prototype.adjustAspectRatio = function()
 {
     if (this.scene.world && this.element) {
         var rect = this.element.getBoundingClientRect();
-        var cam = this.scene.world.camera.camera;
+        var cam = this.scene.camera.camera;
         cam.aspect = rect.width / rect.height;
         cam.updateProjectionMatrix();
     }

@@ -12,6 +12,7 @@ Game.Scene = class Scene
         this.EVENT_RESUME = 'resume';
 
         this.audio = {};
+        this.camera = new Engine.Camera;
         this.game = null;
         this.events = new Engine.Events(this);
         this.timer = new Engine.Timer;
@@ -21,11 +22,11 @@ Game.Scene = class Scene
         const timer = this.timer;
         const world = this.world;
         const scene = world.scene;
-        const camera = world.camera.camera;
+        const camera = this.camera.camera;
 
         this.simulate = (dt) => {
             this.world.updateTime(dt);
-            this.world.camera.updateTime(dt);
+            this.camera.updateTime(dt);
         };
 
         const animate = (dt) => {
@@ -33,15 +34,11 @@ Game.Scene = class Scene
         };
 
         const render = () => {
-            if (this.game) {
-                this.game.renderer.render(scene, camera);
-            }
+            this.game.renderer.render(scene, camera);
         };
 
         const audioListener = (audio) => {
-            if (this.game) {
-                this.game.audioPlayer.play(audio);
-            }
+            this.game.audioPlayer.play(audio);
         };
 
         this.events.bind(this.EVENT_CREATE, (game) => {

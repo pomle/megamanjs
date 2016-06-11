@@ -11,7 +11,7 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.EVENT_SELECTION_CHANGED = 'selection-changed';
 
         this.animations = {};
-        this.world.camera.camera.position.z = 120;
+        this.camera.camera.position.z = 120;
         this.cameraDesiredPosition = new THREE.Vector3();
         this.cameraDistance = 140;
         this.cameraSmoothing = 20;
@@ -53,7 +53,6 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.events.bind(this.EVENT_CREATE, (game) => {
             this.modifiers.clear();
             this.animations = {
-                'camera': this.createCameraAnimation(),
                 'flash': this.createFlashAnimation(),
                 'indicator': this.createIndicatorAnimation(),
             };
@@ -63,7 +62,7 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         });
         this.events.bind(this.EVENT_START, (game) => {
             this.timer.events.bind(this.timer.EVENT_SIMULATE, simulate);
-            this.modifiers.add(this.animations.camera);
+            this.camera.panTo(this.cameraDesiredPosition, 1, Engine.Easing.easeOutQuad);
             this.enableIndicator();
             this.input.enable();
         });

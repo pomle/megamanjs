@@ -11,7 +11,7 @@ Game.scenes.Level = class Level extends Game.Scene
 
         this.assets = {};
         this.player = null;
-        this.world.camera.camera.position.z = 150;
+        this.camera.camera.position.z = 150;
 
         this.cameraFollowOffset = new THREE.Vector2(0, 25);
         this.checkPoints = [];
@@ -46,7 +46,7 @@ Game.scenes.Level = class Level extends Game.Scene
             const char = this.player.character;
             char.events.unbind(char.EVENT_DEATH, onDeath);
 
-            this.world.camera.unfollow();
+            this.camera.unfollow();
             this.world.objects.forEach(object => {
                 if (object !== undefined) {
                     this.world.removeObject(object);
@@ -152,8 +152,8 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     followPlayer()
     {
-        this.world.camera.follow(this.player.character,
-                                 this.cameraFollowOffset);
+        this.camera.follow(this.player.character,
+                           this.cameraFollowOffset);
     }
     goToCheckpoint(index)
     {
@@ -167,7 +167,7 @@ Game.scenes.Level = class Level extends Game.Scene
         }
 
         const model = this.assets['start-caption'];
-        const camera = this.world.camera.camera;
+        const camera = this.camera.camera;
         const interval = 9/60;
 
         model.visible = true;
@@ -243,7 +243,7 @@ Game.scenes.Level = class Level extends Game.Scene
             var startPosition = checkpoint.pos.clone();
             var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
             var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
-            var camera = this.world.camera;
+            var camera = this.camera;
             camera.velocity.set(0, 0, 0);
 
             character.moveTo(playerPosition);
@@ -263,7 +263,7 @@ Game.scenes.Level = class Level extends Game.Scene
         }
         else {
             character.moveTo(new THREE.Vector2(0, 0));
-            this.world.camera.follow(character);
+            this.camera.follow(character);
             this.world.addObject(character);
         }
 

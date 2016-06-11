@@ -13,8 +13,7 @@ describe('Camera', function() {
   let realCamera;
 
   beforeEach(function() {
-    realCamera = new THREE.Camera();
-    camera = new Camera(realCamera);
+    camera = new Camera();
   });
 
   context('when instantiating', function() {
@@ -22,7 +21,7 @@ describe('Camera', function() {
       expect(camera.position).to.be(camera.camera.position);
     });
     it('should have real camera as property', function() {
-      expect(camera.camera).to.be(realCamera);
+      expect(camera.camera).to.be.a(THREE.Camera);
     });
     it('should have no path selected', function() {
       expect(camera.pathIndex).to.equal(-1);
@@ -118,16 +117,16 @@ describe('Camera', function() {
   describe('#jumpTo()', function() {
     it('should set camera position to vector', function() {
       camera.jumpTo({x: 7, y: 13, z: 19});
-      expect(realCamera.position.x).to.equal(7);
-      expect(realCamera.position.y).to.equal(13);
-      expect(realCamera.position.z).to.equal(19);
+      expect(camera.position.x).to.equal(7);
+      expect(camera.position.y).to.equal(13);
+      expect(camera.position.z).to.equal(19);
     });
     it('should ignore missing z from vector', function() {
-      realCamera.position.z = 19;
+      camera.position.z = 19;
       camera.jumpTo({x: 13, y: 7});
-      expect(realCamera.position.x).to.equal(13);
-      expect(realCamera.position.y).to.equal(7);
-      expect(realCamera.position.z).to.equal(19);
+      expect(camera.position.x).to.equal(13);
+      expect(camera.position.y).to.equal(7);
+      expect(camera.position.z).to.equal(19);
     });
   });
   describe('#jumpToPath()', function() {
@@ -136,28 +135,51 @@ describe('Camera', function() {
       camera.addPath(path);
       path.setConstraint(5, 7, 15, 17);
       camera.jumpToPath(new THREE.Vector2(0, 0));
-      expect(realCamera.position.x).to.equal(5);
-      expect(realCamera.position.y).to.equal(7);
+      expect(camera.position.x).to.equal(5);
+      expect(camera.position.y).to.equal(7);
     });
   });
   describe('#panTo()', function() {
-    it('should pan camera to new position', function() {
-      const from = new THREE.Vector2(0, 0);
-      const to = new THREE.Vector2(300, 200);
+    it('should pan camera using supplied easing function', function() {
+      const from = new THREE.Vector3(0, 0, 0);
+      const to = new THREE.Vector3(300, 200, 100);
       camera.jumpTo(from);
-      camera.panTo(to);
-      expect(realCamera.position.x).to.equal(0);
-      expect(realCamera.position.y).to.equal(0);
-      expect(camera.desiredPosition.x).to.equal(300);
-      expect(camera.desiredPosition.y).to.equal(200);
+      const easingSpy = sinon.spy(progress => {
+        return progress;
+      });
+      camera.panTo(to, 7, easingSpy);
+      expect(camera.position).to.eql({x: 0, y: 0, z: 0});
+      camera.updateTime(3);
+      expect(easingSpy.getCall(0).args).to.eql([3/7]);
+      expect(camera.position).to.eql({
+        x: 128.57142857142856,
+        y: 85.71428571428571,
+        z: 42.857142857142854
+      });
+      camera.updateTime(4);
+      expect(easingSpy.getCall(1).args).to.eql([1]);
+      expect(camera.position).to.eql(to);
+    });
+    it('should return a promise that resolves when destination reached', function(done) {
+      camera.panTo(new THREE.Vector2(10, 20, 30), 2).then(() => {
+        done();
+      });
+      camera.updateTime(2);
+    });
+    it('should use current z when supplied with vector 2', function() {
+      camera.position.z = 13;
+      const to = new THREE.Vector2(300, 200);
+      camera.panTo(to, 1);
+      camera.updateTime(1);
+      expect(camera.position).to.eql({x:300, y:200, z:13});
     });
   });
   describe('#updateTime()', function() {
     it('should set velocity based on distance to desiredPosition', function() {
-      const from = new THREE.Vector2(0, 0);
-      const to = new THREE.Vector2(300, 200);
-      camera.jumpTo(from);
-      camera.panTo(to);
+      const from = new THREE.Vector3(0, 0, 0);
+      const to = new THREE.Vector3(300, 200, 0);
+      camera.position.copy(from);
+      camera.desiredPosition = to.clone();
       camera.updateTime(.016);
       expect(camera.velocity.x).to.equal(15);
       expect(camera.velocity.y).to.equal(10);
