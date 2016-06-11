@@ -37,7 +37,8 @@ extends Game.Loader
     {
         return this.asyncLoadXML(url)
             .then(node => {
-                return this.parseScene(node.children[0]);
+                const sceneNode = node.querySelector('scene');
+                return this.parseScene(sceneNode);
             });
     }
     parseScene(node)

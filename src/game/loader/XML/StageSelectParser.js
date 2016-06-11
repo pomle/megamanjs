@@ -12,21 +12,14 @@ extends Game.Loader.XML.SceneParser
 
         super(loader, new Game.scenes.StageSelect);
         this._node = node;
-        this._objects = null;
     }
     _parse()
     {
         this._parseAudio();
         this._parseEvents();
         this._setupBehavior();
-        return this._parseObjects().then(objects => {
-            this._objects = {};
-            Object.keys(objects).forEach(id => {
-                this._objects[id] = objects[id].constructor;
-            });
+        return this._parseObjects().then(() => {
             return this._parseLayout();
-        }).then(() => {
-
         }).then(() => {
             return this.loader.resourceLoader.complete();
         }).then(() => {
@@ -45,8 +38,8 @@ extends Game.Loader.XML.SceneParser
         const spacingNode = sceneNode.querySelector('spacing');
 
         scene.setBackgroundColor(this.getAttr(backgroundNode, 'color'));
-        scene.setIndicator(new objects['indicator']().model);
-        scene.setFrame(new objects['frame']().model);
+        scene.setIndicator(new objects['indicator'].constructor().model);
+        scene.setFrame(new objects['frame'].constructor().model);
 
         if (spacingNode) {
             scene.spacing.copy(this.getVector2(spacingNode));
@@ -55,7 +48,6 @@ extends Game.Loader.XML.SceneParser
             scene.cameraDistance = this.getFloat(cameraNode, 'distance');
         }
         if (indicatorNode) {
-            console.log(indicatorNode);
             scene.indicatorInterval = this.getFloat(indicatorNode, 'blink-interval');
         }
 
@@ -66,7 +58,7 @@ extends Game.Loader.XML.SceneParser
             const name = this.getAttr(stageNode, 'name');
             const text = this.getAttr(stageNode, 'caption');
             const caption = this._createCaption(text);
-            const avatar = new objects[id]().model;
+            const avatar = new objects[id].constructor().model;
             scene.addStage(avatar, caption, name);
         }
 
@@ -76,12 +68,6 @@ extends Game.Loader.XML.SceneParser
         });
 
         return Promise.resolve();
-    }
-    _parseObjects()
-    {
-        const node = this._node.querySelector(':scope > objects');
-        const parser = new Game.Loader.XML.ObjectParser(this.loader, node);
-        return parser.getObjects();
     }
     _setupBehavior()
     {

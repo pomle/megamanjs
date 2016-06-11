@@ -23,7 +23,6 @@ extends Game.Loader.XML.SceneParser
         this._node = node;
         this._scene = new Game.scenes.Level();
 
-        this._objects = null;
         this._layoutObjects = null;
     }
     _parse()
@@ -125,18 +124,6 @@ extends Game.Loader.XML.SceneParser
             scene.events.bind(scene.EVENT_PLAYER_DEATH, function() {
                 this.stopAudio(id);
             });
-        }
-    }
-    _parseObjects()
-    {
-        const node = this._node.getElementsByTagName('objects')[0];
-        if (node) {
-            const objectParser = new Game.Loader.XML.ObjectParser(this.loader, node);
-            return objectParser.getObjects().then(objects => {
-                this._objects = objects;
-            });
-        } else {
-            return Promise.resolve();
         }
     }
     _parseLayout()

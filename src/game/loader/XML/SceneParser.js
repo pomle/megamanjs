@@ -8,6 +8,7 @@ extends Game.Loader.XML.Parser
     {
         super(loader);
         this._scene = scene;
+        this._objects = {};
     }
     getScene()
     {
@@ -43,6 +44,18 @@ extends Game.Loader.XML.Parser
             events.forEach(event => {
                 scene.events.bind(event.name, event.callback);
             });
+        });
+    }
+    _parseObjects()
+    {
+        const node = this._node.querySelector(':scope > objects');
+        if (!node) {
+            return Promise.resolve();
+        }
+
+        const parser = new Game.Loader.XML.ObjectParser(this.loader, node);
+        return parser.getObjects().then(objects => {
+            this._objects = objects;
         });
     }
 }
