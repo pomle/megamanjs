@@ -9,32 +9,35 @@ Game.ResourceLoader = class ResourceLoader
         this.PENDING = 0;
         this.RUNNING = 1;
         this.COMPLETE = 2;
-        this._jobs = [];
+        this._tasks = [];
     }
-    _createJob()
+    _createTask()
     {
-        const job = {
+        const task = {
             status: this.PENDING,
-            progress: 0,
             promise: null,
         };
-        this._jobs.push(job);
-        return job;
+        this._tasks.push(task);
+        return task;
+    }
+    _completeTask(task)
+    {
+        task.status = this.COMPLETE;
     }
     complete()
     {
-        const jobs = this._jobs.map(job => {
-            return job.promise;
+        const tasks = this._tasks.map(task => {
+            return task.promise;
         });
-        return Promise.all(jobs).then(() => {
-            this._jobs = [];
+        return Promise.all(tasks).then(() => {
+            this._tasks = [];
         });
     }
     loadAudio(url)
     {
-        const job = this._createJob();
+        const task = this._createTask();
         const context = this.loader.game.audioPlayer.getContext();
-        job.promise = fetch(url)
+        task.promise = fetch(url)
             .then(response => {
                 return response.arrayBuffer();
             })
@@ -42,24 +45,24 @@ Game.ResourceLoader = class ResourceLoader
                 return context.decodeAudioData(arrayBuffer);
             })
             .then(buffer => {
-                job.progress = 1;
-                job.status = this.COMPLETE;
+                this._completeTask(task);
                 return new Engine.Audio(buffer);
             });
-        return job.promise;
+        return task.promise;
     }
     loadImage(url)
     {
-        const job = this._createJob();
-        job.promise = new Promise((resolve, reject) => {
+        const task = this._createTask();
+        task.promise = new Promise((resolve, reject) => {
             const image = new Image();
-            image.addEventListener('load', function() {
-                const canvas = Engine.CanvasUtil.clone(this);
+            image.addEventListener('load', () => {
+                const canvas = Engine.CanvasUtil.clone(image);
                 resolve(canvas);
+                this._completeTask(task);
             });
             image.addEventListener('error', reject);
             image.src = url;
         });
-        return job.promise;
+        return task.promise;
     }
 }
