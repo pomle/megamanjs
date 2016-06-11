@@ -10,17 +10,20 @@
     </audio>
     <background color="0x0064ff"/>
     <camera distance="140" />
+    <spacing x="64" y="64" />
     <indicator id="indicator" blink-interval=".125" initial-index="4" />
     <frame id="frame" />
-    <stage name="Bubbleman"   caption="BUBBLE MAN" id="b" />
-    <stage name="Airman"      caption="AIR MAN"    id="a" />
-    <stage name="Quickman"    caption="QUICK MAN"  id="q" />
-    <stage name="Heatman"     caption="HEAT MAN"   id="h" />
-    <stage name="Dr. Wily"    caption="Dr. WILY"   id="dr"/>
-    <stage name="Woodman"     caption="WOOD MAN"   id="w" />
-    <stage name="Metalman"    caption="METAL MAN"  id="m" />
-    <stage name="Flashman"    caption="FLASH MAN"  id="f" />
-    <stage name="Crashman"    caption="CRASH MAN"  id="c" />
+    <stages>
+        <stage name="Bubbleman"   caption="BUBBLE MAN" id="b" />
+        <stage name="Airman"      caption="AIR MAN"    id="a" />
+        <stage name="Quickman"    caption="QUICK MAN"  id="q" />
+        <stage name="Heatman"     caption="HEAT MAN"   id="h" />
+        <stage name="Dr. Wily"    caption="Dr. WILY"   id="dr"/>
+        <stage name="Woodman"     caption="WOOD MAN"   id="w" />
+        <stage name="Metalman"    caption="METAL MAN"  id="m" />
+        <stage name="Flashman"    caption="FLASH MAN"  id="f" />
+        <stage name="Crashman"    caption="CRASH MAN"  id="c" />
+    </stages>
 
     <events>
         <event name="start">

@@ -19,10 +19,7 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.currentIndex = undefined;
         this.stages = [];
         this.rowLength = 3;
-        this.spacing = {
-            x: 64,
-            y: -64,
-        };
+        this.spacing = new THREE.Vector2(64, 64);
 
         this.background = new THREE.Mesh(
             new THREE.PlaneGeometry(500, 500),
@@ -79,7 +76,7 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         const x = this.stages.length % this.rowLength;
         const y = Math.floor(this.stages.length / this.rowLength);
 
-        const pos = new THREE.Vector2(this.spacing.x * x, this.spacing.y * y);
+        const pos = new THREE.Vector2(this.spacing.x * x, -this.spacing.y * y);
         const frame = this.frame.clone();
 
         this.stages.push({
@@ -149,7 +146,7 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     }
     createIndicatorAnimation()
     {
-        const interval = (1/8) * 2;
+        const interval = (this.indicatorInterval) * 2;
         const indicator = this.indicator;
         let time = 0;
         return (dt) => {
