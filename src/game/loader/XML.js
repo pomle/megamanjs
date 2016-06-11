@@ -35,7 +35,7 @@ extends Game.Loader
     loadSceneByName(name)
     {
         if (!this.sceneIndex[name]) {
-            throw new Error('Scene "' + name + '" does not exist');
+            throw new Error(`Scene "${name}" does not exist.`);
         }
 
         return this.loadScene(this.sceneIndex[name].url);
@@ -55,7 +55,7 @@ extends Game.Loader
             return parser.getScene();
         }
 
-        throw new Error('Scene type "' + type + '" not recognized');
+        throw new Error(`Scene type "${type}" not recognized`);
     }
     resolveURL(node, attr)
     {
