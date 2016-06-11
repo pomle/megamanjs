@@ -72,15 +72,17 @@ extends Game.Loader.XML.SceneParser
     _setupBehavior()
     {
         const stageSelectScene = this._scene;
+        const game = this.loader.game;
         this._scene.events.bind(this._scene.EVENT_STAGE_ENTER, (stage, index) => {
             try {
-                this.loader.startScene(stage.name).then(scene => {
+                this.loader.loadSceneByName(stage.name).then(scene => {
                     scene.events.bind(scene.EVENT_END, () => {
-                        this.loader.game.setScene(stageSelectScene);
+                        game.setScene(stageSelectScene);
                     });
+                    game.setScene(scene);
                 });
             } catch (err) {
-                this.loader.game.setScene(stageSelectScene);
+                game.setScene(stageSelectScene);
             }
         });
     }

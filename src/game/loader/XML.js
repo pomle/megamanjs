@@ -32,6 +32,14 @@ extends Game.Loader
                 return this.parseScene(sceneNode);
             });
     }
+    loadSceneByName(name)
+    {
+        if (!this.sceneIndex[name]) {
+            throw new Error('Scene "' + name + '" does not exist');
+        }
+
+        return this.loadScene(this.sceneIndex[name].url);
+    }
     parseScene(node)
     {
         if (node.tagName !== 'scene') {
@@ -67,19 +75,6 @@ extends Game.Loader
                              .slice(0, -1)
                              .join('/') + '/';
         return baseUrl + url;
-    }
-    startScene(name)
-    {
-        if (!this.sceneIndex[name]) {
-            throw new Error('Scene "' + name + '" does not exist');
-        }
-
-        this.game.pause();
-        return this.loadScene(this.sceneIndex[name].url)
-            .then(scene => {
-                this.game.setScene(scene);
-                return scene;
-            });
     }
 }
 

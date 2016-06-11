@@ -22,7 +22,9 @@
             }
         });
 
-        megaman2.startScene(megaman2.entrypoint);
+        megaman2.loadSceneByName(megaman2.entrypoint).then(scene => {
+            game.setScene(scene);
+        });
 
         window.addEventListener('focus', function() {
             game.resume();
