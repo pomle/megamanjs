@@ -36,11 +36,14 @@ Game.Loader.XML.createFromXML = function(url, callback)
 Game.Loader.XML.prototype.asyncLoadXml = function(url)
 {
     var loader = this;
+    var isLoadedLocally = function(xhr) {
+        return xhr.status === 0 && xhr.responseURL.match(/^file:/);
+    };
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url);
         xhr.addEventListener('load', function() {
-            if (xhr.status === 200) {
+            if (xhr.status === 200 || isLoadedLocally(xhr)) {
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(xhr.responseText, 'text/xml');
                 doc.baseURL = url;
