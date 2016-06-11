@@ -86,8 +86,9 @@ $(function() {
                 }
                 animations[name].append(frameXml);
             });
-
-            workspace.console.val((new XMLSerializer()).serializeToString($('<document>').append(animationsXml)[0]));
+            var xml = (new XMLSerializer()).serializeToString($('<document>').append(animationsXml)[0]);
+            xml = vkbeautify.xml(xml);
+            workspace.console.val(xml);
         });
 
     function render(src) {
