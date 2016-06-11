@@ -65,4 +65,20 @@ Game.ResourceLoader = class ResourceLoader
         });
         return task.promise;
     }
+    loadXML(url)
+    {
+        const task = this._createTask();
+        task.promise = fetch(url)
+            .then(response => {
+                return response.text();
+            })
+            .then(text => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/xml');
+                doc.baseURL = url;
+                this._completeTask(task);
+                return doc;
+            });
+        return task.promise;
+    }
 }

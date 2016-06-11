@@ -11,16 +11,7 @@ extends Game.Loader
     }
     asyncLoadXML(url)
     {
-        return fetch(url)
-            .then(response => {
-                return response.text();
-            })
-            .then(text => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'text/xml');
-                doc.baseURL = url;
-                return doc;
-            });
+        return this.resourceLoader.loadXML(url);
     }
     followNode(node)
     {
