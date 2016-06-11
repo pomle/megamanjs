@@ -208,7 +208,7 @@ extends Game.Loader.XML.SceneParser
             const func = eval(scriptNode.textContent);
             if (typeof func === "function") {
                 if (type === 'bootstrap') {
-                    func(level);
+                    func(this._scene);
                 }
             }
         }
