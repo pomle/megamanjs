@@ -18,8 +18,6 @@ Game.scenes.Level = class Level extends Game.Scene
         this.checkPointIndex = 0;
         this.checkPointOffset = new THREE.Vector2(0, 200);
 
-        this.assets = {};
-
         this.deathRespawnTime = 4;
 
         const onDeath = () => {
@@ -224,8 +222,6 @@ Game.scenes.Level = class Level extends Game.Scene
     {
         var player = this.player,
             character = player.character;
-
-        this.deathCountdown = 0;
 
         if (player.defaultWeapon) {
             player.equipWeapon(player.defaultWeapon);
