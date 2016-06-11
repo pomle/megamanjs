@@ -37,13 +37,13 @@ extends Game.Loader.XML.SceneParser
         this._parseSpawners();
         this._parseText();
 
-        this._parseObjects().then(() => {
+        return this._parseObjects().then(() => {
             return this._parseLayout();
         }).then(() => {
             return this._parseScripts();
-        });
-
-        return this.loader.resourceLoader.complete().then(() => {
+        }).then(() => {
+            return this.loader.resourceLoader.complete();
+        }).then(() => {
             return this._scene;
         });
     }

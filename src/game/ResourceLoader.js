@@ -4,7 +4,11 @@ Game.ResourceLoader = class ResourceLoader
 {
     constructor(loader)
     {
+        this.EVENT_PROGRESS = 'progress';
+
         this.loader = loader;
+
+        this.events = new Engine.Events(this);
 
         this.PENDING = 0;
         this.RUNNING = 1;
@@ -18,11 +22,13 @@ Game.ResourceLoader = class ResourceLoader
             promise: null,
         };
         this._tasks.push(task);
+        this.events.trigger(this.EVENT_NEW_TASK, [task]);
         return task;
     }
     _completeTask(task)
     {
         task.status = this.COMPLETE;
+        this.events.trigger(this.EVENT_PROGRESS, [this]);
     }
     complete()
     {

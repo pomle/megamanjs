@@ -38,6 +38,8 @@ extends Game.Loader.XML.Parser
             return this._parsePlayer();
         }).then(() => {
             return this._parseWeapons();
+        }).then(() => {
+            return this.loader.resourceLoader.complete();
         });
     }
     _parseConfig()
