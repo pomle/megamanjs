@@ -4,9 +4,10 @@ Game.Loader.XML =
 class XMLLoader
 extends Game.Loader
 {
-    constructor(game)
+    constructor()
     {
-        super(game);
+        super(new Game());
+        this.entryPoint = null;
         this.sceneIndex = {};
     }
     asyncLoadXML(url)
@@ -23,6 +24,14 @@ extends Game.Loader
             .then(doc => {
                 return doc.children[0];
             });
+    }
+    loadGame(url)
+    {
+        return this.asyncLoadXML(url).then(doc => {
+            const node = doc.querySelector('game');
+            const parser = new Game.Loader.XML.GameParser(this, node);
+            return parser.parse();
+        });
     }
     loadScene(url)
     {
@@ -71,21 +80,8 @@ extends Game.Loader
             return url;
         }
         const baseUrl = node.ownerDocument.baseURL
-                             .split('/')
-                             .slice(0, -1)
-                             .join('/') + '/';
+            .split('/').slice(0, -1).join('/') + '/';
+
         return baseUrl + url;
     }
-}
-
-Game.Loader.XML.createFromXML = function(url, callback)
-{
-    const game =  new Game();
-    const loader = new Game.Loader.XML(game);
-    loader.asyncLoadXML(url).then(doc => {
-        const node = doc.querySelector('game');
-        const parser = new Game.Loader.XML.GameParser(loader, node);
-        return parser.parse();
-    });
-    return loader;
 }

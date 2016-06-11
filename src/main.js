@@ -1,10 +1,10 @@
 'use strict';
 
 (function() {
-    const megaman2 = Game.Loader.XML.createFromXML('./resource/Megaman2.xml');
-    window.megaman2 = megaman2;
+    const loader = new Game.Loader.XML;
+    window.megaman2 = loader;
 
-    const game = megaman2.game;
+    const game = loader.game;
     const gameElement = document.getElementById('game');
     const screenElement = document.getElementById('screen');
 
@@ -52,7 +52,7 @@
             }
         },
         'spawn': (e) => {
-            const Obj = megaman2.resourceManager.get('character', e.target.dataset.object);
+            const Obj = loader.resourceManager.get('character', e.target.dataset.object);
             const obj = new Obj();
             const player = game.player.character;
             obj.moveTo({
@@ -92,11 +92,10 @@
     document.addEventListener('mozfullscreenchange', onFullscreenChange);
     document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
-    megaman2.resourceLoader.complete().then(() => {
-        megaman2.loadSceneByName(megaman2.entrypoint).then(scene => {
-            game.setScene(scene);
-        });
-
+    loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
+        return loader.loadSceneByName(entrypoint);
+    }).then(scene => {
+        game.setScene(scene);
     });
 
     /*$('#nes-controller a')

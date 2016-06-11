@@ -40,6 +40,8 @@ extends Game.Loader.XML.Parser
             return this._parseWeapons();
         }).then(() => {
             return this.loader.resourceLoader.complete();
+        }).then(() => {
+            return this.loader.entrypoint;
         });
     }
     _parseConfig()
