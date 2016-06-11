@@ -146,6 +146,7 @@ describe('Parser', function() {
     });
   });
 
+  /*
   describe('for Objects', function() {
     describe('#parse', function() {
       let objects, character;
@@ -555,5 +556,5 @@ describe('Parser', function() {
         expect(spawned.position).to.eql({x: 3 + 13, y: 5 + 11, z: 0 + 5});
       });
     });
-  });
+  });*/
 });
