@@ -23,7 +23,7 @@ Game.scenes.Level = class Level extends Game.Scene
         const onDeath = () => {
             --this.player.lives;
             this.events.trigger(this.EVENT_PLAYER_DEATH);
-            this.waitFor(this.deathRespawnTime).then(() => {
+            this.timer.waitFor(this.deathRespawnTime).then(() => {
                 if (this.player.lives <= 0) {
                     this.__end();
                 } else {
@@ -173,7 +173,7 @@ Game.scenes.Level = class Level extends Game.Scene
         model.visible = true;
         this.world.scene.add(model);
 
-        return this.doFor(2, (elapsed) => {
+        return this.timer.doFor(2, (elapsed) => {
             model.position.x = camera.position.x;
             model.position.y = camera.position.y;
             model.visible = elapsed % (interval * 2) < interval;
