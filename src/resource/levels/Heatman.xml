@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Heatman">
     <audio>
-        <music src="./heatman/music.ogg" id="music">
+        <music src="https://api.soundcloud.com/tracks/268621156/stream?client_id=d2f2d4af9ddaea0352d5882757d12e47" id="music">
             <loop />
         </music>
     </audio>
