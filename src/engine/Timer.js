@@ -21,6 +21,18 @@ Engine.Timer = class Timer
 
         this.eventLoop = this.eventLoop.bind(this);
     }
+    doFor(seconds, callback)
+    {
+        var elapsed = 0;
+        const wrapper = (dt) => {
+            callback(elapsed);
+            elapsed += dt;
+        };
+        this.events.bind(this.EVENT_TIMEPASS, wrapper);
+        return this.waitFor(seconds).then(() => {
+            this.events.unbind(this.EVENT_TIMEPASS, wrapper);
+        });
+    }
     enqueue()
     {
         this.frameId = requestAnimationFrame(this.eventLoop);
@@ -75,5 +87,19 @@ Engine.Timer = class Timer
         }
         this.events.trigger(this.EVENT_TIMEPASS, [dt]);
         this.realTimePassed += dt;
+    }
+    waitFor(seconds)
+    {
+        var elapsed = 0;
+        return new Promise(resolve => {
+            const wait = (dt) => {
+                elapsed += dt;
+                if (elapsed >= seconds) {
+                    this.events.unbind(this.EVENT_UPDATE, wait);
+                    resolve();
+                }
+            };
+            this.events.bind(this.EVENT_UPDATE, wait);
+        });
     }
 }

@@ -2,10 +2,13 @@
 
 Engine.Camera = class Camera
 {
-    constructor(camera)
+    constructor()
     {
-        this.camera = camera;
+        this.EVENT_UPDATE = 'update';
+
+        this.camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
         this.desiredPosition = undefined;
+        this.events = new Engine.Events(this);
         this.followObject = undefined;
         this.followOffset = new THREE.Vector2(0, 0);
         this.obeyPaths = true;
@@ -64,6 +67,10 @@ Engine.Camera = class Camera
             this.followOffset.copy(offset);
         }
     }
+    focusAt(vec)
+    {
+        this.desiredPosition = vec.clone();
+    }
     jumpTo(vec)
     {
         this.position.x = vec.x;
@@ -75,17 +82,43 @@ Engine.Camera = class Camera
         this.jumpTo(vec);
         this.alignToPath(this.position);
     }
-    panTo(vec)
+    panTo(pos, duration, easing = Engine.Easing.linear)
     {
-        this.desiredPosition = vec.clone();
+        this.desiredPosition = undefined;
+
+        let elapsed = 0;
+        let progress = 0;
+
+        const step = new THREE.Vector3();
+        const start = this.position.clone();
+        const offset = new THREE.Vector3(pos.x, pos.y, pos.z === undefined ? start.z : pos.z).sub(start);
+
+        return new Promise(resolve => {
+            const pan = (dt) => {
+                elapsed += dt;
+                progress = elapsed / duration;
+                if (progress >= 1) {
+                    progress = 1;
+                    this.events.unbind(this.EVENT_UPDATE, pan);
+                }
+                step.copy(offset).multiplyScalar(easing(progress));
+                this.position.copy(start).add(step);
+                if (progress === 1) {
+                    resolve();
+                }
+            };
+            this.events.bind(this.EVENT_UPDATE, pan);
+        });
     }
     unfollow()
     {
         this.followObject = undefined;
         this.desiredPosition = undefined;
     }
-    updateTime(timeElapsed)
+    updateTime(deltaTime)
     {
+        this.events.trigger(this.EVENT_UPDATE, [deltaTime]);
+
         if (this.followObject) {
             this.desiredPosition.x = this.followObject.position.x + this.followOffset.x;
             this.desiredPosition.y = this.followObject.position.y + this.followOffset.y;

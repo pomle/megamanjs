@@ -17,6 +17,13 @@ extends Game.Loader.XML.Parser
         }
         return this._promise;
     }
+    _createObject(id)
+    {
+        if (!this._objects[id]) {
+            throw new Error(`Object "${id}" no defined.`);
+        }
+        return new this._objects[id].constructor;
+    }
     _parseAudio(sceneNode)
     {
         const scene = this._scene;
