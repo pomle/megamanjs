@@ -56,26 +56,52 @@
 
                 <fieldset class="layers">
                     <legend>Layers</legend>
-                    <label class="behavior">
-                        <input type="checkbox" name="behavior" what="show">
-                        <input type="checkbox" name="behavior" what="lock" checked>
-                        Behaviors
-                    </label>
-                    <label class="camera">
-                        <input type="checkbox" name="cameraPath" what="show">
-                        <input type="checkbox" name="cameraPath" what="lock" checked>
-                        Camera Paths
-                    </label>
-                    <label class="checkpoint">
-                        <input type="checkbox" name="checkpoint" what="show">
-                        <input type="checkbox" name="checkpoint" what="lock" checked>
-                        Checkpoints
-                    </label>
-                    <label class="object">
-                        <input type="checkbox" name="object" what="show" checked>
-                        <input type="checkbox" name="object" what="lock" checked>
-                        Visuals
-                    </label>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="behavior" what="show" checked>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="behavior" what="lock" checked>
+                            </td>
+                            <td>
+                                <label class="behavior">Behaviors</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="cameraPath" what="show" checked>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="cameraPath" what="lock" checked>
+                            </td>
+                            <td>
+                                <label class="camera">Camera Paths</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="checkpoint" what="show" checked>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="checkpoint" what="lock" checked>
+                            </td>
+                            <td>
+                                <label class="checkpoint">Checkpoints</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="object" what="show" checked>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="object" what="lock" checked>
+                            </td>
+                            <td>
+                                <label class="object">Visuals</label>
+                            </td>
+                        </tr>
+                    </table>
                 </fieldset>
 
                 <fieldset class="camera">
