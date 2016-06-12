@@ -9,12 +9,12 @@ Editor.Camera = function(editor)
 Object.defineProperties(Editor.Camera.prototype, {
     camera: {
         get: function() {
-            return this.editor.scene.world.camera;
+            return this.editor.scene && this.editor.scene.camera;
         },
     },
     realCamera: {
         get: function() {
-            return this.camera.camera;
+            return this.camera && this.camera.camera;
         },
     },
     position: {

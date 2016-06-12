@@ -299,7 +299,7 @@ Editor.UI.prototype.createView = function(node)
 
     view.camera.obeyPaths = view.camera.find(':input[name=obeyPaths]');
     view.camera.obeyPaths.on('change', function(e) {
-        editor.game.scene.world.camera.obeyPaths = this.checked;
+        editor.camera.camera.obeyPaths = this.checked;
     });
 
     view.meta = view.find('.meta :input[type=checkbox]');
@@ -527,12 +527,12 @@ Editor.UI.prototype.createViewport = function(node)
 
     viewport.getPositionAtEvent = function(event)
     {
-        let camera = editor.game.scene.world.camera.camera,
-            vector = this.getVectorAtEvent(event);
+        const camera = editor.camera.realCamera;
+        const vector = this.getVectorAtEvent(event);
         vector.unproject(camera);
         vector.sub(camera.position);
         vector.normalize();
-        let distance = -(camera.position.z / vector.z);
+        const distance = -(camera.position.z / vector.z);
         return camera.position.clone().add(vector.multiplyScalar(distance));
     }
 
@@ -553,7 +553,7 @@ Editor.UI.prototype.mouseSelectItem = function(pos, viewport, items)
         vector = new THREE.Vector3(0,0,0),
         raycaster = new THREE.Raycaster(),
         world = editor.game.scene.world,
-        camera = world.camera.camera,
+        camera = editor.camera.realCamera,
         bounds = viewport.getBoundingClientRect();
 
     vector.set((event.layerX / bounds.width) * 2 - 1,
@@ -598,7 +598,7 @@ Editor.UI.prototype.paintUv = function(item, faceIndex)
     let object = item.object,
         geometry = object.geometry,
         node = item.sourceNode,
-        geometryNode = node.find('> geometry'),
+        geometryNode = $(node).find('> geometry'),
         faceNode = undefined;
 
     geometryNode.find('> face').each(function() {
