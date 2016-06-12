@@ -158,6 +158,7 @@ extends Game.Loader.XML.SceneParser
         }
 
         return {
+            sourceNode: object.node,
             node: node,
             constructor: object.constructor,
             instance: instance,
