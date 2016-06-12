@@ -35,7 +35,7 @@ extends Game.Loader.XML.Parser
             this.geometry = blueprint.geometries[0].clone();
             this.material = new THREE.MeshPhongMaterial({
                 depthWrite: false,
-                map: blueprint.textures['__default'].texture,
+                map: this.textures['__default'].texture,
                 side: THREE.DoubleSide,
                 transparent: true,
             });
