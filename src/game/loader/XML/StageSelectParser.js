@@ -45,8 +45,8 @@ extends Game.Loader.XML.SceneParser
         const spacingNode = sceneNode.querySelector('spacing');
 
         scene.setBackgroundColor(this.getAttr(backgroundNode, 'color'));
-        scene.setIndicator(new objects['indicator'].constructor().model);
-        scene.setFrame(new objects['frame'].constructor().model);
+        scene.setIndicator(this._createObject('indicator').model);
+        scene.setFrame(this._createObject('frame').model);
 
         if (spacingNode) {
             scene.spacing.copy(this.getVector2(spacingNode));
@@ -65,7 +65,7 @@ extends Game.Loader.XML.SceneParser
             const name = this.getAttr(stageNode, 'name');
             const text = this.getAttr(stageNode, 'caption');
             const caption = this._createCaption(text);
-            const avatar = new objects[id].constructor().model;
+            const avatar = this._createObject(id).model;
             scene.addStage(avatar, caption, name);
         }
 
