@@ -29,8 +29,6 @@ var Editor = function()
         new THREE.SphereGeometry(5, 2, 2),
         new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true}));
 
-    this.modelManager = new Editor.ModelManager(this);
-
     this.nodeFactory = new Editor.NodeFactory(this);
     this.nodeManager = new Editor.NodeManager();
 
