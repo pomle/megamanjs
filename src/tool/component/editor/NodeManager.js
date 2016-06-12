@@ -2,13 +2,17 @@
 
 Editor.NodeManager = function(document)
 {
-    this.document = document;
+    this._doc = document;
 }
 
 Editor.NodeManager.prototype.addBehavior = function(rectNode, type)
 {
-    let document = this.document,
+    let document = this._doc,
         layoutNode = this.getLayout();
+
+    if (!type) {
+        type = rectNode[0].parentNode.tagName.toLowerCase();
+    }
 
     let behaviorNode = layoutNode.find('> behaviors');
     if (behaviorNode.length === 0) {
@@ -27,7 +31,7 @@ Editor.NodeManager.prototype.addBehavior = function(rectNode, type)
 
 Editor.NodeManager.prototype.addCameraPath = function(pathNode)
 {
-    let document = this.document;
+    let document = this._doc;
 
     let cameraNode = document.find('> camera');
     if (cameraNode.length === 0) {
@@ -40,7 +44,7 @@ Editor.NodeManager.prototype.addCameraPath = function(pathNode)
 
 Editor.NodeManager.prototype.addCheckpoint = function(checkpointNode)
 {
-    let document = this.document;
+    let document = this._doc;
 
     let checkpointsNode = document.find('> checkpoints');
     if (checkpointsNode.length === 0) {
@@ -53,7 +57,7 @@ Editor.NodeManager.prototype.addCheckpoint = function(checkpointNode)
 
 Editor.NodeManager.prototype.addObject = function(objectNode)
 {
-    let document = this.document;
+    let document = this._doc;
 
     let objectsNode = document.find('> objects');
     if (objectsNode.length === 0) {
@@ -66,7 +70,7 @@ Editor.NodeManager.prototype.addObject = function(objectNode)
 
 Editor.NodeManager.prototype.addObjectInstance = function(objectInstanceNode)
 {
-    let document = this.document,
+    let document = this._doc,
         layoutNode = this.getLayout();
 
     let objectInstancesNode = layoutNode.find('> objects');
@@ -80,7 +84,7 @@ Editor.NodeManager.prototype.addObjectInstance = function(objectInstanceNode)
 
 Editor.NodeManager.prototype.addSolid = function(solidNode)
 {
-    let document = this.document,
+    let document = this._doc,
         behaviorNode = this.getBehavior();
 
     let solidsNode = behaviorNode.find('> solids');
@@ -94,7 +98,7 @@ Editor.NodeManager.prototype.addSolid = function(solidNode)
 
 Editor.NodeManager.prototype.getBehavior = function()
 {
-    let document = this.document,
+    let document = this._doc,
         layoutNode = this.getLayout();
 
     let behaviorNode = layoutNode.find('> behaviors');
@@ -108,7 +112,7 @@ Editor.NodeManager.prototype.getBehavior = function()
 
 Editor.NodeManager.prototype.getLayout = function()
 {
-    let document = this.document,
+    let document = this._doc,
         layoutNode = document.find('> layout');
 
     if (layoutNode.length === 0) {

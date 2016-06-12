@@ -6,10 +6,6 @@ extends Game.Loader.XML.SceneParser
 {
     constructor(loader, node)
     {
-        if (node.tagName !== 'scene' || node.getAttribute('type') !== 'level') {
-            throw new TypeError('Node not <scene type="level">');
-        }
-
         super(loader);
 
         this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
@@ -23,10 +19,35 @@ extends Game.Loader.XML.SceneParser
         this._node = node;
         this._scene = new Game.scenes.Level();
 
-        this._layoutObjects = null;
+        this._bevahiorObjects = [];
+        this._layoutObjects = [];
+    }
+    getBehavior(node)
+    {
+        const type = node.parentNode.tagName.toLowerCase();
+        if (!this.BEHAVIOR_MAP[type]) {
+            throw new Error('Behavior ' + type + ' not in behavior map');
+        }
+        const constructor = this.BEHAVIOR_MAP[type];
+        const rect = this.getRect(node);
+        const instance = new constructor;
+        instance.addCollisionRect(rect.w, rect.h);
+        instance.position.x = rect.x;
+        instance.position.y = rect.y;
+        instance.position.z = 0;
+
+        return {
+            constructor: constructor,
+            instance: instance,
+            node: node,
+        };
     }
     _parse()
     {
+        if (this._node.tagName !== 'scene' || this._node.getAttribute('type') !== 'level') {
+            throw new TypeError('Node not <scene type="level">');
+        }
+
         this._parseAudio();
         this._parseEvents();
         this._parseMusic();
@@ -52,18 +73,9 @@ extends Game.Loader.XML.SceneParser
         const nodes = this._node.querySelectorAll(':scope > layout > behaviors > * > rect');
         const world = this._scene.world;
         for (let node, i = 0; node = nodes[i]; ++i) {
-            const type = node.parentNode.tagName;
-            if (!this.BEHAVIOR_MAP[type]) {
-                throw new Error('Behavior ' + type + ' not in behavior map');
-            }
-            const rect = this.getRect(node);
-            const object = new this.BEHAVIOR_MAP[type];
-            object.addCollisionRect(rect.w, rect.h);
-            object.position.x = rect.x;
-            object.position.y = rect.y;
-            object.position.z = 0;
-
-            world.addObject(object);
+            const object = this.getBehavior(node);
+            this._bevahiorObjects.push(object);
+            world.addObject(object.instance);
         }
         return Promise.resolve();
     }
@@ -128,7 +140,6 @@ extends Game.Loader.XML.SceneParser
     }
     _parseLayout()
     {
-        this._layoutObjects = [];
         const objectNodes = this._node.querySelectorAll(':scope > layout > objects > object');
         const world = this._scene.world;
         for (let objectNode, i = 0; objectNode = objectNodes[i]; ++i) {

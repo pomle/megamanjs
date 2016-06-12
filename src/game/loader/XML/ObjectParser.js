@@ -26,16 +26,16 @@ extends Game.Loader.XML.Parser
     }
     _createConstructor(blueprint)
     {
-        if (!blueprint.textures['__default'].texture) {
-            console.error(blueprint);
-            throw new Error('No default texture on blueprint');
+        if (!blueprint.textures['__default']) {
+            console.warn('No default texture on blueprint', blueprint);
+            //throw new Error('No default texture on blueprint');
         }
 
         const constructor = this.createObject(blueprint.id, blueprint.constructor, function objectConstructor() {
             this.geometry = blueprint.geometries[0].clone();
             this.material = new THREE.MeshPhongMaterial({
                 depthWrite: false,
-                map: this.textures['__default'].texture,
+                map: this.textures['__default'] && this.textures['__default'].texture,
                 side: THREE.DoubleSide,
                 transparent: true,
             });
@@ -298,7 +298,7 @@ extends Game.Loader.XML.Parser
                 blueprint.animators.push(animator);
             }
 
-            if (!blueprint.animators.length) {
+            if (!blueprint.animators.length && animations['__default']) {
                 const animator = new Engine.Animator.UV();
                 animator.setAnimation(animations['__default']);
                 animator.update();

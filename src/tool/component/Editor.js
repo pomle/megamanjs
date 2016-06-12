@@ -4,6 +4,8 @@ var Editor = function()
 {
     this.camera = new Editor.Camera(this);
 
+    this.storage = localStorage;
+
     this.clipboard = new Editor.Clipboard();
 
     this.componentFactory = new Editor.ComponentFactory(this);
@@ -25,14 +27,9 @@ var Editor = function()
 
     this.itemFactory = new Editor.ItemFactory();
 
-    this.marker = new THREE.Mesh(
-        new THREE.SphereGeometry(5, 2, 2),
-        new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true}));
+    this.marker = this.createMarker();
 
-    this.nodeFactory = new Editor.NodeFactory(this);
-    this.nodeManager = new Editor.NodeManager();
-
-    this.parser = undefined;
+    this.scene = undefined;
 
     this.ui = new Editor.UI(this);
 
@@ -61,6 +58,8 @@ var Editor = function()
         }
         return vec;
     }
+
+    this.attachGame(new Game());
 }
 
 Editor.Colors = {
@@ -112,6 +111,24 @@ Editor.prototype.clear = function()
     this.ui.palette.html('');
 }
 
+Editor.prototype.createMarker = function()
+{
+    var material = new THREE.LineBasicMaterial({
+        color: 0xffffff
+    });
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push(
+        new THREE.Vector3(-10, 0, 0),
+        new THREE.Vector3(10, 0, 0),
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, -10, 0),
+        new THREE.Vector3(0, 10, 0)
+    );
+
+    return new THREE.Line( geometry, material );
+}
+
 Editor.prototype.getXML = function()
 {
     return this.document[0].outerHTML;
@@ -136,8 +153,7 @@ Editor.prototype.open = function(parser)
     this.clear();
 
     return parser.getScene().then(scene => {
-        this.document = $(parser._node);
-        this.nodeManager.document = this.document;
+        this.setupDocument(parser._node);
         this.setupScene(scene);
         this.setupObjects(parser);
         this.setupSceneCheckpoints();
@@ -146,13 +162,19 @@ Editor.prototype.open = function(parser)
     });
 }
 
+Editor.prototype.setupDocument = function(doc)
+{
+    this.document = $(doc);
+    this.componentFactory = new Editor.ComponentFactory(this);
+}
+
 Editor.prototype.setupScene = function(scene)
 {
     this.scene = scene;
     this.scene.timer.isSimulating = false;
     this.scene.world.updateTime(0);
     this.game.setScene(scene);
-    //this.game.pause();
+    this.game.audioPlayer.pause();
 }
 
 Editor.prototype.setupObjects = function(parser)
@@ -173,8 +195,8 @@ Editor.prototype.setupSceneCheckpoints = function()
 {
     const nodes = this.document.find('> checkpoints > checkpoint');
     this.scene.checkPoints.forEach((chkp, i) => {
-        const item = new Editor.Item.Checkpoint(chkp, nodes[i]);
-        editor.items.add(item);
+        this.componentFactory.createCheckpoint(nodes[i], chkp)
+            .then(item => { this.items.add(item); });
     });
 }
 
@@ -191,7 +213,8 @@ Editor.prototype.setupSceneCamera = function()
 
     const nodes = this.document.find('> camera > path');
     this.scene.camera.paths.forEach((path, i) => {
-        this.componentFactory.createCameraPath($(nodes[i]), path);
+        this.componentFactory.createCameraPath($(nodes[i]), path)
+            .then(item => { this.items.add(item); });
     });
 }
 

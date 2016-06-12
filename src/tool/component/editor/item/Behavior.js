@@ -2,7 +2,7 @@
 
 Editor.Item.Behavior = function(object, node)
 {
-    Editor.Item.Rectangle2.call(this, object, node, object.position, object.collision[0].geometry.vertices);
+    Editor.Item.Rectangle2.call(this, object, node, object.collision[0]);
     object.collision[0].geometry = this.model.geometry;
     this.moveTo(object.position);
 }

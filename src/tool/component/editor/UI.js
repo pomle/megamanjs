@@ -1,10 +1,13 @@
 "use strict";
 
-Editor.UI = function(editor, workspace)
+Editor.UI = function(editor)
 {
     this.editor = editor;
     this.console = $('.console');
     this.workspace = $('.workspace');
+
+    this.blankLevelURL = './resource/level-skeleton.xml';
+    this.geometryInputDefault = '256x240/16';
 
     $(window).on('resize', function() {
         if (editor.game) {
@@ -58,12 +61,13 @@ Editor.UI = function(editor, workspace)
         editor.load(node.find('> scene'));
     });
 
-
-    this.viewport = this.createViewport(this.workspace.find('.viewport'));
-    this.view = this.createView(this.workspace.find('.view'));
-    this.playback = this.createPlayback(this.workspace.find('.view'));
-    this.item = this.createItem(this.workspace.find('.item'));
-    this.palette = this.createPalette(this.workspace.find('.palette'));
+    this.setupWorkspace();
+    this.setupFileView();
+    this.viewport = this.setupViewport(this.workspace.find('.viewport'));
+    this.view = this.setupView(this.workspace.find('.view'));
+    this.playback = this.setupPlayback(this.workspace.find('.view'));
+    this.item = this.setupItemView(this.workspace.find('.item'));
+    this.palette = this.setupPalette(this.workspace.find('.palette'));
 }
 
 Editor.UI.prototype.applyState = function()
@@ -76,7 +80,135 @@ Editor.UI.prototype.applyState = function()
     this.playback.simulationSpeed.trigger('change');
 }
 
-Editor.UI.prototype.createItem = function(node)
+Editor.UI.prototype.loadLevel = function(url)
+{
+    this.editor.loadUrl(url).then(() => {
+        this.file.recent.add(url);
+        this.lastLoadedLevel = url;
+        this.applyState();
+    });
+}
+
+Editor.UI.prototype.setupFileView = function()
+{
+    /*editor.loader = {
+        loadCharacterXml: function(src) {
+            var game = editor.game,
+                loader = new Game.Loader.XML(game);
+
+            loader.loadObjects(src, function(objects, parser) {
+                for (var characterId in objects) {
+                    var character = new objects[characterId]();
+                    character.position.copy(editor.marker.position);
+                    character.position.z = 0;
+                    game.scene.world.addObject(character);
+
+                    var characterItem = new Editor.Item.Object(character);
+                    editor.items.add(characterItem);
+                }
+            });
+        }
+    }*/
+
+
+    let lastLoadedLevel = '';
+    let lastLoadedCharacter = '../resource/characters/Megaman.xml';
+    let currentSelection;
+
+    const editor = this.editor;
+    const element = $('.level-editor > .file');
+
+    element.new = element.find('.level [name=new]')
+        .on('click', () => {
+            this.loadLevel(this.blankLevelURL);
+        });
+
+    element.load = element.find('.level [name=open]')
+        .on('click', () => {
+            const url = prompt("Source", lastLoadedLevel);
+            if (url !== null && url.length) {
+                this.loadLevel(url);
+            }
+        });
+
+    element.loadCharacter = element.find('[name=loadCharacter]')
+        .on('click', () => {
+            const url = prompt("Source", lastLoadedCharacter);
+            if (url !== null && url.length) {
+                this.loadCharacterXml(url);
+            }
+        });
+
+    element.recent = element.find('.level [name=recent]')
+        .on('change', (e) => {
+            const value = e.target.value;
+            if (currentSelection === value || !value.length || !confirm("Load " + value + "?")) {
+                e.preventDefault();
+                return;
+            }
+            currentSelection = value;
+            this.loadLevel(value);
+        });
+
+    element.recent.add = function(src) {
+        var recent = this.get();
+        for (;;) {
+            var existingIndex = recent.indexOf(src);
+            if (existingIndex === -1) {
+                break;
+            }
+            recent.splice(existingIndex, 1);
+        }
+        recent.unshift(src);
+        if (recent.length > 10) {
+            recent.pop();
+        }
+        this.set(recent);
+    }
+    element.recent.get = () => {
+        try {
+            var json = editor.storage.getItem('recent');
+            var recent = JSON.parse(json);
+            var retval = Array.isArray(recent) ? recent : [];
+            return retval;
+        } catch(e) {
+            console.error("Recent parsing failed: " + e.message);
+            return [];
+        }
+    }
+    element.recent.set = function(recent)
+    {
+        var json = JSON.stringify(recent);
+        editor.storage.setItem('recent', json);
+        this.updatelist();
+    }
+    element.recent.updatelist = function()
+    {
+        var recent = this.get();
+        if (recent.length) {
+            let fragment = document.createDocumentFragment();
+            recent.forEach(function(src, index) {
+                var opt = document.createElement('option');
+                opt.innerHTML = src;
+                opt.value = src;
+                fragment.appendChild(opt)
+            });
+            element.recent.html(fragment);
+        }
+    }
+    element.recent.loadLatest = function()
+    {
+        var recent = this.get();
+        if (recent.length) {
+            this.updatelist();
+            editor.ui.loadLevel(recent[0]);
+        }
+    };
+
+    this.file = element;
+}
+
+Editor.UI.prototype.setupItemView = function(node)
 {
     let editor = this.editor,
         element = $(node);
@@ -135,92 +267,62 @@ Editor.UI.prototype.createItem = function(node)
         editor.grid.snap = this.checked;
     }).trigger('change');
 
-    let nodeFactory = editor.nodeFactory,
-        nodeManager = editor.nodeManager,
-        componentFactory = editor.componentFactory,
-        item;
-
-    var geometryInputDefault = '256x240/16';
-
     element.create = element.find('.create');
-    element.create.find('button').on('click', function(e) {
-
-        let button = $(this),
-            type = button.attr('type');
-
-        switch (type) {
-            case 'cameraPath':
-                let pathNode = nodeFactory.createCameraPath();
-                nodeManager.addCameraPath(pathNode);
-
-                item = editor.componentFactory.createCameraPath(pathNode);
-                editor.ui.view.layers.cameraPath.on();
-                break;
-
-            case 'checkpoint':
-                let checkpointNode = nodeFactory.createCheckpoint();
-                nodeManager.addCheckpoint(checkpointNode);
-
-                item = editor.componentFactory.createCheckpoint(checkpointNode);
-                editor.ui.view.layers.checkpoint.on();
-                break;
-
-            case 'deathzone':
-            case 'climbable':
-            case 'solid':
-                let node = nodeFactory.createRect(),
-                    parser = new Game.Loader.XML.Parser.LevelParser,
-                    typeName = type + 's',
-                    object = parser.createBehavior(node, typeName);
-
-                nodeManager.addBehavior(node, typeName);
-                item = new Editor.Item.Behavior(object, node);
-
-                editor.items.add(item);
-                editor.ui.view.layers.behavior.on();
-                break;
-
-            case 'object':
-                let geometryInput = prompt('Size', geometryInputDefault);
-                if (!geometryInput) {
-                    return false;
-                }
-
-                let s = geometryInput.split('/')[0].split('x'),
-                    m = parseFloat(geometryInput.split('/')[1]);
-
-                let size = {
-                    x: parseFloat(s[0]),
-                    y: parseFloat(s[1]),
-                    sx: 1,
-                    sy: 1,
-                }
-
-                if (m !== undefined) {
-                    size['sx'] = Math.ceil(size.x / m);
-                    size['sy'] = Math.ceil(size.y / m);
-                }
-
-                let objectNode = nodeFactory.createObject(size);
-                nodeManager.addObject(objectNode);
-
-                item = editor.componentFactory.createObject(objectNode);
-
-                editor.ui.view.layers.object.on();
-                break;
-        }
-
-        item.moveTo(editor.marker.position);
-        editor.items.deselect();
-        editor.items.select(item);
-        editor.activeMode = editor.modes.edit;
-        $(':input').blur();
+    element.create.find('button').on('click', (e) => {
+        const type = $(e.target).attr('type');
+        this.createItem(type).then(item => {
+            console.log(item);
+            this.editor.items.insert(item);
+        });
     });
 
     return element;
 }
 
-Editor.UI.prototype.createPalette = function(node)
+Editor.UI.prototype.createItem = function(type)
+{
+    const factory = this.editor.componentFactory;
+    const layers = this.editor.ui.view.layers;
+
+    if (type === 'cameraPath') {
+        layers.cameraPath.on();
+        return factory.createCameraPath();
+    } else if (type === 'checkpoint') {
+        layers.checkpoint.on();
+        return factory.createCheckpoint();
+    } else if (['deathzone', 'climbable', 'solid'].indexOf(type) > -1) {
+        layers.behavior.on();
+        const node = factory.nodeFactory.createBehavior(type, {x: 32, y: 16});
+        return factory.createBehavior(node);
+    } else if (type === 'object') {
+        const geometryInput = prompt('Size', this.geometryInputDefault);
+        if (!geometryInput) {
+            return false;
+        }
+        this.geometryInputDefault = geometryInput;
+
+        let s = geometryInput.split('/')[0].split('x'),
+            m = parseFloat(geometryInput.split('/')[1]);
+
+        let size = {
+            x: parseFloat(s[0]),
+            y: parseFloat(s[1]),
+            sx: 1,
+            sy: 1,
+        }
+
+        if (m !== undefined) {
+            size['sx'] = Math.ceil(size.x / m);
+            size['sy'] = Math.ceil(size.y / m);
+        }
+
+        layers.object.on();
+        const objectNode = factory.nodeFactory.createObject(size);
+        return editor.componentFactory.createObject(objectNode);
+    }
+}
+
+Editor.UI.prototype.setupPalette = function(node)
 {
     let editor = this.editor,
         element = $(node);
@@ -257,7 +359,7 @@ Editor.UI.prototype.createPalette = function(node)
     return element;
 }
 
-Editor.UI.prototype.createPlayback = function(node)
+Editor.UI.prototype.setupPlayback = function(node)
 {
     let editor = this.editor,
         playback = $(node);
@@ -277,7 +379,7 @@ Editor.UI.prototype.createPlayback = function(node)
     return playback;
 }
 
-Editor.UI.prototype.createView = function(node)
+Editor.UI.prototype.setupView = function(node)
 {
     let editor = this.editor,
         ui = this,
@@ -322,7 +424,7 @@ Editor.UI.prototype.createView = function(node)
 
         for (let layer of layers) {
             if (!editor.items.layers[layer]) {
-                console.error("Layer not found %s", layer);
+                console.info("Layer not found %s", layer);
                 continue;
             }
             let items = [...editor.items.layers[layer]];
@@ -367,7 +469,7 @@ Editor.UI.prototype.createView = function(node)
     return view;
 }
 
-Editor.UI.prototype.createViewport = function(node)
+Editor.UI.prototype.setupViewport = function(node)
 {
     let editor = this.editor,
         ui = this,
@@ -537,6 +639,41 @@ Editor.UI.prototype.createViewport = function(node)
     }
 
     return viewport;
+}
+
+Editor.UI.prototype.setupWorkspace = function()
+{
+    const editor = this.editor;
+    this.workspace.on('dragover', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+    });
+    this.workspace.on('drop', function (e) {
+        e.preventDefault();
+        var files = e.originalEvent.dataTransfer.files;
+        var file = files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var i = new Image();
+            i.onload = function() {
+                var geometry = new THREE.PlaneGeometry(this.width, this.height);
+                var texture = new THREE.Texture(this);
+                var material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    opacity: .5,
+                    transparent: true,
+                });
+                var mesh = new THREE.Mesh(geometry, material);
+                var item = new Editor.Item.Mesh(mesh);
+                editor.layers.guides.add(mesh);
+                editor.items.visible.add(item);
+                editor.items.touchable.add(item);
+                texture.needsUpdate = true;
+            };
+            i.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
 }
 
 Editor.UI.prototype.freeCamera = function()

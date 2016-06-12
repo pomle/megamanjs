@@ -82,6 +82,14 @@ Editor.ItemSet.prototype.add = function()
     }
 }
 
+Editor.ItemSet.prototype.insert = function(item)
+{
+    item.moveTo(this.editor.marker.position);
+    this.deselect();
+    this.add(item);
+    this.select(item);
+}
+
 Editor.ItemSet.prototype.remove = function()
 {
     for (let i = 0, l = arguments.length; i !== l; ++i) {
