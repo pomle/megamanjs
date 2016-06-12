@@ -19,10 +19,16 @@ extends Game.Loader.XML.Parser
     }
     _createObject(id)
     {
-        if (!this._objects[id]) {
-            throw new Error(`Object "${id}" no defined.`);
+        return new (this._getObject(id)).constructor;
+    }
+    _getObject(id)
+    {
+        if (this._objects[id]) {
+            return this._objects[id];
+        } else if (resource.has('object', id)) {
+            return resource.get('object', id);
         }
-        return new this._objects[id].constructor;
+        throw new Error(`Object "${id}" no defined.`);
     }
     _parseAudio(sceneNode)
     {

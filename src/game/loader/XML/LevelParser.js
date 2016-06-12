@@ -141,17 +141,7 @@ extends Game.Loader.XML.SceneParser
     _parseLayoutObject(node)
     {
         const objectId = node.getAttribute('id');
-        const resource = this.loader.resourceManager;
-
-        let object;
-        if (this._objects[objectId]) {
-            object = this._objects[objectId];
-        } else if (resource.has('object', objectId)) {
-            object = resource.get('object', objectId);
-        } else {
-            throw new Error('Object id "' + objectId + '" not defined');
-        }
-
+        const object = this._getObject(objectId);
         const instance = new object.constructor;
         const position = this.getPosition(node) || this.DEFAULT_POS;
         instance.position.copy(position);
