@@ -154,7 +154,7 @@ Editor.prototype.setupScene = function(scene)
     this.scene.timer.isSimulating = false;
     this.scene.world.updateTime(0);
     this.game.setScene(scene);
-    this.game.pause();
+    //this.game.pause();
 }
 
 Editor.prototype.setupObjects = function(parser)
