@@ -15,15 +15,23 @@
     <frame id="frame" />
     <stages>
         <stage name="Bubbleman"   caption="BUBBLE MAN" id="b" />
-        <stage name="Airman"      caption="AIR MAN"    id="a" />
+        <stage name="Airman"      caption="AIR MAN"    id="a" character="Airman" />
         <stage name="Quickman"    caption="QUICK MAN"  id="q" />
-        <stage name="Heatman"     caption="HEAT MAN"   id="h" />
+        <stage name="Heatman"     caption="HEAT MAN"   id="h" character="Heatman" />
         <stage name="Dr. Wily"    caption="Dr. WILY"   id="dr"/>
-        <stage name="Woodman"     caption="WOOD MAN"   id="w" />
-        <stage name="Metalman"    caption="METAL MAN"  id="m" />
-        <stage name="Flashman"    caption="FLASH MAN"  id="f" />
-        <stage name="Crashman"    caption="CRASH MAN"  id="c" />
+        <stage name="Woodman"     caption="WOOD MAN"   id="w"/>
+        <stage name="Metalman"    caption="METAL MAN"  id="m" character="Metalman" />
+        <stage name="Flashman"    caption="FLASH MAN"  id="f" character="Flashman" />
+        <stage name="Crashman"    caption="CRASH MAN"  id="c" character="Crashman" />
     </stages>
+    <layout>
+        <stars>
+            <star object="star-3" count="10" depth="0"/>
+            <star object="star-3" count="10" depth="80"/>
+            <star object="star-3" count="10" depth="200"/>
+        </stars>
+        <podium object="podium"/>
+    </layout>
 
     <events>
         <event name="start">
@@ -45,6 +53,38 @@
         <textures>
             <texture url="./stage-select/stageselect.png" w="256" h="256" />
         </textures>
+        <animations>
+            <animation id="star-3">
+                <frame x="98" y="2" w="4" h="4"/>
+            </animation>
+            <animation id="star-2">
+                <frame x="107" y="3" w="2" h="2"/>
+            </animation>
+            <animation id="star-1">
+                <frame x="115" y="3" w="2" h="2"/>
+            </animation>
+            <animation id="border-upper">
+                <frame x="211" y="19" w="16" h="16" />
+            </animation>
+            <animation id="border-lower">
+                <frame x="211" y="37" w="16" h="16" />
+            </animation>
+            <animation id="blue-stripe">
+                <frame x="232" y="5" w="16" h="16" />
+            </animation>
+            <animation id="white-stripe">
+                <frame x="232" y="23" w="16" h="16" />
+            </animation>
+            <animation id="blue">
+                <frame x="194" y="2" w="14" h="14"/>
+            </animation>
+            <animation id="cyan">
+                <frame x="194" y="20" w="14" h="14"/>
+            </animation>
+            <animation id="black">
+                <frame x="211" y="1" w="16" h="16"/>
+            </animation>
+        </animations>
         <animations w="48" h="48">
             <animation id="indicator">
                 <frame x="48" y="0"/>
@@ -80,6 +120,44 @@
                 <frame x="0" y="96"/>
             </animation>
         </animations>
+        <object id="background">
+            <geometry type="plane" w="512" h="256" w-segments="32" h-segments="16">
+                <face animation="blue">
+                    <range x="*" y="*"/>
+                </face>
+                <face animation="blue-stripe">
+                    <range x="*" y="4,8,12"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="podium">
+            <geometry type="plane" w="512" h="64" w-segments="32" h-segments="4">
+                <face animation="cyan">
+                    <range x="*" y="1-3"/>
+                </face>
+                <face animation="border-upper">
+                    <range x="*" y="1"/>
+                </face>
+                <face animation="border-lower">
+                    <range x="*" y="4"/>
+                </face>
+            </geometry>
+        </object>
+        <object id="star-1">
+            <geometry type="plane" w="1" h="1">
+                <face animation="star-1"/>
+            </geometry>
+        </object>
+        <object id="star-2">
+            <geometry type="plane" w="2" h="2">
+                <face animation="star-2"/>
+            </geometry>
+        </object>
+        <object id="star-3">
+            <geometry type="plane" w="4" h="4">
+                <face animation="star-3"/>
+            </geometry>
+        </object>
         <object id="indicator">
             <geometry type="plane" w="48" h="48">
                 <face animation="indicator"/>
