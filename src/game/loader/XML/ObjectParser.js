@@ -222,7 +222,9 @@ extends Game.Loader.XML.Parser
                 console.error(node);
                 throw new Error('Object id ' + id + ' already defined');
             }
-            const task = this._parseObject(node).then(constructor => {
+            const task = this._parseObject(node).then(blueprint => {
+                return this._createConstructor(blueprint);
+            }).then(constructor => {
                 objects[id] = {
                     node: node,
                     constructor: constructor,
@@ -323,7 +325,7 @@ extends Game.Loader.XML.Parser
                 blueprint.traits = traits;
             }),
         ]).then(() => {
-            return this._createConstructor(blueprint);
+            return blueprint;
         });
     }
     _parseObjectAnimationRouter(objectNode)
