@@ -27,10 +27,13 @@
         </bootstrap>
     </scripts>
     <audio>
-        <music src="./quickman/music.ogg" id="music">
+        <music src="./quickman/music.ogg" id="level">
             <loop />
         </music>
     </audio>
+    <music>
+        <level id="level"/>
+    </music>
     <camera>
         <path>
             <window x1="0" x2="256" y1="-240" y2="0"/>

@@ -5,10 +5,13 @@
         </guides>
     </editor>
     <audio>
-        <music src="./metalman/music.ogg" id="music">
+        <music src="./metalman/music.ogg" id="level">
             <loop />
         </music>
     </audio>
+    <music>
+        <level id="level"/>
+    </music>
     <gravity x="0" y="9.81"/>
     <checkpoints>
         <checkpoint x="128" y="-168" z="0"/>

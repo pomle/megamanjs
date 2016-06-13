@@ -1,9 +1,12 @@
 <scene type="level" name="Bubbleman">
     <audio>
-        <music src="./bubbleman/music.ogg" id="music">
+        <music src="./bubbleman/music.ogg" id="level">
             <loop start="10.683" end="42.629"/>
         </music>
     </audio>
+    <music>
+        <level id="level"/>
+    </music>
     <gravity x="0" y="9.81"/>
     <checkpoints>
         <checkpoint x="128" y="-101"/>

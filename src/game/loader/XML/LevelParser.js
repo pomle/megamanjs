@@ -59,16 +59,21 @@ extends Game.Loader.XML.SceneParser
     }
     _parseMusic()
     {
-        const musicNode = this._node.querySelector(':scope > audio > music');
-        if (musicNode) {
-            const scene = this._scene;
+        const nodes = this._node.querySelector(':scope > music > *');
+        const scene = this._scene;
+        for (let node, i = 0; node = nodes[i]; ++i) {
+            const type = node.tagName;
             const id = this.getAttr(musicNode, 'id')
-            scene.events.bind(scene.EVENT_PLAYER_RESET, function() {
-                this.playAudio(id);
-            });
-            scene.events.bind(scene.EVENT_PLAYER_DEATH, function() {
-                this.stopAudio(id);
-            });
+            if (type === 'level') {
+                scene.events.bind(scene.EVENT_PLAYER_RESET, function() {
+                    this.playAudio(id);
+                });
+                scene.events.bind(scene.EVENT_PLAYER_DEATH, function() {
+                    this.stopAudio(id);
+                });
+            } else if (type === 'boss') {
+                /* Special boss music treatment here. */
+            }
         }
     }
     _parseSpawners()
