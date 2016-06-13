@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scene type="level">
+<scene>
     <audio>
         <music src="./intro/intro.ogg" id="intro"/>
     </audio>
