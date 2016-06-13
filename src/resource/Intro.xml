@@ -22,7 +22,7 @@
             </await>
             <await>
                 <action type="camera-move" to=",576,">
-                    <interpolation duration="11" easing="easeIn,1.7" />
+                    <interpolation duration="11" easing="easeIn,1.7"/>
                 </action>
             </await>
             <await>
@@ -239,19 +239,19 @@
         </object>
         <object id="NAGscu">
             <geometry type="plane" w="128" h="720" w-segments="8" h-segments="45">
-               <face animation="slice_0" index="[]">
+                <face animation="slice_0">
                     <range x="2" y="4-45"/>
                 </face>
                 <face animation="slice_43" index="[38]">
                     <range x="3,5,7" y="5-45"/>
                 </face>
-                <face animation="slice_32" index="[486]">
+                <face animation="slice_32">
                     <range x="4,6,8" y="5-45"/>
                 </face>
                 <face animation="win1" index="[262,266,270,342,346,350,422,426,430,502,506,510,582,586,590,662,666,670,190,186,182,102,106,110]"/>
                 <face animation="win2" index="[278,282,286,438,442,446,526,522,518,358,362,366,598,602,606,686,682,678,198,202,206,118,122,126]"/>
                 <face animation="balcony1" index="[224,304,384,464,544,624,144,64]"/>
-                <face animation="balcony2" index="[560,480,400,320,240,80,160]"/>
+                <face animation="balcony2" index="[560,480,400,320,240,80,160,640]"/>
                 <face animation="slice_17" index="[52,54,56,58,60,62]"/>
                 <face animation="slice_1" index="[34]"/>
                 <face animation="slice_40" index="[22]"/>
@@ -267,5 +267,10 @@
             <object id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
             <object id="NAGscu" x="140" y="230" z="0"/>
         </objects>
+        <behaviors>
+            <solids>
+                <rect x="148" y="534" w="112" h="16"/>
+            </solids>
+        </behaviors>
     </layout>
 </scene>
