@@ -77,6 +77,11 @@ extends Game.Loader.XML.Parser
                     this.camera.position.copy(to);
                 };
             }
+        } else if (type === 'emit-event') {
+            const name = this.getAttr(node, 'name');
+            return function emitEvent() {
+                this.events.trigger(name, []);
+            };
         } else if (type === 'play-audio') {
             return function playAudio() {
                 this.playAudio(id);
