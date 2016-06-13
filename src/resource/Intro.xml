@@ -4,6 +4,9 @@
         <music src="./intro/intro.ogg" id="intro"/>
     </audio>
     <events>
+        <event name="create">
+            <action type="camera-move" to="0,0,140"/>
+        </event>
         <event name="start">
             <action type="play-sequence" id="intro"/>
         </event>
@@ -15,8 +18,14 @@
                 <action type="wait" duration="25.5"/>
             </await>
             <await>
-                <action type="camera-move" to=",576," duration="12.5" easing="easeIn,2" />
+                <action type="camera-move" to=",576,">
+                    <interpolation duration="11" easing="easeIn,1.7" />
+                </action>
             </await>
+            <await>
+                <action type="wait" duration="50"/>
+            </await>
+            <action type="emit-event" name="end"/>
         </sequence>
     </sequences>
     <objects>
