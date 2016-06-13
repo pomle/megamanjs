@@ -119,11 +119,6 @@ Engine.Camera = class Camera
     {
         this.events.trigger(this.EVENT_UPDATE, [deltaTime]);
 
-        if (this.followObject) {
-            this.desiredPosition.x = this.followObject.position.x + this.followOffset.x;
-            this.desiredPosition.y = this.followObject.position.y + this.followOffset.y;
-        }
-
         if (this.desiredPosition) {
             if (this.obeyPaths) {
                 this.alignToPath(this.desiredPosition);

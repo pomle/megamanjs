@@ -50,7 +50,7 @@ extends Game.Loader.XML.SceneParser
 
         this._parseAudio();
         this._parseEvents();
-        this._parseMusic();
+        //this._parseMusic();
         this._parseBehaviors();
         this._parseCamera();
         this._parseCheckpoints();

@@ -144,6 +144,14 @@ describe('Parser', function() {
       node = createNode('<moot w="10" h="12" r="5"/>');
       expect(parser.getVector3(node, 'w', 'h', 'r')).to.eql({x: 10, y: 12, z: 5});
     });
+    it('should parse as aggregate value if only one attribute is supplied', function() {
+      const parser = new Parser();
+      let node;
+      node = createNode('<moot to="13,17,19"/>');
+      expect(parser.getVector3(node, 'to')).to.eql({x: 13, y: 17, z: 19});
+      node = createNode('<moot to=",17,"/>');
+      expect(parser.getVector3(node, 'to')).to.eql({x: undefined, y: 17, z: undefined});
+    });
   });
 
   /*
