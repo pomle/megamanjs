@@ -4,10 +4,11 @@ Game.Loader.XML.SceneParser =
 class SceneParser
 extends Game.Loader.XML.Parser
 {
-    constructor(loader, scene)
+    constructor(loader, node)
     {
         super(loader);
-        this._scene = scene;
+        this._node = node;
+        this._scene = null;
         this._objects = {};
         this._bevahiorObjects = [];
         this._layoutObjects = [];
@@ -51,6 +52,30 @@ extends Game.Loader.XML.Parser
             return resource.get('object', id);
         }
         throw new Error(`Object "${id}" no defined.`);
+    }
+    _parse()
+    {
+        if (this._node.tagName !== 'scene') {
+            throw new TypeError('Node not <scene>');
+        }
+
+        this._scene = new Game.Scene();
+
+        this._parseAudio();
+        this._parseCamera();
+        this._parseEvents();
+        this._parseBehaviors();
+        this._parseCamera();
+        this._parseGravity();
+        this._parseSequences();
+
+        return this._parseObjects().then(() => {
+            return this._parseLayout();
+        }).then(() => {
+            return this.loader.resourceLoader.complete();
+        }).then(() => {
+            return this._scene;
+        });
     }
     _parseAudio(sceneNode)
     {

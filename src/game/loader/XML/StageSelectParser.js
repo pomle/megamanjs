@@ -10,11 +10,12 @@ extends Game.Loader.XML.SceneParser
             throw new TypeError('Node not <scene type="stage-select">');
         }
 
-        super(loader, new Game.scenes.StageSelect);
-        this._node = node;
+        super(loader, node);
     }
     _parse()
     {
+        this._scene = new Game.scenes.StageSelect;
+
         this._parseAudio();
         this._parseEvents();
         this._setupBehavior();

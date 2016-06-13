@@ -6,7 +6,7 @@ extends Game.Loader.XML.SceneParser
 {
     constructor(loader, node)
     {
-        super(loader);
+        super(loader, node);
 
         this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
         this.BEHAVIOR_MAP = {
@@ -15,15 +15,14 @@ extends Game.Loader.XML.SceneParser
             'environments': Engine.Object,
             'solids': Game.objects.Solid,
         };
-
-        this._node = node;
-        this._scene = new Game.scenes.Level();
     }
     _parse()
     {
         if (this._node.tagName !== 'scene' || this._node.getAttribute('type') !== 'level') {
             throw new TypeError('Node not <scene type="level">');
         }
+
+        this._scene = new Game.scenes.Level();
 
         this._parseAudio();
         this._parseEvents();
@@ -59,11 +58,11 @@ extends Game.Loader.XML.SceneParser
     }
     _parseMusic()
     {
-        const nodes = this._node.querySelector(':scope > music > *');
+        const nodes = this._node.querySelectorAll(':scope > music > *');
         const scene = this._scene;
         for (let node, i = 0; node = nodes[i]; ++i) {
             const type = node.tagName;
-            const id = this.getAttr(musicNode, 'id')
+            const id = this.getAttr(node, 'id')
             if (type === 'level') {
                 scene.events.bind(scene.EVENT_PLAYER_RESET, function() {
                     this.playAudio(id);
