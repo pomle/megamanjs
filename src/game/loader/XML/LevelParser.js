@@ -155,7 +155,9 @@ extends Game.Loader.XML.SceneParser
         const object = this._getObject(objectId);
         const instance = new object.constructor;
         const position = this.getPosition(node) || this.DEFAULT_POS;
+        const scale = this.getFloat(node, 'scale') || 1;
         instance.position.copy(position);
+        instance.model.scale.multiplyScalar(scale);
 
         const traitNodes = node.getElementsByTagName('trait');
         if (traitNodes) {
