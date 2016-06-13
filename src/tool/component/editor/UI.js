@@ -116,7 +116,7 @@ Editor.UI.prototype.setupFileView = function()
     let currentSelection;
 
     const editor = this.editor;
-    const element = $('.level-editor > .file');
+    const element = $('.scene-editor > .file');
 
     element.new = element.find('.level [name=new]')
         .on('click', () => {
