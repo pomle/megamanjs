@@ -486,7 +486,7 @@ Editor.UI.prototype.setupViewport = function(node)
 
     viewport
         .on('mousemove', function(e) {
-            if (e.buttons === 4) {
+            if (e.buttons === 2) {
                 e.preventDefault();
                 let to = new THREE.Vector2((mouse.event.clientX - e.clientX),
                                            -(mouse.event.clientY - e.clientY));
