@@ -55,6 +55,7 @@ extends Game.Loader.XML.SceneParser
         this._parseCamera();
         this._parseCheckpoints();
         this._parseGravity();
+        this._parseSequences();
         this._parseSpawners();
         this._parseText();
 

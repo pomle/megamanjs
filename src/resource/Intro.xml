@@ -5,9 +5,20 @@
     </audio>
     <events>
         <event name="start">
-            <action type="play-audio" id="intro"/>
+            <action type="play-sequence" id="intro"/>
         </event>
     </events>
+    <sequences>
+        <sequence id="intro">
+            <await>
+                <action type="play-audio" id="intro"/>
+                <action type="wait" duration="25.5"/>
+            </await>
+            <await>
+                <action type="camera-move" to=",576," duration="12.5" easing="easeIn,2" />
+            </await>
+        </sequence>
+    </sequences>
     <objects>
         <textures>
             <texture url="./intro/intro.png" w="256" h="256"/>
