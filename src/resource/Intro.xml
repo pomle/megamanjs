@@ -227,33 +227,33 @@
         </object>
         <object id="NAGscu">
             <geometry type="plane" w="128" h="720" w-segments="8" h-segments="45">
-                <face animation="slice_0" index="[]">
-                    <range x="2" y="14-45"/>
+               <face animation="slice_0" index="[]">
+                    <range x="2" y="4-45"/>
                 </face>
-                <face animation="slice_43" index="[198]">
-                    <range x="3,5,7" y="15-45"/>
+                <face animation="slice_43" index="[38]">
+                    <range x="3,5,7" y="5-45"/>
                 </face>
                 <face animation="slice_32" index="[486]">
-                    <range x="4,6,8" y="15-45"/>
+                    <range x="4,6,8" y="5-45"/>
                 </face>
-                <face animation="slice_17" index="[212,214,216,218,220,222]"/>
-                <face animation="slice_40" index="[182]"/>
-                <face animation="slice_41" index="[184,186,188,190]"/>
-                <face animation="grey" index="[200,202,206]"/>
-                <face animation="slice_42" index="[204]"/>
-                <face animation="slice_1" index="[194]"/>
-                <face animation="win1" index="[262,266,270,342,346,350,422,426,430,502,506,510,582,586,590,662,666,670]"/>
-                <face animation="win2" index="[278,282,286,438,442,446,526,522,518,358,362,366,598,602,606,686,682,678]"/>
-                <face animation="balcony1" index="[224,304,384,464,544,624]"/>
-                <face animation="balcony2" index="[560,480,400,320,240]"/>
+                <face animation="win1" index="[262,266,270,342,346,350,422,426,430,502,506,510,582,586,590,662,666,670,190,186,182,102,106,110]"/>
+                <face animation="win2" index="[278,282,286,438,442,446,526,522,518,358,362,366,598,602,606,686,682,678,198,202,206,118,122,126]"/>
+                <face animation="balcony1" index="[224,304,384,464,544,624,144,64]"/>
+                <face animation="balcony2" index="[560,480,400,320,240,80,160]"/>
+                <face animation="slice_17" index="[52,54,56,58,60,62]"/>
+                <face animation="slice_1" index="[34]"/>
+                <face animation="slice_40" index="[22]"/>
+                <face animation="slice_41" index="[24,26,28,30]"/>
+                <face animation="grey" index="[40,42,46]"/>
+                <face animation="slice_42" index="[44]"/>
             </geometry>
         </object>
     </objects>
     <layout>
         <objects>
-            <object id="logo" x="0" y="488" z="0"/>
-            <object id="IpqEDd" x="0" y="0" z="-150"/>
-            <object id="NAGscu" x="72" y="264" z="0"/>
+            <object id="logo" x="0" y="608" z="0"/>
+            <object id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
+            <object id="NAGscu" x="140" y="230" z="0"/>
         </objects>
     </layout>
 </scene>
