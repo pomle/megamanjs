@@ -43,14 +43,30 @@ Game.Scene = class Scene
         };
 
         this.events.bind(this.EVENT_CREATE, (game) => {
-            this.startSimulation();
+            this.__create(game);
             timer.events.bind(timer.EVENT_UPDATE, animate);
             timer.events.bind(timer.EVENT_RENDER, render);
             world.events.bind(world.EVENT_EMIT_AUDIO, audioListener);
         });
 
+        this.events.bind(this.EVENT_START, () => {
+            this.__start();
+        });
+
+        this.events.bind(this.EVENT_RESUME, () => {
+            this.__resume();
+        });
+
+        this.events.bind(this.EVENT_PAUSE, () => {
+            this.__pause();
+        });
+
+        this.events.bind(this.EVENT_END, () => {
+            this.__end();
+        });
+
         this.events.bind(this.EVENT_DESTROY, () => {
-            this.stopSimulation();
+            this.__destroy();
             timer.events.unbind(timer.EVENT_UPDATE, animate);
             timer.events.unbind(timer.EVENT_RENDER, render);
             world.events.unbind(world.EVENT_EMIT_AUDIO, audioListener);
@@ -59,34 +75,30 @@ Game.Scene = class Scene
     __create(game)
     {
         this.game = game;
-        this.events.trigger(this.EVENT_CREATE, [game]);
     }
     __start()
     {
-        this.events.trigger(this.EVENT_START);
+        this.startSimulation();
     }
     __resume()
     {
         this.game.audioPlayer.resume();
         this.timer.run();
-        this.events.trigger(this.EVENT_RESUME);
     }
     __pause()
     {
         this.game.audioPlayer.pause();
         this.input.release();
         this.timer.pause();
-        this.events.trigger(this.EVENT_PAUSE);
     }
     __end()
     {
         this.__pause();
         this.game.audioPlayer.stop();
-        this.events.trigger(this.EVENT_END);
     }
     __destroy()
     {
-        this.events.trigger(this.EVENT_DESTROY);
+        this.stopSimulation();
         this.game = null;
     }
     getAudio(id)

@@ -17,7 +17,7 @@ describe('Level', function() {
       const character = new Game.objects.Character;
       character.applyTrait(new Game.traits.Health);
       game.player.setCharacter(character);
-      level.__create(game);
+      level.events.trigger(level.EVENT_CREATE, [game]);;
       THREE.WebGLRenderer.restore();
       delete global.AudioContext;
       return level;
@@ -48,9 +48,9 @@ describe('Level', function() {
     level.timer.updateTime(0.001);
   });
 
-  it('should run __end 4 seconds after death if lives <= 1', function() {
+  it('should emit end event 4 seconds after death if lives <= 1', function() {
     const level = createLevel();
-    sinon.stub(level, '__end', function() {
+    const endEventSpy = sinon.spy(function() {
       try {
         expect(level.timer.realTimePassed).to.be(4);
         done();
@@ -58,6 +58,7 @@ describe('Level', function() {
         done(e);
       }
     });
+    level.events.bind(level.EVENT_END, endEventSpy);
     level.world.addObject(level.player.character);
     level.player.lives = 1;
     level.player.character.kill();

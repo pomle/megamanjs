@@ -25,7 +25,7 @@ Game.scenes.Level = class Level extends Game.Scene
             this.events.trigger(this.EVENT_PLAYER_DEATH);
             this.timer.waitFor(this.deathRespawnTime).then(() => {
                 if (this.player.lives <= 0) {
-                    this.__end();
+                    this.events.trigger(this.EVENT_END);
                 } else {
                     this.resetPlayer();
                 }
@@ -132,7 +132,7 @@ Game.scenes.Level = class Level extends Game.Scene
             });
         input.hit(input.SELECT,
             () => {
-                this.__end();
+                this.events.trigger(this.EVENT_END);
             });
 
         return input;
