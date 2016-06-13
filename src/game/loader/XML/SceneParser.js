@@ -177,6 +177,7 @@ extends Game.Loader.XML.Parser
             this._objects = objects;
         });
     }
+
     _parseSequences()
     {
         const sequences = {};
