@@ -238,14 +238,14 @@ Editor.UI.prototype.setupItemView = function(node)
         }
     });
     element.inputs.clear = function() {
-        this.each(function(input) {
+        this.each(function() {
             this.value = '';
             this.disabled = true;
         });
     }
     element.inputs.update = function(item) {
-        this.each(function(input) {
-            let value = item[this.name];
+        this.each(function() {
+            const value = item[this.name];
             if (value !== undefined) {
                 this.value = value;
                 this.disabled = false;
