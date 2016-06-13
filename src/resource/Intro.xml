@@ -4,6 +4,9 @@
         <music src="./intro/intro.ogg" id="intro"/>
     </audio>
     <events>
+        <after>
+            <action type="goto-scene" id="StageSelect"/>
+        </after>
         <event name="create">
             <action type="camera-move" to="0,0,140"/>
         </event>
