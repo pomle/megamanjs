@@ -56,15 +56,20 @@ extends Game.Loader
         }
 
         const type = node.getAttribute('type');
-        if (type === 'level') {
-            const parser = new Game.Loader.XML.LevelParser(this, node);
-            return parser.getScene();
-        } else if (type === 'stage-select') {
-            const parser = new Game.Loader.XML.StageSelectParser(this, node);
+        if (type) {
+            if (type === 'level') {
+                const parser = new Game.Loader.XML.LevelParser(this, node);
+                return parser.getScene();
+            } else if (type === 'stage-select') {
+                const parser = new Game.Loader.XML.StageSelectParser(this, node);
+                return parser.getScene();
+            } else {
+                throw new Error(`Scene type "${type}" not recognized`);
+            }
+        } else {
+            const parser = new Game.Loader.XML.SceneParser(this, node);
             return parser.getScene();
         }
-
-        throw new Error(`Scene type "${type}" not recognized`);
     }
     resolveURL(node, attr)
     {
