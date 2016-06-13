@@ -104,7 +104,7 @@ Engine.Easing = {
         return t
     },
     easeIn: function (p) {
-        return function(t) {
+        return function easeInPow(t) {
             return Math.pow(t, p);
         }
     },

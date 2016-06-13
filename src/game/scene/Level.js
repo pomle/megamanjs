@@ -25,7 +25,7 @@ Game.scenes.Level = class Level extends Game.Scene
             this.events.trigger(this.EVENT_PLAYER_DEATH);
             this.timer.waitFor(this.deathRespawnTime).then(() => {
                 if (this.player.lives <= 0) {
-                    this.__end();
+                    this.events.trigger(this.EVENT_END);
                 } else {
                     this.resetPlayer();
                 }
@@ -40,11 +40,15 @@ Game.scenes.Level = class Level extends Game.Scene
             this.player = game.player;
 
             const char = this.player.character;
-            char.events.bind(char.EVENT_DEATH, onDeath);
+            if (char) {
+                char.events.bind(char.EVENT_DEATH, onDeath);
+            }
         });
         this.events.bind(this.EVENT_DESTROY, () => {
             const char = this.player.character;
-            char.events.unbind(char.EVENT_DEATH, onDeath);
+            if (char) {
+                char.events.unbind(char.EVENT_DEATH, onDeath);
+            }
 
             this.camera.unfollow();
             this.world.objects.forEach(object => {
@@ -128,7 +132,7 @@ Game.scenes.Level = class Level extends Game.Scene
             });
         input.hit(input.SELECT,
             () => {
-                this.__end();
+                this.events.trigger(this.EVENT_END);
             });
 
         return input;
@@ -140,15 +144,16 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     detectCheckpoint()
     {
-        var playerPosition = this.player.character.position;
-        for (var i = 0, l = this.checkPoints.length; i < l; ++i) {
-            var checkpoint = this.checkPoints[i];
-            if (checkpoint.pos.distanceTo(playerPosition) < checkpoint.radius) {
-                this.checkPointIndex = i;
-                return checkpoint;
+        if (this.player.character) {
+            const playerPosition = this.player.character.position;
+            for (let i = 0, l = this.checkPoints.length; i !== l; ++i) {
+                const checkpoint = this.checkPoints[i];
+                if (checkpoint.pos.distanceTo(playerPosition) < checkpoint.radius) {
+                    this.checkPointIndex = i;
+                    return;
+                }
             }
         }
-        return false;
     }
     followPlayer()
     {
@@ -220,8 +225,11 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     resetPlayer()
     {
-        var player = this.player,
-            character = player.character;
+        const player = this.player;
+        const character = player.character;
+        if (!character) {
+            return;
+        }
 
         if (player.defaultWeapon) {
             player.equipWeapon(player.defaultWeapon);

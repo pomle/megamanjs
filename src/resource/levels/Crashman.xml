@@ -1,10 +1,13 @@
 <scene type="level" name="Crashman">
     <gravity x="0" y="9.81"/>
     <audio>
-        <music src="./crashman/music.ogg" id="music">
+        <music src="./crashman/music.ogg" id="level">
             <loop start="12.814" />
         </music>
     </audio>
+    <music>
+        <level id="level"/>
+    </music>
     <checkpoints>
         <checkpoint x="128" y="56" r="100" z="0"/>
         <checkpoint x="640" y="1496" r="100" z="0"/>

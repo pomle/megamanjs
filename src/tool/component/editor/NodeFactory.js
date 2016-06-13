@@ -1,23 +1,29 @@
 "use strict";
 
-Editor.NodeFactory = function(editor)
+Editor.NodeFactory = function(document)
 {
-    this.editor = editor;
+    this._doc = document;
+}
+
+Editor.NodeFactory.prototype.createBehavior = function(type, size)
+{
+    const node = this.createRect(size);
+    const wrapper = $(`<${type}s>`, this._doc);
+    wrapper.append(node);
+    return node;
 }
 
 Editor.NodeFactory.prototype.createCameraPath = function()
 {
-    let editor = this.editor,
-        document = editor.document,
-        pos = new THREE.Vector2(),
-        windowW = 256,
-        windowH = 240,
-        constraintW = 100,
-        constraintH = 100;
+    const pos = new THREE.Vector2();
+    const windowW = 256;
+    const windowH = 240;
+    const constraintW = 100;
+    const constraintH = 100;
 
-    let pathNode = $('<path>', document);
+    const pathNode = $('<path>', this._doc);
 
-    let windowNode = $('<window>', document).attr({
+    const windowNode = $('<window>', this._doc).attr({
         x1: pos.x - windowW / 2,
         x2: pos.x + windowW / 2,
         y1: pos.y - windowH / 2,
@@ -25,7 +31,7 @@ Editor.NodeFactory.prototype.createCameraPath = function()
     });
     pathNode.append(windowNode);
 
-    let constraintNode = $('<constraint>', document).attr({
+    const constraintNode = $('<constraint>', this._doc).attr({
         x1: pos.x - constraintW / 2,
         x2: pos.x + constraintW / 2,
         y1: pos.y - constraintH / 2,
@@ -38,31 +44,28 @@ Editor.NodeFactory.prototype.createCameraPath = function()
 
 Editor.NodeFactory.prototype.createCheckpoint = function()
 {
-    let editor = this.editor,
-        document = editor.document;
-
-    let node = $('<checkpoint>', document).attr({
+    const node = $('<checkpoint>', this._doc).attr({
         'x': 0,
         'y': 0,
         'r': 100,
     });
-
     return node;
 }
 
 
 Editor.NodeFactory.prototype.createObject = function(size)
 {
-    let editor = this.editor,
-        document = editor.document;
-
-    let uniqueId = 'object_' + THREE.Math.generateUUID().replace(/-/g, '').toLowerCase();
-
-    let objectNode = $('<object/>', document).attr({
-        'id': uniqueId,
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let id = '';
+    for (let i = 0, l = chars.length; i < 6; ++i) {
+        id += chars[Math.floor(Math.random() * l)];
+    }
+    console.log(id);
+    const objectNode = $('<object/>', this._doc).attr({
+        'id': id,
     });
 
-    let geometryNode = $('<geometry/>', document).attr({
+    const geometryNode = $('<geometry/>', this._doc).attr({
         'type': 'plane',
         'w': size.x,
         'h': size.y,
@@ -77,10 +80,7 @@ Editor.NodeFactory.prototype.createObject = function(size)
 
 Editor.NodeFactory.prototype.createObjectInstance = function(objectInstance)
 {
-    let editor = this.editor,
-        document = editor.document;
-
-    let objectInstanceNode = $('<object/>', document).attr({
+    const objectInstanceNode = $('<object/>', this._doc).attr({
         'id': objectInstance.name,
         'x': objectInstance.position.x,
         'y': objectInstance.position.y,
@@ -91,12 +91,9 @@ Editor.NodeFactory.prototype.createObjectInstance = function(objectInstance)
 
 Editor.NodeFactory.prototype.createRect = function(size)
 {
-    let editor = this.editor,
-        document = editor.document;
-
     size = size || {};
 
-    let node = $('<rect>', document).attr({
+    const node = $('<rect>', this._doc).attr({
         'x': 0,
         'y': 0,
         'w': size.x || 32,

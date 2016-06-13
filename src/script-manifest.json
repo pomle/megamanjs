@@ -40,6 +40,7 @@
     "game/Loader.js",
     "game/loader/XML.js",
     "game/loader/XML/Parser.js",
+    "game/loader/XML/ActionParser.js",
     "game/loader/XML/EventParser.js",
     "game/loader/XML/GameParser.js",
     "game/loader/XML/ObjectParser.js",

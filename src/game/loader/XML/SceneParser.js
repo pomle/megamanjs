@@ -4,11 +4,43 @@ Game.Loader.XML.SceneParser =
 class SceneParser
 extends Game.Loader.XML.Parser
 {
-    constructor(loader, scene)
+    constructor(loader, node)
     {
         super(loader);
-        this._scene = scene;
+
+        this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
+        this.BEHAVIOR_MAP = {
+            'climbables': Game.objects.Climbable,
+            'deathzones': Game.objects.obstacles.DeathZone,
+            'environments': Engine.Object,
+            'solids': Game.objects.Solid,
+        };
+
+        this._node = node;
+        this._scene = null;
         this._objects = {};
+        this._bevahiorObjects = [];
+        this._layoutObjects = [];
+    }
+    getBehavior(node)
+    {
+        const type = node.parentNode.tagName.toLowerCase();
+        if (!this.BEHAVIOR_MAP[type]) {
+            throw new Error('Behavior ' + type + ' not in behavior map');
+        }
+        const constructor = this.BEHAVIOR_MAP[type];
+        const rect = this.getRect(node);
+        const instance = new constructor;
+        instance.addCollisionRect(rect.w, rect.h);
+        instance.position.x = rect.x;
+        instance.position.y = rect.y;
+        instance.position.z = 0;
+
+        return {
+            constructor: constructor,
+            instance: instance,
+            node: node,
+        };
     }
     getScene()
     {
@@ -19,10 +51,40 @@ extends Game.Loader.XML.Parser
     }
     _createObject(id)
     {
-        if (!this._objects[id]) {
-            throw new Error(`Object "${id}" no defined.`);
+        return new (this._getObject(id)).constructor;
+    }
+    _getObject(id)
+    {
+        if (this._objects[id]) {
+            return this._objects[id];
+        } else if (resource.has('object', id)) {
+            return resource.get('object', id);
         }
-        return new this._objects[id].constructor;
+        throw new Error(`Object "${id}" no defined.`);
+    }
+    _parse()
+    {
+        if (this._node.tagName !== 'scene') {
+            throw new TypeError('Node not <scene>');
+        }
+
+        this._scene = new Game.Scene();
+
+        this._parseAudio();
+        this._parseCamera();
+        this._parseEvents();
+        this._parseBehaviors();
+        this._parseCamera();
+        this._parseGravity();
+        this._parseSequences();
+
+        return this._parseObjects().then(() => {
+            return this._parseLayout();
+        }).then(() => {
+            return this.loader.resourceLoader.complete();
+        }).then(() => {
+            return this._scene;
+        });
     }
     _parseAudio(sceneNode)
     {
@@ -38,8 +100,46 @@ extends Game.Loader.XML.Parser
         }
         return Promise.all(tasks);
     }
+    _parseBehaviors()
+    {
+        const nodes = this._node.querySelectorAll(':scope > layout > behaviors > * > rect');
+        const world = this._scene.world;
+        for (let node, i = 0; node = nodes[i]; ++i) {
+            const object = this.getBehavior(node);
+            this._bevahiorObjects.push(object);
+            world.addObject(object.instance);
+        }
+        return Promise.resolve();
+    }
+    _parseCamera()
+    {
+        const cameraNode = this._node.querySelector(':scope > camera');
+        if (cameraNode) {
+            const camera = this._scene.camera;
+            const smoothing = this.getFloat(cameraNode, 'smoothing');
+            if (smoothing) {
+                camera.smoothing = smoothing;
+            }
+
+            const posNode = cameraNode.querySelector(':scope > position');
+            if (posNode) {
+                const position = this.getPosition(posNode);
+                camera.position.copy(position);
+            }
+
+            const pathNodes = cameraNode.querySelectorAll(':scope > path');
+            for (let pathNode, i = 0; pathNode = pathNodes[i]; ++i) {
+                const path = this.getCameraPath(pathNode);
+                camera.addPath(path);
+            }
+        }
+
+        return Promise.resolve();
+    }
     _parseEvents()
     {
+        this._parseGlobalEvents();
+
         const node = this._node.querySelector(':scope > events');
         if (!node) {
             return Promise.resolve();
@@ -53,6 +153,77 @@ extends Game.Loader.XML.Parser
             });
         });
     }
+    _parseGlobalEvents()
+    {
+        const eventsNode = this._node.querySelector(':scope > events');
+        if (!eventsNode) {
+            return;
+        }
+        const nodes = eventsNode.querySelectorAll('after > action, before > action');
+        const scene = this._scene;
+        for (let node, i = 0; node = nodes[i]; ++i) {
+            const when = node.parentNode.tagName;
+            const type = node.getAttribute('type');
+            if (when === 'after' && type === 'goto-scene') {
+                const id = node.getAttribute('id');
+                scene.events.bind(scene.EVENT_END, () => {
+                    this.loader.loadSceneByName(id).then(scene => {
+                        this.loader.game.setScene(scene);
+                    });
+                })
+            } else {
+                throw new TypeError(`No mathing event for ${when} > ${type}`);
+            }
+        }
+    }
+    _parseGravity()
+    {
+        const node = this._node.getElementsByTagName('gravity')[0];
+        if (node) {
+            const gravity = this.getVector2(node);
+            this._scene.world.gravityForce.copy(gravity);
+        }
+        return Promise.resolve();
+    }
+    _parseLayout()
+    {
+        const objectNodes = this._node.querySelectorAll(':scope > layout > objects > object');
+        const world = this._scene.world;
+        for (let objectNode, i = 0; objectNode = objectNodes[i]; ++i) {
+            const layoutObject = this._parseLayoutObject(objectNode);
+            world.addObject(layoutObject.instance);
+            this._layoutObjects.push(layoutObject);
+        };
+        return Promise.resolve();
+    }
+    _parseLayoutObject(node)
+    {
+        const objectId = node.getAttribute('id');
+        const object = this._getObject(objectId);
+        const instance = new object.constructor;
+        const position = this.getPosition(node) || this.DEFAULT_POS;
+        const scale = this.getFloat(node, 'scale') || 1;
+        instance.position.copy(position);
+        instance.model.scale.multiplyScalar(scale);
+
+        const traitNodes = node.getElementsByTagName('trait');
+        if (traitNodes) {
+            const traitParser = new Game.Loader.XML.TraitParser();
+            const traits = [];
+            for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
+                const Trait = traitParser.parseTrait(traitNode);
+                const trait = new Trait;
+                instance.applyTrait(trait);
+            }
+        }
+
+        return {
+            sourceNode: object.node,
+            node: node,
+            constructor: object.constructor,
+            instance: instance,
+        };
+    }
     _parseObjects()
     {
         const node = this._node.querySelector(':scope > objects');
@@ -64,5 +235,28 @@ extends Game.Loader.XML.Parser
         return parser.getObjects().then(objects => {
             this._objects = objects;
         });
+    }
+
+    _parseSequences()
+    {
+        const sequences = {};
+        const nodes = this._node.querySelectorAll(':scope > sequences > sequence');
+        for (let node, i = 0; node = nodes[i]; ++i) {
+            const id = this.getAttr(node, 'id');
+            const sequence = this._parseSequence(node);
+            sequences[id] = sequence;
+        }
+        this._scene.sequences = sequences;
+    }
+    _parseSequence(sequenceNode)
+    {
+        const actionParser = new Game.Loader.XML.ActionParser;
+        const nodes = sequenceNode.querySelectorAll('action');
+        const sequence = [];
+        for (let node, i = 0; node = nodes[i]; ++i) {
+            const action = actionParser.getAction(node);
+            sequence.push([action]);
+        }
+        return sequence;
     }
 }

@@ -6,27 +6,16 @@ extends Game.Loader.XML.SceneParser
 {
     constructor(loader, node)
     {
-        if (node.tagName !== 'scene' || node.getAttribute('type') !== 'level') {
-            throw new TypeError('Node not <scene type="level">');
-        }
-
-        super(loader);
-
-        this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
-        this.BEHAVIOR_MAP = {
-            'climbables': Game.objects.Climbable,
-            'deathzones': Game.objects.obstacles.DeathZone,
-            'environments': Engine.Object,
-            'solids': Game.objects.Solid,
-        };
-
-        this._node = node;
-        this._scene = new Game.scenes.Level();
-
-        this._layoutObjects = null;
+        super(loader, node);
     }
     _parse()
     {
+        if (this._node.tagName !== 'scene') {
+            throw new TypeError('Node not <scene type="level">');
+        }
+
+        this._scene = new Game.scenes.Level();
+
         this._parseAudio();
         this._parseEvents();
         this._parseMusic();
@@ -34,6 +23,7 @@ extends Game.Loader.XML.SceneParser
         this._parseCamera();
         this._parseCheckpoints();
         this._parseGravity();
+        this._parseSequences();
         this._parseSpawners();
         this._parseText();
 
@@ -47,51 +37,6 @@ extends Game.Loader.XML.SceneParser
             return this._scene;
         });
     }
-    _parseBehaviors()
-    {
-        const nodes = this._node.querySelectorAll(':scope > layout > behaviors > * > rect');
-        const world = this._scene.world;
-        for (let node, i = 0; node = nodes[i]; ++i) {
-            const type = node.parentNode.tagName;
-            if (!this.BEHAVIOR_MAP[type]) {
-                throw new Error('Behavior ' + type + ' not in behavior map');
-            }
-            const rect = this.getRect(node);
-            const object = new this.BEHAVIOR_MAP[type];
-            object.addCollisionRect(rect.w, rect.h);
-            object.position.x = rect.x;
-            object.position.y = rect.y;
-            object.position.z = 0;
-
-            world.addObject(object);
-        }
-        return Promise.resolve();
-    }
-    _parseCamera()
-    {
-        const cameraNode = this._node.querySelector(':scope > camera');
-        if (cameraNode) {
-            const camera = this._scene.camera;
-            const smoothing = this.getFloat(cameraNode, 'smoothing');
-            if (smoothing) {
-                camera.smoothing = smoothing;
-            }
-
-            const posNode = cameraNode.querySelector(':scope > position');
-            if (posNode) {
-                const position = this.getPosition(posNode);
-                camera.position.copy(position);
-            }
-
-            const pathNodes = cameraNode.querySelectorAll(':scope > path');
-            for (let pathNode, i = 0; pathNode = pathNodes[i]; ++i) {
-                const path = this.getCameraPath(pathNode);
-                camera.addPath(path);
-            }
-        }
-
-        return Promise.resolve();
-    }
     _parseCheckpoints()
     {
         const checkpointNodes = this._node.querySelectorAll(':scope > checkpoints > checkpoint');
@@ -103,75 +48,24 @@ extends Game.Loader.XML.SceneParser
         }
         return Promise.resolve();
     }
-    _parseGravity()
-    {
-        const node = this._node.getElementsByTagName('gravity')[0];
-        if (node) {
-            const gravity = this.getVector2(node);
-            this._scene.world.gravityForce.copy(gravity);
-        }
-        return Promise.resolve();
-    }
     _parseMusic()
     {
-        const musicNode = this._node.querySelector(':scope > audio > music');
-        if (musicNode) {
-            const scene = this._scene;
-            const id = this.getAttr(musicNode, 'id')
-            scene.events.bind(scene.EVENT_PLAYER_RESET, function() {
-                this.playAudio(id);
-            });
-            scene.events.bind(scene.EVENT_PLAYER_DEATH, function() {
-                this.stopAudio(id);
-            });
-        }
-    }
-    _parseLayout()
-    {
-        this._layoutObjects = [];
-        const objectNodes = this._node.querySelectorAll(':scope > layout > objects > object');
-        const world = this._scene.world;
-        for (let objectNode, i = 0; objectNode = objectNodes[i]; ++i) {
-            const layoutObject = this._parseLayoutObject(objectNode);
-            world.addObject(layoutObject.instance);
-            this._layoutObjects.push(layoutObject);
-        };
-        return Promise.resolve();
-    }
-    _parseLayoutObject(node)
-    {
-        const objectId = node.getAttribute('id');
-        const resource = this.loader.resourceManager;
-
-        let object;
-        if (this._objects[objectId]) {
-            object = this._objects[objectId];
-        } else if (resource.has('object', objectId)) {
-            object = resource.get('object', objectId);
-        } else {
-            throw new Error('Object id "' + objectId + '" not defined');
-        }
-
-        const instance = new object.constructor;
-        const position = this.getPosition(node) || this.DEFAULT_POS;
-        instance.position.copy(position);
-
-        const traitNodes = node.getElementsByTagName('trait');
-        if (traitNodes) {
-            const traitParser = new Game.Loader.XML.TraitParser();
-            const traits = [];
-            for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
-                const Trait = traitParser.parseTrait(traitNode);
-                const trait = new Trait;
-                instance.applyTrait(trait);
+        const nodes = this._node.querySelectorAll(':scope > music > *');
+        const scene = this._scene;
+        for (let node, i = 0; node = nodes[i]; ++i) {
+            const type = node.tagName;
+            const id = this.getAttr(node, 'id')
+            if (type === 'level') {
+                scene.events.bind(scene.EVENT_PLAYER_RESET, function() {
+                    this.playAudio(id);
+                });
+                scene.events.bind(scene.EVENT_PLAYER_DEATH, function() {
+                    this.stopAudio(id);
+                });
+            } else if (type === 'boss') {
+                /* Special boss music treatment here. */
             }
         }
-
-        return {
-            node: node,
-            constructor: object.constructor,
-            instance: instance,
-        };
     }
     _parseSpawners()
     {

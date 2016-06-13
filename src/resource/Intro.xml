@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scene type="level">
+<scene>
     <audio>
         <music src="./intro/intro.ogg" id="intro"/>
     </audio>
     <events>
+        <after>
+            <action type="goto-scene" id="StageSelect"/>
+        </after>
+        <event name="create">
+            <action type="camera-move" to="0,0,140"/>
+        </event>
         <event name="start">
-            <action type="play-audio" id="intro"/>
+            <action type="play-sequence" id="intro"/>
+        </event>
+        <event name="input">
+            <action type="emit-event" name="end">
+                <condition value="start"/>
+                <condition value="keydown"/>
+            </action>
         </event>
     </events>
-
+    <sequences>
+        <sequence id="intro">
+            <await>
+                <action type="play-audio" id="intro"/>
+                <action type="wait" duration="25.5"/>
+            </await>
+            <await>
+                <action type="camera-move" to=",576,">
+                    <interpolation duration="11" easing="easeIn,1.7"/>
+                </action>
+            </await>
+            <await>
+                <action type="wait" duration="50"/>
+            </await>
+            <action type="emit-event" name="end"/>
+        </sequence>
+    </sequences>
     <objects>
         <textures>
-            <texture url="./intro/intro.png" w="256" h="256" />
+            <texture url="./intro/intro.png" w="256" h="256"/>
         </textures>
         <animations>
             <animation id="slice_0">
@@ -146,6 +174,109 @@
             <animation id="slice_43">
                 <frame x="91" y="19" w="16" h="16"/>
             </animation>
+            <animation id="grey">
+                <frame x="181" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="transparent">
+                <frame x="217" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="black">
+                <frame x="217" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="win1">
+                <frame x="199" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="win2">
+                <frame x="199" y="55" w="16" h="16"/>
+            </animation>
+            <animation id="logo">
+                <frame x="3" y="73" w="188" h="100"/>
+            </animation>
+            <animation id="balcony1">
+                <frame x="199" y="1" w="16" h="16"/>
+            </animation>
+            <animation id="balcony2">
+                <frame x="199" y="19" w="16" h="16"/>
+            </animation>
         </animations>
+        <object id="logo">
+            <geometry type="plane" w="188" h="100">
+                <face animation="logo"/>
+            </geometry>
+        </object>
+        <object id="IpqEDd">
+            <geometry type="plane" w="512" h="240" w-segments="32" h-segments="15">
+                <face animation="slice_25" index="[898,834,908,600,668,608,634,558,622,626,958,916]"/>
+                <face animation="slice_20" index="[784,848,912,760,824,888,952,810,874,938]"/>
+                <face animation="slice_3" index="[900,836,768,728,792,856,942,864,928,882,946,892]"/>
+                <face animation="slice_2" index="[772,704,780,664,878,800,818,828]"/>
+                <face animation="slice_24" index="[770,844,932,536,604,494,570,544,562,894,852]"/>
+                <face animation="slice_10" index="[850,832,564,956]"/>
+                <face animation="slice_11" index="[914,896,628]"/>
+                <face animation="slice_5" index="[706,774,782,666,880,806,802,820,830]"/>
+                <face animation="slice_21" index="[720,738,696,746]"/>
+                <face animation="slice_22" index="[722,740,698,748]"/>
+                <face animation="slice_23" index="[786,954,890,826,762,812,876,940]"/>
+                <face animation="slice_4" index="[838,902,846,910,730,794,858,922,944,930,866,884,948,870,934]"/>
+                <face animation="slice_36" index="[904,906,518,918,926,924,656,658,950,936,366,372,360,348,344,340,472,470,532,528,474,476,478,480,484]"/>
+                <face animation="slice_37" index="[842,328,452,708,712,778,646,714]"/>
+                <face animation="slice_27" index="[466,920,804,488]"/>
+                <face animation="slice_26" index="[530,594,868,616,552]"/>
+                <face animation="slice_28" index="[588,582,512,592,364]"/>
+                <face animation="slice_29" index="[652,576,640]"/>
+                <face animation="slice_19" index="[580,886,822,670,606,546,492]"/>
+                <face animation="slice_18" index="[516,758,482,428]"/>
+                <face animation="slice_12" index="[654,590,578,642,614,684,620]"/>
+                <face animation="slice_13" index="[526,514,550,602,650,556,542]"/>
+                <face animation="slice_33" index="[520,320,390,396,334,412,612,376,596]"/>
+                <face animation="slice_34" index="[322,384,392,336,398,522,418,598,432,430]"/>
+                <face animation="slice_35" index="[324,394,338,352,356,374,378,408,424,534,368,362]"/>
+                <face animation="slice_39" index="[400,402,256,258,270,272,274,716,718,676,678,732,276,284,290,292,296,298,306,310,318,610,692,690,496,414,416,540,538]"/>
+                <face animation="slice_38" index="[460,262,264,266,268,330,388,454,456,584,586,486,316,314,312,304,302,288,282,280,662,660]"/>
+                <face animation="slice_31" index="[462,386,448,260,332,458,644,278,286,300,294,308,404,672,680,686,674,734]"/>
+                <face animation="slice_6" index="[194,198,206,210,218,222,226,234,238,242,246,254]"/>
+                <face animation="slice_16" index="[64,66,68,70,72,74,76,78,80,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126]"/>
+                <face animation="slice_15" index="[128,130,132,134,140,142,144,146,152,154,156,158,160,162,168,170,172,174,176,178,180,182,188,190]"/>
+                <face animation="slice_7" index="[136,148,164,184]"/>
+                <face animation="slice_8" index="[138,150,166,186]"/>
+                <face animation="slice_14" index="[204,196,192,208,216,220,224,232,236,240,244,252]"/>
+                <face animation="slice_9" index="[200,202,212,214,228,230,248,250]"/>
+            </geometry>
+        </object>
+        <object id="NAGscu">
+            <geometry type="plane" w="128" h="720" w-segments="8" h-segments="45">
+                <face animation="slice_0">
+                    <range x="2" y="4-45"/>
+                </face>
+                <face animation="slice_43" index="[38]">
+                    <range x="3,5,7" y="5-45"/>
+                </face>
+                <face animation="slice_32">
+                    <range x="4,6,8" y="5-45"/>
+                </face>
+                <face animation="win1" index="[262,266,270,342,346,350,422,426,430,502,506,510,582,586,590,662,666,670,190,186,182,102,106,110]"/>
+                <face animation="win2" index="[278,282,286,438,442,446,526,522,518,358,362,366,598,602,606,686,682,678,198,202,206,118,122,126]"/>
+                <face animation="balcony1" index="[224,304,384,464,544,624,144,64]"/>
+                <face animation="balcony2" index="[560,480,400,320,240,80,160,640]"/>
+                <face animation="slice_17" index="[52,54,56,58,60,62]"/>
+                <face animation="slice_1" index="[34]"/>
+                <face animation="slice_40" index="[22]"/>
+                <face animation="slice_41" index="[24,26,28,30]"/>
+                <face animation="grey" index="[40,42,46]"/>
+                <face animation="slice_42" index="[44]"/>
+            </geometry>
+        </object>
     </objects>
+    <layout>
+        <objects>
+            <object id="logo" x="0" y="608" z="0"/>
+            <object id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
+            <object id="NAGscu" x="140" y="230" z="0"/>
+        </objects>
+        <behaviors>
+            <solids>
+                <rect x="148" y="534" w="112" h="16"/>
+            </solids>
+        </behaviors>
+    </layout>
 </scene>

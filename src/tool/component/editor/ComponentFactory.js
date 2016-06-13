@@ -3,85 +3,100 @@
 Editor.ComponentFactory = function(editor)
 {
     this.editor = editor;
+    this.nodeFactory = new Editor.NodeFactory(editor.document);
+    this.nodeManager = new Editor.NodeManager(editor.document);
+}
+
+Editor.ComponentFactory.prototype.createBehavior = function(node, instance)
+{
+    if (!instance) {
+        const parser = new Game.Loader.XML.LevelParser();
+        instance = parser.getBehavior(node[0]).instance;
+    }
+
+    this.nodeManager.addBehavior(node);
+
+    const item = new Editor.Item.Behavior(instance, node);
+    return Promise.resolve(item);
 }
 
 Editor.ComponentFactory.prototype.createCameraPath = function(pathNode, cameraPath)
 {
-    let editor = this.editor;
+    const camera = this.editor.scene.camera;
 
-    if (cameraPath === undefined) {
-        let parser = new Game.Loader.XML.Parser();
-        cameraPath = parser.getCameraPath(pathNode);
-        editor.game.scene.camera.addPath(cameraPath);
+    if (!pathNode) {
+        pathNode = this.nodeFactory.createCameraPath();
+        this.nodeManager.addCameraPath(pathNode);
     }
 
-    let item = new Editor.Item.CameraPath(cameraPath, pathNode);
+    if (!cameraPath) {
+        const parser = new Game.Loader.XML.Parser();
+        cameraPath = parser.getCameraPath(pathNode[0]);
+        this.editor.scene.camera.addPath(cameraPath);
+    }
+
+    const item = new Editor.Item.CameraPath(cameraPath, pathNode);
 
     item.delete = function() {
         pathNode.remove();
-        let paths = editor.game.scene.camera.paths;
-        for (let i = 0, l = paths.length; i !== l; ++i) {
-            if (cameraPath === paths[i]) {
-                paths.splice(i, 1);
-                editor.game.scene.camera.pathIndex = -1;
-            }
-        }
+        camera.paths = camera.paths.filter(test => {
+            return cameraPath !== test;
+        });
     }
 
-    editor.items.add(item);
-
-    return item;
+    return Promise.resolve(item);
 }
 
-Editor.ComponentFactory.prototype.createCheckpoint = function(checkPointNode, checkpoint)
+Editor.ComponentFactory.prototype.createCheckpoint = function(checkpointNode, checkpoint)
 {
-    let editor = this.editor,
-        level = editor.game.scene;
+    const level = this.editor.scene;
 
-    if (checkpoint === undefined) {
-        level.addCheckPoint(parseFloat(checkPointNode.attr('x')),
-                            -parseFloat(checkPointNode.attr('y')),
-                            parseFloat(checkPointNode.attr('r')));
+    if (!checkpointNode) {
+        checkpointNode = this.nodeFactory.createCheckpoint();
+        this.nodeManager.addCheckpoint(checkpointNode);
+    }
+
+    if (!checkpoint) {
+        const c = {
+            x: parseFloat(checkpointNode.attr('x')),
+            y: -parseFloat(checkpointNode.attr('y')),
+            r: parseFloat(checkpointNode.attr('r')),
+        };
+        level.addCheckPoint(c.x, c.y, c.r);
         checkpoint = level.checkPoints[level.checkPoints.length - 1];
     }
 
-    let item = new Editor.Item.Checkpoint(checkpoint, checkPointNode);
+    const item = new Editor.Item.Checkpoint(checkpoint, checkpointNode);
 
     item.delete = function() {
-        checkPointNode.remove();
-        let checkPoints = level.checkPoints;
-        for (let i = 0, l = checkPoints.length; i !== l; ++i) {
-            if (checkpoint === checkPoints[i]) {
-                checkPoints.splice(i, 1);
-            }
-        }
+        checkpointNode.remove();
+        level.checkPoints = level.checkPoints.filter(test => {
+            return checkpoint !== test;
+        });
     }
 
-    editor.items.add(item);
-
-    return item;
+    return Promise.resolve(item);
 }
 
 Editor.ComponentFactory.prototype.createObject = function(objectNode, objectRef)
 {
-    let editor = this.editor,
-        nodeFactory = editor.nodeFactory,
-        nodeManager = editor.nodeManager;
-
-    if (objectRef === undefined) {
-        let parser = new Game.Loader.XML.Parser.ObjectParser();
-        objectRef = parser.getObject(objectNode);
-        objectRef.prototype.textures = [editor.parser.textures[0].texture];
-    }
-
-    let objectInstance = new objectRef();
-
-    let objectInstanceNode = nodeFactory.createObjectInstance(objectInstance);
-
-    nodeManager.addObjectInstance(objectInstanceNode);
-
-    let item = new Editor.Item.Object(objectInstance, objectInstanceNode, objectNode);
-    editor.items.add(item);
-
-    return item;
+    return new Promise(resolve => {
+        if (!objectRef) {
+            const objectsNode = $('<objects/>', this.editor.document).append(objectNode);
+            const id = objectNode.attr('id');
+            const parser = new Game.Loader.XML.ObjectParser(this.loader, objectsNode[0]);
+            return parser.getObjects().then(objects => {
+                this.nodeManager.addObject(objectNode);
+                resolve(objects[id].constructor);
+            });
+        } else {
+            resolve(objectRef);
+        }
+    }).then(objectRef => {
+        const objectInstance = new objectRef();
+        const objectInstanceNode = this.nodeFactory.createObjectInstance(objectInstance);
+        this.nodeManager.addObjectInstance(objectInstanceNode);
+        const item = new Editor.Item.Object(objectInstance, objectInstanceNode, objectNode);
+        return item;
+    });
 }

@@ -1,9 +1,12 @@
 <scene type="level" name="Woodman">
     <audio>
-        <music src="./woodman/music.ogg" id="music">
+        <music src="./woodman/music.ogg" id="level">
             <loop start="7.853" end="42.629"/>
         </music>
     </audio>
+    <music>
+        <level id="level"/>
+    </music>
     <camera>
         <path>
             <window x1="0" x2="1280" y1="-240" y2="0"/>

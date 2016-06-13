@@ -4,6 +4,8 @@ var Editor = function()
 {
     this.camera = new Editor.Camera(this);
 
+    this.storage = localStorage;
+
     this.clipboard = new Editor.Clipboard();
 
     this.componentFactory = new Editor.ComponentFactory(this);
@@ -25,16 +27,9 @@ var Editor = function()
 
     this.itemFactory = new Editor.ItemFactory();
 
-    this.marker = new THREE.Mesh(
-        new THREE.SphereGeometry(5, 2, 2),
-        new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true}));
+    this.marker = this.createMarker();
 
-    this.modelManager = new Editor.ModelManager(this);
-
-    this.nodeFactory = new Editor.NodeFactory(this);
-    this.nodeManager = new Editor.NodeManager();
-
-    this.parser = undefined;
+    this.scene = undefined;
 
     this.ui = new Editor.UI(this);
 
@@ -63,6 +58,8 @@ var Editor = function()
         }
         return vec;
     }
+
+    this.attachGame(new Game());
 }
 
 Editor.Colors = {
@@ -97,6 +94,8 @@ Editor.prototype.clear = function()
     this.guides.add(this.marker);
     this.guides.add(this.grid);
 
+    this.marker.position.set(0,0,0);
+
     this.overlays = new THREE.Scene();
 
     this.layers = [
@@ -107,7 +106,27 @@ Editor.prototype.clear = function()
     this.layers.guides = this.guides;
     this.layers.overlays = this.overlays;
 
+    this.scene = undefined;
+
     this.ui.palette.html('');
+}
+
+Editor.prototype.createMarker = function()
+{
+    var material = new THREE.LineBasicMaterial({
+        color: 0xffffff
+    });
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push(
+        new THREE.Vector3(-10, 0, 0),
+        new THREE.Vector3(10, 0, 0),
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, -10, 0),
+        new THREE.Vector3(0, 10, 0)
+    );
+
+    return new THREE.Line( geometry, material );
 }
 
 Editor.prototype.getXML = function()
@@ -118,113 +137,114 @@ Editor.prototype.getXML = function()
 Editor.prototype.loadUrl = function(url)
 {
     const loader = new Game.Loader.XML(this.game);
-    let node;
-    return loader.asyncLoadXML(url)
-        .then(doc => {
-            node = doc.children[0];
-            return loader.parseScene(node);
-        })
-        .then(scene => {
-            this.open(scene, loader, node);
-        });
+    return loader.asyncLoadXML(url).then(doc => {
+        const parser = new Game.Loader.XML.LevelParser(loader, doc.children[0]);
+        return this.open(parser);
+    });
 }
 
 
-Editor.prototype.open = function(level, loader, node)
+Editor.prototype.open = function(parser)
 {
+    if (!(parser instanceof Game.Loader.XML.LevelParser)) {
+        throw new TypeError('Expected LevelParser');
+    }
+
     this.clear();
 
-    let editor = this,
-        game = editor.game,
-        componentFactory = editor.componentFactory;
+    return parser.getScene().then(scene => {
+        this.setupDocument(parser._node);
+        this.setupScene(scene);
+        this.setupObjects(parser);
+        this.setupSceneCheckpoints();
+        this.setupSceneCamera();
+        this.buildPalette(parser);
+    });
+}
 
-    editor.marker.position.set(0,0,0);
+Editor.prototype.setupDocument = function(doc)
+{
+    this.document = $(doc);
+    this.componentFactory = new Editor.ComponentFactory(this);
+}
 
-    editor.document = node;
-    editor.nodeManager.document = editor.document;
+Editor.prototype.setupScene = function(scene)
+{
+    this.scene = scene;
+    this.scene.timer.isSimulating = false;
+    this.scene.world.updateTime(0);
+    this.game.setScene(scene);
+    this.game.audioPlayer.pause();
+}
 
-    let objectParser = new Game.Loader.XML.Parser.ObjectParser(loader);
-    objectParser.parse(editor.document.querySelector(':scope > objects'));
-
-    editor.document.objectSources = {};
-    for (let item of objectParser.items) {
-        editor.document.objectSources[item.object.name] = item;
-    }
-
-    let objectNodeMap = {};
-    editor.document.find('> objects > object').each(function() {
-        let objectNode = $(this);
-        objectNodeMap[objectNode.attr('id')] = objectNode;
+Editor.prototype.setupObjects = function(parser)
+{
+    parser._layoutObjects.forEach(o => {
+        const i = new Editor.Item.Object(o.instance, o.node, o.sourceNode);
+        this.items.add(i);
     });
 
-    level.events.unbind(level.EVENT_START, level.resetPlayer);
-
-    game.engine.isSimulating = false;
-    game.setScene(level);
-    game.engine.world.updateTime(0);
-
-    var factory = new Editor.ItemFactory();
-
-    level.camera.camera.far = 4000;
-    level.camera.camera.position.z = 300;
-    level.camera.camera.updateProjectionMatrix();
-    if (level.checkPoints.length) {
-        let checkPointNodes = editor.document.find('> checkpoints > checkpoint');
-
-        for (let i = 0, l = level.checkPoints.length; i < l; ++i) {
-            let item = new Editor.Item.Checkpoint(level.checkPoints[i], checkPointNodes[i]);
-            editor.items.add(item);
-        }
-
-        editor.marker.position.x = level.checkPoints[0].pos.x;
-        editor.marker.position.y = level.checkPoints[0].pos.y;
-
-        level.camera.jumpTo(level.checkPoints[0].pos);
-    }
-
-    if (level.camera.paths.length) {
-        let pathNodes = editor.document.find('> camera > path');
-        for (let i = 0, l = level.camera.paths.length; i < l; ++i) {
-            let p = level.camera.paths[i],
-                n = $(pathNodes[i]);
-            componentFactory.createCameraPath(n, p);
-        }
-    }
-
-    for (let _item of parser.items) {
-        let item = new Editor.Item.Object(_item.object, _item.node, objectNodeMap[_item.object.name]);
-        editor.items.add(item);
-    }
-
-    for (let _item of parser.behaviors) {
+    /*for (let _item of parser.behaviors) {
         let item = new Editor.Item.Behavior(_item.object, _item.node);
         editor.items.add(item);
+    }*/
+
+}
+
+Editor.prototype.setupSceneCheckpoints = function()
+{
+    const nodes = this.document.find('> checkpoints > checkpoint');
+    this.scene.checkPoints.forEach((chkp, i) => {
+        this.componentFactory.createCheckpoint(nodes[i], chkp)
+            .then(item => { this.items.add(item); });
+    });
+}
+
+Editor.prototype.setupSceneCamera = function()
+{
+    const factory = new Editor.ItemFactory();
+    const camera = this.camera.realCamera;
+    camera.far = 4000;
+    camera.position.z = 300;
+    camera.updateProjectionMatrix();
+    if (this.scene.checkPoints.length) {
+        this.camera.camera.jumpTo(this.scene.checkPoints[0].pos);
     }
 
-    editor.document.find('> objects').each(function() {
-        let textureNode = $(this).find('> textures > texture'),
-            url = parser.getAbsoluteUrl(textureNode),
-            totalW = parseFloat(textureNode.attr('w')),
-            totalH = parseFloat(textureNode.attr('h'));
+    const nodes = this.document.find('> camera > path');
+    this.scene.camera.paths.forEach((path, i) => {
+        this.componentFactory.createCameraPath($(nodes[i]), path)
+            .then(item => { this.items.add(item); });
+    });
+}
+
+Editor.prototype.buildPalette = function(parser)
+{
+    this.document.find('> objects').each(function() {
+        const txtNode = $(this).find('> textures > texture');
+        const url = parser.resolveURL(txtNode[0]);
+        const totalW = parseInt(txtNode.attr('w'), 10);
+        const totalH = parseInt(txtNode.attr('h'), 10);
 
         $(this).find('> animations > animation').each(function() {
-            let anim = $(this),
-                name = anim.attr('id');
+            const anim = $(this);
+            const name = anim.attr('id');
 
             anim.find('> frame:first-child').each(function() {
-                let frame = $(this),
-                    x = parseFloat(frame.attr('x')) + 1,
-                    y = parseFloat(frame.attr('y')) + 1,
-                    w = parseFloat(frame.attr('w')),
-                    h = parseFloat(frame.attr('h'));
-                let item = $('<div class="animation">');
+                const frameNode = this,
+                    x = parser.getFloat(frameNode, 'x') + 1,
+                    y = parser.getFloat(frameNode, 'y') + 1,
+                    w = parser.getFloat(frameNode, 'w'),
+                    h = parser.getFloat(frameNode, 'h');
+
+                const item = $('<div class="animation">');
                 item.css({
                     'background-image': 'url(' + url + ')',
                     'background-position': -x + 'px ' + -y + 'px',
                     'height': h,
                     'width': w,
                 });
-                let uvcoords = new Engine.UVCoords(x, y, w, h, totalW, totalH);
+                const uvcoords = new Engine.UVCoords({x, y}, {x: w, y: h}, {x: totalW, y: totalH});
                 item.data('uv-coords', uvcoords);
                 item.attr('name', name);
                 editor.ui.palette.append(item);
@@ -235,14 +255,13 @@ Editor.prototype.open = function(level, loader, node)
 
 Editor.prototype.renderOverlays = function()
 {
-    let engine = this.game.engine,
-        camera = engine.world.camera.camera;
-
-    for (let i = 0, l = this.layers.length; i !== l; ++i) {
-        let layer = this.layers[i];
+    const renderer = this.game.renderer;
+    const camera = this.camera.realCamera;
+    //renderer.render(this.scene.world, camera);
+    this.layers.forEach(layer =>{
         if (layer.visible) {
-            engine.renderer.clearDepth();
-            engine.renderer.render(layer, camera);
+            renderer.clearDepth();
+            renderer.render(layer, camera);
         }
-    }
+    });
 }

@@ -41,7 +41,7 @@ Game.prototype.attachToElement = function(element)
 
 Game.prototype.adjustAspectRatio = function()
 {
-    if (this.scene.world && this.element) {
+    if (this.scene && this.element) {
         var rect = this.element.getBoundingClientRect();
         var cam = this.scene.camera.camera;
         cam.aspect = rect.width / rect.height;
@@ -93,7 +93,7 @@ Game.prototype.setScene = function(scene)
     this.unsetScene();
 
     this.scene = scene;
-    this.scene.__create(this);
+    this.scene.events.trigger(this.scene.EVENT_CREATE, [this]);
     this.events.trigger(this.EVENT_SCENE_CREATE, [this.scene]);
 
 
@@ -102,14 +102,14 @@ Game.prototype.setScene = function(scene)
        we roll. */
     this.adjustAspectRatio();
 
-    this.scene.__start();
-    this.scene.__resume();
+    this.scene.events.trigger(this.scene.EVENT_START);
+    this.scene.events.trigger(this.scene.EVENT_RESUME);
 }
 
 Game.prototype.unsetScene = function()
 {
     if (this.scene) {
-        this.scene.__destroy();
+        this.scene.events.trigger(this.scene.EVENT_DESTROY);
         this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
         this.scene = undefined;
     }

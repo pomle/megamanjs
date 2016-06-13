@@ -5,6 +5,7 @@
 
     <scenes>
         <!-- <scene type="cutscene" name="Intro" src="./Intro.xml" /> -->
+        <scene type="level" name="Intro" src="./Intro.xml" />
         <scene type="stage-select" name="StageSelect" src="./StageSelect.xml" />
 
         <scene type="level" name="Airman" src="./levels/Airman.xml" />

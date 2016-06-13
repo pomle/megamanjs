@@ -26,16 +26,16 @@ extends Game.Loader.XML.Parser
     }
     _createConstructor(blueprint)
     {
-        if (!blueprint.textures['__default'].texture) {
-            console.error(blueprint);
-            throw new Error('No default texture on blueprint');
+        if (!blueprint.textures['__default']) {
+            console.warn('No default texture on blueprint', blueprint);
+            //throw new Error('No default texture on blueprint');
         }
 
         const constructor = this.createObject(blueprint.id, blueprint.constructor, function objectConstructor() {
             this.geometry = blueprint.geometries[0].clone();
             this.material = new THREE.MeshPhongMaterial({
                 depthWrite: false,
-                map: blueprint.textures['__default'].texture,
+                map: this.textures['__default'] && this.textures['__default'].texture,
                 side: THREE.DoubleSide,
                 transparent: true,
             });
@@ -222,7 +222,9 @@ extends Game.Loader.XML.Parser
                 console.error(node);
                 throw new Error('Object id ' + id + ' already defined');
             }
-            const task = this._parseObject(node).then(constructor => {
+            const task = this._parseObject(node).then(blueprint => {
+                return this._createConstructor(blueprint);
+            }).then(constructor => {
                 objects[id] = {
                     node: node,
                     constructor: constructor,
@@ -296,7 +298,7 @@ extends Game.Loader.XML.Parser
                 blueprint.animators.push(animator);
             }
 
-            if (!blueprint.animators.length) {
+            if (!blueprint.animators.length && animations['__default']) {
                 const animator = new Engine.Animator.UV();
                 animator.setAnimation(animations['__default']);
                 animator.update();
@@ -323,7 +325,7 @@ extends Game.Loader.XML.Parser
                 blueprint.traits = traits;
             }),
         ]).then(() => {
-            return this._createConstructor(blueprint);
+            return blueprint;
         });
     }
     _parseObjectAnimationRouter(objectNode)

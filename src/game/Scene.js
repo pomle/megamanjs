@@ -11,18 +11,25 @@ Game.Scene = class Scene
         this.EVENT_PAUSE = 'pause';
         this.EVENT_RESUME = 'resume';
 
+        this.EVENT_INPUT = 'input';
+
         this.audio = {};
+        this.sequences = {};
         this.camera = new Engine.Camera;
         this.game = null;
         this.events = new Engine.Events(this);
-        this.timer = new Engine.Timer;
         this.input = new Engine.Keyboard;
+        this.timer = new Engine.Timer;
         this.world = new Engine.World;
 
         const timer = this.timer;
         const world = this.world;
         const scene = world.scene;
         const camera = this.camera.camera;
+
+        this.input.events.bind(this.input.EVENT_TRIGGER, (key, type) => {
+            this.events.trigger(this.EVENT_INPUT, [key, type]);
+        });
 
         this.simulate = (dt) => {
             this.world.updateTime(dt);
@@ -42,14 +49,30 @@ Game.Scene = class Scene
         };
 
         this.events.bind(this.EVENT_CREATE, (game) => {
-            this.startSimulation();
+            this.__create(game);
             timer.events.bind(timer.EVENT_UPDATE, animate);
             timer.events.bind(timer.EVENT_RENDER, render);
             world.events.bind(world.EVENT_EMIT_AUDIO, audioListener);
         });
 
+        this.events.bind(this.EVENT_START, () => {
+            this.__start();
+        });
+
+        this.events.bind(this.EVENT_RESUME, () => {
+            this.__resume();
+        });
+
+        this.events.bind(this.EVENT_PAUSE, () => {
+            this.__pause();
+        });
+
+        this.events.bind(this.EVENT_END, () => {
+            this.__end();
+        });
+
         this.events.bind(this.EVENT_DESTROY, () => {
-            this.stopSimulation();
+            this.__destroy();
             timer.events.unbind(timer.EVENT_UPDATE, animate);
             timer.events.unbind(timer.EVENT_RENDER, render);
             world.events.unbind(world.EVENT_EMIT_AUDIO, audioListener);
@@ -58,40 +81,36 @@ Game.Scene = class Scene
     __create(game)
     {
         this.game = game;
-        this.events.trigger(this.EVENT_CREATE, [game]);
     }
     __start()
     {
-        this.events.trigger(this.EVENT_START);
+        this.startSimulation();
     }
     __resume()
     {
         this.game.audioPlayer.resume();
         this.timer.run();
-        this.events.trigger(this.EVENT_RESUME);
     }
     __pause()
     {
         this.game.audioPlayer.pause();
         this.input.release();
         this.timer.pause();
-        this.events.trigger(this.EVENT_PAUSE);
     }
     __end()
     {
         this.__pause();
         this.game.audioPlayer.stop();
-        this.events.trigger(this.EVENT_END);
     }
     __destroy()
     {
-        this.events.trigger(this.EVENT_DESTROY);
+        this.stopSimulation();
         this.game = null;
     }
     getAudio(id)
     {
         if (!this.audio[id]) {
-            throw new Error('Audio id ' + id + ' not found');
+            throw new Error(`Audio id '${id}' not defined`);
         }
         return this.audio[id];
     }
@@ -104,6 +123,41 @@ Game.Scene = class Scene
     {
         const audio = this.getAudio(id);
         this.game.audioPlayer.stop(audio);
+    }
+    getSequence(id)
+    {
+        if (!this.sequences[id]) {
+            throw new Error(`Sequence id '${id}' not defined`);
+        }
+        return this.sequences[id];
+    }
+    playSequence(id)
+    {
+        const sequence = this.getSequence(id);
+        const steps = [];
+
+        let chain;
+        const next = () => {
+            if (steps.length) {
+                const tasks = [];
+                steps.shift().forEach(action => {
+                    tasks.push(action.call(this));
+                });
+                return Promise.all(tasks).then(() => {
+                    return next();
+                });
+            }
+        };
+
+        sequence.forEach(step => {
+            const actions = [];
+            step.forEach(action => {
+                actions.push(action);
+            });
+            steps.push(actions);
+        });
+
+        return next();
     }
     startSimulation()
     {
