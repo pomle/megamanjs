@@ -18,7 +18,7 @@ extends Game.Loader.XML.SceneParser
     }
     _parse()
     {
-        if (this._node.tagName !== 'scene' || this._node.getAttribute('type') !== 'level') {
+        if (this._node.tagName !== 'scene') {
             throw new TypeError('Node not <scene type="level">');
         }
 
