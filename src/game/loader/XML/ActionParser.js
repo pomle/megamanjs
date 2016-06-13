@@ -35,14 +35,24 @@ extends Game.Loader.XML.Parser
     }
     getEasing(node, attr)
     {
-        const aggr = this.getAttr(node, attr).split(',');
-        const name = aggr.shift();
-        if (aggr.length) {
-            const val = parseFloat(aggr[0]);
+        const aggr = this.getAttr(node, attr);
+        const comp = aggr.split(',');
+        const name = comp.shift();
+        if (comp.length) {
+            const val = parseFloat(comp[0]);
             return Engine.Easing[name](val);
         } else {
             return Engine.Easing[name];
         }
+    }
+    getInterpolation(node)
+    {
+        const duration = this.getFloat(node, 'duration') || 0;
+        const easing = this.getEasing(node, 'easing');
+        return {
+            duration,
+            easing,
+        };
     }
     _resolveFunction(node)
     {
@@ -50,16 +60,22 @@ extends Game.Loader.XML.Parser
         const id = this.getAttr(node, 'id');
 
         if (type === 'camera-move') {
-            const duration = this.getFloat(node, 'duration');
-            const easing = this.getEasing(node, 'easing');
             const aggr = this.getAttr(node, 'to').split(',');
             const to = new THREE.Vector3(parseFloat(aggr[0]) || undefined,
                                          parseFloat(aggr[1]) || undefined,
                                          parseFloat(aggr[2]) || undefined);
-            return function cameraTo() {
-                const c = this.camera.position;
-                const d = new THREE.Vector3(to.x || c.x, to.y || c.y, to.z || c.z);
-                return this.camera.panTo(d, duration, easing);
+            const interpolationNode = node.querySelector(':scope > interpolation');
+            if (interpolationNode) {
+                const inter = this.getInterpolation(interpolationNode);
+                return function cameraPanTo() {
+                    const c = this.camera.position;
+                    const d = new THREE.Vector3(to.x || c.x, to.y || c.y, to.z || c.z);
+                    return this.camera.panTo(d, inter.duration, inter.easing);
+                }
+            } else {
+                return function cameraJumpTo() {
+                    this.camera.position.copy(to);
+                };
             }
         } else if (type === 'play-audio') {
             return function playAudio() {
