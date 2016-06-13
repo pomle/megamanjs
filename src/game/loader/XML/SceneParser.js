@@ -129,6 +129,8 @@ extends Game.Loader.XML.Parser
     }
     _parseEvents()
     {
+        this._parseGlobalEvents();
+
         const node = this._node.querySelector(':scope > events');
         if (!node) {
             return Promise.resolve();
@@ -141,6 +143,29 @@ extends Game.Loader.XML.Parser
                 scene.events.bind(event.name, event.callback);
             });
         });
+    }
+    _parseGlobalEvents()
+    {
+        const eventsNode = this._node.querySelector(':scope > events');
+        if (!eventsNode) {
+            return;
+        }
+        const nodes = eventsNode.querySelectorAll('after > action, before > action');
+        const scene = this._scene;
+        for (let node, i = 0; node = nodes[i]; ++i) {
+            const when = node.parentNode.tagName;
+            const type = node.getAttribute('type');
+            if (when === 'after' && type === 'goto-scene') {
+                const id = node.getAttribute('id');
+                scene.events.bind(scene.EVENT_END, () => {
+                    this.loader.loadSceneByName(id).then(scene => {
+                        this.loader.game.setScene(scene);
+                    });
+                })
+            } else {
+                throw new TypeError(`No mathing event for ${when} > ${type}`);
+            }
+        }
     }
     _parseGravity()
     {
