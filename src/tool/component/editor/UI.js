@@ -227,18 +227,10 @@ Editor.UI.prototype.setupItemView = function(node)
             return;
         }
 
-        switch (name) {
-            case 'x':
-            case 'y':
-            case 'z':
-            case 'w':
-            case 'h':
-                for (let item of editor.items.selected) {
-                    if (item[name] !== undefined) {
-                        item[name] = value;
-                    }
-                }
-                break;
+        for (let item of editor.items.selected) {
+            if (item[name] !== undefined) {
+                item[name] = value;
+            }
         }
 
         if (editor.grid.snap) {

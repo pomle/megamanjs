@@ -56,6 +56,14 @@ Object.defineProperties(Editor.Item.prototype, {
             this.setComponent('z', v);
         },
     },
+    scale: {
+        get: function() {
+            return this.getComponent('scale');
+        },
+        set: function(v) {
+            this.setComponent('scale', v);
+        },
+    },
 });
 
 Editor.Item.prototype.addChild = function(child)
