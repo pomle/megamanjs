@@ -91,7 +91,7 @@ Game.Scene = class Scene
     getAudio(id)
     {
         if (!this.audio[id]) {
-            throw new Error('Audio id ' + id + ' not found');
+            throw new Error(`Audio id '${id}' not defined`);
         }
         return this.audio[id];
     }
