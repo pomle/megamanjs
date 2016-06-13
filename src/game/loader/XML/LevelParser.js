@@ -7,14 +7,6 @@ extends Game.Loader.XML.SceneParser
     constructor(loader, node)
     {
         super(loader, node);
-
-        this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
-        this.BEHAVIOR_MAP = {
-            'climbables': Game.objects.Climbable,
-            'deathzones': Game.objects.obstacles.DeathZone,
-            'environments': Engine.Object,
-            'solids': Game.objects.Solid,
-        };
     }
     _parse()
     {
