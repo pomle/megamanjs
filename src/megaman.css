@@ -47,6 +47,7 @@ input {
 }
 
 #game #screen {
+    border: solid 1px #555;
     display: block;
     margin: 0 auto;
     position: relative;
@@ -55,6 +56,7 @@ input {
 }
 
 #game.fullscreen #screen {
+    border: none;
     height: 100%;
     width: 100%;
 }
