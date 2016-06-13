@@ -11,19 +11,25 @@ Game.Scene = class Scene
         this.EVENT_PAUSE = 'pause';
         this.EVENT_RESUME = 'resume';
 
+        this.EVENT_INPUT = 'input';
+
         this.audio = {};
         this.sequences = {};
         this.camera = new Engine.Camera;
         this.game = null;
         this.events = new Engine.Events(this);
-        this.timer = new Engine.Timer;
         this.input = new Engine.Keyboard;
+        this.timer = new Engine.Timer;
         this.world = new Engine.World;
 
         const timer = this.timer;
         const world = this.world;
         const scene = world.scene;
         const camera = this.camera.camera;
+
+        this.input.events.bind(this.input.EVENT_TRIGGER, (key, type) => {
+            this.events.trigger(this.EVENT_INPUT, [key, type]);
+        });
 
         this.simulate = (dt) => {
             this.world.updateTime(dt);

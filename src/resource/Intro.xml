@@ -13,6 +13,12 @@
         <event name="start">
             <action type="play-sequence" id="intro"/>
         </event>
+        <event name="input">
+            <action type="emit-event" name="end">
+                <condition value="start"/>
+                <condition value="keydown"/>
+            </action>
+        </event>
     </events>
     <sequences>
         <sequence id="intro">
