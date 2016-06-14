@@ -30,7 +30,7 @@ or
     npm run generate-dev
 
 
-####Running locally in Chrome
+####Running locally in Chrome (discouraged).
 
 To run project locally without a web server, Chrome needs to be started with --allow-file-access-from-files flag.
 
