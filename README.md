@@ -14,9 +14,14 @@ See the v0.1 demo video: https://www.youtube.com/watch?v=LQHTdmzcV3E (lagging in
 
     git clone https://github.com/pomle/megamanjs.git
 
-2) Start a webserver of your choice in project dir.
+2) Start a webserver of your choice in project dir, for example:
 
-    php -S localhost:8000 -t ./megamanjs/
+    cd megamanjs
+    php -S localhost:8000 -t ./
+or
+
+    cd megamanjs
+    python -m SimpleHTTPServer 8000
   
 3) Browse to dev version at `http://localhost:8000/src/dev.html` and it should run.
 
