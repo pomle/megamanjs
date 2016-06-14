@@ -8,10 +8,6 @@ Engine.AudioPlayer = class AudioPlayer
         this._playing = new Map();
         this._playbackRate = 1;
     }
-    destroy()
-    {
-        this.stop();
-    }
     getContext()
     {
         return this._context;
