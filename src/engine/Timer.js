@@ -37,18 +37,15 @@ Engine.Timer = class Timer
     {
         this.frameId = requestAnimationFrame(this.eventLoop);
     }
-    eventLoop(timeElapsed)
+    eventLoop(micros)
     {
-        if (timeElapsed !== undefined) {
-            // Convert to seconds.
-            timeElapsed /= 1000;
-
+        if (micros !== undefined) {
+            const seconds = micros / 1000;
             if (this.timeLastEvent !== undefined) {
-                this.updateTime(timeElapsed - this.timeLastEvent);
+                this.updateTime(seconds - this.timeLastEvent);
             }
-            this.timeLastEvent = timeElapsed;
+            this.timeLastEvent = seconds;
         }
-
         this.events.trigger(this.EVENT_RENDER);
 
         if (this.isRunning === true) {
