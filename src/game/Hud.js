@@ -25,18 +25,10 @@ Game.Hud = class Hud
         game.events.bind(game.EVENT_SCENE_CREATE, this.onSceneCreate);
         game.events.bind(game.EVENT_SCENE_DESTROY, this.onSceneDestroy);
         this.game = game;
-
-        const player = game.player.character;
-        player.events.bind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
-        player.events.bind(player.weapon.EVENT_EQUIP, this.onWeaponEquip);
     }
     detach()
     {
         this.dom = {};
-
-        const player = this.game.player.character;
-        player.events.unbind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
-        player.events.unbind(player.weapon.EVENT_EQUIP, this.onWeaponEquip);
 
         const game = this.game;
         game.events.unbind(game.EVENT_SCENE_CREATE, this.onSceneCreate);
@@ -67,11 +59,23 @@ Game.Hud = class Hud
     {
         if (scene instanceof Game.scenes.Level) {
             this.showHud();
+            const player = scene.player.character;
+            if (player) {
+                player.events.bind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
+                player.events.bind(player.weapon.EVENT_EQUIP, this.onWeaponEquip);
+            }
         }
     }
     onSceneDestroy(scene)
     {
-        this.hideHud();
+        if (scene instanceof Game.scenes.Level) {
+            this.hideHud();
+            const player = scene.player.character;
+            if (player) {
+                player.events.unbind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
+                player.events.unbind(player.weapon.EVENT_EQUIP, this.onWeaponEquip);
+            }
+        }
     }
     onWeaponEquip(weapon)
     {
@@ -89,7 +93,7 @@ Game.Hud = class Hud
     quantify(frac)
     {
         // Quantify to whole 1/28th increments.
-        const s = 1/28;
+        const s = 1 / 28;
         let q = frac - (frac % s);
         // Do not display empty unless completely empty.
         if (q === 0 && frac > 0) {
@@ -100,7 +104,7 @@ Game.Hud = class Hud
     setAmount(element, frac)
     {
         element.querySelector('.amount').style.height = (this.quantify(frac) * 100) + '%';
-        element.dataset.value = frac;
+        element.dataset.value = frac.toString();
     }
     setEnergyQuantified(element, frac)
     {
