@@ -12,6 +12,7 @@ Engine.Object = function()
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
     this.events = new Engine.Events(this);
+    this.id = undefined;
     this.integrator = new Engine.Verlet(new THREE.Vector2());
     this.origo = new THREE.Vector2();
     this.position = new THREE.Vector3();
