@@ -82,7 +82,6 @@ Game.objects.Weapon.prototype.fire = function()
             return false;
         }
         this.ammo.amount -= this.cost;
-        this.events.trigger(this.EVENT_AMMO_CHANGED, [this]);
     }
 
     if (this.coolDown > 0) {
