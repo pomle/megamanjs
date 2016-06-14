@@ -56,6 +56,11 @@ Object.defineProperties(Editor.Item.prototype, {
             this.setComponent('z', v);
         },
     },
+    position: {
+        get: function() {
+            return this.model.position;
+        },
+    },
     scale: {
         get: function() {
             return this.getComponent('scale');

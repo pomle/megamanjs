@@ -37,7 +37,6 @@
 
 <body>
     <section class="scene-editor">
-
         <div class="workspace">
             <div class="viewport">
                 <div class="coords">
@@ -48,6 +47,16 @@
             </div>
 
             <div class="panel view locked">
+                <fieldset class="file">
+                    <div class="level">
+                        <button name="new">New Level</button>
+                        <button name="open">Load Level</button>
+                        <select name="recent">
+                        </select>
+                        <button name="loadCharacter">Load Character</button>
+                    </div>
+                </fieldset>
+
                 <fieldset class="meta">
                     <legend>Meta</legend>
                     <label class="guides"><input type="checkbox" name="guides" checked> Guides</label>
@@ -109,12 +118,8 @@
                     <div class="zoom">
                         <button name="zoom" dir="1">-</button> Zoom <button name="zoom" dir="-1">+</button>
                     </div>
-                    <label>
-                        <button name="followSelected">Follow selected</button>
-                    </label>
-                    <label>
-                        <button name="unfollow">Unfollow</button>
-                    </label>
+                    <button name="followSelected">Follow selected</button>
+                    <button name="unfollow">Unfollow</button>
 
                     <label><input type="checkbox" name="obeyPaths"> Obey Paths</label>
                 </fieldset>
@@ -132,8 +137,8 @@
                         </select>
                     </label>
 
-                    <label><button name="resetPlayer" onclick="editor.game.scene.resetPlayer();">Player Reset</button></label>
-                    <label><button name="resetPlayer" onclick="editor.game.scene.resetObjects();">Object Reset</button></label>
+                    <button name="resetPlayer" onclick="editor.game.scene.resetPlayer();">Player Reset</button>
+                    <button name="resetPlayer" onclick="editor.game.scene.resetObjects();">Object Reset</button>
                 </fieldset>
             </div>
 
@@ -156,12 +161,12 @@
 
                 <fieldset class="create">
                     <legend>Create</legend>
-                    <label><button type="object">Object</button></label>
-                    <label><button type="cameraPath">Camera Path</button></label>
-                    <label><button type="checkpoint">Checkpoint</button></label>
-                    <label><button type="climbable">Climbable</button></label>
-                    <label><button type="deathzone">DeathZone</button></label>
-                    <label><button type="solid">Solid</button></label>
+                    <button type="object">Object</button>
+                    <button type="cameraPath">Camera Path</button>
+                    <button type="checkpoint">Checkpoint</button>
+                    <button type="climbable">Climbable</button>
+                    <button type="deathzone">DeathZone</button>
+                    <button type="solid">Solid</button>
                 </fieldset>
             </div>
 
@@ -171,17 +176,6 @@
                 </div>
             </div>
         </div>
-
-        <fieldset class="file">
-            <legend>File</legend>
-            <div class="level">
-                <button name="new">New Level</button>
-                <button name="open">Load Level</button>
-                <select name="recent">
-                </select>
-                <button name="loadCharacter">Load Character</button>
-            </div>
-        </fieldset>
 
         <fieldset class="console">
             <legend>Console</legend>

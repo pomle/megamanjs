@@ -116,7 +116,7 @@ Editor.UI.prototype.setupFileView = function()
     let currentSelection;
 
     const editor = this.editor;
-    const element = $('.scene-editor > .file');
+    const element = $('.scene-editor .file');
 
     element.new = element.find('.level [name=new]')
         .on('click', () => {
@@ -463,46 +463,44 @@ Editor.UI.prototype.setupView = function(node)
 
 Editor.UI.prototype.setupViewport = function(node)
 {
-    let editor = this.editor,
+    const editor = this.editor,
         ui = this,
         viewport = $(node);
 
     viewport.coords = viewport.find('.coords');
 
-    let mouse = {
+    const mouse = {
         pos: new THREE.Vector2(),
         event: undefined,
     }
 
     let lastPaintedFace = undefined;
+    let wasDragged = false;
 
     viewport
         .on('mousemove', function(e) {
             if (e.buttons === 2) {
-                e.preventDefault();
-                let to = new THREE.Vector2((mouse.event.clientX - e.clientX),
+                const offset = new THREE.Vector2((mouse.event.clientX - e.clientX),
                                            -(mouse.event.clientY - e.clientY));
-                to.multiplyScalar(editor.camera.position.z / 200);
-                editor.camera.nudge(to);
+                offset.multiplyScalar(editor.camera.position.z / 200);
+                editor.camera.nudge(offset);
             }
             else if (e.buttons === 1 && editor.activeMode === editor.modes.edit) {
-                let selection = editor.items.selected;
-
+                wasDragged = true;
+                const selection = editor.items.selected;
                 if (e.buttons === 1 && selection.length !== 0) {
-                    let pos = viewport.getPositionAtEvent(e.originalEvent),
-                        x = (mouse.pos.x - pos.x),
-                        y = (mouse.pos.y - pos.y);
-
-                    for (let i = 0, l = selection.length; i !== l; ++i) {
-                        let item = selection[i];
-                        item.x -= x;
-                        item.y -= y;
-                    }
+                    const pos = viewport.getPositionAtEvent(e.originalEvent, selection[0].position);
+                    const diff = pos.clone().sub(mouse.pos);
+                    selection.forEach(item => {
+                        item.x += diff.x;
+                        item.y += diff.y;
+                    });
                     mouse.pos.copy(pos);
                 }
             }
             else if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
-                let item = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
+                const selected = editor.items.selected[0];
+                const item = ui.mouseSelectItem(e.originalEvent, this, [selected]);
                 if (item) {
                     let faceIndex = item.intersect.faceIndex;
                     faceIndex -= faceIndex % 2;
@@ -516,57 +514,56 @@ Editor.UI.prototype.setupViewport = function(node)
             mouse.event = e;
         })
         .on('mouseup', function(e) {
-            for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
-                let item = editor.items.selected[i];
-                if (editor.grid.snap) {
+            if (wasDragged && editor.grid.snap) {
+                editor.items.selected.forEach(item => {
                     editor.grid.snapVector(item);
-                }
+                });
             }
+            wasDragged = false;
             lastPaintedFace = undefined;
             editor.camera.centerGrid();
         })
         .on('mousedown', function(e) {
-            let pos = viewport.getPositionAtEvent(e.originalEvent);
             mouse.event = e;
-            mouse.pos.copy(pos);
-
-            if (e.buttons & 1) {
-                viewport.placeMarker(pos);
-            }
 
             if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
-                let item = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
+                const item = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
                 if (item) {
-                    let faceIndex = item.intersect.faceIndex;
+                    const faceIndex = item.intersect.faceIndex;
                     ui.paintUv(item.item, faceIndex - faceIndex % 2);
                 }
                 return;
             }
 
             if (e.buttons === 1) {
-                let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
-                if (item === false) {
-                    if (!e.ctrlKey) {
-                        editor.activeMode = editor.modes.view;
-                        editor.items.deselect();
-                    }
-                }
-                else {
-                    console.log("Clicked item", item);
-                    /* So far unselected. */
-                    if (editor.items.selected.indexOf(item.item) === -1) {
+                const item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
+                if (item) {
+                    const items = editor.items;
+                    mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent, item.item.position));
+                    if (items.selected.indexOf(item.item) === -1) {
                         if (!e.ctrlKey) {
-                            editor.items.deselect();
+                            items.deselect();
                         }
                         editor.activeMode = editor.modes.edit;
-                        editor.items.select(item.item);
+                        items.select(item.item);
 
                         if (item.item.object instanceof Game.objects.Character) {
                             editor.game.player.setCharacter(item.item.object);
                             console.log("Selected character", item.item.object);
                         }
                     }
+                    return;
                 }
+                else if (!e.ctrlKey) {
+                    editor.activeMode = editor.modes.view;
+                    editor.items.deselect();
+                }
+            }
+
+            if (e.buttons === 1) {
+                const pos = viewport.getPositionAtEvent(e.originalEvent);
+                mouse.pos.copy(pos);
+                viewport.placeMarker(pos);
             }
         })
         .on('contextmenu', function(e) {
@@ -577,10 +574,10 @@ Editor.UI.prototype.setupViewport = function(node)
         .on('dblclick', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            let item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
+            const item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
             if (item && item.item.TYPE === "object") {
                 editor.activeMode = editor.modes.paint;
-                var mat = item.item.overlay.material;
+                const mat = item.item.overlay.material;
                 mat.color = new THREE.Color(Editor.Colors.overlayPaint);
                 mat.needsUpdate = true;
             }
@@ -601,7 +598,7 @@ Editor.UI.prototype.setupViewport = function(node)
 
     viewport.placeMarker = function(pos)
     {
-        let marker = editor.marker;
+        const marker = editor.marker;
         marker.position.copy(pos);
         if (editor.grid.snap) {
             editor.grid.snapVector(marker.position);
@@ -613,20 +610,21 @@ Editor.UI.prototype.setupViewport = function(node)
 
     viewport.getVectorAtEvent = function(event)
     {
-        let bounds = this[0].getBoundingClientRect();
+        const bounds = this[0].getBoundingClientRect();
         return new THREE.Vector3((event.layerX / bounds.width) * 2 - 1,
                                 -(event.layerY / bounds.height) * 2 + 1,
                                 -1);
     }
 
-    viewport.getPositionAtEvent = function(event)
+    viewport.getPositionAtEvent = function(event, pos)
     {
         const camera = editor.camera.realCamera;
         const vector = this.getVectorAtEvent(event);
         vector.unproject(camera);
         vector.sub(camera.position);
         vector.normalize();
-        const distance = -(camera.position.z / vector.z);
+        const z = camera.position.z + (pos ? -pos.z : 0);
+        const distance = -(z / vector.z);
         return camera.position.clone().add(vector.multiplyScalar(distance));
     }
 
