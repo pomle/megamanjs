@@ -144,6 +144,30 @@ describe('Parser', function() {
       node = createNode('<moot w="10" h="12" r="5"/>');
       expect(parser.getVector3(node, 'w', 'h', 'r')).to.eql({x: 10, y: 12, z: 5});
     });
+    it('should parse shorthand version if one attribute key supplied', function() {
+      const parser = new Parser();
+      let node;
+      node = createNode('<moot to="1.13,1.19,1.23"/>');
+      expect(parser.getVector3(node, 'to')).to.eql({x: 1.13, y: 1.19, z: 1.23});
+    });
+    context('when parsing shorthand version', function() {
+      it('should set unspecified values to undefined', function() {
+        const parser = new Parser();
+        let node;
+        node = createNode('<moot to=",1.19,"/>');
+        expect(parser.getVector3(node, 'to')).to.eql({x: undefined, y: 1.19, z: undefined});
+        node = createNode('<moot to="1.13,,"/>');
+        expect(parser.getVector3(node, 'to')).to.eql({x: 1.13, y: undefined, z: undefined});
+        node = createNode('<moot to=",,1.14"/>');
+        expect(parser.getVector3(node, 'to')).to.eql({x: undefined, y: undefined, z: 1.14});
+      });
+      it('should not misinterpret 0 as undefined', function() {
+        const parser = new Parser();
+        let node;
+        node = createNode('<moot to="0,1,"/>');
+        expect(parser.getVector3(node, 'to')).to.eql({x: 0, y: 1, z: undefined});
+      });
+    });
   });
 
   /*

@@ -91,8 +91,9 @@ Engine.Camera = class Camera
 
         const step = new THREE.Vector3();
         const start = this.position.clone();
-        const offset = new THREE.Vector3(pos.x, pos.y, pos.z === undefined ? start.z : pos.z).sub(start);
-
+        const offset = new THREE.Vector3(pos.x == null ? start.x : pos.x,
+                                         pos.y == null ? start.y : pos.y,
+                                         pos.z == null ? start.z : pos.z).sub(start);
         return new Promise(resolve => {
             const pan = (dt) => {
                 elapsed += dt;
