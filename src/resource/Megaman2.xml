@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game name="Megaman 2">
     <config texture-scale="4" />
-    <entrypoint scene="StageSelect" />
+    <entrypoint scene="Intro" />
 
     <scenes>
         <!-- <scene type="cutscene" name="Intro" src="./Intro.xml" /> -->
