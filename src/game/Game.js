@@ -1,5 +1,7 @@
 var Game = function()
 {
+    this._playbackSpeed = 1;
+
     this.events = new Engine.Events(this);
     this.audioPlayer = new Engine.AudioPlayer();
     this.renderer = new THREE.WebGLRenderer({
@@ -71,6 +73,18 @@ Game.prototype.resume = function()
     }
 }
 
+Game.prototype.setPlaybackSpeed = function(rate)
+{
+    this._playbackSpeed = rate;
+    this._updatePlaybackSpeed();
+}
+
+Game.prototype._updatePlaybackSpeed = function()
+{
+    this.scene.timer.simulationSpeed = this._playbackSpeed;
+    this.audioPlayer.setPlaybackRate(this._playbackSpeed);
+}
+
 Game.prototype.setResolution = function(w, h)
 {
     this.renderer.setSize(w, h);
@@ -94,6 +108,7 @@ Game.prototype.setScene = function(scene)
        we make sure the aspect ratio is correct before
        we roll. */
     this.adjustAspectRatio();
+    this._updatePlaybackSpeed();
 
     this.scene.events.trigger(this.scene.EVENT_START);
     this.scene.events.trigger(this.scene.EVENT_RESUME);
