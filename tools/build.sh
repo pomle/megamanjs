@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 
 TOOLS_DIR=$(dirname $0)
 SRC_DIR="$(dirname $0)/../src"
