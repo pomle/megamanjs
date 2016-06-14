@@ -28,27 +28,24 @@ Engine.Timer = class Timer
             callback(elapsed);
             elapsed += dt;
         };
-        this.events.bind(this.EVENT_TIMEPASS, wrapper);
+        this.events.bind(this.EVENT_SIMULATE, wrapper);
         return this.waitFor(seconds).then(() => {
-            this.events.unbind(this.EVENT_TIMEPASS, wrapper);
+            this.events.unbind(this.EVENT_SIMULATE, wrapper);
         });
     }
     enqueue()
     {
         this.frameId = requestAnimationFrame(this.eventLoop);
     }
-    eventLoop(timeElapsed)
+    eventLoop(micros)
     {
-        if (timeElapsed !== undefined) {
-            // Convert to seconds.
-            timeElapsed /= 1000;
-
+        if (micros !== undefined) {
+            const seconds = micros / 1000;
             if (this.timeLastEvent !== undefined) {
-                this.updateTime(timeElapsed - this.timeLastEvent);
+                this.updateTime(seconds - this.timeLastEvent);
             }
-            this.timeLastEvent = timeElapsed;
+            this.timeLastEvent = seconds;
         }
-
         this.events.trigger(this.EVENT_RENDER);
 
         if (this.isRunning === true) {
@@ -76,14 +73,16 @@ Engine.Timer = class Timer
     }
     updateTime(dt)
     {
-        const step = this.timeStep;
+
         if (this.isSimulating === true && this.simulationSpeed !== 0) {
-            this.accumulator += dt * this.simulationSpeed;
+            const step = this.timeStep;
+            const passed = dt * this.simulationSpeed;
+            this.accumulator += passed;
             while (this.accumulator >= step) {
                 this.simulateTime(step);
                 this.accumulator -= step;
             }
-            this.events.trigger(this.EVENT_UPDATE, [dt]);
+            this.events.trigger(this.EVENT_UPDATE, [passed]);
         }
         this.events.trigger(this.EVENT_TIMEPASS, [dt]);
         this.realTimePassed += dt;

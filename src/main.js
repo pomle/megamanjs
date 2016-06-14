@@ -102,6 +102,8 @@
     document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
     loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
+        const hud = new Game.Hud;
+        hud.attach(loader.game, screenElement.querySelector('.energy'));
         return loader.loadSceneByName(entrypoint);
     }).then(scene => {
         game.setScene(scene);

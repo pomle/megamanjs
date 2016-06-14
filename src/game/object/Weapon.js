@@ -17,7 +17,9 @@ Game.objects.Weapon = function()
     this.ready = true;
     this.user = undefined;
 
-    this._lastAmmoAmount = undefined;
+    this.ammo.events.bind(this.ammo.EVENT_CHANGE, () => {
+        this.events.trigger(this.EVENT_AMMO_CHANGED, [this]);
+    });
 }
 
 Game.objects.Weapon.prototype.EVENT_AMMO_CHANGED = 'ammo-changed';
@@ -82,7 +84,6 @@ Game.objects.Weapon.prototype.fire = function()
             return false;
         }
         this.ammo.amount -= this.cost;
-        this.events.trigger(this.EVENT_AMMO_CHANGED, [this]);
     }
 
     if (this.coolDown > 0) {
@@ -126,11 +127,6 @@ Game.objects.Weapon.prototype.setUser = function(user)
 
 Game.objects.Weapon.prototype.timeShift = function(dt)
 {
-    if (this._lastAmmoAmount !== this.ammo.amount) {
-        this.events.trigger(this.EVENT_AMMO_CHANGED);
-        this._lastAmmoAmount = this.ammo.amount;
-    }
-
     if (this._coolDownDelay !== undefined) {
         this._coolDownDelay -= dt;
         if (this._coolDownDelay <= 0) {

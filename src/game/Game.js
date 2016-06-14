@@ -1,5 +1,7 @@
 var Game = function()
 {
+    this._playbackSpeed = 1;
+
     this.events = new Engine.Events(this);
     this.audioPlayer = new Engine.AudioPlayer();
     this.renderer = new THREE.WebGLRenderer({
@@ -7,7 +9,6 @@ var Game = function()
     });
 
     this.player = new Game.Player();
-    this.player.hud = new Hud(this);
 }
 
 Game.prototype.EVENT_SCENE_CREATE = 'scene_create';
@@ -26,12 +27,6 @@ Game.prototype.attachController = function()
 Game.prototype.attachToElement = function(element)
 {
     this.element = element;
-
-    this.player.hud.elements = {
-        'healthBar': element.querySelector('.health'),
-        'weaponBar': element.querySelector('.weapon'),
-        'bossHealthBar': element.querySelector('.bossHealth'),
-    }
 
     this.adjustResolution();
     this.attachController();
@@ -78,6 +73,18 @@ Game.prototype.resume = function()
     }
 }
 
+Game.prototype.setPlaybackSpeed = function(rate)
+{
+    this._playbackSpeed = rate;
+    this._updatePlaybackSpeed();
+}
+
+Game.prototype._updatePlaybackSpeed = function()
+{
+    this.scene.timer.simulationSpeed = this._playbackSpeed;
+    this.audioPlayer.setPlaybackRate(this._playbackSpeed);
+}
+
 Game.prototype.setResolution = function(w, h)
 {
     this.renderer.setSize(w, h);
@@ -101,6 +108,7 @@ Game.prototype.setScene = function(scene)
        we make sure the aspect ratio is correct before
        we roll. */
     this.adjustAspectRatio();
+    this._updatePlaybackSpeed();
 
     this.scene.events.trigger(this.scene.EVENT_START);
     this.scene.events.trigger(this.scene.EVENT_RESUME);
@@ -109,8 +117,8 @@ Game.prototype.setScene = function(scene)
 Game.prototype.unsetScene = function()
 {
     if (this.scene) {
-        this.scene.events.trigger(this.scene.EVENT_DESTROY);
         this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
+        this.scene.events.trigger(this.scene.EVENT_DESTROY);
         this.scene = undefined;
     }
 }

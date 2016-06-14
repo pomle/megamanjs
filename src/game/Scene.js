@@ -100,11 +100,11 @@ Game.Scene = class Scene
     __end()
     {
         this.__pause();
-        this.game.audioPlayer.stop();
     }
     __destroy()
     {
         this.stopSimulation();
+        this.game.audioPlayer.stop();
         this.game = null;
     }
     getAudio(id)
@@ -158,6 +158,14 @@ Game.Scene = class Scene
         });
 
         return next();
+    }
+    pauseSimulation()
+    {
+        this.timer.isSimulating = false;
+    }
+    resumeSimulation()
+    {
+        this.timer.isSimulating = true;
     }
     startSimulation()
     {

@@ -1,5 +1,9 @@
 Engine.logic.Energy = function(max, min)
 {
+    this.EVENT_CHANGE = 'change';
+
+    this.events = new Engine.Events(this);
+
     this._max = max || 100;
     this._min = min || 0;
     this._value = this._max;
@@ -15,12 +19,12 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
             if (this.infinite === true) {
                 return;
             }
+            if (v === this._value) {
+                return;
+            }
             if (!isFinite(v)) {
                 throw new TypeError('Value not a number');
             }
-
-            v = parseFloat(v);
-
             if (v > this._max) {
                 this._value = this._max;
             }
@@ -30,6 +34,8 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
             else {
                 this._value = v;
             }
+
+            this.events.trigger(this.EVENT_CHANGE);
         },
     },
     depleted: {
@@ -71,11 +77,10 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
             if (!isFinite(v)) {
                 throw new TypeError('Value not a number');
             }
-
-            this._max = parseFloat(v);
-
-            /* Trigger amount setter to clamp value to new max. */
-            this.amount = this._value;
+            this._max = v;
+            if (this._max < this._value) {
+                this._value = this._max;
+            }
         },
     },
     min: {
@@ -87,11 +92,10 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
             if (!isFinite(v)) {
                 throw new TypeError('Value not a number');
             }
-
-            this._min = parseFloat(v);
-
-            /* Trigger amount setter to clamp value to new min. */
-            this.amount = this._value;
+            this._min = v;
+            if (this._min > this._value) {
+                this._value = this._min;
+            }
         },
     },
 });
