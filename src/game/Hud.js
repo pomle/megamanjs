@@ -49,11 +49,11 @@ Game.Hud = class Hud
     }
     onAmmoChanged(ammo)
     {
-        this.setEnergyQuantified(this.dom.weapon, ammo.fraction);
+        this.setAmountInteractive(this.dom.weapon, ammo.fraction);
     }
     onHealthChanged(health)
     {
-        this.setEnergyQuantified(this.dom.health, health.fraction);
+        this.setAmountInteractive(this.dom.health, health.fraction);
     }
     onSceneCreate(scene)
     {
@@ -106,7 +106,7 @@ Game.Hud = class Hud
         element.querySelector('.amount').style.height = (this.quantify(frac) * 100) + '%';
         element.dataset.value = frac.toString();
     }
-    setEnergyQuantified(element, frac)
+    setAmountInteractive(element, frac)
     {
         /* If energy should be increasing. */
         let current = parseFloat(element.dataset.value);

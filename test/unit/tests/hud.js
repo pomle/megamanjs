@@ -69,13 +69,13 @@ describe('Hud', function() {
       expect(node.dataset.value).to.be('0.33');
     });
   });
-  describe('setEnergyQuantified()', function() {
+  describe('setAmountInteractive()', function() {
     it('should pass arguments directly to setAmount() when new value is lower', function() {
       const hud = new Hud;
       const node = new NodeMock;
       hud.setAmount(node, .5);
       hud.setAmount = sinon.spy();
-      hud.setEnergyQuantified(node, .3);
+      hud.setAmountInteractive(node, .3);
       expect(hud.setAmount.callCount).to.be(1);
       expect(hud.setAmount.lastCall.args).to.eql([node, .3]);
     });
@@ -91,7 +91,7 @@ describe('Hud', function() {
       };
       const node = new NodeMock;
       hud.setAmount(node, .5);
-      hud.setEnergyQuantified(node, .7);
+      hud.setAmountInteractive(node, .7);
       hud.setAmount = sinon.spy();
       expect(hud.game.scene.pauseSimulation.callCount).to.be(1);
       expect(hud.game.scene.resumeSimulation.callCount).to.be(0);
