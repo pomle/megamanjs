@@ -72,7 +72,6 @@ Game.Hud = class Hud
     onSceneDestroy(scene)
     {
         this.hideHud();
-        this.hideBoss();
     }
     onWeaponEquip(weapon)
     {
