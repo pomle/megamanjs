@@ -55,7 +55,7 @@ describe('Weapon', function() {
     it('should decrease and honor ammo limit', function() {
       weapon.ammo.max = 10;
       weapon.cost = 1;
-      for (let i = 10; i; --i) {
+      for (let i = 10; i > 0; --i) {
         expect(weapon.fire()).to.be(true);
         expect(weapon.ammo.amount).to.equal(i - 1);
       }
