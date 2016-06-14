@@ -28,9 +28,9 @@ Engine.Timer = class Timer
             callback(elapsed);
             elapsed += dt;
         };
-        this.events.bind(this.EVENT_TIMEPASS, wrapper);
+        this.events.bind(this.EVENT_SIMULATE, wrapper);
         return this.waitFor(seconds).then(() => {
-            this.events.unbind(this.EVENT_TIMEPASS, wrapper);
+            this.events.unbind(this.EVENT_SIMULATE, wrapper);
         });
     }
     enqueue()
