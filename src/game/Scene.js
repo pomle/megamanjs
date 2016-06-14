@@ -159,6 +159,14 @@ Game.Scene = class Scene
 
         return next();
     }
+    pauseSimulation()
+    {
+        this.timer.isSimulating = false;
+    }
+    resumeSimulation()
+    {
+        this.timer.isSimulating = true;
+    }
     startSimulation()
     {
         this.timer.events.bind(this.timer.EVENT_SIMULATE, this.simulate);

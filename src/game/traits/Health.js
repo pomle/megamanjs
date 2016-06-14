@@ -32,7 +32,7 @@ Game.traits.Health.prototype.__collides = function(withObject)
 Game.traits.Health.prototype.__timeshift = function healthUpdate()
 {
     if (this._lastValue !== this._value) {
-        this._trigger(this.EVENT_HEALTH_CHANGED);
+        this._trigger(this.EVENT_HEALTH_CHANGED, [this]);
         this._lastValue = this._value;
     }
 

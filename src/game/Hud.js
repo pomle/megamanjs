@@ -1,127 +1,130 @@
-var Hud = function(game)
+Game.Hud = class Hud
 {
-    this.fillSpeed = 1;
-
-    this.elements = {
-        'healthBar': undefined,
-        'weaponBar': undefined,
-        'bossHealthBar': undefined,
-    }
-
-    var player = undefined;
-    var weapon = undefined;
-    var boss = undefined;
-
-    var hud = this;
-    function healthChanged() {
-        hud.setHealthEnergy(this.health.fraction);
-    }
-    function ammoChanged() {
-        hud.setWeaponEnergy(this.ammo.fraction);
-    }
-    function bossHealthChanged() {
-        hud.setBossHealthEnergy(this.health.fraction);
-    }
-
-    this.equipCharacter = function(character)
+    constructor()
     {
-        if (player) {
-            player.events.unbind(player.health.EVENT_HEALTH_CHANGED, healthChanged);
+        this.game = null;
+        this.dom = {};
+
+        this.fillSpeed = 1;
+
+        this.onAmmoChanged = this.onAmmoChanged.bind(this);
+        this.onHealthChanged = this.onHealthChanged.bind(this);
+        this.onWeaponEquip = this.onWeaponEquip.bind(this);
+        this.onSceneCreate = this.onSceneCreate.bind(this);
+        this.onSceneDestroy = this.onSceneDestroy.bind(this);
+
+        this.currentWeapon = null;
+    }
+    attach(game, dom)
+    {
+        this.dom.hud = dom;
+        this.dom.health = dom.querySelector('.health');
+        this.dom.weapon = dom.querySelector('.weapon');
+        this.dom.boss = dom.querySelector('.bossHealth');
+
+        game.events.bind(game.EVENT_SCENE_CREATE, this.onSceneCreate);
+        game.events.bind(game.EVENT_SCENE_DESTROY, this.onSceneDestroy);
+        this.game = game;
+
+        const player = game.player.character;
+        player.events.bind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
+        player.events.bind(player.weapon.EVENT_EQUIP, this.onWeaponEquip);
+    }
+    detach()
+    {
+        this.dom = {};
+
+        const player = this.game.player.character;
+        player.events.unbind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
+        player.events.unbind(player.weapon.EVENT_EQUIP, this.onWeaponEquip);
+
+        const game = this.game;
+        game.events.unbind(game.EVENT_SCENE_CREATE, this.onSceneCreate);
+        game.events.unbind(game.EVENT_SCENE_DESTROY, this.onSceneDestroy);
+        this.game = null;
+    }
+    hideHud()
+    {
+        if (this.dom.hud) {
+            this.dom.hud.classList.remove('visible');
         }
-        player = character;
-        this.setHealthEnergy(player.health.fraction);
-        player.events.bind(player.health.EVENT_HEALTH_CHANGED, healthChanged);
     }
-
-    this.equipWeapon = function(newWeapon)
+    showHud()
     {
-        var weaponBar = this.elements.weaponBar;
-        if (weapon) {
-            weaponBar.classList.remove(weapon.code);
+        if (this.dom.hud) {
+            this.dom.hud.classList.add('visible');
         }
-        weapon = newWeapon;
-        weaponBar.classList.add(weapon.code);
-        this.setWeaponEnergy(weapon.ammo.fraction);
-        weapon.events.bind(weapon.EVENT_AMMO_CHANGED, ammoChanged);
     }
-
-    this.equipBoss = function(character)
+    onAmmoChanged(ammo)
     {
-        if (boss) {
-            boss.events.unbind(boss.health.EVENT_HEALTH_CHANGED, bossHealthChanged);
+        this.setEnergyQuantified(this.dom.weapon, ammo.fraction);
+    }
+    onHealthChanged(health)
+    {
+        this.setEnergyQuantified(this.dom.health, health.fraction);
+    }
+    onSceneCreate(scene)
+    {
+        if (scene instanceof Game.scenes.Level) {
+            this.showHud();
         }
-        boss = character;
-        this.setHealthEnergy(boss.health.fraction);
-        boss.events.bind(boss.health.EVENT_HEALTH_CHANGED, bossHealthChanged);
     }
-
-    this.setHealthEnergy = function(frac)
+    onSceneDestroy(scene)
     {
-        setEnergyQuantified.call(this, this.elements.healthBar, frac);
+        this.hideHud();
+        this.hideBoss();
     }
-
-    this.setWeaponEnergy = function(frac)
+    onWeaponEquip(weapon)
     {
-        setEnergyQuantified.call(this, this.elements.weaponBar, frac);
+        const e = this.dom.weapon;
+        if (this.currentWeapon) {
+            const currentWeapon = this.currentWeapon;
+            currentWeapon.events.unbind(currentWeapon.EVENT_AMMO_CHANGED, this.onAmmoChanged);
+            e.classList.remove(currentWeapon.code);
+        }
+        e.classList.add(weapon.code);
+        this.setAmount(this.dom.weapon, weapon.ammo.fraction);
+        weapon.events.bind(weapon.EVENT_AMMO_CHANGED, this.onAmmoChanged);
+        this.currentWeapon = weapon;
     }
-
-    this.setBossHealthEnergy = function(frac)
+    quantify(frac)
     {
-        setEnergyQuantified.call(this, this.elements.bossHealthBar, frac);
-    }
-
-    function quantify(frac)
-    {
-        // Quantify to whole 1/28th increments (full energy bar).
-        var s = 1/27;
-        var q = frac - (frac % s);
-        if (frac > 0 && q == 0) {
+        // Quantify to whole 1/28th increments.
+        const s = 1/28;
+        let q = frac - (frac % s);
+        // Do not display empty unless completely empty.
+        if (q === 0 && frac > 0) {
             q = s;
         }
         return q;
     }
-
-    function setAmount(element, frac)
+    setAmount(element, frac)
     {
-        element.querySelector('.amount').style.height = (quantify(frac) * 100) + '%';
-    }
-
-    function setEnergyQuantified(element, frac)
-    {
-        if (!element) {
-            return;
-        }
-
-        /* If energy should be increasing. */
-        if (element.dataset.value !== undefined && element.dataset.value < frac) {
-            var scene = game.scene,
-                timer = scene.timer,
-                current = parseFloat(element.dataset.value),
-                target = frac,
-                fillSpeed = this.fillSpeed;
-
-            function iteration(dt)
-            {
-                if (current === target) {
-                    scene.startSimulation();
-                    timer.events.unbind(timer.EVENT_TIMEPASS, iteration);
-                }
-                else {
-                    current += fillSpeed * dt;
-                    if (current > target) {
-                        current = target;
-                    }
-                    setAmount(element, current);
-                }
-            }
-
-            scene.stopSimulation();
-            timer.events.bind(timer.EVENT_TIMEPASS, iteration);
-        }
-        else {
-            setAmount(element, frac);
-        }
-
+        element.querySelector('.amount').style.height = (this.quantify(frac) * 100) + '%';
         element.dataset.value = frac;
+    }
+    setEnergyQuantified(element, frac)
+    {
+        /* If energy should be increasing. */
+        let current = parseFloat(element.dataset.value);
+        if (frac > current) {
+            const scene = this.game.scene;
+            const timer = scene.timer;
+            const target = frac;
+            const speed = this.fillSpeed;
+            const iteration = dt => {
+                current += speed * dt;
+                if (current >= target) {
+                    current = target;
+                    timer.events.unbind(timer.EVENT_TIMEPASS, iteration);
+                    scene.resumeSimulation();
+                }
+                this.setAmount(element, current);
+            }
+            scene.pauseSimulation();
+            timer.events.bind(timer.EVENT_TIMEPASS, iteration);
+        } else {
+            this.setAmount(element, frac);
+        }
     }
 }

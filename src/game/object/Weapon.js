@@ -127,7 +127,9 @@ Game.objects.Weapon.prototype.setUser = function(user)
 Game.objects.Weapon.prototype.timeShift = function(dt)
 {
     if (this._lastAmmoAmount !== this.ammo.amount) {
-        this.events.trigger(this.EVENT_AMMO_CHANGED);
+        if (this._lastAmmoAmount !== undefined) {
+            this.events.trigger(this.EVENT_AMMO_CHANGED, [this.ammo]);
+        }
         this._lastAmmoAmount = this.ammo.amount;
     }
 

@@ -7,7 +7,6 @@ var Game = function()
     });
 
     this.player = new Game.Player();
-    this.player.hud = new Hud(this);
 }
 
 Game.prototype.EVENT_SCENE_CREATE = 'scene_create';
@@ -26,12 +25,6 @@ Game.prototype.attachController = function()
 Game.prototype.attachToElement = function(element)
 {
     this.element = element;
-
-    this.player.hud.elements = {
-        'healthBar': element.querySelector('.health'),
-        'weaponBar': element.querySelector('.weapon'),
-        'bossHealthBar': element.querySelector('.bossHealth'),
-    }
 
     this.adjustResolution();
     this.attachController();
@@ -109,8 +102,8 @@ Game.prototype.setScene = function(scene)
 Game.prototype.unsetScene = function()
 {
     if (this.scene) {
-        this.scene.events.trigger(this.scene.EVENT_DESTROY);
         this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
+        this.scene.events.trigger(this.scene.EVENT_DESTROY);
         this.scene = undefined;
     }
 }
