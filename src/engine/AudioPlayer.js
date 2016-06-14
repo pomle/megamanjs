@@ -6,6 +6,7 @@ Engine.AudioPlayer = class AudioPlayer
     {
         this._context = new AudioContext();
         this._playing = new Map();
+        this._playbackRate = 1;
     }
     destroy()
     {
@@ -22,6 +23,7 @@ Engine.AudioPlayer = class AudioPlayer
         const source = this._context.createBufferSource();
         source.connect(this._context.destination);
         source.buffer = audio.getBuffer();
+        source.playbackRate.value = this._playbackRate;
         source.addEventListener('ended', () => {
             this._playing.delete(audio);
         });
@@ -41,6 +43,13 @@ Engine.AudioPlayer = class AudioPlayer
     resume()
     {
         this._context.resume();
+    }
+    setPlaybackRate(rate)
+    {
+        this._playbackRate = rate;
+        this._playing.forEach(source => {
+            source.playbackRate.value = rate;
+        });
     }
     stop(audio)
     {
