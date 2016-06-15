@@ -145,6 +145,7 @@ Engine.Easing = {
         return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t
     },
     easeOutElastic: function(t) {
-        return Math.pow(2, -10 * t) * Math.sin((t - .375) * 20.93) + 1;
+        const f = Math.pow(2, -10 * t) * Math.sin((t - .375) * 20.93) + 1;
+        return f > 1 ? 1 : f;
     },
 }
