@@ -4,30 +4,20 @@ Editor.ItemSet = function(editor)
 {
     this.editor = editor;
 
-    this.items = new Set();
     this.layers = {};
 
-    this.selected = [];
-
+    this.all = new Set();
+    this.selected = new Set();
+    this.selected.first = null;
     this.touchable = new Set();
     this.visible = new Set();
-
-    for (let prop of ['entries']) {
-        this.items[prop] = this.items[prop].bind(this.items);
-    }
 }
 
 Object.defineProperties(Editor.ItemSet.prototype, {
     interactable: {
         get: function()
         {
-            let items = [];
-            for (let item of this.touchable) {
-                if (this.visible.has(item)) {
-                    items.push(item);
-                }
-            }
-            return items;
+            return [...this.touchable].filter(item => this.visible.has(item));
         },
     },
     scene: {
@@ -48,38 +38,34 @@ Object.defineProperties(Editor.ItemSet.prototype, {
     },
 });
 
-Editor.ItemSet.prototype.add = function()
+Editor.ItemSet.prototype.add = function(item)
 {
-    for (let i = 0, l = arguments.length; i !== l; ++i) {
-        let item = arguments[i];
-        let object = item.object;
+    item.children.forEach(child => {
+        this.add(child);
+    });
 
-        if (object instanceof Engine.Object) {
-            this.world.addObject(object);
-        }
-
-        if (item.children.length !== 0) {
-            this.add.apply(this, item.children);
-        }
-
-        if (item.TYPE) {
-            let t = item.TYPE;
-            if (!this.layers[t]) {
-                this.layers[t] = new Set();
-            }
-            this.layers[t].add(item);
-        }
-
-        if (item.TYPE === "object") {
-            this.scene.add(item.model);
-        } else {
-            this.editor.overlays.add(item.model);
-        }
-
-        this.items.add(item);
-        this.touchable.add(item);
-        this.visible.add(item);
+    const object = item.object;
+    if (object instanceof Engine.Object) {
+        this.world.addObject(object);
     }
+
+    if (item.TYPE) {
+        const type = item.TYPE;
+        if (!this.layers[type]) {
+            this.layers[type] = new Set();
+        }
+        this.layers[type].add(item);
+    }
+
+    if (item.TYPE === 'object') {
+        this.scene.add(item.model);
+    } else {
+        this.editor.overlays.add(item.model);
+    }
+
+    this.all.add(item);
+    this.touchable.add(item);
+    this.visible.add(item);
 }
 
 Editor.ItemSet.prototype.insert = function(item)
@@ -90,132 +76,116 @@ Editor.ItemSet.prototype.insert = function(item)
     this.select(item);
 }
 
-Editor.ItemSet.prototype.remove = function()
+Editor.ItemSet.prototype.remove = function(item)
 {
-    for (let i = 0, l = arguments.length; i !== l; ++i) {
-        let item = arguments[i];
+    item.children.forEach(child => {
+        this.remove(child);
+    });
 
-        if (!this.items.has(item)) {
-            console.error("Item not found", item);
-            return false;
-        }
-
-        if (item.children.length !== 0) {
-            this.remove.apply(this, item.children);
-        }
-
-        let object = item.object;
-
-        if (object instanceof Engine.Object) {
-            this.world.removeObject(object);
-        }
-
-        this.hide(item);
-
-        if (item.TYPE) {
-            this.layers[item.TYPE].delete(item);
-        }
-
-        item.delete();
-        item.node.remove();
-
-        this.items.delete(item);
+    if (!this.all.has(item)) {
+        console.error("Item not found", item);
+        return false;
     }
+
+    const object = item.object;
+    if (object instanceof Engine.Object) {
+        this.world.removeObject(object);
+    }
+
+    this.hide(item);
+
+    if (item.TYPE) {
+        this.layers[item.TYPE].delete(item);
+    }
+
+    item.delete();
+    item.node.remove();
+
+    this.all.delete(item);
 }
 
-Editor.ItemSet.prototype.deselect = function()
+Editor.ItemSet.prototype.deselect = function(item)
 {
-    if (this.selected.length) {
-        for (let i = 0, l = this.selected.length; i !== l; ++i) {
-            let item = this.selected[i];
-            if (item.overlay) {
-                this.editor.overlays.remove(item.overlay);
-                item.overlay = undefined;
+    if (arguments.length === 0) {
+        this.selected.forEach(item => {
+            this.deselect(item);
+        });
+    } else {
+        if (item.overlay) {
+            this.editor.overlays.remove(item.overlay);
+            item.overlay = undefined;
+        }
+        this.selected.delete(item);
+
+        const inputs = this.editor.ui.item.inputs;
+        if (this.selected.size === 1) {
+            this.selected.first = [...this.selected][0];
+            inputs.update([...this.selected][0]);
+        } else {
+            if  (this.selected.size === 0) {
+                this.selected.first = null;
             }
+            inputs.clear();
         }
     }
-
-    this.selected = [];
-
-    this.editor.ui.item.inputs.clear();
 }
 
 Editor.ItemSet.prototype.select = function(item)
 {
-    this.selected.unshift(item);
+    this.deselect(item);
+    this.selected.add(item);
+    this.selected.first = item;
 
     item.overlay = new THREE.WireframeHelper(item.model, 0x00ff00);
     this.editor.overlays.add(item.overlay);
-    this.editor.ui.item.inputs.update(item);
 
+    const ui = this.editor.ui;
+    ui.item.inputs.update(item);
     if (item.node.length) {
-        this.editor.ui.console.textarea.val(item.node[0].outerHTML);
+        ui.console.textarea.val(item.node[0].outerHTML);
     }
 }
 
-Editor.ItemSet.prototype.lock = function()
+Editor.ItemSet.prototype.lock = function(item)
 {
-    for (let i = 0, l = arguments.length; i !== l; ++i) {
-        let item = arguments[i];
+    item.children.forEach(child => {
+        this.lock(child);
+    });
+    this.deselect(item);
+    this.touchable.delete(item);
+}
 
-        if (item.children.length !== 0) {
-            this.lock.apply(this, item.children);
-        }
+Editor.ItemSet.prototype.unlock = function(item)
+{
+    item.children.forEach(child => {
+        this.unlock(child);
+    });
+    this.touchable.add(item);
+}
 
-        this.touchable.delete(item);
+Editor.ItemSet.prototype.hide = function(item)
+{
+    item.children.forEach(child => {
+        this.hide(child);
+    });
+
+    this.deselect(item);
+
+    item.model.visible = false;
+    this.visible.delete(item);
+
+    const toggler = this.editor.ui.view.layers[item.TYPE];
+    if (toggler) {
+        toggler.checked = false;
     }
 }
 
-Editor.ItemSet.prototype.unlock = function()
+Editor.ItemSet.prototype.show = function(item)
 {
-    for (let i = 0, l = arguments.length; i !== l; ++i) {
-        let item = arguments[i];
+    item.children.forEach(child => {
+        this.show(child);
+    });
 
-        if (item.children.length !== 0) {
-            this.unlock.apply(this, item.children);
-        }
-
-        this.touchable.add(item);
-    }
-}
-
-Editor.ItemSet.prototype.hide = function()
-{
-    for (let i = 0, l = arguments.length; i !== l; ++i) {
-        let item = arguments[i];
-
-        if (item.children.length !== 0) {
-            this.hide.apply(this, item.children);
-        }
-
-        if (!this.scene) {
-            return false;
-        }
-
-        if (this.selected === item) {
-            this.deselect();
-        }
-
-        item.model.visible = false;
-        this.visible.delete(item);
-
-        let toggler = this.editor.ui.view.layers[item.TYPE];
-        if (toggler) {
-            toggler.checked = false;
-        }
-    }
-}
-
-Editor.ItemSet.prototype.show = function()
-{
-    for (let i = 0, l = arguments.length; i !== l; ++i) {
-        let item = arguments[i];
-
-        if (item.children.length !== 0) {
-            this.show.apply(this, item.children);
-        }
-
-        item.model.visible = true;
-        this.visible.add(item);
-    }
+    item.model.visible = true;
+    this.visible.add(item);
 }

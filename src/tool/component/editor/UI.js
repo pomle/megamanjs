@@ -364,8 +364,7 @@ Editor.UI.prototype.setupPlayback = function(node)
     playback.simulationSpeed = playback.find('[name=simulationSpeed]');
     playback.simulationSpeed.on('change', function() {
         var speed = parseFloat(this.value);
-        console.log("Setting simulation speed to", speed);
-        editor.scene.timer.simulationSpeed = speed;
+        editor.game.setPlaybackSpeed(speed);
     });
 
     return playback;
@@ -477,7 +476,7 @@ Editor.UI.prototype.setupViewport = function(node)
     let lastPaintedFace = undefined;
     let wasDragged = false;
 
-    viewport
+    this.workspace
         .on('mousemove', function(e) {
             if (e.buttons === 2) {
                 const offset = new THREE.Vector2((mouse.event.clientX - e.clientX),
@@ -488,8 +487,8 @@ Editor.UI.prototype.setupViewport = function(node)
             else if (e.buttons === 1 && editor.activeMode === editor.modes.edit) {
                 wasDragged = true;
                 const selection = editor.items.selected;
-                if (e.buttons === 1 && selection.length !== 0) {
-                    const pos = viewport.getPositionAtEvent(e.originalEvent, selection[0].position);
+                if (e.buttons === 1 && selection.size > 0) {
+                    const pos = viewport.getPositionAtEvent(e.originalEvent, selection.first.position);
                     const diff = pos.clone().sub(mouse.pos);
                     selection.forEach(item => {
                         item.x += diff.x;
@@ -523,40 +522,55 @@ Editor.UI.prototype.setupViewport = function(node)
             lastPaintedFace = undefined;
             editor.camera.centerGrid();
         })
+        .on('mousewheel', function(e) {
+            if (e.buttons !== 0) {
+                return;
+            }
+            e.preventDefault();
+            let d = e.originalEvent.deltaY;
+            if (d < 0) {
+                editor.camera.zoomOut();
+            }
+            else {
+                editor.camera.zoomIn();
+            }
+        });
+
+    viewport
         .on('mousedown', function(e) {
             mouse.event = e;
 
             if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
-                const item = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
-                if (item) {
-                    const faceIndex = item.intersect.faceIndex;
-                    ui.paintUv(item.item, faceIndex - faceIndex % 2);
+                const match = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
+                if (match) {
+                    const faceIndex = match.intersect.faceIndex;
+                    ui.paintUv(match.item, faceIndex - faceIndex % 2);
                 }
                 return;
             }
 
             if (e.buttons === 1) {
-                const item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
-                if (item) {
-                    const items = editor.items;
-                    mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent, item.item.position));
-                    if (items.selected.indexOf(item.item) === -1) {
+                const items = editor.items;
+                const match = ui.mouseSelectItem(e.originalEvent, this, items.interactable);
+                if (match) {
+                    mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent, match.item.position));
+                    if (!items.selected.has(match.item)) {
                         if (!e.ctrlKey) {
                             items.deselect();
                         }
                         editor.activeMode = editor.modes.edit;
-                        items.select(item.item);
+                        items.select(match.item);
 
-                        if (item.item.object instanceof Game.objects.Character) {
-                            editor.game.player.setCharacter(item.item.object);
-                            console.log("Selected character", item.item.object);
+                        if (match.item.object instanceof Game.objects.Character) {
+                            editor.game.player.setCharacter(match.item.object);
+                            console.log("Selected character", match.item.object);
                         }
                     }
                     return;
                 }
                 else if (!e.ctrlKey) {
                     editor.activeMode = editor.modes.view;
-                    editor.items.deselect();
+                    items.deselect();
                 }
             }
 
@@ -569,8 +583,6 @@ Editor.UI.prototype.setupViewport = function(node)
         .on('contextmenu', function(e) {
             e.preventDefault();
         })
-        .on('click', function(e) {
-        })
         .on('dblclick', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -580,19 +592,6 @@ Editor.UI.prototype.setupViewport = function(node)
                 const mat = item.item.overlay.material;
                 mat.color = new THREE.Color(Editor.Colors.overlayPaint);
                 mat.needsUpdate = true;
-            }
-        })
-        .on('mousewheel', function(e) {
-            if (e.buttons !== 0) {
-                return;
-            }
-            e.preventDefault();
-            let d = e.originalEvent.deltaY;
-            if (d < 0) {
-                editor.camera.zoomOut();
-            }
-            else {
-                editor.camera.zoomIn();
             }
         });
 
@@ -674,7 +673,7 @@ Editor.UI.prototype.freeCamera = function()
     unfollow.trigger('click');
 }
 
-Editor.UI.prototype.mouseSelectItem = function(pos, viewport, items)
+Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
 {
     let editor = this.editor,
         vector = new THREE.Vector3(0,0,0),
@@ -692,27 +691,23 @@ Editor.UI.prototype.mouseSelectItem = function(pos, viewport, items)
     vector.normalize();
     raycaster.set(camera.position, vector);
 
-    var distance = -(camera.position.z / vector.z);
-    var pos = camera.position.clone().add(vector.multiplyScalar(distance));
+    const distance = -(camera.position.z / vector.z);
+    const pos = camera.position.clone().add(vector.multiplyScalar(distance));
 
-    var intersectables = [];
-    items.forEach(function(item) {
-        intersectables.push(item.model);
+    const intersectables = new Map;
+    items.forEach(item => {
+        intersectables.set(item.model, item);
     });
 
-    console.log("Candidate objects", intersectables);
-    var intersects = raycaster.intersectObjects(intersectables);
-
-    console.log("Intersecting objects", intersects);
-    if (intersects.length !== 0) {
-        let closest = intersects[0].object;
-        for (let item of items) {
-            if (item.model === closest) {
-                return {item: item, intersect: intersects[0]};
-            }
-        }
+    const intersects = raycaster.intersectObjects([...intersectables.keys()]);
+    if (intersects.length === 0) {
+        return false;
     }
-    return false;
+
+    return {
+        item: intersectables.get(intersects[0].object),
+        intersect: intersects[0],
+    };
 }
 
 Editor.UI.prototype.paintUv = function(item, faceIndex)
