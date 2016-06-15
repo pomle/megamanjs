@@ -25,8 +25,8 @@ Engine.Timer = class Timer
     {
         var elapsed = 0;
         const wrapper = (dt) => {
-            callback(elapsed);
             elapsed += dt;
+            callback(elapsed);
         };
         this.events.bind(this.EVENT_SIMULATE, wrapper);
         return this.waitFor(seconds).then(() => {
