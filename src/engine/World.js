@@ -48,11 +48,11 @@ Engine.World = class World
     {
         this.events.trigger(this.EVENT_EMIT_AUDIO, [positionalAudio]);
     }
-    getObject(name)
+    getObject(id)
     {
         for (let i = 0, l = this.objects.length; i !== l; ++i) {
             const object = this.objects[i];
-            if (object.name === name) {
+            if (object.id === id) {
                 return object;
             }
         }
