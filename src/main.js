@@ -70,6 +70,9 @@
             });
             game.scene.world.addObject(obj);
         },
+        'speed': e => {
+            game.setPlaybackSpeed(parseFloat(e.target.value));
+        },
         'weapon': (e) => {
             game.player.equipWeapon(e.target.dataset.weapon);
         }
