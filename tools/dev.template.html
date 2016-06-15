@@ -59,12 +59,18 @@
             <legend>Game</legend>
             <button name="toggleFullscreen">Fullscreen</button>
             <button name="adjustResolution">Adjust Resolution</button>
-            <select name="setResolution">
-                <option>256x240</option>
-                <option>512x480</option>
-                <option>1280x720</option>
-                <option>1920x1080</option>
-            </select>
+            <label> Resolution
+                <select name="setResolution">
+                    <option>256x240</option>
+                    <option>512x480</option>
+                    <option>1280x720</option>
+                    <option>1920x1080</option>
+                </select>
+            </label>
+            <label>
+                Speed
+                <input type="range" name="speed" min="0" max="10" step=".1" value="1" />
+            </label>
         </fieldset>
         <fieldset>
             <legend>Player</legend>
