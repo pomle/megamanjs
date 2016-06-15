@@ -35,4 +35,15 @@ describe('Object', function() {
       });
     });
   });
+  describe('#doFor()', function() {
+    it('should run callback until time duration reached', function() {
+      const host = new Host;
+      const callbackSpy = sinon.spy();
+      host.doFor(1, callbackSpy);
+      host.timeShift(1);
+      expect(callbackSpy.callCount).to.be(1);
+      host.timeShift(1);
+      expect(callbackSpy.callCount).to.be(1);
+    });
+  });
 });

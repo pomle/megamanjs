@@ -22,6 +22,8 @@ Engine.Object = function()
     this.velocity = new THREE.Vector2();
     this.world = undefined;
 
+    this.doFor = Engine.Loops.doFor(this.events, this.EVENT_TIMESHIFT);
+
     if (this.geometry && this.material) {
         this.setModel(new THREE.Mesh(this.geometry, this.material));
     }
