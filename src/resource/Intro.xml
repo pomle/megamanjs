@@ -9,6 +9,11 @@
         </after>
         <event name="create">
             <action type="camera-move" to="0,0,140"/>
+            <action type="transform">
+                <opacity to="0"/>
+                <position to="0,608,-500"/>
+                <object instance="logo"/>
+            </action>
         </event>
         <event name="start">
             <action type="play-sequence" id="intro"/>
@@ -28,9 +33,17 @@
             </await>
             <await>
                 <action type="camera-move" to=",576,">
-                    <interpolation duration="11" easing="easeIn,1.7"/>
+                    <tween duration="12" easing="easeIn,1.7"/>
                 </action>
             </await>
+            <action type="transform">
+                <tween duration="2" easing="easeIn,4">
+                    <opacity to="1"/>
+                    <position to=",,0"/>
+                    <rotation to="360,,"/>
+                </tween>
+                <object instance="logo"/>
+            </action>
             <await>
                 <action type="wait" duration="50"/>
             </await>
@@ -269,7 +282,7 @@
     </objects>
     <layout>
         <objects>
-            <object id="logo" x="0" y="608" z="0"/>
+            <object id="logo" x="0" y="608" z="0" instance="logo"/>
             <object id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
             <object id="NAGscu" x="140" y="230" z="0"/>
         </objects>

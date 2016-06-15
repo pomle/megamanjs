@@ -86,8 +86,8 @@ describe('World', function() {
     });
   });
   describe('#getObject', function() {
-    it('should return object matching name', function() {
-      objects[0].name = 'foo';
+    it('should return object matching id', function() {
+      objects[0].id = 'foo';
       expect(world.getObject('foo')).to.be(objects[0]);
     });
     it('should return false if no matching object', function() {
