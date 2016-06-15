@@ -2,6 +2,8 @@ Game.traits.Conveyor = function()
 {
     Game.traits.Solid.call(this);
     this.velocity = new THREE.Vector2(40, 0);
+    this.fixed = true;
+    this.obstructs = true;
 }
 
 Engine.Util.extend(Game.traits.Conveyor, Game.traits.Solid);
