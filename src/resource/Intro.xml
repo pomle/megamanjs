@@ -40,6 +40,7 @@
                 <tween duration="2" easing="easeIn,4">
                     <opacity to="1"/>
                     <position to=",,0"/>
+                    <rotation to="360,,"/>
                 </tween>
                 <object instance="logo"/>
             </action>

@@ -7,6 +7,8 @@ extends Game.Loader.XML.Parser
     constructor()
     {
         super();
+
+        this.DEGTORAD = Math.PI / 180;
     }
     getAction(node)
     {
@@ -120,6 +122,27 @@ extends Game.Loader.XML.Parser
                 return object.doFor(duration, (elapsed, progress) => {
                     tween.update(progress);
                 });
+            };
+        } else if (type === 'rotation') {
+            const to = this.getVector3(node, 'to');
+            Object.keys(to).forEach(key => {
+                if (to[key]) {
+                    to[key] *= this.DEGTORAD;
+                };
+            });
+            return function rotationTransform(object) {
+                const tween = new Engine.Tween(to, easing);
+                tween.addSubject(object.model.rotation);
+                return object.doFor(duration, (elapsed, progress) => {
+                    tween.update(progress);
+                });
+            };
+        } else if (type === 'scale') {
+            const to = this.getFloat(node, 'to');
+            const vec = new THREE.Vector3(to, to, to);
+            return function scaleTransform(object) {
+                const tween = new Engine.Tween(to, easing);
+                tween.addSubject(object.model.scale);
             };
         }
     }
