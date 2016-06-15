@@ -1,10 +1,9 @@
 'use strict';
 
 (function() {
-    const loader = new Game.Loader.XML;
-    window.megaman2 = loader;
+    const game = new Game;
+    const loader = new Game.Loader.XML(game);
 
-    const game = loader.game;
     const gameElement = document.getElementById('game');
     const screenElement = document.getElementById('screen');
 
@@ -106,11 +105,16 @@
 
     loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
         const hud = new Game.Hud;
-        hud.attach(loader.game, screenElement.querySelector('.energy'));
+        hud.attach(game, screenElement.querySelector('.energy'));
         return loader.loadSceneByName(entrypoint);
     }).then(scene => {
         game.setScene(scene);
     });
+
+    window.megaman2 = {
+        game,
+        loader,
+    };
 
     /*$('#nes-controller a')
         const isTouchDevice = false;
