@@ -113,5 +113,5 @@ Editor.Item.prototype.propagateComponent = function(key, value)
 
 Editor.Item.prototype.delete = function()
 {
-    throw new Error('Not deleteable');
+    console.warn('Implicit delete');
 }
