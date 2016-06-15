@@ -639,6 +639,7 @@ Editor.UI.prototype.setupWorkspace = function()
     });
     this.workspace.on('drop', function (e) {
         e.preventDefault();
+        const pos = editor.ui.viewport.getPositionAtEvent(e.originalEvent);
         var files = e.originalEvent.dataTransfer.files;
         var file = files[0];
         var reader = new FileReader();
@@ -654,10 +655,9 @@ Editor.UI.prototype.setupWorkspace = function()
                 });
                 var mesh = new THREE.Mesh(geometry, material);
                 var item = new Editor.Item.Mesh(mesh);
-                editor.layers.guides.add(mesh);
-                editor.items.visible.add(item);
-                editor.items.touchable.add(item);
                 texture.needsUpdate = true;
+                item.position.copy(pos);
+                editor.items.add(item);
             };
             i.src = e.target.result;
         };
