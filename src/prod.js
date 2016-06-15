@@ -1,8 +1,7 @@
 (function() {
-    const loader = new Game.Loader.XML;
-    window.megaman2 = loader;
+    const game = new Game;
+    const loader = new Game.Loader.XML(game);
 
-    const game = loader.game;
     const gameElement = document.getElementById('game');
     const screenElement = document.getElementById('screen');
 
@@ -28,4 +27,9 @@
     }).then(scene => {
         game.setScene(scene);
     });
+
+    window.megaman2 = {
+        game,
+        loader,
+    };
 })();

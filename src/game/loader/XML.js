@@ -4,9 +4,9 @@ Game.Loader.XML =
 class XMLLoader
 extends Game.Loader
 {
-    constructor()
+    constructor(game)
     {
-        super(new Game());
+        super(game);
         this.entryPoint = null;
         this.sceneIndex = {};
     }
