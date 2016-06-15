@@ -17,6 +17,8 @@ Engine.Camera = class Camera
         this.position = this.camera.position;
         this.smoothing = 20;
         this.velocity = new THREE.Vector3(0, 0, 0);
+
+        this.doFor = Engine.Loops.doFor(this.events, this.EVENT_UPDATE);
     }
     addPath(path)
     {
@@ -85,30 +87,10 @@ Engine.Camera = class Camera
     panTo(pos, duration, easing = Engine.Easing.linear)
     {
         this.desiredPosition = undefined;
-
-        let elapsed = 0;
-        let progress = 0;
-
-        const step = new THREE.Vector3();
-        const start = this.position.clone();
-        const offset = new THREE.Vector3(pos.x == null ? start.x : pos.x,
-                                         pos.y == null ? start.y : pos.y,
-                                         pos.z == null ? start.z : pos.z).sub(start);
-        return new Promise(resolve => {
-            const pan = (dt) => {
-                elapsed += dt;
-                progress = elapsed / duration;
-                if (progress >= 1) {
-                    progress = 1;
-                    this.events.unbind(this.EVENT_UPDATE, pan);
-                }
-                step.copy(offset).multiplyScalar(easing(progress));
-                this.position.copy(start).add(step);
-                if (progress === 1) {
-                    resolve();
-                }
-            };
-            this.events.bind(this.EVENT_UPDATE, pan);
+        const tween = new Engine.Tween(pos, easing);
+        tween.addSubject(this.position);
+        return this.doFor(duration, (elapsed, progress) => {
+            tween.update(progress);
         });
     }
     unfollow()
