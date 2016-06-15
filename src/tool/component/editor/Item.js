@@ -78,37 +78,40 @@ Editor.Item.prototype.addChild = function(child)
 
 Editor.Item.prototype.clone = function()
 {
-    var node = this.node.clone();
+    const node = this.node.clone();
     node.insertAfter(this.node);
-    var clone = new this.constructor(new this.object.constructor(), node);
-    for (let prop of ['x','y','z','w','h']) {
-        if (this[prop] !== undefined) {
-            clone[prop] = this[prop];
+    const clone = new this.constructor(new this.object.constructor(), node);
+    ['x','y','z','w','h'].forEach(p => {
+        if (this[p] != null) {
+            clone[p] = this[p];
         }
-    }
+    });
     return clone;
 }
 
 Editor.Item.prototype.moveTo = function(vec)
 {
-    let components = ['x', 'y', 'z'];
-    for (let c of components) {
-        if (vec[c] !== undefined) {
+    ['x','y','z'].forEach(c => {
+        if (vec[c] != null) {
             this.setComponent(c, vec[c]);
         }
-    }
+    });
 }
 
-Editor.Item.prototype.propagateComponent = function(name, value)
+Editor.Item.prototype.nudge = function(vec)
 {
-    if (this.children.length !== 0) {
-        for (let i = 0, l = this.children.length; i !== l; ++i) {
-            this.children[i][name] += value - this[name];
-        }
-    }
+    const pos = this.position.clone().add(vec);
+    return this.moveTo(pos);
+}
+
+Editor.Item.prototype.propagateComponent = function(key, value)
+{
+    this.children.forEach(child => {
+        child[key] += value - this[key];
+    });
 }
 
 Editor.Item.prototype.delete = function()
 {
-
+    throw new Error('Not deleteable');
 }

@@ -23,76 +23,63 @@ Editor.Modes = function(editor)
             editor.ui.playback.simulate.prop('checked', true).trigger('change');
             return;
         }
-
-
-        if (editor.items.selected.length) {
-            let g = editor.grid.scale.clone();
-
-            /* I ctrl key is pressed, increment 1 unit. */
-            if (e.ctrlKey) {
-                g.set(1, 1, 1);
-            }
-
-            for (let i = 0, l = editor.items.selected.length; i !== l; ++i) {
-                let item = editor.items.selected[i];
-                switch (e.which) {
-                    case 38: // Up
-                        if (e.shiftKey && item.h !== undefined) {
-                            item.h += g.y;
-                        }
-                        else {
-                            item.y += g.y;
-                        }
-                        break;
-                    case 40: // Down
-                        if (e.shiftKey && item.h !== undefined) {
-                            item.h -= g.y;
-                        }
-                        else {
-                            item.y -= g.y;
-                        }
-                        break;
-                    case 39: // Right
-                        if (e.shiftKey && item.w !== undefined) {
-                            item.w += g.x;
-                        }
-                        else {
-                            item.x += g.x;
-                        }
-                        break;
-                    case 37: // Left
-                        if (e.shiftKey && item.w !== undefined) {
-                            item.w -= g.x;
-                        }
-                        else {
-                            item.x -= g.x;
-                        }
-                        break;
-                    case 72: // H (hide)
-                        editor.items.deselect(item);
-                        editor.items.hide(item);
-                        return;
-                    case 76: // L (lock)
-                        editor.items.deselect(item);
-                        editor.items.lock(item);
-                        break;
-                    case 68: // D (duplicate)
-                        let clone = item.clone();
-                        clone.moveTo(item);
-                        editor.items.add(clone);
-                        break;
-                    case 46: // DEL
-                        editor.items.remove(item);
-                        editor.items.deselect(item);
-                        break;
-                }
-            }
-
-            if (editor.items.selected.length !== 0) {
-                editor.ui.item.inputs.update(editor.items.selected[0]);
-            }
+        const items = editor.items;
+        const selected = items.selected;
+        if (selected.length === 0) {
+            return;
         }
-    }
+
+        const grid = editor.grid.scale.clone();
+        /* I ctrl key is pressed, increment 1 unit. */
+        if (e.ctrlKey) {
+            grid.set(1, 1, 1);
+        }
+
+        [...selected].forEach(item => {
+            if (e.which === 38) { // Up
+                if (e.shiftKey && item.h != null) {
+                    item.h += grid.y;
+                } else {
+                    item.y += grid.y;
+                }
+            } else if (e.which === 40) { // Down
+                if (e.shiftKey && item.h != null) {
+                    item.h -= grid.y;
+                } else {
+                    item.y -= grid.y;
+                }
+            } else if (e.which === 39) { // Right
+                if (e.shiftKey && item.w != null) {
+                    item.w += grid.x;
+                } else {
+                    item.x += grid.x;
+                }
+            } else if (e.which === 37) { // Left
+                if (e.shiftKey && item.w != null) {
+                    item.w -= grid.x;
+                } else {
+                    item.x -= grid.x;
+                }
+            } else if (e.which === 72) { // H (hide)
+                items.hide(item);
+            } else if (e.which === 76) { // L (lock)
+                items.lock(item);
+            } else if (e.which === 68) { // D (duplicate)
+                const clone = item.clone();
+                items.deselect(item);
+                const pos = item.position.clone();
+                const offset = editor.grid.scale.clone();
+                pos.x += offset.x;
+                pos.y -= offset.y;
+                clone.moveTo(pos);
+                items.add(clone);
+                items.select(clone);
+            } else if (e.which === 46) { // DEL
+                items.deselect(item);
+                items.remove(item);
+            }
+        });
+    };
 
     this.paint = function(e)
     {
