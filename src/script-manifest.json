@@ -23,6 +23,7 @@
     "engine/animator/UV.js",
 
     "engine/logic/Energy.js",
+    "engine/logic/Loops.js",
 
     "engine/Trait.js",
 
