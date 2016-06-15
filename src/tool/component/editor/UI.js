@@ -402,25 +402,22 @@ Editor.UI.prototype.setupView = function(node)
 
     view.layers = view.find('.layers :input[type=checkbox]');
     view.layers.on('change', function(e) {
-        let layers = [this.name],
-            what = $(this).attr('what'),
-            func;
-
-        if (what === 'lock') {
-            func = this.checked ? editor.items.unlock : editor.items.lock;
+        const items = editor.items.layers[this.name];
+        if (!items) {
+            console.warn(`Layer ${this.name} not in use`);
+            return;
         }
-        else if (what === 'show') {
-            func = this.checked ? editor.items.show : editor.items.hide;
-        }
-
-        for (let layer of layers) {
-            if (!editor.items.layers[layer]) {
-                console.info("Layer not found %s", layer);
-                continue;
-            }
-            let items = [...editor.items.layers[layer]];
-            func.apply(editor.items, items);
-        }
+        const route = {
+            'lock0': 'lock',
+            'lock1': 'unlock',
+            'show1': 'show',
+            'show0': 'hide',
+        };
+        const action = $(this).attr('what') + (this.checked + 0);
+        const func = route[action];
+        items.forEach(item => {
+            editor.items[func](item);
+        });
     });
     view.layers.each(function() {
         let node = this,
