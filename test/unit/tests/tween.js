@@ -7,6 +7,24 @@ const env = require('../../env.js');
 const Tween = env.Engine.Tween;
 
 describe('Tween', function() {
+  it('should ignore keys in to that are undefined', function() {
+    const subject = {
+        a: 1,
+        b: 13,
+        c: 15,
+        d: 19,
+    };
+    const to = {
+        a: undefined,
+        b: -13,
+        c: null,
+        d: 0,
+    };
+    const tween = new Tween(to);
+    tween.addSubject(subject);
+    tween.update(1);
+    expect(subject).to.eql({a: 1, b: -13, c: 15, d: 0});
+  });
   it('should default to linear easing', function() {
     const subject = {
         a: 1,

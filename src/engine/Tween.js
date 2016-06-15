@@ -2,10 +2,10 @@
 
 Engine.Tween = class Tween
 {
-    constructor(properties, easing = Engine.Easing.linear)
+    constructor(to, easing = Engine.Easing.linear)
     {
-        this._keys = Object.keys(properties);
-        this._properties = properties;
+        this._keys = Object.keys(to).filter(key => to[key] != null);
+        this._to = to;
         this._easing = easing;
         this._subjects = [];
     }
@@ -32,12 +32,12 @@ Engine.Tween = class Tween
     }
     update(progress)
     {
-        const props = this._properties;
-        const frac = this._easing(progress);
+        const to = this._to;
+        const f = this._easing(progress);
         this._subjects.forEach(subject => {
             const origin = subject.origin;
             this._keys.forEach(key => {
-                subject.object[key] = origin[key] + (props[key] - origin[key]) * frac;
+                subject.object[key] = origin[key] + (to[key] - origin[key]) * f;
             });
         });
     }
