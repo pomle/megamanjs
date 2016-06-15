@@ -21,16 +21,24 @@ Engine.Timer = class Timer
 
         this.eventLoop = this.eventLoop.bind(this);
     }
-    doFor(seconds, callback)
+    doFor(duration, callback)
     {
-        var elapsed = 0;
-        const wrapper = (dt) => {
-            elapsed += dt;
-            callback(elapsed);
-        };
-        this.events.bind(this.EVENT_SIMULATE, wrapper);
-        return this.waitFor(seconds).then(() => {
-            this.events.unbind(this.EVENT_SIMULATE, wrapper);
+        let elapsed = 0;
+        let progress = 0;
+        return new Promise(resolve => {
+            const wrapper = (dt) => {
+                elapsed += dt;
+                progress = elapsed / duration;
+                if (progress >= 1) {
+                    progress = 1;
+                    this.events.unbind(this.EVENT_SIMULATE, wrapper);
+                }
+                callback(elapsed, progress);
+                if (progress === 1) {
+                    resolve();
+                }
+            };
+            this.events.bind(this.EVENT_SIMULATE, wrapper);
         });
     }
     enqueue()
@@ -89,7 +97,7 @@ Engine.Timer = class Timer
     }
     waitFor(seconds)
     {
-        var elapsed = 0;
+        let elapsed = 0;
         return new Promise(resolve => {
             const wait = (dt) => {
                 elapsed += dt;

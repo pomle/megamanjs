@@ -31,20 +31,20 @@ describe('Timer', function() {
     });
   });
   describe('#doFor()', function() {
-    it('should call callback for every simulation step for entire duration and supply elapsed time', function() {
+    it('should call callback for every simulation step for entire duration and supply elapsed time and progress fraction', function() {
       const callbackSpy = sinon.spy();
       timer.doFor(2, callbackSpy);
       timer.updateTime(1);
       expect(callbackSpy.callCount).to.be(120);
-      expect(callbackSpy.getCall(0).args).to.eql([timer.timeStep]);
-      expect(callbackSpy.getCall(12).args[0]).to.be.within(0.10833333333333332,  0.10833333333333334);
-      timer.updateTime(1);
-      expect(callbackSpy.lastCall.args[0]).to.be(1.9999999999999953);
+      expect(callbackSpy.getCall(0).args).to.eql([timer.timeStep, 0.004166666666666667]);
+      expect(callbackSpy.getCall(12).args[0]).to.be(0.10833333333333332);
+      timer.updateTime(2);
+      expect(callbackSpy.lastCall.args).to.eql([2.008333333333329, 1]);
     });
     it('should return a promise that resolves when done', function(done) {
       const callbackSpy = sinon.spy();
       timer.doFor(2, callbackSpy).then(done);
-      timer.updateTime(2);
+      timer.updateTime(2.1);
     });
   });
   describe('#eventLoop', function() {
