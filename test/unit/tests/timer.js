@@ -30,6 +30,23 @@ describe('Timer', function() {
       expect(timer.frameId).to.be(undefined);
     });
   });
+  describe('#doFor()', function() {
+    it('should call callback for every simulation step for entire duration and supply elapsed time and progress fraction', function() {
+      const callbackSpy = sinon.spy();
+      timer.doFor(2, callbackSpy);
+      timer.updateTime(1);
+      expect(callbackSpy.callCount).to.be(120);
+      expect(callbackSpy.getCall(0).args).to.eql([timer.timeStep, 0.004166666666666667]);
+      expect(callbackSpy.getCall(12).args[0]).to.be(0.10833333333333332);
+      timer.updateTime(2);
+      expect(callbackSpy.lastCall.args).to.eql([2.008333333333329, 1]);
+    });
+    it('should return a promise that resolves when done', function(done) {
+      const callbackSpy = sinon.spy();
+      timer.doFor(2, callbackSpy).then(done);
+      timer.updateTime(2.1);
+    });
+  });
   describe('#eventLoop', function() {
     it('should propagate deltaTime of passed total time to #updateTime in seconds', function() {
       timer.updateTime = sinon.spy();
@@ -173,6 +190,13 @@ describe('Timer', function() {
       timer.updateTime(1);
       expect(simulateSpy.callCount).to.equal(120);
       expect(updateSpy.callCount).to.equal(1);
+    });
+  });
+  describe('#waitFor()', function() {
+    it('should return a promise that resolves when duration elapsed', function(done) {
+      const callbackSpy = sinon.spy();
+      timer.waitFor(2).then(done);
+      timer.updateTime(2);
     });
   });
 });

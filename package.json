@@ -5,8 +5,8 @@
   "scripts": {
     "build": "./tools/build.sh",
     "generate-dev": "node ./tools/generate-dev.js",
-    "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit/tests test/integration/tests",
-    "test:unit": "mocha test/unit/tests",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit/tests/** test/integration/tests",
+    "test:unit": "mocha test/unit/tests/**",
     "test:integration": "mocha test/integration/tests",
     "upload-coverage": "codecov"
   },

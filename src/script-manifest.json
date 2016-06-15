@@ -3,6 +3,7 @@
     "engine/Audio.js",
     "engine/AudioPlayer.js",
     "engine/Util.js",
+    "engine/Easing.js",
     "engine/Events.js",
     "engine/Timer.js",
     "engine/Animation.js",
@@ -23,6 +24,7 @@
     "engine/animator/UV.js",
 
     "engine/logic/Energy.js",
+    "engine/logic/Loops.js",
 
     "engine/Trait.js",
 

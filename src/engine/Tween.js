@@ -1,58 +1,44 @@
 'use strict';
 
-Engine.Tween = class Tween {
-    constructor(properties, easing, duration)
+Engine.Tween = class Tween
+{
+    constructor(to, easing = Engine.Easing.linear)
     {
-        this.easing = easing || Engine.Easing.linear;
-        this.objects = [];
-        this.origins = [];
-        this.desired = properties;
-        this.duration = duration || 0;
-        this.progress = 0;
+        this._keys = Object.keys(to).filter(key => to[key] != null);
+        this._to = to;
+        this._easing = easing;
+        this._subjects = [];
     }
-    addObject(object)
+    _updateOrigin(subject)
     {
-        this.objects.push(object);
-        this.origins.push({});
-        this.updateOrigin(this.origins.length - 1);
+        this._keys.forEach(key => {
+            subject.origin[key] = subject.object[key];
+        });
     }
-    updateOrigin(i)
+    addSubject(object)
     {
-        const object = this.objects[i];
-        const origins = this.origins[i];
-        for (let prop in this.desired) {
-            origins[prop] = object[prop];
-        }
+        const subject = {
+            object,
+            origin: {},
+        };
+        this._updateOrigin(subject);
+        this._subjects.push(subject);
     }
-    updateOrigins()
+    refresh()
     {
-        for (let i = 0, l = this.objects.length; i !== l; ++i) {
-            this.updateOrigin(i);
-        }
+        this._subjects.forEach(subject => {
+            this._updateOrigin(subject);
+        });
     }
-    updateTime(deltaTime)
+    update(progress)
     {
-        let frac = undefined;
-        this.progress += deltaTime;
-        if (this.progress <= 0) {
-            frac = 0;
-        } else if (this.progress >= this.duration) {
-            frac = 1;
-        } else {
-            frac = this.progress / this.duration;
-        }
-        this.updateValue(frac);
-    }
-    updateValue(progressFrac)
-    {
-        const desired = this.desired;
-        const frac = this.easing(progressFrac);
-        for (let i = 0, l = this.objects.length; i !== l; ++i) {
-            const object = this.objects[i];
-            const origin = this.origins[i];
-            for (let key in desired) {
-                object[key] = origin[key] + (desired[key] - origin[key]) * frac;
-            }
-        }
+        const to = this._to;
+        const f = this._easing(progress);
+        this._subjects.forEach(subject => {
+            const origin = subject.origin;
+            this._keys.forEach(key => {
+                subject.object[key] = origin[key] + (to[key] - origin[key]) * f;
+            });
+        });
     }
 }

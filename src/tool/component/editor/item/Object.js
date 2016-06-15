@@ -35,7 +35,9 @@ Editor.Item.Object.prototype.getComponent = function(name)
         else if (name === 'h') {
             return s[1].y - s[0].y;
         }
-
+    }
+    else if (name === 'scale') {
+        return this.model.scale.x;
     }
 }
 
@@ -45,6 +47,7 @@ Editor.Item.Object.prototype.setComponent = function(name, value)
         v = this.round(value),
         o = this.object,
         p = o.position,
+        s = this.model.scale,
         n = this.node;
 
     this.propagateComponent(name, value);
@@ -63,6 +66,11 @@ Editor.Item.Object.prototype.setComponent = function(name, value)
         case 'z':
             p.z = v;
             n.attr('z', v);
+            break;
+
+        case 'scale':
+            s.set(v, v, v);
+            n.attr('scale', v === 1 ? null : v);
             break;
     }
 }

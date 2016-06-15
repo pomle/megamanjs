@@ -239,15 +239,24 @@ class Parser
     }
     getVector3(node, attrX, attrY, attrZ)
     {
-        var x = this.getAttr(node, attrX || 'x');
-        var y = this.getAttr(node, attrY || 'y');
-        var z = this.getAttr(node, attrZ || 'z');
-        if (x === null || y === null) {
-            return null;
+        if (arguments.length == 2) {
+            const aggr = this.getAttr(node, attrX).split(',');
+            const vec = new THREE.Vector3();
+            vec.x = aggr[0] ? parseFloat(aggr[0]) : undefined;
+            vec.y = aggr[1] ? parseFloat(aggr[1]) : undefined;
+            vec.z = aggr[2] ? parseFloat(aggr[2]) : undefined;
+            return vec;
+        } else {
+            const x = this.getAttr(node, attrX || 'x');
+            const y = this.getAttr(node, attrY || 'y');
+            const z = this.getAttr(node, attrZ || 'z');
+            if (x === null || y === null) {
+                return null;
+            }
+            return new THREE.Vector3(parseFloat(x),
+                                     parseFloat(y),
+                                     parseFloat(z));
         }
-        return new THREE.Vector3(parseFloat(x),
-                                 parseFloat(y),
-                                 parseFloat(z));
     }
     resolveURL(node, attr)
     {

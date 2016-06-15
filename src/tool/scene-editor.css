@@ -1,8 +1,22 @@
-.workspace {
-    border-bottom-width: 1px;
-    height: 750px;
+body {
     overflow: hidden;
-    position: relative;
+}
+
+.scene-editor {
+    bottom: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.scene-editor .console {
+    display: none;
+    position: absolute;
+}
+
+.workspace {
+    height: 100%;
+    width: 100%;
 }
 
 .workspace .viewport {
@@ -30,16 +44,30 @@
     text-align: center;
 }
 
-.level-editor .console textarea[name=console] {
+.scene-editor .console textarea[name=console] {
     font-family: monospace;
     height: 8em;
     width: 100%;
 }
 
+.workspace .panel {
+    background-color: rgba(0,0,0,.85);
+    border-color: rgba(160,195,210,.3);
+    border-radius: 0;
+    bottom: 0;
+    padding: .5em 0;
+    position: absolute;
+    top: 0;
+    width: 150px;
+}
 
 .workspace legend {
     color: #fff;
     font-size: 1.2em;
+}
+
+.workspace .panel button {
+    margin: .2em;
 }
 
 .workspace .panel label {
@@ -51,17 +79,6 @@
     margin: 0;
     position: relative;
     top: 2px;
-}
-
-.workspace .panel {
-    background-color: rgba(0,0,0,.85);
-    border-color: rgba(160,195,210,.3);
-    border-radius: 0;
-    bottom: 0;
-    padding: 10px 5px;
-    position: absolute;
-    top: 0;
-    width: 150px;
 }
 
 .workspace .panel.view {

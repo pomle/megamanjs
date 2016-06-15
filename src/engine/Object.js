@@ -12,6 +12,7 @@ Engine.Object = function()
     this.direction = new THREE.Vector2();
     this.emitter = undefined;
     this.events = new Engine.Events(this);
+    this.id = undefined;
     this.integrator = new Engine.Verlet(new THREE.Vector2());
     this.origo = new THREE.Vector2();
     this.position = new THREE.Vector3();
@@ -20,6 +21,8 @@ Engine.Object = function()
     this.traits = [];
     this.velocity = new THREE.Vector2();
     this.world = undefined;
+
+    this.doFor = Engine.Loops.doFor(this.events, this.EVENT_TIMESHIFT);
 
     if (this.geometry && this.material) {
         this.setModel(new THREE.Mesh(this.geometry, this.material));

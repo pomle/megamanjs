@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Level Edit</title>
+    <title>Scene Editor</title>
     <link rel="stylesheet" type="text/css" href="tool.css">
-    <link rel="stylesheet" type="text/css" href="layout-editor.css">
-    <script src="jquery-2.1.3.min.js"></script>
-    <script src="../lib/three.js"></script>
+    <link rel="stylesheet" type="text/css" href="scene-editor.css">
+
+    <script src="./lib/jquery-2.1.3.min.js"></script>
     <script src="./lib/vkbeautify.js"></script>
+    <script src="../lib/three.js"></script>
 
     <script src="../../build/megaman.js"></script>
 
@@ -31,12 +32,11 @@
     <script src="./component/editor/NodeManager.js"></script>
     <script src="./component/editor/UI.js"></script>
 
-    <script src="layout-editor.js"></script>
+    <script src="scene-editor.js"></script>
 </head>
 
 <body>
-    <section class="level-editor">
-
+    <section class="scene-editor">
         <div class="workspace">
             <div class="viewport">
                 <div class="coords">
@@ -47,6 +47,16 @@
             </div>
 
             <div class="panel view locked">
+                <fieldset class="file">
+                    <div class="level">
+                        <button name="new">New Level</button>
+                        <button name="open">Load Level</button>
+                        <select name="recent">
+                        </select>
+                        <button name="loadCharacter">Load Character</button>
+                    </div>
+                </fieldset>
+
                 <fieldset class="meta">
                     <legend>Meta</legend>
                     <label class="guides"><input type="checkbox" name="guides" checked> Guides</label>
@@ -108,12 +118,8 @@
                     <div class="zoom">
                         <button name="zoom" dir="1">-</button> Zoom <button name="zoom" dir="-1">+</button>
                     </div>
-                    <label>
-                        <button name="followSelected">Follow selected</button>
-                    </label>
-                    <label>
-                        <button name="unfollow">Unfollow</button>
-                    </label>
+                    <button name="followSelected">Follow selected</button>
+                    <button name="unfollow">Unfollow</button>
 
                     <label><input type="checkbox" name="obeyPaths"> Obey Paths</label>
                 </fieldset>
@@ -131,8 +137,8 @@
                         </select>
                     </label>
 
-                    <label><button name="resetPlayer" onclick="editor.game.scene.resetPlayer();">Player Reset</button></label>
-                    <label><button name="resetPlayer" onclick="editor.game.scene.resetObjects();">Object Reset</button></label>
+                    <button name="resetPlayer" onclick="editor.game.scene.resetPlayer();">Player Reset</button>
+                    <button name="resetPlayer" onclick="editor.game.scene.resetObjects();">Object Reset</button>
                 </fieldset>
             </div>
 
@@ -147,6 +153,7 @@
                     <div class="size">
                         <label><input type="text" name="w" /> W</label>
                         <label><input type="text" name="h" /> H</label>
+                        <label><input type="text" name="scale" /> Scale</label>
                     </div>
 
                     <label><input type="checkbox" name="snap" checked /> Snap</label>
@@ -154,12 +161,12 @@
 
                 <fieldset class="create">
                     <legend>Create</legend>
-                    <label><button type="object">Object</button></label>
-                    <label><button type="cameraPath">Camera Path</button></label>
-                    <label><button type="checkpoint">Checkpoint</button></label>
-                    <label><button type="climbable">Climbable</button></label>
-                    <label><button type="deathzone">DeathZone</button></label>
-                    <label><button type="solid">Solid</button></label>
+                    <button type="object">Object</button>
+                    <button type="cameraPath">Camera Path</button>
+                    <button type="checkpoint">Checkpoint</button>
+                    <button type="climbable">Climbable</button>
+                    <button type="deathzone">DeathZone</button>
+                    <button type="solid">Solid</button>
                 </fieldset>
             </div>
 
@@ -169,17 +176,6 @@
                 </div>
             </div>
         </div>
-
-        <fieldset class="file">
-            <legend>File</legend>
-            <div class="level">
-                <button name="new">New Level</button>
-                <button name="open">Load Level</button>
-                <select name="recent">
-                </select>
-                <button name="loadCharacter">Load Character</button>
-            </div>
-        </fieldset>
 
         <fieldset class="console">
             <legend>Console</legend>

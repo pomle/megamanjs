@@ -6,6 +6,9 @@ Editor.Item = function(object, node)
     this.object = object;
     this.node = $(node);
     this.round = function(v) {
+        if (typeof v !== 'number') {
+            return undefined;
+        }
         return Engine.Math.round(v, Editor.Item.PRECISION);
     }
 }
@@ -51,6 +54,19 @@ Object.defineProperties(Editor.Item.prototype, {
         },
         set: function(v) {
             this.setComponent('z', v);
+        },
+    },
+    position: {
+        get: function() {
+            return this.model.position;
+        },
+    },
+    scale: {
+        get: function() {
+            return this.getComponent('scale');
+        },
+        set: function(v) {
+            this.setComponent('scale', v);
         },
     },
 });
