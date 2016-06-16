@@ -14,6 +14,10 @@ Editor.Item = function(object, node)
 }
 
 Editor.Item.PRECISION = 4;
+Editor.Item.prototype.MATERIAL = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    wireframe: true,
+});
 
 Object.defineProperties(Editor.Item.prototype, {
     h: {

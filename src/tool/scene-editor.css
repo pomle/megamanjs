@@ -11,15 +11,18 @@ html, body {
 }
 
 .workspace {
+    cursor: default;
     height: 100%;
     position: relative;
     width: 100%;
+    -webkit-user-select: none;
 }
 
 .workspace .viewport {
     height: 100%;
 }
 
+.workspace .viewport,
 .workspace .viewport * {
     -webkit-user-select: none;
 }
@@ -73,7 +76,6 @@ html, body {
     border-color: rgba(160,195,210,.3);
     border-radius: 0;
     bottom: 0;
-    padding: .5em 0;
     position: absolute;
     top: 0;
     width: 150px;
@@ -84,15 +86,32 @@ html, body {
     font-size: 1.2em;
 }
 
+.workspace .panel fieldset {
+    margin: .5em;
+    padding: 0;
+}
+
+.workspace .panel fieldset fieldset {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.workspace .panel fieldset fieldset legend {
+    font-size: .9em;
+}
+
 .workspace .panel label {
-    display: block;
-    margin: .5em 0;
+    align-items: center;
+    display: flex;
+    margin: .2em 0;
+}
+
+.workspace .panel label span {
+    display: flex;
 }
 
 .workspace .panel input[type=checkbox] {
-    margin: 0;
-    position: relative;
-    top: 2px;
+    margin: .2em .5em .2em 0;
 }
 
 .workspace .panel.view {

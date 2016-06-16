@@ -2,6 +2,14 @@
 
 Editor.Item.Behavior = function(object, node)
 {
+    if (object instanceof Game.objects.Solid) {
+        this.MATERIAL = this.MATERIALS.solid;
+    } else if (object instanceof Game.objects.Climbable) {
+        this.MATERIAL = this.MATERIALS.climbable;
+    } else if (object instanceof Game.objects.obstacles.DeathZone) {
+        this.MATERIAL = this.MATERIALS.deathzone;
+    }
+
     Editor.Item.Rectangle2.call(this, object, node, object.collision[0]);
     object.collision[0].geometry = this.model.geometry;
     this.moveTo(object.position);
@@ -12,15 +20,20 @@ Editor.Item.Behavior.prototype.constructor = Editor.Item.Behavior;
 
 Editor.Item.Behavior.prototype.TYPE = 'behavior';
 
-Editor.Item.Behavior.material = new THREE.MeshBasicMaterial({color: 0x00a2ff, wireframe: true});
-
-/*
-Editor.Item.Behavior.prototype.clone = function()
-{
-    var node = this.node.clone();
-    node.insertAfter(this.node);
-    return new this.constructor(new this.behavior.constructor(), node);
-}*/
+Editor.Item.Behavior.prototype.MATERIALS = {
+    climbable: new THREE.MeshBasicMaterial({
+        color: Editor.COLORS.behavior.climbable,
+        wireframe: true,
+    }),
+    deathzone: new THREE.MeshBasicMaterial({
+        color: Editor.COLORS.behavior.deathzone,
+        wireframe: true,
+    }),
+    solid: new THREE.MeshBasicMaterial({
+        color: Editor.COLORS.behavior.solid,
+        wireframe: true,
+    }),
+}
 
 Editor.Item.Behavior.prototype.update = function()
 {

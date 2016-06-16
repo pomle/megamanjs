@@ -20,7 +20,10 @@ Editor.Item.Checkpoint.prototype.constructor = Editor.Item.Checkpoint;
 Editor.Item.Checkpoint.prototype.TYPE = 'checkpoint';
 
 Editor.Item.Checkpoint.prototype.materials = {
-    checkpoint: new THREE.MeshBasicMaterial({color: 0xeb1e32, wireframe: true}),
+    checkpoint: new THREE.MeshBasicMaterial({
+        color: Editor.COLORS.checkpoint,
+        wireframe: true
+    }),
 }
 
 Editor.Item.Checkpoint.prototype.update = function()

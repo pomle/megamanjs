@@ -44,12 +44,14 @@ Editor.UI = function(editor)
         });
 
     this.setupWorkspace();
+    this.setupPanel();
     this.setupConsole();
     this.setupFileView();
     this.setupView();
     this.setupViewport();
     this.setupPlayback();
-    this.setupItemView();
+    this.setupItemSet();
+    this.setupProperties();
     this.setupPalette();
 }
 
@@ -98,7 +100,7 @@ Editor.UI.prototype.createItem = function(type)
         let s = geometryInput.split('/')[0].split('x'),
             m = parseFloat(geometryInput.split('/')[1]);
 
-        let size = {
+        const size = {
             x: parseFloat(s[0]),
             y: parseFloat(s[1]),
             sx: 1,
@@ -114,13 +116,6 @@ Editor.UI.prototype.createItem = function(type)
         const objectNode = factory.nodeFactory.createObject(size);
         return editor.componentFactory.createObject(objectNode);
     }
-}
-
-Editor.UI.prototype.freeCamera = function()
-{
-unfollow = this.view.camera.unfollow;
-
-    unfollow.trigger('click');
 }
 
 Editor.UI.prototype.mouseSelectItem = function(event, items)
@@ -428,9 +423,32 @@ Editor.UI.prototype.setupFileView = function()
     this.file = element;
 }
 
-Editor.UI.prototype.setupItemView = function()
+Editor.UI.prototype.setupItemSet = function()
 {
-    const I = this.item = this.workspace.find('.item');
+    const C = this.create = this.panel.find('.create');
+    C.find('button').on('click', (e) => {
+        const button = $(e.target);
+        const type = button.attr('type');
+        button.blur();
+        this.createItem(type).then(item => {
+            this.editor.items.insert(item);
+        });
+    });
+
+    const S = this.itemset = this.panel.find('.set');
+    S.unlock = S.find('button[name=unlockAll]').on('click', e => {
+        const items = this.editor.items;
+        items.all.forEach(item => {
+            items.unlock(item);
+        });
+    });
+
+
+}
+
+Editor.UI.prototype.setupProperties = function()
+{
+    const I = this.item = this.panel.filter('.item');
 
     I.inputs = I.find('.properties input[type=text]');
     I.inputs.on('keyup change', e => {
@@ -471,16 +489,7 @@ Editor.UI.prototype.setupItemView = function()
         });
     }
     I.snap = I.find('.properties input[name=snap]').on('change', e => {
-        this.editor.grid.snap = this.checked;
-    });
-
-    I.create = I.find('.create');
-    I.create.find('button').on('click', (e) => {
-        const type = $(e.target).attr('type');
-        this.createItem(type).then(item => {
-            console.log(item);
-            this.editor.items.insert(item);
-        });
+        this.editor.grid.snap = e.target.checked;
     });
 }
 
@@ -522,6 +531,11 @@ Editor.UI.prototype.setupPalette = function()
     }
 }
 
+Editor.UI.prototype.setupPanel = function()
+{
+    this.panel = this.workspace.find('.panel');
+}
+
 Editor.UI.prototype.setupPlayback = function()
 {
     const P = this.playback = this.workspace.find('.view');
@@ -543,7 +557,7 @@ Editor.UI.prototype.setupPlayback = function()
 
 Editor.UI.prototype.setupView = function(node)
 {
-    const V = this.view = this.workspace.find('.view');
+    const V = this.view = this.panel.filter('.view');
 
     this.setupCamera();
 
@@ -571,30 +585,6 @@ Editor.UI.prototype.setupView = function(node)
         items.forEach(item => {
             this.editor.items[func](item);
         });
-    });
-    V.layers.each(function() {
-        let node = this,
-            what = $(this).attr('what');
-
-        node.toggle = function() {
-            this.checked = !this.checked;
-            $(this).trigger('change');
-        }
-        node.on = function() {
-            if (!this.chacked) {
-                this.checked = true;
-                $(this).trigger('change');
-            }
-        }
-        node.off = function() {
-            if (this.chacked) {
-                this.checked = false;
-                $(this).trigger('change');
-            }
-        }
-        if (what === 'show') {
-            V.layers[this.name] = node;
-        }
     });
 }
 
@@ -697,7 +687,6 @@ Editor.UI.prototype.setupViewport = function()
                         if (!e.ctrlKey) {
                             items.deselect();
                         }
-                        editor.activeMode = editor.modes.edit;
                         items.select(match.item);
 
                         if (match.item.object instanceof Game.objects.Character) {
@@ -708,7 +697,6 @@ Editor.UI.prototype.setupViewport = function()
                     return;
                 }
                 else if (!e.ctrlKey) {
-                    editor.activeMode = editor.modes.view;
                     items.deselect();
                 }
             }
@@ -729,7 +717,7 @@ Editor.UI.prototype.setupViewport = function()
             if (item && item.item.TYPE === "object") {
                 editor.activeMode = editor.modes.paint;
                 const mat = item.item.overlay.material;
-                mat.color = new THREE.Color(Editor.Colors.overlayPaint);
+                mat.color = new THREE.Color(Editor.COLORS.overlayPaint);
                 mat.needsUpdate = true;
             }
         })
