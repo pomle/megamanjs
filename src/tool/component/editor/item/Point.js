@@ -23,12 +23,13 @@ Editor.Item.Point.prototype.setComponent = function(name, value)
 
 Editor.Item.Point.prototype.updateNode = function()
 {
-    let n = this.node;
-
-    n.attr({
-        'x': this.round(this.point.x),
-        'y': this.round(this.point.y),
-        'z': this.round(this.point.z),
+    const n = this.node;
+    Object.keys(this.point).forEach(key => {
+        if (this.point[key] == null) {
+            n.attr(key, null);
+        } else {
+            n.attr(key, this.round(this.point[key]));
+        }
     });
 }
 
