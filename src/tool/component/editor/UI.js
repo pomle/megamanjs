@@ -169,75 +169,86 @@ Editor.UI.prototype.paintUV = function(item, faceIndex)
         return;
     }
 
-    let object = item.object,
-        geometry = object.geometry,
-        node = item.sourceNode,
-        geometryNode = $(node).find('> geometry'),
-        faceNode = undefined;
+    if (!item.paintData) {
+        const faceMap = new Map;
+        const indexMap = new Map;
+        $(item.sourceNode).find('> geometry > face').each(function() {
+            const name = this.getAttribute('animation');
+            faceMap.set(name, this);
 
-    geometryNode.find('> face').each(function() {
-        let node = $(this),
-            nodeName = node.attr('animation'),
-            indexJSON = node.attr('index'),
-            indices = indexJSON ? JSON.parse(indexJSON) : [];
+            const index = JSON.parse(this.getAttribute('index')) || [];
+            indexMap.set(this, index);
+        });
+        item.paintData = {
+            faceMap,
+            indexMap,
+        };
+    }
 
-        for (;;) {
-            let existingIndex = indices.indexOf(faceIndex);
-            if (existingIndex === -1) {
-                break;
-            }
-            console.log("Spliced faceIndex %d at index %d from %s", faceIndex, existingIndex, nodeName);
-            indices.splice(existingIndex, 1);
-        }
+    const faceMap = item.paintData.faceMap;
+    const indexMap = item.paintData.indexMap;
 
-        node.attr('index', JSON.stringify(indices));
-
-        if (nodeName === paletteItem.name) {
-            faceNode = node;
+    // Delete all previous face index and find face node if already in use.
+    indexMap.forEach((indices, face) => {
+        const filtered = indices.filter(index => index !== faceIndex);
+        if (filtered.length !== indices.length) {
+            filtered.needsUpdate = true;
+            indexMap.set(face, filtered);
         }
     });
 
-    if (faceNode === undefined) {
-        faceNode = $('<face>', editor.document).attr({
-            'animation': paletteItem.name,
+    if (!faceMap.has(paletteItem.name)) {
+        const name = paletteItem.name;
+        const node = $('<face>', this.editor.document).attr({
+            'animation': name,
         });
-        geometryNode.append(faceNode);
+        $(item.sourceNode).find('> geometry').append(node);
+        const face = node[0];
+        faceMap.set(name, face);
+        indexMap.set(face, []);
     }
 
-    let indexJSON = faceNode.attr('index'),
-        indices = indexJSON ? JSON.parse(indexJSON) : [];
+    const face = faceMap.get(paletteItem.name);
+    const indices = indexMap.get(face);
+    indices.push(faceIndex);
+    indices.needsUpdate = true;
 
-    if (indices.indexOf(faceIndex) === -1) {
-        indices.push(faceIndex);
-        faceNode.attr('index', JSON.stringify(indices));
-    }
+    indexMap.forEach((indices, face) => {
+        if (indices.needsUpdate) {
+            if (indices.length === 0) {
+                $(face).removeAttr('index');
+            } else {
+                $(face).attr('index', JSON.stringify(indices));
+            }
+            indices.needsUpdate = false;
+        }
+    });
 
-    let animators = object.animators,
-        selectedAnimator = undefined;
+    const animators = item.object.animators;
+    let selectedAnimator = undefined;
     for (let i = 0, l = animators.length; i !== l; ++i) {
-        let animator = animators[i];
+        const animator = animators[i];
         for (;;) {
             let i = animator.indices.indexOf(faceIndex);
             if (i === -1) {
                 break;
             }
-            console.log("Clear index %d", i);
+            console.info("Clear index %d", i);
             animator.indices.splice(i, 1);
         }
-
         if (animator.name === paletteItem.name) {
             selectedAnimator = animator;
         }
     }
 
+    console.info("Adding faceIndex %d to animator", faceIndex);
     if (selectedAnimator === undefined) {
-        console.log("Adding faceIndex to animator", faceIndex);
-        object.geometry.faceVertexUvs[0][faceIndex] = paletteItem.uvCoords[0];
-        object.geometry.faceVertexUvs[0][faceIndex+1] = paletteItem.uvCoords[1];
-        object.geometry.uvsNeedUpdate = true;
+        const geometry = item.object.geometry;
+        geometry.faceVertexUvs[0][faceIndex] = paletteItem.uvCoords[0];
+        geometry.faceVertexUvs[0][faceIndex+1] = paletteItem.uvCoords[1];
+        geometry.uvsNeedUpdate = true;
     }
     else {
-        console.log("Adding faceIndex to animator", faceIndex);
         selectedAnimator.indices.push(faceIndex);
         selectedAnimator._currentIndex = undefined;
         selectedAnimator.update();
