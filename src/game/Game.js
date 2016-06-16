@@ -14,19 +14,18 @@ const Game = class Game
         });
 
         this.player = new Game.Player();
+
+        this.handleInputEvent = this.handleInputEvent.bind(this);
     }
-    attachController()
+    attachController(element)
     {
-        window.addEventListener('keydown', this.handleInputEvent.bind(this));
-        window.addEventListener('keyup', this.handleInputEvent.bind(this));
+        element.addEventListener('keydown', this.handleInputEvent);
+        element.addEventListener('keyup', this.handleInputEvent);
     }
     attachToElement(element)
     {
         this.element = element;
-
         this.adjustResolution();
-        this.attachController();
-
         this.element.appendChild(this.renderer.domElement);
     }
     adjustAspectRatio()
@@ -40,7 +39,7 @@ const Game = class Game
     }
     adjustResolution()
     {
-        var rect = this.element.getBoundingClientRect();
+        const rect = this.element.getBoundingClientRect();
         this.setResolution(rect.width, rect.height);
     }
     handleInputEvent(event)

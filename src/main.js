@@ -8,6 +8,7 @@
     const screenElement = document.getElementById('screen');
 
     game.attachToElement(screenElement);
+    game.attachController(window);
 
     game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
         if (scene instanceof Game.scenes.Level) {
