@@ -222,6 +222,10 @@ Editor.prototype.buildPalette = function(parser)
 {
     this.document.find('> objects').each(function() {
         const txtNode = $(this).find('> textures > texture');
+        if (txtNode.length === 0) {
+            return;
+        }
+
         const url = parser.resolveURL(txtNode[0]);
         const totalW = parseInt(txtNode.attr('w'), 10);
         const totalH = parseInt(txtNode.attr('h'), 10);
