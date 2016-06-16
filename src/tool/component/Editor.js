@@ -88,8 +88,6 @@ Editor.prototype.clear = function()
     this.items = new Editor.ItemSet(this);
 
     this.guides = new THREE.Scene();
-    var light = new THREE.AmbientLight(0xffffff);
-    this.guides.add(light);
 
     this.guides.add(this.marker);
     this.guides.add(this.grid);
