@@ -16,35 +16,30 @@ Editor.UI = function(editor)
             }
         })
         .on('keydown keyup', e => {
-            var k = e.which,
-                t = e.type,
-                c = e.ctrlKey,
-                d = (t === 'keydown'),
-                u = (t === 'keyup');
+            const target = $(e.target);
+            const key = e.which;
+            const type = e.type;
+            const down = (type === 'keydown');
+            const up = (type === 'keyup');
 
-            if (k === 27 && d) { // ESC (reset)
+            if (down && key === 27) { // ESC (reset)
                 $(':input').blur();
                 this.editor.items.deselect();
+                this.editor.scene.input.disable();
                 this.editor.activeMode = editor.modes.view;
                 this.console.hide();
                 this.palette.hide();
             }
-            else if ($(e.target).is(':input')) {
-                return;
-            }
-            else {
-                if (d && k === 107) { // -
+            else if (!target.is(':input')) {
+                if (down && key === 107) { // -
                     e.preventDefault();
                     editor.camera.zoomOut();
-                    return;
-                }
-                if (d && k === 109) { // +
+                } else if (down && key === 109) { // +
                     e.preventDefault();
                     editor.camera.zoomIn();
-                    return;
+                } else {
+                    this.editor.activeMode(e);
                 }
-
-                this.editor.activeMode(e);
             }
         });
 

@@ -174,6 +174,7 @@ Editor.prototype.setupDocument = function(doc)
 Editor.prototype.setupScene = function(scene)
 {
     this.scene = scene;
+    this.scene.input.disable();
     this.scene.timer.isSimulating = false;
     this.scene.world.updateTime(0);
     this.game.setScene(scene);
