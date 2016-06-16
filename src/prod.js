@@ -5,6 +5,7 @@
     const gameElement = document.getElementById('game');
     const screenElement = document.getElementById('screen');
 
+    game.attachController(window);
     game.attachToElement(screenElement);
 
     const progress = gameElement.querySelector('.progress-bar > .progress');
