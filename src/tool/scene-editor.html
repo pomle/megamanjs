@@ -37,7 +37,7 @@
 
 <body>
     <section class="scene-editor">
-        <div class="workspace">
+        <section class="workspace">
             <div class="viewport">
                 <div class="coords">
                     <div class="x">X <span class="value">-</span></div>
@@ -140,6 +140,11 @@
                     <button name="resetPlayer" onclick="editor.game.scene.resetPlayer();">Player Reset</button>
                     <button name="resetPlayer" onclick="editor.game.scene.resetObjects();">Object Reset</button>
                 </fieldset>
+
+                <fieldset class="view">
+                    <legend>View</legend>
+                    <button name="toggleConsole">Console</button>
+                </fieldset>
             </div>
 
             <div class="panel item locked">
@@ -175,14 +180,17 @@
 
                 </div>
             </div>
-        </div>
+        </section>
 
-        <fieldset class="console">
-            <legend>Console</legend>
-            <button name="generate-xml">Generate</button>
-            <button name="reload-xml">Reload</button>
-            <textarea name="console"></textarea>
-        </fieldset>
+        <section class="console hidden">
+            <div class="content">
+                <button name="close">Close</button>
+                <button name="generate-xml">Generate XML</button>
+                <button name="reload-xml">Load Input</button>
+
+                <textarea name="console"></textarea>
+            </div>
+        </section>
     </section>
 </body>
 </html>

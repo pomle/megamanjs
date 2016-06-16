@@ -59,7 +59,8 @@ var Editor = function()
         return vec;
     }
 
-    this.attachGame(new Game());
+    this.attachGame(new Game);
+    this.renderOverlays = this.renderOverlays.bind(this);
 }
 
 Editor.Colors = {
@@ -74,21 +75,27 @@ Editor.Colors = {
 
 Editor.prototype.attachGame = function(game)
 {
-    this.game = game;
     game.renderer.autoClear = false;
     game.attachToElement(this.ui.viewport[0]);
     game.events.bind(game.EVENT_SCENE_CREATE, scene => {
         const timer = scene.timer;
-        timer.events.bind(timer.EVENT_RENDER, this.renderOverlays.bind(this));
+        timer.events.bind(timer.EVENT_RENDER, this.renderOverlays);
     });
+    game.events.bind(game.EVENT_SCENE_DESTROY, scene => {
+        const timer = scene.timer;
+        timer.events.unbind(timer.EVENT_RENDER, this.renderOverlays);
+    });
+    this.game = game;
 }
 
 Editor.prototype.clear = function()
 {
+    this.game.unsetScene();
+    this.scene = undefined;
+
     this.items = new Editor.ItemSet(this);
 
     this.guides = new THREE.Scene();
-
     this.guides.add(this.marker);
     this.guides.add(this.grid);
 
@@ -103,8 +110,6 @@ Editor.prototype.clear = function()
 
     this.layers.guides = this.guides;
     this.layers.overlays = this.overlays;
-
-    this.scene = undefined;
 
     this.ui.palette.html('');
 }
