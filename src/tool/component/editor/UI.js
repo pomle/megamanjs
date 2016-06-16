@@ -495,8 +495,8 @@ Editor.UI.prototype.setupViewport = function(node)
                 }
             }
             else if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
-                const selected = editor.items.selected[0];
-                const item = ui.mouseSelectItem(e.originalEvent, this, [selected]);
+                const selected = editor.items.selected;
+                const item = ui.mouseSelectItem(e.originalEvent, [selected.first]);
                 if (item) {
                     let faceIndex = item.intersect.faceIndex;
                     faceIndex -= faceIndex % 2;
@@ -538,7 +538,7 @@ Editor.UI.prototype.setupViewport = function(node)
             mouse.event = e;
 
             if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
-                const match = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
+                const match = ui.mouseSelectItem(e.originalEvent, [editor.items.selected.first]);
                 if (match) {
                     const faceIndex = match.intersect.faceIndex;
                     ui.paintUv(match.item, faceIndex - faceIndex % 2);
@@ -548,7 +548,7 @@ Editor.UI.prototype.setupViewport = function(node)
 
             if (e.buttons === 1) {
                 const items = editor.items;
-                const match = ui.mouseSelectItem(e.originalEvent, this, items.interactable);
+                const match = ui.mouseSelectItem(e.originalEvent, items.interactable);
                 if (match) {
                     mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent, match.item.position));
                     if (!items.selected.has(match.item)) {
@@ -583,7 +583,7 @@ Editor.UI.prototype.setupViewport = function(node)
         .on('dblclick', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            const item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
+            const item = ui.mouseSelectItem(e.originalEvent, editor.items.interactable);
             if (item && item.item.TYPE === "object") {
                 editor.activeMode = editor.modes.paint;
                 const mat = item.item.overlay.material;
@@ -670,18 +670,14 @@ Editor.UI.prototype.freeCamera = function()
     unfollow.trigger('click');
 }
 
-Editor.UI.prototype.mouseSelectItem = function(event, viewport, items)
+Editor.UI.prototype.mouseSelectItem = function(event, items)
 {
-    let editor = this.editor,
-        vector = new THREE.Vector3(0,0,0),
-        raycaster = new THREE.Raycaster(),
-        world = editor.game.scene.world,
-        camera = editor.camera.realCamera,
-        bounds = viewport.getBoundingClientRect();
-
-    vector.set((event.layerX / bounds.width) * 2 - 1,
-               -(event.layerY / bounds.height) * 2 + 1,
-               -1); // z = - 1 important!
+    const bounds = this.viewport[0].getBoundingClientRect();
+    const raycaster = new THREE.Raycaster();
+    const camera = this.editor.camera.realCamera;
+    const vector = new THREE.Vector3((event.layerX / bounds.width) * 2 - 1,
+                                    -(event.layerY / bounds.height) * 2 + 1,
+                                    -1); // z = - 1 important!
 
     vector.unproject(camera);
     vector.sub(camera.position);
