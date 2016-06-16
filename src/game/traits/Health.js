@@ -5,7 +5,9 @@ Game.traits.Health = function()
 
     this.immune = false;
 
-    this._lastValue = undefined;
+    this.events.bind(this.EVENT_CHANGE, () => {
+        this._trigger(this.EVENT_HEALTH_CHANGED, [this]);
+    });
 }
 
 Engine.Util.extend(Game.traits.Health, Engine.Trait);
@@ -31,11 +33,6 @@ Game.traits.Health.prototype.__collides = function(withObject)
 
 Game.traits.Health.prototype.__timeshift = function healthUpdate()
 {
-    if (this._lastValue !== this._value) {
-        this._trigger(this.EVENT_HEALTH_CHANGED, [this]);
-        this._lastValue = this._value;
-    }
-
     if (this.depleted) {
         this._host.kill();
     }
