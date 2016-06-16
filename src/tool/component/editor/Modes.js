@@ -2,9 +2,7 @@
 
 Editor.Modes = function(editor)
 {
-    this.input = function(e)
-    {
-    }
+    this.editor = editor;
 
     this.edit = function(e)
     {
@@ -81,14 +79,10 @@ Editor.Modes = function(editor)
         });
     };
 
-    this.paint = function(e)
-    {
-        if (e.type === 'mousedown') {
-
-        }
-        else if (e.type === 'keydown') {
+    this.paint = (e) => {
+        if (e.type === 'keydown') {
             if (e.which === 80) { // P
-                editor.ui.palette.toggleClass('hidden');
+                this.editor.ui.palette.toggle();
             }
         }
     }
