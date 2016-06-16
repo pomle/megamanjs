@@ -2,74 +2,41 @@
 
 var Editor = function()
 {
+    this.document = undefined;
+    this.game = undefined;
+    this.scene = undefined;
+
     this.camera = new Editor.Camera(this);
+    this.clipboard = new Editor.Clipboard();
+    this.componentFactory = new Editor.ComponentFactory(this);
+    this.modes = new Editor.Modes(this);
+    this.ui = new Editor.UI(this);
+
+    this.activeMode = this.modes.view;
 
     this.storage = localStorage;
 
-    this.clipboard = new Editor.Clipboard();
-
-    this.componentFactory = new Editor.ComponentFactory(this);
-
-    this.document = undefined;
-
-    this.modes = new Editor.Modes(this);
-    this.activeMode = this.modes.view;
-
-    this.game = undefined;
-
-    this.grid = new THREE.GridHelper(32, 1);
-    this.grid.setColors(0x00ffff, 0xa0c3d2);
-    this.grid.rotation.x = Math.PI / 2;
-    this.grid.material.opacity = .22;
-    this.grid.material.transparent = true;
-    this.grid.scale.multiplyScalar(8);
-    this.grid.snap = false;
-
-    this.itemFactory = new Editor.ItemFactory();
-
+    this.grid = this.createGrid();
     this.marker = this.createMarker();
 
-    this.scene = undefined;
-
-    this.ui = new Editor.UI(this);
-
-
-    let grid = this.grid,
-        ui = this.ui;
-
-    this.marker.moveTo = function(pos) {
-        this.position.copy(pos);
-        if (grid.snap) {
-            grid.snapVector(this.position);
-        }
-        this.position.z = 0;
-        ui.viewport.coords.find('.x > .value').text(this.position.x.toFixed(2));
-        ui.viewport.coords.find('.y > .value').text(this.position.y.toFixed(2));
-    }
-
-    this.grid.snapVector = function(vec) {
-        let components = ['x','y'],
-            round
-        for (let c of components) {
-            let s = this.scale[c],
-                v = vec[c],
-                i = s * Math.round(v / s);
-            vec[c] = Engine.Math.round(i, 8);
-        }
-        return vec;
-    }
-
     this.attachGame(new Game);
+
     this.renderOverlays = this.renderOverlays.bind(this);
 }
 
-Editor.Colors = {
-    behavior: 0xaf2896,
-    cameraConstraint: 0x00ffff,
-    cameraWindow: 0x5ff550,
-    checkpoint: 0xeb1e32,
+Editor.COLORS = {
+    behavior: {
+        deathzone: 0xeb1e32,
+        climbable: 0xfff600,
+        solid: 0xaf2896,
+    },
+    camera: {
+        constraint: 0x00ffff,
+        window: 0xff7800,
+    },
+    checkpoint: 0xff0066,
     marker: 0xf037a5,
-    overlayEdit: 0x5ff550,
+    overlayEdit: 0x00ff00,
     overlayPaint: 0x509bf5,
 }
 
@@ -114,13 +81,36 @@ Editor.prototype.clear = function()
     this.ui.palette.html('');
 }
 
+Editor.prototype.createGrid = function()
+{
+    const grid = new THREE.GridHelper(32, 1);
+    grid.setColors(0x00ffff, 0xa0c3d2);
+    grid.rotation.x = Math.PI / 2;
+    grid.material.opacity = .22;
+    grid.material.transparent = true;
+    grid.scale.multiplyScalar(8);
+    grid.snap = false;
+    grid.snapVector = function(vec) {
+        const components = ['x','y'];
+        let round;
+        for (let c of components) {
+            let s = this.scale[c],
+                v = vec[c],
+                i = s * Math.round(v / s);
+            vec[c] = Engine.Math.round(i, 8);
+        }
+        return vec;
+    }
+    return grid;
+}
+
 Editor.prototype.createMarker = function()
 {
-    var material = new THREE.LineBasicMaterial({
+    const material = new THREE.LineBasicMaterial({
         color: 0xffffff
     });
 
-    var geometry = new THREE.Geometry();
+    const geometry = new THREE.Geometry();
     geometry.vertices.push(
         new THREE.Vector3(-10, 0, 0),
         new THREE.Vector3(10, 0, 0),
@@ -129,7 +119,18 @@ Editor.prototype.createMarker = function()
         new THREE.Vector3(0, 10, 0)
     );
 
-    return new THREE.Line( geometry, material );
+    const marker = new THREE.Line(geometry, material);
+    marker.moveTo = pos => {
+        marker.position.copy(pos);
+        if (this.grid.snap) {
+            this.grid.snapVector(this.position);
+        }
+        marker.position.z = 0;
+        this.ui.viewport.coords.find('.x > .value').text(this.position.x.toFixed(2));
+        this.ui.viewport.coords.find('.y > .value').text(this.position.y.toFixed(2));
+    }
+
+    return marker;
 }
 
 Editor.prototype.getXML = function()
@@ -188,11 +189,10 @@ Editor.prototype.setupObjects = function(parser)
         this.items.add(i);
     });
 
-    /*for (let _item of parser.behaviors) {
-        let item = new Editor.Item.Behavior(_item.object, _item.node);
-        editor.items.add(item);
-    }*/
-
+    parser._bevahiorObjects.forEach(o => {
+        const b = new Editor.Item.Behavior(o.instance, o.node);
+        this.items.add(b);
+    });
 }
 
 Editor.prototype.setupSceneCheckpoints = function()

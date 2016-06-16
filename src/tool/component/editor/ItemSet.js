@@ -38,15 +38,24 @@ Object.defineProperties(Editor.ItemSet.prototype, {
     },
 });
 
+Editor.ItemSet.prototype._getLayer = function(type)
+{
+    if (!this.layers[type]) {
+        const layer = new Set;
+        layer.scene = new THREE.Scene;
+        this.layers[type] = layer;
+    }
+    return this.layers[type];
+}
+
 Editor.ItemSet.prototype.add = function(item)
 {
     item.children.forEach(child => {
         this.add(child);
     });
 
-    const object = item.object;
-    if (object instanceof Engine.Object) {
-        this.world.addObject(object);
+    if (item.object instanceof Engine.Object) {
+        this.world.addObject(item.object);
     }
 
     if (item.TYPE) {
@@ -123,6 +132,7 @@ Editor.ItemSet.prototype.deselect = function(item)
             inputs.update([...this.selected][0]);
         } else {
             if  (this.selected.size === 0) {
+                this.editor.activeMode = this.editor.modes.view;
                 this.selected.first = null;
             }
             inputs.clear();
@@ -135,8 +145,9 @@ Editor.ItemSet.prototype.select = function(item)
     this.deselect(item);
     this.selected.add(item);
     this.selected.first = item;
+    this.editor.activeMode = this.editor.modes.edit;
 
-    item.overlay = new THREE.WireframeHelper(item.model, 0x00ff00);
+    item.overlay = new THREE.WireframeHelper(item.model, Editor.COLORS.overlayEdit);
     this.editor.overlays.add(item.overlay);
 
     const ui = this.editor.ui;

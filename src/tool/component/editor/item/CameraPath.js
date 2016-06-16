@@ -7,16 +7,14 @@ Editor.Item.CameraPath = function(cameraPath, node)
 
     this.model = new THREE.Mesh(
         new THREE.PlaneGeometry(100, 100, 1, 1),
-        this.materials.window
-    );
+        this.MATERIALS.window);
 
-    let constraint = new Editor.Item.Rectangle(cameraPath, $(node).find('> constraint'),
+    const constraint = new Editor.Item.Rectangle(cameraPath, $(node).find('> constraint'),
         cameraPath.constraint[0], cameraPath.constraint[1]);
 
     constraint.model = new THREE.Mesh(
         new THREE.PlaneGeometry(25, 25, 1, 1),
-        this.materials.constraint
-    );
+        this.MATERIALS.constraint);
 
     this.addChild(constraint);
 
@@ -29,7 +27,13 @@ Editor.Item.CameraPath.prototype.constructor = Editor.Item.CameraPath;
 
 Editor.Item.CameraPath.prototype.TYPE = 'cameraPath';
 
-Editor.Item.CameraPath.prototype.materials = {
-    constraint: new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true}),
-    window: new THREE.MeshBasicMaterial({color: 0x5ff550, wireframe: true}),
+Editor.Item.CameraPath.prototype.MATERIALS = {
+    constraint: new THREE.MeshBasicMaterial({
+        color: Editor.COLORS.camera.constraint,
+        wireframe: true,
+    }),
+    window: new THREE.MeshBasicMaterial({
+        color: Editor.COLORS.camera.window,
+        wireframe: true,
+    }),
 }
