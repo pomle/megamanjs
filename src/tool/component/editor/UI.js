@@ -598,6 +598,29 @@ Editor.UI.prototype.setupView = function(node)
         items.forEach(item => {
             this.editor.items[func](item);
         });
+    }).each(function() {
+        let node = this,
+            what = $(this).attr('what');
+
+        node.toggle = function() {
+            this.checked = !this.checked;
+            $(this).trigger('change');
+        }
+        node.on = function() {
+            if (!this.checked) {
+                this.checked = true;
+                $(this).trigger('change');
+            }
+        }
+        node.off = function() {
+            if (this.checked) {
+                this.checked = false;
+                $(this).trigger('change');
+            }
+        }
+        if (what === 'show') {
+            V.layers[this.name] = node;
+        }
     });
 }
 

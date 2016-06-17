@@ -179,16 +179,9 @@ Editor.ItemSet.prototype.hide = function(item)
     item.children.forEach(child => {
         this.hide(child);
     });
-
     this.deselect(item);
-
-    item.model.visible = false;
     this.visible.delete(item);
-
-    const toggler = this.editor.ui.view.layers[item.TYPE];
-    if (toggler) {
-        toggler.checked = false;
-    }
+    item.model.visible = false;
 }
 
 Editor.ItemSet.prototype.show = function(item)
@@ -196,7 +189,11 @@ Editor.ItemSet.prototype.show = function(item)
     item.children.forEach(child => {
         this.show(child);
     });
-
-    item.model.visible = true;
     this.visible.add(item);
+    item.model.visible = true;
+
+    const toggler = this.editor.ui.view.layers[item.TYPE];
+    if (toggler) {
+        toggler.checked = true;
+    }
 }
