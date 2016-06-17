@@ -9,7 +9,7 @@ scripts.forEach((src) => {
   js += fs.readFileSync(__dirname + '/../src/' + src, 'utf8') + '\n';
 });
 
-global.THREE = require('THREE');
+global.THREE = require('three');
 vm.runInThisContext(js);
 
 process.stdout.write(js);
