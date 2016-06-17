@@ -713,10 +713,7 @@ Editor.UI.prototype.setupViewport = function()
                     const faceIndex = match.intersect.faceIndex;
                     ui.paintUV(match.item, faceIndex - faceIndex % 2);
                 }
-                return;
-            }
-
-            if (e.buttons === 1) {
+            } else if (e.buttons === 1) {
                 const items = editor.items;
                 const match = ui.mouseSelectItem(e.originalEvent, items.interactable);
                 if (match) {
@@ -736,14 +733,11 @@ Editor.UI.prototype.setupViewport = function()
                     return;
                 }
                 else if (!e.ctrlKey) {
+                    const pos = viewport.getPositionAtEvent(e.originalEvent);
+                    mouse.pos.copy(pos);
+                    viewport.placeMarker(pos);
                     items.deselect();
                 }
-            }
-
-            if (e.buttons === 1) {
-                const pos = viewport.getPositionAtEvent(e.originalEvent);
-                mouse.pos.copy(pos);
-                viewport.placeMarker(pos);
             }
         })
         .on('contextmenu', function(e) {
