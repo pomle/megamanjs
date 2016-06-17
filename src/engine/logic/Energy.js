@@ -102,10 +102,10 @@ Object.defineProperties(Engine.logic.Energy.prototype, {
 
 Engine.logic.Energy.prototype.deplete = function()
 {
-    this._value = this._min;
+    this.amount = this._min;
 }
 
 Engine.logic.Energy.prototype.fill = function()
 {
-    this._value = this._max;
+    this.amount = this._max;
 }

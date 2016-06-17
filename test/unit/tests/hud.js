@@ -59,6 +59,24 @@ describe('Hud', function() {
       expect(hud.quantify(0.99999998)).to.be.within(0.9642857142857142, 0.9642857142857143);
     });
   });
+  describe('showHud() / hideHud()', function() {
+    const hud = new Hud;
+    const game = new GameMock;
+    const dom = new NodeMock;
+    hud.attach(game, dom);
+    describe('showHud()', function() {
+      it('should set a class on attached element', function() {
+        hud.showHud();
+        expect(dom.classList.has('visible')).to.be(true);
+      });
+    });
+    describe('hideHud()', function() {
+      it('should remove a class from attached element', function() {
+        hud.hideHud();
+        expect(dom.classList.has('visible')).to.be(false);
+      });
+    });
+  });
   describe('setAmount()', function() {
     it('should set height style and current value on element', function() {
       const hud = new Hud;
@@ -72,24 +90,44 @@ describe('Hud', function() {
   describe('setAmountInteractive()', function() {
     it('should pass arguments directly to setAmount() when new value is lower', function() {
       const hud = new Hud;
-      const node = new NodeMock;
+      const game = new GameMock;
+      const dom = new NodeMock;
+      hud.attach(game, dom);
+      const node = dom.getQueries()[0].node;
+      hud.showHud();
       hud.setAmount(node, .5);
       hud.setAmount = sinon.spy();
       hud.setAmountInteractive(node, .3);
       expect(hud.setAmount.callCount).to.be(1);
       expect(hud.setAmount.lastCall.args).to.eql([node, .3]);
     });
+    it('should pass arguments directly to setAmount() when Hud is hidden', function() {
+      const hud = new Hud;
+      const game = new GameMock;
+      const dom = new NodeMock;
+      hud.attach(game, dom);
+      const node = dom.getQueries()[0].node;
+      hud.showHud();
+      hud.hideHud();
+      hud.setAmount(node, .5);
+      hud.setAmount = sinon.spy();
+      hud.setAmountInteractive(node, 1);
+      expect(hud.setAmount.callCount).to.be(1);
+      expect(hud.setAmount.lastCall.args).to.eql([node, 1]);
+    });
     it('should call setAmount iteratively for every timer timepass event until matching', function() {
       const hud = new Hud;
       const timer = new Timer;
-      hud.game = {
-        scene: {
-          resumeSimulation: sinon.spy(),
-          pauseSimulation: sinon.spy(),
-          timer: timer,
-        },
+      const game = new GameMock;
+      game.scene = {
+        resumeSimulation: sinon.spy(),
+        pauseSimulation: sinon.spy(),
+        timer: timer,
       };
-      const node = new NodeMock;
+      const dom = new NodeMock;
+      hud.attach(game, dom);
+      hud.showHud();
+      const node = dom.getQueries()[0].node;
       hud.setAmount(node, .5);
       hud.setAmountInteractive(node, .7);
       hud.setAmount = sinon.spy();

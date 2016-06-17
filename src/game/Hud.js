@@ -12,6 +12,10 @@ Game.Hud = class Hud
         this.onWeaponEquip = this.onWeaponEquip.bind(this);
         this.onSceneCreate = this.onSceneCreate.bind(this);
         this.onSceneDestroy = this.onSceneDestroy.bind(this);
+        this.hideHud = this.hideHud.bind(this);
+        this.showHud = this.showHud.bind(this);
+
+        this.hudVisible = false;
 
         this.currentWeapon = null;
     }
@@ -28,22 +32,23 @@ Game.Hud = class Hud
     }
     detach()
     {
-        this.dom = {};
-
         const game = this.game;
         game.events.unbind(game.EVENT_SCENE_CREATE, this.onSceneCreate);
         game.events.unbind(game.EVENT_SCENE_DESTROY, this.onSceneDestroy);
         this.game = null;
+        this.dom = {};
     }
     hideHud()
     {
         if (this.dom.hud) {
+            this.hudVisible = false;
             this.dom.hud.classList.remove('visible');
         }
     }
     showHud()
     {
         if (this.dom.hud) {
+            this.hudVisible = true;
             this.dom.hud.classList.add('visible');
         }
     }
@@ -58,7 +63,8 @@ Game.Hud = class Hud
     onSceneCreate(scene)
     {
         if (scene instanceof Game.scenes.Level) {
-            this.showHud();
+            scene.events.bind(scene.EVENT_PLAYER_RESET, this.showHud);
+            scene.events.bind(scene.EVENT_PLAYER_DEATH, this.hideHud);
             const player = scene.player.character;
             if (player) {
                 player.events.bind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
@@ -69,7 +75,8 @@ Game.Hud = class Hud
     onSceneDestroy(scene)
     {
         if (scene instanceof Game.scenes.Level) {
-            this.hideHud();
+            scene.events.unbind(scene.EVENT_PLAYER_RESET, this.showHud);
+            scene.events.unbind(scene.EVENT_PLAYER_DEATH, this.hideHud);
             const player = scene.player.character;
             if (player) {
                 player.events.unbind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
@@ -110,7 +117,7 @@ Game.Hud = class Hud
     {
         /* If energy should be increasing. */
         let current = parseFloat(element.dataset.value);
-        if (frac > current) {
+        if (this.hudVisible && frac > current) {
             const scene = this.game.scene;
             const timer = scene.timer;
             const target = frac;
