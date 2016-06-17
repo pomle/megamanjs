@@ -26,18 +26,18 @@ var Editor = function()
 
 Editor.COLORS = {
     behavior: {
-        deathzone: 0xeb1e32,
-        climbable: 0xfff600,
-        solid: 0xaf2896,
+        deathzone: '#eb1e32',
+        climbable: '#fff600',
+        solid: '#af2896',
     },
     camera: {
-        constraint: 0x00ffff,
-        window: 0xff7800,
+        constraint: '#00ffff',
+        window: '#ff7800',
     },
-    checkpoint: 0xff0066,
-    marker: 0xf037a5,
-    overlayEdit: 0x00ff00,
-    overlayPaint: 0x509bf5,
+    checkpoint: '#ff0066',
+    marker: '#f037a5',
+    overlayEdit: '#00ff00',
+    overlayPaint: '#509bf5',
 }
 
 Editor.prototype.attachGame = function(game)

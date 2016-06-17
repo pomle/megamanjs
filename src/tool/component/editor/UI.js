@@ -425,14 +425,27 @@ Editor.UI.prototype.setupFileView = function()
 
 Editor.UI.prototype.setupItemSet = function()
 {
+    const COLOR_MAP = {
+        'cameraPath': Editor.COLORS.camera.window,
+        'checkpoint': Editor.COLORS.checkpoint,
+        'climbable': Editor.COLORS.behavior.climbable,
+        'deathzone': Editor.COLORS.behavior.deathzone,
+        'solid': Editor.COLORS.behavior.solid,
+    };
+
     const C = this.create = this.panel.find('.create');
-    C.find('button').on('click', (e) => {
+    C.find('button').on('click', e => {
         const button = $(e.target);
         const type = button.attr('type');
         button.blur();
         this.createItem(type).then(item => {
             this.editor.items.insert(item);
         });
+    }).each(function() {
+        const type = this.getAttribute('type');
+        if (COLOR_MAP[type]) {
+            this.style.backgroundColor = COLOR_MAP[type];
+        }
     });
 
     const S = this.itemset = this.panel.find('.set');
