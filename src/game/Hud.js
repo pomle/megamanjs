@@ -32,12 +32,11 @@ Game.Hud = class Hud
     }
     detach()
     {
-        this.dom = {};
-
         const game = this.game;
         game.events.unbind(game.EVENT_SCENE_CREATE, this.onSceneCreate);
         game.events.unbind(game.EVENT_SCENE_DESTROY, this.onSceneDestroy);
         this.game = null;
+        this.dom = {};
     }
     hideHud()
     {
