@@ -639,6 +639,7 @@ Editor.UI.prototype.setupViewport = function()
     }
 
     let lastPaintedFace = undefined;
+    let isGripping = false;
     let wasDragged = false;
 
     this.workspace
@@ -649,7 +650,7 @@ Editor.UI.prototype.setupViewport = function()
                 offset.multiplyScalar(editor.camera.position.z / 200);
                 editor.camera.nudge(offset);
             }
-            else if (e.buttons === 1 && editor.activeMode === editor.modes.edit) {
+            else if (isGripping && e.buttons === 1 && editor.activeMode === editor.modes.edit) {
                 wasDragged = true;
                 const selection = editor.items.selected;
                 if (e.buttons === 1 && selection.size > 0) {
@@ -678,6 +679,7 @@ Editor.UI.prototype.setupViewport = function()
             mouse.event = e;
         })
         .on('mouseup', function(e) {
+            isGripping = false;
             if (wasDragged && editor.grid.snap) {
                 editor.items.selected.forEach(item => {
                     editor.grid.snapVector(item);
@@ -718,6 +720,7 @@ Editor.UI.prototype.setupViewport = function()
                 const items = editor.items;
                 const match = ui.mouseSelectItem(e.originalEvent, items.interactable);
                 if (match) {
+                    isGripping = true;
                     mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent, match.item.position));
                     if (!items.selected.has(match.item)) {
                         if (!e.ctrlKey) {
