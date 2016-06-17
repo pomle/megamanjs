@@ -120,26 +120,19 @@ Editor.UI.prototype.createItem = function(type)
 
 Editor.UI.prototype.mouseSelectItem = function(event, items)
 {
-    const bounds = this.viewport[0].getBoundingClientRect();
-    const raycaster = new THREE.Raycaster();
     const camera = this.editor.camera.realCamera;
-    const vector = new THREE.Vector3((event.layerX / bounds.width) * 2 - 1,
-                                    -(event.layerY / bounds.height) * 2 + 1,
-                                    -1); // z = - 1 important!
-
+    const vector = this.viewport.getVectorAtEvent(event);
     vector.unproject(camera);
     vector.sub(camera.position);
     vector.normalize();
-    raycaster.set(camera.position, vector);
-
-    const distance = -(camera.position.z / vector.z);
-    const pos = camera.position.clone().add(vector.multiplyScalar(distance));
 
     const intersectables = new Map;
     items.forEach(item => {
         intersectables.set(item.model, item);
     });
 
+    const raycaster = new THREE.Raycaster();
+    raycaster.set(camera.position, vector);
     const intersects = raycaster.intersectObjects([...intersectables.keys()]);
     if (intersects.length === 0) {
         return false;
