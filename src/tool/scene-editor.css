@@ -1,34 +1,33 @@
-body {
-    overflow: hidden;
+html, body {
+    height: 100%;
 }
 
 .scene-editor {
-    bottom: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
+    height: 100%;
 }
 
-.scene-editor .console {
-    display: none;
-    position: absolute;
+.scene-editor button {
+    margin: .2em;
 }
 
 .workspace {
+    cursor: default;
     height: 100%;
+    position: relative;
     width: 100%;
+    -webkit-user-select: none;
 }
 
 .workspace .viewport {
     height: 100%;
 }
 
+.workspace .viewport,
 .workspace .viewport * {
     -webkit-user-select: none;
 }
 
 .workspace .viewport > canvas {
-    height: 100%;
     image-rendering: pixelated;
 }
 
@@ -44,9 +43,31 @@ body {
     text-align: center;
 }
 
+.scene-editor .console {
+    background: rgba(0,0,0, 1);
+    border: solid 1px #509bf5;
+    left: 50%;
+    height: 80%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+}
+
+.scene-editor .console.hidden {
+    display: none;
+}
+
+.scene-editor .console .content {
+    height: 100%;
+    padding: 1em;
+}
+
 .scene-editor .console textarea[name=console] {
+    box-sizing: border-box;
+    display: block;
     font-family: monospace;
-    height: 8em;
+    height: 90%;
     width: 100%;
 }
 
@@ -55,7 +76,6 @@ body {
     border-color: rgba(160,195,210,.3);
     border-radius: 0;
     bottom: 0;
-    padding: .5em 0;
     position: absolute;
     top: 0;
     width: 150px;
@@ -66,24 +86,37 @@ body {
     font-size: 1.2em;
 }
 
-.workspace .panel button {
-    margin: .2em;
+.workspace .panel fieldset {
+    margin: .5em;
+    padding: 0;
+}
+
+.workspace .panel fieldset fieldset {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.workspace .panel fieldset fieldset legend {
+    font-size: .9em;
 }
 
 .workspace .panel label {
-    display: block;
-    margin: 4px 0;
+    align-items: center;
+    display: flex;
+    margin: .2em 0;
+}
+
+.workspace .panel label span {
+    display: flex;
 }
 
 .workspace .panel input[type=checkbox] {
-    margin: 0;
-    position: relative;
-    top: 2px;
+    margin: .2em .5em .2em 0;
 }
 
 .workspace .panel.view {
     border-right-width: 1px;
-    left: -140;
+    left: -140px;
 }
 
 .workspace .panel.view:hover,
@@ -93,7 +126,7 @@ body {
 
 .workspace .panel.item {
     border-left-width: 1px;
-    right: -140;
+    right: -140px;
     text-align: left;
 }
 
@@ -116,10 +149,10 @@ body {
 
 .workspace .palette {
     background-color: rgba(0,0,0,.6);
+    left: 25%;
     margin: -5px;
     position: absolute;
     overflow: auto;
-    left: 25%;
     right: 25%;
     top: 5%;
     transition: all .3s ease;

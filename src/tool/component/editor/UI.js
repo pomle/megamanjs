@@ -3,75 +3,61 @@
 Editor.UI = function(editor)
 {
     this.editor = editor;
-    this.console = $('.console');
-    this.workspace = $('.workspace');
 
     this.blankLevelURL = './resource/level-skeleton.xml';
     this.geometryInputDefault = '256x240/16';
 
-    $(window).on('resize', function() {
-        if (editor.game) {
-            editor.game.adjustResolution();
-            editor.game.adjustAspectRatio();
-        }
-    })
-    .on('keydown keyup', function(e) {
-        var k = e.which,
-            t = e.type,
-            c = e.ctrlKey,
-            d = (t === 'keydown'),
-            u = (t === 'keyup');
-
-        if (k === 27 && d) { // ESC (reset)
-            editor.items.deselect();
-            $(':input').blur();
-            editor.activeMode = editor.modes.view;
-        }
-        else if ($(e.target).is(':input')) {
-            return;
-        }
-        else {
-            if (d && k === 107) { // -
-                e.preventDefault();
-                editor.camera.zoomOut();
-                return;
+    $(window)
+        .on('resize', e => {
+            const game = this.editor.game;
+            if (game) {
+                game.adjustResolution();
+                game.adjustAspectRatio();
             }
-            if (d && k === 109) { // +
-                e.preventDefault();
-                editor.camera.zoomIn();
-                return;
+        })
+        .on('keydown keyup', e => {
+            const target = $(e.target);
+            const key = e.which;
+            const type = e.type;
+            const down = (type === 'keydown');
+            const up = (type === 'keyup');
+
+            if (down && key === 27) { // ESC (reset)
+                $(':input').blur();
+                this.editor.items.deselect();
+                this.editor.scene.input.disable();
+                this.editor.activeMode = editor.modes.view;
+                this.console.hide();
+                this.palette.hide();
             }
-
-            editor.activeMode(e);
-        }
-    });
-
-
-    this.console.textarea = this.console.find('textarea');
-    this.console.find('button[name=generate-xml]').on('click', function(e) {
-        e.preventDefault();
-        let xml = '<?xml version="1.0" encoding="UTF-8"?>' + editor.getXML();
-        xml = vkbeautify.xml(xml);
-        editor.ui.console.textarea.val(xml);
-    });
-    this.console.find('button[name=reload-xml]').on('click', function(e) {
-        e.preventDefault();
-        let node = $.parseXML(editor.ui.console.textarea.val());
-        node = $(node);
-        editor.load(node.find('> scene'));
-    });
+            else if (!target.is(':input')) {
+                if (down && key === 107) { // -
+                    e.preventDefault();
+                    editor.camera.zoomOut();
+                } else if (down && key === 109) { // +
+                    e.preventDefault();
+                    editor.camera.zoomIn();
+                } else {
+                    this.editor.activeMode(e);
+                }
+            }
+        });
 
     this.setupWorkspace();
+    this.setupPanel();
+    this.setupConsole();
     this.setupFileView();
-    this.viewport = this.setupViewport(this.workspace.find('.viewport'));
-    this.view = this.setupView(this.workspace.find('.view'));
-    this.playback = this.setupPlayback(this.workspace.find('.view'));
-    this.item = this.setupItemView(this.workspace.find('.item'));
-    this.palette = this.setupPalette(this.workspace.find('.palette'));
+    this.setupView();
+    this.setupViewport();
+    this.setupPlayback();
+    this.setupItemSet();
+    this.setupProperties();
+    this.setupPalette();
 }
 
 Editor.UI.prototype.applyState = function()
 {
+    this.item.snap.trigger('change');
     this.view.meta.trigger('change');
     this.view.layers.trigger('change');
     this.view.camera.obeyPaths.trigger('change');
@@ -86,6 +72,235 @@ Editor.UI.prototype.loadLevel = function(url)
         this.file.recent.add(url);
         this.lastLoadedLevel = url;
         this.applyState();
+    });
+}
+
+Editor.UI.prototype.createItem = function(type)
+{
+    const factory = this.editor.componentFactory;
+    const layers = this.editor.ui.view.layers;
+
+    if (type === 'cameraPath') {
+        layers.cameraPath.on();
+        return factory.createCameraPath();
+    } else if (type === 'checkpoint') {
+        layers.checkpoint.on();
+        return factory.createCheckpoint();
+    } else if (['deathzone', 'climbable', 'solid'].indexOf(type) > -1) {
+        layers.behavior.on();
+        const node = factory.nodeFactory.createBehavior(type, {x: 32, y: 16});
+        return factory.createBehavior(node);
+    } else if (type === 'object') {
+        const geometryInput = prompt('Size', this.geometryInputDefault);
+        if (!geometryInput) {
+            return false;
+        }
+        this.geometryInputDefault = geometryInput;
+
+        let s = geometryInput.split('/')[0].split('x'),
+            m = parseFloat(geometryInput.split('/')[1]);
+
+        const size = {
+            x: parseFloat(s[0]),
+            y: parseFloat(s[1]),
+            sx: 1,
+            sy: 1,
+        }
+
+        if (m !== undefined) {
+            size['sx'] = Math.ceil(size.x / m);
+            size['sy'] = Math.ceil(size.y / m);
+        }
+
+        layers.object.on();
+        const objectNode = factory.nodeFactory.createObject(size);
+        return editor.componentFactory.createObject(objectNode);
+    }
+}
+
+Editor.UI.prototype.mouseSelectItem = function(event, items)
+{
+    const bounds = this.viewport[0].getBoundingClientRect();
+    const raycaster = new THREE.Raycaster();
+    const camera = this.editor.camera.realCamera;
+    const vector = new THREE.Vector3((event.layerX / bounds.width) * 2 - 1,
+                                    -(event.layerY / bounds.height) * 2 + 1,
+                                    -1); // z = - 1 important!
+
+    vector.unproject(camera);
+    vector.sub(camera.position);
+    vector.normalize();
+    raycaster.set(camera.position, vector);
+
+    const distance = -(camera.position.z / vector.z);
+    const pos = camera.position.clone().add(vector.multiplyScalar(distance));
+
+    const intersectables = new Map;
+    items.forEach(item => {
+        intersectables.set(item.model, item);
+    });
+
+    const intersects = raycaster.intersectObjects([...intersectables.keys()]);
+    if (intersects.length === 0) {
+        return false;
+    }
+
+    return {
+        item: intersectables.get(intersects[0].object),
+        intersect: intersects[0],
+    };
+}
+
+Editor.UI.prototype.paintUV = function(item, faceIndex)
+{
+    let paletteItem = editor.ui.palette.getSelectedAnimation();
+    if (!paletteItem) {
+        this.palette.show();
+        return;
+    }
+
+    if (!item.paintData) {
+        const faceMap = new Map;
+        const indexMap = new Map;
+        $(item.sourceNode).find('> geometry > face').each(function() {
+            const name = this.getAttribute('animation');
+            faceMap.set(name, this);
+
+            const index = JSON.parse(this.getAttribute('index')) || [];
+            indexMap.set(this, index);
+        });
+        item.paintData = {
+            faceMap,
+            indexMap,
+        };
+    }
+
+    const faceMap = item.paintData.faceMap;
+    const indexMap = item.paintData.indexMap;
+
+    // Delete all previous face index and find face node if already in use.
+    indexMap.forEach((indices, face) => {
+        const filtered = indices.filter(index => index !== faceIndex);
+        if (filtered.length !== indices.length) {
+            filtered.needsUpdate = true;
+            indexMap.set(face, filtered);
+        }
+    });
+
+    if (!faceMap.has(paletteItem.name)) {
+        const name = paletteItem.name;
+        const node = $('<face>', this.editor.document).attr({
+            'animation': name,
+        });
+        $(item.sourceNode).find('> geometry').append(node);
+        const face = node[0];
+        faceMap.set(name, face);
+        indexMap.set(face, []);
+    }
+
+    const face = faceMap.get(paletteItem.name);
+    const indices = indexMap.get(face);
+    indices.push(faceIndex);
+    indices.needsUpdate = true;
+
+    indexMap.forEach((indices, face) => {
+        if (indices.needsUpdate) {
+            if (indices.length === 0) {
+                $(face).removeAttr('index');
+            } else {
+                $(face).attr('index', JSON.stringify(indices));
+            }
+            indices.needsUpdate = false;
+        }
+    });
+
+    const animators = item.object.animators;
+    let selectedAnimator = undefined;
+    for (let i = 0, l = animators.length; i !== l; ++i) {
+        const animator = animators[i];
+        for (;;) {
+            let i = animator.indices.indexOf(faceIndex);
+            if (i === -1) {
+                break;
+            }
+            console.info("Clear index %d", i);
+            animator.indices.splice(i, 1);
+        }
+        if (animator.name === paletteItem.name) {
+            selectedAnimator = animator;
+        }
+    }
+
+    console.info("Adding faceIndex %d to animator", faceIndex);
+    if (selectedAnimator === undefined) {
+        const geometry = item.object.geometry;
+        geometry.faceVertexUvs[0][faceIndex] = paletteItem.uvCoords[0];
+        geometry.faceVertexUvs[0][faceIndex+1] = paletteItem.uvCoords[1];
+        geometry.uvsNeedUpdate = true;
+    }
+    else {
+        selectedAnimator.indices.push(faceIndex);
+        selectedAnimator._currentIndex = undefined;
+        selectedAnimator.update();
+    }
+}
+
+Editor.UI.prototype.setupCamera = function()
+{
+    const C = this.view.camera = this.view.find('.camera');
+    C.followSelected = C.find('button[name=followSelected]');
+    C.followSelected.on('click', e => {
+        this.editor.camera.followSelected();
+    });
+    C.unfollow = C.find('button[name=unfollow]');
+    C.unfollow.on('click', e => {
+        const camera = this.editor.camera.camera;
+        camera.unfollow();
+        camera.velocity.set(0,0,0);
+    });
+    C.obeyPaths = C.find(':input[name=obeyPaths]');
+    C.obeyPaths.on('change', e => {
+        this.editor.camera.camera.obeyPaths = this.checked;
+    });
+    C.zoom = C.find('button[name=zoom]').on('click', e => {
+        let dir = parseFloat(e.target.getAttribute('dir'));
+        if (dir < 0) {
+            this.editor.camera.zoomOut();
+        }
+        else {
+            this.editor.camera.zoomIn();
+        }
+    });
+}
+
+Editor.UI.prototype.setupConsole = function()
+{
+    const C = this.console = $('.console');
+    C.textarea = C.find('textarea');
+    C.find('button[name=close]').on('click', e => {
+        C.hide();
+    });
+    C.find('button[name=generate-xml]').on('click', e => {
+        let xml = '<?xml version="1.0" encoding="UTF-8"?>' + this.editor.getXML();
+        xml = vkbeautify.xml(xml);
+        C.textarea.val(xml);
+    });
+    C.find('button[name=reload-xml]').on('click', e => {
+        const node = $($.parseXML(C.textarea.val()));
+        this.editor.load(node.find('> scene'));
+    });
+    C.hide = function() {
+        C.addClass('hidden');
+    };
+    C.show = function() {
+        C.removeClass('hidden');
+    };
+    C.toggle = function() {
+        C.toggleClass('hidden');
+    };
+
+    this.workspace.find('button[name=toggleConsole]').on('click', e => {
+        C.toggle();
     });
 }
 
@@ -208,42 +423,60 @@ Editor.UI.prototype.setupFileView = function()
     this.file = element;
 }
 
-Editor.UI.prototype.setupItemView = function(node)
+Editor.UI.prototype.setupItemSet = function()
 {
-    let editor = this.editor,
-        element = $(node);
+    const C = this.create = this.panel.find('.create');
+    C.find('button').on('click', (e) => {
+        const button = $(e.target);
+        const type = button.attr('type');
+        button.blur();
+        this.createItem(type).then(item => {
+            this.editor.items.insert(item);
+        });
+    });
 
-    element.inputs = element.find('.properties input[type=text]');
-    element.inputs.on('keyup change', function(e) {
-        if (!editor.items.selected[0]) {
+    const S = this.itemset = this.panel.find('.set');
+    S.unlock = S.find('button[name=unlockAll]').on('click', e => {
+        const items = this.editor.items;
+        items.all.forEach(item => {
+            items.unlock(item);
+        });
+    });
+
+
+}
+
+Editor.UI.prototype.setupProperties = function()
+{
+    const I = this.item = this.panel.filter('.item');
+
+    I.inputs = I.find('.properties input[type=text]');
+    I.inputs.on('keyup change', e => {
+        const selected = this.editor.items.selected;
+        if (selected.size === 0) {
             return;
         }
-        let item = editor.items.selected[0],
-            object = element.object,
-            value = parseFloat(this.value),
-            name = this.name;
+
+        const name = e.target.name;
+        const value = parseFloat(e.target.value);
 
         if (!isFinite(value)) {
             return;
         }
 
-        for (let item of editor.items.selected) {
+        selected.forEach(item => {
             if (item[name] !== undefined) {
                 item[name] = value;
             }
-        }
-
-        if (editor.grid.snap) {
-            editor.grid.snapVector(item);
-        }
+        });
     });
-    element.inputs.clear = function() {
+    I.inputs.clear = function() {
         this.each(function() {
             this.value = '';
             this.disabled = true;
         });
     }
-    element.inputs.update = function(item) {
+    I.inputs.update = function(item) {
         this.each(function() {
             const value = item[this.name];
             if (value !== undefined) {
@@ -255,217 +488,112 @@ Editor.UI.prototype.setupItemView = function(node)
             }
         });
     }
-    element.snap = element.find('.properties input[name=snap]').on('change', function() {
-        editor.grid.snap = this.checked;
-    }).trigger('change');
-
-    element.create = element.find('.create');
-    element.create.find('button').on('click', (e) => {
-        const type = $(e.target).attr('type');
-        this.createItem(type).then(item => {
-            console.log(item);
-            this.editor.items.insert(item);
-        });
+    I.snap = I.find('.properties input[name=snap]').on('change', e => {
+        this.editor.grid.snap = e.target.checked;
     });
-
-    return element;
 }
 
-Editor.UI.prototype.createItem = function(type)
+Editor.UI.prototype.setupPalette = function()
 {
-    const factory = this.editor.componentFactory;
-    const layers = this.editor.ui.view.layers;
-
-    if (type === 'cameraPath') {
-        layers.cameraPath.on();
-        return factory.createCameraPath();
-    } else if (type === 'checkpoint') {
-        layers.checkpoint.on();
-        return factory.createCheckpoint();
-    } else if (['deathzone', 'climbable', 'solid'].indexOf(type) > -1) {
-        layers.behavior.on();
-        const node = factory.nodeFactory.createBehavior(type, {x: 32, y: 16});
-        return factory.createBehavior(node);
-    } else if (type === 'object') {
-        const geometryInput = prompt('Size', this.geometryInputDefault);
-        if (!geometryInput) {
-            return false;
-        }
-        this.geometryInputDefault = geometryInput;
-
-        let s = geometryInput.split('/')[0].split('x'),
-            m = parseFloat(geometryInput.split('/')[1]);
-
-        let size = {
-            x: parseFloat(s[0]),
-            y: parseFloat(s[1]),
-            sx: 1,
-            sy: 1,
-        }
-
-        if (m !== undefined) {
-            size['sx'] = Math.ceil(size.x / m);
-            size['sy'] = Math.ceil(size.y / m);
-        }
-
-        layers.object.on();
-        const objectNode = factory.nodeFactory.createObject(size);
-        return editor.componentFactory.createObject(objectNode);
-    }
-}
-
-Editor.UI.prototype.setupPalette = function(node)
-{
-    let editor = this.editor,
-        element = $(node);
-
-    element.on('mousedown', '.animation', function(e) {
+    const P = this.palette = this.workspace.find('.palette');
+    P.on('mousedown', '.animation', e => {
         if (e.buttons !== 1) {
             return;
         }
 
-        let anim = $(this);
+        const anim = $(e.target);
         anim.addClass('selected').siblings().removeClass('selected');
 
-        console.log("Selected anim %s", element.getSelectedAnimation().name);
+        console.log("Selected anim %s", P.getSelectedAnimation().name);
 
-        setTimeout(function() {
-            anim.closest('.palette').addClass('hidden');
+        setTimeout(() => {
+            P.hide();
         }, 150);
     });
-
-    element.getSelectedAnimation = function()
-    {
-        let node = this.find('> .animation.selected:first');
-
+    P.getSelectedAnimation = () => {
+        const node = P.find('> .animation.selected:first');
         if (node.length === 0) {
-            return undefined;
+            return null;
         }
-
         return {
             name: node.attr('name'),
             uvCoords: node.data('uv-coords'),
         };
     }
-
-    return element;
+    P.hide = () => {
+        P.addClass('hidden');
+    }
+    P.show = () => {
+        P.removeClass('hidden');
+    }
+    P.toggle = () => {
+        P.toggleClass('hidden');
+    }
 }
 
-Editor.UI.prototype.setupPlayback = function(node)
+Editor.UI.prototype.setupPanel = function()
 {
-    let editor = this.editor,
-        playback = $(node);
+    this.panel = this.workspace.find('.panel');
+}
 
-    playback.simulate = playback.find('[name=simulate]');
-    playback.simulate.on('change', function() {
-        editor.scene.timer.isSimulating = this.checked;
+Editor.UI.prototype.setupPlayback = function()
+{
+    const P = this.playback = this.workspace.find('.view');
+    P.simulate = P.find('[name=simulate]');
+    P.simulate.on('change', e => {
+        const scene = this.editor.scene;
+        if (e.target.checked) {
+            scene.resumeSimulation();
+        } else {
+            scene.pauseSimulation();
+        }
     });
-
-    playback.simulationSpeed = playback.find('[name=simulationSpeed]');
-    playback.simulationSpeed.on('change', function() {
-        var speed = parseFloat(this.value);
-        console.log("Setting simulation speed to", speed);
-        editor.scene.timer.simulationSpeed = speed;
+    P.simulationSpeed = P.find('[name=simulationSpeed]');
+    P.simulationSpeed.on('change', e => {
+        const speed = parseFloat(e.target.value);
+        this.editor.game.setPlaybackSpeed(speed);
     });
-
-    return playback;
 }
 
 Editor.UI.prototype.setupView = function(node)
 {
-    let editor = this.editor,
-        ui = this,
-        view = $(node);
+    const V = this.view = this.panel.filter('.view');
 
-    view.camera = view.find('.camera');
+    this.setupCamera();
 
-    view.camera.followSelected = view.camera.find('button[name=followSelected]');
-    view.camera.followSelected.on('click', function(e) {
-        editor.camera.followSelected();
+    V.meta = V.find('.meta :input[type=checkbox]');
+    V.meta.on('change', e => {
+        this.editor.layers[e.target.name].visible = e.target.checked;
     });
 
-    view.camera.unfollow = view.camera.find('button[name=unfollow]');
-    view.camera.unfollow.on('click', function(e) {
-        let camera = editor.camera.camera;
-        camera.unfollow();
-        camera.velocity.set(0,0,0);
+    V.layers = V.find('.layers :input[type=checkbox]');
+    V.layers.on('change', e => {
+        const checkbox = e.target;
+        const items = this.editor.items.layers[checkbox.name];
+        if (!items) {
+            console.warn(`Layer ${checkbox.name} not in use`);
+            return;
+        }
+        const route = {
+            'lock0': 'lock',
+            'lock1': 'unlock',
+            'show1': 'show',
+            'show0': 'hide',
+        };
+        const action = checkbox.getAttribute('what') + (checkbox.checked + 0);
+        const func = route[action];
+        items.forEach(item => {
+            this.editor.items[func](item);
+        });
     });
-
-    view.camera.obeyPaths = view.camera.find(':input[name=obeyPaths]');
-    view.camera.obeyPaths.on('change', function(e) {
-        editor.camera.camera.obeyPaths = this.checked;
-    });
-
-    view.meta = view.find('.meta :input[type=checkbox]');
-    view.meta.on('change', function(e) {
-        editor.layers[this.name].visible = this.checked;
-    });
-
-    view.layers = view.find('.layers :input[type=checkbox]');
-    view.layers.on('change', function(e) {
-        let layers = [this.name],
-            what = $(this).attr('what'),
-            func;
-
-        if (what === 'lock') {
-            func = this.checked ? editor.items.unlock : editor.items.lock;
-        }
-        else if (what === 'show') {
-            func = this.checked ? editor.items.show : editor.items.hide;
-        }
-
-        for (let layer of layers) {
-            if (!editor.items.layers[layer]) {
-                console.info("Layer not found %s", layer);
-                continue;
-            }
-            let items = [...editor.items.layers[layer]];
-            func.apply(editor.items, items);
-        }
-    });
-    view.layers.each(function() {
-        let node = this,
-            what = $(this).attr('what');
-
-        node.toggle = function() {
-            this.checked = !this.checked;
-            $(this).trigger('change');
-        }
-        node.on = function() {
-            if (!this.chacked) {
-                this.checked = true;
-                $(this).trigger('change');
-            }
-        }
-        node.off = function() {
-            if (this.chacked) {
-                this.checked = false;
-                $(this).trigger('change');
-            }
-        }
-        if (what === 'show') {
-            view.layers[this.name] = node;
-        }
-    })
-
-    view.zoom = view.find('button[name=zoom]').on('click', function(e) {
-        let dir = parseFloat($(this).attr('dir'));
-        if (dir < 0) {
-            editor.camera.zoomOut();
-        }
-        else {
-            editor.camera.zoomIn();
-        }
-    });
-
-    return view;
 }
 
-Editor.UI.prototype.setupViewport = function(node)
+Editor.UI.prototype.setupViewport = function()
 {
+    const viewport = this.viewport = this.workspace.find('.viewport');
+
     const editor = this.editor,
-        ui = this,
-        viewport = $(node);
+          ui = this;
 
     viewport.coords = viewport.find('.coords');
 
@@ -477,7 +605,7 @@ Editor.UI.prototype.setupViewport = function(node)
     let lastPaintedFace = undefined;
     let wasDragged = false;
 
-    viewport
+    this.workspace
         .on('mousemove', function(e) {
             if (e.buttons === 2) {
                 const offset = new THREE.Vector2((mouse.event.clientX - e.clientX),
@@ -488,8 +616,8 @@ Editor.UI.prototype.setupViewport = function(node)
             else if (e.buttons === 1 && editor.activeMode === editor.modes.edit) {
                 wasDragged = true;
                 const selection = editor.items.selected;
-                if (e.buttons === 1 && selection.length !== 0) {
-                    const pos = viewport.getPositionAtEvent(e.originalEvent, selection[0].position);
+                if (e.buttons === 1 && selection.size > 0) {
+                    const pos = viewport.getPositionAtEvent(e.originalEvent, selection.first.position);
                     const diff = pos.clone().sub(mouse.pos);
                     selection.forEach(item => {
                         item.x += diff.x;
@@ -499,13 +627,13 @@ Editor.UI.prototype.setupViewport = function(node)
                 }
             }
             else if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
-                const selected = editor.items.selected[0];
-                const item = ui.mouseSelectItem(e.originalEvent, this, [selected]);
+                const selected = editor.items.selected;
+                const item = ui.mouseSelectItem(e.originalEvent, [selected.first]);
                 if (item) {
                     let faceIndex = item.intersect.faceIndex;
                     faceIndex -= faceIndex % 2;
                     if (faceIndex !== lastPaintedFace) {
-                        ui.paintUv(item.item, faceIndex);
+                        ui.paintUV(item.item, faceIndex);
                         lastPaintedFace = faceIndex;
                     }
                 }
@@ -523,65 +651,6 @@ Editor.UI.prototype.setupViewport = function(node)
             lastPaintedFace = undefined;
             editor.camera.centerGrid();
         })
-        .on('mousedown', function(e) {
-            mouse.event = e;
-
-            if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
-                const item = ui.mouseSelectItem(e.originalEvent, this, [editor.items.selected[0]]);
-                if (item) {
-                    const faceIndex = item.intersect.faceIndex;
-                    ui.paintUv(item.item, faceIndex - faceIndex % 2);
-                }
-                return;
-            }
-
-            if (e.buttons === 1) {
-                const item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
-                if (item) {
-                    const items = editor.items;
-                    mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent, item.item.position));
-                    if (items.selected.indexOf(item.item) === -1) {
-                        if (!e.ctrlKey) {
-                            items.deselect();
-                        }
-                        editor.activeMode = editor.modes.edit;
-                        items.select(item.item);
-
-                        if (item.item.object instanceof Game.objects.Character) {
-                            editor.game.player.setCharacter(item.item.object);
-                            console.log("Selected character", item.item.object);
-                        }
-                    }
-                    return;
-                }
-                else if (!e.ctrlKey) {
-                    editor.activeMode = editor.modes.view;
-                    editor.items.deselect();
-                }
-            }
-
-            if (e.buttons === 1) {
-                const pos = viewport.getPositionAtEvent(e.originalEvent);
-                mouse.pos.copy(pos);
-                viewport.placeMarker(pos);
-            }
-        })
-        .on('contextmenu', function(e) {
-            e.preventDefault();
-        })
-        .on('click', function(e) {
-        })
-        .on('dblclick', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const item = ui.mouseSelectItem(e.originalEvent, this, editor.items.interactable);
-            if (item && item.item.TYPE === "object") {
-                editor.activeMode = editor.modes.paint;
-                const mat = item.item.overlay.material;
-                mat.color = new THREE.Color(Editor.Colors.overlayPaint);
-                mat.needsUpdate = true;
-            }
-        })
         .on('mousewheel', function(e) {
             if (e.buttons !== 0) {
                 return;
@@ -594,6 +663,88 @@ Editor.UI.prototype.setupViewport = function(node)
             else {
                 editor.camera.zoomIn();
             }
+        });
+
+    viewport
+        .on('mousedown', function(e) {
+            mouse.event = e;
+
+            if (e.buttons === 1 && editor.activeMode === editor.modes.paint) {
+                const match = ui.mouseSelectItem(e.originalEvent, [editor.items.selected.first]);
+                if (match) {
+                    const faceIndex = match.intersect.faceIndex;
+                    ui.paintUV(match.item, faceIndex - faceIndex % 2);
+                }
+                return;
+            }
+
+            if (e.buttons === 1) {
+                const items = editor.items;
+                const match = ui.mouseSelectItem(e.originalEvent, items.interactable);
+                if (match) {
+                    mouse.pos.copy(viewport.getPositionAtEvent(e.originalEvent, match.item.position));
+                    if (!items.selected.has(match.item)) {
+                        if (!e.ctrlKey) {
+                            items.deselect();
+                        }
+                        items.select(match.item);
+
+                        if (match.item.object instanceof Game.objects.Character) {
+                            editor.game.player.setCharacter(match.item.object);
+                            console.log("Selected character", match.item.object);
+                        }
+                    }
+                    return;
+                }
+                else if (!e.ctrlKey) {
+                    items.deselect();
+                }
+            }
+
+            if (e.buttons === 1) {
+                const pos = viewport.getPositionAtEvent(e.originalEvent);
+                mouse.pos.copy(pos);
+                viewport.placeMarker(pos);
+            }
+        })
+        .on('contextmenu', function(e) {
+            e.preventDefault();
+        })
+        .on('dblclick', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const item = ui.mouseSelectItem(e.originalEvent, editor.items.interactable);
+            if (item && item.item.TYPE === "object") {
+                editor.activeMode = editor.modes.paint;
+                const mat = item.item.overlay.material;
+                mat.color = new THREE.Color(Editor.COLORS.overlayPaint);
+                mat.needsUpdate = true;
+            }
+        })
+        .on('drop', e => {
+            e.preventDefault();
+            const pos = this.viewport.getPositionAtEvent(e.originalEvent);
+            const file = e.originalEvent.dataTransfer.files[0];
+            const reader = new FileReader();
+            reader.addEventListener('load', e => {
+                const image = new Image();
+                image.addEventListener('load', e => {
+                    const geometry = new THREE.PlaneGeometry(image.width, image.height);
+                    const texture = new THREE.Texture(image);
+                    const material = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        opacity: .5,
+                        transparent: true,
+                    });
+                    const mesh = new THREE.Mesh(geometry, material);
+                    const item = new Editor.Item.Mesh(mesh);
+                    texture.needsUpdate = true;
+                    item.position.copy(pos);
+                    this.editor.items.add(item);
+                });
+                image.src = e.target.result;
+            });
+            reader.readAsDataURL(file);
         });
 
     viewport.placeMarker = function(pos)
@@ -627,172 +778,14 @@ Editor.UI.prototype.setupViewport = function(node)
         const distance = -(z / vector.z);
         return camera.position.clone().add(vector.multiplyScalar(distance));
     }
-
-    return viewport;
 }
 
 Editor.UI.prototype.setupWorkspace = function()
 {
-    const editor = this.editor;
-    this.workspace.on('dragover', function (e) {
+    this.workspace = $('.workspace');
+
+    this.workspace.on('dragover', e => {
          e.stopPropagation();
          e.preventDefault();
     });
-    this.workspace.on('drop', function (e) {
-        e.preventDefault();
-        var files = e.originalEvent.dataTransfer.files;
-        var file = files[0];
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            var i = new Image();
-            i.onload = function() {
-                var geometry = new THREE.PlaneGeometry(this.width, this.height);
-                var texture = new THREE.Texture(this);
-                var material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    opacity: .5,
-                    transparent: true,
-                });
-                var mesh = new THREE.Mesh(geometry, material);
-                var item = new Editor.Item.Mesh(mesh);
-                editor.layers.guides.add(mesh);
-                editor.items.visible.add(item);
-                editor.items.touchable.add(item);
-                texture.needsUpdate = true;
-            };
-            i.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-Editor.UI.prototype.freeCamera = function()
-{
-    let obey = this.view.camera.obeyPaths,
-        unfollow = this.view.camera.unfollow;
-
-    unfollow.trigger('click');
-}
-
-Editor.UI.prototype.mouseSelectItem = function(pos, viewport, items)
-{
-    let editor = this.editor,
-        vector = new THREE.Vector3(0,0,0),
-        raycaster = new THREE.Raycaster(),
-        world = editor.game.scene.world,
-        camera = editor.camera.realCamera,
-        bounds = viewport.getBoundingClientRect();
-
-    vector.set((event.layerX / bounds.width) * 2 - 1,
-               -(event.layerY / bounds.height) * 2 + 1,
-               -1); // z = - 1 important!
-
-    vector.unproject(camera);
-    vector.sub(camera.position);
-    vector.normalize();
-    raycaster.set(camera.position, vector);
-
-    var distance = -(camera.position.z / vector.z);
-    var pos = camera.position.clone().add(vector.multiplyScalar(distance));
-
-    var intersectables = [];
-    items.forEach(function(item) {
-        intersectables.push(item.model);
-    });
-
-    console.log("Candidate objects", intersectables);
-    var intersects = raycaster.intersectObjects(intersectables);
-
-    console.log("Intersecting objects", intersects);
-    if (intersects.length !== 0) {
-        let closest = intersects[0].object;
-        for (let item of items) {
-            if (item.model === closest) {
-                return {item: item, intersect: intersects[0]};
-            }
-        }
-    }
-    return false;
-}
-
-Editor.UI.prototype.paintUv = function(item, faceIndex)
-{
-    let paletteItem = editor.ui.palette.getSelectedAnimation();
-    if (paletteItem === undefined) {
-        return;
-    }
-
-    let object = item.object,
-        geometry = object.geometry,
-        node = item.sourceNode,
-        geometryNode = $(node).find('> geometry'),
-        faceNode = undefined;
-
-    geometryNode.find('> face').each(function() {
-        let node = $(this),
-            nodeName = node.attr('animation'),
-            indexJSON = node.attr('index'),
-            indices = indexJSON ? JSON.parse(indexJSON) : [];
-
-        for (;;) {
-            let existingIndex = indices.indexOf(faceIndex);
-            if (existingIndex === -1) {
-                break;
-            }
-            console.log("Spliced faceIndex %d at index %d from %s", faceIndex, existingIndex, nodeName);
-            indices.splice(existingIndex, 1);
-        }
-
-        node.attr('index', JSON.stringify(indices));
-
-        if (nodeName === paletteItem.name) {
-            faceNode = node;
-        }
-    });
-
-    if (faceNode === undefined) {
-        faceNode = $('<face>', editor.document).attr({
-            'animation': paletteItem.name,
-        });
-        geometryNode.append(faceNode);
-    }
-
-    let indexJSON = faceNode.attr('index'),
-        indices = indexJSON ? JSON.parse(indexJSON) : [];
-
-    if (indices.indexOf(faceIndex) === -1) {
-        indices.push(faceIndex);
-        faceNode.attr('index', JSON.stringify(indices));
-    }
-
-    let animators = object.animators,
-        selectedAnimator = undefined;
-    for (let i = 0, l = animators.length; i !== l; ++i) {
-        let animator = animators[i];
-        for (;;) {
-            let i = animator.indices.indexOf(faceIndex);
-            if (i === -1) {
-                break;
-            }
-            console.log("Clear index %d", i);
-            animator.indices.splice(i, 1);
-        }
-
-        if (animator.name === paletteItem.name) {
-            selectedAnimator = animator;
-        }
-    }
-
-    if (selectedAnimator === undefined) {
-        console.log("Adding faceIndex to animator", faceIndex);
-        object.geometry.faceVertexUvs[0][faceIndex] = paletteItem.uvCoords[0];
-        object.geometry.faceVertexUvs[0][faceIndex+1] = paletteItem.uvCoords[1];
-        object.geometry.uvsNeedUpdate = true;
-    }
-    else {
-        console.log("Adding faceIndex to animator", faceIndex);
-        selectedAnimator.indices.push(faceIndex);
-        selectedAnimator._currentIndex = undefined;
-        selectedAnimator.update();
-    }
 }
