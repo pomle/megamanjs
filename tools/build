@@ -15,6 +15,6 @@ cp "${SRC_DIR}/prod.js" "${BUILD_DIR}/main.js"
 
 cp -r "${SRC_DIR}/resource" "${BUILD_DIR}/"
 
-node "${TOOLS_DIR}/concat-js.js" > "${BUILD_DIR}/megaman.js"
+$TOOLS_DIR/concat-js > "${BUILD_DIR}/megaman.js"
 
 echo "Build OK"
