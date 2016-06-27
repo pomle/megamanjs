@@ -8,20 +8,20 @@
         </collision>
 
         <traits>
-            <trait source="ContactDamage" points="8" />
-            <trait source="DeathSpawn" chance="1">
+            <trait name="contact-damage" points="8" />
+            <trait name="death-spawn" chance="1">
                 <objects>
                     <character id="SniperJoe" />
                 </objects>
             </trait>
-            <trait source="Health" max="20" />
-            <trait source="Jump" force="297" forward="154" duration=".18" />
-            <trait source="Physics" area=".5" drag=".1" mass="600" />
-            <trait source="Solid" attack="bottom"/>
-            <trait source="Spawn">
+            <trait name="health" max="20" />
+            <trait name="jump" force="297" forward="154" duration=".18" />
+            <trait name="physics" area=".5" drag=".1" mass="600" />
+            <trait name="solid" attack="bottom"/>
+            <trait name="spawn">
                 <item object="TinyExplosion" event="death"/>
             </trait>
-            <trait source="Weapon" equip="EnemyPlasma">
+            <trait name="weapon" equip="EnemyPlasma">
                 <projectile-emit x="0" y="-2" r="9" />
             </trait>
         </traits>

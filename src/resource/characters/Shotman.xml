@@ -7,14 +7,14 @@
         </collision>
 
         <traits>
-            <trait source="ContactDamage" points="4" />
-            <trait source="Health" max="5" />
-            <trait source="Physics" area=".06" drag=".045" mass="135" />
-            <trait source="Solid" attack="bottom" />
-            <trait source="Spawn">
+            <trait name="contact-damage" points="4" />
+            <trait name="health" max="5" />
+            <trait name="physics" area=".06" drag=".045" mass="135" />
+            <trait name="solid" attack="bottom" />
+            <trait name="spawn">
                 <item object="TinyExplosion" event="death"/>
             </trait>
-            <trait source="Weapon" equip="EnemyPlasma">
+            <trait name="weapon" equip="EnemyPlasma">
                 <projectile-emit x="0" y="-2" r="9" />
             </trait>
         </traits>

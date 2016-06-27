@@ -49,8 +49,8 @@
             <circ r="32" />
         </collision>
         <traits>
-            <trait source="ContactDamage" points="25"/>
-            <trait source="Lifetime" duration="1.12"/>
+            <trait name="contact-damage" points="25"/>
+            <trait name="lifetime" duration="1.12"/>
         </traits>
     </object>
 
@@ -59,8 +59,8 @@
             <face animation="sweat"/>
         </geometry>
         <traits>
-            <trait source="Lifetime" duration=".45"/>
-            <trait source="Translate" x="0" y="12"/>
+            <trait name="lifetime" duration=".45"/>
+            <trait name="translate" x="0" y="12"/>
         </traits>
     </object>
 
@@ -69,7 +69,7 @@
             <face animation="tiny-explosion"/>
         </geometry>
         <traits>
-            <trait source="Lifetime" duration=".2"/>
+            <trait name="lifetime" duration=".2"/>
         </traits>
     </object>
 </objects>

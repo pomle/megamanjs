@@ -7,9 +7,9 @@
         </collision>
 
         <traits>
-            <trait source="ContactDamage" points="2" />
-            <trait source="Health" max="1" />
-            <trait source="Spawn">
+            <trait name="contact-damage" points="2" />
+            <trait name="health" max="1" />
+            <trait name="spawn">
                 <item object="TinyExplosion" event="death"/>
             </trait>
         </traits>

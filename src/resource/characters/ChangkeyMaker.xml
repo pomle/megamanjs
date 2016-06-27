@@ -5,9 +5,9 @@
             <rect x="0" y="0" w="24" h="32" />
         </collision>
         <traits>
-            <trait source="ContactDamage" points="8" />
-            <trait source="Health" max="10" />
-            <trait source="Spawn">
+            <trait name="contact-damage" points="8" />
+            <trait name="health" max="10" />
+            <trait name="spawn">
                 <item object="TinyExplosion" event="death"/>
             </trait>
         </traits>

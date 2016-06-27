@@ -31,7 +31,7 @@
                 <rect w="64" h="16"/>
             </collision>
             <traits>
-                <trait source="Solid" fixed="true" obstructs="true"/>
+                <trait name="solid" fixed="true" obstructs="true"/>
             </traits>
         </object>
         <object id="ladder">
@@ -44,7 +44,7 @@
                 <rect x="0" y="0" w="0" h="128"/>
             </collision>
             <traits>
-                <trait source="Climbable"/>
+                <trait name="climbable"/>
             </traits>
         </object>
     </objects>
