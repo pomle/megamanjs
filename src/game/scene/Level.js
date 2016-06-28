@@ -215,11 +215,7 @@ Game.scenes.Level = class Level extends Game.Scene
     {
         this.world.objects.forEach(obj => {
             if (obj) {
-                obj.traits.forEach(trait => {
-                    if (typeof trait.reset === 'function') {
-                        trait.reset();
-                    }
-                });
+                obj.reset();
             }
         });
     }

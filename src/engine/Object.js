@@ -120,6 +120,15 @@ Engine.Object.prototype.obstruct = function(object, attack, ourZone, theirZone)
     this.events.trigger(this.EVENT_OBSTRUCT, [object, attack, ourZone, theirZone]);
 }
 
+Engine.Object.prototype.reset = function()
+{
+    this.traits.forEach(trait => {
+        if (typeof trait.reset === 'function') {
+            trait.reset();
+        }
+    });
+}
+
 Engine.Object.prototype.setAnimation = function(name)
 {
     if (name !== this.anim) {
