@@ -52,9 +52,9 @@ Game.Hud = class Hud
             this.dom.hud.classList.add('visible');
         }
     }
-    onAmmoChanged(ammo)
+    onAmmoChanged(weapon)
     {
-        this.setAmountInteractive(this.dom.weapon, ammo.fraction);
+        this.setAmountInteractive(this.dom.weapon, weapon.ammo.fraction);
     }
     onHealthChanged(health)
     {
