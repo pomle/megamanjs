@@ -1,17 +1,13 @@
-Game.objects.weapons.MetalBlade = function()
+Game.objects.weapons.MetalBlade =
+class MetalBlade extends Game.objects.Weapon
 {
-    Game.objects.Weapon.call(this);
-}
-
-Game.objects.weapons.MetalBlade.prototype = Object.create(Game.objects.Weapon.prototype);
-Game.objects.weapons.MetalBlade.constructor = Game.objects.Weapon;
-
-Game.objects.weapons.MetalBlade.prototype.fire = function()
-{
-    if (!Game.objects.Weapon.prototype.fire.call(this)) {
-        return false;
+    fire()
+    {
+        if (!super.fire()) {
+            return false;
+        }
+        var projectile = this.getProjectile();
+        this.emit(projectile);
+        return true;
     }
-    var projectile = this.getProjectile();
-    this.emit(projectile);
-    return true;
 }

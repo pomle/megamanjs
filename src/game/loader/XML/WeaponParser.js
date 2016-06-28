@@ -6,31 +6,34 @@ extends Game.Loader.XML.Parser
 {
     createConstructor(blueprint)
     {
-        var constructor = this.createObject(blueprint.id, blueprint.constr, function weaponConstructor() {
-            blueprint.constr.call(this);
+        const constructor = this.createObject(blueprint.id, blueprint.constr, function weaponConstructor() {
+            const weapon = new blueprint.constr();
+            weapon.id = blueprint.id;
 
             if (blueprint.ammo === null) {
-                this.ammo.infinite = true;
+                weapon.ammo.infinite = true;
             } else {
-                this.ammo.max = blueprint.ammo;
+                weapon.ammo.max = blueprint.ammo;
             }
 
-            this.code = blueprint.code;
+            weapon.code = blueprint.code;
 
-            this.setCoolDown(blueprint.coolDown);
-            this.cost = blueprint.cost;
-            this.directions[0].copy(blueprint.directions[0]);
-            this.directions[1].copy(blueprint.directions[1]);
+            weapon.setCoolDown(blueprint.coolDown);
+            weapon.cost = blueprint.cost;
+            weapon.directions[0].copy(blueprint.directions[0]);
+            weapon.directions[1].copy(blueprint.directions[1]);
 
             var projectiles = blueprint.projectiles;
             for (var i = 0; i < projectiles.length; ++i) {
                 var projectile = projectiles[i];
                 for (var j = 0; j < projectile.amount; ++j) {
-                    this.addProjectile(new projectile.constr());
+                    weapon.addProjectile(new projectile.constr());
                 }
             }
+
+            return weapon;
         });
-        constructor.prototype.id = blueprint.id;
+
         return constructor;
     }
     parse(weaponsNode)

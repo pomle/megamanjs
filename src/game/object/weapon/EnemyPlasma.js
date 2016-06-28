@@ -1,17 +1,13 @@
-Game.objects.weapons.EnemyPlasma = function()
+Game.objects.weapons.EnemyPlasma =
+class EnemyPlasma extends Game.objects.Weapon
 {
-    Game.objects.Weapon.call(this);
-    this.addProjectile(new Game.objects.projectiles.EnemyPlasma());
-}
+    fire()
+    {
+        if (!super.fire()) {
+            return false;
+        }
 
-Engine.Util.extend(Game.objects.weapons.EnemyPlasma,
-                   Game.objects.Weapon);
-
-Game.objects.weapons.EnemyPlasma.prototype.fire = function()
-{
-    if (!Game.objects.Weapon.prototype.fire.call(this)) {
-        return false;
+        this.emit(this.projectilesIdle[0]);
+        return true;
     }
-    this.emit(this.getProjectile());
-    return true;
 }

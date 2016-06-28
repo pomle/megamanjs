@@ -1,17 +1,13 @@
-Game.objects.weapons.CrashBomber = function()
+Game.objects.weapons.CrashBomber =
+class CrashBomber extends Game.objects.Weapon
 {
-    Game.objects.Weapon.call(this);
-}
-
-Engine.Util.extend(Game.objects.weapons.CrashBomber,
-                   Game.objects.Weapon);
-
-Game.objects.weapons.CrashBomber.prototype.fire = function()
-{
-    if (!Game.objects.Weapon.prototype.fire.call(this)) {
-        return false;
+    fire()
+    {
+        if (!super.fire()) {
+            return false;
+        }
+        var projectile = this.getProjectile();
+        this.emit(projectile);
+        return true;
     }
-    var projectile = this.getProjectile();
-    this.emit(projectile);
-    return true;
 }
