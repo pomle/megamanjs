@@ -240,23 +240,11 @@ extends Game.Loader.XML.Parser
     }
     _parseSequences()
     {
+        const parser = new Game.Loader.XML.SequenceParser;
+        const node = this._node.querySelector(':scope > sequences');
         const seq = this._scene.sequencer;
-        const nodes = this._node.querySelectorAll(':scope > sequences > sequence');
-        for (let node, i = 0; node = nodes[i]; ++i) {
-            const id = this.getAttr(node, 'id');
-            const sequence = this._parseSequence(node);
-            seq.addSequence(id, sequence);
-        }
-    }
-    _parseSequence(sequenceNode)
-    {
-        const actionParser = new Game.Loader.XML.ActionParser;
-        const nodes = sequenceNode.querySelectorAll('action');
-        const sequence = [];
-        for (let node, i = 0; node = nodes[i]; ++i) {
-            const action = actionParser.getAction(node);
-            sequence.push([action]);
-        }
-        return sequence;
+        parser.getSequences(node).forEach(item => {
+            seq.addSequence(item.id, item.sequence);
+        });
     }
 }

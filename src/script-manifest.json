@@ -47,6 +47,7 @@
     "game/loader/XML/EventParser.js",
     "game/loader/XML/GameParser.js",
     "game/loader/XML/ObjectParser.js",
+    "game/loader/XML/SequenceParser.js",
     "game/loader/XML/WeaponParser.js",
     "game/loader/XML/TraitParser.js",
     "game/loader/XML/SceneParser.js",
