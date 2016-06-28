@@ -21,6 +21,7 @@ extends Game.Loader.XML.Parser
             'emittable': 'Emittable',
             'environment': 'Environment',
             'fallaway': 'Fallaway',
+            'fixed-force': 'FixedForce',
             'glow': 'Glow',
             'headlight': 'Headlight',
             'health': 'Health',
