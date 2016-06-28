@@ -14,7 +14,7 @@ Game.Scene = class Scene
         this.EVENT_INPUT = 'input';
 
         this.audio = {};
-        this.sequences = {};
+        this.sequencer = new Engine.SequenceManager(this);
         this.camera = new Engine.Camera;
         this.game = null;
         this.events = new Engine.Events(this);
@@ -126,41 +126,6 @@ Game.Scene = class Scene
     {
         const audio = this.getAudio(id);
         this.game.audioPlayer.stop(audio);
-    }
-    getSequence(id)
-    {
-        if (!this.sequences[id]) {
-            throw new Error(`Sequence id '${id}' not defined`);
-        }
-        return this.sequences[id];
-    }
-    playSequence(id)
-    {
-        const sequence = this.getSequence(id);
-        const steps = [];
-
-        let chain;
-        const next = () => {
-            if (steps.length) {
-                const tasks = [];
-                steps.shift().forEach(action => {
-                    tasks.push(action.call(this));
-                });
-                return Promise.all(tasks).then(() => {
-                    return next();
-                });
-            }
-        };
-
-        sequence.forEach(step => {
-            const actions = [];
-            step.forEach(action => {
-                actions.push(action);
-            });
-            steps.push(actions);
-        });
-
-        return next();
     }
     pauseSimulation()
     {

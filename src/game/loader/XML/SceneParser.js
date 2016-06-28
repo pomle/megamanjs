@@ -238,17 +238,15 @@ extends Game.Loader.XML.Parser
             this._objects = objects;
         });
     }
-
     _parseSequences()
     {
-        const sequences = {};
+        const seq = this._scene.sequencer;
         const nodes = this._node.querySelectorAll(':scope > sequences > sequence');
         for (let node, i = 0; node = nodes[i]; ++i) {
             const id = this.getAttr(node, 'id');
             const sequence = this._parseSequence(node);
-            sequences[id] = sequence;
+            seq.addSequence(id, sequence);
         }
-        this._scene.sequences = sequences;
     }
     _parseSequence(sequenceNode)
     {

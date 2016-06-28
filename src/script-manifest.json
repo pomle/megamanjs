@@ -17,6 +17,7 @@
     "engine/Camera.js",
     "engine/World.js",
     "engine/Object.js",
+    "engine/SequenceManager.js",
     "engine/Timeline.js",
     "engine/UVCoords.js",
 
