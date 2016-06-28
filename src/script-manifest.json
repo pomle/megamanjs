@@ -59,6 +59,7 @@
     "game/scene/Level.js",
     "game/scene/StageSelect.js",
 
+    "game/traits/Attach.js",
     "game/traits/ContactDamage.js",
     "game/traits/DeathSpawn.js",
     "game/traits/Destructible.js",

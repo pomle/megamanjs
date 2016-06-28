@@ -8,6 +8,7 @@ extends Game.Loader.XML.Parser
     {
         super(loader);
         this.TRAIT_MAP = {
+            'attach': 'Attach',
             'climbable': 'Climbable',
             'climber': 'Climber',
             'contact-damage': 'ContactDamage',
