@@ -6,16 +6,25 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
 
         this.NAME = 'projectile';
         this.EVENT_RECYCLE = 'recycle';
-
-        this._time = 0;
+        this.EVENT_RECYCLED = 'recycled';
 
         this._damage = 0;
-        this._lifetime = Infinity;
         this._origin = new THREE.Vector2();
         this._range = Infinity;
         this._speed = 0;
 
         this.penetratingForce = false;
+
+        const onRecycle = () => {
+            this.recycle();
+        };
+
+        this.events.bind(this.EVENT_ATTACHED, host => {
+            host.events.bind(this.EVENT_RECYCLE, onRecycle);
+        });
+        this.events.bind(this.EVENT_DETACHED, host => {
+            host.events.unbind(this.EVENT_RECYCLE, onRecycle);
+        });
     }
     __collides(withObject, ourZone, theirZone)
     {
@@ -35,8 +44,7 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
     }
     __timeshift(deltaTime)
     {
-        this._time += deltaTime;
-        if (this._time > this._lifetime) {
+        if (this._origin.distanceTo(this._host.position) >= this._range) {
             this.rangeReached();
         }
     }
@@ -50,13 +58,6 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
         vel.y = 100;
         vel.setLength(speed);
     }
-    getLifetime()
-    {
-        if (this._speed) {
-            return this._range / this._speed;
-        }
-        return Infinity;
-    }
     rangeReached()
     {
         this.recycle();
@@ -69,7 +70,7 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
     recycle()
     {
         this._host.reset();
-        this._trigger(this.EVENT_RECYCLE, [this._host]);
+        this._trigger(this.EVENT_RECYCLED, [this._host]);
     }
     setDamage(points)
     {
@@ -88,15 +89,9 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
     setRange(range)
     {
         this._range = range;
-        this._lifetime = this.getLifetime();
     }
     setSpeed(speed)
     {
         this._speed = speed;
-        this._lifetime = this.getLifetime();
-    }
-    setLifetime(speed)
-    {
-
     }
 }

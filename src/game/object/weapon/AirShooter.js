@@ -13,10 +13,10 @@ class AirShooter extends Game.objects.Weapon
         }
 
         const velocityMultiplier = 1.2;
-        const count = 0;
+        let count = 0;
         let projectile;
         while (projectile = this.getProjectile()) {
-            projectile.setSpeed(this.speed * Math.pow(velocityMultiplier, count++));
+            projectile.projectile._speed = this.speed * Math.pow(velocityMultiplier, count++);
             this.emit(projectile);
         }
 

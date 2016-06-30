@@ -61,6 +61,6 @@ class Attach extends Engine.Trait
         this._time = -1;
         this._position = null;
         this._host.collidable = true;
-        this._trigger(this.EVENT_DETACH, [withObject]);
+        this._trigger(this.EVENT_DETACH);
     }
 }

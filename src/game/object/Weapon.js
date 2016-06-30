@@ -33,7 +33,7 @@ Game.objects.Weapon = class Weapon
         }
         this.projectiles.push(object);
         this.projectilesIdle.push(object);
-        object.events.bind(object.projectile.EVENT_RECYCLE, this.recycleProjectile.bind(this));
+        object.events.bind(object.projectile.EVENT_RECYCLED, this.recycleProjectile.bind(this));
     }
     emit(object)
     {
