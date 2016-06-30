@@ -90,8 +90,8 @@ Engine.World = class World
     }
     updateTime(deltaTime)
     {
-        deltaTime *= this.timeStretch;
-        this.timeTotal += deltaTime;
+        const adjustedDelta = deltaTime * this.timeStretch;
+        this.timeTotal += adjustedDelta;
 
         const objectsDead = this.objectsDead;
         for (let object, objects = this.objects, i = 0, l = objects.length; i !== l; ++i) {
@@ -104,12 +104,12 @@ Engine.World = class World
                 --l;
             }
             else {
-                object.timeShift(deltaTime * object.timeStretch, this.timeTotal);
+                object.timeShift(adjustedDelta, this.timeTotal);
             }
         }
 
         this.collision.detect();
 
-        this.events.trigger(this.EVENT_UPDATE, [deltaTime, this.timeTotal]);
+        this.events.trigger(this.EVENT_UPDATE, [adjustedDelta, this.timeTotal]);
     }
 }

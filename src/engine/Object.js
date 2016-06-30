@@ -154,17 +154,18 @@ Engine.Object.prototype.setWorld = function(world)
 
 Engine.Object.prototype.timeShift = function(deltaTime)
 {
-    this.deltaTime = deltaTime;
+    const adjustedDelta = deltaTime * this.timeStretch;
+    this.deltaTime = adjustedDelta;
 
     if (this.model !== undefined && this.direction.x !== 0) {
         this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
     }
 
-    this.events.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
+    this.events.trigger(this.EVENT_TIMESHIFT, [adjustedDelta, this.time]);
 
-    this.integrator.integrate(this.position, this.velocity, deltaTime);
+    this.integrator.integrate(this.position, this.velocity, adjustedDelta);
 
-    this.time += deltaTime;
+    this.time += adjustedDelta;
 }
 
 Engine.Object.prototype.updateAnimators = function(deltaTime) {

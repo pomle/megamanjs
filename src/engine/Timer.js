@@ -64,7 +64,6 @@ Engine.Timer = class Timer
     }
     updateTime(dt)
     {
-
         if (this.isSimulating === true && this.simulationSpeed !== 0) {
             const step = this.timeStep;
             const passed = dt * this.simulationSpeed;
