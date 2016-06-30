@@ -242,9 +242,11 @@ extends Game.Loader.XML.Parser
     {
         const parser = new Game.Loader.XML.SequenceParser;
         const node = this._node.querySelector(':scope > sequences');
-        const seq = this._scene.sequencer;
-        parser.getSequences(node).forEach(item => {
-            seq.addSequence(item.id, item.sequence);
-        });
+        if (node) {
+            const seq = this._scene.sequencer;
+            parser.getSequences(node).forEach(item => {
+                seq.addSequence(item.id, item.sequence);
+            });
+        }
     }
 }

@@ -67,6 +67,10 @@ extends Game.Loader.XML.Parser
             blueprint.events.forEach(event => {
                 this.events.bind(event.name, event.callback);
             });
+
+            blueprint.sequences.forEach(seq => {
+                this.sequencer.addSequence(seq.id, seq.sequence);
+            });
         });
 
         constructor.prototype.animations = blueprint.animations;
@@ -255,6 +259,7 @@ extends Game.Loader.XML.Parser
             animators: [],
             events: null,
             geometries: [],
+            sequences: null,
             textures: textures,
             traits: null,
         };
@@ -323,6 +328,9 @@ extends Game.Loader.XML.Parser
             }),
             this._parseObjectTraits(objectNode).then(traits => {
                 blueprint.traits = traits;
+            }),
+            this._parseObjectSequences(objectNode).then(sequences => {
+                blueprint.sequences = sequences;
             }),
         ]).then(() => {
             return blueprint;
@@ -400,6 +408,17 @@ extends Game.Loader.XML.Parser
         }
         return Promise.resolve(traits);
     }
+    _parseObjectSequences(objectNode)
+    {
+        const parser = new Game.Loader.XML.SequenceParser;
+        const node = objectNode.querySelector(':scope > sequences');
+        if (node) {
+            const sequences = parser.getSequences(node);
+            return Promise.resolve(sequences);
+        } else {
+            return Promise.resolve([]);
+        }
+    }
     _parseTextures()
     {
         const nodes = this._node.querySelectorAll(':scope > textures > texture');
@@ -419,5 +438,4 @@ extends Game.Loader.XML.Parser
         }
         return Promise.resolve(textures);
     }
-
 }
