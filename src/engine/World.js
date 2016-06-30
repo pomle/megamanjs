@@ -73,6 +73,20 @@ Engine.World = class World
             this.objectsDead[index] = true;
         }
     }
+    _cleanObjects()
+    {
+        const dead = this.objectsDead;
+        for (let object, objects = this.objects, i = 0, l = objects.length; i !== l; ++i) {
+            object = objects[i];
+            if (dead[i] === true) {
+                this._cleanObject(object);
+                objects.splice(i, 1);
+                dead.splice(i, 1);
+                --i;
+                --l;
+            }
+        }
+    }
     _cleanObject(object)
     {
         object.unsetWorld();
@@ -93,22 +107,13 @@ Engine.World = class World
         const adjustedDelta = deltaTime * this.timeStretch;
         this.timeTotal += adjustedDelta;
 
-        const objectsDead = this.objectsDead;
-        for (let object, objects = this.objects, i = 0, l = objects.length; i !== l; ++i) {
-            object = objects[i];
-            if (objectsDead[i] === true) {
-                this._cleanObject(object);
-                objects.splice(i, 1);
-                objectsDead.splice(i, 1);
-                --i;
-                --l;
-            }
-            else {
-                object.timeShift(adjustedDelta, this.timeTotal);
-            }
-        }
+        this.objects.forEach(object => {
+            object.timeShift(adjustedDelta, this.timeTotal);
+        });
 
         this.collision.detect();
+
+        this._cleanObjects();
 
         this.events.trigger(this.EVENT_UPDATE, [adjustedDelta, this.timeTotal]);
     }
