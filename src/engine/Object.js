@@ -168,11 +168,12 @@ Engine.Object.prototype.timeShift = function(deltaTime)
     this.time += adjustedDelta;
 }
 
-Engine.Object.prototype.updateAnimators = function(deltaTime) {
-    var animators = this.animators;
-    for (var i = 0, l = animators.length; i !== l; ++i) {
-        animators[i].update(deltaTime);
-    }
+Engine.Object.prototype.updateAnimators = function(deltaTime)
+{
+    const adjustedDelta = deltaTime * this.timeStretch;
+    this.animators.forEach(animator => {
+        animator.update(adjustedDelta);
+    });
 }
 
 Engine.Object.prototype.uncollides = function(withObject)

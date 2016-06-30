@@ -81,12 +81,12 @@ Engine.World = class World
             this.scene.remove(object.model);
         }
     }
-    updateAnimation(dt)
+    updateAnimation(deltaTime)
     {
-        const objects = this.objects;
-        for (let i = 0, l = objects.length; i !== l; ++i) {
-            objects[i].updateAnimators(dt);
-        }
+        const adjustedDelta = deltaTime * this.timeStretch;
+        this.objects.forEach(object => {
+            object.updateAnimators(adjustedDelta);
+        });
     }
     updateTime(deltaTime)
     {
