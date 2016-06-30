@@ -76,14 +76,15 @@ Engine.World = class World
     _cleanObjects()
     {
         const dead = this.objectsDead;
-        for (let object, objects = this.objects, i = 0, l = objects.length; i !== l; ++i) {
-            object = objects[i];
+        const objects = this.objects;
+        for (let i = 0, l = objects.length; i !== l;) {
             if (dead[i] === true) {
-                this._cleanObject(object);
+                this._cleanObject(objects[i]);
                 objects.splice(i, 1);
                 dead.splice(i, 1);
-                --i;
                 --l;
+            } else {
+                ++i;
             }
         }
     }
