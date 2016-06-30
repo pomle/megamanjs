@@ -6,7 +6,6 @@ Game.objects.projectiles.AirShot = function()
     this.setRange(150);
     this.setSpeed(80);
     this.penetratingForce = true;
-    this.addCollisionRect(7, 8, 0, 0);
 }
 
 Game.objects.projectiles.AirShot.prototype = Object.create(Game.objects.Projectile.prototype);

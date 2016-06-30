@@ -104,8 +104,6 @@ extends Game.Loader.XML.Parser
     {
         if (type === 'character') {
             return Game.objects.characters[source] || Game.objects.Character;
-        } else if (type === 'projectile') {
-            return Game.objects.projectiles[source] || Game.objects.Projectile;
         } else {
             return Engine.Object;
         }

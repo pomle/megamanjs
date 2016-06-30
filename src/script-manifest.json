@@ -86,6 +86,7 @@
     "game/traits/Weapon.js",
     "game/traits/Light.js",
     "game/traits/Glow.js",
+    "game/traits/Projectile.js",
     "game/traits/Headlight.js",
     "game/traits/LightControl.js",
 
@@ -95,7 +96,6 @@
     "game/object/Character.js",
     "game/object/Spawner.js",
     "game/object/Weapon.js",
-    "game/object/Projectile.js",
 
     "game/object/character/Megaman.js",
     "game/object/character/Airman.js",
@@ -115,12 +115,5 @@
     "game/object/weapon/EnemyPlasma.js",
     "game/object/weapon/MetalBlade.js",
     "game/object/weapon/TimeStopper.js",
-    "game/object/weapon/Plasma.js",
-
-    "game/object/projectile/AirShot.js",
-    "game/object/projectile/CrashBomb.js",
-    "game/object/projectile/EnemyPlasma.js",
-    "game/object/projectile/MetalBlade.js",
-    "game/object/projectile/Plasma.js",
-    "game/object/projectile/SillyShot.js"
+    "game/object/weapon/Plasma.js"
 ]

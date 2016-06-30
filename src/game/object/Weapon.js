@@ -25,24 +25,26 @@ Game.objects.Weapon = function()
 Game.objects.Weapon.prototype.EVENT_AMMO_CHANGED = 'ammo-changed';
 Game.objects.Weapon.prototype.EVENT_READY = 'ready';
 
-Game.objects.Weapon.prototype.addProjectile = function(projectile)
+Game.objects.Weapon.prototype.addProjectile = function(object)
 {
-    if (!(projectile instanceof Game.objects.Projectile)) {
+    if (!(object instanceof Engine.Object) || !object.projectile) {
         throw new TypeError('Invalid projectile');
     }
-    this.projectiles.push(projectile);
-    this.projectilesIdle.push(projectile);
-    projectile.events.bind(projectile.EVENT_RECYCLE, this.recycleProjectile.bind(this));
+    this.projectiles.push(object);
+    this.projectilesIdle.push(object);
+    object.events.bind(object.projectile.EVENT_RECYCLE, this.recycleProjectile.bind(this));
 }
 
-Game.objects.Weapon.prototype.emit = function(projectile)
+Game.objects.Weapon.prototype.emit = function(object)
 {
-    if (!(projectile instanceof Game.objects.Projectile)) {
+    if (!(object instanceof Engine.Object) || !object.projectile) {
         throw new TypeError('Invalid projectile');
     }
 
-    var user = this.user,
-        aim = user.aim.clone();
+    const projectile = object.projectile;
+    const user = this.user;
+    const weapon = user.weapon;
+    const aim = user.aim.clone();
     aim.clamp(this.directions[0], this.directions[1]);
 
     // If not explicitly aiming, infer x direction from user.
@@ -50,19 +52,25 @@ Game.objects.Weapon.prototype.emit = function(projectile)
         aim.x = user.direction.x;
     }
 
-    projectile.velocity.copy(aim).setLength(projectile.speed);
+    object.velocity.copy(aim).setLength(projectile.speed);
+    object.setEmitter(user);
 
-    projectile.setEmitter(user, aim);
-    projectile.timeStretch = user.timeStretch;
+    const origin = user.position.clone();
+    origin.x += weapon.projectileEmitOffset.x * aim.x;
+    origin.y += weapon.projectileEmitOffset.y;
+    const radius = aim.clone().setLength(weapon.projectileEmitRadius);
+    origin.add(radius);
+    projectile.setOrigin(origin);
 
-    var index = this.projectilesIdle.indexOf(projectile);
+    object.timeStretch = user.timeStretch;
+
+    var index = this.projectilesIdle.indexOf(object);
     if (index !== -1) {
         this.projectilesIdle.splice(index, 1);
-        this.projectilesFired.push(projectile);
+        this.projectilesFired.push(object);
     }
 
-    projectile.time = 0;
-    user.world.addObject(projectile);
+    user.world.addObject(object);
 }
 
 Game.objects.Weapon.prototype.fire = function()

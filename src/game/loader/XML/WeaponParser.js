@@ -57,7 +57,7 @@ extends Game.Loader.XML.Parser
                 let projectileId = projectileNode.getAttribute('id');
                 let amount = this.getFloat(projectileNode, 'amount') || 1;
                 projectiles.push({
-                    constr: this.loader.resourceManager.get('projectile', projectileId),
+                    constr: this.loader.resourceManager.get('object', projectileId),
                     amount: amount,
                 });
             }
