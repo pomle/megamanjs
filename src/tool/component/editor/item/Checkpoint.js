@@ -2,14 +2,14 @@
 
 Editor.Item.Checkpoint = function(checkpoint, node)
 {
-    let vec = new THREE.Vector3(checkpoint.pos.x, checkpoint.pos.y, 0);
+    const vec = new THREE.Vector3(checkpoint.pos.x, checkpoint.pos.y);
+    vec.z = null;
 
     Editor.Item.Point.call(this, checkpoint, node, vec);
 
     this.model = new THREE.Mesh(
         new THREE.CircleGeometry(checkpoint.radius, 16),
-        this.materials.checkpoint
-    );
+        this.materials.checkpoint);
 
     this.moveTo(vec);
 }
@@ -20,7 +20,10 @@ Editor.Item.Checkpoint.prototype.constructor = Editor.Item.Checkpoint;
 Editor.Item.Checkpoint.prototype.TYPE = 'checkpoint';
 
 Editor.Item.Checkpoint.prototype.materials = {
-    checkpoint: new THREE.MeshBasicMaterial({color: 0xeb1e32, wireframe: true}),
+    checkpoint: new THREE.MeshBasicMaterial({
+        color: Editor.COLORS.checkpoint,
+        wireframe: true
+    }),
 }
 
 Editor.Item.Checkpoint.prototype.update = function()

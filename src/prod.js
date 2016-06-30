@@ -1,11 +1,11 @@
 (function() {
-    const loader = new Game.Loader.XML;
-    window.megaman2 = loader;
+    const game = new Game;
+    const loader = new Game.Loader.XML(game);
 
-    const game = loader.game;
     const gameElement = document.getElementById('game');
     const screenElement = document.getElementById('screen');
 
+    game.attachController(window);
     game.attachToElement(screenElement);
 
     const progress = gameElement.querySelector('.progress-bar > .progress');
@@ -28,4 +28,9 @@
     }).then(scene => {
         game.setScene(scene);
     });
+
+    window.megaman2 = {
+        game,
+        loader,
+    };
 })();

@@ -45,5 +45,31 @@ describe('Object', function() {
       host.timeShift(1);
       expect(callbackSpy.callCount).to.be(1);
     });
+    it('should return a promise that resolves when done', function(done) {
+      const host = new Host;
+      const callbackSpy = sinon.spy();
+      host.doFor(2, callbackSpy).then(done);
+      host.timeShift(2.1);
+    });
+  });
+  describe('#waitFor()', function() {
+    it('should return a promise that resolves when duration elapsed', function(done) {
+      const host = new Host;
+      const callbackSpy = sinon.spy();
+      host.waitFor(2).then(done);
+      host.timeShift(2);
+    });
+  });
+  describe('#timeShift()', function() {
+    it('should multiply time with object time multiplier', function() {
+      const host = new Host;
+      const callbackSpy = sinon.spy();
+      host.events.bind(host.EVENT_TIMESHIFT, callbackSpy);
+      host.timeStretch = 1.3;
+      host.timeShift(1.7);
+      expect(callbackSpy.lastCall.args).to.eql([2.21, 0]);
+      host.timeShift(1.29);
+      expect(callbackSpy.lastCall.args).to.eql([1.677, 2.21]);
+    });
   });
 });

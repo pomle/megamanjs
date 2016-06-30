@@ -182,7 +182,7 @@ extends Game.Loader.XML.Parser
         } else if (type === 'wait') {
             const duration = this.getFloat(node, 'duration') || 0;
             return function wait() {
-                return this.timer.waitFor(duration);
+                return this.waitFor(duration);
             };
         }
 

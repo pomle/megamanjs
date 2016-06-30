@@ -247,7 +247,7 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     runFlash()
     {
         this.modifiers.add(this.animations.flash);
-        return this.timer.waitFor(1.0).then(() => {
+        return this.waitFor(1.0).then(() => {
             this.modifiers.delete(this.animations.flash);
             this.animations.flash(-1);
         });
@@ -261,11 +261,11 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         character.position.y += 150;
         this.modifiers.add(this.animations.stars);
         this.events.trigger(this.EVENT_BOSS_REVEAL, [stage]);
-        this.timer.waitFor(.5).then(() => {
+        this.waitFor(.5).then(() => {
             this.world.addObject(character);
         });
         return camera.panTo(this.bossRevealCenter, 1, Engine.Easing.easeInOutCubic).then(() => {
-            return this.timer.waitFor(6);
+            return this.waitFor(6);
         }).then(() => {
             this.world.removeObject(character);
         });

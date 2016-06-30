@@ -62,7 +62,6 @@ Editor.Camera.prototype.nudge = function(vec2)
 
 Editor.Camera.prototype.zoom = function(factor)
 {
-    this.editor.ui.freeCamera();
     this.position.z = this.position.z * factor;
 }
 

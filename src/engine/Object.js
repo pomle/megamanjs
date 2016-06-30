@@ -23,6 +23,7 @@ Engine.Object = function()
     this.world = undefined;
 
     this.doFor = Engine.Loops.doFor(this.events, this.EVENT_TIMESHIFT);
+    this.waitFor = Engine.Loops.waitFor(this.events, this.EVENT_TIMESHIFT);
 
     if (this.geometry && this.material) {
         this.setModel(new THREE.Mesh(this.geometry, this.material));
@@ -119,6 +120,15 @@ Engine.Object.prototype.obstruct = function(object, attack, ourZone, theirZone)
     this.events.trigger(this.EVENT_OBSTRUCT, [object, attack, ourZone, theirZone]);
 }
 
+Engine.Object.prototype.reset = function()
+{
+    this.traits.forEach(trait => {
+        if (typeof trait.reset === 'function') {
+            trait.reset();
+        }
+    });
+}
+
 Engine.Object.prototype.setAnimation = function(name)
 {
     if (name !== this.anim) {
@@ -154,24 +164,26 @@ Engine.Object.prototype.setWorld = function(world)
 
 Engine.Object.prototype.timeShift = function(deltaTime)
 {
-    this.deltaTime = deltaTime;
+    const adjustedDelta = deltaTime * this.timeStretch;
+    this.deltaTime = adjustedDelta;
 
     if (this.model !== undefined && this.direction.x !== 0) {
         this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
     }
 
-    this.events.trigger(this.EVENT_TIMESHIFT, [deltaTime, this.time]);
+    this.events.trigger(this.EVENT_TIMESHIFT, [adjustedDelta, this.time]);
 
-    this.integrator.integrate(this.position, this.velocity, deltaTime);
+    this.integrator.integrate(this.position, this.velocity, adjustedDelta);
 
-    this.time += deltaTime;
+    this.time += adjustedDelta;
 }
 
-Engine.Object.prototype.updateAnimators = function(deltaTime) {
-    var animators = this.animators;
-    for (var i = 0, l = animators.length; i !== l; ++i) {
-        animators[i].update(deltaTime);
-    }
+Engine.Object.prototype.updateAnimators = function(deltaTime)
+{
+    const adjustedDelta = deltaTime * this.timeStretch;
+    this.animators.forEach(animator => {
+        animator.update(adjustedDelta);
+    });
 }
 
 Engine.Object.prototype.uncollides = function(withObject)

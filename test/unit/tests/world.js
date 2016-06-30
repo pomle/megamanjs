@@ -137,13 +137,6 @@ describe('World', function() {
       expect(objects[2].timeShift.callCount).to.equal(1);
       expect(objects[2].timeShift.lastCall.args).to.eql([0.16, 0.16]);
     });
-    it('should multiply time with object time multiplier', function() {
-      world.timeStretch = 1.5;
-      objects[0].timeStretch = 1.2;
-      world.updateTime(0.16);
-      expect(objects[0].timeShift.lastCall.args).to.eql([0.288, 0.24]);
-      expect(objects[1].timeShift.lastCall.args).to.eql([0.24, 0.24]);
-    });
     it('should multiply time with time stretch of world', function() {
       world.timeStretch = 1.5;
       world.updateTime(0.16);

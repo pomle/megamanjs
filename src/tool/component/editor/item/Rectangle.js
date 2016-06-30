@@ -6,7 +6,7 @@ Editor.Item.Rectangle = function(object, node, vec1, vec2)
 
     this.model = new THREE.Mesh(
         new THREE.PlaneGeometry(100, 100, 1, 1),
-        new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: true}));
+        this.MATERIAL);
 
     this.vectors = [vec1, vec2];
 
