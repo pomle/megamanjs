@@ -19,9 +19,6 @@ Engine.Timer = class Timer
         this.realTimePassed = 0;
         this.timeStep = 1/120;
 
-        this.doFor = Engine.Loops.doFor(this.events, this.EVENT_SIMULATE);
-        this.waitFor = Engine.Loops.waitFor(this.events, this.EVENT_UPDATE);
-
         this.eventLoop = this.eventLoop.bind(this);
     }
     enqueue()

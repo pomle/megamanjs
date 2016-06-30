@@ -22,6 +22,9 @@ Game.Scene = class Scene
         this.timer = new Engine.Timer;
         this.world = new Engine.World;
 
+        this.doFor = Engine.Loops.doFor(this.timer.events, this.timer.EVENT_SIMULATE);
+        this.waitFor = Engine.Loops.waitFor(this.timer.events, this.timer.EVENT_UPDATE);
+
         const timer = this.timer;
         const world = this.world;
         const scene = world.scene;
