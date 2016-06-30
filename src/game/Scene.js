@@ -33,11 +33,11 @@ Game.Scene = class Scene
 
         this.simulate = (dt) => {
             this.world.updateTime(dt);
-            this.camera.updateTime(dt);
         };
 
         const animate = (dt) => {
             world.updateAnimation(dt);
+            this.camera.updateTime(dt);
         };
 
         const render = () => {
