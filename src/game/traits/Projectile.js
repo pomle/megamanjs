@@ -65,7 +65,6 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
     reset()
     {
         this._host.collidable = true;
-        this._time = 0;
     }
     recycle()
     {
