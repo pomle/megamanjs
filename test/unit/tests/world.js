@@ -36,14 +36,15 @@ describe('World', function() {
       expect(world.ambientLight.color).to.eql({r: 1, g: 1, b: 1});
     });
   });
-  it('should handle removal of objects inside update loop', function() {
+  it('should handle removal of objects inside update loop but complete loop', function() {
     objects[0].timeShift = sinon.spy(function() {
       this.world.removeObject(objects[1]);
     });
     objects[1].timeShift = sinon.spy();
     world.updateTime(0.16);
     expect(objects[0].timeShift.calledOnce).to.be(true);
-    expect(objects[1].timeShift.called).to.be(false);
+    expect(objects[1].timeShift.calledOnce).to.be(true);
+    expect(world.hasObject(objects[1])).to.be(false);
   });
   describe('#addObject', function() {
     it('should add object to collision detector', function() {
