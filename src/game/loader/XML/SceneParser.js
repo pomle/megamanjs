@@ -238,27 +238,15 @@ extends Game.Loader.XML.Parser
             this._objects = objects;
         });
     }
-
     _parseSequences()
     {
-        const sequences = {};
-        const nodes = this._node.querySelectorAll(':scope > sequences > sequence');
-        for (let node, i = 0; node = nodes[i]; ++i) {
-            const id = this.getAttr(node, 'id');
-            const sequence = this._parseSequence(node);
-            sequences[id] = sequence;
+        const parser = new Game.Loader.XML.SequenceParser;
+        const node = this._node.querySelector(':scope > sequences');
+        if (node) {
+            const seq = this._scene.sequencer;
+            parser.getSequences(node).forEach(item => {
+                seq.addSequence(item.id, item.sequence);
+            });
         }
-        this._scene.sequences = sequences;
-    }
-    _parseSequence(sequenceNode)
-    {
-        const actionParser = new Game.Loader.XML.ActionParser;
-        const nodes = sequenceNode.querySelectorAll('action');
-        const sequence = [];
-        for (let node, i = 0; node = nodes[i]; ++i) {
-            const action = actionParser.getAction(node);
-            sequence.push([action]);
-        }
-        return sequence;
     }
 }

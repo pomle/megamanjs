@@ -279,8 +279,8 @@
                 <rect x="0" y="0" w="16" h="32"/>
             </collision>
             <traits>
-                <trait source="Solid"/>
-                <trait source="Destructible"/>
+                <trait name="solid"/>
+                <trait name="destructible"/>
             </traits>
         </object>
         <object id="door">
@@ -291,7 +291,7 @@
                 <rect x="0" y="0" w="32" h="64"/>
             </collision>
             <traits>
-                <trait source="Door">
+                <trait name="door">
                     <direction x="-1" y="0"/>
                 </trait>
             </traits>

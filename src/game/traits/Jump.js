@@ -1,95 +1,91 @@
-Game.traits.Jump = function()
+Game.traits.Jump =
+class Jump extends Engine.Trait
 {
-    Engine.Trait.call(this);
+    constructor()
+    {
+        super();
 
-    this._fallcount = 0;
+        this.NAME = 'jump';
+        this.EVENT_JUMP_ENGAGE = 'jump-engage';
+        this.EVENT_JUMP_CANCEL = 'jump-cancel';
+        this.EVENT_JUMP_END    = 'jump-end';
+        this.EVENT_JUMP_LAND    = 'jump-land';
 
-    this._elapsed = undefined;
-    this._bump = new THREE.Vector2();
-    this._ready = false;
+        this._fallcount = 0;
 
-    this.duration = .18;
-    this.force = new THREE.Vector2(0, 100);
-}
-
-Engine.Util.extend(Game.traits.Jump, Engine.Trait);
-
-Game.traits.Jump.prototype.NAME = 'jump';
-Game.traits.Jump.prototype.EVENT_JUMP_ENGAGE = 'jump-engage';
-Game.traits.Jump.prototype.EVENT_JUMP_CANCEL = 'jump-cancel';
-Game.traits.Jump.prototype.EVENT_JUMP_END    = 'jump-end';
-Game.traits.Jump.prototype.EVENT_JUMP_LAND    = 'jump-land';
-
-Game.traits.Jump.prototype.__obstruct = function(object, attack)
-{
-    if (attack === object.SURFACE_TOP) {
-        if (this._ready === false) {
-            this._trigger(this.EVENT_JUMP_LAND);
-        }
-        this.reset();
-    } else if (attack === object.SURFACE_BOTTOM) {
-        this._end();
-    }
-}
-
-Game.traits.Jump.prototype.__timeshift = function(deltaTime)
-{
-    if (++this._fallcount >= 2) {
+        this._elapsed = undefined;
+        this._bump = new THREE.Vector2();
         this._ready = false;
-    }
 
-    if (this._elapsed === undefined) {
-        return;
-    } else if (this._elapsed >= this.duration) {
+        this.duration = .18;
+        this.force = new THREE.Vector2(0, 100);
+    }
+    __obstruct(object, attack)
+    {
+        if (attack === object.SURFACE_TOP) {
+            if (this._ready === false) {
+                this._trigger(this.EVENT_JUMP_LAND);
+            }
+            this.reset();
+        } else if (attack === object.SURFACE_BOTTOM) {
+            this._end();
+        }
+    }
+    __timeshift(deltaTime)
+    {
+        if (++this._fallcount >= 2) {
+            this._ready = false;
+        }
+
+        if (this._elapsed === undefined) {
+            return;
+        } else if (this._elapsed >= this.duration) {
+            this._end();
+        } else {
+            this._elapsed += deltaTime;
+        }
+    }
+    _end()
+    {
+        this._elapsed = undefined;
+        this._trigger(this.EVENT_JUMP_END);
+    }
+    engage()
+    {
+        const host = this._host;
+        if (host.stunnedTime > 0) {
+            return false;
+        }
+
+        if (host.climber !== undefined) {
+            host.climber.release();
+        }
+
+        if (!this._ready) {
+            return false;
+        }
+
+        this._bump.copy(this.force);
+        this._bump.x *= host.direction.x;
+        this._host.physics.velocity.add(this._bump);
+        this._elapsed = 0;
+
+        this._trigger(this.EVENT_JUMP_ENGAGE);
+
+        return true;
+    }
+    cancel()
+    {
+        if (this._elapsed !== undefined) {
+            const progress = (this.duration - this._elapsed) / this.duration;
+            this._host.physics.velocity.y -= this.force.y * progress * .8;
+            this._trigger(this.EVENT_JUMP_CANCEL);
+        }
         this._end();
-    } else {
-        this._elapsed += deltaTime;
     }
-}
-
-Game.traits.Jump.prototype._end = function()
-{
-    this._elapsed = undefined;
-    this._trigger(this.EVENT_JUMP_END);
-}
-
-Game.traits.Jump.prototype.engage = function()
-{
-    var host = this._host;
-    if (host.stunnedTime > 0) {
-        return false;
+    reset()
+    {
+        this._ready = true;
+        this._fallcount = 0;
     }
-
-    if (host.climber !== undefined) {
-        host.climber.release();
-    }
-
-    if (!this._ready) {
-        return false;
-    }
-
-    this._bump.copy(this.force);
-    this._bump.x *= host.direction.x;
-    this._host.physics.velocity.add(this._bump);
-    this._elapsed = 0;
-
-    this._trigger(this.EVENT_JUMP_ENGAGE);
-
-    return true;
-}
-
-Game.traits.Jump.prototype.cancel = function()
-{
-    if (this._elapsed !== undefined) {
-        var progress = (this.duration - this._elapsed) / this.duration;
-        this._host.physics.velocity.y -= this.force.y * progress * .8;
-        this._trigger(this.EVENT_JUMP_CANCEL);
-    }
-    this._end();
-}
-
-Game.traits.Jump.prototype.reset = function()
-{
-    this._ready = true;
-    this._fallcount = 0;
 }

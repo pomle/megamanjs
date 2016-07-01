@@ -29,7 +29,7 @@
             </collision>
 
             <traits>
-                <trait source="Door"/>
+                <trait name="door"/>
             </traits>
         </object>
     </objects>
@@ -37,12 +37,12 @@
     <layout>
         <objects>
             <object id="door" x="32" y="0">
-                <trait source="Door">
+                <trait name="door">
                     <direction x="-1" y="0" />
                 </trait>
             </object>
             <object id="door" x="-48" y="0">
-                <trait source="Door">
+                <trait name="door">
                     <direction x="0" y="0" />
                 </trait>
             </object>

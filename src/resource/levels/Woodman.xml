@@ -298,7 +298,7 @@
                 <rect x="0" y="0" w="32" h="64"/>
             </collision>
             <traits>
-                <trait source="Door">
+                <trait name="door">
                     <direction x="-1" y="0"/>
                 </trait>
             </traits>

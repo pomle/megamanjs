@@ -167,7 +167,7 @@
                 <rect x="0" y="0" w="32" h="64"/>
             </collision>
             <traits>
-                <trait source="Door">
+                <trait name="door">
                     <direction x="-1" y="0"/>
                 </trait>
             </traits>
@@ -182,9 +182,9 @@
                 <rect x="0" y="0" w="32" h="16"/>
             </collision>
             <traits>
-                <trait source="Physics" mass="500"/>
-                <trait source="Solid" fixed="true" obstructs="true" />
-                <trait source="Fallaway" delay=".2"/>
+                <trait name="physics" mass="500"/>
+                <trait name="solid" fixed="true" obstructs="true" />
+                <trait name="fallaway" delay=".2"/>
             </traits>
         </object>
         <object id="waterfall">

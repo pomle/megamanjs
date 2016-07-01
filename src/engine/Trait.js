@@ -4,6 +4,11 @@ Engine.Trait = function()
     this._bindables = {};
     this._host = undefined;
 
+    this.EVENT_ATTACHED = 'attached';
+    this.EVENT_DETACHED = 'detached';
+
+    this.events = new Engine.Events(this);
+
     /* Bind on instanciation so that
        they can be found when unbound. */
     for (var method in this.MAGIC_METHODS) {
@@ -33,11 +38,13 @@ Engine.Trait.prototype.__attach = function(host)
     }
     this._host = host;
     this.__on();
+    this.events.trigger(this.EVENT_ATTACHED, [this._host]);
 }
 
 Engine.Trait.prototype.__detach = function()
 {
     this.__off();
+    this.events.trigger(this.EVENT_DETACHED, [this._host]);;
     this._host = undefined;
 }
 

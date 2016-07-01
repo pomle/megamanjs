@@ -16,6 +16,7 @@ Engine.Object = function()
     this.integrator = new Engine.Verlet(new THREE.Vector2());
     this.origo = new THREE.Vector2();
     this.position = new THREE.Vector3();
+    this.sequencer = new Engine.SequenceManager(this);
     this.time = 0;
     this.timeStretch = 1;
     this.traits = [];

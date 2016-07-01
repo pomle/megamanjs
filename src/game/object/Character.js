@@ -13,16 +13,6 @@ Game.objects.Character.prototype.EVENT_DAMAGE = 'damage';
 Game.objects.Character.prototype.EVENT_DEATH = 'death';
 Game.objects.Character.prototype.EVENT_RESURRECT = 'resurrect';
 
-Game.objects.Character.prototype.impactProjectile = function(projectile)
-{
-    if (projectile instanceof Game.objects.Projectile !== true) {
-        throw new Error('Invalid projectile');
-    }
-
-    var direction = projectile.position.clone().sub(this.position);
-    return this.health.inflictDamage(projectile.damage, direction);
-}
-
 Game.objects.Character.prototype.kill = function()
 {
     this.dead = true;

@@ -175,7 +175,12 @@ extends Game.Loader.XML.Parser
         } else if (type === 'play-sequence') {
             const id = this.getAttr(node, 'id');
             return function playSequence() {
-                return this.playSequence(id);
+                return this.sequencer.playSequence(id);
+            };
+        } else if (type === 'set-animation') {
+            const id = this.getAttr(node, 'id');
+            return function setAnimation() {
+                this.setAnimation(id);
             };
         } else if (type === 'transform') {
             return this._parseActionTransform(node);

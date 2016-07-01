@@ -5,14 +5,14 @@
             <rect x="0" y="0" w="20" h="28" />
         </collision>
         <traits>
-            <trait source="ContactDamage" points="8" />
-            <trait source="Health" max="28" />
-            <trait source="Jump" force="600" duration=".18" />
-            <trait source="Physics" area=".04" drag=".045" mass="165" />
-            <trait source="Solid" attack="bottom"/>
-            <trait source="Move" />
-            <trait source="Invincibility" duration=".5" />
-            <trait source="Weapon">
+            <trait name="contact-damage" points="8" />
+            <trait name="health" max="28" />
+            <trait name="jump" force="600" duration=".18" />
+            <trait name="physics" area=".04" drag=".045" mass="165" />
+            <trait name="solid" attack="bottom"/>
+            <trait name="move" />
+            <trait name="invincibility" duration=".5" />
+            <trait name="weapon">
                 <projectile-emit-offset x="22" y="-1" />
             </trait>
         </traits>

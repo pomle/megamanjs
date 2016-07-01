@@ -17,6 +17,7 @@
     "engine/Camera.js",
     "engine/World.js",
     "engine/Object.js",
+    "engine/SequenceManager.js",
     "engine/Timeline.js",
     "engine/UVCoords.js",
 
@@ -46,6 +47,7 @@
     "game/loader/XML/EventParser.js",
     "game/loader/XML/GameParser.js",
     "game/loader/XML/ObjectParser.js",
+    "game/loader/XML/SequenceParser.js",
     "game/loader/XML/WeaponParser.js",
     "game/loader/XML/TraitParser.js",
     "game/loader/XML/SceneParser.js",
@@ -57,11 +59,13 @@
     "game/scene/Level.js",
     "game/scene/StageSelect.js",
 
+    "game/traits/Attach.js",
     "game/traits/ContactDamage.js",
     "game/traits/DeathSpawn.js",
     "game/traits/Destructible.js",
     "game/traits/Disappearing.js",
     "game/traits/Fallaway.js",
+    "game/traits/FixedForce.js",
     "game/traits/Lifetime.js",
     "game/traits/Health.js",
     "game/traits/Invincibility.js",
@@ -84,6 +88,7 @@
     "game/traits/Weapon.js",
     "game/traits/Light.js",
     "game/traits/Glow.js",
+    "game/traits/Projectile.js",
     "game/traits/Headlight.js",
     "game/traits/LightControl.js",
 
@@ -93,7 +98,6 @@
     "game/object/Character.js",
     "game/object/Spawner.js",
     "game/object/Weapon.js",
-    "game/object/Projectile.js",
 
     "game/object/character/Megaman.js",
     "game/object/character/Airman.js",
@@ -113,12 +117,5 @@
     "game/object/weapon/EnemyPlasma.js",
     "game/object/weapon/MetalBlade.js",
     "game/object/weapon/TimeStopper.js",
-    "game/object/weapon/Plasma.js",
-
-    "game/object/projectile/AirShot.js",
-    "game/object/projectile/CrashBomb.js",
-    "game/object/projectile/EnemyPlasma.js",
-    "game/object/projectile/MetalBlade.js",
-    "game/object/projectile/Plasma.js",
-    "game/object/projectile/SillyShot.js"
+    "game/object/weapon/Plasma.js"
 ]

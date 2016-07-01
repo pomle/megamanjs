@@ -43,9 +43,9 @@
             <circ r="8"/>
         </collision>
         <traits>
-            <trait source="Pickupable" event="pickup">
+            <pickupable event="pickup">
                 <property type="extra-life"/>
-            </trait>
+            </pickupable>
         </traits>
     </object>
 
@@ -57,9 +57,9 @@
             <rect w="16" h="16"/>
         </collision>
         <traits>
-            <trait source="Pickupable" event="pickup">
+            <pickupable event="pickup">
                 <property type="energy-capsule"/>
-            </trait>
+            </pickupable>
         </traits>
     </object>
 
@@ -71,7 +71,7 @@
             <circ r="8"/>
         </collision>
         <traits>
-            <trait source="Pickupable">
+            <trait name="pickupable">
                 <property type="energy-tank"/>
                 <property capacity="10"/>
             </trait>
@@ -86,7 +86,7 @@
             <circ r="4"/>
         </collision>
         <traits>
-            <trait source="Pickupable">
+            <trait name="pickupable">
                 <property type="energy-tank"/>
                 <property capacity="3"/>
             </trait>
@@ -101,7 +101,7 @@
             <rect w="16" h="12"/>
         </collision>
         <traits>
-            <trait source="Pickupable">
+            <trait name="pickupable">
                 <property type="weapon-tank"/>
                 <property capacity="10"/>
             </trait>
@@ -116,7 +116,7 @@
             <rect w="8" h="8"/>
         </collision>
         <traits>
-            <trait source="Pickupable">
+            <trait name="pickupable">
                 <property type="weapon-tank"/>
                 <property capacity="3"/>
             </trait>

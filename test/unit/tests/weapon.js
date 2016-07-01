@@ -4,15 +4,23 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
+const Projectile = env.Game.traits.Projectile;
 const Weapon = env.Game.objects.Weapon;
 const WeaponTrait = env.Game.traits.Weapon;
-const Projectile = env.Game.objects.Projectile;
 const Character = env.Game.objects.Character;
 
 describe('Weapon', function() {
   let weapon;
   let worldMock;
   let character;
+
+  function createProjectile()
+  {
+    const proj = new Engine.Object();
+    proj.applyTrait(new Projectile);
+    return proj;
+  }
+
   beforeEach(function() {
     worldMock = {
       addObject: sinon.spy(function(object) {
@@ -44,7 +52,7 @@ describe('Weapon', function() {
       expect(weapon.coolDownDelay).to.be(undefined);
     });
     it('should honor projectile stash', function() {
-      const projectile = new Projectile();
+      const projectile = createProjectile();
       weapon.addProjectile(projectile);
       expect(weapon.fire()).to.be(true);
       weapon.emit(weapon.getProjectile());
@@ -80,7 +88,7 @@ describe('Weapon', function() {
   });
   describe('#emit', function() {
     it('should move projectile from idle to fired pool', function() {
-      const projectile = new Projectile();
+      const projectile = createProjectile();
       weapon.addProjectile(projectile);
       weapon.emit(projectile);
       expect(weapon.projectilesIdle).to.have.length(0);
@@ -88,8 +96,8 @@ describe('Weapon', function() {
       expect(weapon.projectilesFired[0]).to.be(projectile);
     });
     it('should set projectile speed according to users aim', function() {
-      const projectile = new Projectile();
-      projectile.speed = 10;
+      const projectile = createProjectile();
+      projectile.projectile.setSpeed(10);
 
       weapon.directions[0].set(-1, -1);
       weapon.directions[1].set(1, 1);
@@ -105,8 +113,8 @@ describe('Weapon', function() {
       expect(projectile.velocity.y).to.equal(4.47213595499958);
     });
     it('should use user horizontal direction for projectile speed if aim is zero', function() {
-      const projectile = new Projectile();
-      projectile.speed = 10;
+      const projectile = createProjectile();
+      projectile.projectile.setSpeed(10);
       weapon.user.aim.set(0, 0);
       weapon.user.direction.set(1, 0);
       weapon.emit(projectile);
@@ -116,8 +124,8 @@ describe('Weapon', function() {
       expect(projectile.velocity.x).to.equal(-10);
     });
     it('should clamp user aim if weapon aim restricted', function() {
-      const projectile = new Projectile();
-      projectile.speed = 10;
+      const projectile = createProjectile();
+      projectile.projectile.setSpeed(10);
       weapon.addProjectile(projectile);
       weapon.directions[0].set(-1, 0);
       weapon.directions[1].set(1, 0);
@@ -135,26 +143,20 @@ describe('Weapon', function() {
       expect(projectile.velocity.x).to.equal(-10);
     });
     it('should copy user time stretch to projectile', function() {
-      const projectile = new Projectile();
+      const projectile = createProjectile();
       weapon.user.timeStretch = 1.12451;
       weapon.emit(projectile);
       expect(projectile.timeStretch).to.equal(1.12451);
     });
     it('should set emitter on projectile to weapon user', function() {
-      const projectile = new Projectile();
+      const projectile = createProjectile();
       weapon.emit(projectile);
       expect(projectile.emitter).to.be(weapon.user);
-    });
-    it('should reset projectile time', function() {
-      const projectile = new Projectile();
-      projectile.time = 10;
-      weapon.emit(projectile);
-      expect(projectile.time).to.equal(0);
     });
   });
   describe('#addProjectile', function() {
     it('should add projectile to projectiles list', function() {
-      const projectile = new Projectile();
+      const projectile = createProjectile();
       weapon.addProjectile(projectile);
       expect(weapon.projectiles).to.have.length(1);
       expect(weapon.projectiles[0]).to.be(projectile);
@@ -165,7 +167,7 @@ describe('Weapon', function() {
   });
   describe('#recycleProjectile', function() {
     it('should move projectile from fired to idle pool and remove from world', function() {
-      const projectile = new Projectile();
+      const projectile = createProjectile();
       weapon.addProjectile(projectile);
       weapon.emit(projectile);
       weapon.recycleProjectile(projectile);
@@ -176,7 +178,7 @@ describe('Weapon', function() {
       expect(worldMock.removeObject.lastCall.args[0]).to.be(projectile);
     });
     it('should remove projectile from world', function() {
-      const projectile = new Projectile();
+      const projectile = createProjectile();
       weapon.addProjectile(projectile);
       weapon.emit(projectile);
       weapon.recycleProjectile(projectile);

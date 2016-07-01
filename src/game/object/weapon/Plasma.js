@@ -1,17 +1,13 @@
-Game.objects.weapons.Plasma = function()
+Game.objects.weapons.Plasma =
+class Plasma extends Game.objects.Weapon
 {
-    Game.objects.Weapon.call(this);
-}
+    fire()
+    {
+        if (!super.fire()) {
+            return false;
+        }
 
-Game.objects.weapons.Plasma.prototype = Object.create(Game.objects.Weapon.prototype);
-Game.objects.weapons.Plasma.constructor = Game.objects.Weapon;
-
-Game.objects.weapons.Plasma.prototype.fire = function()
-{
-    if (!Game.objects.Weapon.prototype.fire.call(this)) {
-        return false;
+        this.emit(this.projectilesIdle[0]);
+        return true;
     }
-
-    this.emit(this.projectilesIdle[0]);
-    return true;
 }

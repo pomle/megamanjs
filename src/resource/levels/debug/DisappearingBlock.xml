@@ -29,7 +29,7 @@
             </tile>
 
             <traits>
-                <trait source="Solid" />
+                <trait name="solid" />
             </traits>
         </object>
     </objects>
@@ -38,16 +38,16 @@
     <layout>
         <objects>
             <object id="PhoBlock" x="48" y="4">
-                <trait source="Disappearing" off="4" on="2" offset="0" />
+                <trait name="disappearing" off="4" on="2" offset="0" />
             </object>
             <object id="PhoBlock" x="96" y="4">
-                <trait source="Disappearing" off="4" on="2" offset="-1" />
+                <trait name="disappearing" off="4" on="2" offset="-1" />
             </object>
             <object id="PhoBlock" x="144" y="4">
-                <trait source="Disappearing" off="4" on="2" offset="-2" />
+                <trait name="disappearing" off="4" on="2" offset="-2" />
             </object>
             <object id="PhoBlock" x="192" y="4">
-                <trait source="Disappearing" off="4" on="2" offset="-3" />
+                <trait name="disappearing" off="4" on="2" offset="-3" />
             </object>
         </objects>
 
