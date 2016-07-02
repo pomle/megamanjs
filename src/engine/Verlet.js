@@ -1,20 +1,23 @@
-Engine.Verlet = function(vec)
-{
-    this.components = Object.keys(vec).join('');
-    this.vec = vec;
-}
+'use strict';
 
-
-Engine.Verlet.prototype.integrate = function(result, add, deltaTime)
+Engine.Verlet =
+class Verlet
 {
-    var com = this.components;
-    for (var c, i = 0; c = com[i]; ++i) {
-        result[c] += (this.vec[c] + add[c]) * 0.5 * deltaTime;
-        this.vec[c] = add[c];
+    constructor(vec)
+    {
+        this.components = Object.keys(vec).join('');
+        this.vec = vec;
     }
-}
-
-Engine.Verlet.prototype.reset = function()
-{
-    this.vec.set(0, 0, 0);
+    integrate(result, add, deltaTime)
+    {
+        const com = this.components;
+        for (let c, i = 0; c = com[i]; ++i) {
+            result[c] += (this.vec[c] + add[c]) * 0.5 * deltaTime;
+            this.vec[c] = add[c];
+        }
+    }
+    reset()
+    {
+        this.vec.set(0, 0, 0);
+    }
 }
