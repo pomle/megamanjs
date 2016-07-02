@@ -1,6 +1,5 @@
 Engine.CanvasUtil = {
-    clone: function(oldCanvas)
-    {
+    clone: function(oldCanvas) {
         var newCanvas = document.createElement('canvas');
         var context = newCanvas.getContext('2d');
         newCanvas.width = oldCanvas.width;
@@ -8,9 +7,7 @@ Engine.CanvasUtil = {
         context.drawImage(oldCanvas, 0, 0);
         return newCanvas;
     },
-
-    colorReplace: function(canvas, rgbIn, rgbOut)
-    {
+    colorReplace: function(canvas, rgbIn, rgbOut) {
         var context = canvas.getContext("2d");
         var pixels = context.getImageData(0, 0, canvas.width, canvas.height);
         var data = pixels.data;
@@ -26,9 +23,7 @@ Engine.CanvasUtil = {
         context.putImageData(pixels, 0, 0);
         return canvas;
     },
-
-    scale: function(canvas, scale)
-    {
+    scale: function(canvas, scale) {
         var x = canvas.width * scale;
         var y = canvas.height * scale;
         var newCanvas = document.createElement('canvas');

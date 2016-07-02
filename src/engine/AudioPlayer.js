@@ -1,6 +1,7 @@
 'use strict';
 
-Engine.AudioPlayer = class AudioPlayer
+Engine.AudioPlayer =
+class AudioPlayer
 {
     constructor()
     {

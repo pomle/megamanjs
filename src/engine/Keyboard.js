@@ -1,6 +1,7 @@
 'use strict';
 
-Engine.Keyboard = class Keyboard {
+Engine.Keyboard = class Keyboard
+{
     constructor()
     {
         this.EVENT_TRIGGER = 'trigger';

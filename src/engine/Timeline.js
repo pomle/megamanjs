@@ -1,6 +1,8 @@
 'use strict';
 
-Engine.Timeline = class Timeline {
+Engine.Timeline =
+class Timeline
+{
     constructor()
     {
         this.name = undefined;

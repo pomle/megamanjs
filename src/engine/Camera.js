@@ -1,6 +1,7 @@
 'use strict';
 
-Engine.Camera = class Camera
+Engine.Camera =
+class Camera
 {
     constructor()
     {

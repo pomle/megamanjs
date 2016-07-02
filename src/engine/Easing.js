@@ -1,3 +1,5 @@
+'use strict';
+
 Engine.Easing = {
     linear: function (t) {
         return t

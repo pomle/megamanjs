@@ -1,6 +1,7 @@
 'use strict';
 
-Engine.World = class World
+Engine.World =
+class World
 {
     constructor()
     {

@@ -1,6 +1,7 @@
 'use strict';
 
-Engine.Timer = class Timer
+Engine.Timer =
+class Timer
 {
     constructor()
     {

@@ -1,8 +1,7 @@
 'use strict';
 
 Engine.PositionalAudio =
-class PositionalAudio
-extends Engine.Audio
+class PositionalAudio extends Engine.Audio
 {
     constructor(buffer, position)
     {

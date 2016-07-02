@@ -1,6 +1,8 @@
 'use strict';
 
-Engine.InputRecorder = class InputRecorder {
+Engine.InputRecorder =
+class InputRecorder
+{
     constructor(game, input)
     {
         this._game = game;

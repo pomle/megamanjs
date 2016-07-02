@@ -1,6 +1,7 @@
 'use strict';
 
-Engine.Tween = class Tween
+Engine.Tween =
+class Tween
 {
     constructor(to, easing = Engine.Easing.linear)
     {
