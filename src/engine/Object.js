@@ -1,3 +1,5 @@
+'use strict';
+
 Engine.Object = function()
 {
     this.uuid = THREE.Math.generateUUID();
@@ -53,8 +55,11 @@ Engine.Object.prototype.textures = {};
 
 Engine.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
 {
-    var boundingBox = new Engine.Collision.BoundingBox(
-        this.position, {x: w, y: h}, {x: offsetX || 0, y: offsetY || 0});
+    const boundingBox = new Engine.Collision.BoundingBox(
+        this.position,
+        {x: w, y: h},
+        {x: offsetX || 0, y: offsetY || 0}
+    );
     this.collision.push(boundingBox);
 }
 
@@ -94,7 +99,7 @@ Engine.Object.prototype.getModel = function()
 
 Engine.Object.prototype.getTrait = function(traitReference)
 {
-    for (var i = 0, l = this.traits.length; i < l; ++i) {
+    for (let i = 0, l = this.traits.length; i < l; ++i) {
         if (this.traits[i] instanceof traitReference) {
             return this.traits[i];
         }
@@ -110,7 +115,7 @@ Engine.Object.prototype.moveTo = function(vec)
 
 Engine.Object.prototype.nudge = function(x, y)
 {
-    var vec = this.position.clone();
+    const vec = this.position.clone();
     vec.x += x || 0;
     vec.y += y || 0;
     this.moveTo(vec);
