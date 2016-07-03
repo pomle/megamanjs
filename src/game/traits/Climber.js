@@ -18,8 +18,8 @@ class Climber extends Engine.Trait
         this.speed = 60;
 
         this.thresholds = {
-            top: 0,
-            bottom: 0,
+            top: 2,
+            bottom: 2,
             left: 0,
             right: 0,
         };
@@ -52,6 +52,16 @@ class Climber extends Engine.Trait
         }
 
         const host = this._host;
+
+        if (host.aim.y > 0 && host.position.y > this.bounds.climbable.top - this.thresholds.top) {
+            this.bounds.host.bottom = this.bounds.climbable.top;
+            this.release();
+            return;
+        } else if (host.aim.y < 0 && this.bounds.host.top < this.bounds.climbable.bottom) {
+            this.release();
+            return;
+        }
+
         if (host.physics) {
             host.physics.zero();
         }
@@ -59,33 +69,21 @@ class Climber extends Engine.Trait
         host.velocity.copy(host.aim).setLength(this.speed);
         host.velocity.add(this.attached.velocity);
 
-        if (host.aim.y > 0 && host.position.y > this.bounds.climbable.top - this.thresholds.top) {
-            this.bounds.host.bottom = this.bounds.climbable.top;
-            this.release();
-            return;
-        }
-
         this.constrain();
     }
     constrain()
     {
-        const subject = this._host;
-        const climbable = this.bounds.climbable;
-        const thresh = this.thresholds;
+        const pos = this._host.position;
+        const cli = this.bounds.climbable;
+        const thr = this.thresholds;
 
-        if (subject.position.x > climbable.right + thresh.right) {
-            subject.position.x = climbable.right + thresh.right;
-        } else if (subject.position.x < climbable.left - thresh.left) {
-            subject.position.x = climbable.left - thresh.left;
+        if (pos.y > cli.top - thr.top) {
+            pos.y = cli.top - thr.top;
         }
 
-        if (subject.position.y > climbable.top - thresh.top) {
-            subject.position.y = climbable.top - thresh.top;
-        } else if (subject.position.y < climbable.bottom + thresh.bottom) {
-            subject.position.y = climbable.bottom + thresh.bottom;
-        }
+        pos.x = this.attached.position.x;
     }
-    grab(subject, ourZone, theirZone)
+    grab(subject, me, climbable)
     {
         this.release();
 
@@ -95,20 +93,24 @@ class Climber extends Engine.Trait
             return false;
         }
 
-        /* Don't grab ladder if going down and is on the ground. */
-        if (host.aim.y < 0 && host.jump && host.jump._ready === true) {
-            return false;
-        }
-
         /* Don't grab ladder if on top and push up. */
         if (host.aim.y > 0) {
-            if (host.position.y > theirZone.top - this.thresholds.top) {
+            if (host.position.y > climbable.top - this.thresholds.top) {
                 return false;
             }
         }
 
-        this.bounds.climbable = theirZone;
-        this.bounds.host = ourZone;
+        /* Don't grab ladder if going aiming down and not on top. */
+        if (host.aim.y < 0 && me.bottom <= climbable.top - this.thresholds.top) {
+            return false;
+        }
+
+        if (host.move) {
+            host.move.__off();
+        }
+
+        this.bounds.climbable = climbable;
+        this.bounds.host = me;
 
         this.attached = subject;
         this.attached.climbable.attach(host);
@@ -123,6 +125,9 @@ class Climber extends Engine.Trait
             return;
         }
         const host = this._host;
+        if (host.move) {
+            host.move.__on();
+        }
         this.bounds.climbable = null;
         this.bounds.host = null;
         this.attached.climbable.detach(host);
