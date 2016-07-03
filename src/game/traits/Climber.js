@@ -9,10 +9,10 @@ class Climber extends Engine.Trait
 
         this.NAME = 'climber';
 
-        this.attached = undefined;
+        this.attached = null;
         this.bounds = {
-            climbable: undefined,
-            host: undefined,
+            climbable: null,
+            host: null,
         };
 
         this.speed = 60;
@@ -27,12 +27,12 @@ class Climber extends Engine.Trait
     __collides(subject, ourZone, theirZone)
     {
         /* Don't regrab anything in the middle of climbing. */
-        if (this.attached !== undefined) {
+        if (this.attached) {
             return;
         }
 
         /* Don't grab anything without climbable trait. */
-        if (subject.climbable === undefined) {
+        if (!subject.climbable) {
             return;
         }
 
@@ -47,7 +47,7 @@ class Climber extends Engine.Trait
     }
     __timeshift(deltaTime)
     {
-        if (this.attached === undefined) {
+        if (!this.attached) {
             return;
         }
 
@@ -119,14 +119,14 @@ class Climber extends Engine.Trait
     }
     release()
     {
-        if (this.attached === undefined) {
+        if (!this.attached) {
             return;
         }
         const host = this._host;
-        this.bounds.climbable = undefined;
-        this.bounds.host = undefined;
+        this.bounds.climbable = null;
+        this.bounds.host = null;
         this.attached.climbable.detach(host);
-        this.attached = undefined;
+        this.attached = null;
         if (host.physics) {
             host.physics.zero();
         }
