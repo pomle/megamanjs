@@ -7,6 +7,8 @@ class World
     {
         this.EVENT_UPDATE = 'update';
         this.EVENT_EMIT_AUDIO = 'emit-audio';
+        this.EVENT_ADD = 'world-add';
+        this.EVENT_REMOVE = 'world-remove';
 
         this.ambientLight = new THREE.AmbientLight(0xffffff);
 
@@ -44,6 +46,7 @@ class World
             this.scene.add(object.model);
         }
         object.setWorld(this);
+        object.events.trigger(this.EVENT_ADD);
     }
     emitAudio(positionalAudio)
     {
@@ -72,6 +75,7 @@ class World
         const index = this.objects.indexOf(object);
         if (index !== -1) {
             this.objectsDead[index] = true;
+            object.events.trigger(this.EVENT_REMOVE);
         }
     }
     _cleanObjects()
