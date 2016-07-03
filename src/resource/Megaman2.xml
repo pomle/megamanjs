@@ -42,6 +42,7 @@
     </scenes>
 
     <audio>
+        <effect src="./explosion.ogg" id="explosion"/>
         <effect src="./hit.ogg" id="hit"/>
     </audio>
 

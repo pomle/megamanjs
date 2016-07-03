@@ -42,6 +42,14 @@
     </animations>
 
     <object type="object" id="Explosion">
+        <audio>
+            <effect id="explosion"/>
+        </audio>
+        <events>
+            <event name="world-add">
+                <action type="emit-audio" id="explosion"/>
+            </event>
+        </events>
         <geometry type="plane" w="48" h="48">
             <face animation="explosion"/>
         </geometry>
