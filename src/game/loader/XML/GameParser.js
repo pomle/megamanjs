@@ -28,8 +28,11 @@ extends Game.Loader.XML.Parser
         return this._parseConfig().then(() => {
             return Promise.all([
                 this._parseAudio(),
-                this._parseEntrypoint(),
                 this._parseFonts(),
+            ]);
+        }).then(() => {
+            return Promise.all([
+                this._parseEntrypoint(),
                 this._parseObjects(itemNodes),
                 this._parseObjects(characterNodes),
                 this._parseObjects(projectileNodes),
