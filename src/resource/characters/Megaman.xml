@@ -82,7 +82,7 @@
                     return 'stunned';
                 }
 
-                if (this.climber.attached !== undefined) {
+                if (this.climber.attached) {
                     if (this.weapon._firing) {
                         return 'hang-shoot';
                     }

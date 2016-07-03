@@ -80,10 +80,10 @@ extends Game.Loader.XML.Parser
             };
         } else if (name === 'elevator') {
             const nodes = [];
-            const speed = 0;
+            let speed = 0;
             const pathNode = node.getElementsByTagName('path')[0];
             if (pathNode) {
-                const speed = this.getFloat(pathNode, 'speed');
+                speed = this.getFloat(pathNode, 'speed');
                 const nodeNodes = pathNode.getElementsByTagName('node');
                 if (nodeNodes) {
                     for (let nodeNode, i = 0; nodeNode = nodeNodes[i++];) {
@@ -208,12 +208,12 @@ extends Game.Loader.XML.Parser
         const attack = node.getAttribute(attr);
         if (attack) {
             const surfaces = [];
-            const S = Game.traits.Solid.prototype;
+            const SIDES = Game.traits.Solid.SIDES;
             const map = {
-                'top': S.TOP,
-                'bottom': S.BOTTOM,
-                'left': S.LEFT,
-                'right': S.RIGHT,
+                'top': SIDES.TOP,
+                'bottom': SIDES.BOTTOM,
+                'left': SIDES.LEFT,
+                'right': SIDES.RIGHT,
             }
             const attacks = attack.split(' ');
             for (let i = 0, l = attacks.length; i !== l; ++i) {

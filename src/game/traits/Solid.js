@@ -1,103 +1,113 @@
-Game.traits.Solid = function()
+'use strict';
+
+Game.traits.Solid =
+class Solid extends Engine.Trait
 {
-    Engine.Trait.call(this);
+    constructor()
+    {
+        super();
 
-    this.attackAccept = [
-        this.TOP,
-        this.BOTTOM,
-        this.LEFT,
-        this.RIGHT
-    ];
+        this.NAME = 'solid';
 
-    this.fixed = false;
-    this.obstructs = false;
+        const SIDES = Game.traits.Solid.SIDES;
+        this.TOP = SIDES.TOP;
+        this.BOTTOM = SIDES.BOTTOM;
+        this.LEFT = SIDES.LEFT;
+        this.RIGHT = SIDES.RIGHT;
 
-    this.ignore = new Set();
-}
+        this.attackAccept = [
+            this.TOP,
+            this.BOTTOM,
+            this.LEFT,
+            this.RIGHT
+        ];
 
-Engine.Util.extend(Game.traits.Solid, Engine.Trait);
+        this.fixed = false;
+        this.obstructs = false;
 
-Game.traits.Solid.prototype.NAME = 'solid';
-
-Game.traits.Solid.prototype.TOP = Engine.Object.prototype.SURFACE_TOP;
-Game.traits.Solid.prototype.BOTTOM = Engine.Object.prototype.SURFACE_BOTTOM;
-Game.traits.Solid.prototype.LEFT = Engine.Object.prototype.SURFACE_LEFT;
-Game.traits.Solid.prototype.RIGHT = Engine.Object.prototype.SURFACE_RIGHT;
-
-Game.traits.Solid.prototype.__collides = function(subject, ourZone, theirZone)
-{
-    if (!subject.solid) {
-        return false;
+        this.ignore = new Set();
     }
-    if (this.ignore.has(subject)) {
-        return false;
+    __collides(subject, ourZone, theirZone)
+    {
+        if (!subject.solid) {
+            return false;
+        }
+        if (this.ignore.has(subject)) {
+            return false;
+        }
+
+        const host = this._host;
+
+        const attack = this.attackDirection(ourZone, theirZone);
+
+        if (this.attackAccept.indexOf(attack) < 0) {
+            /*
+            Collision is detected on a surface that should not obstruct.
+            This puts this host in the ignore list until uncollides callback
+            has been reached.
+            */
+            this.ignore.add(subject);
+            return false;
+        }
+
+        if (this.obstructs) {
+            const s = subject.velocity;
+            const h = host.velocity;
+            const affect = (attack === this.TOP && s.y < h.y) ||
+                           (attack === this.BOTTOM && s.y > h.y) ||
+                           (attack === this.LEFT && s.x > h.x) ||
+                           (attack === this.RIGHT && s.x < h.x);
+
+            if (affect === true) {
+                subject.obstruct(host, attack, ourZone, theirZone);
+            }
+        }
+
+        return attack;
     }
-
-    var host = this._host;
-
-    var attack = this.attackDirection(ourZone, theirZone);
-
-    if (this.attackAccept.indexOf(attack) < 0) {
-        /*
-        Collision is detected on a surface that should not obstruct.
-        This puts this host in the ignore list until uncollides callback
-        has been reached.
-        */
-        this.ignore.add(subject);
-        return false;
-    }
-
-    if (this.obstructs) {
-        var affect = (attack === this.TOP && subject.velocity.y < host.velocity.y) ||
-                     (attack === this.BOTTOM && subject.velocity.y > host.velocity.y) ||
-                     (attack === this.LEFT && subject.velocity.x > host.velocity.x) ||
-                     (attack === this.RIGHT && subject.velocity.x < host.velocity.x);
-
-        if (affect === true) {
-            subject.obstruct(host, attack, ourZone, theirZone);
+    __obstruct(object, attack, ourZone, theirZone)
+    {
+        if (this.fixed === true) {
+            return;
+        }
+        if (attack === object.SURFACE_TOP) {
+            theirZone.bottom = ourZone.top;
+        } else if (attack === object.SURFACE_BOTTOM) {
+            theirZone.top = ourZone.bottom;
+        } else if (attack === object.SURFACE_LEFT) {
+            theirZone.right = ourZone.left;
+        } else if (attack === object.SURFACE_RIGHT) {
+            theirZone.left = ourZone.right;
         }
     }
-
-    return attack;
-}
-
-Game.traits.Solid.prototype.__obstruct = function(object, attack, ourZone, theirZone)
-{
-    if (this.fixed === true) {
-        return;
+    __uncollides(subject, ourZone, theirZone)
+    {
+        this.ignore.delete(subject);
     }
-    if (attack === object.SURFACE_TOP) {
-        theirZone.bottom = ourZone.top;
-    } else if (attack === object.SURFACE_BOTTOM) {
-        theirZone.top = ourZone.bottom;
-    } else if (attack === object.SURFACE_LEFT) {
-        theirZone.right = ourZone.left;
-    } else if (attack === object.SURFACE_RIGHT) {
-        theirZone.left = ourZone.right;
-    }
-}
+    attackDirection(ourBounds, theirBounds)
+    {
+        const distances = [
+            Math.abs(theirBounds.bottom - ourBounds.top),
+            Math.abs(theirBounds.top - ourBounds.bottom),
+            Math.abs(theirBounds.right - ourBounds.left),
+            Math.abs(theirBounds.left - ourBounds.right),
+        ];
 
-Game.traits.Solid.prototype.__uncollides = function(subject, ourZone, theirZone)
-{
-    this.ignore.delete(subject);
-}
-
-Game.traits.Solid.prototype.attackDirection = function(ourBounds, theirBounds)
-{
-    var distances = [
-        Math.abs(theirBounds.bottom - ourBounds.top),
-        Math.abs(theirBounds.top - ourBounds.bottom),
-        Math.abs(theirBounds.right - ourBounds.left),
-        Math.abs(theirBounds.left - ourBounds.right),
-    ];
-
-    var dir = 0, l = 4, min = distances[dir];
-    for (var i = 1; i < l; ++i) {
-        if (distances[i] < min) {
-            min = distances[i];
-            dir = i;
+        let dir = 0, l = 4, min = distances[dir];
+        for (let i = 1; i < l; ++i) {
+            if (distances[i] < min) {
+                min = distances[i];
+                dir = i;
+            }
         }
-    }
 
-    return dir;
+        return dir;
+    }
 }
+
+Game.traits.Solid.SIDES = {
+    TOP: Engine.Object.prototype.SURFACE_TOP,
+    BOTTOM: Engine.Object.prototype.SURFACE_BOTTOM,
+    LEFT: Engine.Object.prototype.SURFACE_LEFT,
+    RIGHT: Engine.Object.prototype.SURFACE_RIGHT,
+};

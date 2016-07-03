@@ -1,136 +1,139 @@
-Game.traits.Climber = function()
+'use strict';
+
+Game.traits.Climber =
+class Climber extends Engine.Trait
 {
-    Engine.Trait.call(this);
+    constructor()
+    {
+        super();
 
-    this.attached = undefined;
-    this.bounds = {
-        climbable: undefined,
-        host: undefined,
-    };
+        this.NAME = 'climber';
 
-    this.speed = 60;
+        this.attached = null;
+        this.bounds = {
+            climbable: null,
+            host: null,
+        };
 
-    this.thresholds = {
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-    };
-}
+        this.speed = 60;
 
-Engine.Util.extend(Game.traits.Climber, Engine.Trait);
-
-Game.traits.Climber.prototype.NAME = 'climber';
-
-Game.traits.Climber.prototype.__collides = function(subject, ourZone, theirZone)
-{
-    /* Don't regrab anything in the middle of climbing. */
-    if (this.attached !== undefined) {
-        return;
+        this.thresholds = {
+            top: 2,
+            bottom: 2,
+            left: 0,
+            right: 0,
+        };
     }
+    __collides(subject, ourZone, theirZone)
+    {
+        /* Don't regrab anything in the middle of climbing. */
+        if (this.attached) {
+            return;
+        }
 
-    /* Don't grab anything without climbable trait. */
-    if (subject.climbable === undefined) {
-        return;
+        /* Don't grab anything without climbable trait. */
+        if (!subject.climbable) {
+            return;
+        }
+
+        this.grab(subject, ourZone, theirZone);
     }
-
-    this.grab(subject, ourZone, theirZone);
-}
-
-Game.traits.Climber.prototype.__obstruct = function(object, attack)
-{
-    /* If we touch ground, release climbable. */
-    if (this._host.aim.y < 0 && attack === object.SURFACE_TOP) {
-        this.release();
-    }
-}
-
-Game.traits.Climber.prototype.__timeshift = function(deltaTime)
-{
-    if (this.attached === undefined) {
-        return;
-    }
-
-    var host = this._host;
-    if (host.physics) {
-        host.physics.zero();
-    }
-
-    host.velocity.copy(host.aim).setLength(this.speed);
-    host.velocity.add(this.attached.velocity);
-
-    if (host.aim.y > 0 && host.position.y > this.bounds.climbable.top - this.thresholds.top) {
-        this.bounds.host.bottom = this.bounds.climbable.top;
-        this.release();
-        return;
-    }
-
-    this.constrain();
-}
-
-Game.traits.Climber.prototype.constrain = function()
-{
-    var subject = this._host;
-    var climbable = this.bounds.climbable;
-    var thresh = this.thresholds;
-
-    if (subject.position.x > climbable.right + thresh.right) {
-        subject.position.x = climbable.right + thresh.right;
-    } else if (subject.position.x < climbable.left - thresh.left) {
-        subject.position.x = climbable.left - thresh.left;
-    }
-
-    if (subject.position.y > climbable.top - thresh.top) {
-        subject.position.y = climbable.top - thresh.top;
-    } else if (subject.position.y < climbable.bottom + thresh.bottom) {
-        subject.position.y = climbable.bottom + thresh.bottom;
-    }
-}
-
-Game.traits.Climber.prototype.grab = function(subject, ourZone, theirZone)
-{
-    this.release();
-
-    /* Don't grab ladder unless going up or down. */
-    var host = this._host;
-    if (host.aim.y === 0) {
-        return false;
-    }
-
-    /* Don't grab ladder if going down and is on the ground. */
-    if (host.aim.y < 0 && host.jump && host.jump._ready === true) {
-        return false;
-    }
-
-    /* Don't grab ladder if on top and push up. */
-    if (host.aim.y > 0) {
-        if (host.position.y > theirZone.top - this.thresholds.top) {
-            return false;
+    __obstruct(object, attack)
+    {
+        /* If we touch ground, release climbable. */
+        if (this._host.aim.y < 0 && attack === object.SURFACE_TOP) {
+            this.release();
         }
     }
+    __timeshift(deltaTime)
+    {
+        if (!this.attached) {
+            return;
+        }
 
-    this.bounds.climbable = theirZone;
-    this.bounds.host = ourZone;
+        const host = this._host;
 
-    this.attached = subject;
-    this.attached.climbable.attach(host);
+        if (host.aim.y > 0 && host.position.y > this.bounds.climbable.top - this.thresholds.top) {
+            this.bounds.host.bottom = this.bounds.climbable.top;
+            this.release();
+            return;
+        } else if (host.aim.y < 0 && this.bounds.host.top < this.bounds.climbable.bottom) {
+            this.release();
+            return;
+        }
 
-    this.constrain();
+        if (host.physics) {
+            host.physics.zero();
+        }
 
-    return true;
-}
+        host.velocity.copy(host.aim).setLength(this.speed);
+        host.velocity.add(this.attached.velocity);
 
-Game.traits.Climber.prototype.release = function()
-{
-    if (this.attached === undefined) {
-        return;
+        this.constrain();
     }
-    var host = this._host;
-    this.bounds.climbable = undefined;
-    this.bounds.host = undefined;
-    this.attached.climbable.detach(host);
-    this.attached = undefined;
-    if (host.physics) {
-        host.physics.zero();
+    constrain()
+    {
+        const pos = this._host.position;
+        const cli = this.bounds.climbable;
+        const thr = this.thresholds;
+
+        if (pos.y > cli.top - thr.top) {
+            pos.y = cli.top - thr.top;
+        }
+
+        pos.x = this.attached.position.x;
+    }
+    grab(subject, me, climbable)
+    {
+        this.release();
+
+        /* Don't grab ladder unless going up or down. */
+        const host = this._host;
+        if (host.aim.y === 0) {
+            return false;
+        }
+
+        /* Don't grab ladder if on top and push up. */
+        if (host.aim.y > 0) {
+            if (host.position.y > climbable.top - this.thresholds.top) {
+                return false;
+            }
+        }
+
+        /* Don't grab ladder if going aiming down and not on top. */
+        if (host.aim.y < 0 && me.bottom <= climbable.top - this.thresholds.top) {
+            return false;
+        }
+
+        if (host.move) {
+            host.move.__off();
+        }
+
+        this.bounds.climbable = climbable;
+        this.bounds.host = me;
+
+        this.attached = subject;
+        this.attached.climbable.attach(host);
+
+        this.constrain();
+
+        return true;
+    }
+    release()
+    {
+        if (!this.attached) {
+            return;
+        }
+        const host = this._host;
+        if (host.move) {
+            host.move.__on();
+        }
+        this.bounds.climbable = null;
+        this.bounds.host = null;
+        this.attached.climbable.detach(host);
+        this.attached = null;
+        if (host.physics) {
+            host.physics.zero();
+        }
     }
 }
