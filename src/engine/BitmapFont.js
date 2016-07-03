@@ -69,20 +69,33 @@ Engine.BitmapFont.Text = class BitMapFontText
 {
     constructor(texture, size, textureSize)
     {
-        this.texture = texture;
-        this.size = size;
-        this.uvMap = new Engine.UVCoords({x: 0, y: 0}, size, textureSize);
+        this._texture = texture;
+        this._size = size;
+        this._uvMap = new Engine.UVCoords({x: 0, y: 0}, size, textureSize);
     }
-
-    createMesh()
+    getGeometry()
     {
-        const geometry = new THREE.PlaneGeometry(this.size.x, this.size.y);
-        geometry.faceVertexUvs[0] = this.uvMap;
+        const geometry = new THREE.PlaneGeometry(this._size.x, this._size.y);
+        geometry.faceVertexUvs[0] = this._uvMap;
+        return geometry;
+    }
+    getMaterial()
+    {
         const material = new THREE.MeshBasicMaterial({
             side: THREE.FrontSide,
-            map: this.texture,
+            map: this.getTexture(),
             transparent: true,
         });
+        return material;
+    }
+    getTexture()
+    {
+        return this._texture;
+    }
+    createMesh()
+    {
+        const geometry = this.getGeometry();
+        const material = this.getMaterial();
         return new THREE.Mesh(geometry, material);
     }
 }
