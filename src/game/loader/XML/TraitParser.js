@@ -80,10 +80,10 @@ extends Game.Loader.XML.Parser
             };
         } else if (name === 'elevator') {
             const nodes = [];
-            const speed = 0;
+            let speed = 0;
             const pathNode = node.getElementsByTagName('path')[0];
             if (pathNode) {
-                const speed = this.getFloat(pathNode, 'speed');
+                speed = this.getFloat(pathNode, 'speed');
                 const nodeNodes = pathNode.getElementsByTagName('node');
                 if (nodeNodes) {
                     for (let nodeNode, i = 0; nodeNode = nodeNodes[i++];) {
