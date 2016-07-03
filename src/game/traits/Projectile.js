@@ -5,6 +5,7 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
         super();
 
         this.NAME = 'projectile';
+        this.EVENT_HIT = 'hit';
         this.EVENT_RECYCLE = 'recycle';
         this.EVENT_RECYCLED = 'recycled';
 
@@ -38,6 +39,7 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
 
         const direction = this._host.position.clone().sub(withObject.position);
         withObject.health.inflictDamage(this._damage, direction);
+        withObject.events.trigger(this.EVENT_HIT, [this._host]);
         if (!this.penetratingForce || !withObject.health.depleted) {
             this.recycle();
         }

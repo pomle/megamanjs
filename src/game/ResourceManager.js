@@ -1,18 +1,19 @@
 'use strict';
 
-Game.ResourceManager = class ResourceManager
+Game.ResourceManager =
+class ResourceManager
 {
     constructor()
     {
         /* These must be defined in order of specificity. */
-        this.typeMap = {
+        this.TYPE_MAP = {
             'character': Game.objects.Character,
             'weapon': Game.objects.Weapon,
             'object': Engine.Object,
             'texture': THREE.Texture,
         }
 
-        this.items = {};
+        this._items = {};
     }
     _addResource(type, id, object)
     {
@@ -22,19 +23,19 @@ Game.ResourceManager = class ResourceManager
         if (!id) {
             throw new Error('Empty id');
         }
-        if (!this.items[type]) {
-            this.items[type] = {};
+        if (!this._items[type]) {
+            this._items[type] = {};
         }
-        if (this.items[type][id]) {
+        if (this._items[type][id]) {
             throw new Error("Object " + id + " already defined");
         }
 
-        this.items[type][id] = object;
+        this._items[type][id] = object;
     }
     addAuto(id, object)
     {
-        for (const type in this.typeMap) {
-            const proto = this.typeMap[type].prototype;
+        for (const type in this.TYPE_MAP) {
+            const proto = this.TYPE_MAP[type].prototype;
             if (proto.isPrototypeOf(object.prototype)) {
                 this._addResource(type, id, object);
                 return true;
@@ -68,14 +69,14 @@ Game.ResourceManager = class ResourceManager
     }
     get(type, id)
     {
-        if (this.items[type] && this.items[type][id]) {
-            return this.items[type][id];
+        if (this._items[type] && this._items[type][id]) {
+            return this._items[type][id];
         }
         throw new Error('No resource "' + id + '" of type ' + type);
     }
     has(type, id)
     {
-        return this.items[type] !== undefined &&
-               this.items[type][id] !== undefined;
+        return this._items[type] !== undefined &&
+               this._items[type][id] !== undefined;
     }
 }

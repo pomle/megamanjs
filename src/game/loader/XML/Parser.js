@@ -31,6 +31,12 @@ class Parser
     getAudio(audioNode)
     {
         const url = this.resolveURL(audioNode, 'src');
+        if (!url) {
+            const id = this.getAttr(audioNode, 'id');
+            const audio = this.loader.resourceManager.get('audio', id);
+            return Promise.resolve(audio);
+        }
+
         return this.loader.resourceLoader.loadAudio(url)
             .then(audio => {
                 const loopNode = audioNode.getElementsByTagName('loop')[0];
@@ -261,6 +267,9 @@ class Parser
     resolveURL(node, attr)
     {
         var url = this.getAttr(node, attr || 'url');
+        if (!url) {
+            return false;
+        }
         if (node.ownerDocument.baseURL === undefined) {
             return url;
         }

@@ -1,6 +1,7 @@
 'use strict';
 
-Game.ResourceLoader = class ResourceLoader
+Game.ResourceLoader =
+class ResourceLoader
 {
     constructor(loader)
     {
@@ -16,9 +17,8 @@ Game.ResourceLoader = class ResourceLoader
         this.COMPLETE = 2;
 
         this._tasks = [];
-
-        this.started = 0;
-        this.completed = 0;
+        this._started = 0;
+        this._completed = 0;
     }
     _createTask()
     {
@@ -27,14 +27,14 @@ Game.ResourceLoader = class ResourceLoader
             promise: null,
         };
         this._tasks.push(task);
-        ++this.started;
+        ++this._started;
         this.events.trigger(this.EVENT_PROGRESS, [this.progress()]);
         return task;
     }
     _completeTask(task)
     {
         task.status = this.COMPLETE;
-        ++this.completed;
+        ++this._completed;
         this.events.trigger(this.EVENT_PROGRESS, [this.progress()]);
     }
     complete()
@@ -44,15 +44,15 @@ Game.ResourceLoader = class ResourceLoader
         });
         this._tasks = [];
         return Promise.all(tasks).then(() => {
-            this.started = 0;
-            this.completed = 0;
+            this._started = 0;
+            this._completed = 0;
             this.events.trigger(this.EVENT_PROGRESS, [1]);
             this.events.trigger(this.EVENT_COMPLETE);
         });
     }
     progress()
     {
-        return this.completed / this.started;
+        return this._completed / this._started;
     }
     loadAudio(url)
     {

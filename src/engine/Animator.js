@@ -1,6 +1,7 @@
 'use strict';
 
-Engine.Animator = class Animator
+Engine.Animator =
+class Animator
 {
     constructor()
     {

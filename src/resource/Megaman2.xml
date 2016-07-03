@@ -41,6 +41,11 @@
         <!-- End Debug Levels -->
     </scenes>
 
+    <audio>
+        <effect src="./explosion.ogg" id="explosion"/>
+        <effect src="./hit.ogg" id="hit"/>
+    </audio>
+
     <fonts>
         <font id="nintendo" url="./font.png" w="8" h="8">
             <map><![CDATA[ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~]]></map>

@@ -1,10 +1,20 @@
 <objects>
     <object type="character" source="Telly" id="Telly">
+        <audio>
+            <effect id="hit"/>
+        </audio>
+
         <geometry type="plane" w="16" h="16" />
 
         <collision>
             <rect x="0" y="0" w="16" h="16" />
         </collision>
+
+        <events>
+            <event name="hit">
+                <action type="emit-audio" id="hit"/>
+            </event>
+        </events>
 
         <traits>
             <trait name="contact-damage" points="2" />

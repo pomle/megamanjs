@@ -1,6 +1,7 @@
 'use strict';
 
-Engine.BitmapFont = class BitmapFont
+Engine.BitmapFont =
+class BitmapFont
 {
     constructor(map, size, image)
     {

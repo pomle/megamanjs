@@ -348,16 +348,20 @@ extends Game.Loader.XML.Parser
     }
     _parseObjectAudio(objectNode)
     {
+        const tasks = [];
         const audioDef = {};
         const audioNodes = objectNode.querySelectorAll('audio > *');
         for (let audioNode, i = 0; audioNode = audioNodes[i++];) {
-            this.getAudio(audioNode)
+            const task = this.getAudio(audioNode)
                 .then(audio => {
                     const id = this.getAttr(audioNode, 'id');
                     audioDef[id] = audio;
                 });
+            tasks.push(task);
         }
-        return Promise.resolve(audioDef);
+        return Promise.all(tasks).then(() => {
+            return audioDef;
+        });
     }
     _parseObjectCollision(objectNode)
     {

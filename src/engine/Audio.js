@@ -1,6 +1,8 @@
 'use strict';
 
-Engine.Audio = class Audio {
+Engine.Audio =
+class Audio
+{
     constructor(buffer)
     {
         this._buffer = buffer;

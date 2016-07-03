@@ -1,6 +1,8 @@
 'use strict';
 
-Engine.InputPlayer = class InputPlayer {
+Engine.InputPlayer =
+class InputPlayer
+{
     constructor(game, input)
     {
         this._game = game;

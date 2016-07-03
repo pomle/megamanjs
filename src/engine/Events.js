@@ -1,6 +1,8 @@
 'use strict';
 
-Engine.Events = class Events {
+Engine.Events =
+class Events
+{
     constructor(host)
     {
         this._host = host;

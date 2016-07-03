@@ -23,7 +23,7 @@
             </event>
             <event name="weapon-fire">
                 <action type="emit-audio" id="plasma">
-                    <condition value="Plasma"/>
+                    <condition value="Plasma|CrashBomber"/>
                 </action>
                 <action type="emit-audio" id="metalblade">
                     <condition value="MetalBlade"/>

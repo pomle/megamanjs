@@ -15,8 +15,10 @@ extends Game.Loader.XML.Parser
         const conditionNodes = node.querySelectorAll(':scope > condition');
         const conditions = [];
         for (let conditionNode, j = 0; conditionNode = conditionNodes[j++];) {
-            const value = this.getFloat(conditionNode, 'value') || this.getAttr(conditionNode, 'value');
-            conditions.push(value);
+            const values = this.getAttr(conditionNode, 'value')
+                               .split('|')
+                               .map(value => parseFloat(value) || value);
+            conditions.push(values);
         }
 
         const callback = this._resolveFunction(node);
@@ -24,7 +26,7 @@ extends Game.Loader.XML.Parser
         if (conditions.length > 0) {
             const wrapper = function() {
                 for (let i = 0; i < conditions.length; ++i) {
-                    if (arguments[i] != conditions[i]) {
+                    if (conditions[i].indexOf(arguments[i]) === -1) {
                         return;
                     }
                 }

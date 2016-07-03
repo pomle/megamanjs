@@ -27,8 +27,12 @@ extends Game.Loader.XML.Parser
 
         return this._parseConfig().then(() => {
             return Promise.all([
-                this._parseEntrypoint(),
+                this._parseAudio(),
                 this._parseFonts(),
+            ]);
+        }).then(() => {
+            return Promise.all([
+                this._parseEntrypoint(),
                 this._parseObjects(itemNodes),
                 this._parseObjects(characterNodes),
                 this._parseObjects(projectileNodes),
@@ -43,6 +47,20 @@ extends Game.Loader.XML.Parser
         }).then(() => {
             return this.loader.entrypoint;
         });
+    }
+    _parseAudio()
+    {
+        const audioNodes = this._node.querySelectorAll('audio > *');
+        const tasks = [];
+        for (let audioNode, i = 0; audioNode = audioNodes[i++];) {
+            const task = this.getAudio(audioNode)
+                .then(audio => {
+                    const id = this.getAttr(audioNode, 'id');
+                    this.loader.resourceManager.addAudio(id, audio);
+                });
+            tasks.push(task);
+        }
+        return Promise.all(tasks);
     }
     _parseConfig()
     {

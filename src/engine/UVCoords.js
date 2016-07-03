@@ -1,6 +1,8 @@
 'use strict';
 
-Engine.UVCoords = class UVCoords extends Array {
+Engine.UVCoords =
+class UVCoords extends Array
+{
     constructor(offset, size, txSize)
     {
         super();
