@@ -173,6 +173,8 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
             const w = h * aspect;
             star.position.x = center.x + (Math.random() * w) - w / 2;
             star.position.y = center.y + (Math.random() * h) - h / 2;
+            star.userData.maxY = center.y + h / 2;
+            star.userData.minY = center.y - h / 2;
             star.userData.maxX = center.x + w / 2;
             star.userData.minX = center.x - w / 2;
             scene.add(star);
@@ -182,8 +184,10 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
             this.stars.forEach(star => {
                 if (star.position.x > star.userData.maxX) {
                     star.position.x = star.userData.minX;
+                    star.position.y = star.userData.minY + Math.random() * Math.abs(star.userData.minY - star.userData.maxY);
                 }
                 star.position.x += this.starSpeed * dt;
+
             });
         }
     }
