@@ -263,50 +263,56 @@ extends Game.Loader.XML.Parser
         };
 
         const geometryNodes = objectNode.getElementsByTagName('geometry');
-        if (geometryNodes.length === 0) {
-            throw new Error("No <geometry> defined in " + objectNode.outerHTML);
-        }
+        const textNodes = objectNode.getElementsByTagName('text');
+        if (geometryNodes.length) {
+            for (let i = 0, geometryNode; geometryNode = geometryNodes[i]; ++i) {
+                const geometry = this.getGeometry(geometryNode);
+                blueprint.geometries.push(geometry);
 
-        for (let i = 0, geometryNode; geometryNode = geometryNodes[i]; ++i) {
-            const geometry = this.getGeometry(geometryNode);
-            blueprint.geometries.push(geometry);
+                const faceNodes = geometryNode.getElementsByTagName('face');
+                for (let j = 0, faceNode; faceNode = faceNodes[j]; ++j) {
+                    const animator = new Engine.Animator.UV();
+                    animator.indices = [];
+                    animator.offset = this.getFloat(faceNode, 'offset') || 0;
 
-            const faceNodes = geometryNode.getElementsByTagName('face');
-            for (let j = 0, faceNode; faceNode = faceNodes[j]; ++j) {
-                const animator = new Engine.Animator.UV();
-                animator.indices = [];
-                animator.offset = this.getFloat(faceNode, 'offset') || 0;
+                    animator.name = faceNode.getAttribute('animation');
+                    if (!animator.name) {
+                        throw new Error("No default animation defined");
+                    }
+                    if (!animations[animator.name]) {
+                        throw new Error("Animation " + animator.name + " not defined");
+                    }
+                    const animation = animations[animator.name];
 
-                animator.name = faceNode.getAttribute('animation');
-                if (!animator.name) {
-                    throw new Error("No default animation defined");
+                    animator.setAnimation(animation);
+
+                    animator.indices = this._parseFace(faceNode);
+
+                    if (animator.indices.length === 0) {
+                        animator.indices = [j * 2];
+                    }
+
+                    animator.indices.sort(function(a, b) {
+                        return a - b;
+                    });
+
+                    blueprint.animators.push(animator);
                 }
-                if (!animations[animator.name]) {
-                    throw new Error("Animation " + animator.name + " not defined");
+
+                if (!blueprint.animators.length && animations['__default']) {
+                    const animator = new Engine.Animator.UV();
+                    animator.setAnimation(animations['__default']);
+                    animator.update();
+                    blueprint.animators.push(animator);
                 }
-                const animation = animations[animator.name];
-
-                animator.setAnimation(animation);
-
-                animator.indices = this._parseFace(faceNode);
-
-                if (animator.indices.length === 0) {
-                    animator.indices = [j * 2];
-                }
-
-                animator.indices.sort(function(a, b) {
-                    return a - b;
-                });
-
-                blueprint.animators.push(animator);
             }
-
-            if (!blueprint.animators.length && animations['__default']) {
-                const animator = new Engine.Animator.UV();
-                animator.setAnimation(animations['__default']);
-                animator.update();
-                blueprint.animators.push(animator);
-            }
+        } else if (textNodes.length) {
+            const node = textNodes[0];
+            const font = node.getAttribute('font');
+            const string = node.textContent;
+            const text = this.loader.resourceManager.get('font', font)(string);
+            blueprint.geometries.push(text.getGeometry());
+            blueprint.textures = {__default: {texture: text.getTexture()}};
         }
 
         return Promise.all([
