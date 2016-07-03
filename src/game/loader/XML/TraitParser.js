@@ -208,12 +208,12 @@ extends Game.Loader.XML.Parser
         const attack = node.getAttribute(attr);
         if (attack) {
             const surfaces = [];
-            const S = Game.traits.Solid.prototype;
+            const SIDES = Game.traits.Solid.SIDES;
             const map = {
-                'top': S.TOP,
-                'bottom': S.BOTTOM,
-                'left': S.LEFT,
-                'right': S.RIGHT,
+                'top': SIDES.TOP,
+                'bottom': SIDES.BOTTOM,
+                'left': SIDES.LEFT,
+                'right': SIDES.RIGHT,
             }
             const attacks = attack.split(' ');
             for (let i = 0, l = attacks.length; i !== l; ++i) {
