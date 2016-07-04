@@ -69,13 +69,13 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
             }
         });
         this.events.bind(this.EVENT_START, (game) => {
-            this.timer.events.bind(this.timer.EVENT_SIMULATE, simulate);
+            this.world.events.bind(this.world.EVENT_SIMULATE, simulate);
             this.camera.panTo(this.cameraDesiredPosition, 1, Engine.Easing.easeOutQuad);
             this.enableIndicator();
             this.input.enable();
         });
         this.events.bind(this.EVENT_DESTROY, (game) => {
-            this.timer.events.unbind(this.timer.EVENT_SIMULATE, simulate);
+            this.world.events.unbind(this.world.EVENT_SIMULATE, simulate);
         });
     }
     addStage(avatar, caption, name, character)

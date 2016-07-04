@@ -64,10 +64,10 @@ describe('Spawner', function() {
     world.addObject(spawner);
     world.addObject = sinon.spy(world.addObject);
     it('should spawn from pool after interval is met', function() {
-      world.updateTime(.5);
+      world.simulateTime(.5);
       expect(spawner._timeSinceLastSpawn).to.be(.5);
       expect(world.objects).to.have.length(1);
-      world.updateTime(.5);
+      world.simulateTime(.5);
       expect(spawner._timeSinceLastSpawn).to.be(0);
       expect(world.objects).to.have.length(2);
       expect(world.objects[1]).to.be.a(Spawnable);
@@ -80,24 +80,24 @@ describe('Spawner', function() {
       expect(spawner.spawns).to.be(1);
     });
     it('should not spawn another one as long as child in world', function() {
-      world.updateTime(5);
+      world.simulateTime(5);
       expect(world.objects).to.have.length(2);
       world.removeObject(world.objects[1]);
-      world.updateTime(.1);
+      world.simulateTime(.1);
       expect(world.addObject.callCount).to.be(2);
     });
     it('should honor max simultaneous spawns', function() {
       spawner.maxSimultaneousSpawns = 5;
       expect(world.objects).to.have.length(2);
-      world.updateTime(1);
+      world.simulateTime(1);
       expect(world.objects).to.have.length(3);
-      world.updateTime(1);
+      world.simulateTime(1);
       expect(world.objects).to.have.length(4);
-      world.updateTime(1);
+      world.simulateTime(1);
       expect(world.objects).to.have.length(5);
-      world.updateTime(1);
+      world.simulateTime(1);
       expect(world.objects).to.have.length(6);
-      world.updateTime(1);
+      world.simulateTime(1);
       expect(world.objects).to.have.length(6);
     });
   });

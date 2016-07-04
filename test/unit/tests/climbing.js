@@ -29,7 +29,7 @@ describe('Climber / Climbable', function() {
     climber.position.set(0, 0, 0);
     climbable.position.set(0, 0, 0);
     climber.aim.y = 1;
-    world.updateTime(0.1);
+    world.simulateTime(0.1);
     expect(climber.climber.attached).to.be(climbable);
     climber.climber.release();
   });
@@ -38,7 +38,7 @@ describe('Climber / Climbable', function() {
     climber.position.set(0, 0, 0);
     climbable.position.set(0, 0, 0);
     climber.aim.y = -1;
-    world.updateTime(0.1);
+    world.simulateTime(0.1);
     expect(climber.climber.attached).to.be(null);
     climber.climber.release();
   });
@@ -48,7 +48,7 @@ describe('Climber / Climbable', function() {
     climber.position.set(0, 10, 0);
     climbable.position.set(0, 0, 0);
     climber.velocity.set(0, -10);
-    world.updateTime(0.1);
+    world.simulateTime(0.1);
     expect(climber.climber.attached).to.be(climbable);
   });
 
@@ -58,15 +58,15 @@ describe('Climber / Climbable', function() {
       climber.position.set(0, 0, 0);
       climber.climber.speed = 19;
       climbable.position.set(0, 0, 0);
-      world.updateTime(0.1);
-      world.updateTime(0.1);
+      world.simulateTime(0.1);
+      world.simulateTime(0.1);
       expect(climber.position).to.eql({x: 0, y: 0.9500000000000001, z: 0});
       climber.aim.set(0, -1);
-      world.updateTime(0.1);
-      world.updateTime(0.1);
+      world.simulateTime(0.1);
+      world.simulateTime(0.1);
       expect(climber.position).to.eql({x: 0, y: -0.9500000000000001, z: 0});
       climber.climber.speed = 113;
-      world.updateTime(0.1);
+      world.simulateTime(0.1);
       expect(climber.position).to.eql({x: 0, y: -7.550000000000001, z: 0});
     });
 
@@ -75,13 +75,13 @@ describe('Climber / Climbable', function() {
       climber.climber.speed = 10;
       climber.position.set(0, 0, 0);
       climbable.position.set(0, 0, 0);
-      world.updateTime(1/60);
+      world.simulateTime(1/60);
       climber.aim.set(0, -1);
       climber.position.set(0, -9.9, 0);
-      world.updateTime(1/60);
+      world.simulateTime(1/60);
       expect(climber.climber.attached).to.be(climbable);
       climber.position.set(0, -10, 0);
-      world.updateTime(1/60);
+      world.simulateTime(1/60);
       expect(climber.climber.attached).to.be(null);
     });
 
@@ -90,10 +90,10 @@ describe('Climber / Climbable', function() {
       climber.climber.speed = 10;
       climber.position.set(0, 0, 0);
       climbable.position.set(0, 0, 0);
-      world.updateTime(1/60);
+      world.simulateTime(1/60);
       expect(climber.climber.attached).to.be(climbable);
       climber.position.set(0, 3.1, 0);
-      world.updateTime(1/60);
+      world.simulateTime(1/60);
       expect(climber.climber.attached).to.be(null);
     });
 
@@ -102,7 +102,7 @@ describe('Climber / Climbable', function() {
         climber.aim.set(0, -1);
         climber.position.set(0, 9.9, 0);
         climbable.position.set(0, 0, 0);
-        world.updateTime(1/60);
+        world.simulateTime(1/60);
         expect(climber.position).to.eql({ x: 0, y: 3, z: 0 });
       });
     });
@@ -114,7 +114,7 @@ describe('Climber / Climbable', function() {
       climber.position.set(-10, 0, 0);
       climbable.position.set(0, 0, 0);
       climber.velocity.set(10, 0);
-      world.updateTime(0.1);
+      world.simulateTime(0.1);
       expect(climber.position.x).to.be(-9.5);
     });
 
@@ -123,7 +123,7 @@ describe('Climber / Climbable', function() {
       climber.position.set(10, 0, 0);
       climbable.position.set(0, 0, 0);
       climber.velocity.set(-10, 0);
-      world.updateTime(0.1);
+      world.simulateTime(0.1);
       expect(climber.position.x).to.be(9.5);
     });
 
@@ -132,7 +132,7 @@ describe('Climber / Climbable', function() {
       climber.position.set(0, -10, 0);
       climbable.position.set(0, 0, 0);
       climber.velocity.set(0, 10);
-      world.updateTime(0.1);
+      world.simulateTime(0.1);
       expect(climber.position.y).to.be(-9.5);
     });
 
@@ -141,7 +141,7 @@ describe('Climber / Climbable', function() {
       climber.position.set(0, 10, 0);
       climbable.position.set(0, 0, 0);
       climber.velocity.set(0, -10);
-      world.updateTime(.1);
+      world.simulateTime(.1);
       expect(climber.position.y).to.be(10);
     });
   });

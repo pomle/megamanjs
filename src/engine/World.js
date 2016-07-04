@@ -6,6 +6,7 @@ class World
     constructor()
     {
         this.EVENT_UPDATE = 'update';
+        this.EVENT_SIMULATE = 'simulate';
         this.EVENT_EMIT_AUDIO = 'emit-audio';
         this.EVENT_ADD = 'world-add';
         this.EVENT_REMOVE = 'world-remove';
@@ -27,8 +28,12 @@ class World
         this.scene = new THREE.Scene();
         this.scene.add(this.ambientLight);
 
+        this._accumulator = 0;
+        this._timeStep = 1/120;
+        this._timeTotal = 0;
+        this._timeSimTotal = 0;
+
         this.timeStretch = 1;
-        this.timeTotal = 0;
     }
     addObject(object)
     {
@@ -101,26 +106,40 @@ class World
             this.scene.remove(object.model);
         }
     }
-    updateAnimation(deltaTime)
+    simulateTime(deltaTime)
     {
-        const adjustedDelta = deltaTime * this.timeStretch;
-        this.objects.forEach(object => {
-            object.updateAnimators(adjustedDelta);
-        });
-    }
-    updateTime(deltaTime)
-    {
-        const adjustedDelta = deltaTime * this.timeStretch;
-        this.timeTotal += adjustedDelta;
+        this._timeSimTotal += deltaTime;
 
         this.objects.forEach(object => {
-            object.timeShift(adjustedDelta, this.timeTotal);
+            object.timeShift(deltaTime, this._timeSimTotal);
         });
 
         this.collision.detect();
 
         this._cleanObjects();
 
-        this.events.trigger(this.EVENT_UPDATE, [adjustedDelta, this.timeTotal]);
+        this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeSimTotal]);
+    }
+    updateAnimation(deltaTime)
+    {
+        this.objects.forEach(object => {
+            object.updateAnimators(deltaTime);
+        });
+    }
+    updateTime(deltaTime)
+    {
+        const adjustedDelta = deltaTime * this.timeStretch;
+        const step = this._timeStep;
+
+        this._accumulator += adjustedDelta;
+        while (this._accumulator >= step) {
+            this.simulateTime(step);
+            this._accumulator -= step;
+        }
+
+        this.updateAnimation(adjustedDelta);
+
+        this._timeTotal += adjustedDelta;
+        this.events.trigger(this.EVENT_UPDATE, [adjustedDelta, this._timeTotal]);
     }
 }

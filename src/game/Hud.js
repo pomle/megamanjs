@@ -126,13 +126,13 @@ Game.Hud = class Hud
                 current += speed * dt;
                 if (current >= target) {
                     current = target;
-                    timer.events.unbind(timer.EVENT_TIMEPASS, iteration);
+                    timer.events.unbind(timer.EVENT_UPDATE, iteration);
                     scene.resumeSimulation();
                 }
                 this.setAmount(element, current);
             }
             scene.pauseSimulation();
-            timer.events.bind(timer.EVENT_TIMEPASS, iteration);
+            timer.events.bind(timer.EVENT_UPDATE, iteration);
         } else {
             this.setAmount(element, frac);
         }
