@@ -14,7 +14,24 @@
             <animation id="door">
                 <frame x="109" y="55" w="16" h="16"/>
             </animation>
+            <animation id="bricks-big">
+                <frame x="145" y="55" w="16" h="16"/>
+            </animation>
         </animations>
+
+        <object id="ground">
+            <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+                <face animation="bricks-big">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect w="64" h="16"/>
+            </collision>
+            <traits>
+                <trait name="solid" fixed="true" obstructs="true"/>
+            </traits>
+        </object>
 
         <object id="door">
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
@@ -23,14 +40,9 @@
                 </face>
             </geometry>
 
-
             <collision>
                 <rect x="0" y="0" w="32" h="64" />
             </collision>
-
-            <traits>
-                <trait name="door"/>
-            </traits>
         </object>
     </objects>
 
@@ -46,12 +58,13 @@
                     <direction x="0" y="0" />
                 </trait>
             </object>
-        </objects>
 
-        <solids>
-            <rect x="-128" y="64" w="1024" h="16" />
-            <rect x="64" y="16" w="32" h="16" />
-            <rect x="32" y="-16" w="32" h="16" />
-        </solids>
+            <object id="ground" x="32" y="-40"/>
+            <object id="ground" x="-32" y="-40"/>
+            <object id="ground" x="-64" y="-40"/>
+            <object id="ground" x="64" y="-40"/>
+            <object id="ground" x="96" y="-40"/>
+            <object id="ground" x="80" y="16"/>
+        </objects>
     </layout>
 </scene>
