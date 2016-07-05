@@ -77,15 +77,11 @@
         </sequence>
 
         <sequence id="intro">
-            <await>
-                <action type="play-audio" id="intro"/>
-                <action type="wait" duration="25.5"/>
-            </await>
-            <await>
-                <action type="camera-move" to=",576,">
-                    <tween duration="12" easing="easeIn,1.7"/>
-                </action>
-            </await>
+            <action type="play-audio" id="intro"/>
+            <action type="wait" duration="25.5"/>
+            <action type="camera-move" to=",576,">
+                <tween duration="12" easing="easeIn,1.7"/>
+            </action>
             <action type="transform">
                 <tween duration="2" easing="easeIn,4">
                     <opacity to="1"/>
@@ -94,9 +90,7 @@
                 </tween>
                 <object instance="logo"/>
             </action>
-            <await>
-                <action type="wait" duration="50"/>
-            </await>
+            <action type="wait" duration="50"/>
             <action type="emit-event" name="end"/>
         </sequence>
     </sequences>
