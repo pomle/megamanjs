@@ -61,7 +61,7 @@
             }
         },
         'spawn': (e) => {
-            const Obj = loader.resourceManager.get('character', e.target.dataset.object);
+            const Obj = loader.resourceManager.get('object', e.target.dataset.object);
             const obj = new Obj();
             const player = game.player.character;
             obj.moveTo({
