@@ -41,6 +41,9 @@
     </scenes>
 
     <audio>
+        <effect src="./energy-fill.ogg" id="energy-fill">
+            <loop />
+        </effect>
         <effect src="./explosion.ogg" id="explosion"/>
         <effect src="./hit.ogg" id="hit"/>
     </audio>
