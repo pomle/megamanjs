@@ -35,7 +35,6 @@
             <scene type="level" name="Ladder" src="./levels/debug/Ladder.xml" />
             <scene type="level" name="Per" src="./levels/debug/Per.xml" />
             <scene type="level" name="Physics" src="./levels/debug/Physics.xml" />
-            <scene type="level" name="BackgroundFaceAnimation" src="./levels/debug/BackgroundFaceAnimation.xml" />
             <scene type="level" name="Enemies" src="./levels/debug/Enemies.xml" />
             <scene type="level" name="Powerups" src="./levels/debug/Powerups.xml" />
         <!-- End Debug Levels -->
