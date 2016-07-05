@@ -92,6 +92,13 @@ Engine.Object.prototype.dropCollision = function()
     this.collision.length = 0;
 }
 
+Engine.Object.prototype.emitAudio = function(audio)
+{
+    if (this.world) {
+        this.world.emitAudio(audio);
+    }
+}
+
 Engine.Object.prototype.getModel = function()
 {
     return this.model;

@@ -161,7 +161,7 @@ extends Game.Loader.XML.Parser
         } else if (type === 'emit-audio') {
             const id = this.getAttr(node, 'id');
             return function emitAudio() {
-                this.world.emitAudio(this.audio[id]);
+                this.emitAudio(this.audio[id]);
             };
         } else if (type === 'emit-event') {
             const name = this.getAttr(node, 'name');
