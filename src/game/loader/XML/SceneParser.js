@@ -84,6 +84,10 @@ extends Game.Loader.XML.Parser
         }).then(() => {
             return this.loader.resourceLoader.complete();
         }).then(() => {
+            /* Perform update to "settle" world.
+               This is done to prevent audio and other side effects
+               from leaking out on scene start. */
+            this._scene.world.updateTime(0);
             return this._scene;
         });
     }
