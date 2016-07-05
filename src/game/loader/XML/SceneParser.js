@@ -55,12 +55,13 @@ extends Game.Loader.XML.Parser
     }
     _getObject(id)
     {
+        const resource = this.loader.resourceManager;
         if (this._objects[id]) {
             return this._objects[id];
         } else if (resource.has('object', id)) {
-            return resource.get('object', id);
+            return {constructor: resource.get('object', id)};
         }
-        throw new Error(`Object "${id}" no defined.`);
+        throw new Error(`Object "${id}" not defined.`);
     }
     _parse()
     {
