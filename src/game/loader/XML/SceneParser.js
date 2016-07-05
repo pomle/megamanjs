@@ -208,8 +208,12 @@ extends Game.Loader.XML.Parser
         const object = this._getObject(objectId);
         const instance = new object.constructor;
         instance.id = instanceId;
+
+        const direction = this.getInt(node, 'dir') || 1;
         const position = this.getPosition(node) || this.DEFAULT_POS;
         const scale = this.getFloat(node, 'scale') || 1;
+
+        instance.direction.set(direction, 0);
         instance.position.copy(position);
         instance.model.scale.multiplyScalar(scale);
 
