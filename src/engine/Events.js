@@ -26,6 +26,9 @@ class Events
         if (typeof name !== 'string') {
             throw new TypeError('Event name must be string');
         }
+        if (this.bound(name, callback)) {
+            return;
+        }
         if (!this._events[name]) {
             this._events[name] = [];
         }
