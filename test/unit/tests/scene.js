@@ -28,17 +28,18 @@ describe('Scene', function() {
     it('should call callback for every simulation step for entire duration and supply elapsed time and progress fraction', function() {
       const callbackSpy = sinon.spy();
       scene.doFor(2, callbackSpy);
-      scene.timer.updateTime(1);
+      scene.world.updateTime(1);
       expect(callbackSpy.callCount).to.be(120);
-      expect(callbackSpy.getCall(0).args).to.eql([scene.timer.timeStep, 0.004166666666666667]);
+      expect(callbackSpy.getCall(0).args).to.eql([scene.world._timeStep, 0.004166666666666667]);
       expect(callbackSpy.getCall(12).args[0]).to.be(0.10833333333333332);
-      scene.timer.updateTime(2);
+      scene.world.updateTime(2);
       expect(callbackSpy.lastCall.args).to.eql([2.008333333333329, 1]);
     });
+
     it('should return a promise that resolves when done', function(done) {
       const callbackSpy = sinon.spy();
       scene.doFor(2, callbackSpy).then(done);
-      scene.timer.updateTime(2.1);
+      scene.world.updateTime(2.1);
     });
   });
 
@@ -46,7 +47,7 @@ describe('Scene', function() {
     it('should return a promise that resolves when duration elapsed', function(done) {
       const callbackSpy = sinon.spy();
       scene.waitFor(2).then(done);
-      scene.timer.updateTime(2);
+      scene.world.updateTime(2);
     });
   });
 });

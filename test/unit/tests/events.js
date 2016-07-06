@@ -4,15 +4,21 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
-const Engine = env.Engine;
+const Events = env.Engine.Events;
 
 describe('Events', function() {
-  const events = new Engine.Events();
-  const callback1 = sinon.spy();
-  const callback2 = sinon.spy();
-  const callback3 = sinon.spy();
+  it('should apply this value to thisable functions', function() {
+    const host = sinon.spy();
+    const events = new Events(host);
+    const callback = sinon.spy();
+    events.bind('event', callback);
+    events.trigger('event');
+    expect(callback.calledOn(host)).to.be(true);
+  });
+
   describe('#bind()', function() {
     it('should except if name not string', function() {
+      const events = new Events();
       expect(function() {
         events.bind(1);
       }).to.throwError(function(error) {
@@ -20,50 +26,91 @@ describe('Events', function() {
         expect(error.message).to.equal("Event name must be string");
       });
     });
+
     it('should accept a function as bindable', function() {
-      events.bind('event1', callback1);
-      events.bind('event1', callback2);
+      const events = new Events();
+      const callback = sinon.spy();
+      events.bind('event', callback);
+      events.trigger('event');
+      expect(callback.callCount).to.be(1);
     });
+
     it('should accept same callback to be bound to different events', function() {
-      events.bind('event2', callback2);
-      events.bind('event2', callback3);
+      const events = new Events();
+      const callback = sinon.spy();
+      events.bind('event1', callback);
+      events.bind('event2', callback);
+      events.trigger('event1');
+      events.trigger('event2');
+      expect(callback.callCount).to.be(2);
+    });
+
+    it('should only bind a callback once', function() {
+      const events = new Events();
+      const callback = sinon.spy();
+      events.bind('event', callback);
+      events.bind('event', callback);
+      events.trigger('event');
+      expect(callback.callCount).to.be(1);
     });
   });
+
   describe('#bound()', function() {
     it('should return true if callback bound to event', function() {
-      expect(events.bound('event1', callback1)).to.be(true);
+      const events = new Events();
+      const callback = sinon.spy();
+      events.bind('event', callback);
+      expect(events.bound('event', callback)).to.be(true);
     });
     it('should return false if callback not bound to event', function() {
-      expect(events.bound('foo', callback1)).to.be(false);
+      const events = new Events();
+      const callback = sinon.spy();
+      events.bind('event_x', callback);
+      expect(events.bound('event', callback)).to.be(false);
     });
   });
+
   describe('#trigger()', function() {
     it('should call each callback once', function() {
-      events.trigger('event1');
-      expect(callback1.callCount).to.equal(1);
-      expect(callback2.callCount).to.equal(1);
-      expect(callback3.callCount).to.equal(0);
+      const events = new Events();
+      const callback1 = sinon.spy();
+      const callback2 = sinon.spy();
+      const callback3 = sinon.spy();
+      events.bind('event', callback1);
+      events.bind('event', callback2);
+      events.bind('event', callback3);
+      events.trigger('event');
+      expect(callback1.callCount).to.be(1);
+      expect(callback2.callCount).to.be(1);
+      expect(callback3.callCount).to.be(1);
     });
+
     it('should propagate values to callback as args', function() {
+      const events = new Events();
+      const callback = sinon.spy();
       const values = ['a', 1, undefined];
-      events.trigger('event1', values);
-      expect(callback1.callCount).to.equal(2);
-      expect(callback2.callCount).to.equal(2);
-      expect(callback3.callCount).to.equal(0);
-      expect(callback1.lastCall.args).to.eql(values);
-      expect(callback2.lastCall.args).to.eql(values);
+      events.bind('event', callback);
+      events.trigger('event', values);
+      expect(callback.lastCall.args).to.eql(values);
     });
   });
+
   describe('#unbind()', function() {
     it('should prevent a method from being called on event', function() {
-      events.unbind('event1', callback1);
-      events.trigger('event1');
-      expect(callback1.callCount).to.equal(2);
-      expect(callback2.callCount).to.equal(3);
+      const events = new Events();
+      const callback = sinon.spy();
+      events.bind('event', callback);
+      events.trigger('event');
+      expect(callback.callCount).to.be(1);
+      events.unbind('event', callback);
+      events.trigger('event');
+      expect(callback.callCount).to.be(1);
     });
+
     it('should silently ignore unbinding of unbound events', function() {
-      events.unbind('event1', callback1);
-      events.unbind('not-defined-event-name', callback1);
+      const events = new Events();
+      const callback = sinon.spy();
+      events.unbind('not-defined-event-name', callback);
     });
   });
 });

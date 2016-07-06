@@ -17,6 +17,7 @@ describe('World', function() {
       new THREE.MeshBasicMaterial()
     );
     world = new World();
+    world._timeStep = 1/120;
     objects = [
       new Obj(),
       new Obj(),
@@ -36,22 +37,25 @@ describe('World', function() {
       expect(world.ambientLight.color).to.eql({r: 1, g: 1, b: 1});
     });
   });
-  it('should handle removal of objects inside update loop but complete loop', function() {
+
+  it('should handle removal of objects inside simulate loop but complete loop', function() {
     objects[0].timeShift = sinon.spy(function() {
       this.world.removeObject(objects[1]);
     });
     objects[1].timeShift = sinon.spy();
-    world.updateTime(0.16);
+    world.simulateTime(0.16);
     expect(objects[0].timeShift.calledOnce).to.be(true);
     expect(objects[1].timeShift.calledOnce).to.be(true);
     expect(world.hasObject(objects[1])).to.be(false);
   });
+
   describe('#addObject', function() {
     it('should add object to collision detector', function() {
       const world = new World();
       world.addObject(objects[0]);
       expect(world.collision.objects).to.contain(objects[0]);
     });
+
     it('should add object model to scene', function() {
       const world = new World();
       world.scene.add = sinon.spy();
@@ -59,6 +63,7 @@ describe('World', function() {
       expect(world.scene.add.callCount).to.equal(1);
       expect(world.scene.add.lastCall.args).to.eql([objects[0].model]);
     });
+
     it('should not add object model to scene if not set', function() {
       const world = new World();
       world.scene.add = sinon.spy();
@@ -66,17 +71,20 @@ describe('World', function() {
       world.addObject(obj);
       expect(world.scene.add.called).to.be(false);
     });
+
     it('should ignore object if already added', function() {
       expect(world.objects).to.have.length(3);
       expect(world.objects).to.contain(objects[0]);
       world.addObject(objects[0]);
       expect(world.objects).to.have.length(3);
     });
+
     it('should assign itself to object', function() {
       const world = new World();
       world.addObject(objects[0]);
       expect(objects[0].world).to.be(world);
     });
+
     it('should except if argument is not an object', function() {
       expect(function() {
         world.addObject(1);
@@ -86,39 +94,46 @@ describe('World', function() {
       });
     });
   });
+
   describe('#getObject', function() {
     it('should return object matching id', function() {
       objects[0].id = 'foo';
       expect(world.getObject('foo')).to.be(objects[0]);
     });
+
     it('should return false if no matching object', function() {
       expect(world.getObject('foo')).to.be(false);
     });
   });
+
   describe('#removeObject', function() {
     it('should remove object from collision detector', function() {
       world.collision.removeObject = sinon.spy();
       world.removeObject(objects[0]);
-      world.updateTime(0);
+      world.simulateTime(0);
       expect(world.collision.removeObject.callCount).to.equal(1);
       expect(world.collision.removeObject.lastCall.args).to.eql([objects[0]]);
     });
+
     it('should remove object model from scene', function() {
       world.scene.remove = sinon.spy();
       world.removeObject(objects[0]);
-      world.updateTime(0);
+      world.simulateTime(0);
       expect(world.scene.remove.callCount).to.equal(1);
       expect(world.scene.remove.lastCall.args).to.eql([objects[0].model]);
     });
+
     it('should ignore object if object not in world', function() {
       world.removeObject(objects[0]);
       world.removeObject(objects[0]);
     });
+
     it('should resign itself from object', function() {
       world.removeObject(objects[0]);
-      world.updateTime(0);
+      world.simulateTime(0);
       expect(objects[0].world).to.be(undefined);
     });
+
     it('should except if argument is not an object', function() {
       expect(function() {
         world.removeObject(1);
@@ -128,9 +143,10 @@ describe('World', function() {
       });
     });
   });
-  describe('#updateTime', function() {
+
+  describe('#simulateTime', function() {
     it('should supply each object with time', function() {
-      world.updateTime(0.16);
+      world.simulateTime(0.16);
       expect(objects[0].timeShift.callCount).to.equal(1);
       expect(objects[0].timeShift.lastCall.args).to.eql([0.16, 0.16]);
       expect(objects[1].timeShift.callCount).to.equal(1);
@@ -138,42 +154,73 @@ describe('World', function() {
       expect(objects[2].timeShift.callCount).to.equal(1);
       expect(objects[2].timeShift.lastCall.args).to.eql([0.16, 0.16]);
     });
-    it('should multiply time with time stretch of world', function() {
-      world.timeStretch = 1.5;
-      world.updateTime(0.16);
-      expect(objects[0].timeShift.lastCall.args).to.eql([0.24, 0.24]);
-    });
-    it('should accumulate time in timeTotal property', function() {
-      world.updateTime(0.05);
-      world.updateTime(0.07);
-      world.updateTime(0.13);
-      expect(world.timeTotal).to.equal(0.25);
-    });
-    it('should propagete total time to objects', function() {
-      world.updateTime(0.07);
-      world.updateTime(0.13);
-      expect(objects[1].timeShift.lastCall.args).to.eql([0.13, 0.20]);
-    });
+
     it('should trigger a collision detection run', function() {
       world.collision.detect = sinon.spy();
-      world.updateTime(0.16);
+      world.simulateTime(0.16);
       expect(world.collision.detect.callCount).to.equal(1);
     });
+
     it('should clean removed objects', function() {
       expect(world.objects).to.contain(objects[1]);
       expect(world.objects).to.have.length(3);
       world.removeObject(objects[1]);
-      world.updateTime(0.16);
+      world.simulateTime(0.16);
       expect(world.objects).to.not.contain(objects[1]);
       expect(world.objects).to.have.length(2);
     });
+  });
+
+  describe('#updateTime', function() {
+    it('should feed fixed time to simulation regardless of time passed', function() {
+      let acc = 0;
+      while (acc < 1) {
+        const time = Math.min(1 - acc, Math.random() * 0.1);
+        acc += time;
+        world.updateTime(time);
+      }
+      expect(objects[0].timeShift.callCount).to.be(120);
+      for (let i = 0, l = objects[0].timeShift.callCount; i !== l; ++i) {
+        expect(objects[0].timeShift.getCall(i).args[0]).to.equal(world._timeStep);
+      }
+    });
+
+    it('should multiply time with time stretch of world', function() {
+      world.timeStretch = 1.5;
+      world.updateTime(0.16);
+      expect(objects[0].timeShift.lastCall.args).to.eql([0.008333333333333333, 0.2333333333333333]);
+    });
+
+    it('should accumulate time in timeTotal property', function() {
+      world.updateTime(0.05);
+      world.updateTime(0.07);
+      world.updateTime(0.13);
+      expect(world._timeTotal).to.be.within(0.24999999999999995, 0.25);
+    });
+
+    it('should propagate total time to objects', function() {
+      world.updateTime(0.07);
+      world.updateTime(0.13);
+      expect(objects[1].timeShift.lastCall.args).to.eql([world._timeStep, 0.19999999999999998]);
+    });
+
     it('should trigger EVENT_UPDATE with current and total time', function() {
       const callback = sinon.spy();
       world.events.bind(world.EVENT_UPDATE, callback);
-      world.timeTotal = 1.07;
       world.updateTime(0.16);
-      expect(callback.callCount).to.equal(1);
-      expect(callback.lastCall.args).to.eql([0.16, 1.23]);
+      world.updateTime(0.12);
+      expect(callback.callCount).to.equal(2);
+      expect(callback.lastCall.args).to.eql([0.12, 0.28]);
     });
-  })
+
+    it('should emit update event once regardless of simulation iterations', function() {
+      const simulateSpy = sinon.spy();
+      const updateSpy = sinon.spy();
+      world.events.bind(world.EVENT_SIMULATE, simulateSpy);
+      world.events.bind(world.EVENT_UPDATE, updateSpy);
+      world.updateTime(1);
+      expect(simulateSpy.callCount).to.equal(120);
+      expect(updateSpy.callCount).to.equal(1);
+    });
+  });
 });

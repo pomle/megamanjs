@@ -69,7 +69,7 @@ const Game = class Game
     }
     _updatePlaybackSpeed()
     {
-        this.scene.timer.simulationSpeed = this._playbackSpeed;
+        this.scene.timer.setTimeStretch(this._playbackSpeed);
         this.audioPlayer.setPlaybackRate(this._playbackSpeed);
     }
     setResolution(w, h)

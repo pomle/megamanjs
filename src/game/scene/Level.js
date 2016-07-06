@@ -188,24 +188,24 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     pauseGamePlay()
     {
-        const timer = this.timer;
-        timer.events.unbind(timer.EVENT_SIMULATE, this.simulateListener);
+        const world = this.world;
+        world.events.unbind(world.EVENT_SIMULATE, this.simulateListener);
 
         this.input = this.inputs.menu;
-        timer.isSimulating = false;
+        this.pauseSimulation();
     }
     resumeGamePlay()
     {
-        const timer = this.timer;
-        timer.events.bind(timer.EVENT_SIMULATE, this.simulateListener);
+        const world = this.world;
+        world.events.bind(world.EVENT_SIMULATE, this.simulateListener);
 
         this.input = this.inputs.character;
-        timer.isSimulating = true;
+        this.resumeSimulation();
     }
     resetCheckpoint()
     {
         this.resetObjects();
-        this.world.updateTime(0);
+        this.world.simulateTime(0);
         return this.readyBlink()
             .then(() => {
                 this.resumeGamePlay();

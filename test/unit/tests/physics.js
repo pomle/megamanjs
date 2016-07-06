@@ -29,7 +29,7 @@ describe('Physics', function() {
     physics.mass = 1;
     host.applyTrait(physics);
     world.addObject(host);
-    world.updateTime(0.1);
+    world.simulateTime(0.1);
     expect(host.velocity.y).to.equal(-10);
   });
   it('mass should not affect velocity from gravity', function() {
@@ -50,11 +50,11 @@ describe('Physics', function() {
     world.addObject(hosts[0]);
     world.addObject(hosts[1]);
 
-    world.updateTime(0.1);
+    world.simulateTime(0.1);
     expect(hosts[0].velocity.y).to.equal(-10);
     expect(hosts[1].velocity.y).to.equal(-10);
   });
-  it.skip('gravity pull should not be insignificantly affected by time step', function() {
+  it.skip('gravity pull should not be significantly affected by time step', function() {
     let step;
     let count;
 
@@ -80,14 +80,14 @@ describe('Physics', function() {
     step = 1/120;
     count = 0;
     while (count++ < 120) {
-      worlds[0].updateTime(step);
+      worlds[0].simulateTime(step);
     }
     expect(hosts[0].position.y).to.be.within(-90.5, -90);
 
     step = 1/60;
     count = 0;
     while (count++ < 60) {
-      worlds[1].updateTime(step);
+      worlds[1].simulateTime(step);
     }
     expect(hosts[1].position.y).to.be.within(-90.5, -90);
   });
@@ -99,7 +99,7 @@ describe('Physics', function() {
     physics.mass = 1;
     physics.force.set(10, 0);
     world.addObject(host);
-    world.updateTime(0.1);
+    world.simulateTime(0.1);
     expect(host.velocity.x).to.equal(10);
   });
 });

@@ -7,72 +7,56 @@ class Timer
     {
         this.EVENT_RENDER = 'render';
         this.EVENT_UPDATE = 'update';
-        this.EVENT_SIMULATE = 'simulate';
-        this.EVENT_TIMEPASS = 'timepass';
 
-        this.accumulator = 0;
+        this._frameId = null;
+        this._isRunning = false;
+        this._timeLastEvent = null;
+        this._timeStretch = 1;
+
         this.events = new Engine.Events(this);
-        this.frameId = undefined;
-        this.isRunning = false;
-        this.isSimulating = true;
-        this.simulationSpeed = 1;
-        this.simulationTimePassed = 0;
-        this.realTimePassed = 0;
-        this.timeStep = 1/120;
 
         this.eventLoop = this.eventLoop.bind(this);
     }
-    enqueue()
+    _enqueue()
     {
-        this.frameId = requestAnimationFrame(this.eventLoop);
+        this._frameId = requestAnimationFrame(this.eventLoop);
     }
     eventLoop(micros)
     {
         if (micros !== undefined) {
             const seconds = micros / 1000;
-            if (this.timeLastEvent !== undefined) {
-                this.updateTime(seconds - this.timeLastEvent);
+            if (this._timeLastEvent != null) {
+                this.updateTime(seconds - this._timeLastEvent);
             }
-            this.timeLastEvent = seconds;
+            this._timeLastEvent = seconds;
         }
         this.events.trigger(this.EVENT_RENDER);
 
-        if (this.isRunning === true) {
-            this.enqueue();
+        if (this._isRunning === true) {
+            this._enqueue();
         }
     }
     pause()
     {
-        cancelAnimationFrame(this.frameId);
-        this.isRunning = false;
+        cancelAnimationFrame(this._frameId);
+        this._isRunning = false;
     }
     run()
     {
-        if (this.isRunning) {
+        if (this._isRunning) {
             return;
         }
-        this.isRunning = true;
-        this.timeLastEvent = undefined;
-        this.enqueue();
+        this._isRunning = true;
+        this._timeLastEvent = null;
+        this._enqueue();
     }
-    simulateTime(dt)
+    setTimeStretch(multiplier)
     {
-        this.events.trigger(this.EVENT_SIMULATE, [dt]);
-        this.simulationTimePassed += dt;
+        this._timeStretch = multiplier;
     }
-    updateTime(dt)
+    updateTime(deltaTime)
     {
-        if (this.isSimulating === true && this.simulationSpeed !== 0) {
-            const step = this.timeStep;
-            const passed = dt * this.simulationSpeed;
-            this.accumulator += passed;
-            while (this.accumulator >= step) {
-                this.simulateTime(step);
-                this.accumulator -= step;
-            }
-            this.events.trigger(this.EVENT_UPDATE, [passed]);
-        }
-        this.events.trigger(this.EVENT_TIMEPASS, [dt]);
-        this.realTimePassed += dt;
+        const adjustedDelta = deltaTime * this._timeStretch;
+        this.events.trigger(this.EVENT_UPDATE, [adjustedDelta]);
     }
 }

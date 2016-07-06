@@ -22,29 +22,22 @@ Game.Scene = class Scene
         this.timer = new Engine.Timer;
         this.world = new Engine.World;
 
-        this.doFor = Engine.Loops.doFor(this.timer.events, this.timer.EVENT_SIMULATE);
-        this.waitFor = Engine.Loops.waitFor(this.timer.events, this.timer.EVENT_UPDATE);
-
-        const timer = this.timer;
-        const world = this.world;
-        const scene = world.scene;
-        const camera = this.camera.camera;
+        this.doFor = Engine.Loops.doFor(this.world.events, this.world.EVENT_SIMULATE);
+        this.waitFor = Engine.Loops.waitFor(this.world.events, this.world.EVENT_UPDATE);
 
         this.input.events.bind(this.input.EVENT_TRIGGER, (key, type) => {
             this.events.trigger(this.EVENT_INPUT, [key, type]);
         });
 
-        this.simulate = (dt) => {
+        this._timerBound = false;
+        this._timerUpdate = (dt) => {
             this.world.updateTime(dt);
-        };
-
-        const animate = (dt) => {
-            world.updateAnimation(dt);
             this.camera.updateTime(dt);
         };
 
         const render = () => {
-            this.game.renderer.render(scene, camera);
+            this.game.renderer.render(this.world.scene,
+                                      this.camera.camera);
         };
 
         const audioListener = (audio) => {
@@ -53,9 +46,8 @@ Game.Scene = class Scene
 
         this.events.bind(this.EVENT_CREATE, (game) => {
             this.__create(game);
-            timer.events.bind(timer.EVENT_UPDATE, animate);
-            timer.events.bind(timer.EVENT_RENDER, render);
-            world.events.bind(world.EVENT_EMIT_AUDIO, audioListener);
+            this.timer.events.bind(this.timer.EVENT_RENDER, render);
+            this.world.events.bind(this.world.EVENT_EMIT_AUDIO, audioListener);
         });
 
         this.events.bind(this.EVENT_START, () => {
@@ -76,9 +68,8 @@ Game.Scene = class Scene
 
         this.events.bind(this.EVENT_DESTROY, () => {
             this.__destroy();
-            timer.events.unbind(timer.EVENT_UPDATE, animate);
-            timer.events.unbind(timer.EVENT_RENDER, render);
-            world.events.unbind(world.EVENT_EMIT_AUDIO, audioListener);
+            this.timer.events.unbind(this.timer.EVENT_RENDER, render);
+            this.world.events.unbind(this.world.EVENT_EMIT_AUDIO, audioListener);
         });
     }
     __create(game)
@@ -129,18 +120,26 @@ Game.Scene = class Scene
     }
     pauseSimulation()
     {
-        this.timer.isSimulating = false;
+        this.stopSimulation();
     }
     resumeSimulation()
     {
-        this.timer.isSimulating = true;
+        this.startSimulation();
     }
     startSimulation()
     {
-        this.timer.events.bind(this.timer.EVENT_SIMULATE, this.simulate);
+        if (!this._timerBound) {
+            const t = this.timer;
+            t.events.bind(t.EVENT_UPDATE, this._timerUpdate);
+            this._timerBound = true;
+        }
     }
     stopSimulation()
     {
-        this.timer.events.unbind(this.timer.EVENT_SIMULATE, this.simulate);
+        if (this._timerBound) {
+            const t = this.timer;
+            t.events.unbind(t.EVENT_UPDATE, this._timerUpdate);
+            this._timerBound = false;
+        }
     }
 }
