@@ -3,17 +3,20 @@
 const sinon = require('sinon');
 
 const env = require('../env');
+const AudioContextMock = require('./audiocontext-mock');
+const WebGLRendererMock = require('./webglrenderer-mock');
+
 const Game = env.Game;
 
 function createGameMock()
 {
-  global.AudioContext = sinon.spy();
-  sinon.stub(THREE, 'WebGLRenderer');
+  AudioContextMock.mock();
+  WebGLRendererMock.mock();
 
   const game = new Game;
 
-  THREE.WebGLRenderer.restore();
-  delete global.AudioContext;
+  AudioContextMock.clean();
+  WebGLRendererMock.clean();
 
   return game;
 }
