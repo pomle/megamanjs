@@ -70,7 +70,7 @@ extends Game.Loader.XML.SceneParser
             const caption = this._createCaption(text);
             const avatar = this._createObject(id).model;
             const characterId = this.getAttr(stageNode, 'character');
-            scene.addStage(avatar, caption, name, characterId && res.get('character', characterId));
+            scene.addStage(avatar, caption, name, characterId && res.get('object', characterId));
         }
 
         this._parseReveal();

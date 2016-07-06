@@ -40,13 +40,17 @@ extends Game.Loader.XML.Parser
     getEasing(node, attr)
     {
         const aggr = this.getAttr(node, attr);
-        const comp = aggr.split(',');
-        const name = comp.shift();
-        if (comp.length) {
-            const val = parseFloat(comp[0]);
-            return Engine.Easing[name](val);
+        if (aggr) {
+            const comp = aggr.split(',');
+            const name = comp.shift();
+            if (comp.length) {
+                const val = parseFloat(comp[0]);
+                return Engine.Easing[name](val);
+            } else {
+                return Engine.Easing[name];
+            }
         } else {
-            return Engine.Easing[name];
+            return Engine.Easing.linear;
         }
     }
     _parseActionCameraMove(node)
@@ -157,7 +161,7 @@ extends Game.Loader.XML.Parser
         } else if (type === 'emit-audio') {
             const id = this.getAttr(node, 'id');
             return function emitAudio() {
-                this.world.emitAudio(this.audio[id]);
+                this.emitAudio(this.audio[id]);
             };
         } else if (type === 'emit-event') {
             const name = this.getAttr(node, 'name');

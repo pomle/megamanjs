@@ -3,6 +3,7 @@
     <object type="character" source="Megaman" id="Megaman">
         <audio>
             <effect src="./megaman/teleport-in.ogg" id="teleport-in"/>
+            <effect src="./megaman/teleport-out.ogg" id="teleport-out"/>
             <effect src="./megaman/jump-land.ogg" id="jump-land"/>
             <effect src="./megaman/damage.ogg" id="damage"/>
             <effect src="./megaman/death.ogg" id="death"/>
@@ -37,6 +38,9 @@
             </event>
             <event name="teleport-end">
                 <action type="emit-audio" id="teleport-in"/>
+            </event>
+            <event name="teleport-start">
+                <action type="emit-audio" id="teleport-out"/>
             </event>
             <event name="jump-land">
                 <action type="emit-audio" id="jump-land"/>
@@ -188,7 +192,6 @@
     </animations>
 
     <textures>
-        <texture id="headlight_lensflare" url="../deco/headlight_lensflare.png" w="256" h="128" scale="1" />
         <texture id="megaman-p" url="./megaman/megaman.png" w="256" h="256"/>
         <texture id="megaman-a" url="./megaman/megaman.png" w="256" h="256">
             <effects>
@@ -238,5 +241,6 @@
                 <color-replace in="#00FFFF" out="#F8F8F8" />
             </effects>
         </texture>
+        <texture id="headlight_lensflare" url="../deco/headlight_lensflare.png" w="256" h="128" scale="1" />
     </textures>
 </objects>

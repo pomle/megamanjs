@@ -80,7 +80,7 @@ extends Game.Loader.XML.SceneParser
             const spawnableNodes = spawnerNode.getElementsByTagName('*');
             for (let spawnableNode, j = 0; spawnableNode = spawnableNodes[j]; ++j) {
                 const objectId = spawnableNode.getAttribute('id');
-                const objectRef = this.loader.resourceManager.get('character', objectId);
+                const objectRef = this.loader.resourceManager.get('object', objectId);
                 spawner.pool.push(objectRef);
             }
 

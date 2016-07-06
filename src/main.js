@@ -61,12 +61,12 @@
             }
         },
         'spawn': (e) => {
-            const Obj = loader.resourceManager.get('character', e.target.dataset.object);
+            const Obj = loader.resourceManager.get('object', e.target.dataset.object);
             const obj = new Obj();
-            const player = game.player.character;
+            const pos = game.scene.camera.position;
             obj.moveTo({
-                x: player.position.x + 32,
-                y: player.position.y + 32,
+                x: pos.x + 32,
+                y: pos.y + 32,
             });
             game.scene.world.addObject(obj);
         },

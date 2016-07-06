@@ -131,7 +131,7 @@ extends Game.Loader.XML.Parser
         player.defaultWeapon = playerNode.querySelector('weapon')
                                          .getAttribute('default');
 
-        const Character = this.loader.resourceManager.get('character', characterId);
+        const Character = this.loader.resourceManager.get('object', characterId);
         const character = new Character;
 
         const invincibilityNode = playerNode.querySelector('invincibility');

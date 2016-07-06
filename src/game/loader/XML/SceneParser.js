@@ -55,12 +55,13 @@ extends Game.Loader.XML.Parser
     }
     _getObject(id)
     {
+        const resource = this.loader.resourceManager;
         if (this._objects[id]) {
             return this._objects[id];
         } else if (resource.has('object', id)) {
-            return resource.get('object', id);
+            return {constructor: resource.get('object', id)};
         }
-        throw new Error(`Object "${id}" no defined.`);
+        throw new Error(`Object "${id}" not defined.`);
     }
     _parse()
     {
@@ -83,6 +84,10 @@ extends Game.Loader.XML.Parser
         }).then(() => {
             return this.loader.resourceLoader.complete();
         }).then(() => {
+            /* Perform update to "settle" world.
+               This is done to prevent audio and other side effects
+               from leaking out on scene start. */
+            this._scene.world.updateTime(0);
             return this._scene;
         });
     }
@@ -203,8 +208,12 @@ extends Game.Loader.XML.Parser
         const object = this._getObject(objectId);
         const instance = new object.constructor;
         instance.id = instanceId;
+
+        const direction = this.getInt(node, 'dir') || 1;
         const position = this.getPosition(node) || this.DEFAULT_POS;
         const scale = this.getFloat(node, 'scale') || 1;
+
+        instance.direction.set(direction, 0);
         instance.position.copy(position);
         instance.model.scale.multiplyScalar(scale);
 

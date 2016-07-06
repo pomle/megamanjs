@@ -14,9 +14,16 @@
                 <position to="0,608,-500"/>
                 <object instance="logo"/>
             </action>
+            <action type="transform">
+                <opacity to="0"/>
+                <object instance="story1"/>
+                <object instance="story2"/>
+                <object instance="story3"/>
+            </action>
         </event>
         <event name="start">
             <action type="play-sequence" id="intro"/>
+            <action type="play-sequence" id="story"/>
         </event>
         <event name="input">
             <action type="emit-event" name="end">
@@ -26,16 +33,55 @@
         </event>
     </events>
     <sequences>
+        <sequence id="story">
+            <action type="wait" duration="1"/>
+            <action type="transform">
+                <tween duration="1">
+                    <opacity to="1"/>
+                </tween>
+                <object instance="story1"/>
+            </action>
+            <action type="wait" duration="5"/>
+            <action type="transform">
+                <tween duration="1">
+                    <opacity to="0"/>
+                </tween>
+                <object instance="story1"/>
+            </action>
+            <action type="transform">
+                <tween duration="1">
+                    <opacity to="1"/>
+                </tween>
+                <object instance="story2"/>
+            </action>
+            <action type="wait" duration="5"/>
+            <action type="transform">
+                <tween duration="1">
+                    <opacity to="0"/>
+                </tween>
+                <object instance="story2"/>
+            </action>
+            <action type="transform">
+                <tween duration="1">
+                    <opacity to="1"/>
+                </tween>
+                <object instance="story3"/>
+            </action>
+            <action type="wait" duration="5"/>
+            <action type="transform">
+                <tween duration="1">
+                    <opacity to="0"/>
+                </tween>
+                <object instance="story3"/>
+            </action>
+        </sequence>
+
         <sequence id="intro">
-            <await>
-                <action type="play-audio" id="intro"/>
-                <action type="wait" duration="25.5"/>
-            </await>
-            <await>
-                <action type="camera-move" to=",576,">
-                    <tween duration="12" easing="easeIn,1.7"/>
-                </action>
-            </await>
+            <action type="play-audio" id="intro"/>
+            <action type="wait" duration="25.5"/>
+            <action type="camera-move" to=",576,">
+                <tween duration="12" easing="easeIn,1.7"/>
+            </action>
             <action type="transform">
                 <tween duration="2" easing="easeIn,4">
                     <opacity to="1"/>
@@ -44,9 +90,7 @@
                 </tween>
                 <object instance="logo"/>
             </action>
-            <await>
-                <action type="wait" duration="50"/>
-            </await>
+            <action type="wait" duration="50"/>
             <action type="emit-event" name="end"/>
         </sequence>
     </sequences>
@@ -217,6 +261,29 @@
                 <face animation="logo"/>
             </geometry>
         </object>
+        <object id="story1">
+            <text font="nintendo"><![CDATA[
+IN THE YEAR 200X, A SUPER ROBOT
+
+   NAMED MEGAMAN WAS CREATED.
+]]></text>
+        </object>
+        <object id="story2">
+            <text font="nintendo"><![CDATA[
+DR. LIGHT CREATED MEGAMAN TO STOP
+
+  THE EVIL DESIRES OF DR. WILY.
+]]></text>
+        </object>
+        <object id="story3">
+            <text font="nintendo"><![CDATA[
+    HOWEVER, AFTER HIS DEFEAT,
+
+DR. WILY CREATED EIGHT OF HIS OWN
+
+    ROBOTS TO COUNTER MEGAMAN.
+]]></text>
+        </object>
         <object id="IpqEDd">
             <geometry type="plane" w="512" h="240" w-segments="32" h-segments="15">
                 <face animation="slice_25" index="[898,834,908,600,668,608,634,558,622,626,958,916]"/>
@@ -285,6 +352,10 @@
             <object id="logo" x="0" y="608" z="0" instance="logo"/>
             <object id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
             <object id="NAGscu" x="140" y="230" z="0"/>
+
+            <object id="story1" x="0" y="-70" z="0" instance="story1"/>
+            <object id="story2" x="0" y="-70" z="0" instance="story2"/>
+            <object id="story3" x="0" y="-70" z="0" instance="story3"/>
         </objects>
         <behaviors>
             <solids>

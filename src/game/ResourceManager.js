@@ -7,7 +7,6 @@ class ResourceManager
     {
         /* These must be defined in order of specificity. */
         this.TYPE_MAP = {
-            'character': Game.objects.Character,
             'weapon': Game.objects.Weapon,
             'object': Engine.Object,
             'texture': THREE.Texture,
@@ -46,10 +45,6 @@ class ResourceManager
     addAudio(id, object)
     {
         return this._addResource('audio', id, object);
-    }
-    addCharacter(id, object)
-    {
-        return this._addResource('character', id, object);
     }
     addFont(id, object)
     {

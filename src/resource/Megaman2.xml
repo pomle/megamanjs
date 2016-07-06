@@ -35,13 +35,15 @@
             <scene type="level" name="Ladder" src="./levels/debug/Ladder.xml" />
             <scene type="level" name="Per" src="./levels/debug/Per.xml" />
             <scene type="level" name="Physics" src="./levels/debug/Physics.xml" />
-            <scene type="level" name="BackgroundFaceAnimation" src="./levels/debug/BackgroundFaceAnimation.xml" />
             <scene type="level" name="Enemies" src="./levels/debug/Enemies.xml" />
             <scene type="level" name="Powerups" src="./levels/debug/Powerups.xml" />
         <!-- End Debug Levels -->
     </scenes>
 
     <audio>
+        <effect src="./energy-fill.ogg" id="energy-fill">
+            <loop />
+        </effect>
         <effect src="./explosion.ogg" id="explosion"/>
         <effect src="./hit.ogg" id="hit"/>
     </audio>
