@@ -5,16 +5,19 @@ const sinon = require('sinon');
 let frameId = 0;
 let time = 0;
 let callbacks = [];
+let window = sinon.spy();
 
 function mock()
 {
   reset();
+  global.window = {};
   global.requestAnimationFrame = _interface.requestAnimationFrame;
   global.cancelAnimationFrame = _interface.cancelAnimationFrame;
 }
 
 function clean()
 {
+  delete global.window;
   delete global.requestAnimationFrame;
   delete global.cancelAnimationFrame;
 }

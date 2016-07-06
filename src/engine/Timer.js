@@ -10,8 +10,8 @@ class Timer
 
         this._frameId = null;
         this._isRunning = false;
-        this._cancelAnimationFrame = cancelAnimationFrame;
-        this._requestAnimationFrame = requestAnimationFrame;
+        this._cancelAnimationFrame = cancelAnimationFrame.bind(window);
+        this._requestAnimationFrame = requestAnimationFrame.bind(window);
         this._timeLastEvent = null;
         this._timeStretch = 1;
 
