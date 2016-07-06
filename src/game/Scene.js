@@ -29,7 +29,8 @@ Game.Scene = class Scene
             this.events.trigger(this.EVENT_INPUT, [key, type]);
         });
 
-        this.timerUpdate = (dt) => {
+        this._timerBound = false;
+        this._timerUpdate = (dt) => {
             this.world.updateTime(dt);
             this.camera.updateTime(dt);
         };
@@ -127,10 +128,18 @@ Game.Scene = class Scene
     }
     startSimulation()
     {
-        this.timer.events.bind(this.timer.EVENT_UPDATE, this.timerUpdate);
+        if (!this._timerBound) {
+            const t = this.timer;
+            t.events.bind(t.EVENT_UPDATE, this._timerUpdate);
+            this._timerBound = true;
+        }
     }
     stopSimulation()
     {
-        this.timer.events.unbind(this.timer.EVENT_UPDATE, this.timerUpdate);
+        if (this._timerBound) {
+            const t = this.timer;
+            t.events.unbind(t.EVENT_UPDATE, this._timerUpdate);
+            this._timerBound = false;
+        }
     }
 }
