@@ -11,7 +11,6 @@ function AudioContextMock()
 
 function BufferSourceMock()
 {
-  this.fakeId = 'a2b62ce4-3217-11e6-9ca3-1040f388afa6';
   this.addEventListener = sinon.spy();
   this.connect = sinon.spy();
   this.buffer = null;
