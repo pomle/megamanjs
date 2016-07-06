@@ -52,10 +52,11 @@ class Jump extends Engine.Trait
     }
     engage()
     {
-        const host = this._host;
-        if (host.stunnedTime > 0) {
-            return false;
+        if (!this._enabled) {
+            return;
         }
+
+        const host = this._host;
 
         if (host.climber !== undefined) {
             host.climber.release();
@@ -71,8 +72,6 @@ class Jump extends Engine.Trait
         this._elapsed = 0;
 
         this._trigger(this.EVENT_JUMP_ENGAGE);
-
-        return true;
     }
     cancel()
     {

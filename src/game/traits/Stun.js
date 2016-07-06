@@ -75,11 +75,10 @@ Game.traits.Stun.prototype.disengage = function()
 {
     if (this._engaged) {
         if (this._move) {
-            this._move.__on();
+            this._move.enable();
         }
         if (this._jump) {
-            this._jump.__on();
-            this._jump.reset();
+            this._jump.enable();
         }
         this._engaged = false;
     }
@@ -97,10 +96,10 @@ Game.traits.Stun.prototype.engage = function(points, direction)
         this.bump();
 
         if (this._move) {
-            this._move.__off();
+            this._move.disable();
         }
         if (this._jump) {
-            this._jump.__off();
+            this._jump.disable();
         }
 
         this._engaged = true;

@@ -3,8 +3,8 @@ Game.traits.Move = function()
     Engine.Trait.call(this);
 
     this._interimSpeed = 0;
-    this._physics = undefined;
 
+    this.enabled = true;
     this.acceleration = 500;
     this.speed = 90;
 }
@@ -12,18 +12,6 @@ Game.traits.Move = function()
 Engine.Util.extend(Game.traits.Move, Engine.Trait);
 
 Game.traits.Move.prototype.NAME = 'move';
-
-Game.traits.Move.prototype.__attach = function(host)
-{
-    this._physics = this.__require(host, Game.traits.Physics);
-    Engine.Trait.prototype.__attach.call(this, host);
-}
-
-Game.traits.Move.prototype.__detach = function()
-{
-    this._physics = undefined;
-    Engine.Trait.prototype.__detach.call(this, host);
-}
 
 Game.traits.Move.prototype.__obstruct = function(object, attack)
 {

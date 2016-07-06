@@ -2,6 +2,7 @@ Engine.Trait = function()
 {
     this._bound = false;
     this._bindables = {};
+    this._enabled = true;
     this._host = undefined;
 
     this.EVENT_ATTACHED = 'attached';
@@ -97,4 +98,16 @@ Engine.Trait.prototype._trigger = function(name, values)
 Engine.Trait.prototype._unbind = function(name, callback)
 {
     this._host.events.unbind(name, callback);
+}
+
+Engine.Trait.prototype.disable = function()
+{
+    this._enabled = false;
+    this.__off();
+}
+
+Engine.Trait.prototype.enable = function()
+{
+    this._enabled = true;
+    this.__on();
 }
