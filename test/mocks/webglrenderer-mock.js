@@ -3,9 +3,13 @@
 const sinon = require('sinon');
 const THREE = require('three');
 
+const NodeMock = require('./node-mock');
+
 function WebGLRendererMock()
 {
+  this.domElement = new NodeMock('canvas');
   this.render = sinon.spy();
+  this.setSize = sinon.spy();
 }
 
 function mock()

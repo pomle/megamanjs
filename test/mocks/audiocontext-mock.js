@@ -7,6 +7,7 @@ function AudioContextMock()
   this.createBufferSource = function() {
     return new BufferSourceMock();
   };
+  this.resume = sinon.spy();
 }
 
 function BufferSourceMock()
