@@ -10,6 +10,8 @@ class Timer
 
         this._frameId = null;
         this._isRunning = false;
+        this._cancelAnimationFrame = cancelAnimationFrame.bind(window);
+        this._requestAnimationFrame = requestAnimationFrame.bind(window);
         this._timeLastEvent = null;
         this._timeStretch = 1;
 
@@ -19,12 +21,12 @@ class Timer
     }
     _enqueue()
     {
-        this._frameId = requestAnimationFrame(this.eventLoop);
+        this._frameId = this._requestAnimationFrame(this.eventLoop);
     }
-    eventLoop(micros)
+    eventLoop(millis)
     {
-        if (micros !== undefined) {
-            const seconds = micros / 1000;
+        if (millis !== undefined) {
+            const seconds = millis / 1000;
             if (this._timeLastEvent != null) {
                 this.updateTime(seconds - this._timeLastEvent);
             }
@@ -38,7 +40,7 @@ class Timer
     }
     pause()
     {
-        cancelAnimationFrame(this._frameId);
+        this._cancelAnimationFrame(this._frameId);
         this._isRunning = false;
     }
     run()

@@ -4,53 +4,41 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
+const AudioContextMock = require('../../mocks/audiocontext-mock');
 const AudioPlayer = env.Engine.AudioPlayer;
 
 describe('AudioPlayer', function() {
-  function AudioContextMock()
-  {
-    this.createBufferSource = function() {
-      return new BufferSourceMock();
-    };
-  }
-  function BufferSourceMock()
-  {
-    this.fakeId = 'a2b62ce4-3217-11e6-9ca3-1040f388afa6';
-    this.addEventListener = sinon.spy();
-    this.connect = sinon.spy();
-    this.buffer = null;
-    this.playbackRate = {
-      value: 1,
-    };
-    this.start = sinon.spy();
-    this.stop = sinon.spy();
-  }
-  function createAudioPlayer()
-  {
-    global.AudioContext = AudioContextMock;
-    const ap = new AudioPlayer;
-    delete global.AudioContext;
-    return ap;
-  }
+
   function createAudioMock()
   {
     const bufferMock = '3fa0b830-3218-11e6-b350-1040f388afa6';
     return new Engine.Audio(bufferMock);
   }
+
+  function createAudioPlayer()
+  {
+    AudioContextMock.mock();
+    const ap = new AudioPlayer;
+    AudioContextMock.clean();
+    return ap;
+  }
+
   describe('getContext()', function() {
     it('should return the AudioContext', function() {
       const ap = createAudioPlayer();
       const context = ap.getContext();
-      expect(context).to.be.a(AudioContextMock);
+      expect(context).to.be.a(AudioContextMock.AudioContext);
     });
   });
+
   describe('play()', function() {
     it('should add audio to playing set', function() {
       const ap = createAudioPlayer();
       const audio = createAudioMock();
       ap.play(audio);
-      expect(ap._playing.get(audio)).to.be.a(BufferSourceMock);
+      expect(ap._playing.get(audio)).to.be.a(AudioContextMock.BufferSource);
     });
+
     it('should set playback rate on source', function() {
       const ap = createAudioPlayer();
       ap.setPlaybackRate(1.17);
@@ -58,12 +46,14 @@ describe('AudioPlayer', function() {
       ap.play(audio);
       expect(ap._playing.get(audio).playbackRate.value).to.be(1.17);
     });
+
     it('should set audio buffer to source buffer', function() {
       const ap = createAudioPlayer();
       const audio = createAudioMock();
       ap.play(audio);
       expect(ap._playing.get(audio).buffer).to.be('3fa0b830-3218-11e6-b350-1040f388afa6');
     });
+
     it('should try to stop same audio before playing again', function() {
       const ap = createAudioPlayer();
       const audio = createAudioMock();
@@ -72,6 +62,7 @@ describe('AudioPlayer', function() {
       ap.play(audio);
       expect(ap.stop.getCall(0).args[0]).to.be(audio);
     });
+
     it('should propagate audio loop to source loop', function() {
       const ap = createAudioPlayer();
       const audio = createAudioMock();
@@ -83,6 +74,7 @@ describe('AudioPlayer', function() {
       expect(source.loopEnd).to.be(5.16);
     });
   });
+
   describe('stop()', function() {
     it('should stop all audio if no argument given', function() {
       const ap = createAudioPlayer();
@@ -105,6 +97,7 @@ describe('AudioPlayer', function() {
         expect(source.stop.calledOnce).to.be(true);
       });
     });
+
     it('should stop supplied audio argument if supplied', function() {
       const ap = createAudioPlayer();
       const audio = [
@@ -125,6 +118,7 @@ describe('AudioPlayer', function() {
       expect(sources[2].stop.called).to.be(false);
     });
   });
+
   describe('setPlaybackRate()', function() {
     it('should update playback rate for all currently playing audio', function() {
       const ap = createAudioPlayer();

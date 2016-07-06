@@ -15,6 +15,9 @@ const Game = class Game
 
         this.player = new Game.Player();
 
+        this.element = null;
+        this.scene = null;
+
         this.handleInputEvent = this.handleInputEvent.bind(this);
     }
     attachController(element)
@@ -31,8 +34,8 @@ const Game = class Game
     adjustAspectRatio()
     {
         if (this.scene && this.element) {
-            var rect = this.element.getBoundingClientRect();
-            var cam = this.scene.camera.camera;
+            const rect = this.element.getBoundingClientRect();
+            const cam = this.scene.camera.camera;
             cam.aspect = rect.width / rect.height;
             cam.updateProjectionMatrix();
         }
@@ -44,7 +47,7 @@ const Game = class Game
     }
     handleInputEvent(event)
     {
-        if (this.scene === undefined) {
+        if (!this.scene) {
             console.error('No input receiver');
             return false;
         }
@@ -69,7 +72,9 @@ const Game = class Game
     }
     _updatePlaybackSpeed()
     {
-        this.scene.timer.setTimeStretch(this._playbackSpeed);
+        if (this.scene) {
+            this.scene.timer.setTimeStretch(this._playbackSpeed);
+        }
         this.audioPlayer.setPlaybackRate(this._playbackSpeed);
     }
     setResolution(w, h)
@@ -104,7 +109,7 @@ const Game = class Game
         if (this.scene) {
             this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
             this.scene.events.trigger(this.scene.EVENT_DESTROY);
-            this.scene = undefined;
+            this.scene = null;
         }
     }
 }

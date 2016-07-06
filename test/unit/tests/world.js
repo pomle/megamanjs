@@ -178,8 +178,7 @@ describe('World', function() {
         const time = Math.min(1 - acc, Math.random() * 0.1);
         acc += time;
         world.updateTime(time);
-      }
-      expect(objects[0].timeShift.callCount).to.be(120);
+      };
       for (let i = 0, l = objects[0].timeShift.callCount; i !== l; ++i) {
         expect(objects[0].timeShift.getCall(i).args[0]).to.equal(world._timeStep);
       }

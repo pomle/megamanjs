@@ -4,28 +4,39 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
+const RequestAnimationFrameMock = require('../../mocks/requestanimationframe-mock');
 const Scene = env.Game.Scene;
 
 describe('Scene', function() {
-  let scene;
+  function createScene() {
+    RequestAnimationFrameMock.mock();
+    const scene = new Scene;
+    RequestAnimationFrameMock.clean();
+    return scene;
+  }
 
-  beforeEach(function() {
-    scene = new Scene;
-
-    let frameId = 0;
-    global.requestAnimationFrame = sinon.spy(function() {
-      return frameId++;
+  describe('#startSimulation()', function() {
+    it('should bind to timer update event', function() {
+      const scene = createScene();
+      scene.startSimulation();
+      const timer = scene.timer;
+      expect(timer.events.bound(timer.EVENT_UPDATE, scene._timerUpdate)).to.be(true);
     });
-    global.cancelAnimationFrame = sinon.spy();
   });
 
-  afterEach(function() {
-    delete global.requestAnimationFrame;
-    delete global.cancelAnimationFrame;
+  describe('#stopSimulation()', function() {
+    it('should unbind from timer update event', function() {
+      const scene = createScene();
+      scene.startSimulation();
+      scene.stopSimulation();
+      const timer = scene.timer;
+      expect(timer.events.bound(timer.EVENT_UPDATE, scene._timerUpdate)).to.be(false);
+    });
   });
 
   describe('#doFor()', function() {
     it('should call callback for every simulation step for entire duration and supply elapsed time and progress fraction', function() {
+      const scene = createScene();
       const callbackSpy = sinon.spy();
       scene.doFor(2, callbackSpy);
       scene.world.updateTime(1);
@@ -37,6 +48,7 @@ describe('Scene', function() {
     });
 
     it('should return a promise that resolves when done', function(done) {
+      const scene = createScene();
       const callbackSpy = sinon.spy();
       scene.doFor(2, callbackSpy).then(done);
       scene.world.updateTime(2.1);
@@ -45,6 +57,7 @@ describe('Scene', function() {
 
   describe('#waitFor()', function() {
     it('should return a promise that resolves when duration elapsed', function(done) {
+      const scene = createScene();
       const callbackSpy = sinon.spy();
       scene.waitFor(2).then(done);
       scene.world.updateTime(2);
