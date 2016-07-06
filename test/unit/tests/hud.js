@@ -4,6 +4,7 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
+const RequestAnimationFrameMock = require('../../mocks/requestanimationframe-mock');
 const NodeMock = require('../../mocks/node-mock');
 const GameMock = require('../../mocks/game-mock');
 const Hud = env.Game.Hud;
@@ -116,6 +117,7 @@ describe('Hud', function() {
       expect(hud.setAmount.lastCall.args).to.eql([node, 1]);
     });
     it('should call setAmount iteratively for every timer timepass event until matching', function() {
+      RequestAnimationFrameMock.mock();
       const hud = new Hud;
       const timer = new Timer;
       const game = new GameMock;
@@ -144,6 +146,7 @@ describe('Hud', function() {
       expect(hud.game.scene.resumeSimulation.callCount).to.be(1);
       timer.updateTime(.1);
       expect(hud.setAmount.callCount).to.be(3);
+      RequestAnimationFrameMock.clean();
     });
   });
 });

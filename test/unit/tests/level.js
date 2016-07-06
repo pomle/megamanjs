@@ -4,22 +4,26 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
-const THREE = env.THREE;
+const AudioContextMock = require('../../mocks/audiocontext-mock');
+const WebGLRendererMock = require('../../mocks/webglrenderer-mock');
+const RequestAnimationFrameMock = require('../../mocks/requestanimationframe-mock');
 const Game = env.Game;
 const Level = env.Game.scenes.Level;
 
 describe('Level', function() {
   function createLevel() {
-      global.AudioContext = sinon.spy();
-      sinon.stub(THREE, 'WebGLRenderer');
+      AudioContextMock.mock();
+      WebGLRendererMock.mock();
+      RequestAnimationFrameMock.mock();
       const level = new Level();
       const game = new Game();
       const character = new Game.objects.Character;
       character.applyTrait(new Game.traits.Health);
       game.player.setCharacter(character);
       level.events.trigger(level.EVENT_CREATE, [game]);;
-      THREE.WebGLRenderer.restore();
-      delete global.AudioContext;
+      AudioContextMock.clean();
+      WebGLRendererMock.clean();
+      RequestAnimationFrameMock.clean();
       return level;
   }
 
@@ -68,7 +72,7 @@ describe('Level', function() {
 
   describe('#resetObjects', function() {
     it('should run reset function on every trait of every object if available', function() {
-      const level = new Level();
+      const level = createLevel();
       const thing = new Engine.Object();
       const resetSpy = sinon.spy();
       thing.traits = [
