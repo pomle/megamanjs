@@ -2,7 +2,7 @@
 
 const sinon = require('sinon');
 
-const env = require('../../env.js');
+const env = require('../env');
 const Game = env.Game;
 
 function createGameMock()

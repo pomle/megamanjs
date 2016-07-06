@@ -4,8 +4,8 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const env = require('../../env.js');
-const NodeMock = require('../mocks/node-mock');
-const GameMock = require('../mocks/game-mock');
+const NodeMock = require('../../mocks/node-mock');
+const GameMock = require('../../mocks/game-mock');
 const Hud = env.Game.Hud;
 const Timer = env.Engine.Timer;
 
