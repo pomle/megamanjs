@@ -26,8 +26,8 @@ describe('Timer', function() {
 
   describe('#constructor', function() {
     it('should initialize in paused mode', function() {
-      expect(timer.isRunning).to.be(false);
-      expect(timer.frameId).to.be(undefined);
+      expect(timer._isRunning).to.be(false);
+      expect(timer._frameId).to.be(null);
     });
   });
 
@@ -47,7 +47,7 @@ describe('Timer', function() {
 
     it('should bind itself to requestAnimationFrame if in running state', function() {
       timer.render = sinon.spy();
-      timer.isRunning = true;
+      timer._isRunning = true;
       timer.eventLoop(0);
       expect(requestAnimationFrame.called).to.be(true);
       expect(requestAnimationFrame.lastCall.args[0]).to.be(timer.eventLoop);
@@ -76,7 +76,7 @@ describe('Timer', function() {
       timer.run();
       timer.pause();
       expect(cancelAnimationFrame.calledOnce).to.be(true);
-      expect(cancelAnimationFrame.lastCall.args[0]).to.equal(timer.frameId);
+      expect(cancelAnimationFrame.lastCall.args[0]).to.be(timer._frameId);
     });
 
     it('should prevent requestAnimationFrame from being called in current loop', function() {
@@ -100,9 +100,20 @@ describe('Timer', function() {
     it('should start running loop indefinitely', function() {
       timer.render = sinon.spy();
       timer.run();
-      expect(timer.isRunning).to.be(true);
+      expect(timer._isRunning).to.be(true);
       expect(requestAnimationFrame.calledOnce).to.be(true);
-      expect(timer.frameId).to.equal(0);
+      expect(timer._frameId).to.equal(0);
+    });
+  });
+
+  describe('#setTimeStretch', function() {
+    it('should alter delta time supplied in EVENT_UPDATE', function() {
+      const callback = sinon.spy();
+      timer.events.bind(timer.EVENT_UPDATE, callback);
+      timer.setTimeStretch(2.13);
+      timer.updateTime(.3);
+      expect(callback.callCount).to.equal(1);
+      expect(callback.lastCall.args[0]).to.be(0.6389999999999999);
     });
   });
 
