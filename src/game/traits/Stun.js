@@ -1,108 +1,100 @@
-Game.traits.Stun = function()
+'use strict';
+
+Game.traits.Stun =
+class Stun extends Engine.Trait
 {
-    Engine.Trait.call(this);
+    constructor()
+    {
+        super();
 
-    this._health = undefined;
-    this._move = undefined;
-    this._physics = undefined;
-    this._jump = undefined;
+        this.NAME = 'stun';
+        this.EVENT_STUN_ENGAGE = 'stun-engaged';
+        this.EVENT_STUN_DISENGAGE = 'stun-disengage';
 
-    this._bumpForce = new THREE.Vector2();
-    this._elapsed = 0;
-    this._engaged = false;
-
-    this.duration = .5;
-    this.force = 100;
-
-    this.engage = this.engage.bind(this);
-    this.disengage = this.disengage.bind(this);
-}
-
-Engine.Util.extend(Game.traits.Stun, Engine.Trait);
-
-Game.traits.Stun.prototype.NAME = 'stun';
-
-Game.traits.Stun.prototype.EVENT_STUN_ENGAGE = 'stun-engaged';
-Game.traits.Stun.prototype.EVENT_STUN_DISENGAGE = 'stun-disengage';
-
-Game.traits.Stun.prototype.__attach = function(host)
-{
-    this._health = this.__require(host, Game.traits.Health);
-    this._physics = this.__require(host, Game.traits.Physics);
-    this._move = this.__require(host, Game.traits.Move);
-    this._jump = host.getTrait(Game.traits.Jump);
-
-    Engine.Trait.prototype.__attach.call(this, host);
-    this._bind(this._health.EVENT_HURT, this.engage);
-}
-
-Game.traits.Stun.prototype.__detach = function()
-{
-    this._host.unbind(this._health.EVENT_HURT, this.engage);
-    this._health = undefined;
-    this._physics = undefined;
-    this._move = undefined;
-    Engine.Trait.prototype.__detach.call(this, this._host);
-}
-
-Game.traits.Stun.prototype.__obstruct = function(object, attack)
-{
-    if (this._engaged === true && attack === object.SURFACE_TOP) {
-        this.bump();
-        this._bumpForce.multiplyScalar(.8);
-    }
-}
-
-Game.traits.Stun.prototype.__timeshift = function(deltaTime)
-{
-    if (this._engaged) {
-        if (this._elapsed >= this.duration) {
-            this.disengage();
-        }
-        else {
-            this._elapsed += deltaTime;
-        }
-    }
-}
-
-Game.traits.Stun.prototype.bump = function()
-{
-    this._host.physics.zero();
-    this._host.physics.force.copy(this._bumpForce);
-}
-
-Game.traits.Stun.prototype.disengage = function()
-{
-    if (this._engaged) {
-        if (this._move) {
-            this._move.enable();
-        }
-        if (this._jump) {
-            this._jump.enable();
-        }
-        this._engaged = false;
-    }
-}
-
-Game.traits.Stun.prototype.engage = function(points, direction)
-{
-    if (this.duration !== 0 && this._engaged === false) {
-        var host = this._host,
-            bump = this._bumpForce;
-
-        bump.x = direction ? -direction.x : -host.direction.x;
-        bump.y = Math.abs(bump.x * 2);
-        bump.setLength(this.force);
-        this.bump();
-
-        if (this._move) {
-            this._move.disable();
-        }
-        if (this._jump) {
-            this._jump.disable();
-        }
-
-        this._engaged = true;
+        this._bumpForce = new THREE.Vector2();
         this._elapsed = 0;
+        this._engaged = false;
+
+        this.duration = .5;
+        this.force = 100;
+
+        this.engage = this.engage.bind(this);
+        this.disengage = this.disengage.bind(this);
+
+        this.__requires(Game.traits.Health);
+        this.__requires(Game.traits.Physics);
+    }
+    __attach(host)
+    {
+        const health = this.__require(host, Game.traits.Health);
+        super.__attach(host);
+        this._bind(health.EVENT_HURT, this.engage);
+    }
+    __detach()
+    {
+        const health = this.__require(host, Game.traits.Health);
+        this._host.unbind(health.EVENT_HURT, this.engage);
+        super.__detach(this._host);
+    }
+    __obstruct(object, attack)
+    {
+        if (this._engaged === true && attack === object.SURFACE_TOP) {
+            this.bump();
+            this._bumpForce.multiplyScalar(.8);
+        }
+    }
+    __timeshift(deltaTime)
+    {
+        if (this._engaged) {
+            if (this._elapsed >= this.duration) {
+                this.disengage();
+            }
+            else {
+                this._elapsed += deltaTime;
+            }
+        }
+    }
+    _bump()
+    {
+        this._host.physics.zero();
+        this._host.physics.force.copy(this._bumpForce);
+    }
+    disengage()
+    {
+        if (this._engaged) {
+            const move = this._host.move;
+            const jump = this._host.jump;
+            if (move) {
+                move.enable();
+            }
+            if (jump) {
+                jump.enable();
+                jump.reset();
+            }
+            this._engaged = false;
+        }
+    }
+    engage(points, direction)
+    {
+        if (this.duration !== 0 && this._engaged === false) {
+            const host = this._host;
+            const bump = this._bumpForce;
+
+            bump.x = direction ? -direction.x : -host.direction.x;
+            bump.y = Math.abs(bump.x * 2);
+            bump.setLength(this.force);
+            this._bump();
+
+            const move = this._host.move;
+            const jump = this._host.jump;
+            if (move) {
+                move.disable();
+            }
+            if (jump) {
+                jump.disable();
+            }
+            this._engaged = true;
+            this._elapsed = 0;
+        }
     }
 }
