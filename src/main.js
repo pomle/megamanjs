@@ -22,6 +22,7 @@
         })(scene);
         inputRecorder.player = new Engine.InputPlayer(scene.world, input);
         inputRecorder.recorder = new Engine.InputRecorder(scene.world, input);
+        inputRecorder.recorder.record();
     });
 
     game.events.bind(game.EVENT_SCENE_DESTROY, function(scene) {
