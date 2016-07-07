@@ -144,6 +144,36 @@ describe('World', function() {
     });
   });
 
+  describe('#doFor()', function() {
+    it('should call callback for every simulation step for entire duration and supply elapsed time and progress fraction', function() {
+      const callbackSpy = sinon.spy();
+      world._timeStep = 1/30;
+      world.doFor(2, callbackSpy);
+      world.updateTime(1);
+      expect(callbackSpy.callCount).to.be(30);
+      expect(callbackSpy.getCall(0).args).to.eql([world._timeStep, 0.016666666666666666]);
+      expect(callbackSpy.getCall(12).args[0]).to.be(0.4333333333333333);
+      world.updateTime(2);
+      expect(callbackSpy.lastCall.args).to.eql([2.0000000000000027, 1]);
+    });
+
+    it('should return a promise that resolves when done', function(done) {
+      const callbackSpy = sinon.spy();
+      world._timeStep = 1/30;
+      world.doFor(2, callbackSpy).then(done);
+      world.updateTime(2.1);
+    });
+  });
+
+  describe('#waitFor()', function() {
+    it('should return a promise that resolves when duration elapsed', function(done) {
+      const callbackSpy = sinon.spy();
+      world._timeStep = 1/30;
+      world.waitFor(2).then(done);
+      world.updateTime(2.1);
+    });
+  });
+
   describe('#simulateTime', function() {
     it('should supply each object with time', function() {
       world.simulateTime(0.16);
