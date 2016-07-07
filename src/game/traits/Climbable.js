@@ -1,5 +1,3 @@
-'use strict';
-
 Game.traits.Climbable =
 class Climbable extends Game.traits.Solid
 {

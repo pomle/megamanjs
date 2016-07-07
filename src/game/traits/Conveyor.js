@@ -1,24 +1,26 @@
-Game.traits.Conveyor = function()
+Game.traits.Conveyor =
+class Conveyor extends Game.traits.Solid
 {
-    Game.traits.Solid.call(this);
-    this.velocity = new THREE.Vector2(40, 0);
-    this.fixed = true;
-    this.obstructs = true;
-}
-
-Engine.Util.extend(Game.traits.Conveyor, Game.traits.Solid);
-Game.traits.Conveyor.prototype.NAME = 'conveyor';
-
-Game.traits.Conveyor.prototype.__collides = function(subject)
-{
-    var attack = Game.traits.Solid.prototype.__collides.apply(this, arguments);
-    if (attack === this.TOP && subject.physics !== undefined) {
-        subject.physics.velocity.add(this.velocity);
+    constructor()
+    {
+        super();
+        this.NAME = 'conveyor';
+        this.velocity = new THREE.Vector2(40, 0);
+        this.fixed = true;
+        this.obstructs = true;
     }
-}
-
-Game.traits.Conveyor.prototype.swapDirection = function()
-{
-    this._host.model.scale.x = -this._host.model.scale.x;
-    this.velocity.x = -this.velocity.x;
+    __collides(subject)
+    {
+        const attack = super.__collides.apply(this, arguments);
+        if (attack === this.TOP) {
+            subject.velocity.copy(this.velocity);
+        }
+    }
+    swapDirection()
+    {
+        const dir = this._host.direction;
+        const vel = this.velocity;
+        dir.x = -dir.x;
+        vel.x = -vel.x;
+    }
 }

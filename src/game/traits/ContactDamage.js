@@ -1,19 +1,21 @@
-Game.traits.ContactDamage = function()
+Game.traits.ContactDamage =
+class ContactDamage extends Engine.Trait
 {
-    Engine.Trait.call(this);
-    this.points = 0;
-}
+    constructor()
+    {
+        super();
 
-Engine.Util.extend(Game.traits.ContactDamage, Engine.Trait);
+        this.NAME = 'contactDamage';
+        this.EVENT_CONTACT_DAMAGE = 'contact-damage';
 
-Game.traits.ContactDamage.prototype.NAME = 'contactDamage';
-Game.traits.ContactDamage.prototype.EVENT_CONTACT_DAMAGE = 'contact-damage';
-
-Game.traits.ContactDamage.prototype.__collides = function(withObject, ourZone, theirZone)
-{
-    if (this.points !== 0 && withObject.health) {
-        var direction = this._host.position.clone().sub(withObject.position);
-        withObject.health.inflictDamage(this.points, direction);
-        withObject.events.trigger(this.EVENT_CONTACT_DAMAGE);
+        this.points = 0;
+    }
+    __collides(withObject, ourZone, theirZone)
+    {
+        if (this.points !== 0 && withObject.health) {
+            const direction = this._host.position.clone().sub(withObject.position);
+            withObject.health.inflictDamage(this.points, direction);
+            withObject.events.trigger(this.EVENT_CONTACT_DAMAGE, [this.points, direction]);
+        }
     }
 }

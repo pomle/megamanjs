@@ -2,7 +2,9 @@ Engine.Trait = function()
 {
     this._bound = false;
     this._bindables = {};
+    this._enabled = true;
     this._host = undefined;
+    this._requires = [];
 
     this.EVENT_ATTACHED = 'attached';
     this.EVENT_DETACHED = 'detached';
@@ -36,6 +38,11 @@ Engine.Trait.prototype.__attach = function(host)
     if (this._host !== undefined) {
         throw new Error('Already attached');
     }
+
+    this._requires.forEach(ref => {
+        this.__require(host, ref);
+    });
+
     this._host = host;
     this.__on();
     this.events.trigger(this.EVENT_ATTACHED, [this._host]);
@@ -55,6 +62,11 @@ Engine.Trait.prototype.__require = function(host, traitReference)
         return trait;
     }
     throw new Error('Required trait "' + new traitReference().NAME + '" not found');
+}
+
+Engine.Trait.prototype.__requires = function(traitReference)
+{
+    this._requires.push(traitReference);
 }
 
 Engine.Trait.prototype.__collides = undefined;
@@ -97,4 +109,16 @@ Engine.Trait.prototype._trigger = function(name, values)
 Engine.Trait.prototype._unbind = function(name, callback)
 {
     this._host.events.unbind(name, callback);
+}
+
+Engine.Trait.prototype.disable = function()
+{
+    this._enabled = false;
+    this.__off();
+}
+
+Engine.Trait.prototype.enable = function()
+{
+    this._enabled = true;
+    this.__on();
 }

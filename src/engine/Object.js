@@ -15,7 +15,7 @@ Engine.Object = function()
     this.emitter = undefined;
     this.events = new Engine.Events(this);
     this.id = undefined;
-    this.integrator = new Engine.Verlet(new THREE.Vector2());
+    this.integrator = new Engine.Verlet(new THREE.Vector2);
     this.origo = new THREE.Vector2();
     this.position = new THREE.Vector3();
     this.sequencer = new Engine.SequenceManager(this);
@@ -71,6 +71,7 @@ Engine.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 Engine.Object.prototype.applyTrait = function(trait)
 {
     if (trait instanceof Engine.Trait === false) {
+        console.error(trait);
         throw new Error('Invalid trait');
     }
     if (this[trait.NAME] !== undefined) {
@@ -79,7 +80,6 @@ Engine.Object.prototype.applyTrait = function(trait)
     trait.__attach(this);
     this.traits.push(trait);
     this[trait.NAME] = trait;
-    return trait;
 }
 
 Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
