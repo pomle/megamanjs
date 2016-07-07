@@ -4,7 +4,6 @@ Game.traits.Move = function()
 
     this._interimSpeed = 0;
 
-    this.enabled = true;
     this.acceleration = 500;
     this.speed = 90;
 }
@@ -23,6 +22,10 @@ Game.traits.Move.prototype.__obstruct = function(object, attack)
 
 Game.traits.Move.prototype.__timeshift = function(deltaTime)
 {
+    if (!this._enabled) {
+        return;
+    }
+
     this._handleWalk(deltaTime);
 }
 
