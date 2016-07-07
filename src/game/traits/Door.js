@@ -133,7 +133,7 @@ class Door extends Game.traits.Solid
             object.physics.disable();
         }
         if (object.move) {
-            move.disable();
+            object.move.disable();
         }
 
         this._traverseObject = object;
@@ -148,7 +148,7 @@ class Door extends Game.traits.Solid
             object.physics.enable();
         }
         if (object.move) {
-            move.enable();
+            object.move.enable();
         }
         this._traverseObject = null;
     }
