@@ -18,6 +18,9 @@ class Door extends Game.traits.Solid
         this.oneWay = false;
         this.speed = 30;
 
+        this._traverseDestination = null;
+        this._traverseObject = null;
+
         const traverseFunction = Engine.Animation.vectorTraverse;
 
         function accordion(geometry, start, step)
@@ -52,8 +55,8 @@ class Door extends Game.traits.Solid
             return false;
         });
         this.sequencer.addStep(function traverse(dt) {
-            return traverseFunction(this.traverseObject.position,
-                                    this.traverseDestination,
+            return traverseFunction(this._traverseObject.position,
+                                    this._traverseDestination,
                                     this.speed * dt) === 0;
         });
         this.sequencer.addStep(function close(dt) {
@@ -88,8 +91,8 @@ class Door extends Game.traits.Solid
     __timeshift(dt)
     {
         if (this.sequencer.step > -1) {
-            if (this.traverseObject) {
-                this.traverseObject.velocity.copy(this._host.velocity);
+            if (this._traverseObject) {
+                this._traverseObject.velocity.copy(this._host.velocity);
             }
             this.sequencer.run(this, [dt]);
         }
@@ -104,12 +107,12 @@ class Door extends Game.traits.Solid
             return false;
         }
 
-        if (this.traverseObject !== undefined) {
+        if (this._traverseObject != null) {
             return false;
         }
 
         // Ignore collisions with currently handled object.
-        if (subject === this.traverseObject) {
+        if (subject === this._traverseObject) {
             return;
         }
 
@@ -124,20 +127,29 @@ class Door extends Game.traits.Solid
     }
     _detain(object, destination)
     {
-        this.traverseObject = object;
-        this.traverseObject.collidable = false;
-        this.traverseObject.physics.zero();
-        this.traverseObject.physics.enabled = false;
+        object.collidable = false;
+        if (object.physics) {
+            object.physics.zero();
+            object.physics.disable();
+        }
+        if (object.move) {
+            move.disable();
+        }
 
-        this.traverseObject.move.__off();
-        this.traverseDestination = destination;
+        this._traverseObject = object;
+        this._traverseDestination = destination;
         this.sequencer.start();
     }
     _release()
     {
-        this.traverseObject.collidable = true;
-        this.traverseObject.physics.enabled = true;
-        this.traverseObject.move.__on();
-        this.traverseObject = undefined;
+        const object = this._traverseObject;
+        object.collidable = true;
+        if (object.physics) {
+            object.physics.enable();
+        }
+        if (object.move) {
+            move.enable();
+        }
+        this._traverseObject = null;
     }
 }
