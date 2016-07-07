@@ -3,55 +3,52 @@
 Engine.InputPlayer =
 class InputPlayer
 {
-    constructor(game, input)
+    constructor(world, input)
     {
-        this._game = game;
+        this._world = world;
         this._input = input;
-        this._nextTime = null;
-        this._resume = null;
-        this._stop = null;
-
-        const timer = this._game.scene.timer;
-        this._watcher = (dt) => {
-            if (timer.simulationTimePassed >= this._nextTime) {
-                console.log("%f reached", this._nextTime);
-                engine.pause();
-                this._resume();
-            }
-        };
-    }
-    _waitFor(dt)
-    {
-        this._nextTime += dt;
-        return new Promise((resolve, reject) => {
-            this._resume = resolve;
-            this._stop = reject;
-            this._game.scene.timer.run();
-        });
+        this._abort = null;
     }
     play(log)
     {
-        const timer = this._game.scene.timer;
-        timer.events.bind(engine.EVENT_TIMEPASS, this._watcher);
-        timer.pause();
-
-        this._nextTime = timer.simulationTimePassed;
-        let chain = this._waitFor(log[0].time);
+        const world = this._world;
+        const input = this._input;
         let i = 0;
-        for (let j = 0; j < log.length - 1; ++j) {
-            chain = chain.then(() => {
-              this._input.trigger(log[i].key, log[i].type);
-              return this._waitFor(log[++i].time);
-            });
-        }
-        chain.then(() => {
-            timer.events.unbind(engine.EVENT_TIMEPASS, this._watcher);
+        let next = null;
+        return new Promise((resolve, reject) => {
+            const onSimulate = (dt, t) => {
+                if (t >= next) {
+                    input.trigger(log[i].key, log[i].type);
+                    if (log[++i]) {
+                        next += log[i].time;
+                    } else {
+                        stop();
+                        resolve();
+                    }
+                }
+            };
+
+            const stop = () => {
+                world.events.unbind(world.EVENT_SIMULATE, onSimulate);
+            };
+
+            this._abort = (err) => {
+                stop();
+                reject(err);
+            };
+
+            next = world._timeSimTotal + log[i].time;
+            world.events.bind(world.EVENT_SIMULATE, onSimulate);
         });
+    }
+    playJSON(json)
+    {
+        const log = JSON.parse(json);
+        return this.play(log);
     }
     stop()
     {
-        this._input.release();
-        this._stop(new Error('Stopped'));
-        this._stop = null;
+        this._abort(new Error('Stopped'));
+        this._abort = null;
     }
 }

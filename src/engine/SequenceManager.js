@@ -25,7 +25,6 @@ class SequenceManager
         const sequence = this.getSequence(id);
         const steps = [];
 
-        let chain;
         const next = () => {
             if (steps.length) {
                 const tasks = [];

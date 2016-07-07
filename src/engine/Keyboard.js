@@ -59,7 +59,7 @@ Engine.Keyboard = class Keyboard
     }
     release()
     {
-        for (let key in this._map) {
+        for (const key in this._map) {
             this.trigger(this._map[key], this.RELEASE);
         }
     }
