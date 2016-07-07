@@ -1,5 +1,3 @@
-'use strict';
-
 Game.traits.Climber =
 class Climber extends Engine.Trait
 {
