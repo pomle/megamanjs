@@ -16,6 +16,8 @@ class World
         this.collision = new Engine.Collision();
 
         this.events = new Engine.Events(this);
+        this.doFor = Engine.Loops.doFor(this.events, this.EVENT_SIMULATE);
+        this.waitFor = Engine.Loops.waitFor(this.events, this.EVENT_SIMULATE);
 
         this.atmosphericDensity = .1;
         this.atmosphericViscosity = .1;
