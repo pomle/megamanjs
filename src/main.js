@@ -12,8 +12,8 @@
 
     game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
         if (scene instanceof Game.scenes.Level) {
-            window.inputRecorder = new Engine.InputRecorder(game, scene.inputs.character);
-            window.inputRecorder.listen();
+            window.inputPlayer = new Engine.InputPlayer(scene.world, scene.inputs.character);
+            window.inputRecorder = new Engine.InputRecorder(scene.world, scene.inputs.character);
             window.inputRecorder.record();
         }
     });
@@ -21,7 +21,6 @@
     game.events.bind(game.EVENT_SCENE_DESTROY, function(scene) {
         if (window.inputRecorder) {
             window.inputRecorder.stop();
-            window.inputRecorder.unlisten();
             delete window.inputRecorder;
         }
     });
