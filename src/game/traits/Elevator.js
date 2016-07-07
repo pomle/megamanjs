@@ -1,64 +1,64 @@
-Game.traits.Elevator = function()
+Game.traits.Elevator =
+class Elevator extends Game.traits.Solid
 {
-    Game.traits.Solid.call(this);
+    constructor()
+    {
+        super();
 
-    this.fixed = true;
-    this.obstructs = true;
+        this.NAME = 'elevator';
 
-    this.attackAccept = [this.TOP];
-    this.distance = 0;
-    this.origo = undefined;
-    this.offset = new THREE.Vector2();
-    this.paths = [];
-    this.speed = 10;
-    this.timeline = new Engine.Timeline();
+        this._timeline = new Engine.Timeline();
+        this._paths = [];
+        this._lastPos = new THREE.Vector2();
 
-    this._lastPos = new THREE.Vector2();
-}
+        this.fixed = true;
+        this.obstructs = true;
 
-Engine.Util.extend(Game.traits.Elevator, Game.traits.Solid);
+        this.attackAccept = [this.TOP];
+        this.distance = 0;
+        this.origo = null;
+        this.offset = new THREE.Vector2();
 
-Game.traits.Elevator.prototype.NAME = 'elevator';
-
-Game.traits.Elevator.prototype.__timeshift = function(deltaTime)
-{
-    this.distance += this.speed * deltaTime;
-
-    var offset = this.resolvePosition(this.distance),
-        p = this._host.position,
-        z = p.z;
-
-    if (this.origo === undefined) {
-        this.origo = p.clone();
+        this.speed = 10;
     }
+    __timeshift(deltaTime)
+    {
+        this.distance += this.speed * deltaTime;
 
-    p.copy(this.origo).add(offset);
-    p.z = z;
+        const offset = this.resolvePosition(this.distance);
+        const p = this._host.position;
+        const z = p.z;
 
-    this._host.velocity.copy(p).sub(this._lastPos).divideScalar(deltaTime);
+        if (this.origo === null) {
+            this.origo = p.clone();
+        }
 
-    this._lastPos.copy(p);
-}
+        p.copy(this.origo).add(offset);
+        p.z = z;
 
-Game.traits.Elevator.prototype.addNode = function(vec2)
-{
-    this.paths.push(vec2);
-    this.timeline.addFrame(vec2, vec2.length());
-}
+        this._host.velocity.copy(p).sub(this._lastPos).divideScalar(deltaTime);
 
-Game.traits.Elevator.prototype.resolvePosition = function(distance)
-{
-    var resolution = this.timeline.resolveTime(distance),
-        offset = new THREE.Vector2();
-
-    for (var i = 0; i !== resolution.index; ++i) {
-        offset.add(this.paths[i]);
+        this._lastPos.copy(p);
     }
+    addNode(vec2)
+    {
+        this._paths.push(vec2);
+        this._timeline.addFrame(vec2, vec2.length());
+    }
+    resolvePosition(distance)
+    {
+        const resolution = this._timeline.resolveTime(distance);
+        const offset = new THREE.Vector2();
 
-    var pos = this.paths[resolution.index].clone();
-    pos.setLength(resolution.resolvedLength - resolution.passedLength);
+        for (let i = 0; i !== resolution.index; ++i) {
+            offset.add(this._paths[i]);
+        }
 
-    offset.add(pos);
+        const pos = this._paths[resolution.index].clone();
+        pos.setLength(resolution.resolvedLength - resolution.passedLength);
 
-    return offset;
+        offset.add(pos);
+
+        return offset;
+    }
 }
