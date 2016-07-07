@@ -71,6 +71,7 @@ Engine.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 Engine.Object.prototype.applyTrait = function(trait)
 {
     if (trait instanceof Engine.Trait === false) {
+        console.error(trait);
         throw new Error('Invalid trait');
     }
     if (this[trait.NAME] !== undefined) {

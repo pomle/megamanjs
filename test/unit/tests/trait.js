@@ -24,6 +24,12 @@ describe('Trait', function() {
   MockTrait.prototype.__uncollides = sinon.spy();
   MockTrait.prototype.__timeshift = sinon.spy();
 
+  const MockTrait2 = function() {
+    Trait.apply(this, arguments);
+  }
+  extend(MockTrait2, Trait);
+  MockTrait2.prototype.NAME = 'mockTrait2';
+
   context('when applied', function() {
     const host = new Host();
     const trait = new MockTrait();
@@ -113,53 +119,64 @@ describe('Trait', function() {
   context('when applied', function() {
     let host;
     let trait;
+
     beforeEach(function() {
       host = new Host();
       trait = new MockTrait();
       host.applyTrait(trait);
       trait.__off();
     });
+
     describe('#__off', function() {
       it('should release collide method', function() {
         host.events.trigger(host.EVENT_COLLIDE);
         expect(trait.__collides.callCount).to.be(0);
       });
+
       it('should release uncollide method', function() {
         host.events.trigger(host.EVENT_UNCOLLIDE);
         expect(trait.__uncollides.callCount).to.be(0);
       });
+
       it('should release obstruct method', function() {
         host.events.trigger(host.EVENT_OBSTRUCT);
         expect(trait.__obstruct.callCount).to.be(0);
       });
+
       it('should release timeshift method', function() {
         host.events.trigger(host.EVENT_TIMESHIFT);
         expect(trait.__timeshift.callCount).to.be(0);
       });
     });
+
     describe('#__on', function() {
       beforeEach(function() {
         trait.__on();
         trait.__on();
-      })
+      });
+
       it('should bind collide method once', function() {
         host.events.trigger(host.EVENT_COLLIDE);
         expect(trait.__collides.callCount).to.be(1);
       });
+
       it('should bind uncollide method once', function() {
         host.events.trigger(host.EVENT_UNCOLLIDE);
         expect(trait.__uncollides.callCount).to.be(1);
       });
+
       it('should bind obstruct method once', function() {
         host.events.trigger(host.EVENT_OBSTRUCT);
         expect(trait.__obstruct.callCount).to.be(1);
       });
+
       it('should bind timeshift method once', function() {
         host.events.trigger(host.EVENT_TIMESHIFT);
         expect(trait.__timeshift.callCount).to.be(1);
       });
     });
   });
+
   describe('#__require', function() {
     it('should except if required trait not already applied', function() {
       const host = new Host();
@@ -171,11 +188,26 @@ describe('Trait', function() {
         expect(error.message).to.equal('Required trait "mockTrait" not found');
       });
     });
+
     it('should return applied instance if found', function() {
       const host = new Host();
       const trait = new MockTrait();
       host.applyTrait(trait);
       expect(trait.__require(host, MockTrait)).to.be(trait);
+    });
+  });
+
+  describe('#__requires', function() {
+    it('should store trait references that are checked when applied', function() {
+      const trait = new MockTrait();
+      trait.__requires(MockTrait2);
+      const host = new Host();
+      expect(function() {
+        host.applyTrait(trait);
+      }).to.throwError(function(err) {
+        expect(err).to.be.an(Error);
+        expect(err.message).to.be('Required trait "mockTrait2" not found');
+      });
     });
   });
 });
