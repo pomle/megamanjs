@@ -15,6 +15,16 @@ const Health = env.Game.traits.Health;
 const Stun = env.Game.traits.Stun;
 
 describe('Stun Trait', function() {
+  function createGround()
+  {
+    const ground = new Object;
+    ground.addCollisionRect(200, 10);
+    ground.applyTrait(new Solid);
+    ground.solid.fixed = true;
+    ground.solid.obstructs = true;
+    return ground;
+  }
+
   function createHostile()
   {
     const host = new Object;
@@ -29,6 +39,7 @@ describe('Stun Trait', function() {
     const host = new Object;
     host.addCollisionRect(10, 10);
     host.applyTrait(new Physics);
+    host.applyTrait(new Solid);
     host.applyTrait(new Health);
     host.applyTrait(new Stun);
     host.applyTrait(new Jump);
@@ -94,6 +105,35 @@ describe('Stun Trait', function() {
       world.updateTime(1/30);
 
       expect(player.velocity).to.eql({x: 6.6982887682631, y: -16.010781182171428});
+    });
+  });
+
+  context('when engaged', function() {
+    it('should bump host every obstructed by ground', function() {
+      const player = createPlayer();
+      const ground = createGround();
+      const hostile = createHostile();
+
+      player.physics.mass = 1;
+      player.stun.force = 1500;
+      player.position.set(0, 10, 0);
+      ground.position.set(0, 0, 0);
+      hostile.position.set(-9, 10, 0);
+
+      const world = new World;
+      world.addObject(ground);
+      world.addObject(player);
+      world.addObject(hostile);
+      const measures = [];
+      world.doFor(2, elapsed => {
+        const s = player.position.clone()
+        measures.push(s);
+      });
+      world.updateTime(1.5);
+      expect(measures[0].y).to.be(10);
+      expect(measures[2].y).to.be(18.45873899222579);
+      expect(measures[7].y).to.be(10);
+      expect(measures[20].y).to.be(17.58171466950625);
     });
   });
 });

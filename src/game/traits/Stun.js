@@ -39,8 +39,8 @@ class Stun extends Engine.Trait
     __obstruct(object, attack)
     {
         if (this._engaged === true && attack === object.SURFACE_TOP) {
-            this.bump();
             this._bumpForce.multiplyScalar(.8);
+            this._bump();
         }
     }
     __timeshift(deltaTime)
