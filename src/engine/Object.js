@@ -80,7 +80,6 @@ Engine.Object.prototype.applyTrait = function(trait)
     trait.__attach(this);
     this.traits.push(trait);
     this[trait.NAME] = trait;
-    return trait;
 }
 
 Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
