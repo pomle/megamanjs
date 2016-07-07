@@ -10,18 +10,25 @@
     game.attachToElement(screenElement);
     game.attachController(window);
 
+    const inputRecorder = {};
+
     game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
-        if (scene instanceof Game.scenes.Level) {
-            window.inputPlayer = new Engine.InputPlayer(scene.world, scene.inputs.character);
-            window.inputRecorder = new Engine.InputRecorder(scene.world, scene.inputs.character);
-            window.inputRecorder.record();
-        }
+        const input = (scene => {
+            if (scene instanceof Game.scenes.Level) {
+                return scene.inputs.character;
+            } else {
+                return scene.input;
+            }
+        })(scene);
+        inputRecorder.player = new Engine.InputPlayer(scene.world, input);
+        inputRecorder.recorder = new Engine.InputRecorder(scene.world, input);
     });
 
     game.events.bind(game.EVENT_SCENE_DESTROY, function(scene) {
-        if (window.inputRecorder) {
-            window.inputRecorder.stop();
-            delete window.inputRecorder;
+        if (inputRecorder.recorder) {
+            inputRecorder.recorder.stop();
+            delete inputRecorder.recorder;
+            delete inputRecorder.player;
         }
     });
 
@@ -44,6 +51,18 @@
     const actions = {
         'adjustResolution': () => {
             game.adjustResolution();
+        },
+        'playInput': (e) => {
+            const input = prompt('JSON');
+            if (input) {
+                inputRecorder.player.playJSON(input);
+            }
+        },
+        'printInput': (e) => {
+            console.log(inputRecorder.recorder.toJSON());
+        },
+        'recordInput': (e) => {
+            inputRecorder.recorder.record();
         },
         'resetPlayer': (e) => {
             if (game.scene.resetPlayer) {
