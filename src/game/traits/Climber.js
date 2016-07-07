@@ -54,6 +54,9 @@ class Climber extends Engine.Trait
         if (host.aim.y > 0 && host.position.y > this.bounds.climbable.top - this.thresholds.top) {
             this.bounds.host.bottom = this.bounds.climbable.top;
             this.release();
+            if (host.jump) {
+                host.jump.reset();
+            }
             return;
         } else if (host.aim.y < 0 && this.bounds.host.top < this.bounds.climbable.bottom) {
             this.release();
@@ -104,7 +107,7 @@ class Climber extends Engine.Trait
         }
 
         if (host.move) {
-            host.move.__off();
+            host.move.disable();
         }
 
         this.bounds.climbable = climbable;
@@ -124,7 +127,7 @@ class Climber extends Engine.Trait
         }
         const host = this._host;
         if (host.move) {
-            host.move.__on();
+            host.move.enable();
         }
         this.bounds.climbable = null;
         this.bounds.host = null;
