@@ -20,10 +20,9 @@ extends Game.Loader
         if (!url) {
             return Promise.resolve(node);
         }
-        return this.asyncLoadXML(url)
-            .then(doc => {
-                return doc.children[0];
-            });
+        return this.asyncLoadXML(url).then(doc => {
+            return doc.children[0];
+        });
     }
     loadGame(url)
     {
@@ -35,11 +34,10 @@ extends Game.Loader
     }
     loadScene(url)
     {
-        return this.asyncLoadXML(url)
-            .then(node => {
-                const sceneNode = node.querySelector('scene');
-                return this.parseScene(sceneNode);
-            });
+        return this.asyncLoadXML(url).then(doc => {
+            const sceneNode = doc.querySelector('scene');
+            return this.parseScene(sceneNode);
+        });
     }
     loadSceneByName(name)
     {
