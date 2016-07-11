@@ -47,7 +47,13 @@ extends Game.Loader.XML.Parser
         if (!this._promise) {
             this._promise = this._parse();
         }
-        return this._promise;
+        return this._promise.then(scene => {
+            /* Perform update to "settle" world.
+               This is done to prevent audio and other side effects
+               from leaking out on scene start. */
+            scene.world.updateTime(0);
+            return scene;
+        });
     }
     _createObject(id)
     {
@@ -84,14 +90,10 @@ extends Game.Loader.XML.Parser
         }).then(() => {
             return this.loader.resourceLoader.complete();
         }).then(() => {
-            /* Perform update to "settle" world.
-               This is done to prevent audio and other side effects
-               from leaking out on scene start. */
-            this._scene.world.updateTime(0);
             return this._scene;
         });
     }
-    _parseAudio(sceneNode)
+    _parseAudio()
     {
         const scene = this._scene;
         const nodes = this._node.querySelectorAll(':scope > audio > *');
