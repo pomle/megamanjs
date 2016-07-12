@@ -34,23 +34,28 @@ describe('Trait', function() {
     const host = new Host();
     const trait = new MockTrait();
     host.applyTrait(trait);
+
     it('should bind collide method', function() {
       host.events.trigger(host.EVENT_COLLIDE);
       expect(trait.__collides.callCount).to.be(1);
     });
+
     it('should bind uncollide method', function() {
       host.events.trigger(host.EVENT_UNCOLLIDE);
       expect(trait.__uncollides.callCount).to.be(1);
     });
+
     it('should bind obstruct method', function() {
       host.events.trigger(host.EVENT_OBSTRUCT);
       expect(trait.__obstruct.callCount).to.be(1);
     });
+
     it('should bind timeshift method', function() {
       host.events.trigger(host.EVENT_TIMESHIFT);
       expect(trait.__timeshift.callCount).to.be(1);
     });
   });
+
   describe('#__attach', function() {
     it('should bind magic methods automatically', function() {
       const host = new Host();
@@ -59,12 +64,14 @@ describe('Trait', function() {
       trait.__attach(host);
       expect(trait.__on.callCount).to.equal(1);
     });
+
     it('should set local host', function() {
       const host = new Host();
       const trait = new MockTrait();
       trait.__attach(host);
       expect(trait._host).to.be(host);
     });
+
     it('should except if host not Object', function() {
       const host = new Host();
       const trait = new MockTrait();
@@ -75,6 +82,7 @@ describe('Trait', function() {
         expect(error.message).to.equal('Invalid host');
       });
     });
+
     it('should except if host already set', function() {
       const host = new Host();
       const trait = new MockTrait();
@@ -87,6 +95,7 @@ describe('Trait', function() {
       });
     });
   });
+
   describe('#__detach', function() {
     it('should unbind magic methods automatically', function() {
       const host = new Host();
@@ -97,6 +106,7 @@ describe('Trait', function() {
       trait.__detach(host);
       expect(trait.__off.callCount).to.equal(1);
     });
+
     it('should unset local host', function() {
       const host = new Host();
       const trait = new MockTrait();
@@ -104,6 +114,7 @@ describe('Trait', function() {
       trait.__detach(host);
       expect(trait._host).to.be(undefined);
     });
+
     it('should except if host already set', function() {
       const host = new Host();
       const trait = new MockTrait();
@@ -116,6 +127,36 @@ describe('Trait', function() {
       });
     });
   });
+
+  describe('#__off', function() {
+    it('should emit an off event containing host', function() {
+      const host = new Host();
+      const trait = new MockTrait();
+      host.applyTrait(trait);
+
+      const callbackSpy = sinon.spy();
+      trait.events.bind(trait.EVENT_OFF, callbackSpy);
+      trait.__off();
+      expect(callbackSpy.callCount).to.be(1);
+      expect(callbackSpy.lastCall.args[0]).to.be(host);
+    });
+  });
+
+  describe('#__on', function() {
+    it('should emit an on event containing host', function() {
+      const host = new Host();
+      const trait = new MockTrait();
+      host.applyTrait(trait);
+      trait.__off();
+
+      const callbackSpy = sinon.spy();
+      trait.events.bind(trait.EVENT_ON, callbackSpy);
+      trait.__on();
+      expect(callbackSpy.callCount).to.be(1);
+      expect(callbackSpy.lastCall.args[0]).to.be(host);
+    });
+  });
+
   context('when applied', function() {
     let host;
     let trait;
