@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level">
+    <config expose-collision="true"/>
+    <objects>
+        <object id="elevator">
+            <collision>
+                <rect x="0" y="0" w="24" h="16"/>
+            </collision>
+            <traits>
+                <trait name="elevator">
+                    <path speed="60">
+                        <node x="128" y="0"/>
+                        <node x="0" y="128"/>
+                        <node x="-128" y="-128"/>
+                    </path>
+                </trait>
+            </traits>
+        </object>
+    </objects>
+
+    <layout>
+        <objects>
+            <object id="elevator" x="64" y="0" />
+        </objects>
+
+        <behaviors>
+            <solids>
+                <rect x="0" y="-32" w="256" h="16" />
+            </solids>
+        </behaviors>
+    </layout>
+</scene>

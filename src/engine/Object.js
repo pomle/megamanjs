@@ -160,9 +160,6 @@ Engine.Object.prototype.setEmitter = function(object)
 
 Engine.Object.prototype.setModel = function(model)
 {
-    if (this.collision.length) {
-        throw new Error('Can not update model after collision');
-    }
     this.model = model;
     this.position = this.model.position;
 }
