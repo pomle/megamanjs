@@ -1,41 +1,47 @@
-Game.traits.DeathSpawn = function()
+Game.traits.DeathSpawn =
+class DeathSpawn extends Engine.Trait
 {
-    Engine.Trait.call(this);
+    constructor()
+    {
+        super();
+        this.NAME = 'deathSpawn';
 
-    this.chance = 1;
-    this.pool = [];
+        this.chance = 1;
+        this.pool = [];
 
-    this.spawn = this.spawn.bind(this);
-}
+        const onSpawn = () => {
+            this.spawn();
+        };
 
-Engine.Util.extend(Game.traits.DeathSpawn, Engine.Trait);
+        this.events.bind(this.EVENT_ON, host => {
+            host.events.bind(host.health.EVENT_DEATH, onSpawn);
+        });
 
-Game.traits.DeathSpawn.prototype.NAME = 'deathSpawn';
-
-Game.traits.DeathSpawn.prototype.off = function()
-{
-    var host = this._host;
-    host.unbind(host.EVENT_DEATH, this.spawn);
-}
-
-Game.traits.DeathSpawn.prototype.on = function()
-{
-    var host = this._host;
-    host.bind(host.EVENT_DEATH, this.spawn);
-}
-
-Game.traits.DeathSpawn.prototype.spawn = function()
-{
-    if (this.pool.length !== 0) {
-        var rand = Math.random();
-        if (this.chance < rand) {
-            return;
+        this.events.bind(this.EVENT_OFF, host => {
+            host.events.unbind(host.health.EVENT_DEATH, onSpawn);
+        });
+    }
+    getRandom()
+    {
+        if (!this.pool.length) {
+            return null;
         }
-        var host = this._host,
-            index = Math.floor(rand * this.pool.length),
-            object = new this.pool[index]();
 
-        object.position.copy(host.position);
-        host.world.addObject(object);
+        const rand = Math.random();
+        if (rand > this.chance) {
+            return null;
+        }
+
+        const index = this.pool.length * Math.random() | 0;
+        return new this.pool[index]();
+    }
+    spawn()
+    {
+        const spawn = this.getRandom();
+        if (spawn) {
+            const host = this._host;
+            spawn.position.copy(host.position);
+            host.world.addObject(spawn);
+        }
     }
 }
