@@ -1,10 +1,10 @@
 Game.objects.characters.Crashman = function()
 {
-    Game.objects.Character.call(this);
+    Engine.Object.call(this);
 }
 
 Engine.Util.extend(Game.objects.characters.Crashman,
-                   Game.objects.Character);
+                   Engine.Object);
 
 Game.objects.characters.Crashman.prototype.routeAnimation = function()
 {

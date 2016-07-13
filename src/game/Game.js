@@ -114,6 +114,8 @@ const Game = class Game
     }
 }
 
-Game.objects = {};
+Game.objects = {
+    characters: {},
+};
 Game.scenes = {};
 Game.traits = {};

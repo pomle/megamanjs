@@ -1,6 +1,7 @@
 Game.objects.characters.Shotman = function(target)
 {
-    Game.objects.Character.call(this);
+    Engine.Object.call(this);
+    this.ai = new Engine.AI(this);
 
     this.coolDown = .8;
     this.waitForShot = 0;
@@ -20,7 +21,7 @@ Game.objects.characters.Shotman = function(target)
 }
 
 Engine.Util.extend(Game.objects.characters.Shotman,
-                   Game.objects.Character);
+                   Engine.Object);
 
 Game.objects.characters.Shotman.prototype.fire = function()
 {
@@ -100,5 +101,5 @@ Game.objects.characters.Shotman.prototype.timeShift = function(dt)
 
     this.animators[0].enabled = Math.abs(this.shootingAngle - this.aimingAngle) > 2;
 
-    Game.objects.Character.prototype.timeShift.call(this, dt);
+    Engine.Object.prototype.timeShift.call(this, dt);
 }

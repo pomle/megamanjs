@@ -1,13 +1,13 @@
 Game.objects.characters.Heatman = function()
 {
-    Game.objects.Character.call(this);
+    Engine.Object.call(this);
 
     this.flameTransformDuration = .09;
     this.flameTransformTime = 0;
 }
 
 Engine.Util.extend(Game.objects.characters.Heatman,
-                   Game.objects.Character);
+                   Engine.Object);
 
 Game.objects.characters.Heatman.prototype.routeAnimation = function()
 {
@@ -49,5 +49,5 @@ Game.objects.characters.Heatman.prototype.timeShift = function(dt)
         this.health.immune = true;
     }
 
-    Game.objects.Character.prototype.timeShift.call(this, dt);
+    Engine.Object.prototype.timeShift.call(this, dt);
 }

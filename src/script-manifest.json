@@ -95,7 +95,6 @@
     "game/object/Solid.js",
     "game/object/Climbable.js",
     "game/object/obstacle/DeathZone.js",
-    "game/object/Character.js",
     "game/object/Spawner.js",
     "game/object/Weapon.js",
 

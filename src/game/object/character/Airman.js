@@ -1,11 +1,11 @@
 Game.objects.characters.Airman = function()
 {
-    Game.objects.Character.call(this);
+    Engine.Object.call(this);
     this.isBlowing = false;
 }
 
 Engine.Util.extend(Game.objects.characters.Airman,
-                   Game.objects.Character);
+                   Engine.Object);
 
 Game.objects.characters.Airman.prototype.routeAnimation = function()
 {

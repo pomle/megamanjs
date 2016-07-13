@@ -1,11 +1,11 @@
 Game.objects.characters.Flashman = function()
 {
-    Game.objects.Character.call(this);
+    Engine.Object.call(this);
     this.isFlashing = false;
 }
 
 Engine.Util.extend(Game.objects.characters.Flashman,
-                   Game.objects.Character);
+                   Engine.Object);
 
 Game.objects.characters.Flashman.prototype.routeAnimation = function()
 {

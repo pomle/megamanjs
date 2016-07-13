@@ -1,11 +1,12 @@
 Game.objects.characters.Telly = function()
 {
-    Game.objects.Character.call(this);
+    Engine.Object.call(this);
+    this.ai = new Engine.AI(this);
     this.speed = 12;
 }
 
 Engine.Util.extend(Game.objects.characters.Telly,
-                   Game.objects.Character);
+                   Engine.Object);
 
 Game.objects.characters.Telly.prototype.updateAI = function()
 {
@@ -34,5 +35,5 @@ Game.objects.characters.Telly.prototype.updateAI = function()
 Game.objects.characters.Telly.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
-    Game.objects.Character.prototype.timeShift.call(this, dt);
+    Engine.Object.prototype.timeShift.call(this, dt);
 }
