@@ -18,6 +18,7 @@ describe('Timeline', function() {
     expect(anim.getValueAtTime(9)).to.equal('C');
     expect(anim.getValueAtTime(12515152)).to.equal('C');
   });
+
   describe('#getLoopTime', function() {
     it('should find correct place in time for any input number', function() {
       const anim = new Timeline();
@@ -39,6 +40,7 @@ describe('Timeline', function() {
       expect(anim.getLoopTime(6.3)).to.be.within(6.3, 6.300000001);
     });
   });
+
   describe('#getIndex', function() {
     it('should return the index at the current time', function() {
       const anim = new Timeline();
@@ -55,6 +57,7 @@ describe('Timeline', function() {
       expect(anim.getIndex()).to.equal(2);
     });
   });
+
   describe('#getValue', function() {
     it('should return the value at the current time', function() {
       const anim = new Timeline();
@@ -71,6 +74,7 @@ describe('Timeline', function() {
       expect(anim.getValue()).to.equal('C');
     });
   });
+
   describe('#getValueAtIndex', function() {
     it('should return the value at a specific index', function() {
       const anim = new Timeline();
@@ -82,6 +86,7 @@ describe('Timeline', function() {
       expect(anim.getValueAtIndex(2)).to.equal('C');
     });
   });
+
   describe('#get(Index|Value)AtTime', function() {
     it('should return the correct value or index given a time', function() {
       const anim = new Timeline();
@@ -98,12 +103,47 @@ describe('Timeline', function() {
       expect(anim.getValueAtTime(8.999)).to.equal('C');
     });
   });
+
   describe('#reset', function() {
     it('should set accumulatedTime to zero', function() {
       const anim = new Timeline();
       anim.accumulatedTime = 12;
       anim.reset();
       expect(anim.accumulatedTime).to.equal(0);
+    });
+  });
+
+   describe('#resolveTime', function() {
+    it('should return index at resolved time', function() {
+      const anim = new Timeline();
+      anim.addFrame('A', 1);
+      anim.addFrame('B', 4);
+      anim.addFrame('C', 2);
+      expect(anim.resolveTime(1234.5).index).to.be(1);
+    });
+
+    it('should return value at resolved time', function() {
+      const anim = new Timeline();
+      anim.addFrame('A', 1);
+      anim.addFrame('B', 4);
+      anim.addFrame('C', 2);
+      expect(anim.resolveTime(1234.5).value).to.be('B');
+    });
+
+    it('should return resolved length', function() {
+      const anim = new Timeline();
+      anim.addFrame('A', 1);
+      anim.addFrame('B', 4);
+      anim.addFrame('C', 2);
+      expect(anim.resolveTime(1234.5).resolvedLength).to.be(2.5);
+    });
+
+    it('should return passed length', function() {
+      const anim = new Timeline();
+      anim.addFrame('A', 1);
+      anim.addFrame('B', 4);
+      anim.addFrame('C', 2);
+      expect(anim.resolveTime(1234.5).passedLength).to.be(1);
     });
   });
 });
