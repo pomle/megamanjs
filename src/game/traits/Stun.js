@@ -97,4 +97,8 @@ class Stun extends Engine.Trait
             this._elapsed = 0;
         }
     }
+    reset()
+    {
+        this.disengage();
+    }
 }

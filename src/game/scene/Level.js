@@ -233,15 +233,7 @@ Game.scenes.Level = class Level extends Game.Scene
 
         this.world.removeObject(character);
 
-        if (character.health) {
-            character.health.resurrect();
-        }
-        if (character.invincibility) {
-            character.invincibility.disengage();
-        }
-        if (character.stun) {
-            character.stun.disengage();
-        }
+        character.reset();
         character.integrator.reset();
 
         const checkpoint = this.checkPoints[this.checkPointIndex];

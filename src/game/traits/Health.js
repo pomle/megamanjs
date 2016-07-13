@@ -64,6 +64,13 @@ Game.traits.Health.prototype.inflictDamage = function(points, direction)
     return true;
 }
 
+
+Game.traits.Health.prototype.reset = function()
+{
+    this.resurrect();
+    this.fill();
+}
+
 Game.traits.Health.prototype.resurrect = function()
 {
     if (this._dead === false) {

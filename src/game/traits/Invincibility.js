@@ -59,3 +59,8 @@ Game.traits.Invincibility.prototype.engage = function()
         this._engaged = true;
     }
 }
+
+Game.traits.Invincibility.prototype.reset = function()
+{
+    this.disengage();
+}
