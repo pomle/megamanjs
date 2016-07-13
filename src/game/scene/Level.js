@@ -233,7 +233,9 @@ Game.scenes.Level = class Level extends Game.Scene
 
         this.world.removeObject(character);
 
-        character.resurrect();
+        if (character.health) {
+            character.health.resurrect();
+        }
         if (character.invincibility) {
             character.invincibility.disengage();
         }
@@ -242,25 +244,25 @@ Game.scenes.Level = class Level extends Game.Scene
         }
         character.integrator.reset();
 
-        var checkpoint = this.checkPoints[this.checkPointIndex];
+        const checkpoint = this.checkPoints[this.checkPointIndex];
         if (checkpoint) {
-            var startPosition = checkpoint.pos.clone();
-            var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
-            var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
-            var camera = this.camera;
-            camera.velocity.set(0, 0, 0);
+            const startPosition = checkpoint.pos.clone();
+            const playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
+            const cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
 
-            character.moveTo(playerPosition);
-            character.teleport.to(startPosition);
+            const camera = this.camera;
+            camera.velocity.set(0, 0, 0);
             camera.unfollow();
             camera.jumpToPath(cameraPosition);
 
-            var level = this;
-            var startFollow = function() {
+            const startFollow = () => {
                 camera.follow(character);
                 this.events.unbind(this.teleport.EVENT_END, startFollow);
-            }
+            };
+            character.moveTo(playerPosition);
+            character.teleport.to(startPosition);
             character.events.bind(character.teleport.EVENT_END, startFollow);
+
             this.resetCheckpoint().then(() => {
                 this.world.addObject(character);
             });
