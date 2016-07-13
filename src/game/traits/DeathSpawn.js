@@ -10,14 +10,16 @@ class DeathSpawn extends Engine.Trait
         this.pool = [];
 
         const onSpawn = () => {
-            this.spawn();
+            if (this._enabled) {
+                this.spawn();
+            }
         };
 
-        this.events.bind(this.EVENT_ON, host => {
+        this.events.bind(this.EVENT_ATTACHED, host => {
             host.events.bind(host.health.EVENT_DEATH, onSpawn);
         });
 
-        this.events.bind(this.EVENT_OFF, host => {
+        this.events.bind(this.EVENT_DETACHED, host => {
             host.events.unbind(host.health.EVENT_DEATH, onSpawn);
         });
     }

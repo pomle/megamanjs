@@ -8,8 +8,6 @@ Engine.Trait = function()
 
     this.EVENT_ATTACHED = 'attached';
     this.EVENT_DETACHED = 'detached';
-    this.EVENT_ON = 'on';
-    this.EVENT_OFF = 'off';
 
     this.events = new Engine.Events(this);
 
@@ -46,13 +44,22 @@ Engine.Trait.prototype.__attach = function(host)
     });
 
     this._host = host;
-    this.__on();
+
+    var events = this._host.events;
+    for (var method in this._bindables) {
+        events.bind(this.MAGIC_METHODS[method], this[method]);
+    }
+
     this.events.trigger(this.EVENT_ATTACHED, [this._host]);
 }
 
 Engine.Trait.prototype.__detach = function()
 {
-    this.__off();
+    var events = this._host.events;
+    for (var method in this._bindables) {
+        events.unbind(this.MAGIC_METHODS[method], this[method]);
+    }
+
     this.events.trigger(this.EVENT_DETACHED, [this._host]);;
     this._host = undefined;
 }
@@ -75,30 +82,6 @@ Engine.Trait.prototype.__collides = undefined;
 Engine.Trait.prototype.__obstruct = undefined;
 Engine.Trait.prototype.__uncollides = undefined;
 Engine.Trait.prototype.__timeshift = undefined;
-
-Engine.Trait.prototype.__off = function()
-{
-    if (this._bound === true) {
-        var events = this._host.events;
-        for (var method in this._bindables) {
-            events.unbind(this.MAGIC_METHODS[method], this[method]);
-        }
-        this.events.trigger(this.EVENT_OFF, [this._host]);
-        this._bound = false;
-    }
-}
-
-Engine.Trait.prototype.__on = function()
-{
-    if (this._bound === false) {
-        var events = this._host.events;
-        for (var method in this._bindables) {
-            events.bind(this.MAGIC_METHODS[method], this[method]);
-        }
-        this.events.trigger(this.EVENT_ON, [this._host]);
-        this._bound = true;
-    }
-}
 
 Engine.Trait.prototype._bind = function(name, callback)
 {
