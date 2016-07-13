@@ -19,6 +19,7 @@ Game.scenes.Level = class Level extends Game.Scene
         this.checkPointOffset = new THREE.Vector2(0, 200);
 
         this.deathRespawnTime = 4;
+        this.readyBlinkTime = 2;
 
         const onDeath = () => {
             --this.player.lives;
@@ -167,7 +168,7 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     readyBlink()
     {
-        if (!this.assets['start-caption']) {
+        if (this.readyBlinkTime === 0 || !this.assets['start-caption']) {
             return Promise.resolve();
         }
 
@@ -178,7 +179,7 @@ Game.scenes.Level = class Level extends Game.Scene
         model.visible = true;
         this.world.scene.add(model);
 
-        return this.doFor(2, (elapsed) => {
+        return this.doFor(this.readyBlinkTime, (elapsed) => {
             model.position.x = camera.position.x;
             model.position.y = camera.position.y;
             model.visible = elapsed % (interval * 2) < interval;
@@ -248,7 +249,7 @@ Game.scenes.Level = class Level extends Game.Scene
 
             const startFollow = () => {
                 camera.follow(character);
-                this.events.unbind(this.teleport.EVENT_END, startFollow);
+                character.events.unbind(character.teleport.EVENT_END, startFollow);
             };
             character.moveTo(playerPosition);
             character.teleport.to(startPosition);
