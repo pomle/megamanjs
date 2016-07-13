@@ -1,5 +1,3 @@
-'use strict';
-
 Game.traits.Stun =
 class Stun extends Engine.Trait
 {
