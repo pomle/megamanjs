@@ -118,11 +118,9 @@ Engine.Trait.prototype._unbind = function(name, callback)
 Engine.Trait.prototype.disable = function()
 {
     this._enabled = false;
-    this.__off();
 }
 
 Engine.Trait.prototype.enable = function()
 {
     this._enabled = true;
-    this.__on();
 }
