@@ -142,6 +142,13 @@ Engine.Object.prototype.reset = function()
     });
 }
 
+Engine.Object.prototype.removeFromWorld = function()
+{
+    if (this.world) {
+        this.world.removeObject(this);
+    }
+}
+
 Engine.Object.prototype.setAnimation = function(name)
 {
     if (name !== this.anim) {

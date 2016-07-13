@@ -41,13 +41,13 @@ Game.scenes.Level = class Level extends Game.Scene
 
             const char = this.player.character;
             if (char) {
-                char.events.bind(char.EVENT_DEATH, onDeath);
+                char.events.bind(char.health.EVENT_DEATH, onDeath);
             }
         });
         this.events.bind(this.EVENT_DESTROY, () => {
             const char = this.player.character;
             if (char) {
-                char.events.unbind(char.EVENT_DEATH, onDeath);
+                char.events.unbind(char.health.EVENT_DEATH, onDeath);
             }
 
             this.camera.unfollow();

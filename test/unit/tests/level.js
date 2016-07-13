@@ -7,6 +7,7 @@ const env = require('../../env.js');
 const AudioContextMock = require('../../mocks/audiocontext-mock');
 const WebGLRendererMock = require('../../mocks/webglrenderer-mock');
 const RequestAnimationFrameMock = require('../../mocks/requestanimationframe-mock');
+const Object = env.Engine.Object;
 const Game = env.Game;
 const Level = env.Game.scenes.Level;
 
@@ -17,7 +18,7 @@ describe('Level', function() {
       RequestAnimationFrameMock.mock();
       const level = new Level();
       const game = new Game();
-      const character = new Game.objects.Character;
+      const character = new Object;
       character.applyTrait(new Game.traits.Health);
       game.player.setCharacter(character);
       level.events.trigger(level.EVENT_CREATE, [game]);;
@@ -31,7 +32,7 @@ describe('Level', function() {
     const level = createLevel();
     level.world.addObject(level.player.character);
     level.player.lives = 3;
-    level.player.character.kill();
+    level.player.character.health.kill();
     expect(level.player.lives).to.equal(2);
   });
 
@@ -47,7 +48,7 @@ describe('Level', function() {
     });
     level.world.addObject(level.player.character);
     level.player.lives = 2;
-    level.player.character.kill();
+    level.player.character.health.kill();
     level.world.updateTime(3.999);
     level.world.updateTime(0.001);
   });
@@ -65,7 +66,7 @@ describe('Level', function() {
     level.events.bind(level.EVENT_END, endEventSpy);
     level.world.addObject(level.player.character);
     level.player.lives = 1;
-    level.player.character.kill();
+    level.player.character.health.kill();
     level.world.updateTime(3.999);
     level.world.updateTime(0.001);
   });
