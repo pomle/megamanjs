@@ -62,6 +62,7 @@
     "game/traits/Attach.js",
     "game/traits/ContactDamage.js",
     "game/traits/DeathSpawn.js",
+    "game/traits/DeathZone.js",
     "game/traits/Destructible.js",
     "game/traits/Disappearing.js",
     "game/traits/Fallaway.js",
