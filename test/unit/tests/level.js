@@ -30,4 +30,15 @@ describe('Level', function() {
       expect(resetSpy.callCount).to.be(1);
     });
   });
+
+  describe('#resetPlayer', function() {
+    it('should run reset on player', function() {
+      const level = createLevel();
+      const character = new Object;
+      character.reset = sinon.spy();
+      level.player = { character };
+      level.resetPlayer();
+      expect(character.reset.calledOnce).to.be(true);
+    });
+  });
 });

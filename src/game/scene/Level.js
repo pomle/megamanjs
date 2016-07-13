@@ -206,10 +206,9 @@ Game.scenes.Level = class Level extends Game.Scene
     {
         this.resetObjects();
         this.world.simulateTime(0);
-        return this.readyBlink()
-            .then(() => {
-                this.resumeGamePlay();
-            });
+        return this.readyBlink().then(() => {
+            this.resumeGamePlay();
+        });
     }
     resetObjects()
     {
