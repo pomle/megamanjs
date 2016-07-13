@@ -14,9 +14,9 @@ const files = require('../src/script-manifest.json');
 
 global.THREE = require('three');
 
-files.forEach((src) => {
-  let filename = path.join(BASE_PATH, src);
-  let code = fs.readFileSync(filename, 'utf8');
+files.forEach(src => {
+  const filename = path.join(BASE_PATH, src);
+  const code = fs.readFileSync(filename, 'utf8');
   vm.runInThisContext(code, filename);
 });
 
