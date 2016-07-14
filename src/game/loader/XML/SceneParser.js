@@ -101,7 +101,7 @@ extends Game.Loader.XML.Parser
         for (let node, i = 0; node = nodes[i++];) {
             const id = this.getAttr(node, 'id');
             const task = this.getAudio(node).then(audio => {
-                scene.audio[id] = audio;
+                scene.audio.add(id, audio);
             });
             tasks.push(task);
         }

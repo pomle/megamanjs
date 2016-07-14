@@ -1,6 +1,7 @@
 [
     "engine/Engine.js",
     "engine/Audio.js",
+    "engine/AudioManager.js",
     "engine/AudioPlayer.js",
     "engine/Util.js",
     "engine/Easing.js",

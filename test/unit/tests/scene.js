@@ -3,7 +3,7 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../../env.js');
+const env = require('../../env');
 const RequestAnimationFrameMock = require('../../mocks/requestanimationframe-mock');
 const Scene = env.Game.Scene;
 
