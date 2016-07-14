@@ -19,6 +19,7 @@ Game.scenes.Level = class Level extends Game.Scene
         this.checkPointOffset = new THREE.Vector2(0, 200);
 
         this.deathRespawnTime = 4;
+        this.readyBlinkTime = 2;
 
         const onDeath = () => {
             --this.player.lives;
@@ -41,13 +42,13 @@ Game.scenes.Level = class Level extends Game.Scene
 
             const char = this.player.character;
             if (char) {
-                char.events.bind(char.EVENT_DEATH, onDeath);
+                char.events.bind(char.health.EVENT_DEATH, onDeath);
             }
         });
         this.events.bind(this.EVENT_DESTROY, () => {
             const char = this.player.character;
             if (char) {
-                char.events.unbind(char.EVENT_DEATH, onDeath);
+                char.events.unbind(char.health.EVENT_DEATH, onDeath);
             }
 
             this.camera.unfollow();
@@ -167,7 +168,7 @@ Game.scenes.Level = class Level extends Game.Scene
     }
     readyBlink()
     {
-        if (!this.assets['start-caption']) {
+        if (this.readyBlinkTime === 0 || !this.assets['start-caption']) {
             return Promise.resolve();
         }
 
@@ -178,7 +179,7 @@ Game.scenes.Level = class Level extends Game.Scene
         model.visible = true;
         this.world.scene.add(model);
 
-        return this.doFor(2, (elapsed) => {
+        return this.doFor(this.readyBlinkTime, (elapsed) => {
             model.position.x = camera.position.x;
             model.position.y = camera.position.y;
             model.visible = elapsed % (interval * 2) < interval;
@@ -206,10 +207,9 @@ Game.scenes.Level = class Level extends Game.Scene
     {
         this.resetObjects();
         this.world.simulateTime(0);
-        return this.readyBlink()
-            .then(() => {
-                this.resumeGamePlay();
-            });
+        return this.readyBlink().then(() => {
+            this.resumeGamePlay();
+        });
     }
     resetObjects()
     {
@@ -233,34 +233,28 @@ Game.scenes.Level = class Level extends Game.Scene
 
         this.world.removeObject(character);
 
-        character.resurrect();
-        if (character.invincibility) {
-            character.invincibility.disengage();
-        }
-        if (character.stun) {
-            character.stun.disengage();
-        }
+        character.reset();
         character.integrator.reset();
 
-        var checkpoint = this.checkPoints[this.checkPointIndex];
+        const checkpoint = this.checkPoints[this.checkPointIndex];
         if (checkpoint) {
-            var startPosition = checkpoint.pos.clone();
-            var playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
-            var cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
-            var camera = this.camera;
-            camera.velocity.set(0, 0, 0);
+            const startPosition = checkpoint.pos.clone();
+            const playerPosition = checkpoint.pos.clone().add(this.checkPointOffset);
+            const cameraPosition = checkpoint.pos.clone().add(this.cameraFollowOffset);
 
-            character.moveTo(playerPosition);
-            character.teleport.to(startPosition);
+            const camera = this.camera;
+            camera.velocity.set(0, 0, 0);
             camera.unfollow();
             camera.jumpToPath(cameraPosition);
 
-            var level = this;
-            var startFollow = function() {
+            const startFollow = () => {
                 camera.follow(character);
-                this.events.unbind(this.teleport.EVENT_END, startFollow);
-            }
+                character.events.unbind(character.teleport.EVENT_END, startFollow);
+            };
+            character.moveTo(playerPosition);
+            character.teleport.to(startPosition);
             character.events.bind(character.teleport.EVENT_END, startFollow);
+
             this.resetCheckpoint().then(() => {
                 this.world.addObject(character);
             });

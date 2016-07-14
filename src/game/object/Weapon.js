@@ -119,8 +119,8 @@ Game.objects.Weapon = class Weapon
     }
     setUser(user)
     {
-        if (user instanceof Game.objects.Character !== true) {
-            throw new TypeError('User not character');
+        if (user instanceof Engine.Object !== true) {
+            throw new TypeError('User not object');
         }
         if (user.weapon instanceof Game.traits.Weapon !== true) {
             throw new TypeError('User missing weapon trait');

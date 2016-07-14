@@ -35,8 +35,11 @@ Game.traits.Teleport.prototype._start = function()
 {
     this.state = this.STATE_IN;
     this._startProgress = this.startDuration;
-    this._host.collidable = false;
-    this._host.physics.enabled = false;
+    var host = this._host;
+    host.collidable = false;
+    if (host.physics) {
+        host.physics.disable();
+    }
     this._trigger(this.EVENT_START);
 }
 
@@ -52,8 +55,12 @@ Game.traits.Teleport.prototype._stop = function()
     this.state = this.STATE_OFF;
     var host = this._host;
     host.collidable = true;
-    host.physics.enabled = true;
-    host.jump.reset();
+    if (host.physics) {
+        host.physics.enable();
+    }
+    if (host.jump) {
+        host.jump.reset();
+    }
     this._destination = undefined;
 }
 

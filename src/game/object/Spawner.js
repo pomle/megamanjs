@@ -33,7 +33,7 @@ Engine.Util.extend(Game.objects.Spawner, Engine.Object, {
         for (var i = 0, l = this.children.length; i !== l; ++i) {
             object = this.children[i];
             if (object.time >= this.lifetime) {
-                object.kill();
+                object.health.kill();
             }
         }
     },
@@ -42,7 +42,7 @@ Engine.Util.extend(Game.objects.Spawner, Engine.Object, {
         for (var i = 0, l = this.children.length; i !== l; ++i) {
             object = this.children[i];
             if (object.position.distanceTo(this.position) > this.roamingLimit) {
-                object.kill();
+                object.health.kill();
                 this.children.splice(i, 1);
                 --i;
                 --l;

@@ -1,5 +1,3 @@
-'use strict';
-
 Game.traits.Stun =
 class Stun extends Engine.Trait
 {
@@ -96,5 +94,9 @@ class Stun extends Engine.Trait
             this._engaged = true;
             this._elapsed = 0;
         }
+    }
+    reset()
+    {
+        this.disengage();
     }
 }

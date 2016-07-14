@@ -11,7 +11,7 @@ Engine.Object = function()
     this.collidable = true;
     this.collision = [];
     this.deltaTime = undefined;
-    this.direction = new THREE.Vector2();
+    this.direction = new THREE.Vector2;
     this.emitter = undefined;
     this.events = new Engine.Events(this);
     this.id = undefined;
@@ -22,7 +22,7 @@ Engine.Object = function()
     this.time = 0;
     this.timeStretch = 1;
     this.traits = [];
-    this.velocity = new THREE.Vector2();
+    this.velocity = new THREE.Vector2;
     this.world = undefined;
 
     this.doFor = Engine.Loops.doFor(this.events, this.EVENT_TIMESHIFT);
@@ -142,6 +142,18 @@ Engine.Object.prototype.reset = function()
     });
 }
 
+Engine.Object.prototype.removeFromWorld = function()
+{
+    if (this.world) {
+        this.world.removeObject(this);
+    }
+}
+
+Engine.Object.prototype.routeAnimation = function()
+{
+    return null;
+}
+
 Engine.Object.prototype.setAnimation = function(name)
 {
     if (name !== this.anim) {
@@ -177,8 +189,22 @@ Engine.Object.prototype.timeShift = function(deltaTime)
     const adjustedDelta = deltaTime * this.timeStretch;
     this.deltaTime = adjustedDelta;
 
+    const anim = this.routeAnimation();
+    if (anim) {
+        this.setAnimation(anim);
+    }
+
     if (this.model !== undefined && this.direction.x !== 0) {
         this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
+    }
+
+    if (this.aim.x !== 0) {
+        this.direction.x = this.aim.x > 0 ? 1 : -1;
+    }
+    if (this.aim.y === 0) {
+        this.direction.y = 0;
+    } else {
+        this.direction.y = this.aim.y > 0 ? 1 : -1;
     }
 
     this.events.trigger(this.EVENT_TIMESHIFT, [adjustedDelta, this.time]);

@@ -102,8 +102,8 @@ extends Game.Loader.XML.Parser
     }
     _getConstructor(type, source)
     {
-        if (type === 'character') {
-            return Game.objects.characters[source] || Game.objects.Character;
+        if (type === 'character' && Game.objects.characters[source]) {
+            return Game.objects.characters[source];
         } else {
             return Engine.Object;
         }

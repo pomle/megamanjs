@@ -1,6 +1,7 @@
 Game.objects.characters.SniperJoe = function(target)
 {
-    Game.objects.Character.call(this);
+    Engine.Object.call(this);
+    this.ai = new Engine.AI(this);
 
     this.coolDown = .8;
     this.isShielding = true;
@@ -10,7 +11,7 @@ Game.objects.characters.SniperJoe = function(target)
 }
 
 Engine.Util.extend(Game.objects.characters.SniperJoe,
-                   Game.objects.Character);
+                   Engine.Object);
 
 Game.objects.characters.SniperJoe.prototype.impactProjectile = function(projectile)
 {
@@ -76,5 +77,5 @@ Game.objects.characters.SniperJoe.prototype.timeShift = function(dt)
         }
     }
 
-    Game.objects.Character.prototype.timeShift.call(this, dt);
+    Engine.Object.prototype.timeShift.call(this, dt);
 }

@@ -1,61 +1,58 @@
-Game.traits.Invincibility = function()
+Game.traits.Invincibility =
+class Invincibility extends Engine.Trait
 {
-    Engine.Trait.call(this);
+    constructor()
+    {
+        super();
+        this.NAME = 'invincibility';
 
-    this._engaged = false;
-    this._elapsed = 0;
-    this._health = undefined;
-    this._visibilityBlinkInterval = 1/60;
+        this._engaged = false;
+        this._elapsed = 0;
+        this._visibilityBlinkInterval = 1/60;
 
-    this.duration = .5;
+        this.duration = .5;
 
-    this.engage = this.engage.bind(this);
-    this.disengage = this.disengage.bind(this);
-}
+        const onHurt = () => {
+            this.engage();
+        };
 
-Engine.Util.extend(Game.traits.Invincibility, Engine.Trait);
+        this.__requires(Game.traits.Health);
 
-Game.traits.Invincibility.prototype.NAME = 'invincibility';
+        this.events.bind(this.EVENT_ATTACHED, host => {
+            host.events.bind(host.health.EVENT_HURT, onHurt);
+        });
 
-Game.traits.Invincibility.prototype.__attach = function(host)
-{
-    this._health = this.__require(host, Game.traits.Health);
-    Engine.Trait.prototype.__attach.call(this, host);
-    this._bind(this._health.EVENT_HURT, this.engage);
-}
-
-Game.traits.Invincibility.prototype.__detach = function()
-{
-    this._unbind(this._health.EVENT_HURT, this.engage);
-    this._health = undefined;
-    Engine.Trait.prototype.__detach.call(this, host);
-}
-
-Game.traits.Invincibility.prototype.__timeshift = function(deltaTime)
-{
-    if (this._engaged) {
-        this._host.model.visible = this._elapsed % (this._visibilityBlinkInterval * 2) > this._visibilityBlinkInterval;
-        if (this._elapsed >= this.duration) {
-            this.disengage();
-        }
-        else {
-            this._elapsed += deltaTime;
+        this.events.bind(this.EVENT_DETACHED, host => {
+            host.events.unbind(host.health.EVENT_HURT, onHurt);
+        });
+    }
+    __timeshift(deltaTime)
+    {
+        if (this._engaged) {
+            this._host.model.visible = this._elapsed % (this._visibilityBlinkInterval * 2) > this._visibilityBlinkInterval;
+            if (this._elapsed >= this.duration) {
+                this.disengage();
+            } else {
+                this._elapsed += deltaTime;
+            }
         }
     }
-}
-
-Game.traits.Invincibility.prototype.disengage = function()
-{
-    this._health.immune = false;
-    this._host.model.visible = true;
-    this._engaged = false;
-}
-
-Game.traits.Invincibility.prototype.engage = function()
-{
-    if (this.duration !== 0) {
-        this._health.immune = true;
-        this._elapsed = 0;
-        this._engaged = true;
+    disengage()
+    {
+        this._host.health.immune = false;
+        this._host.model.visible = true;
+        this._engaged = false;
+    }
+    engage()
+    {
+        if (this.duration !== 0) {
+            this._host.health.immune = true;
+            this._elapsed = 0;
+            this._engaged = true;
+        }
+    }
+    reset()
+    {
+        this.disengage();
     }
 }
