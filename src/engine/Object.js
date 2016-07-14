@@ -194,10 +194,6 @@ Engine.Object.prototype.timeShift = function(deltaTime)
         this.setAnimation(anim);
     }
 
-    if (this.model !== undefined && this.direction.x !== 0) {
-        this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
-    }
-
     if (this.aim.x !== 0) {
         this.direction.x = this.aim.x > 0 ? 1 : -1;
     }
@@ -205,6 +201,10 @@ Engine.Object.prototype.timeShift = function(deltaTime)
         this.direction.y = 0;
     } else {
         this.direction.y = this.aim.y > 0 ? 1 : -1;
+    }
+
+    if (this.model !== undefined && this.direction.x !== 0) {
+        this.model.rotation.y = this.direction.x === 1 ? 0 : Math.PI;
     }
 
     this.events.trigger(this.EVENT_TIMESHIFT, [adjustedDelta, this.time]);
