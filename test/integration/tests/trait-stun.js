@@ -53,6 +53,7 @@ describe('Stun Trait', function() {
   context('when host is inflicted with damage', function() {
     it('should inhibit move', function() {
       const player = createPlayer();
+      player.stun.force = 0;
       player.health.inflictDamage(10);
       player.aim.x = 1;
       const world = new World;
@@ -64,6 +65,7 @@ describe('Stun Trait', function() {
 
     it('should inhibit jump', function() {
       const player = createPlayer();
+      player.stun.force = 0;
       player.health.inflictDamage(10);
       player.jump.reset();
       player.jump.engage();

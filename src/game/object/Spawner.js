@@ -1,98 +1,119 @@
-Game.objects.Spawner = function() {
-    Engine.Object.call(this);
+Game.objects.Spawner =
+class Spawner extends Engine.Object
+{
+    constructor()
+    {
+        super();
 
-    this._timeSinceLastSpawn = 0;
+        this._accumulatedTime = 0;
+        this._children = [];
+        this._spawnCount = 0;
 
-    this.ai = new Engine.AI(this);
-    this.children = [];
-    this.count = Infinity;
-    this.lifetime = undefined;
-    this.maxDistance = 256;
-    this.minDistance = 32;
-    this.maxSimultaneousSpawns = 1;
-    this.interval = 0;
-    this.pool = [];
-    this.roamingLimit = undefined;
-    this.spawns = 0;
-}
-
-Engine.Util.extend(Game.objects.Spawner, Engine.Object, {
-    cleanReferences: function() {
-        var world = this.world;
-        var object;
-        for (var i = 0, l = this.children.length; i !== l; ++i) {
-            if (!world.hasObject(this.children[i])) {
-                this.children.splice(i, 1);
-                --i;
-                --l;
+        this.ai = new Engine.AI(this);
+        this.childLifetime = null;
+        this.interval = 1;
+        this.maxDistance = null;
+        this.minDistance = null;
+        this.maxSimultaneousSpawns = 1;
+        this.maxTotalSpawns = Infinity;
+        this.pool = [];
+        this.roamingLimit = null;
+    }
+    _cleanReferences()
+    {
+        const w = this.world;
+        this._children = this._children.filter(child => {
+            return w.hasObject(child);
+        });
+    }
+    getChildren()
+    {
+        return this._children;
+    }
+    killOffElderly()
+    {
+        this._children.forEach(child => {
+            if (child.time >= this.childLifetime) {
+                child.health.kill();
             }
-        }
-    },
-    killOffElderly: function() {
-        var object;
-        for (var i = 0, l = this.children.length; i !== l; ++i) {
-            object = this.children[i];
-            if (object.time >= this.lifetime) {
-                object.health.kill();
+        });
+    }
+    killOffRoaming()
+    {
+        const world = this.world;
+        this._children = this._children.filter(child => {
+            if (child.position.distanceTo(this.position) > this.roamingLimit) {
+                child.health.kill();
+                return false;
+            } else {
+                return true;
             }
-        }
-    },
-    killOffRoaming: function() {
-        var object;
-        for (var i = 0, l = this.children.length; i !== l; ++i) {
-            object = this.children[i];
-            if (object.position.distanceTo(this.position) > this.roamingLimit) {
-                object.health.kill();
-                this.children.splice(i, 1);
-                --i;
-                --l;
-            }
-        }
-    },
-    reset: function() {
-        this.spawns = 0;
-    },
-    spawnObject: function() {
-        if (this.children.length >= this.maxSimultaneousSpawns) {
+        });
+    }
+    reset()
+    {
+        const children = this._children;
+        children.forEach(child => {
+            this.world.removeObject(child);
+        });
+        this._children = [];
+        this._accumulatedTime = 0;
+        this._spawnCount = 0;
+    }
+    spawnObject()
+    {
+        if (this.pool.length === 0) {
             return false;
         }
-        if (this.spawns >= this.count || this.pool.length === 0) {
+        if (this._children.length >= this.maxSimultaneousSpawns) {
+            return false;
+        }
+        if (this._spawnCount >= this.maxTotalSpawns) {
             return false;
         }
 
         if (this.minDistance || this.maxDistance) {
-            var player = this.ai.findPlayer();
+            const player = this.ai.findPlayer();
             if (player) {
-                var dist = this.position.distanceTo(player.position);
-                if (dist > this.maxDistance || dist < this.minDistance) {
+                const dist = this.position.distanceTo(player.position);
+                if (this.maxDistance && dist > this.maxDistance ||
+                    this.minDistance && dist < this.minDistance) {
                     return false;
                 }
             }
         }
 
-        ++this.spawns;
-        var index = Math.floor(Math.random() * this.pool.length);
-        var object = new this.pool[index]();
+        const index = Math.floor(Math.random() * this.pool.length);
+        const object = new this.pool[index]();
+
         object.position.copy(this.position);
         object.position.z = 0;
-        this.children.push(object);
+
+        this._children.push(object);
         this.world.addObject(object);
+
+        ++this._spawnCount;
+
         return object;
-    },
-    timeShift: function(dt) {
-        this._timeSinceLastSpawn += dt;
-        if (this.lifetime !== undefined) {
+    }
+    timeShift(dt)
+    {
+        this._accumulatedTime += dt;
+        if (this.childLifetime != null) {
             this.killOffElderly();
         }
-        if (this.roamingLimit !== undefined) {
+        if (this.roamingLimit != null) {
             this.killOffRoaming();
         }
-
-        if (this._timeSinceLastSpawn >= this.interval) {
-            this.cleanReferences();
-            if (this.spawnObject()) {
-                this._timeSinceLastSpawn = 0;
+        if (this.interval > 0 && this._accumulatedTime >= this.interval) {
+            let overdue = Math.floor(this._accumulatedTime / this.interval);
+            this._accumulatedTime -= overdue * this.interval;
+            this._cleanReferences();
+            while (overdue--) {
+                if (!this.spawnObject()) {
+                    break;
+                }
             }
         }
-    },
-});
+    }
+}
