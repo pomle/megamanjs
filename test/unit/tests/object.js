@@ -16,6 +16,11 @@ describe('Object', function() {
   extend(MockTrait, Trait);
   MockTrait.prototype.NAME = 'mockTrait';
 
+  it('should have direction default to right', function() {
+    const object = new Host;
+    expect(object.direction).to.eql({x: 1, y: 0});
+  });
+
   describe('#applyTrait', function() {
     it('should exposed trait name on host', function() {
       const host = new Host();
