@@ -84,11 +84,11 @@ extends Game.Loader.XML.SceneParser
                 spawner.pool.push(objectRef);
             }
 
-            spawner.count = this.getFloat(spawnerNode, 'count') || Infinity;
+            spawner.maxTotalSpawns = this.getFloat(spawnerNode, 'count') || Infinity;
             spawner.maxSimultaneousSpawns = this.getFloat(spawnerNode, 'simultaneous') || 1;
             spawner.interval = this.getFloat(spawnerNode, 'interval') || 0;
-            spawner.minDistance = this.getFloat(spawnerNode, 'min-distance') || spawner.minDistance;
-            spawner.maxDistance = this.getFloat(spawnerNode, 'max-distance') || spawner.maxDistance;
+            spawner.minDistance = this.getFloat(spawnerNode, 'min-distance') || 64;
+            spawner.maxDistance = this.getFloat(spawnerNode, 'max-distance') || 256;
 
             world.addObject(spawner);
         }
