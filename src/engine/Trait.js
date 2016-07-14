@@ -1,6 +1,5 @@
 Engine.Trait = function()
 {
-    this._bound = false;
     this._bindables = {};
     this._enabled = true;
     this._host = undefined;
