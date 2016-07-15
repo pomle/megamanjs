@@ -171,12 +171,12 @@ extends Game.Loader.XML.Parser
         } else if (type === 'play-audio') {
             const id = this.getAttr(node, 'id');
             return function playAudio() {
-                this.playAudio(id);
+                this.audio.play(id);
             };
         } else if (type === 'stop-audio') {
             const id = this.getAttr(node, 'id');
             return function stopAudio() {
-                this.stopAudio(id);
+                this.audio.stop(id);
             };
         } else if (type === 'play-sequence') {
             const id = this.getAttr(node, 'id');

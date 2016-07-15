@@ -1,6 +1,7 @@
 'use strict';
 
-Game.Scene = class Scene
+Game.Scene =
+class Scene
 {
     constructor()
     {
@@ -13,7 +14,7 @@ Game.Scene = class Scene
 
         this.EVENT_INPUT = 'input';
 
-        this.audio = {};
+        this.audio = new Engine.AudioManager();
         this.sequencer = new Engine.SequenceManager(this);
         this.camera = new Engine.Camera;
         this.game = null;
@@ -75,6 +76,7 @@ Game.Scene = class Scene
     __create(game)
     {
         this.game = game;
+        this.audio.setPlayer(game.audioPlayer);
     }
     __start()
     {
@@ -98,25 +100,9 @@ Game.Scene = class Scene
     __destroy()
     {
         this.stopSimulation();
-        this.game.audioPlayer.stop();
+        this.audio.stopAll();
+        this.audio.unsetPlayer();
         this.game = null;
-    }
-    getAudio(id)
-    {
-        if (!this.audio[id]) {
-            throw new Error(`Audio id '${id}' not defined`);
-        }
-        return this.audio[id];
-    }
-    playAudio(id)
-    {
-        const audio = this.getAudio(id);
-        this.game.audioPlayer.play(audio);
-    }
-    stopAudio(id)
-    {
-        const audio = this.getAudio(id);
-        this.game.audioPlayer.stop(audio);
     }
     pauseSimulation()
     {
