@@ -1,44 +1,27 @@
-* {
-    color: #666666;
-    border-color: #303030;
-    border-style: solid;
-    border-width: 0;
+html, body {
+    height: 100%;
 }
 
 body {
-    background: #101010;
+    background: #000;
+    color: #fff;
     font-family: sans-serif;
     font-size: 12px;
-    text-align: center;
-}
-
-input {
-    background: transparent;
-    border-width: 1px;
+    margin: 0;
 }
 
 #game {
-    background: inherit;
-    margin: 0 auto;
-    position: relative;
-}
-
-#game.fullscreen {
     height: 100%;
-    width: 100%;
 }
 
 #game #screen {
-    display: block;
+    display: none;
     margin: 0 auto;
     position: relative;
-    height: 480px;
-    width: 850px;
 }
 
-#game.fullscreen #screen {
-    height: 100%;
-    width: 100%;
+#game.ready #screen {
+    display: block;
 }
 
 #screen > canvas {
@@ -69,9 +52,11 @@ input {
     height: 100%;
     width: 100%;
 }
+
 #game.busy #screen .throbber {
     display: flex;
 }
+
 #screen .throbber .progress-bar {
     background-color: transparent;
     border: solid 4px #fff;
@@ -87,16 +72,14 @@ input {
 }
 
 #screen .overlay .energy {
+    display: none;
     left: 20px;
     position: absolute;
     top: 20px;
 }
 
-#screen .overlay .energy {
+#screen .overlay .energy.visible {
     display: flex;
-    left: 20px;
-    position: absolute;
-    top: 20px;
 }
 
 #screen .overlay .energy > * {
