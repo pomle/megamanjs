@@ -11,7 +11,9 @@ body {
 }
 
 #game {
+    background: #000;
     height: 100%;
+    width: 100%;
 }
 
 #game #screen {
@@ -42,6 +44,85 @@ body {
     right: 0;
     top: 0;
     z-index: 2;
+}
+
+#screen .control {
+    background: rgba(0, 0, 0, .75);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+#screen .control .actions {
+    align-items: center;
+    display: flex;
+    flex: 2;
+    justify-content: center;
+}
+
+#screen .control .input-map {
+    flex: 1;
+    text-align: center;
+}
+
+#screen .control .input-map .message {
+    font-size: 2em;
+    margin: .5em;
+}
+
+#screen .control .input-map .message > * {
+    display: none;
+}
+
+#screen .control .input-map .message > #click-to-remap {
+    display: block;
+}
+
+#screen .control .input-map .message.listening > #click-to-remap {
+    display: none;
+}
+
+#screen .control .input-map .message.listening > #press-any-key {
+    display: block;
+}
+
+#screen .control .input-map .message.success > #remap-success {
+    display: block;
+}
+
+#screen .control .actions button {
+    background: none no-repeat 50% .2em;
+    background-size: auto 5.6em;
+    border: none;
+    color: #fff;
+    font-size: 3vh;
+    margin: 1em;
+    padding: 6em 2em 0 2em
+}
+
+#screen .control .actions button:hover {
+    color: #549df2;
+    background-size: auto 5.8em;
+}
+
+#screen .control .actions button[name=resume] {
+    background-image: url(resource/play.svg);
+}
+
+#screen .control .actions button[name=fullscreen] {
+    background-image: url(resource/fullscreen.svg);
+}
+
+#screen .control.show {
+    opacity: 1;
+}
+
+#screen .control #nes-controller {
+    display: block;
+    margin: 0 auto;
+    width: 30%;
 }
 
 #screen .throbber {
