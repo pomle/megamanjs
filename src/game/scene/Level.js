@@ -234,6 +234,7 @@ Game.scenes.Level = class Level extends Game.Scene
         this.world.removeObject(character);
 
         character.reset();
+        character.direction.set(character.DIRECTION_RIGHT, 0);
         character.integrator.reset();
 
         const checkpoint = this.checkPoints[this.checkPointIndex];
