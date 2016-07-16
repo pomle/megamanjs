@@ -1,0 +1,256 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 12px;
+    overflow: hidden;
+    margin: 0;
+}
+
+#game {
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#game #screen {
+    display: none;
+}
+
+#game.ready #screen {
+    display: block;
+}
+
+#screen > canvas {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+#game .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}
+
+#game .control {
+    background: rgba(0, 0, 0, .75);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+}
+
+#game .control.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#game .control .actions {
+    align-items: center;
+    display: flex;
+    flex: 2 1 66%;
+    justify-content: center;
+}
+
+#game .control .actions button {
+    background: none no-repeat 50% .2em;
+    background-size: auto 5em;
+    border: none;
+    color: #fff;
+    font-size: 3vh;
+    margin: 1em;
+    opacity: .8;
+    padding-top: 6em;
+    width: 7em;
+}
+
+#game .control .actions button:hover {
+    opacity: 1;
+    transform: scale(1.04);
+}
+
+#game .control .actions button label.on {
+    display: none;
+}
+
+#game .control .actions button.toggled label.off {
+    display: none;
+}
+
+#game .control .actions button.toggled label.on {
+    display: initial;
+}
+
+#game .control .actions button[name=resume] {
+    background-image: url(resource/play.svg);
+}
+
+#game .actions button[name=fullscreen] {
+    background-image: url(resource/fullscreen.svg);
+}
+
+#game .control .actions button[name=settings] {
+    background-image: url(resource/cog.svg);
+    display: none;
+}
+
+#game.fullscreen .control .actions button[name=fullscreen] {
+    background-image: url(resource/defullscreen.svg);
+}
+
+#game .control .input-map {
+    flex: 1 1 33%;
+}
+
+#game .control .input-map .message {
+    font-size: 1.8vh;
+    margin: .5em;
+}
+
+#game .control .input-map .message > * {
+    display: none;
+}
+
+#game .control .input-map .message > #click-to-remap {
+    color: rgba(255, 255, 255, .5);
+    display: block;
+}
+
+#game .control .input-map .message.listening > #click-to-remap {
+    display: none;
+}
+
+#game .control .input-map .message.listening > #press-any-key {
+    display: block;
+}
+
+#game .control .input-map .message.success > #remap-success {
+    display: block;
+}
+
+#game .control #nes-controller {
+    display: block;
+    margin: 0 auto;
+    max-height: 22vh;
+    max-width: 50%;
+}
+
+#game .message {
+    background-color: rgba(0,0,0,.8);
+    border-radius: 1em;
+    font-size: 6vh;
+    font-family: sans-serif;
+    opacity: 0;
+    padding: 1em;
+    pointer-events: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity .3s;
+    text-align: center;
+    z-index: 3;
+}
+
+#game .message.show {
+    opacity: 1;
+}
+
+#game .throbber {
+    align-items: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, .5);
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+#game.busy .throbber {
+    display: flex;
+}
+
+#game .throbber .progress-bar {
+    background-color: transparent;
+    border: solid 4px #fff;
+    margin: auto;
+    height: 5%;
+    width: 40%;
+}
+
+#game .throbber .progress-bar .progress {
+    background-color: #fff;
+    height: 100%;
+    width: 0;
+}
+
+#screen .energy {
+    display: none;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+    z-index: 2;
+}
+
+#screen .energy.visible {
+    display: flex;
+}
+
+#screen .energy > * {
+    background: #000;
+    height: 112px;
+    margin-right: 5px;
+    position: relative;
+    width: 16px;
+}
+
+#screen .energy > * > .amount {
+    background-image: url('resource/meters.png');
+    background-position: 0 100%;
+    background-size: auto 100%;
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#screen .energy > .weapon.p {
+    display: none;
+}
+#screen .energy > .weapon.item > .amount {
+    background-position-x: -16px;
+}
+#screen .energy > .weapon.c > .amount {
+    background-position-x: -32px;
+}
+#screen .energy > .weapon.f > .amount {
+    background-position-x: -48px;
+}
+#screen .energy > .weapon.m > .amount {
+    background-position-x: -64px;
+}
+#screen .energy > .weapon.q > .amount {
+    background-position-x: -80px;
+}
+#screen .energy > .weapon.b > .amount {
+    background-position-x: -96px;
+}
+#screen .energy > .weapon.a > .amount {
+    background-position-x: -112px;
+}
+#screen .energy > .weapon.h > .amount {
+    background-position-x: -144px;
+}

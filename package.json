@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
-    "build": "bash ./tools/build",
-    "generate-dev": "node ./tools/generate-dev",
+    "build": "bash ./tools/build.sh",
+    "generate-dev": "node ./tools/generate-dev-html.js > ./src/dev.html",
     "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit/tests test/integration/tests",
     "test:unit": "mocha test/unit/tests",
     "test:integration": "mocha test/integration/tests",

@@ -11,6 +11,7 @@ scripts.forEach((src) => {
   js += fs.readFileSync(__dirname + '/../src/' + src, 'utf8') + '\n';
 });
 
+// Check for parse errors.
 global.THREE = require('three');
 vm.runInThisContext(js);
 

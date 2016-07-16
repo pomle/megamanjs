@@ -1,164 +1,259 @@
-'use strict';
-
-(function() {
+window.addEventListener('load', function() {
     const game = new Game;
     const loader = new Game.Loader.XML(game);
+    const env = {};
 
     const gameElement = document.getElementById('game');
     const screenElement = document.getElementById('screen');
+    const controlElement = gameElement.querySelector('.control');
 
-    game.attachToElement(screenElement);
-    game.attachController(window);
+    function setupInputMapping() {
+        const STORAGE_KEY = 'controller_mapping';
+        const mapElement = controlElement.querySelector('.input-map');
+        const messageElement = mapElement.querySelector('.message');
+        const HUMAN_KEYS = {
+            'a': 'A',
+            'b': 'B',
+            'start': 'START',
+            'select': 'SELECT',
+            'up': 'UP',
+            'down': 'DOWN',
+            'left': 'LEFT',
+            'right': 'RIGHT',
+        };
+        const HUMAN_CODES = {
+            37: '&larr;',
+            38: '&uarr;',
+            39: '&rarr;',
+            40: '&darr;',
+        };
+        let keyName = null;
 
-    const inputRecorder = {};
-
-    game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
-        const input = (scene => {
-            if (scene instanceof Game.scenes.Level) {
-                return scene.inputs.character;
-            } else {
-                return scene.input;
-            }
-        })(scene);
-        inputRecorder.player = new Engine.InputPlayer(scene.world, input);
-        inputRecorder.recorder = new Engine.InputRecorder(scene.world, input);
-        inputRecorder.recorder.record();
-    });
-
-    game.events.bind(game.EVENT_SCENE_DESTROY, function(scene) {
-        if (inputRecorder.recorder) {
-            inputRecorder.recorder.stop();
-            delete inputRecorder.recorder;
-            delete inputRecorder.player;
+        function saveMap() {
+            const map = game.input.exportMap();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
         }
-    });
 
-    const progress = gameElement.querySelector('.progress-bar > .progress');
-    loader.resourceLoader.events.bind(loader.resourceLoader.EVENT_PROGRESS, frac => {
-        progress.style.width = frac * 100 + '%';
-        gameElement.classList.add('busy');
-    });
-    loader.resourceLoader.events.bind(loader.resourceLoader.EVENT_COMPLETE, frac => {
-        gameElement.classList.remove('busy');
-    });
-
-    window.addEventListener('focus', function() {
-        game.resume();
-    });
-    window.addEventListener('blur', function() {
-        game.pause();
-    });
-
-    const actions = {
-        'adjustResolution': () => {
-            game.adjustResolution();
-        },
-        'playInput': (e) => {
-            const input = prompt('JSON');
-            if (input) {
-                inputRecorder.player.playJSON(input);
+        function loadMap() {
+            const map = localStorage.getItem(STORAGE_KEY);
+            if (map) {
+                game.input.importMap(JSON.parse(map));
             }
-        },
-        'printInput': (e) => {
-            console.log(inputRecorder.recorder.toJSON());
-        },
-        'recordInput': (e) => {
-            inputRecorder.recorder.record();
-        },
-        'resetPlayer': (e) => {
-            if (game.scene.resetPlayer) {
-                game.scene.resetPlayer();
-            }
-        },
-        'toggleFullscreen': (e) => {
-            gameElement.webkitRequestFullScreen();
-        },
-        'setResolution': (e) => {
-            if (e.type === 'change') {
-                const res = e.target.value.split('x');
-                game.setResolution(parseFloat(res[0]), parseFloat(res[1]));
-            }
-        },
-        'spawn': (e) => {
-            const Obj = loader.resourceManager.get('object', e.target.dataset.object);
-            const obj = new Obj();
-            const pos = game.scene.camera.position;
-            obj.moveTo({
-                x: pos.x + 32,
-                y: pos.y + 32,
-            });
-            game.scene.world.addObject(obj);
-        },
-        'speed': e => {
-            game.setPlaybackSpeed(parseFloat(e.target.value));
-        },
-        'weapon': (e) => {
-            game.player.equipWeapon(e.target.dataset.weapon);
         }
-    }
 
-    const actionRouter = function(e) {
-        const name = e.target.name;
-        for (const action in actions) {
-            if (name === action) {
-                actions[action](e);
+        function handleInput(event) {
+            const keyCode = event.keyCode;
+            if (keyCode === 27) {
+                cancel();
+                env.emitMessage(null);
                 return;
             }
+
+            game.input.assign(keyCode, keyName);
+            const text = mapElement.dataset.msgRemapSuccess
+                .replace('{{key}}', HUMAN_KEYS[keyName])
+                .replace('{{code}}', HUMAN_CODES[keyCode] || String.fromCharCode(keyCode) || keyCode);
+            env.emitMessage(text, false);
+            saveMap();
+            cancel();
         }
-    };
 
-    document.addEventListener('click', actionRouter);
-    document.addEventListener('change', actionRouter);
+        function start() {
+            const text = mapElement.dataset.msgRemapQuery
+                .replace('{{key}}', HUMAN_KEYS[keyName]);
+            env.emitMessage(text, true);
+            game.input.disable();
+            window.focus();
+            window.addEventListener('keydown', handleInput);
+        }
 
-    function onFullscreenChange() {
-        if(document.mozFullScreen || document.webkitIsFullScreen) {
-            gameElement.classList.add('fullscreen');
+        function cancel() {
+            window.removeEventListener('keydown', handleInput);
+            game.input.enable();
+        }
+
+        function handleClick(event) {
+            keyName = event.target.id;
+            if (!keyName) {
+                return;
+            }
+            cancel();
+            start();
+        }
+
+        const controller = mapElement.querySelector('#nes-controller');
+        if (controller.contentDocument) {
+            controller.contentDocument.addEventListener('click', handleClick);
         } else {
-            gameElement.classList.remove('fullscreen');
+            controller.addEventListener('load', function(e) {
+                this.contentDocument.addEventListener('click', handleClick);
+            });
         }
-        game.adjustAspectRatio();
+
+        loadMap();
     }
 
-    window.addEventListener('resize', onFullscreenChange);
-    document.addEventListener('mozfullscreenchange', onFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+    function setupMessaging() {
+        const messageElement = gameElement.querySelector('.message');
+        let timer;
+
+        function emitMessage(text, hold = false)
+        {
+            if (!text) {
+                messageElement.classList.remove('show');
+                return;
+            }
+            messageElement.innerHTML = text;
+            messageElement.classList.add('show');
+            clearTimeout(timer);
+            if (hold) {
+                return;
+            }
+            timer = setTimeout(function() {
+                messageElement.classList.remove('show');
+            }, 3000);
+        }
+
+        env.emitMessage = emitMessage;
+    }
+
+    function setupInterruptDetection() {
+        const sluggishPause = Engine.Mouse.sluggish(pause, 7);
+
+        function pause() {
+            if (document.body.classList.contains('dev-tools')) {
+                return;
+            }
+            gameElement.removeEventListener('mousemove', sluggishPause);
+            controlElement.classList.add('show');
+            game.pause();
+        }
+
+        function resume() {
+            controlElement.classList.remove('show');
+            game.resume();
+            setTimeout(function() {
+                gameElement.removeEventListener('mousemove', sluggishPause);
+                gameElement.addEventListener('mousemove', sluggishPause);
+            }, 1000);
+        }
+
+        window.addEventListener('blur', pause);
+
+        env.resume = resume;
+        env.pause = pause;
+
+        resume();
+    }
+
+    function updateScreen() {
+        const maxRes = {
+            x: 1280,
+            y: 720,
+        };
+        const aspect = 16/9;
+        const bounds = gameElement.getBoundingClientRect();
+        const size = {
+            w: bounds.height * aspect,
+            h: bounds.width / aspect,
+        };
+        if (size.h > bounds.height) {
+            size.h = bounds.height;
+        } else {
+            size.w = bounds.width;
+        }
+
+        screenElement.style.width = size.w + 'px';
+        screenElement.style.height = size.h + 'px';
+
+        game.adjustAspectRatio();
+        game.setResolution(Math.min(maxRes.x, size.w),
+                           Math.min(maxRes.y, size.h));
+    }
+
+    function setupActions() {
+        const actions = {
+            'fullscreen': e => {
+                e.target.classList.toggle('toggled');
+                env.toggleFullscreen();
+            },
+            'resume': e => {
+                env.resume();
+            },
+        }
+
+        function routeAction(e) {
+            const name = e.target.name;
+            if (actions[name]) {
+                actions[name](e);
+            }
+        }
+
+        document.addEventListener('click', routeAction);
+        window.addEventListener('resize', updateScreen);
+    }
+
+    function setupProgressbar() {
+        const progressElement = gameElement.querySelector('.progress-bar > .progress');
+        const res = loader.resourceLoader;
+        res.events.bind(res.EVENT_PROGRESS, frac => {
+            progressElement.style.width = frac * 100 + '%';
+            gameElement.classList.add('busy');
+        });
+        res.events.bind(res.EVENT_COMPLETE, frac => {
+            gameElement.classList.remove('busy');
+        });
+    }
+
+    function setupFullscreenToggle() {
+        function toggleFullscreen() {
+            if (gameElement.classList.contains('fullscreen')) {
+                document.webkitExitFullscreen();
+            } else {
+                gameElement.webkitRequestFullScreen();
+            }
+        }
+
+        function fullscreenHandler() {
+            if(document.webkitIsFullScreen) {
+                gameElement.classList.add('fullscreen');
+            } else {
+                gameElement.classList.remove('fullscreen');
+            }
+        }
+
+        document.addEventListener('webkitfullscreenchange', fullscreenHandler);
+        document.addEventListener('fullscreenchange', fullscreenHandler);
+
+        env.toggleFullscreen = toggleFullscreen;
+    }
+
+
+    setupInputMapping();
+    setupInterruptDetection();
+    setupFullscreenToggle();
+    setupActions();
+    setupMessaging();
 
     loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
+        setupProgressbar();
+
+        game.attachToElement(screenElement);
+        game.attachController(window);
+
         const hud = new Game.Hud;
         hud.attach(game, screenElement.querySelector('.energy'));
+        updateScreen();
+        gameElement.classList.add('ready');
+
         return loader.loadSceneByName(entrypoint);
     }).then(scene => {
         game.setScene(scene);
     });
 
     window.megaman2 = {
+        env,
         game,
         loader,
     };
-
-    /*$('#nes-controller a')
-        const isTouchDevice = false;
-        .on('touchstart', keyBoardEvent)
-        .on('touchend', keyBoardEvent)
-        .on('mousedown', keyBoardEvent)
-        .on('mouseup', keyBoardEvent);
-
-    const keyBoardEvent = function(event) {
-        event.stopPropagation();
-        if (isTouchDevice && ["mousedown", "mouseup"].indexOf(event.type) > -1) {
-            return;
-        } else if (!isTouchDevice && ["touchstart", "touchend"].indexOf(event.type) > -1) {
-            isTouchDevice = true;
-        }
-
-        const map = {
-            "touchstart": "keydown",
-            "touchend": "keyup",
-            "mousedown": "keydown",
-            "mouseup": "keyup",
-        };
-
-        const key = this.getAttribute('data-key');
-        game.scene.input.trigger(key, map[event.type]);
-    }*/
-})();
+});
