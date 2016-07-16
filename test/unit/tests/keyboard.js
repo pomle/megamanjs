@@ -7,7 +7,7 @@ const env = require('../../env.js');
 const Keyboard = env.Engine.Keyboard;
 
 describe('Keyboard', function() {
-  describe('#assign', function() {
+  describe('#assign()', function() {
     it('should allow multiple keys to be assigned to same event', function() {
       const input = new Keyboard();
       input.assign(1, input.LEFT);
@@ -22,7 +22,7 @@ describe('Keyboard', function() {
     });
   });
 
-  describe('#unassign', function() {
+  describe('#unassign()', function() {
     it('should delete key mappings', function() {
       const input = new Keyboard();
       input.assign(1, input.LEFT);
@@ -50,7 +50,7 @@ describe('Keyboard', function() {
     });
   });
 
-  describe('#intermittent', function() {
+  describe('#intermittent()', function() {
     it('should trigger engage callback on keydown event', function() {
       const input = new Keyboard();
       const code = 1;
@@ -95,7 +95,7 @@ describe('Keyboard', function() {
     });
   });
 
-  describe('#release', function() {
+  describe('#release()', function() {
     it('should trigger release event on all keys', function() {
       const input = new Keyboard();
 
@@ -126,7 +126,7 @@ describe('Keyboard', function() {
     });
   });
 
-  describe('#handleEvent', function() {
+  describe('#handleEvent()', function() {
     context('when matching bound key', function() {
       it('should call preventDefault() on event', function() {
         const input = new Keyboard();

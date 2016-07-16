@@ -6,7 +6,8 @@ Engine.Keyboard = class Keyboard
     {
         this.EVENT_TRIGGER = 'trigger';
 
-        this._enabled = true;
+        this.ENGAGE = 'keydown';
+        this.RELEASE = 'keyup';
 
         this.LEFT = 'left';
         this.RIGHT = 'right';
@@ -17,10 +18,9 @@ Engine.Keyboard = class Keyboard
         this.SELECT = 'select';
         this.START = 'start';
 
-        this.ENGAGE = 'keydown';
-        this.RELEASE = 'keyup';
+        this._enabled = true;
 
-        this.events = new Engine.Events();
+        this.events = new Engine.Events(this);
         this._events = new Engine.Events();
 
         this._map = {
