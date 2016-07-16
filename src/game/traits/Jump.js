@@ -22,6 +22,10 @@ class Jump extends Engine.Trait
     }
     __obstruct(object, attack)
     {
+        if (!this._enabled) {
+            return;
+        }
+
         if (attack === object.SURFACE_TOP) {
             if (this._ready === false) {
                 this._trigger(this.EVENT_JUMP_LAND);
@@ -33,6 +37,10 @@ class Jump extends Engine.Trait
     }
     __timeshift(deltaTime)
     {
+        if (!this._enabled) {
+            return;
+        }
+
         if (++this._fallcount >= 2) {
             this._ready = false;
         }
