@@ -48,7 +48,7 @@ const Game = class Game
     }
     handleInputEvent(event)
     {
-        this.input.triggerEvent(event);
+        this.input.handleEvent(event);
     }
     pause()
     {

@@ -48,6 +48,16 @@ Engine.Keyboard = class Keyboard
     {
         this._enabled = false;
     }
+    handleEvent(event)
+    {
+        const key = event.keyCode;
+        if (this._map[key]) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            this.trigger(this._map[key], event.type);
+        }
+    }
     hit(key, engage)
     {
         this._events.bind(key + '_' + this.ENGAGE, engage);
@@ -78,16 +88,6 @@ Engine.Keyboard = class Keyboard
         this.events.trigger(this.EVENT_TRIGGER, [key, state]);
 
         return true;
-    }
-    triggerEvent(event)
-    {
-        const key = event.keyCode;
-        if (this._map[key]) {
-            if (event.preventDefault) {
-                event.preventDefault();
-            }
-            this.trigger(this._map[key], event.type);
-        }
     }
     unassign(key)
     {
