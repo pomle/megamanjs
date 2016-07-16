@@ -342,8 +342,8 @@ DR. WILY CREATED EIGHT OF HIS OWN
                 <face animation="slice_1" index="[34]"/>
                 <face animation="slice_40" index="[22]"/>
                 <face animation="slice_41" index="[24,26,28,30]"/>
-                <face animation="grey" index="[40,42,46]"/>
-                <face animation="slice_42" index="[44]"/>
+                <face animation="grey" index="[40,46,44]"/>
+                <face animation="slice_42" index="[42]"/>
             </geometry>
         </object>
     </objects>
