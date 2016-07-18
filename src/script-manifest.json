@@ -12,6 +12,7 @@
     "engine/Sequencer.js",
     "engine/Tween.js",
     "engine/Keyboard.js",
+    "engine/Mouse.js",
     "engine/Math.js",
     "engine/Verlet.js",
     "engine/Collision.js",
