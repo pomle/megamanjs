@@ -7,47 +7,44 @@ class Elevator extends Game.traits.Solid
 
         this.NAME = 'elevator';
 
+        this._initialized = false;
         this._distance = 0;
         this._nodes = [];
         this._offset = new THREE.Vector2;
-        this._origo = null;
-        this._offset = new THREE.Vector2;
-        this._lastPos = new THREE.Vector2;
+        this._origo = new THREE.Vector3;
+        this._nextPos = new THREE.Vector2;
         this._timeline = new Engine.Timeline;
-        this._velocity = new THREE.Vector2;
 
         this.fixed = true;
         this.obstructs = true;
         this.attackAccept = [this.TOP];
         this.speed = 10;
     }
-    __collides(subject, ourZone, theirZone)
+    __timeshift(dt)
     {
-        const attack = super.__collides(subject, ourZone, theirZone);
-        if (attack === subject.SURFACE_TOP && subject.physics) {
-            subject.physics.velocity.copy(this._velocity);
+        if (!this._enabled) {
+            return;
         }
-    }
-    __timeshift(deltaTime)
-    {
-        this._distance += this.speed * deltaTime;
 
-        const offset = this.getOffset(this._distance);
         const pos = this._host.position;
-        const z = pos.z;
+        const next = this._nextPos;
+        pos.copy(next);
+        pos.z = this._origo.z;
 
-        if (!this._origo) {
-            this._origo = pos.clone();
-        }
+        this._distance += this.speed * dt;
 
-        pos.copy(this._origo).add(offset);
-        pos.z = z;
+        const offset = this.getOffset(this._distance).add(this._origo);
+        next.copy(offset);
 
-        this._velocity.copy(pos)
-                      .sub(this._lastPos)
-                      .divideScalar(deltaTime);
-
-        this._lastPos.copy(pos);
+        this._host.velocity.copy(next)
+                           .sub(pos)
+                           .divideScalar(dt);
+    }
+    _initialize()
+    {
+        const pos = this._host.position;
+        this._origo.copy(pos);
+        this._nextPos.copy(pos);
     }
     addNode(vec2)
     {
