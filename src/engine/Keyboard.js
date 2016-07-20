@@ -48,6 +48,17 @@ Engine.Keyboard = class Keyboard
     {
         this._enabled = false;
     }
+    exportMap()
+    {
+        return this._map;
+    }
+    importMap(map)
+    {
+        this._map = {};
+        Object.keys(map).forEach(code => {
+            this.assign(code, map[code]);
+        });
+    }
     handleEvent(event)
     {
         const key = event.keyCode;

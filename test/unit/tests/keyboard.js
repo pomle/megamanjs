@@ -157,4 +157,36 @@ describe('Keyboard', function() {
       });
     });
   });
+
+  describe('#exportMap()', function() {
+    it('should return current map as object', function() {
+      const input = new Keyboard();
+      input.importMap({});
+      input.assign(1, input.LEFT);
+      input.assign(2, input.RIGHT);
+      expect(input.exportMap()).to.eql({'1': 'left', '2': 'right'});
+      input.assign(123, input.UP);
+      expect(input.exportMap()).to.eql({'1': 'left', '2': 'right', '123': 'up'});
+      input.unassign(1);
+      expect(input.exportMap()).to.eql({'2': 'right', '123': 'up'});
+    });
+  });
+
+  describe('#importMap()', function() {
+    it('should set and overwrite current map', function() {
+      const input = new Keyboard();
+      const triggerSpy = sinon.spy();
+      input.events.bind(input.EVENT_TRIGGER, triggerSpy);
+      input.importMap({'1': 'left', '123': 'up'});
+      input.handleEvent({keyCode: 1, type: 'keydown'});
+      expect(triggerSpy.callCount).to.be(1);
+      expect(triggerSpy.lastCall.args).to.eql(['left', 'keydown']);
+      input.handleEvent({keyCode: 123, type: 'keydown'});
+      expect(triggerSpy.callCount).to.be(2);
+      expect(triggerSpy.lastCall.args).to.eql(['up', 'keydown']);
+      input.importMap({'13': 'down'});
+      input.handleEvent({keyCode: 123, type: 'keydown'});
+      expect(triggerSpy.callCount).to.be(2);
+    });
+  });
 });
