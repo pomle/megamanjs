@@ -11,7 +11,7 @@
             <action type="camera-move" to="0,0,140"/>
             <action type="transform">
                 <opacity to="0"/>
-                <position to="0,608,-500"/>
+                <position to="0,608,-800"/>
                 <object instance="logo"/>
             </action>
             <action type="transform">
@@ -83,10 +83,9 @@
                 <tween duration="12" easing="easeIn,1.7"/>
             </action>
             <action type="transform">
-                <tween duration="2" easing="easeIn,4">
+                <tween duration="1.8" easing="easeIn,4">
                     <opacity to="1"/>
                     <position to=",,0"/>
-                    <rotation to="360,,"/>
                 </tween>
                 <object instance="logo"/>
             </action>
