@@ -118,7 +118,7 @@ window.addEventListener('load', function() {
     }
 
     function setupInterruptDetection() {
-        const sluggishPause = Engine.Mouse.sluggish(pause, 7);
+        const sluggishPause = Engine.Mouse.sluggish(pause, 20);
 
         function pause() {
             if (document.body.classList.contains('dev-tools')) {
