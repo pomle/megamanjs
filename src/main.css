@@ -23,6 +23,7 @@ body {
 
 #game #screen {
     display: none;
+    position: relative;
 }
 
 #game.ready #screen {
