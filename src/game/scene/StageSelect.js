@@ -11,6 +11,8 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.EVENT_SELECTION_CHANGED = 'selection-changed';
         this.EVENT_BOSS_REVEAL = 'boss-reveal';
 
+        this._state = {};
+
         this.animations = {};
         this.camera.camera.position.z = 120;
         this.cameraDesiredPosition = new THREE.Vector3();
@@ -258,6 +260,15 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     }
     runBossReveal(stage)
     {
+        if (!this._state.bossReveal) {
+            this._state.bossReveal = {};
+        }
+        const state = this._state.bossReveal;
+
+        if (state.currentBoss) {
+            this.world.removeObject(state.currentBoss);
+        }
+
         const camera = this.camera;
         const character = new stage.character;
         character.direction.x = -1;
@@ -266,12 +277,11 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.modifiers.add(this.animations.stars);
         this.events.trigger(this.EVENT_BOSS_REVEAL, [stage]);
         this.waitFor(.5).then(() => {
+            state.currentBoss = character;
             this.world.addObject(character);
         });
         return camera.panTo(this.bossRevealCenter, 1, Engine.Easing.easeInOutCubic).then(() => {
             return this.waitFor(6);
-        }).then(() => {
-            this.world.removeObject(character);
         });
     }
     selectIndex(index)

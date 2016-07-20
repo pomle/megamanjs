@@ -1,44 +1,29 @@
-* {
-    color: #666666;
-    border-color: #303030;
-    border-style: solid;
-    border-width: 0;
+html, body {
+    height: 100%;
 }
 
 body {
-    background: #101010;
+    background: #000;
+    color: #fff;
     font-family: sans-serif;
     font-size: 12px;
-    text-align: center;
-}
-
-input {
-    background: transparent;
-    border-width: 1px;
+    margin: 0;
 }
 
 #game {
-    background: inherit;
-    margin: 0 auto;
-    position: relative;
-}
-
-#game.fullscreen {
+    background: #000;
     height: 100%;
     width: 100%;
 }
 
 #game #screen {
-    display: block;
+    display: none;
     margin: 0 auto;
     position: relative;
-    height: 480px;
-    width: 850px;
 }
 
-#game.fullscreen #screen {
-    height: 100%;
-    width: 100%;
+#game.ready #screen {
+    display: block;
 }
 
 #screen > canvas {
@@ -61,6 +46,85 @@ input {
     z-index: 2;
 }
 
+#screen .control {
+    background: rgba(0, 0, 0, .75);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+#screen .control .actions {
+    align-items: center;
+    display: flex;
+    flex: 2;
+    justify-content: center;
+}
+
+#screen .control .input-map {
+    flex: 1;
+    text-align: center;
+}
+
+#screen .control .input-map .message {
+    font-size: 2em;
+    margin: .5em;
+}
+
+#screen .control .input-map .message > * {
+    display: none;
+}
+
+#screen .control .input-map .message > #click-to-remap {
+    display: block;
+}
+
+#screen .control .input-map .message.listening > #click-to-remap {
+    display: none;
+}
+
+#screen .control .input-map .message.listening > #press-any-key {
+    display: block;
+}
+
+#screen .control .input-map .message.success > #remap-success {
+    display: block;
+}
+
+#screen .control .actions button {
+    background: none no-repeat 50% .2em;
+    background-size: auto 5.6em;
+    border: none;
+    color: #fff;
+    font-size: 3vh;
+    margin: 1em;
+    padding: 6em 2em 0 2em
+}
+
+#screen .control .actions button:hover {
+    color: #549df2;
+    background-size: auto 5.8em;
+}
+
+#screen .control .actions button[name=resume] {
+    background-image: url(resource/play.svg);
+}
+
+#screen .control .actions button[name=fullscreen] {
+    background-image: url(resource/fullscreen.svg);
+}
+
+#screen .control.show {
+    opacity: 1;
+}
+
+#screen .control #nes-controller {
+    display: block;
+    margin: 0 auto;
+    width: 30%;
+}
+
 #screen .throbber {
     align-items: center;
     align-content: center;
@@ -69,9 +133,11 @@ input {
     height: 100%;
     width: 100%;
 }
+
 #game.busy #screen .throbber {
     display: flex;
 }
+
 #screen .throbber .progress-bar {
     background-color: transparent;
     border: solid 4px #fff;
@@ -87,16 +153,14 @@ input {
 }
 
 #screen .overlay .energy {
+    display: none;
     left: 20px;
     position: absolute;
     top: 20px;
 }
 
-#screen .overlay .energy {
+#screen .overlay .energy.visible {
     display: flex;
-    left: 20px;
-    position: absolute;
-    top: 20px;
 }
 
 #screen .overlay .energy > * {

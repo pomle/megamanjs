@@ -30,6 +30,10 @@ class Scene
             this.events.trigger(this.EVENT_INPUT, [key, type]);
         });
 
+        this._inputRoute = (key, state) => {
+            this.input.trigger(key, state);
+        };
+
         this._timerBound = false;
         this._timerUpdate = (dt) => {
             this.world.updateTime(dt);
@@ -77,6 +81,9 @@ class Scene
     {
         this.game = game;
         this.audio.setPlayer(game.audioPlayer);
+
+        const input = this.game.input;
+        input.events.bind(input.EVENT_TRIGGER, this._inputRoute);
     }
     __start()
     {
@@ -102,6 +109,10 @@ class Scene
         this.stopSimulation();
         this.audio.stopAll();
         this.audio.unsetPlayer();
+
+        const input = this.game.input;
+        input.events.unbind(input.EVENT_TRIGGER, this._inputRoute);
+
         this.game = null;
     }
     pauseSimulation()

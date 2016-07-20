@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>MegamanJS</title>
+    <title>Megaman 2 JS</title>
     <link rel="stylesheet" type="text/css" href="megaman.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
     <script type="text/javascript" src="megaman.js"></script>
@@ -12,6 +12,22 @@
     <div id="game">
         <div id="screen">
             <div class="overlay">
+                <div class="control">
+                    <section class="actions">
+                        <button name="resume">Resume</button>
+                        <button name="fullscreen">Fullscreen</button>
+                    </section>
+
+                    <section class="input-map">
+                        <object data="resource/nes-controller.svg" type="image/svg+xml" id="nes-controller">
+                        </object>
+                        <div class="message">
+                            <div class="text" id="click-to-remap">Click button to remap.</div>
+                            <div class="text" id="press-any-key" data-text="Press any key to remap &quot;{{key}}&quot;."></div>
+                            <div class="text" id="remap-success" data-text="Remapped &quot;{{key}}&quot; to {{code}}."></div>
+                        </div>
+                    </section>
+                </div>
                 <div class="throbber">
                     <div class="progress-bar">
                         <div class="progress"></div>
@@ -28,15 +44,6 @@
             </div>
         </div>
     </div>
-
-    <div>
-        <pre>[WASD] - [Q/E] - [O/P]</pre>
-    </div>
-
-    <fieldset>
-        <legend>Fullscreen</legend>
-        <button class="fullscreen">Fullscreen</button>
-    </fieldset>
 
     <script type="text/javascript" src="main.js"></script>
 </body>
