@@ -5,8 +5,6 @@ TOOLS_DIR=$(dirname $0)
 SRC_DIR="$(dirname $0)/../src"
 BUILD_DIR="$(dirname $0)/../build"
 
-echo "Building to $(readlink -f $BUILD_DIR)"
-
 mkdir -p $BUILD_DIR
 
 cp "${SRC_DIR}/main.css" "${BUILD_DIR}/main.css"
