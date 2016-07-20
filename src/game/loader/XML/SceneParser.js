@@ -51,7 +51,7 @@ extends Game.Loader.XML.Parser
             /* Perform update to "settle" world.
                This is done to prevent audio and other side effects
                from leaking out on scene start. */
-            scene.world.updateTime(0);
+            scene.world.simulateTime(0);
             return scene;
         });
     }

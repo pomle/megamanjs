@@ -6,7 +6,8 @@ Engine.Keyboard = class Keyboard
     {
         this.EVENT_TRIGGER = 'trigger';
 
-        this._enabled = true;
+        this.ENGAGE = 'keydown';
+        this.RELEASE = 'keyup';
 
         this.LEFT = 'left';
         this.RIGHT = 'right';
@@ -17,10 +18,9 @@ Engine.Keyboard = class Keyboard
         this.SELECT = 'select';
         this.START = 'start';
 
-        this.ENGAGE = 'keydown';
-        this.RELEASE = 'keyup';
+        this._enabled = true;
 
-        this.events = new Engine.Events();
+        this.events = new Engine.Events(this);
         this._events = new Engine.Events();
 
         this._map = {
@@ -47,6 +47,27 @@ Engine.Keyboard = class Keyboard
     disable()
     {
         this._enabled = false;
+    }
+    exportMap()
+    {
+        return this._map;
+    }
+    importMap(map)
+    {
+        this._map = {};
+        Object.keys(map).forEach(code => {
+            this.assign(code, map[code]);
+        });
+    }
+    handleEvent(event)
+    {
+        const key = event.keyCode;
+        if (this._map[key]) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            this.trigger(this._map[key], event.type);
+        }
     }
     hit(key, engage)
     {
@@ -78,16 +99,6 @@ Engine.Keyboard = class Keyboard
         this.events.trigger(this.EVENT_TRIGGER, [key, state]);
 
         return true;
-    }
-    triggerEvent(event)
-    {
-        const key = event.keyCode;
-        if (this._map[key]) {
-            if (event.preventDefault) {
-                event.preventDefault();
-            }
-            this.trigger(this._map[key], event.type);
-        }
     }
     unassign(key)
     {

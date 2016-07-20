@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" width="208px" height="199.8px" viewBox="0 0 208 199.8" xml:space="preserve">
+
+<polygon fill="#FFFFFF" points="31,70.1 31,129.7 0,119.6 0,80.2 	"/>
+<polygon fill="#FFFFFF" points="177,129.7 177,70.1 208,80.2 208,119.6 	"/>
+<polygon fill="#FFFFFF" points="41.7,148.2 93.3,178 69.1,199.8 34.9,180.1 	"/>
+<polygon fill="#FFFFFF" points="166.3,51.6 114.7,21.8 138.9,0 173.1,19.7 	"/>
+<polygon fill="#FFFFFF" points="91.7,22.7 43.3,50.6 36,19.1 68,0.6 	"/>
+<polygon fill="#FFFFFF" points="116.3,177.1 164.7,149.2 172,180.8 140,199.2 	"/>
+<path fill="#FFFFFF" d="M103.6,20.9c-43.7,0-79.1,35.4-79.1,79.1c0,43.7,35.4,79.1,79.1,79.1c43.7,0,79.1-35.4,79.1-79.1
+	C182.7,56.3,147.3,20.9,103.6,20.9z M103.5,123.6c-13.2,0-23.8-10.7-23.8-23.8s10.7-23.8,23.8-23.8s23.8,10.7,23.8,23.8
+	S116.7,123.6,103.5,123.6z"/>
+</svg>

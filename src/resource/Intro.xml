@@ -342,8 +342,8 @@ DR. WILY CREATED EIGHT OF HIS OWN
                 <face animation="slice_1" index="[34]"/>
                 <face animation="slice_40" index="[22]"/>
                 <face animation="slice_41" index="[24,26,28,30]"/>
-                <face animation="grey" index="[40,42,46]"/>
-                <face animation="slice_42" index="[44]"/>
+                <face animation="grey" index="[40,46,44]"/>
+                <face animation="slice_42" index="[42]"/>
             </geometry>
         </object>
     </objects>
@@ -353,6 +353,7 @@ DR. WILY CREATED EIGHT OF HIS OWN
             <object id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
             <object id="NAGscu" x="140" y="230" z="0"/>
 
+            <object id="Megaman" x="136" y="552" dir="-1"/>
             <object id="story1" x="0" y="-70" z="0" instance="story1"/>
             <object id="story2" x="0" y="-70" z="0" instance="story2"/>
             <object id="story3" x="0" y="-70" z="0" instance="story3"/>
