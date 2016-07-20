@@ -4,6 +4,7 @@
   "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
     "build": "bash ./tools/build.sh",
+    "minify": "bash ./tools/minify.sh",
     "generate-dev": "node ./tools/generate-dev-html.js > ./src/dev.html",
     "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit/tests test/integration/tests",
     "test:unit": "mocha test/unit/tests",
@@ -11,12 +12,15 @@
     "upload-coverage": "codecov"
   },
   "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.9.0",
     "codecov": "^1.0.1",
     "expect.js": "^0.3.1",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
     "three": "0.72.0",
+    "uglify-js": "^2.7.0",
     "xmldom": "^0.1.22"
   }
 }
