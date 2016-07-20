@@ -7,21 +7,22 @@ const env = require('../../env.js');
 const Keyboard = env.Engine.Keyboard;
 
 describe('Keyboard', function() {
-  describe('#assign', function() {
+  describe('#assign()', function() {
     it('should allow multiple keys to be assigned to same event', function() {
       const input = new Keyboard();
       input.assign(1, input.LEFT);
       input.assign(2, input.LEFT);
       const spy = sinon.spy();
       input.hit(input.LEFT, spy);
-      input.triggerEvent({keyCode: 1, type: 'keydown'});
-      input.triggerEvent({keyCode: 1, type: 'keyup'});
+      input.handleEvent({keyCode: 1, type: 'keydown'});
+      input.handleEvent({keyCode: 1, type: 'keyup'});
       expect(spy.callCount).to.equal(1);
-      input.triggerEvent({keyCode: 2, type: 'keydown'});
+      input.handleEvent({keyCode: 2, type: 'keydown'});
       expect(spy.callCount).to.equal(2);
     });
   });
-  describe('#unassign', function() {
+
+  describe('#unassign()', function() {
     it('should delete key mappings', function() {
       const input = new Keyboard();
       input.assign(1, input.LEFT);
@@ -29,9 +30,10 @@ describe('Keyboard', function() {
       const spy = sinon.spy();
       input.hit(input.LEFT, spy);
       input.unassign(2);
-      input.triggerEvent({keyCode: 2, type: 'keydown'});
+      input.handleEvent({keyCode: 2, type: 'keydown'});
       expect(spy.callCount).to.equal(0);
     });
+
     it('should release assigned key', function() {
       const code = 1;
       const input = new Keyboard();
@@ -39,7 +41,7 @@ describe('Keyboard', function() {
       const on = sinon.spy();
       const off = sinon.spy();
       input.intermittent(input.LEFT, on, off);
-      input.triggerEvent({keyCode: code, type: 'keydown'});
+      input.handleEvent({keyCode: code, type: 'keydown'});
       expect(on.callCount).to.equal(1);
       expect(off.callCount).to.equal(0);
       input.unassign(code);
@@ -47,7 +49,8 @@ describe('Keyboard', function() {
       expect(off.callCount).to.equal(1);
     });
   });
-  describe('#intermittent', function() {
+
+  describe('#intermittent()', function() {
     it('should trigger engage callback on keydown event', function() {
       const input = new Keyboard();
       const code = 1;
@@ -55,10 +58,11 @@ describe('Keyboard', function() {
       const engage = sinon.spy();
       const release = sinon.spy();
       input.intermittent(input.LEFT, engage, release);
-      input.triggerEvent({keyCode: code, type: 'keydown'});
+      input.handleEvent({keyCode: code, type: 'keydown'});
       expect(engage.callCount).to.equal(1);
       expect(release.callCount).to.equal(0);
     });
+
     it('should trigger release callback on keyup event', function() {
       const input = new Keyboard();
       const code = 1;
@@ -66,10 +70,11 @@ describe('Keyboard', function() {
       const engage = sinon.spy();
       const release = sinon.spy();
       input.intermittent(input.LEFT, engage, release);
-      input.triggerEvent({keyCode: code, type: 'keyup'});
+      input.handleEvent({keyCode: code, type: 'keyup'});
       expect(engage.callCount).to.equal(0);
       expect(release.callCount).to.equal(1);
     });
+
     it('should prevent callbacks from being double called', function() {
       const input = new Keyboard();
       const code = 1;
@@ -77,19 +82,20 @@ describe('Keyboard', function() {
       const engage = sinon.spy();
       const release = sinon.spy();
       input.intermittent(input.LEFT, engage, release);
-      input.triggerEvent({keyCode: code, type: 'keydown'});
+      input.handleEvent({keyCode: code, type: 'keydown'});
       expect(engage.callCount).to.equal(1);
-      input.triggerEvent({keyCode: code, type: 'keydown'});
+      input.handleEvent({keyCode: code, type: 'keydown'});
       expect(engage.callCount).to.equal(1);
-      input.triggerEvent({keyCode: code, type: 'keyup'});
+      input.handleEvent({keyCode: code, type: 'keyup'});
       expect(engage.callCount).to.equal(1);
       expect(release.callCount).to.equal(1);
-      input.triggerEvent({keyCode: code, type: 'keydown'});
+      input.handleEvent({keyCode: code, type: 'keydown'});
       expect(engage.callCount).to.equal(2);
       expect(release.callCount).to.equal(1);
     });
   });
-  describe('#release', function() {
+
+  describe('#release()', function() {
     it('should trigger release event on all keys', function() {
       const input = new Keyboard();
 
@@ -119,7 +125,8 @@ describe('Keyboard', function() {
       }
     });
   });
-  describe('#triggerEvent', function() {
+
+  describe('#handleEvent()', function() {
     context('when matching bound key', function() {
       it('should call preventDefault() on event', function() {
         const input = new Keyboard();
@@ -130,11 +137,12 @@ describe('Keyboard', function() {
           preventDefault: sinon.spy(),
           type: 'keydown',
         };
-        input.triggerEvent(mockEvent);
+        input.handleEvent(mockEvent);
         expect(mockEvent.preventDefault.callCount).to.equal(1);
         expect(mockEvent.preventDefault.lastCall.args).to.have.length(0);
       });
     });
+
     context('when not matching bound key', function() {
       it('should not call preventDefault on event', function() {
         const input = new Keyboard();
@@ -144,7 +152,7 @@ describe('Keyboard', function() {
           preventDefault: sinon.spy(),
           type: 'keydown',
         };
-        input.triggerEvent(mockEvent);
+        input.handleEvent(mockEvent);
         expect(mockEvent.preventDefault.callCount).to.equal(0);
       });
     });

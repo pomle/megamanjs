@@ -126,4 +126,21 @@ describe('Game', function() {
       expect(updateSpy.lastCall.args).to.eql([0.34800000000000003, 0.60204]);
     });
   });
+
+  context('when scene set', function() {
+    describe('#handleInput()', function() {
+      it('should trigger remapped input event in scene', function() {
+        const game = createGame();
+        const scene = createScene();
+        game.setScene(scene);
+
+        const hitSpy = sinon.spy();
+        scene.input.hit('moot', hitSpy);
+        game.input.assign(90, 'moot');
+
+        game.handleInputEvent({keyCode: 90, type: 'keydown'});
+        expect(hitSpy.callCount).to.be(1);
+      });
+    });
+  });
 });

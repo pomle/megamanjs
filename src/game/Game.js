@@ -7,6 +7,7 @@ const Game = class Game
 
         this._playbackSpeed = 1;
 
+        this.input = new Engine.Keyboard;
         this.events = new Engine.Events(this);
         this.audioPlayer = new Engine.AudioPlayer();
         this.renderer = new THREE.WebGLRenderer({
@@ -47,11 +48,7 @@ const Game = class Game
     }
     handleInputEvent(event)
     {
-        if (!this.scene) {
-            console.error('No input receiver');
-            return false;
-        }
-        this.scene.input.triggerEvent(event);
+        this.input.handleEvent(event);
     }
     pause()
     {
