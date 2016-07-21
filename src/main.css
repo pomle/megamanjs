@@ -171,28 +171,23 @@ body {
     opacity: 1;
 }
 
-#game .throbber {
-    align-items: center;
-    align-content: center;
-    background-color: rgba(0, 0, 0, .5);
-    display: none;
-    height: 100%;
-    width: 100%;
-}
-
-#game.busy .throbber {
-    display: flex;
-}
-
-#game .throbber .progress-bar {
+#game .progress-bar {
     background-color: transparent;
     border: solid 4px #fff;
-    margin: auto;
+    display: none;
     height: 5%;
     width: 40%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
-#game .throbber .progress-bar .progress {
+#game.busy .progress-bar {
+    display: block;
+}
+
+#game .progress-bar .progress {
     background-color: #fff;
     height: 100%;
     width: 0;

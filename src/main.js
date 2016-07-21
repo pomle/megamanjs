@@ -234,10 +234,9 @@ window.addEventListener('load', function() {
     setupFullscreenToggle();
     setupActions();
     setupMessaging();
+    setupProgressbar();
 
     loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
-        setupProgressbar();
-
         game.attachToElement(screenElement);
         game.attachController(window);
 
