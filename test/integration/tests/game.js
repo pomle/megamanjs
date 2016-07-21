@@ -114,6 +114,7 @@ describe('Game', function() {
       const game = createGame();
       const scene = createScene();
       const updateSpy = sinon.spy();
+      game.resume();
       game.setPlaybackSpeed(1.16);
       game.setScene(scene);
       scene.world.events.bind(scene.world.EVENT_UPDATE, updateSpy);
