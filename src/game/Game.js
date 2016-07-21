@@ -5,6 +5,7 @@ const Game = class Game
         this.EVENT_SCENE_CREATE = 'scene_create';
         this.EVENT_SCENE_DESTROY = 'scene_destroy';
 
+        this._paused = true;
         this._playbackSpeed = 1;
 
         this.input = new Engine.Keyboard;
@@ -52,14 +53,22 @@ const Game = class Game
     }
     pause()
     {
-        if (this.scene) {
-            this.scene.__pause(this);
+        if (!this._paused) {
+            this._paused = true;
+            this.input.disable();
+            if (this.scene) {
+                this.scene.events.trigger(this.scene.EVENT_PAUSE);
+            }
         }
     }
     resume()
     {
-        if (this.scene) {
-            this.scene.__resume(this);
+        if (this._paused) {
+            this._paused = false;
+            this.input.enable();
+            if (this.scene) {
+                this.scene.events.trigger(this.scene.EVENT_RESUME);
+            }
         }
     }
     setPlaybackSpeed(rate)
@@ -99,7 +108,10 @@ const Game = class Game
         this._updatePlaybackSpeed();
 
         this.scene.events.trigger(this.scene.EVENT_START);
-        this.scene.events.trigger(this.scene.EVENT_RESUME);
+
+        if (!this._paused) {
+            this.scene.events.trigger(this.scene.EVENT_RESUME);
+        }
     }
     unsetScene()
     {

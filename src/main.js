@@ -62,14 +62,12 @@ window.addEventListener('load', function() {
             const text = mapElement.dataset.msgRemapQuery
                 .replace('{{key}}', HUMAN_KEYS[keyName]);
             env.emitMessage(text, true);
-            game.input.disable();
             window.focus();
             window.addEventListener('keydown', handleInput);
         }
 
         function cancel() {
             window.removeEventListener('keydown', handleInput);
-            game.input.enable();
         }
 
         function handleClick(event) {
@@ -143,7 +141,7 @@ window.addEventListener('load', function() {
         env.resume = resume;
         env.pause = pause;
 
-        resume();
+        pause();
     }
 
     function updateScreen() {
