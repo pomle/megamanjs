@@ -31,9 +31,10 @@ extends Game.Loader.XML.Parser
                 this._parseFonts(),
             ]);
         }).then(() => {
+            return this._parseObjects(itemNodes);
+        }).then(() => {
             return Promise.all([
                 this._parseEntrypoint(),
-                this._parseObjects(itemNodes),
                 this._parseObjects(characterNodes),
                 this._parseObjects(projectileNodes),
                 this._parseScenes(),
