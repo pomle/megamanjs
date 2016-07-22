@@ -208,8 +208,12 @@
                 <rect x="0" y="0" w="16" h="32"/>
             </collision>
             <traits>
-                <trait name="solid"/>
-                <trait name="destructible"/>
+                <trait name="Solid"/>
+                <trait name="Destructible">
+                    <affectors>
+                        <object id="Explosion"/>
+                    </affectors>
+                </trait>
             </traits>
         </object>
         <object id="destructible-red">
@@ -220,8 +224,12 @@
                 <rect x="0" y="0" w="16" h="32"/>
             </collision>
             <traits>
-                <trait name="solid"/>
-                <trait name="destructible"/>
+                <trait name="Solid"/>
+                <trait name="Destructible">
+                    <affectors>
+                        <object id="Explosion"/>
+                    </affectors>
+                </trait>
             </traits>
         </object>
     </objects>

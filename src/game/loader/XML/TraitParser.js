@@ -65,7 +65,16 @@ extends Game.Loader.XML.Parser
     getSetup(node)
     {
         const name = this.getAttr(node, 'name');
-        if (name === 'door') {
+        if (name === 'destructible') {
+            const affectorObjectNodes = node.querySelectorAll(':scope > affectors > object');
+            const ids = this.getArray(affectorObjectNodes, 'id');
+            console.log(ids);
+            return function setup(trait) {
+                ids.forEach(id => {
+                    trait.affectors.add(id);
+                });
+            };
+        } else if (name === 'door') {
             const directionNode = node.getElementsByTagName('direction')[0];
             let direction;
             if (directionNode) {

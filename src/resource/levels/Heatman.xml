@@ -223,7 +223,11 @@
             </collision>
             <traits>
                 <trait name="solid" fixed="true" obstructs="true"/>
-                <trait name="destructible"/>
+                <trait name="destructible">
+                    <affectors>
+                        <object id="Explosion"/>
+                    </affectors>
+                </trait>
             </traits>
         </object>
         <object id="door">
