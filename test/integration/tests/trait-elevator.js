@@ -40,7 +40,7 @@ describe('Elevator Trait', function() {
       elevator.elevator.speed = 10;
       elevator.elevator.addNode(new Vec2(50, 0));
       elevator.timeShift(1);
-      expect(elevator.position).to.eql({x: 10, y: 0, z: 0});
+      expect(elevator.position).to.eql({x: 5, y: 0, z: 0});
       elevator.timeShift(2);
       expect(elevator.position).to.eql({x: 30, y: 0, z: 0});
   });
@@ -50,7 +50,7 @@ describe('Elevator Trait', function() {
       elevator.elevator.speed = 20;
       elevator.elevator.addNode(new Vec2(50, 0));
       elevator.timeShift(1);
-      expect(elevator.position).to.eql({x: 20, y: 0, z: 0});
+      expect(elevator.position).to.eql({x: 10, y: 0, z: 0});
   });
 
   it('should support speed change during operation', function() {
@@ -58,22 +58,22 @@ describe('Elevator Trait', function() {
       elevator.elevator.addNode(new Vec2(50, 0));
       elevator.elevator.speed = 10;
       elevator.timeShift(1);
-      expect(elevator.position).to.eql({x: 10, y: 0, z: 0});
+      expect(elevator.position).to.eql({x: 5, y: 0, z: 0});
       elevator.elevator.speed = 20;
       elevator.timeShift(1);
-      expect(elevator.position).to.eql({x: 30, y: 0, z: 0});
+      expect(elevator.position).to.eql({x: 25, y: 0, z: 0});
   });
 
   it('should loop around when end reached', function() {
       const elevator = createElevator();
-      elevator.elevator.speed = 10;
-      elevator.elevator.addNode(new Vec2(50, 0));
-      elevator.elevator.addNode(new Vec2(0, 50));
-      elevator.elevator.addNode(new Vec2(-50, -50));
-      elevator.timeShift(10);
-      expect(elevator.position).to.eql({x: 50, y: 50, z: 0});
-      elevator.timeShift(8);
-      expect(elevator.position).to.eql({x: 9.289321881345245, y: 0, z: 0});
+      elevator.elevator.speed = 25;
+      elevator.elevator.addNode(new Vec2(5, 0));
+      elevator.elevator.addNode(new Vec2(0, 5));
+      elevator.elevator.addNode(new Vec2(-5, -5));
+      const world = new World;
+      world.addObject(elevator);
+      world.updateTime(1);
+      expect(elevator.position).to.eql({x: 5, y: 2.9289321881344925, z: 0});
   });
 
   it('should support an object coming from above', function() {
@@ -112,7 +112,7 @@ describe('Elevator Trait', function() {
     expect(character.position).to.eql({x: 0, y: -8.56729404634543, z: 0});
   });
 
-  it('should move an object standing on it', function() {
+  it('should move an object resting on it when travelling left', function() {
     const elevator = createElevator();
     elevator.elevator.addNode(new Vec2(10, 0));
     elevator.elevator.addNode(new Vec2(-10, 0));
@@ -130,5 +130,44 @@ describe('Elevator Trait', function() {
     world.updateTime(1/2);
     expect(character.position.x).to.be.within(4.5, 5);
     expect(character.position.y).to.be(10);
+  });
+
+  it('should move an object resting on it when travelling right', function() {
+    const elevator = createElevator();
+    elevator.elevator.addNode(new Vec2(-10, 0));
+    elevator.elevator.addNode(new Vec2(10, 0));
+    elevator.elevator.speed = 10;
+    elevator.position.set(0, 0, 0);
+
+    const character = createCharacter();
+    character.position.set(0, 10, 0);
+
+    const world = new World;
+    world.gravityForce.set(0, 10);
+    world.addObject(elevator);
+    world.addObject(character);
+
+    world.updateTime(1/2);
+    expect(character.position.x).to.be.within(-5, -4.5);
+    expect(character.position.y).to.be(10);
+  });
+
+  it('should move an object standing on it when travelling up', function() {
+    const elevator = createElevator();
+    elevator.elevator.addNode(new Vec2(0, 0));
+    elevator.elevator.addNode(new Vec2(0, 100));
+    elevator.elevator.speed = 50;
+    elevator.position.set(0, 0, 0);
+
+    const character = createCharacter();
+    character.position.set(0, 10, 0);
+
+    const world = new World;
+    world.gravityForce.set(0, 10);
+    world.addObject(elevator);
+    world.addObject(character);
+
+    world.updateTime(1);
+    expect(character.position.y).to.be.within(59.9999999, 60);
   });
 });

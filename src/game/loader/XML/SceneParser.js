@@ -239,15 +239,21 @@ extends Game.Loader.XML.Parser
     }
     _parseObjects()
     {
-        const node = this._node.querySelector(':scope > objects');
-        if (!node) {
+        const nodes = this._node.querySelectorAll(':scope > objects');
+        if (!nodes.length) {
             return Promise.resolve();
         }
 
-        const parser = new Game.Loader.XML.ObjectParser(this.loader, node);
-        return parser.getObjects().then(objects => {
-            this._objects = objects;
-        });
+        const tasks = [];
+        for (let node, i = 0; node = nodes[i++];) {
+            const parser = new Game.Loader.XML.ObjectParser(this.loader, node);
+            const task = parser.getObjects().then(objects => {
+                Object.assign(this._objects, objects);
+            });
+            tasks.push(task);
+        }
+
+        return Promise.all(tasks);
     }
     _parseSequences()
     {
