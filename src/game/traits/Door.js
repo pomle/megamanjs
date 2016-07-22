@@ -7,10 +7,10 @@ class Door extends Game.traits.Solid
     {
         super();
 
+        this.NAME = 'door';
+
         this.fixed = true;
         this.obstructs = true;
-
-        this.NAME = 'door';
 
         this.direction = new THREE.Vector2(0, 0);
         this.duration = .6;
