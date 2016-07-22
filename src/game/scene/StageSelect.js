@@ -234,12 +234,17 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     }
     enter()
     {
+        const index = this.currentIndex;
+        const stage = this.stages[index];
+        if (!stage.name) {
+            return;
+        }
+
         this.input.release();
         this.input.disable();
         this.disableIndicator();
         this.events.trigger(this.EVENT_STAGE_SELECTED);
-        const index = this.currentIndex;
-        const stage = this.stages[index];
+
         this.runFlash().then(() => {
             if (stage.character) {
                 return this.runBossReveal(stage).then(() => {

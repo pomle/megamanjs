@@ -18,7 +18,7 @@
         <stage name="Airman"      caption="AIR MAN"    id="a" character="Airman" />
         <stage name="Quickman"    caption="QUICK MAN"  id="q" />
         <stage name="Heatman"     caption="HEAT MAN"   id="h" character="Heatman" />
-        <stage name="Dr. Wily"    caption="Dr. WILY"   id="dr"/>
+        <stage caption="Dr. WILY"   id="dr"/>
         <stage name="Woodman"     caption="WOOD MAN"   id="w"/>
         <stage name="Metalman"    caption="METAL MAN"  id="m" character="Metalman" />
         <stage name="Flashman"    caption="FLASH MAN"  id="f" character="Flashman" />
