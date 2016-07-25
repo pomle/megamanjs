@@ -172,7 +172,6 @@ window.addEventListener('load', function() {
     function setupActions() {
         const actions = {
             'fullscreen': e => {
-                e.target.classList.toggle('toggled');
                 env.toggleFullscreen();
             },
             'resume': e => {
