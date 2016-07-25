@@ -19,6 +19,14 @@ class Parser
         Engine.Util.extend(object, ext);
         return object;
     }
+    getArray(nodes, attr)
+    {
+        const values = [];
+        for (let node, i = 0; node = nodes[i++];) {
+            values.push(node.getAttribute(attr));
+        }
+        return values;
+    }
     getAttr(node, name)
     {
         var val = node.getAttribute(name);

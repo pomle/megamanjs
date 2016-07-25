@@ -1,24 +1,18 @@
-Game.traits.Destructible = function()
+Game.traits.Destructible =
+class Destructible extends Engine.Trait
 {
-    Engine.Trait.call(this);
-}
+    constructor()
+    {
+        super();
 
-Engine.Util.extend(Game.traits.Destructible, Engine.Trait);
+        this.NAME = 'destructible';
 
-Game.traits.Destructible.prototype.NAME = 'destructible';
-
-Game.traits.Destructible.prototype.__collides = function(withObject, ourZone, theirZone)
-{
-    if (withObject instanceof Game.objects.decorations.Explosion) {
-        this._host.world.removeObject(this._host);
-        return;
+        this.affectors = new Set;
     }
-
-    if (withObject instanceof Game.objects.Projectile) {
-        if (withObject instanceof Game.objects.projectiles.CrashBomb) {
-            return;
+    __collides(withObject)
+    {
+        if (this.affectors.has(withObject.name)) {
+            this._host.removeFromWorld();
         }
-
-        withObject.deflect();
     }
 }
