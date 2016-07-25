@@ -25,6 +25,9 @@ class Elevator extends Game.traits.Solid
         if (!this._enabled) {
             return;
         }
+        if (!this._initialized) {
+            this._initialize();
+        }
 
         const pos = this._host.position;
         const next = this._nextPos;
