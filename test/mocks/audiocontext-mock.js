@@ -8,6 +8,7 @@ function AudioContextMock()
     return new BufferSourceMock();
   };
   this.resume = sinon.spy();
+  this.suspend = sinon.spy();
 }
 
 function BufferSourceMock()

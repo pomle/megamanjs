@@ -84,16 +84,8 @@ body {
     transform: scale(1.04);
 }
 
-#game .control .actions button label.on {
+#game label.on {
     display: none;
-}
-
-#game .control .actions button.toggled label.off {
-    display: none;
-}
-
-#game .control .actions button.toggled label.on {
-    display: initial;
 }
 
 #game .control .actions button[name=resume] {
@@ -112,6 +104,15 @@ body {
 #game.fullscreen .control .actions button[name=fullscreen] {
     background-image: url(resource/defullscreen.svg);
 }
+
+#game.fullscreen button[name=fullscreen] > .on {
+    display: initial;
+}
+
+#game.fullscreen button[name=fullscreen] > .off {
+    display: none;
+}
+
 
 #game .control .input-map {
     flex: 1 1 33%;

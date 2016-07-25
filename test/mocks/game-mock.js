@@ -1,7 +1,5 @@
 'use strict';
 
-const sinon = require('sinon');
-
 const env = require('../env');
 const AudioContextMock = require('./audiocontext-mock');
 const WebGLRendererMock = require('./webglrenderer-mock');
