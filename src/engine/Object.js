@@ -38,6 +38,9 @@ Engine.Object.prototype.DIRECTION_DOWN = -1;
 Engine.Object.prototype.DIRECTION_LEFT = -1;
 Engine.Object.prototype.DIRECTION_RIGHT = 1;
 
+Engine.Object.prototype.EVENT_WORLD_ADD = 'world-add';
+Engine.Object.prototype.EVENT_WORLD_REMOVE = 'world-remove';
+
 Engine.Object.prototype.EVENT_COLLIDE = 'collide';
 Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
 Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
@@ -182,6 +185,7 @@ Engine.Object.prototype.setWorld = function(world)
         throw new Error('Invalid world');
     }
     this.world = world;
+    this.events.trigger(this.EVENT_WORLD_ADD);
 }
 
 Engine.Object.prototype.timeShift = function(deltaTime)
@@ -228,5 +232,6 @@ Engine.Object.prototype.uncollides = function(withObject)
 }
 
 Engine.Object.prototype.unsetWorld = function() {
+    this.events.trigger(this.EVENT_WORLD_REMOVE);
     this.world = undefined;
 }
