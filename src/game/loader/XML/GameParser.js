@@ -102,7 +102,6 @@ extends Game.Loader.XML.Parser
     _parseObjects(nodes)
     {
         const tasks = [];
-        const objects = {};
         const resource = this.loader.resourceManager;
         for (let node, i = 0; node = nodes[i++];) {
             const task = this.loader.followNode(node)
