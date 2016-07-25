@@ -91,12 +91,10 @@ class Scene
     }
     __resume()
     {
-        this.game.audioPlayer.resume();
         this.timer.run();
     }
     __pause()
     {
-        this.game.audioPlayer.pause();
         this.input.release();
         this.timer.pause();
     }

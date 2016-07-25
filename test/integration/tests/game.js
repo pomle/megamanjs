@@ -134,6 +134,7 @@ describe('Game', function() {
         const game = createGame();
         const scene = createScene();
         game.setScene(scene);
+        game.resume();
 
         const hitSpy = sinon.spy();
         scene.input.hit('moot', hitSpy);

@@ -5,7 +5,7 @@ const Game = class Game
         this.EVENT_SCENE_CREATE = 'scene_create';
         this.EVENT_SCENE_DESTROY = 'scene_destroy';
 
-        this._paused = true;
+        this._paused = null;
         this._playbackSpeed = 1;
 
         this.input = new Engine.Keyboard;
@@ -21,6 +21,7 @@ const Game = class Game
         this.scene = null;
 
         this.handleInputEvent = this.handleInputEvent.bind(this);
+        this.pause();
     }
     attachController(element)
     {
@@ -53,22 +54,26 @@ const Game = class Game
     }
     pause()
     {
-        if (!this._paused) {
-            this._paused = true;
-            this.input.disable();
-            if (this.scene) {
-                this.scene.events.trigger(this.scene.EVENT_PAUSE);
-            }
+        if (this._paused === true) {
+            return;
+        }
+        this._paused = true;
+        this.audioPlayer.pause();
+        this.input.disable();
+        if (this.scene) {
+            this.scene.events.trigger(this.scene.EVENT_PAUSE);
         }
     }
     resume()
     {
-        if (this._paused) {
-            this._paused = false;
-            this.input.enable();
-            if (this.scene) {
-                this.scene.events.trigger(this.scene.EVENT_RESUME);
-            }
+        if (this._paused === false) {
+            return;
+        }
+        this._paused = false;
+        this.audioPlayer.resume();
+        this.input.enable();
+        if (this.scene) {
+            this.scene.events.trigger(this.scene.EVENT_RESUME);
         }
     }
     setPlaybackSpeed(rate)
