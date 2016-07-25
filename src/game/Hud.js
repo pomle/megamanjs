@@ -74,6 +74,7 @@ Game.Hud = class Hud
     }
     onSceneDestroy(scene)
     {
+        this.hideHud();
         if (scene instanceof Game.scenes.Level) {
             scene.events.unbind(scene.EVENT_PLAYER_RESET, this.showHud);
             scene.events.unbind(scene.EVENT_PLAYER_DEATH, this.hideHud);
