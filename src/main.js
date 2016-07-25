@@ -44,7 +44,7 @@ window.addEventListener('load', function() {
         function handleInput(event) {
             const keyCode = event.keyCode;
             if (keyCode === 27) {
-                cancel();
+                stop();
                 env.emitMessage(null);
                 return;
             }
@@ -55,7 +55,7 @@ window.addEventListener('load', function() {
                 .replace('{{code}}', HUMAN_CODES[keyCode] || String.fromCharCode(keyCode) || keyCode);
             env.emitMessage(text, false);
             saveMap();
-            cancel();
+            stop();
         }
 
         function start() {
@@ -66,7 +66,7 @@ window.addEventListener('load', function() {
             window.addEventListener('keydown', handleInput);
         }
 
-        function cancel() {
+        function stop() {
             window.removeEventListener('keydown', handleInput);
         }
 
@@ -75,7 +75,7 @@ window.addEventListener('load', function() {
             if (!keyName) {
                 return;
             }
-            cancel();
+            stop();
             start();
         }
 
