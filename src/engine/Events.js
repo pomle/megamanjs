@@ -44,6 +44,14 @@ class Events
     {
         this._events = {};
     }
+    once(name, callback)
+    {
+        const events = this;
+        events.bind(name, function wrapper() {
+            events.unbind(name, wrapper);
+            callback.apply(this, arguments);
+        });
+    }
     trigger(name, values)
     {
         if (this._events[name]) {
