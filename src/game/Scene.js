@@ -40,7 +40,7 @@ class Scene
             this.camera.updateTime(dt);
         };
 
-        const render = () => {
+        const render = this.render = () => {
             this.game.renderer.render(this.world.scene,
                                       this.camera.camera);
         };

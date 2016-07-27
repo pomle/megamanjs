@@ -2,8 +2,10 @@ const Game = class Game
 {
     constructor()
     {
+        this.EVENT_SCENE_SET = 'scene_set';
         this.EVENT_SCENE_CREATE = 'scene_create';
         this.EVENT_SCENE_DESTROY = 'scene_destroy';
+        this.EVENT_SCENE_UNSET = 'scene_unset';
 
         this._paused = null;
         this._playbackSpeed = 1;
@@ -76,6 +78,10 @@ const Game = class Game
             this.scene.events.trigger(this.scene.EVENT_RESUME);
         }
     }
+    render()
+    {
+        this.scene.render();
+    }
     setPlaybackSpeed(rate)
     {
         this._playbackSpeed = rate;
@@ -102,6 +108,7 @@ const Game = class Game
         this.unsetScene();
 
         this.scene = scene;
+        this.events.trigger(this.EVENT_SCENE_SET, [this.scene]);
         this.scene.events.trigger(this.scene.EVENT_CREATE, [this]);
         this.events.trigger(this.EVENT_SCENE_CREATE, [this.scene]);
 
@@ -123,6 +130,7 @@ const Game = class Game
         if (this.scene) {
             this.events.trigger(this.EVENT_SCENE_DESTROY, [this.scene]);
             this.scene.events.trigger(this.scene.EVENT_DESTROY);
+            this.events.trigger(this.EVENT_SCENE_UNSET, [this.scene]);
             this.scene = null;
         }
     }
