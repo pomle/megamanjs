@@ -10,6 +10,7 @@
     "engine/Animation.js",
     "engine/BitmapFont.js",
     "engine/Sequencer.js",
+    "engine/SyncPromise.js",
     "engine/Tween.js",
     "engine/Keyboard.js",
     "engine/Mouse.js",
