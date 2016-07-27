@@ -62,6 +62,16 @@ describe('SyncPromise', function() {
     complete();
   });
 
+  describe('#resolve()', function() {
+    it('should return a resolved promise', function(done) {
+      const promise = SyncPromise.resolve(13.5);
+      promise.then(value => {
+        expect(value).to.be(13.5);
+        done();
+      });
+    });
+  });
+
   it.skip('should provide chainability', function(done) {
     const promise = new SyncPromise();
 
