@@ -1,30 +1,52 @@
 Engine.SyncPromise = class SyncPromise
 {
-    constructor()
+    static resolve(value = null)
     {
-        this.PENDING = 0;
-        this.RESOLVED = 1;
+        return new SyncPromise(resolve => {
+            resolve(value);
+        });
+    }
+    constructor(fn)
+    {
+        let state = 'pending';
+        let value;
+        const deferred = [];
 
-        this._chain = [];
-        this._state = this.PENDING;
-        this._value = null;
-    }
-    resolve(value)
-    {
-        if (this._state !== this.RESOLVED) {
-            this._value = value;
-            this._state = this.RESOLVED;
-            this._chain.forEach(callback => {
-                callback(value);
+        function resolve(newValue) {
+          if(newValue && typeof newValue.then === 'function') {
+            newValue.then(resolve);
+            return;
+          }
+          value = newValue;
+          state = 'resolved';
+
+          deferred.forEach(handle);
+        }
+
+        function handle(handler) {
+          if(state === 'pending') {
+            deferred.push(handler);
+            return;
+          }
+
+          if(!handler.onResolved) {
+            handler.resolve(value);
+            return;
+          }
+
+          const ret = handler.onResolved(value);
+          handler.resolve(ret);
+        }
+
+        this.then = function(onResolved) {
+          return new SyncPromise(resolve => {
+            handle({
+              onResolved: onResolved,
+              resolve: resolve
             });
-        }
-    }
-    then(callback)
-    {
-        if (this._state === this.RESOLVED) {
-            callback(this._value);
-        } else {
-            this._chain.push(callback);
-        }
+          });
+        };
+
+        fn(resolve);
     }
 }
