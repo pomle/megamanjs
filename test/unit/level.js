@@ -53,11 +53,11 @@ describe('Level', function() {
     level.world.updateTime(0.001);
   });
 
-  it('should emit end event 4 seconds after death if lives <= 1', function() {
+  it('should emit end event 4 seconds after death if lives <= 1', function(done) {
     const level = createLevel();
     const endEventSpy = sinon.spy(function() {
       try {
-        expect(level.timer._timeTotal).to.be(4);
+        expect(level.world._timeTotal).to.be(4);
         done();
       } catch (e) {
         done(e);
