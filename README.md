@@ -27,7 +27,7 @@ or
 
 4) When adding scripts to project, add them to [script-manifest.json](https://github.com/pomle/megamanjs/blob/master/src/script-manifest.json) and regenerate `dev.html`.
 
-    npm run generate-dev
+    npm run generate
 
 
 ####Running locally in Chrome (discouraged).

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "bash ./tools/build.sh",
     "minify": "bash ./tools/minify.sh",
-    "generate-dev": "node ./tools/generate-dev-html.js > ./src/dev.html",
+    "generate": "bash ./tools/generate.sh",
     "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit",
     "test:unit": "mocha test/unit",
     "upload-coverage": "codecov"
