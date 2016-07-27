@@ -8,10 +8,11 @@ const SyncPromise = env.Engine.SyncPromise;
 
 describe('SyncPromise', function() {
   it('should call thenable callback when resolved', function(done) {
-    const promise = new SyncPromise();
+    let resolve;
+    const promise = new SyncPromise(r => resolve = r);
 
     function complete() {
-      promise.resolve(5);
+      resolve(5);
     }
 
     promise.then(value => {
@@ -23,10 +24,11 @@ describe('SyncPromise', function() {
   });
 
   it('should be thenable after resolved', function() {
-    const promise = new SyncPromise();
+    let resolve;
+    const promise = new SyncPromise(r => resolve = r);
 
     function complete() {
-      promise.resolve(5);
+      resolve(5);
     }
 
     complete();
@@ -37,10 +39,11 @@ describe('SyncPromise', function() {
   });
 
   it('should resolve all callbacks in order', function(done) {
-    const promise = new SyncPromise();
+    let resolve;
+    const promise = new SyncPromise(r => resolve = r);
 
     function complete() {
-      promise.resolve(5);
+      resolve(5);
     }
 
     let sum = 0;
@@ -62,6 +65,47 @@ describe('SyncPromise', function() {
     complete();
   });
 
+  it('should provide chainability with non-promises', function(done) {
+    let resolve;
+    const promise = new SyncPromise(r => resolve = r);
+
+    function complete() {
+      resolve(5);
+    }
+
+    let sum = 0;
+    promise.then(value => {
+      return value + 3;
+    }).then(value => {
+      expect(value).to.be(8);
+      done();
+    });
+
+    complete();
+  });
+
+  it('should provide chainability with promises', function(done) {
+    const resolve = [];
+    const promise = [
+      new SyncPromise(r => resolve.push(r)),
+      new SyncPromise(r => resolve.push(r)),
+    ];
+
+    let sum = 0;
+    promise[0].then(value => {
+      sum += value;
+      expect(sum).to.be(5);
+      return promise[1];
+    }).then(value => {
+      sum += value;
+      expect(sum).to.be(8);
+      done();
+    });
+
+    resolve[0](5);
+    resolve[1](3);
+  });
+
   describe('#resolve()', function() {
     it('should return a resolved promise', function(done) {
       const promise = SyncPromise.resolve(13.5);
@@ -70,22 +114,5 @@ describe('SyncPromise', function() {
         done();
       });
     });
-  });
-
-  it.skip('should provide chainability', function(done) {
-    const promise = new SyncPromise();
-
-    function complete() {
-      promise.resolve(5);
-    }
-
-    let sum = 0;
-    promise.then(value => {
-      return value + 3;
-    }).then(value => {
-      expect(value).to.be(8);
-    });
-
-    complete();
   });
 });
