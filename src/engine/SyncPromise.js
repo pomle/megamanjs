@@ -2,21 +2,30 @@ Engine.SyncPromise = class SyncPromise
 {
     static all(tasks)
     {
-      let queue = tasks.length;
-      let values = [];
-      let index = 0;
-      return new SyncPromise(resolve => {
-        tasks.forEach(task => {
-          values.push(null);
-          const i = index++;
-          task.then(val => {
-            values[i] = val;
-            if (--queue === 0) {
-              resolve(values);
+        return new SyncPromise(resolve => {
+          let queue = tasks.length;
+          let values = [];
+          let index = 0;
+
+          function done(index, value) {
+              values[index] = value;
+              if (--queue === 0) {
+                  resolve(values);
+              }
+          }
+
+          tasks.forEach(task => {
+            values.push(null);
+            const i = index++;
+            if (typeof task.then === 'function') {
+              task.then(val => {
+                done(i, val);
+              });
+            } else {
+              done(i, task);
             }
           });
         });
-      });
     }
     static resolve(value = null)
     {

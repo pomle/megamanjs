@@ -158,6 +158,36 @@ describe('SyncPromise', function() {
       resolve[2](4);
       expect(result).to.eql([1,2,4]);
     });
+
+    it('should support immediate values', function() {
+      const resolve = [];
+      const tasks = [
+        new SyncPromise(r => resolve.push(r)),
+        'foo',
+        new SyncPromise(r => resolve.push(r)),
+      ];
+
+      const all = SyncPromise.all(tasks);
+      let result = null;
+      all.then(values => {
+        result = values;
+      });
+      expect(result).to.be(null);
+      resolve[0](1);
+      expect(result).to.be(null);
+      resolve[1](4);
+      expect(result).to.eql([1,'foo',4]);
+    });
+
+    it('should support all immediate values', function() {
+      const tasks = [4, 2, 1];
+      const all = SyncPromise.all(tasks);
+      let result = null;
+      all.then(values => {
+        result = values;
+      });
+      expect(result).to.eql([4, 2, 1]);
+    });
   });
 
   describe('#resolve()', function() {
