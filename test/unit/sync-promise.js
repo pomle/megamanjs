@@ -136,6 +136,30 @@ describe('SyncPromise', function() {
     expect(++sum).to.be(4);
   });
 
+  describe('#all()', function() {
+    it('should return a promise that resolves once all promises are resolved', function() {
+      const resolve = [];
+      const tasks = [
+        new SyncPromise(r => resolve.push(r)),
+        new SyncPromise(r => resolve.push(r)),
+        new SyncPromise(r => resolve.push(r)),
+      ];
+
+      const all = SyncPromise.all(tasks);
+      let result = null;
+      all.then(values => {
+        result = values;
+      });
+      expect(result).to.be(null);
+      resolve[0](1);
+      expect(result).to.be(null);
+      resolve[1](2);
+      expect(result).to.be(null);
+      resolve[2](4);
+      expect(result).to.eql([1,2,4]);
+    });
+  });
+
   describe('#resolve()', function() {
     it('should return a resolved promise', function() {
       const promise = SyncPromise.resolve(13.5);
