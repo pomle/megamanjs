@@ -5,9 +5,9 @@ class World
 {
     constructor()
     {
-        this.EVENT_UPDATE = 'update';
-        this.EVENT_SIMULATE = 'simulate';
-        this.EVENT_EMIT_AUDIO = 'emit-audio';
+        this.EVENT_UPDATE = 'world-update';
+        this.EVENT_SIMULATE = 'world-simulate';
+        this.EVENT_EMIT_AUDIO = 'world-emit-audio';
         this.EVENT_ADD = 'world-add';
         this.EVENT_REMOVE = 'world-remove';
 
