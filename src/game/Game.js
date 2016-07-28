@@ -78,6 +78,10 @@ const Game = class Game
             this.scene.events.trigger(this.scene.EVENT_RESUME);
         }
     }
+    render()
+    {
+        this.scene.render();
+    }
     setPlaybackSpeed(rate)
     {
         this._playbackSpeed = rate;
