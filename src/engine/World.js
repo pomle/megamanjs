@@ -31,6 +31,7 @@ class World
         this.scene.add(this.ambientLight);
 
         this._accumulator = 0;
+        this._tick = 0;
         this._timeStep = 1/120;
         this._timeTotal = 0;
         this._timeSimTotal = 0;
@@ -120,7 +121,9 @@ class World
 
         this._cleanObjects();
 
-        this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeSimTotal]);
+        this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeSimTotal, this._tick]);
+
+        ++this._tick;
     }
     updateAnimation(deltaTime)
     {
