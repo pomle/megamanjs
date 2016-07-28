@@ -50,7 +50,9 @@ describe('Scene', function() {
     it('should return a promise that resolves when done', function(done) {
       const scene = createScene();
       const callbackSpy = sinon.spy();
-      scene.doFor(2, callbackSpy).then(done);
+      scene.doFor(2, callbackSpy).then(time => {
+        done();
+      });
       scene.world.updateTime(2.1);
     });
   });
@@ -59,7 +61,9 @@ describe('Scene', function() {
     it('should return a promise that resolves when duration elapsed', function(done) {
       const scene = createScene();
       const callbackSpy = sinon.spy();
-      scene.waitFor(2).then(done);
+      scene.waitFor(2).then(time => {
+        done();
+      });
       scene.world.updateTime(2);
     });
   });

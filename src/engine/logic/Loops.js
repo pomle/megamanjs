@@ -12,21 +12,26 @@ Engine.Loops = {
             let elapsed = 0;
             let progress = 0;
             return new Promise(resolve => {
-                const wrapper = (dt) => {
+                function doForWrapper(dt, total, tick) {
                     elapsed += dt;
                     progress = elapsed / duration;
                     if (progress >= 1) {
                         progress = 1;
-                        events.unbind(event, wrapper);
+                        events.unbind(event, doForWrapper);
                     }
                     if (callback) {
                         callback(elapsed, progress);
                     }
                     if (progress === 1) {
-                        resolve();
+                        resolve({
+                            elapsed,
+                            tick,
+                            offset: elapsed - duration,
+                            total: total,
+                        });
                     }
                 };
-                events.bind(event, wrapper);
+                events.bind(event, doForWrapper);
             });
         };
     },

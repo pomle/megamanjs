@@ -53,7 +53,9 @@ describe('Object', function() {
     it('should return a promise that resolves when done', function(done) {
       const host = new Host;
       const callbackSpy = sinon.spy();
-      host.doFor(2, callbackSpy).then(done);
+      host.doFor(2, callbackSpy).then(time => {
+        done();
+      });
       host.timeShift(2.1);
     });
   });
@@ -61,7 +63,9 @@ describe('Object', function() {
     it('should return a promise that resolves when duration elapsed', function(done) {
       const host = new Host;
       const callbackSpy = sinon.spy();
-      host.waitFor(2).then(done);
+      host.waitFor(2).then(time => {
+        done();
+      });
       host.timeShift(2);
     });
   });

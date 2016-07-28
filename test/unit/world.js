@@ -160,7 +160,9 @@ describe('World', function() {
     it('should return a promise that resolves when done', function(done) {
       const callbackSpy = sinon.spy();
       world._timeStep = 1/30;
-      world.doFor(2, callbackSpy).then(done);
+      world.doFor(2, callbackSpy).then(time => {
+        done();
+      });
       world.updateTime(2.1);
     });
   });
@@ -169,7 +171,9 @@ describe('World', function() {
     it('should return a promise that resolves when duration elapsed', function(done) {
       const callbackSpy = sinon.spy();
       world._timeStep = 1/30;
-      world.waitFor(2).then(done);
+      world.waitFor(2).then(time => {
+        done();
+      });
       world.updateTime(2.1);
     });
   });
