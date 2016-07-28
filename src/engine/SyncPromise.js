@@ -24,12 +24,12 @@ Engine.SyncPromise = class SyncPromise
         }
 
         function handle(handler) {
-          if(state === 'pending') {
+          if (state === 'pending') {
             deferred.push(handler);
             return;
           }
 
-          if(!handler.onResolved) {
+          if (!handler.onResolved) {
             handler.resolve(value);
             return;
           }

@@ -7,29 +7,25 @@ Engine.Loops = {
                 return Engine.SyncPromise.resolve();
             }
 
-            let elapsed = 0;
-            let progress = 0;
-
-            const promise = new Engine.SyncPromise;
-
-            const wrapper = (dt) => {
-                elapsed += dt;
-                progress = elapsed / duration;
-                if (progress >= 1) {
-                    progress = 1;
-                    events.unbind(event, wrapper);
+            return new Engine.SyncPromise(resolve => {
+                let elapsed = 0;
+                let progress = 0;
+                function doForWrapper(dt) {
+                    elapsed += dt;
+                    progress = elapsed / duration;
+                    if (progress >= 1) {
+                        progress = 1;
+                        events.unbind(event, doForWrapper);
+                    }
+                    if (callback) {
+                        callback(elapsed, progress);
+                    }
+                    if (progress === 1) {
+                        resolve();
+                    }
                 }
-                if (callback) {
-                    callback(elapsed, progress);
-                }
-                if (progress === 1) {
-                    promise.resolve();
-                }
-            };
-
-            events.bind(event, wrapper);
-
-            return promise;
+                events.bind(event, doForWrapper);
+            });
         };
     },
     doWhile: function(events, event) {
