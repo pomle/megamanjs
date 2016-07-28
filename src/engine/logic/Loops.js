@@ -3,7 +3,9 @@ Engine.Loops = {
         return function doFor(duration, callback)
         {
             if (duration <= 0) {
-                callback(0, 1);
+                if (callback) {
+                    callback(0, 1);
+                }
                 return Promise.resolve();
             }
 
@@ -17,7 +19,9 @@ Engine.Loops = {
                         progress = 1;
                         events.unbind(event, wrapper);
                     }
-                    callback(elapsed, progress);
+                    if (callback) {
+                        callback(elapsed, progress);
+                    }
                     if (progress === 1) {
                         resolve();
                     }
@@ -42,23 +46,10 @@ Engine.Loops = {
         };
     },
     waitFor: function(events, event) {
+        const doFor = Engine.Loops.doFor(events, event);
         return function waitFor(seconds)
         {
-            if (seconds <= 0) {
-                return Promise.resolve();
-            }
-
-            let elapsed = 0;
-            return new Promise(resolve => {
-                const wait = (dt) => {
-                    elapsed += dt;
-                    if (elapsed >= seconds) {
-                        events.unbind(event, wait);
-                        resolve();
-                    }
-                };
-                events.bind(event, wait);
-            });
+            return doFor(seconds);
         }
     },
 }
