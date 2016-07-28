@@ -6,12 +6,12 @@ Engine.Loops = {
                 if (callback) {
                     callback(0, 1);
                 }
-                return Promise.resolve();
+                return Engine.SyncPromise.resolve();
             }
 
             let elapsed = 0;
             let progress = 0;
-            return new Promise(resolve => {
+            return new Engine.SyncPromise(resolve => {
                 function doForWrapper(dt, total, tick) {
                     elapsed += dt;
                     progress = elapsed / duration;
@@ -39,7 +39,7 @@ Engine.Loops = {
         return function doWhile(callback)
         {
             let elapsed = 0;
-            return new Promise(resolve => {
+            return new Engine.SyncPromise(resolve => {
                 const wrapper = (dt) => {
                     elapsed += dt;
                     if (!callback(elapsed, dt)) {
