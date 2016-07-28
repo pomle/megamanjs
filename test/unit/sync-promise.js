@@ -188,6 +188,16 @@ describe('SyncPromise', function() {
       });
       expect(result).to.eql([4, 2, 1]);
     });
+
+    it('should handle primitives as immediate values', function() {
+      const tasks = [undefined, null, true, false, 1, 'a'];
+      const all = SyncPromise.all(tasks);
+      let result = null;
+      all.then(values => {
+        result = values;
+      });
+      expect(result).to.eql([undefined, null, true, false, 1, 'a']);
+    });
   });
 
   describe('#resolve()', function() {

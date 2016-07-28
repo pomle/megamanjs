@@ -17,7 +17,7 @@ Engine.SyncPromise = class SyncPromise
           tasks.forEach(task => {
             values.push(null);
             const i = index++;
-            if (typeof task.then === 'function') {
+            if (task != null && typeof task.then === 'function') {
               task.then(val => {
                 done(i, val);
               });
