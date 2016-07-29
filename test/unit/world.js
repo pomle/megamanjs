@@ -243,7 +243,7 @@ describe('World', function() {
       world.updateTime(0.16);
       world.updateTime(0.12);
       expect(callback.callCount).to.equal(2);
-      expect(callback.lastCall.args).to.eql([0.12, 0.28]);
+      expect(callback.lastCall.args).to.eql([0.12, 0.275]);
     });
 
     it('should emit update event once regardless of simulation iterations', function() {
