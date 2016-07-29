@@ -20,6 +20,15 @@ class TestEnv
   do(seconds, callback) {
     return this.game.scene.doFor(seconds, callback);
   }
+  load(scene) {
+    const method = scene.indexOf('.xml') === -1 ? 'loadSceneByName' : 'loadScene';
+    return this.loader[method](scene)
+      .then(scene => {
+        scene.camera.smoothing = 0;
+        this.game.setScene(scene);
+        return scene;
+      });
+  }
   scene(scene) {
     this.game.setScene(scene);
   }
