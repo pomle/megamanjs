@@ -47,7 +47,14 @@ class Tween
         this._subjects.forEach(subject => {
             const origin = subject.origin;
             this._keys.forEach(key => {
-                subject.object[key] = origin[key] + (to[key] - origin[key]) * f;
+                // No intermediate calc necessary for end and start.
+                if (f === 0) {
+                    subject.object[key] = origin[key];
+                } else if (f === 1) {
+                    subject.object[key] = to[key];
+                } else {
+                    subject.object[key] = origin[key] + (to[key] - origin[key]) * f;
+                }
             });
         });
     }
