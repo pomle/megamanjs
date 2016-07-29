@@ -12,6 +12,19 @@ class TestEnv
     this.game.attachToElement(this._screen);
     this.game.setResolution(640, 480);
     this.game.adjustResolution();
+
+    function expose(dt, t, tick) {
+      console.log(t, tick);
+    }
+
+    this.game.events.bind(this.game.EVENT_SCENE_SET, scene => {
+      const w = scene.world;
+      w.events.bind(w.EVENT_SIMULATE, expose);
+    });
+    this.game.events.bind(this.game.EVENT_SCENE_UNSET, scene => {
+      const w = scene.world;
+      w.events.unbind(w.EVENT_SIMULATE, expose);
+    });
   }
   destroy()
   {
