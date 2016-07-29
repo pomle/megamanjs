@@ -7,14 +7,15 @@ class TestEnv
     this.game = new Game;
     this.loader = new Game.Loader.XML(this.game);
 
-    this.element = document.querySelector('#screen');
-    this.game.attachToElement(this.element);
+    this._screen = document.querySelector('#screen');
+
+    this.game.attachToElement(this._screen);
     this.game.setResolution(640, 480);
     this.game.adjustResolution();
   }
   destroy()
   {
-    this.element.innerHTML = '';
+    this._screen.innerHTML = '';
   }
   applyInput(url)
   {
