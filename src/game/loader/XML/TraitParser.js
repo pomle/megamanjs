@@ -68,7 +68,6 @@ extends Game.Loader.XML.Parser
         if (name === 'destructible') {
             const affectorObjectNodes = node.querySelectorAll(':scope > affectors > object');
             const ids = this.getArray(affectorObjectNodes, 'id');
-            console.log(ids);
             return function setup(trait) {
                 ids.forEach(id => {
                     trait.affectors.add(id);
