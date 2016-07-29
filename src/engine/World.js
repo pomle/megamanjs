@@ -123,9 +123,10 @@ class World
 
         this._cleanObjects();
 
-        this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeTotal, this._tick]);
-
-        ++this._tick;
+        if (deltaTime > 0) {
+            this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeTotal, this._tick]);
+            ++this._tick;
+        }
     }
     updateAnimation(deltaTime)
     {
