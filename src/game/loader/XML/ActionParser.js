@@ -98,7 +98,7 @@ extends Game.Loader.XML.Parser
                     tasks.push(task);
                 });
             });
-            return Promise.all(tasks);
+            return Engine.SyncPromise.all(tasks);
         };
     }
     _parseTransformation(node)

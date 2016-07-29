@@ -121,10 +121,10 @@ describe('Game', function() {
       RequestAnimationFrameMock.triggerAnimationFrame(0);
       RequestAnimationFrameMock.triggerAnimationFrame(219);
       expect(updateSpy.callCount).to.be(1);
-      expect(updateSpy.lastCall.args).to.eql([0.25404, 0.25404]);
+      expect(updateSpy.lastCall.args).to.eql([0.25404, 0.24999999999999997]);
       RequestAnimationFrameMock.triggerAnimationFrame(519);
       expect(updateSpy.callCount).to.be(2);
-      expect(updateSpy.lastCall.args).to.eql([0.34800000000000003, 0.60204]);
+      expect(updateSpy.lastCall.args).to.eql([0.34800000000000003, 0.6000000000000003]);
     });
   });
 

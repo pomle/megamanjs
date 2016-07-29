@@ -1,0 +1,22 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Megaman 2 JS Browser Tests</title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+
+  <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+  <!-- INJECT-JS-DEPS -->
+</head>
+<body>
+  <div id="screen" style="width: 640px; height: 360px"></div>
+  <div id="mocha"></div>
+
+  <script>mocha.setup('bdd')</script>
+  <script src="test/megaman2.js"></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.run();
+  </script>
+</body>
+</html>

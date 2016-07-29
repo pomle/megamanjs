@@ -22,7 +22,7 @@ class InputRecorder
     }
     _getTime()
     {
-        return this._world._timeSimTotal;
+        return this._world._timeTotal;
     }
     getLog()
     {

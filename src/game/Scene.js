@@ -24,7 +24,7 @@ class Scene
         this.world = new Engine.World;
 
         this.doFor = Engine.Loops.doFor(this.world.events, this.world.EVENT_SIMULATE);
-        this.waitFor = Engine.Loops.waitFor(this.world.events, this.world.EVENT_UPDATE);
+        this.waitFor = Engine.Loops.waitFor(this.world.events, this.world.EVENT_SIMULATE);
 
         this.input.events.bind(this.input.EVENT_TRIGGER, (key, type) => {
             this.events.trigger(this.EVENT_INPUT, [key, type]);
@@ -40,7 +40,7 @@ class Scene
             this.camera.updateTime(dt);
         };
 
-        const render = () => {
+        const render = this.render = () => {
             this.game.renderer.render(this.world.scene,
                                       this.camera.camera);
         };

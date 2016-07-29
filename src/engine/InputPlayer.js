@@ -37,7 +37,7 @@ class InputPlayer
                 reject(err);
             };
 
-            next = world._timeSimTotal + log[i].time;
+            next = world._timeTotal + log[i].time;
             world.events.bind(world.EVENT_SIMULATE, onSimulate);
         });
     }

@@ -40,7 +40,7 @@ describe('Level', function() {
     const level = createLevel();
     sinon.stub(level, 'resetPlayer', function() {
       try {
-        expect(level.world._timeTotal).to.be(4);
+        expect(level.world._timeTotal).to.be.within(4, 4.01);
         done();
       } catch (e) {
         done(e);
@@ -49,15 +49,14 @@ describe('Level', function() {
     level.world.addObject(level.player.character);
     level.player.lives = 2;
     level.player.character.health.kill();
-    level.world.updateTime(3.999);
-    level.world.updateTime(0.001);
+    level.world.updateTime(5);
   });
 
-  it('should emit end event 4 seconds after death if lives <= 1', function() {
+  it('should emit end event 4 seconds after death if lives <= 1', function(done) {
     const level = createLevel();
     const endEventSpy = sinon.spy(function() {
       try {
-        expect(level.timer._timeTotal).to.be(4);
+        expect(level.world._timeTotal).to.be.within(4, 4.01);
         done();
       } catch (e) {
         done(e);
@@ -67,8 +66,7 @@ describe('Level', function() {
     level.world.addObject(level.player.character);
     level.player.lives = 1;
     level.player.character.health.kill();
-    level.world.updateTime(3.999);
-    level.world.updateTime(0.001);
+    level.world.updateTime(5);
   });
 
   describe('#resetObjects', function() {

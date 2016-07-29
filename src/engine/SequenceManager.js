@@ -31,7 +31,7 @@ class SequenceManager
                 steps.shift().forEach(action => {
                     tasks.push(action.call(this._host));
                 });
-                return Promise.all(tasks).then(() => {
+                return Engine.SyncPromise.all(tasks).then(() => {
                     return next();
                 });
             }

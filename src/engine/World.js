@@ -31,9 +31,9 @@ class World
         this.scene.add(this.ambientLight);
 
         this._accumulator = 0;
+        this._tick = 0;
         this._timeStep = 1/120;
         this._timeTotal = 0;
-        this._timeSimTotal = 0;
 
         this.timeStretch = 1;
     }
@@ -110,17 +110,19 @@ class World
     }
     simulateTime(deltaTime)
     {
-        this._timeSimTotal += deltaTime;
+        this._timeTotal += deltaTime;
 
         this.objects.forEach(object => {
-            object.timeShift(deltaTime, this._timeSimTotal);
+            object.timeShift(deltaTime, this._timeTotal);
         });
 
         this.collision.detect();
 
         this._cleanObjects();
 
-        this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeSimTotal]);
+        this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeTotal, this._tick]);
+
+        ++this._tick;
     }
     updateAnimation(deltaTime)
     {
@@ -140,8 +142,6 @@ class World
         }
 
         this.updateAnimation(adjustedDelta);
-
-        this._timeTotal += adjustedDelta;
         this.events.trigger(this.EVENT_UPDATE, [adjustedDelta, this._timeTotal]);
     }
 }
