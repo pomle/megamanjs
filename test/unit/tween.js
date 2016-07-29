@@ -74,4 +74,14 @@ describe('Tween', function() {
     expect(subjects[0]).to.eql({x: 2});
     expect(subjects[1]).to.eql({x: 2.5});
   });
+  it('should be redirectable', function() {
+    const subject = { x: 0, y: 0 };
+    const tween = new Tween({x: 3});
+    tween.addSubject(subject);
+    tween.update(1);
+    expect(subject).to.eql({x: 3, y: 0});
+    tween.next({x: -5, y: 8});
+    tween.update(1);
+    expect(subject).to.eql({x: -5, y: 8});
+  });
 });

@@ -5,10 +5,14 @@ class Tween
 {
     constructor(to, easing = Engine.Easing.linear)
     {
-        this._keys = Object.keys(to).filter(key => to[key] != null);
-        this._to = to;
+        this._setGoal(to);
         this._easing = easing;
         this._subjects = [];
+    }
+    _setGoal(to)
+    {
+        this._keys = Object.keys(to).filter(key => to[key] != null);
+        this._to = to;
     }
     _updateOrigin(subject)
     {
@@ -30,6 +34,11 @@ class Tween
         this._subjects.forEach(subject => {
             this._updateOrigin(subject);
         });
+    }
+    next(to)
+    {
+        this._setGoal(to);
+        this.refresh();
     }
     update(progress)
     {
