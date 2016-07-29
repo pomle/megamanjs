@@ -6,20 +6,13 @@ describe('Heatman Level', function() {
     const game = this.env.game;
     const load = this.env.loader;
 
-    Promise.all([
-      load.loadGame('../../../src/resource/Megaman2.xml')
-        .then(() => load.loadSceneByName('Heatman')),
-      fetch('./input/heatman.json')
-        .then(response => response.json())
-    ])
-    .then(([scene, log]) => {
-      this.inputPlayer = new Engine.InputPlayer(scene.world, game.input);
-      scene.camera.smoothing = 0;
-      game.setScene(scene);
-      game.input.enable();
-      this.inputPlayer.play(log);
-      done();
-    });
+    load.loadGame('../../../src/resource/Megaman2.xml')
+      .then(() => load.loadSceneByName('Heatman'))
+      .then(scene => {
+        scene.camera.smoothing = 0;
+        game.setScene(scene);
+        done();
+      });
   });
 
   after(function() {

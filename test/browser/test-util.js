@@ -2,47 +2,10 @@ class TestEnv
 {
   constructor()
   {
-    const game = new Game;
-    const loader = new Game.Loader.XML(game);
+    this._currentTime = 0;
 
-    let currentTime = 0;
-    this.time = function time(add) {
-      game.scene.timer.eventLoop(currentTime);
-      game.scene.timer.eventLoop(currentTime += add * 1000);
-    }
-
-    this.tap = function tap(keys) {
-      keys.split(' ').forEach(key => {
-          game.input.enable();
-          game.input.trigger(key, game.input.ENGAGE);
-          game.input.trigger(key, game.input.RELEASE);
-      });
-    }
-
-    this.toggle = function toggle(keys, state) {
-      keys.split(' ').forEach(key => {
-        game.input.enable();
-        game.input.trigger(key, state ? game.input.ENGAGE : game.input.RELEASE);
-      });
-    }
-
-    this.wait = function wait(seconds) {
-      return game.scene.waitFor(seconds);
-    }
-
-    this.waitUntil = function wait(check) {
-      return new Engine.SyncPromise(resolve => {
-        debugger;
-        const world = game.scene.world;
-        while(!check()) {
-          world.simulateTime(world._timeStep);
-        }
-        resolve();
-      });
-    }
-
-    this.game = game;
-    this.loader = loader;
+    this.game = new Game;
+    this.loader = new Game.Loader.XML(this.game);
 
     this.element = document.querySelector('#screen');
     this.game.attachToElement(this.element);
@@ -52,5 +15,44 @@ class TestEnv
   destroy()
   {
     this.element.innerHTML = '';
+  }
+  applyInput(url)
+  {
+    return fetch(url)
+      .then(response => response.json())
+      .then(log => {
+        this.game.input.enable();
+        return new Engine.InputPlayer(this.game.scene.world,
+                                      this.game.input);
+      });
+  }
+  do(seconds, callback) {
+    return this.game.scene.doFor(seconds, callback);
+  }
+  scene(scene) {
+    this.game.setScene(scene);
+  }
+  tap(keys) {
+    const inp = this.game.input;
+    inp.enable();
+    keys.split(' ').forEach(key => {
+        inp.trigger(key, inp.ENGAGE);
+        inp.trigger(key, inp.RELEASE);
+    });
+  }
+  time(add) {
+    const timer = this.game.scene.timer;
+    timer.eventLoop(this._currentTime);
+    timer.eventLoop(this._currentTime += add * 1000);
+  }
+  toggle(keys, state) {
+    const inp = this.game.input;
+    inp.enable();
+    keys.split(' ').forEach(key => {
+      inp.trigger(key, state ? inp.ENGAGE : inp.RELEASE);
+    });
+  }
+  wait(seconds) {
+    return this.game.scene.waitFor(seconds);
   }
 }

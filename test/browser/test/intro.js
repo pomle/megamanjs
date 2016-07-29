@@ -97,34 +97,4 @@ describe('Intro', function() {
     });
     this.env.tap('start');
   });
-
-  it('scene select should start zoomed in and then zoom out', function() {
-    this.env.game.render();
-    expect(this.env.game.scene.camera.position.z).to.be(40);
-    this.env.time(1);
-    this.env.game.render();
-    expect(this.env.game.scene.camera.position.z).to.be(140);
-  });
-
-  it('should select Heatman stage when pressing left and start', function(done) {
-    const scene = this.env.game.scene;
-    scene.events.once(scene.EVENT_STAGE_SELECTED, stage => {
-      expect(stage.character).to.be(this.env.loader.resourceManager.get('object', 'Heatman'));
-      done();
-    });
-    this.env.tap('left start');
-  });
-
-  it('camera should move to reveal boss', function() {
-    this.env.time(3);
-    this.env.game.render();
-    expect(this.env.game.scene.camera.position.y).to.be(440);
-  });
-
-  it('should load Heatman level eventually', function(done) {
-    this.env.game.events.once(this.env.game.EVENT_SCENE_SET, scene => {
-      done();
-    });
-    this.env.time(7);
-  });
 });
