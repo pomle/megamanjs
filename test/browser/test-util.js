@@ -17,16 +17,6 @@ class TestEnv
   {
     this._screen.innerHTML = '';
   }
-  applyInput(url)
-  {
-    return fetch(url)
-      .then(response => response.json())
-      .then(log => {
-        this.game.input.enable();
-        return new Engine.InputPlayer(this.game.scene.world,
-                                      this.game.input);
-      });
-  }
   do(seconds, callback) {
     return this.game.scene.doFor(seconds, callback);
   }
@@ -52,6 +42,17 @@ class TestEnv
     keys.split(' ').forEach(key => {
       inp.trigger(key, state ? inp.ENGAGE : inp.RELEASE);
     });
+  }
+  useInput(url) {
+    return fetch(url)
+      .then(response => response.json())
+      .then(log => {
+        this.game.input.enable();
+        const player = new Engine.InputPlayer(this.game.scene.world,
+                                            this.game.input);
+        player.play(log);
+        return player;
+      });
   }
   wait(seconds) {
     return this.game.scene.waitFor(seconds);
