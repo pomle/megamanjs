@@ -16,7 +16,7 @@ class InputPlayer
         let i = 0;
         let next = log[0].tick;
         return new Promise((resolve, reject) => {
-            const onSimulate = (dt, t, tick) => {
+            function onSimulate(dt, t, tick) {
                 while (tick === next) {
                     input.trigger(log[i].key, log[i].type);
                     if (log[++i]) {
@@ -29,9 +29,9 @@ class InputPlayer
                 }
             };
 
-            const stop = () => {
+            function stop() {
                 world.events.unbind(world.EVENT_SIMULATE, onSimulate);
-            };
+            }
 
             this._abort = (err) => {
                 stop();
