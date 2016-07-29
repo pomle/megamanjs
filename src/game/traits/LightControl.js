@@ -1,53 +1,51 @@
-Game.traits.LightControl = function()
+Game.traits.LightControl =
+class LightControl extends Engine.Trait
 {
-    Engine.Trait.call(this);
+    constructor()
+    {
+        super();
+        this.NAME = 'lightcontrol';
 
-    this.color = new THREE.Color(1,1,1);
+        this.color = new THREE.Color(1,1,1);
+        this.duration = 1;
 
-    this.tween = undefined;
-    this.progress = undefined;
-    this.duration = 1;
-    this.ignore = new Set();
-}
-
-Engine.Util.extend(Game.traits.LightControl, Engine.Trait);
-
-Game.traits.LightControl.prototype.NAME = 'lightcontrol';
-
-Game.traits.LightControl.prototype.__collides = function(withObject)
-{
-    var c = this._host.world.ambientLight.color;
-    if (this.progress === undefined
-    && withObject.isPlayer === true
-    && this.color.equals(c) === false
-    && this.ignore.has(withObject) === false) {
-        this.tween = new Engine.Tween({
-            r: this.color.r,
-            g: this.color.g,
-            b: this.color.b,
-        });
-        this.tween.addObject(this._host.world.ambientLight.color);
-        this.progress = 0;
-        this.ignore.add(withObject);
+        this._ignore = new Set();
+        this._progress = null;
+        this._tween = null;
     }
-}
-
-Game.traits.LightControl.prototype.__uncollides = function(withObject)
-{
-    console.log('Removing %s from ignore list', withObject);
-    this.ignore.delete(withObject);
-}
-
-Game.traits.LightControl.prototype.__timeshift = function(deltaTime)
-{
-    if (this.progress === undefined) {
-        return;
+    __collides(withObject)
+    {
+        const color = this._host.world.ambientLight.color;
+        if (this._progress === null &&
+            withObject.isPlayer === true &&
+            this.color.equals(color) === false &&
+            this._ignore.has(withObject) === false)
+        {
+            this._tween = new Engine.Tween({
+                r: this.color.r,
+                g: this.color.g,
+                b: this.color.b,
+            });
+            this._tween.addSubject(color);
+            this._progress = 0;
+            this._ignore.add(withObject);
+        }
     }
-    this.progress += deltaTime;
-    var frac = this.progress / this.duration;
-    if (frac > 1) {
-        frac = 1;
-        this.progress = undefined;
+    __uncollides(withObject)
+    {
+        this._ignore.delete(withObject);
     }
-    this.tween.updateValue(frac);
+    __timeshift(deltaTime)
+    {
+        if (this._progress === null) {
+            return;
+        }
+        this._progress += deltaTime;
+        let frac = this._progress / this.duration;
+        if (frac > 1) {
+            frac = 1;
+            this._progress = null;
+        }
+        this._tween.update(frac);
+    }
 }
