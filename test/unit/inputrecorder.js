@@ -16,13 +16,13 @@ describe('InputRecorder', function() {
     const recorder = new Recorder(world, input);
     recorder.record();
     input.trigger(input.RIGHT, input.ENGAGE);
-    world.simulateTime(2.2);
+    world.updateTime(2.2);
     input.trigger(input.A, input.ENGAGE);
-    world.simulateTime(0.3);
+    world.updateTime(0.3);
     input.trigger(input.A, input.RELEASE);
-    world.simulateTime(3);
+    world.updateTime(3);
     input.trigger(input.B, input.ENGAGE);
-    world.simulateTime(3/60);
+    world.updateTime(3/60);
     input.trigger(input.B, input.RELEASE);
 
     it('should store events to log', function() {
@@ -30,11 +30,11 @@ describe('InputRecorder', function() {
       expect(log.length).to.be(5);
     });
 
-    it('should store time difference between events', function() {
+    it('should store tick at every event', function() {
       const log = recorder.getLog();
-      expect(log[0].time).to.be(0);
-      expect(log[1].time).to.be(2.2);
-      expect(log[3].time).to.be(3);
+      expect(log[0].tick).to.be(0);
+      expect(log[1].tick).to.be(264);
+      expect(log[3].tick).to.be(660);
     });
 
     it('should store key and state', function() {
@@ -51,7 +51,7 @@ describe('InputRecorder', function() {
       it('should return JSON data', function() {
         const json = recorder.toJSON();
         const data = JSON.parse(json);
-        expect(data[2].time).to.be(0.2999999999999998);
+        expect(data[2].tick).to.be(300);
         expect(data[2].key).to.be('a');
         expect(data[2].type).to.be('keyup');
       });
