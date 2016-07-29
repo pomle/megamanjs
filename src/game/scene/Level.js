@@ -206,7 +206,6 @@ Game.scenes.Level = class Level extends Game.Scene
     resetCheckpoint()
     {
         this.resetObjects();
-        this.world.simulateTime(0);
         return this.readyBlink().then(() => {
             this.resumeGamePlay();
         });
