@@ -69,6 +69,9 @@ class World
         }
         return false;
     }
+    getObjects(name) {
+        return this.objects.filter(o => o.name === name);
+    }
     hasObject(object)
     {
         const index = this.objects.indexOf(object);

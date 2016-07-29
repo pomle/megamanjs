@@ -106,6 +106,21 @@ describe('World', function() {
     });
   });
 
+  describe('#getObjects', function() {
+    it('should return objects matching name', function() {
+      objects[0].name = 'foo';
+      objects[1].name = 'bar';
+      objects[2].name = 'foo';
+      const matches = world.getObjects('foo');
+      expect(matches[0]).to.be(objects[0]);
+      expect(matches[1]).to.be(objects[2]);
+    });
+
+    it('should return false if no matching object', function() {
+      expect(world.getObject('foo')).to.be(false);
+    });
+  });
+
   describe('#removeObject', function() {
     it('should remove object from collision detector', function() {
       world.collision.removeObject = sinon.spy();
