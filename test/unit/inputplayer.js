@@ -61,6 +61,36 @@ describe('InputPlayer', function() {
     expect(inputSpy.callCount).to.be(1);
   });
 
+  it('should play all inputs on the same tick', function() {
+    const log = [
+      {
+        tick: 3,
+        key: "right",
+        type: "keydown",
+      },
+      {
+        tick: 3,
+        key: "a",
+        type: "keydown",
+      },
+      {
+        tick: 3,
+        key: "b",
+        type: "keydown",
+      },
+    ];
+
+    const world = new World;
+    const input = new Input;
+    const player = new Player(world, input);
+    const inputSpy = sinon.spy();
+    input.events.bind(input.EVENT_TRIGGER, inputSpy);
+
+    player.play(log);
+    world.updateTime(0.08);
+    expect(inputSpy.callCount).to.be(3);
+  });
+
   describe('#play', function() {
     it('should return a promise that resolves when log done', function(done) {
       const world = new World;

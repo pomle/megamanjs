@@ -17,13 +17,14 @@ class InputPlayer
         let next = log[0].tick;
         return new Promise((resolve, reject) => {
             const onSimulate = (dt, t, tick) => {
-                if (tick === next) {
+                while (tick === next) {
                     input.trigger(log[i].key, log[i].type);
                     if (log[++i]) {
                         next = log[i].tick;
                     } else {
                         stop();
                         resolve();
+                        break;
                     }
                 }
             };
