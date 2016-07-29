@@ -14,16 +14,17 @@ class InputPlayer
         const world = this._world;
         const input = this._input;
         let i = 0;
-        let next = null;
+        let next = log[0].tick;
         return new Promise((resolve, reject) => {
-            const onSimulate = (dt, t) => {
-                if (t >= next) {
+            const onSimulate = (dt, t, tick) => {
+                while (tick === next) {
                     input.trigger(log[i].key, log[i].type);
                     if (log[++i]) {
-                        next += log[i].time;
+                        next = log[i].tick;
                     } else {
                         stop();
                         resolve();
+                        break;
                     }
                 }
             };
@@ -37,7 +38,6 @@ class InputPlayer
                 reject(err);
             };
 
-            next = world._timeTotal + log[i].time;
             world.events.bind(world.EVENT_SIMULATE, onSimulate);
         });
     }

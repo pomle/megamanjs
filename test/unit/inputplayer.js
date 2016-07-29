@@ -10,7 +10,7 @@ const Input = env.Engine.Keyboard;
 const Player = env.Engine.InputPlayer;
 
 describe('InputPlayer', function() {
-  const json = '[{"time":0.2,"key":"right","type":"keydown"},{"time":2.2,"key":"a","type":"keydown"},{"time":0.2999999999999998,"key":"a","type":"keyup"},{"time":3,"key":"b","type":"keydown"},{"time":0.04999999999999982,"key":"b","type":"keyup"}]';
+  const json = '[{"tick":24,"key":"right","type":"keydown"},{"tick":288,"key":"a","type":"keydown"},{"tick":324,"key":"a","type":"keyup"},{"tick":684,"key":"b","type":"keydown"},{"tick":690,"key":"b","type":"keyup"}]';
   const log = JSON.parse(json);
 
   it('should chain play back log and trigger input at specified intervals', function() {
@@ -31,7 +31,7 @@ describe('InputPlayer', function() {
     expect(inputSpy.callCount).to.be(3);
     expect(inputSpy.lastCall.args).to.eql(['a', 'keyup']);
 
-    // Update time without reaching next step.
+    // Update tick without reaching next step.
     world.updateTime(0.5);
     expect(inputSpy.callCount).to.be(3);
     world.updateTime(1);
@@ -61,6 +61,36 @@ describe('InputPlayer', function() {
     expect(inputSpy.callCount).to.be(1);
   });
 
+  it('should play all inputs on the same tick', function() {
+    const log = [
+      {
+        tick: 3,
+        key: "right",
+        type: "keydown",
+      },
+      {
+        tick: 3,
+        key: "a",
+        type: "keydown",
+      },
+      {
+        tick: 3,
+        key: "b",
+        type: "keydown",
+      },
+    ];
+
+    const world = new World;
+    const input = new Input;
+    const player = new Player(world, input);
+    const inputSpy = sinon.spy();
+    input.events.bind(input.EVENT_TRIGGER, inputSpy);
+
+    player.play(log);
+    world.updateTime(0.08);
+    expect(inputSpy.callCount).to.be(3);
+  });
+
   describe('#play', function() {
     it('should return a promise that resolves when log done', function(done) {
       const world = new World;
@@ -86,8 +116,8 @@ describe('InputPlayer', function() {
       player.playJSON(json);
       expect(player.play.calledOnce).to.be(true);
       const data = player.play.lastCall.args[0];
-      expect(data[3].time).to.be(3);
-      expect(data[2].time).to.be(0.2999999999999998);
+      expect(data[3].tick).to.be(684);
+      expect(data[2].tick).to.be(324);
     });
   });
 
