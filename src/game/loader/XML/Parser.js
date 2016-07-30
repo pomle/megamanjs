@@ -239,9 +239,9 @@ class Parser
                 });
             }
 
-            for (const i in effects) {
-                canvas = effects[i](canvas);
-            }
+            effects.forEach(effect => {
+                canvas = effect(canvas);
+            });
             texture.image = canvas;
             texture.needsUpdate = true;
         });

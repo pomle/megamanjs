@@ -33,7 +33,7 @@ class ResourceManager
     }
     addAuto(id, object)
     {
-        for (const type in this.TYPE_MAP) {
+        for (let type in this.TYPE_MAP) {
             const proto = this.TYPE_MAP[type].prototype;
             if (proto.isPrototypeOf(object.prototype)) {
                 this._addResource(type, id, object);
