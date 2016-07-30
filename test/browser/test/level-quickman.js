@@ -28,7 +28,7 @@ describe('Quickman Level', function() {
 
   context('Level', function() {
     before(function(done) {
-      this.env.useInput('./input/quickman-level.json').then(() => done());
+      this.env.useInput('./input/level-quickman.json').then(() => done());
     });
 
     it('should hide player off screen on start', function() {
