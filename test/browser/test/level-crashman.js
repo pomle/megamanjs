@@ -37,7 +37,7 @@ describe('Crashman Level', function() {
 
   context('Level', function() {
     before(function(done) {
-      this.env.useInput('./input/crashman-level.json').then(() => done());
+      this.env.useInput('./input/level-crashman.json').then(() => done());
     });
 
     it('should hide player off screen on start', function() {
