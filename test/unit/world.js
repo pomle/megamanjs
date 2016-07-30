@@ -106,6 +106,21 @@ describe('World', function() {
     });
   });
 
+  describe('#getObjects', function() {
+    it('should return objects matching name', function() {
+      objects[0].name = 'foo';
+      objects[1].name = 'bar';
+      objects[2].name = 'foo';
+      const matches = world.getObjects('foo');
+      expect(matches[0]).to.be(objects[0]);
+      expect(matches[1]).to.be(objects[2]);
+    });
+
+    it('should return false if no matching object', function() {
+      expect(world.getObject('foo')).to.be(false);
+    });
+  });
+
   describe('#removeObject', function() {
     it('should remove object from collision detector', function() {
       world.collision.removeObject = sinon.spy();
@@ -202,6 +217,29 @@ describe('World', function() {
       world.simulateTime(0.16);
       expect(world.objects).to.not.contain(objects[1]);
       expect(world.objects).to.have.length(2);
+    });
+
+    context('simulation event', function() {
+      it('should be emitted only when time passed', function() {
+        const callbackSpy = sinon.spy();
+        world.events.bind(world.EVENT_SIMULATE, callbackSpy);
+        world.simulateTime(0);
+        world.simulateTime(0);
+        world.simulateTime(0);
+        expect(callbackSpy.callCount).to.be(0);
+      });
+
+      it('should contain delta time, total time and tick count', function() {
+        const callbackSpy = sinon.spy();
+        world.events.bind(world.EVENT_SIMULATE, callbackSpy);
+        world.simulateTime(.1);
+        world.simulateTime(.2);
+        world.simulateTime(.3);
+        expect(callbackSpy.callCount).to.be(3);
+        expect(callbackSpy.getCall(0).args).to.eql([.1, .1, 0]);
+        expect(callbackSpy.getCall(1).args).to.eql([.2, 0.30000000000000004, 1]);
+        expect(callbackSpy.getCall(2).args).to.eql([.3, 0.6000000000000001, 2]);
+      });
     });
   });
 

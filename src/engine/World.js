@@ -69,6 +69,9 @@ class World
         }
         return false;
     }
+    getObjects(name) {
+        return this.objects.filter(o => o.name === name);
+    }
     hasObject(object)
     {
         const index = this.objects.indexOf(object);
@@ -120,9 +123,10 @@ class World
 
         this._cleanObjects();
 
-        this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeTotal, this._tick]);
-
-        ++this._tick;
+        if (deltaTime > 0) {
+            this.events.trigger(this.EVENT_SIMULATE, [deltaTime, this._timeTotal, this._tick]);
+            ++this._tick;
+        }
     }
     updateAnimation(deltaTime)
     {

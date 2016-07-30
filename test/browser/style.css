@@ -1,0 +1,14 @@
+body {
+  display: flex;
+}
+
+#mocha {
+  flex: 1;
+  height: 100%;
+  margin: 0;
+  overflow: auto;
+}
+
+#mocha-report {
+    margin: 1em 0;
+}
