@@ -124,6 +124,11 @@ extends Game.Loader.XML.Parser
                 }
                 trait.force.copy(force);
             };
+        } else if (name === 'light-control') {
+            const color = this.getColor(node);
+            return function setup(trait) {
+                trait.color.copy(color);
+            };
         } else if (name === 'pickupable') {
             const props = {};
             const propNodes = node.getElementsByTagName('property');
