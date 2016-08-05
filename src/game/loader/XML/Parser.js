@@ -77,17 +77,25 @@ class Parser
 
         return path;
     }
-    getColor(node, attr)
+    getColor(node, attr = 'color')
     {
-        var c = node.getAttribute(attr);
-        if (c && c[0] === '#') {
-            var r = c.substr(1, 2);
-            var g = c.substr(3, 2);
-            var b = c.substr(5, 2);
-            r = parseInt(r, 16);
-            g = parseInt(g, 16);
-            b = parseInt(b, 16);
-            return new THREE.Vector4(r, g, b, 1);
+        const val = node.getAttribute(attr);
+        if (val) {
+            const [r, g, b] = val.split(',').map(v => parseFloat(v));
+            return new THREE.Color(r || 1, g || 1, b || 1);
+        }
+        return null;
+    }
+    getColorHex(node, attr = 'color')
+    {
+        const val = node.getAttribute(attr);
+        if (val && val[0] === '#') {
+            const [r, g, b] = [
+                parseInt(val.substr(1, 2), 16),
+                parseInt(val.substr(3, 2), 16),
+                parseInt(val.substr(5, 2), 16),
+            ];
+            return new THREE.Vector3(r, g, b);
         }
         return null;
     }
@@ -211,8 +219,8 @@ class Parser
                     for (let effectNode, i = 0; effectNode = effectNodes[i++];) {
                         if (effectNode.tagName === 'color-replace') {
                             const colors = [
-                                this.getColor(effectNode, 'in'),
-                                this.getColor(effectNode, 'out'),
+                                this.getColorHex(effectNode, 'in'),
+                                this.getColorHex(effectNode, 'out'),
                             ];
                             effects.push(function() {
                                 const colorIn = colors[0];

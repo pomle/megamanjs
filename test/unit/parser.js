@@ -59,6 +59,44 @@ describe('Parser', function() {
     });
   });
 
+  context('#getColor', function() {
+    let node, parser;
+    it('should parse an RGB color', function() {
+      parser = new Parser();
+      node = createNode('<node color=".13,.37,.54"/>');
+      const color = parser.getColor(node);
+      expect(color).to.eql({r: 0.13, g: 0.37, b: 0.54});
+    });
+
+    it('should default non-defined to 1', function() {
+      node = createNode('<node color=".13,,.54"/>');
+      const color = parser.getColor(node);
+      expect(color).to.eql({r: 0.13, g: 1, b: 0.54});
+    });
+
+    it('should support custom attribute', function() {
+      node = createNode('<node moot=".13,,.54"/>');
+      const color = parser.getColor(node, 'moot');
+      expect(color).to.eql({r: 0.13, g: 1, b: 0.54});
+    });
+  });
+
+  context('#getColorHex', function() {
+    let node, parser;
+    it('should parse a hex-color', function() {
+      parser = new Parser();
+      node = createNode('<node color="#ff06a0"/>');
+      const color = parser.getColorHex(node);
+      expect(color).to.eql({x: 255, y: 6, z: 160});
+    });
+
+    it('should support custom attribute', function() {
+      node = createNode('<node moot="#ff06a0"/>');
+      const color = parser.getColorHex(node, 'moot');
+      expect(color).to.eql({x: 255, y: 6, z: 160});
+    });
+  });
+
   context('#getRange', function() {
     let node, range, parser;
     it('should interpret modulus', function() {
