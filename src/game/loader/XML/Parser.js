@@ -209,43 +209,42 @@ class Parser
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
 
-        this.loader.resourceLoader.loadImage(textureUrl)
-            .then(canvas => {
-                texture.name = textureId;
-                const effects = [];
-                const effectsNode = textureNode.getElementsByTagName('effects')[0];
-                if (effectsNode) {
-                    const effectNodes = effectsNode.getElementsByTagName('*');
-                    for (let effectNode, i = 0; effectNode = effectNodes[i++];) {
-                        if (effectNode.tagName === 'color-replace') {
-                            const colors = [
-                                this.getColorHex(effectNode, 'in'),
-                                this.getColorHex(effectNode, 'out'),
-                            ];
-                            effects.push(function() {
-                                const colorIn = colors[0];
-                                const colorOut = colors[1];
-                                return function colorReplace(canvas) {
-                                    return Engine.CanvasUtil.colorReplace(canvas,
-                                        colorIn, colorOut);
-                                }
-                            }());
-                        }
+        this.loader.resourceLoader.loadImage(textureUrl).then(canvas => {
+            texture.name = textureId;
+            const effects = [];
+            const effectsNode = textureNode.getElementsByTagName('effects')[0];
+            if (effectsNode) {
+                const effectNodes = effectsNode.getElementsByTagName('*');
+                for (let effectNode, i = 0; effectNode = effectNodes[i++];) {
+                    if (effectNode.tagName === 'color-replace') {
+                        const colors = [
+                            this.getColorHex(effectNode, 'in'),
+                            this.getColorHex(effectNode, 'out'),
+                        ];
+                        effects.push(function() {
+                            const colorIn = colors[0];
+                            const colorOut = colors[1];
+                            return function colorReplace(canvas) {
+                                return Engine.CanvasUtil.colorReplace(canvas,
+                                    colorIn, colorOut);
+                            }
+                        }());
                     }
                 }
+            }
 
-                if (textureScale !== 1) {
-                    effects.push(function(canvas) {
-                        return Engine.CanvasUtil.scale(canvas, textureScale);
-                    });
-                }
+            if (textureScale !== 1) {
+                effects.push(function(canvas) {
+                    return Engine.CanvasUtil.scale(canvas, textureScale);
+                });
+            }
 
-                for (const i in effects) {
-                    canvas = effects[i](canvas);
-                }
-                texture.image = canvas;
-                texture.needsUpdate = true;
-            });
+            for (const i in effects) {
+                canvas = effects[i](canvas);
+            }
+            texture.image = canvas;
+            texture.needsUpdate = true;
+        });
 
         return texture;
     }
