@@ -32,13 +32,15 @@ extends Game.Loader.XML.Parser
         }
 
         const constructor = this.createObject(blueprint.id, blueprint.constructor, function objectConstructor() {
-            this.geometry = blueprint.geometries[0].clone();
-            this.material = new THREE.MeshPhongMaterial({
-                depthWrite: false,
-                map: this.textures['__default'] && this.textures['__default'].texture,
-                side: THREE.DoubleSide,
-                transparent: true,
-            });
+            if (blueprint.geometries.length) {
+                this.geometry = blueprint.geometries[0].clone();
+                this.material = new THREE.MeshPhongMaterial({
+                    depthWrite: false,
+                    map: this.textures['__default'] && this.textures['__default'].texture,
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                });
+            }
 
             blueprint.constructor.call(this);
 

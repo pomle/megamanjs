@@ -1,31 +1,4 @@
 <scene type="level" name="Quickman">
-    <scripts>
-        <bootstrap>
-            const func = function(level) {
-                const switches = [
-                    {
-                        color: new THREE.Color(.1,.03,.03),
-                        pos: new THREE.Vector3(64,-1800, 0),
-                    },
-                    {
-                        color: new THREE.Color(1,1,1),
-                        pos: new THREE.Vector3(1120,-1800, 0),
-                    },
-                ];
-
-                switches.forEach(function(opt) {
-                    const object = new Engine.Object();
-                    const light = new Game.traits.LightControl();
-                    light.color.copy(opt.color);
-                    object.applyTrait(light);
-                    object.addCollisionRect(64, 240);
-                    object.position.copy(opt.pos);
-                    level.world.addObject(object);
-                });
-            }
-            func
-        </bootstrap>
-    </scripts>
     <audio>
         <music src="./quickman/music.ogg" id="level">
             <loop />
@@ -230,6 +203,25 @@
                 <frame x="111" y="1" w="32" h="32"/>
             </animation>
         </animations>
+
+        <object id="light-switch-off">
+            <collision>
+                <rect w="64" h="200"/>
+            </collision>
+            <traits>
+                <trait name="light-control" color=".1,.03,.03"/>
+            </traits>
+        </object>
+
+        <object id="light-switch-on">
+            <collision>
+                <rect w="64" h="200"/>
+            </collision>
+            <traits>
+                <trait name="light-control" color="1,1,1"/>
+            </traits>
+        </object>
+
         <object id="object_a1d1328465074898a8f330308e4c8c49">
             <geometry type="plane" w="256" h="1680" w-segments="16" h-segments="105">
                 <face animation="slice_3" index="[2,34,66,98,130,162,230,262,294,370,402,434,466,498,530,740,708,676,614,590,782,3330,3298,3266,3234,3202,3170,3138,3106,3074,3042,2786,2818,2850,2882,2914,2946,2978,3010,3018,3050,3082,3114,3146,3178,2866,2898,2930,2962,2794,2722,2754,2604,2636,2594,2378,2410,2442,2474,2370,2402,2434,2466,2242,2018,1986,1734,1766,1798,1830,1862,1894,1926,1286,1318,1350,1382,1414,1446,1478,1510,1230,802,834,866,898,930,962,994,1026,1058]"/>
@@ -375,6 +367,8 @@
             <object id="drwily" x="1776" y="-3632" z="-.01"/>
             <object id="door" x="2048" y="-3696" z="-.01"/>
             <object id="door" x="1792" y="-3696" z="-.01"/>
+            <object id="light-switch-off" x="64" y="-1800"/>
+            <object id="light-switch-on" x="1120" y="-1800"/>
         </objects>
         <behaviors>
             <solids>

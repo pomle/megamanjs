@@ -213,11 +213,14 @@ extends Game.Loader.XML.Parser
 
         const direction = this.getInt(node, 'dir') || 1;
         const position = this.getPosition(node) || this.DEFAULT_POS;
-        const scale = this.getFloat(node, 'scale') || 1;
 
         instance.direction.set(direction, 0);
         instance.position.copy(position);
-        instance.model.scale.multiplyScalar(scale);
+
+        if (instance.model) {
+            const scale = this.getFloat(node, 'scale') || 1;
+            instance.model.scale.multiplyScalar(scale);
+        }
 
         const traitNodes = node.getElementsByTagName('trait');
         if (traitNodes) {
