@@ -7,6 +7,31 @@ window.addEventListener('load', function() {
     const screenElement = document.getElementById('screen');
     const controlElement = gameElement.querySelector('.control');
 
+    function setupRemoteControl()
+    {
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        let id = '';
+        for (let i = 0, l = chars.length; i < 6; ++i) {
+            id += chars[Math.floor(Math.random() * l)];
+        }
+
+        const peer = new Peer(id, {key: 'lwjd5qra8257b9'});
+        peer.on('open', function(id) {
+            console.log('Go to http://pomle.github.io/nes-remote/#' + id);
+        });
+
+        peer.on('connection', function(conn) {
+            console.log(conn);
+            conn.on('open', function() {
+                console.log('Remote connection established');
+                conn.on('data', function(data) {
+                    console.log('Received input', data);
+                    game.input.trigger(data.key, data.state);
+                });
+            });
+        });
+    }
+
     function setupInputMapping() {
         const STORAGE_KEY = 'controller_mapping';
         const mapElement = controlElement.querySelector('.input-map');
@@ -227,6 +252,7 @@ window.addEventListener('load', function() {
 
 
     setupInputMapping();
+    setupRemoteControl();
     setupInterruptDetection();
     setupFullscreenToggle();
     setupActions();
