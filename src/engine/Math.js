@@ -1,30 +1,38 @@
 Engine.Math = {
-    applyRatio: function(ratio, h, l) {
-        return (h - l) * ratio + l;
+    ALPHANUM: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+    ALPHANUM_LOWER: 'abcdefghijklmnopqrstuvwxyz0123456789',
+    ALPHANUM_UPPER: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+    ALPHANUM_SAFE: 'abcdefghjkmpqrstuwxyz23456789',
+
+    applyRatio: (ratio, start, end) => {
+        return start + (end - start) * ratio;
     },
-    clamp: function(v, min, max) {
-        return Math.min(max, Math.max(min, v));
+    clamp: (value, min, max) => {
+        if (value > max) {
+            return max;
+        } else if (value < min) {
+            return min;
+        } else {
+            return value;
+        }
     },
-    close: function(x, x1, x2) {
-        var y = (x1 + x2) / 2;
-        return Math.abs(y - x) - y;
+    findRatio: (pos, low, high) => {
+        return (pos - low) / (high - low);
     },
-    findRatio: function(pos, h, l) {
-        return (pos - l) / (h - l);
+    nextPowerOf: (x, size = 2) => {
+        return Math.pow(size, Math.ceil(Math.log(x) / Math.log(size)));
     },
-    nextPowerOf: function(x, size) {
-        size = size || 2;
-        return Math.pow(size, Math.ceil(Math.log(x)/Math.log(size)));
-    },
-    squaredDistance: function(v1, v2) {
-        var dx = v1.x - v2.x,
-            dy = v1.y - v2.y;
-        return dx * dx + dy * dy;
-    },
-    round: function(value, digits) {
-        var m = Math.pow(10, digits || 0);
+    round: (value, digits = 0) => {
+        const m = Math.pow(10, digits);
         return Math.round(value * m) / m;
     },
+    randStr: (len = 6, chars = Engine.Math.ALPHANUM_SAFE) => {
+        let id = '';
+        while (len--) {
+            id += chars[Math.random() * chars.length | 0];
+        }
+        return id;
+    }
 }
 
 Engine.Math.Geometry = {
