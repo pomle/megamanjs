@@ -73,6 +73,15 @@ describe('Game', function() {
     });
   });
 
+  describe('#destroy()', function() {
+    it('should destroy on AudioPlayer', function() {
+      const game = createGame();
+      game.audioPlayer = { destroy: sinon.spy() };
+      game.destroy();
+      expect(game.audioPlayer.destroy.callCount).to.be(1);
+    });
+  });
+
   describe('#setResolution()', function() {
     it('should call setSize on renderer', function() {
       const game = createGame();

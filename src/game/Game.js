@@ -25,6 +25,10 @@ const Game = class Game
         this.handleInputEvent = this.handleInputEvent.bind(this);
         this.pause();
     }
+    destroy()
+    {
+        this.audioPlayer.destroy();
+    }
     attachController(element)
     {
         element.addEventListener('keydown', this.handleInputEvent);
