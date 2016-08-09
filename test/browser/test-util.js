@@ -15,6 +15,7 @@ class TestEnv
   }
   destroy()
   {
+    this.game.destroy();
     this._screen.innerHTML = '';
   }
   do(seconds, callback) {
