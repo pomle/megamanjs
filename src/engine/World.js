@@ -32,9 +32,9 @@ class World
 
         this._accumulator = 0;
         this._tick = 0;
-        this._timeStep = 1/120;
         this._timeTotal = 0;
 
+        this.timeStep = 1/120;
         this.timeStretch = 1;
     }
     addObject(object)
@@ -137,7 +137,7 @@ class World
     updateTime(deltaTime)
     {
         const adjustedDelta = deltaTime * this.timeStretch;
-        const step = this._timeStep;
+        const step = this.timeStep;
 
         this._accumulator += adjustedDelta;
         while (this._accumulator >= step) {

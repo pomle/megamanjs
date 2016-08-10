@@ -41,7 +41,7 @@ describe('Scene', function() {
       scene.doFor(2, callbackSpy);
       scene.world.updateTime(1);
       expect(callbackSpy.callCount).to.be(120);
-      expect(callbackSpy.getCall(0).args).to.eql([scene.world._timeStep, 0.004166666666666667]);
+      expect(callbackSpy.getCall(0).args).to.eql([scene.world.timeStep, 0.004166666666666667]);
       expect(callbackSpy.getCall(12).args[0]).to.be(0.10833333333333332);
       scene.world.updateTime(2);
       expect(callbackSpy.lastCall.args).to.eql([2.008333333333329, 1]);
