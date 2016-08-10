@@ -1,54 +1,86 @@
 'use strict';
-'use strict';
 
 describe('Bubbleman Level', function() {
-  before(function(done) {
-    this.env = new TestEnv;
-    this.env.loader.loadGame('../../../src/resource/Megaman2.xml')
-      .then(() => this.env.load('StageSelect'))
-      .then(scene => done());
-  });
-
-  after(function() {
-    this.env.destroy();
-  });
+  this.timeout(120000);
 
   context('StageSelect', function() {
-    it('up + left should select stage', function() {
-      this.env.tap('up left');
-      this.env.game.render();
+    before(function(done) {
+      env.load('StageSelect').then(scene => {
+        env.scene(scene);
+        done();
+      });
     });
 
-    it('start should start stage', function(done) {
-      this.env.game.events.once(this.env.game.EVENT_SCENE_SET, scene => done());
-      this.env.tap('start');
-      this.env.game.render();
-      this.env.time(7);
+    after(function() {
+      env.game.unsetScene();
+    });
+
+    it('starts Bubbleman stage when pressing up + left + start', function(done) {
+      let started = false;
+      env.game.events.once(env.game.EVENT_SCENE_SET, scene => {
+        expect(scene.name).to.be('Bubbleman');
+        started = true;
+      });
+      env.tap('up left start');
+      env.waitUntil(() => started).then(done);
     });
   });
 
   context('Level', function() {
     before(function(done) {
-      this.env.useInput('./input/level-bubbleman.json').then(() => done());
+      Promise.all([
+        env.load('Bubbleman'),
+        env.loadInput('./input/level-bubbleman.json'),
+      ]).then(([scene, log]) => {
+        env.scene(scene);
+        env.useInput(log);
+        done();
+      });
+    });
+
+    after(function() {
+      env.game.unsetScene();
     });
 
     it('should hide player off screen on start', function() {
-      expect(this.env.game.player.character.position.y)
-        .to.be.above(this.env.game.scene.camera.position.y + 120);
+      console.log(env.game.player.character.position,
+                  env.game.player.character.velocity);
+      expect(env.game.player.character.position.y)
+        .to.be.above(env.game.scene.camera.position.y + 120);
     });
 
-    it('should teleport player to first checkpoint', function() {
-      this.env.time(2.5);
-      this.env.game.render();
-      expect(this.env.game.player.character.position)
-        .to.eql({x: 128, y: -101, z: 0});
+    it('should teleport player to first checkpoint', function(done) {
+      console.log(env.game.player.character.position,
+                  env.game.player.character.velocity);
+      env.waitTime(2.5).then(() => {
+        console.log(env.game.player.character.position,
+            env.game.player.character.velocity);
+        expect(env.game.player.character.position)
+          .to.eql({x: 128, y: -101, z: 0});
+        done();
+      });
     });
 
-    it('should have blocks that fall away after jumped on', function() {
-      this.env.time(16.5);
-      this.env.game.render();
-      expect(this.env.game.scene.world.ambientLight.color)
-        .to.eql({r: 0.1, g: 0.03, b: 0.03});
+    it('should have blocks that are solid and can be jumped from', function(done) {
+      env.goToTick(1221).then(() => {
+        expect(env.game.player.character.position)
+          .to.eql({x: 772.7280559184165, y: -54.61095471377428, z: 0});
+        done();
+      });
+    });
+
+    it('enables player to get to other side of falling blocks', function(done) {
+      env.goToTick(1609).then(() => {
+        expect(env.game.player.character.position)
+          .to.eql({x: 1054.7769542709652, y: -69, z: 0});
+        done();
+      });
+    });
+
+    it('falling blocks should have fallen away', function() {
+      const blocks = env.game.scene.world.getObjects('falling-block');
+      expect(blocks[0].position.y).to.be.below(-1000);
+      expect(blocks[4].position.y).to.be.below(-300);
     });
   });
 });

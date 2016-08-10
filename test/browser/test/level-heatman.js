@@ -1,59 +1,93 @@
 'use strict';
 
 describe('Heatman Level', function() {
-  before(function(done) {
-    this.env = new TestEnv;
-    const game = this.env.game;
-    const load = this.env.loader;
+  this.timeout(120000);
 
-    load.loadGame('../../../src/resource/Megaman2.xml')
-      .then(() => load.loadSceneByName('Heatman'))
-      .then(scene => {
-        scene.camera.smoothing = 0;
-        game.setScene(scene);
+  context('StageSelect', function() {
+    before(function(done) {
+      env.load('StageSelect').then(scene => {
+        env.scene(scene);
         done();
       });
+    });
+
+    after(function() {
+      env.game.unsetScene();
+    });
+
+    it('starts Heatman stage when pressing left + start', function(done) {
+      let started = false;
+      env.game.events.once(env.game.EVENT_SCENE_SET, scene => {
+        expect(scene.name).to.be('Heatman');
+        started = true;
+      });
+      env.tap('left start');
+      env.waitUntil(() => started).then(done);
+    });
   });
 
-  after(function() {
-    this.env.destroy();
-  });
+  context('Level', function() {
+    before(function(done) {
+      Promise.all([
+        env.load('Heatman'),
+      ]).then(([scene]) => {
+        env.scene(scene);
+        done();
+      });
+    });
 
-  it('should hide player off screen on start', function() {
-    expect(this.env.game.player.character.position.y)
-      .to.be.above(this.env.game.scene.camera.position.y + 120);
-  });
+    after(function() {
+      env.game.unsetScene();
+    });
 
-  it('should blink ready text', function() {
-    this.text = this.env.game.scene.assets['start-caption'];
-    this.env.time(3/60);
-    expect(this.env.game.scene.world.scene.children)
-      .to.contain(this.text);
-    expect(this.text.visible).to.be(true);
-    this.env.time(9/60);
-    expect(this.text.visible).to.be(false);
-    this.env.time(9/60);
-    this.env.game.render();
-    expect(this.text.visible).to.be(true);
-  });
+    it('camera placed correctly', function() {
+      expect(env.game.scene.camera.position)
+        .to.eql({x: 180, y: -120, z: 150});
+    });
 
-  it('should remove ready text', function() {
-    this.env.time(100/60);
-    expect(this.env.game.scene.world.scene.children)
-      .to.not.contain(this.text);
-    delete this.text;
-  });
+    it('should hide player off screen on start', function() {
+      expect(env.game.player.character.position)
+        .to.eql({ x: 136, y: 35, z: 0});
+    });
 
-  it('should have teleported player to first checkpoint', function() {
-    this.env.time(.6);
-    this.env.game.render();
-    expect(this.env.game.player.character.position)
-      .to.eql({x: 136, y: -165, z: 0});
-  });
+    it('should blink ready text', function(done) {
+      this.text = env.game.scene.assets['start-caption'];
+      env.waitTime(3/60).then(() => {
+        expect(env.game.scene.world.scene.children)
+          .to.contain(this.text);
+        expect(this.text.visible).to.be(true);
+        return env.waitTime(9/60);
+      }).then(() => {
+        expect(this.text.visible).to.be(false);
+        return env.waitTime(9/60);
+      }).then(() => {
+        expect(this.text.visible).to.be(true);
+        done();
+      });
+    });
 
-  it.skip('disappearing blocks part 1 should be solvable', function(done) {
-  });
+    it('should remove ready text', function(done) {
+      env.waitTime(100/60).then(() => {
+        expect(env.game.scene.world.scene.children)
+          .to.not.contain(this.text);
+        delete this.text;
+        done();
+      });
+    });
 
-  it.skip('disappearing blocks part 2 should be solvable', function(done) {
+    it('should have teleported player to first checkpoint', function(done) {
+      env.goToTick(310).then(() => {
+        console.log(env.game.player.character);
+        expect(env.game.player.character.position)
+          .to.eql({x: 136, y: -165, z: 0});
+        done();
+      });
+    });
+
+    it.skip('disappearing blocks part 1 should be solvable', function() {
+    });
+
+    it.skip('disappearing blocks part 2 should be solvable', function() {
+    });
   });
 });

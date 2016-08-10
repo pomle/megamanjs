@@ -7,6 +7,9 @@
 
   <script src="./lib/expect.js"></script>
   <script src="./lib/mocha.js"></script>
+
+  <script src="./TestEnv.js"></script>
+
   <script type="text/javascript" src="../../src/lib/three.js"></script>
   <script type="text/javascript" src="../../src/engine/Engine.js"></script>
   <script type="text/javascript" src="../../src/engine/Audio.js"></script>
@@ -120,15 +123,47 @@
   <!-- INJECT-JS-DEPS -->
 </head>
 <body>
-  <div id="screen" style="width: 640px; height: 360px"></div>
+  <div class="game">
+    <div id="screen" style="width: 640px; height: 360px"></div>
+    <div id="control">
+
+      <fieldset>
+        <legend>Playback</legend>
+        <button name="pauseToggle">Play/Pause</button>
+        <button name="exposeTick">Expose Tick</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Render Interval</legend>
+
+        <select name="renderInterval">
+          <option value="0">None</option>
+          <option value="1" selected>Each Frame</option>
+          <option value="24">5 fps</option>
+          <option value="120">1 fps</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Tick Delay</legend>
+
+        <select name="tickDelay">
+          <option value="-1">None</option>
+          <option value="0">Minimal</option>
+          <option value="16" selected>Normal</option>
+          <option value="50">50 ms</option>
+          <option value="100">100 ms</option>
+          <option value="500">500 ms</option>
+          <option value="1000">1000 ms</option>
+        </select>
+      </fieldset>
+    </div>
+  </div>
+
   <div id="mocha"></div>
 
-  <script>
-    mocha.setup({
-      ui: 'bdd',
-    });
-  </script>
-  <script src="./test-util.js"></script>
+  <script src="./bootstrap.js"></script>
+
   <script src="./test/game.js"></script>
   <script src="./test/intro.js"></script>
   <script src="./test/stage-select.js"></script>
@@ -136,9 +171,5 @@
   <script src="./test/level-crashman.js"></script>
   <script src="./test/level-heatman.js"></script>
   <script src="./test/level-quickman.js"></script>
-  <script>
-    mocha.checkLeaks();
-    mocha.run();
-  </script>
 </body>
 </html>
