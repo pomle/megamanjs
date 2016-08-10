@@ -48,6 +48,8 @@ extends Game.Loader.XML.Parser
             this._promise = this._parse();
         }
         return this._promise.then(scene => {
+            scene.name = this._node.getAttribute('name');
+
             /* Perform update to "settle" world.
                This is done to prevent audio and other side effects
                from leaking out on scene start. */
