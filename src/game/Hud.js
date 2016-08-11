@@ -10,8 +10,8 @@ Game.Hud = class Hud
         this.onAmmoChanged = this.onAmmoChanged.bind(this);
         this.onHealthChanged = this.onHealthChanged.bind(this);
         this.onWeaponEquip = this.onWeaponEquip.bind(this);
-        this.onSceneCreate = this.onSceneCreate.bind(this);
-        this.onSceneDestroy = this.onSceneDestroy.bind(this);
+        this.onSceneSet = this.onSceneSet.bind(this);
+        this.onSceneUnset = this.onSceneUnset.bind(this);
         this.hideHud = this.hideHud.bind(this);
         this.showHud = this.showHud.bind(this);
 
@@ -26,15 +26,15 @@ Game.Hud = class Hud
         this.dom.weapon = dom.querySelector('.weapon');
         this.dom.boss = dom.querySelector('.bossHealth');
 
-        game.events.bind(game.EVENT_SCENE_CREATE, this.onSceneCreate);
-        game.events.bind(game.EVENT_SCENE_DESTROY, this.onSceneDestroy);
+        game.events.bind(game.EVENT_SCENE_SET, this.onSceneSet);
+        game.events.bind(game.EVENT_SCENE_UNSET, this.onSceneUnset);
         this.game = game;
     }
     detach()
     {
         const game = this.game;
-        game.events.unbind(game.EVENT_SCENE_CREATE, this.onSceneCreate);
-        game.events.unbind(game.EVENT_SCENE_DESTROY, this.onSceneDestroy);
+        game.events.unbind(game.EVENT_SCENE_SET, this.onSceneSet);
+        game.events.unbind(game.EVENT_SCENE_UNSET, this.onSceneUnset);
         this.game = null;
         this.dom = {};
     }
@@ -60,7 +60,7 @@ Game.Hud = class Hud
     {
         this.setAmountInteractive(this.dom.health, health.fraction);
     }
-    onSceneCreate(scene)
+    onSceneSet(scene)
     {
         if (scene instanceof Game.scenes.Level) {
             scene.events.bind(scene.EVENT_PLAYER_RESET, this.showHud);
@@ -72,7 +72,7 @@ Game.Hud = class Hud
             }
         }
     }
-    onSceneDestroy(scene)
+    onSceneUnset(scene)
     {
         if (scene instanceof Game.scenes.Level) {
             scene.events.unbind(scene.EVENT_PLAYER_RESET, this.showHud);

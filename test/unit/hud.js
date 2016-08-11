@@ -16,15 +16,15 @@ describe('Hud', function() {
       const hud = new Hud;
       const game = new GameMock;
       const dom = new NodeMock;
-      hud.onSceneCreate = sinon.spy();
-      hud.onSceneDestroy = sinon.spy();
+      hud.onSceneSet = sinon.spy();
+      hud.onSceneUnset = sinon.spy();
       hud.attach(game, dom);
-      game.events.trigger(game.EVENT_SCENE_CREATE);
-      expect(hud.onSceneCreate.callCount).to.be(1);
-      expect(hud.onSceneDestroy.callCount).to.be(0);
-      game.events.trigger(game.EVENT_SCENE_DESTROY);
-      expect(hud.onSceneCreate.callCount).to.be(1);
-      expect(hud.onSceneDestroy.callCount).to.be(1);
+      game.events.trigger(game.EVENT_SCENE_SET);
+      expect(hud.onSceneSet.callCount).to.be(1);
+      expect(hud.onSceneUnset.callCount).to.be(0);
+      game.events.trigger(game.EVENT_SCENE_UNSET);
+      expect(hud.onSceneSet.callCount).to.be(1);
+      expect(hud.onSceneUnset.callCount).to.be(1);
     });
   });
 
@@ -33,14 +33,14 @@ describe('Hud', function() {
       const hud = new Hud;
       const game = new GameMock;
       const dom = new NodeMock;
-      hud.onSceneCreate = sinon.spy();
-      hud.onSceneDestroy = sinon.spy();
+      hud.onSceneSet = sinon.spy();
+      hud.onSceneUnset = sinon.spy();
       hud.attach(game, dom);
       hud.detach();
-      game.events.trigger(game.EVENT_SCENE_CREATE);
-      game.events.trigger(game.EVENT_SCENE_DESTROY);
-      expect(hud.onSceneCreate.callCount).to.be(0);
-      expect(hud.onSceneDestroy.callCount).to.be(0);
+      game.events.trigger(game.EVENT_SCENE_SET);
+      game.events.trigger(game.EVENT_SCENE_UNSET);
+      expect(hud.onSceneSet.callCount).to.be(0);
+      expect(hud.onSceneUnset.callCount).to.be(0);
     });
   });
 
