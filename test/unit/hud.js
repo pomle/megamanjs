@@ -9,6 +9,7 @@ const NodeMock = require('../mocks/node-mock');
 const GameMock = require('../mocks/game-mock');
 const Hud = env.Game.Hud;
 const Timer = env.Engine.Timer;
+const Level = env.Game.scenes.Level;
 
 describe('Hud', function() {
   describe('attach()', function() {
@@ -159,6 +160,50 @@ describe('Hud', function() {
       timer.updateTime(.1);
       expect(hud.setAmount.callCount).to.be(3);
       RequestAnimationFrameMock.clean();
+    });
+  });
+
+  describe('when attached', function() {
+    let hud, game;
+    beforeEach(function() {
+      hud = new Hud;
+      game = new GameMock;
+      hud.attach(game, new NodeMock);
+      sinon.stub(hud, 'showHud');
+      sinon.stub(hud, 'hideHud');
+    });
+
+    describe('and scene of type Level set', function() {
+      let level;
+      beforeEach(function() {
+        RequestAnimationFrameMock.mock();
+        level = new Level;
+        game.setScene(level);
+      });
+
+      afterEach(function() {
+        RequestAnimationFrameMock.clean();
+      });
+
+      describe('and EVENT_PLAYER_RESET emitted on level', function() {
+        beforeEach(function() {
+          level.events.trigger(level.EVENT_PLAYER_RESET);
+        });
+
+        it('shows the hud', function() {
+          expect(hud.showHud.calledOnce).to.be(true);
+        });
+      });
+
+      describe('and EVENT_PLAYER_DEATH emitted on level', function() {
+        beforeEach(function() {
+          level.events.trigger(level.EVENT_PLAYER_DEATH);
+        });
+
+        it('hides the hud', function() {
+          expect(hud.hideHud.calledOnce).to.be(true);
+        });
+      });
     });
   });
 });
