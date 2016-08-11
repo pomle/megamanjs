@@ -163,6 +163,7 @@ Editor.prototype.open = function(parser)
         this.setupSceneCheckpoints();
         this.setupSceneCamera();
         this.buildPalette(parser);
+        this.game.resume();
     });
 }
 
