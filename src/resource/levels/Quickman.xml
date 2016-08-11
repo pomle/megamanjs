@@ -505,6 +505,7 @@
                 <rect x="2304" y="-3704" w="32" h="240"/>
                 <rect x="2048" y="-3616" w="32" h="96"/>
                 <rect x="2048" y="-3776" w="32" h="96"/>
+                <rect x="224" y="-1288" w="64" h="16"/>
             </solids>
         </behaviors>
         <spawner x="352" y="-1792" count="1" max-distance="512">
