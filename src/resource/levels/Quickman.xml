@@ -1,7 +1,7 @@
 <scene type="level" name="Quickman">
     <audio>
         <music src="./quickman/music.ogg" id="level">
-            <loop />
+            <loop/>
         </music>
     </audio>
     <music>
@@ -82,9 +82,9 @@
         </path>
     </camera>
     <checkpoints>
-        <checkpoint x="128" y="-152" r="100" z="0"/>
-        <checkpoint x="1152" y="-1800" r="100" z="0"/>
-        <checkpoint x="1920" y="-3720" r="100" z="0"/>
+        <checkpoint x="128" y="-152" r="100"/>
+        <checkpoint x="1152" y="-1800" r="100"/>
+        <checkpoint x="1920" y="-3720" r="100"/>
     </checkpoints>
     <objects>
         <textures>
