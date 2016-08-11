@@ -9,6 +9,7 @@ const NodeMock = require('../mocks/node-mock');
 const GameMock = require('../mocks/game-mock');
 const Hud = env.Game.Hud;
 const Timer = env.Engine.Timer;
+const Level = env.Game.scenes.Level;
 
 describe('Hud', function() {
   describe('attach()', function() {
@@ -16,15 +17,15 @@ describe('Hud', function() {
       const hud = new Hud;
       const game = new GameMock;
       const dom = new NodeMock;
-      hud.onSceneCreate = sinon.spy();
-      hud.onSceneDestroy = sinon.spy();
+      hud.onSceneSet = sinon.spy();
+      hud.onSceneUnset = sinon.spy();
       hud.attach(game, dom);
-      game.events.trigger(game.EVENT_SCENE_CREATE);
-      expect(hud.onSceneCreate.callCount).to.be(1);
-      expect(hud.onSceneDestroy.callCount).to.be(0);
-      game.events.trigger(game.EVENT_SCENE_DESTROY);
-      expect(hud.onSceneCreate.callCount).to.be(1);
-      expect(hud.onSceneDestroy.callCount).to.be(1);
+      game.events.trigger(game.EVENT_SCENE_SET);
+      expect(hud.onSceneSet.callCount).to.be(1);
+      expect(hud.onSceneUnset.callCount).to.be(0);
+      game.events.trigger(game.EVENT_SCENE_UNSET);
+      expect(hud.onSceneSet.callCount).to.be(1);
+      expect(hud.onSceneUnset.callCount).to.be(1);
     });
   });
 
@@ -33,14 +34,14 @@ describe('Hud', function() {
       const hud = new Hud;
       const game = new GameMock;
       const dom = new NodeMock;
-      hud.onSceneCreate = sinon.spy();
-      hud.onSceneDestroy = sinon.spy();
+      hud.onSceneSet = sinon.spy();
+      hud.onSceneUnset = sinon.spy();
       hud.attach(game, dom);
       hud.detach();
-      game.events.trigger(game.EVENT_SCENE_CREATE);
-      game.events.trigger(game.EVENT_SCENE_DESTROY);
-      expect(hud.onSceneCreate.callCount).to.be(0);
-      expect(hud.onSceneDestroy.callCount).to.be(0);
+      game.events.trigger(game.EVENT_SCENE_SET);
+      game.events.trigger(game.EVENT_SCENE_UNSET);
+      expect(hud.onSceneSet.callCount).to.be(0);
+      expect(hud.onSceneUnset.callCount).to.be(0);
     });
   });
 
@@ -159,6 +160,64 @@ describe('Hud', function() {
       timer.updateTime(.1);
       expect(hud.setAmount.callCount).to.be(3);
       RequestAnimationFrameMock.clean();
+    });
+  });
+
+  describe('when attached', function() {
+    let hud, game;
+    beforeEach(function() {
+      hud = new Hud;
+      game = new GameMock;
+      hud.attach(game, new NodeMock);
+      sinon.stub(hud, 'showHud');
+      sinon.stub(hud, 'hideHud');
+    });
+
+    describe('and scene of type Level set', function() {
+      let level;
+      beforeEach(function() {
+        RequestAnimationFrameMock.mock();
+        level = new Level;
+        game.setScene(level);
+      });
+
+      afterEach(function() {
+        RequestAnimationFrameMock.clean();
+      });
+
+      describe('and EVENT_PLAYER_RESET emitted on level', function() {
+        beforeEach(function() {
+          level.events.trigger(level.EVENT_PLAYER_RESET);
+        });
+
+        it('shows the hud', function() {
+          expect(hud.showHud.calledOnce).to.be(true);
+        });
+      });
+
+      describe('and EVENT_PLAYER_DEATH emitted on level', function() {
+        beforeEach(function() {
+          level.events.trigger(level.EVENT_PLAYER_DEATH);
+        });
+
+        it('hides the hud', function() {
+          expect(hud.hideHud.calledOnce).to.be(true);
+        });
+      });
+    });
+
+    describe('and scene of type Level unset', function() {
+      let level;
+      beforeEach(function() {
+        RequestAnimationFrameMock.mock();
+        level = new Level;
+        game.setScene(level);
+        game.unsetScene(level);
+      });
+
+      it('hides the hud', function() {
+        expect(hud.hideHud.calledOnce).to.be(true);
+      });
     });
   });
 });
