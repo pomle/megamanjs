@@ -8,7 +8,7 @@ class Fallaway extends Engine.Trait
         this.__requires(Game.traits.Physics);
 
         this._countdown = null;
-        this._originalPosition = null;
+        this._origin = null;
 
         this.delay = 1;
     }
@@ -28,7 +28,7 @@ class Fallaway extends Engine.Trait
         if (this._countdown !== null) {
             this._countdown -= deltaTime;
             if (this._countdown <= 0) {
-                this._originalPosition = this._host.position.clone();
+                this._origin = this._host.position.clone();
                 this._host.physics.enable();
                 this._countdown = null;
             }
@@ -38,9 +38,9 @@ class Fallaway extends Engine.Trait
     {
         this._host.physics.disable();
         this._host.physics.zero();
-        if (this._originalPosition) {
-            this._host.position.copy(this._originalPosition);
-            this._originalPosition = null;
+        if (this._origin) {
+            this._host.position.copy(this._origin);
+            this._origin = null;
         }
     }
 }

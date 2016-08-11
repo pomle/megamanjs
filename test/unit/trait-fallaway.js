@@ -86,7 +86,7 @@ describe('Fallaway Trait', function() {
         });
 
         it('saves origin position', function() {
-          expect(host.position).to.eql(host.fallaway._originalPosition);
+          expect(host.position).to.eql(host.fallaway._origin);
         });
 
         it('stops countdown', function() {
@@ -108,7 +108,7 @@ describe('Fallaway Trait', function() {
         });
 
         it('forgets origin', function() {
-          expect(host.fallaway._originalPosition).to.be(null);
+          expect(host.fallaway._origin).to.be(null);
         });
       });
     });
