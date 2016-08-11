@@ -205,5 +205,19 @@ describe('Hud', function() {
         });
       });
     });
+
+    describe('and scene of type Level unset', function() {
+      let level;
+      beforeEach(function() {
+        RequestAnimationFrameMock.mock();
+        level = new Level;
+        game.setScene(level);
+        game.unsetScene(level);
+      });
+
+      it('hides the hud', function() {
+        expect(hud.hideHud.calledOnce).to.be(true);
+      });
+    });
   });
 });

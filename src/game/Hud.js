@@ -82,6 +82,7 @@ Game.Hud = class Hud
                 player.events.unbind(player.health.EVENT_HEALTH_CHANGED, this.onHealthChanged);
                 player.events.unbind(player.weapon.EVENT_EQUIP, this.onWeaponEquip);
             }
+            this.hideHud();
         }
     }
     onWeaponEquip(weapon)
