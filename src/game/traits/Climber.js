@@ -137,4 +137,8 @@ class Climber extends Engine.Trait
             host.physics.zero();
         }
     }
+    reset()
+    {
+        this.release();
+    }
 }
