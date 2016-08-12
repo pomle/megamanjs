@@ -1,8 +1,6 @@
 'use strict';
 
 describe('Bubbleman Level', function() {
-  this.timeout(120000);
-
   context('StageSelect', function() {
     before(function(done) {
       env.load('StageSelect').then(scene => {
