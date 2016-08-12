@@ -29,7 +29,7 @@ Game.traits.Fallaway.prototype.__timeshift = function(deltaTime)
     if (this._countdown !== undefined) {
         if (this._countdown <= 0) {
             this.originalPosition = this._host.position.clone();
-            this._host.physics.enabled = true;
+            this._host.physics.enable();
             this._countdown = undefined;
         }
         else {
@@ -40,7 +40,7 @@ Game.traits.Fallaway.prototype.__timeshift = function(deltaTime)
 
 Game.traits.Fallaway.prototype.reset = function()
 {
-    this._host.physics.enabled = false;
+    this._host.physics.disable();
     this._host.physics.zero();
     if (this.originalPosition) {
         this._host.position.copy(this.originalPosition);

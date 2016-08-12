@@ -9,6 +9,10 @@ class AudioPlayer
         this._playing = new Map();
         this._playbackRate = 1;
     }
+    destroy()
+    {
+        this._context.close();
+    }
     getContext()
     {
         return this._context;

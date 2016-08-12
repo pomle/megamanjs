@@ -13,6 +13,7 @@ const styles = ['main.css', 'dev.css'];
 template = injectCSS('<!-- INJECT-CSS -->', template, styles);
 
 const scripts = require('../src/script-manifest.json');
+scripts.unshift('lib/peer.js');
 scripts.unshift('lib/three.js');
 scripts.push('main.js', 'dev.js');
 template = injectJS('<!-- INJECT-JS -->', template, scripts);
