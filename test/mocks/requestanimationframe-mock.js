@@ -11,6 +11,7 @@ function mock()
 {
   reset();
   global.window = {};
+  global.performance = { now: () => time }
   global.requestAnimationFrame = _interface.requestAnimationFrame;
   global.cancelAnimationFrame = _interface.cancelAnimationFrame;
 }
@@ -18,6 +19,7 @@ function mock()
 function clean()
 {
   delete global.window;
+  delete global.performance;
   delete global.requestAnimationFrame;
   delete global.cancelAnimationFrame;
 }
@@ -40,6 +42,7 @@ function reset()
 
 function triggerAnimationFrame(millis) {
   frameId++;
+  time = millis;
   const iterate = callbacks;
   callbacks = [];
   iterate.forEach(callback => {
