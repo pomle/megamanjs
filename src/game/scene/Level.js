@@ -169,7 +169,7 @@ Game.scenes.Level = class Level extends Game.Scene
     readyBlink()
     {
         if (this.readyBlinkTime === 0 || !this.assets['start-caption']) {
-            return Promise.resolve();
+            return Engine.SyncPromise.resolve();
         }
 
         const model = this.assets['start-caption'];
