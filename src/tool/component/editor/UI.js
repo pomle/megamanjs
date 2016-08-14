@@ -718,10 +718,13 @@ Editor.UI.prototype.setupViewport = function()
                         }
                         items.select(match.item);
 
+                        /* If something playable is clicked we should route input to it.
+                           Disables because Character instance is not a thing anymore.
                         if (match.item.object instanceof Game.objects.Character) {
                             editor.game.player.setCharacter(match.item.object);
                             console.log("Selected character", match.item.object);
                         }
+                        */
                     }
                     return;
                 }
