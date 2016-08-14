@@ -31,7 +31,7 @@ describe('Crashman Level', function() {
         env.loadInput('./input/level-crashman.json'),
       ]).then(([scene, log]) => {
         env.scene(scene);
-        env.useInput(log);
+        env.playInput(log);
         done();
       });
     });

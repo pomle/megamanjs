@@ -33,7 +33,7 @@ describe('Quickman Level', function() {
         env.loadInput('./input/level-quickman.json'),
       ]).then(([scene, log]) => {
         env.scene(scene);
-        env.useInput(log);
+        env.playInput(log);
         done();
       });
     });

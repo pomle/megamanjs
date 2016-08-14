@@ -67,7 +67,7 @@ class TestEnv
       inp.trigger(key, state ? inp.ENGAGE : inp.RELEASE);
     });
   }
-  useInput(log)
+  playInput(log)
   {
     this.game.input.enable();
     const player = new Engine.InputPlayer(this.game.scene.world,
