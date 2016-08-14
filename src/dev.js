@@ -111,12 +111,9 @@ window.addEventListener('load', function() {
     }
 
     const actionRouter = function(e) {
-        const name = e.target.name;
-        for (const action in actions) {
-            if (name === action) {
-                actions[action](e);
-                return;
-            }
+        const action = e.target.name;
+        if (actions[action]) {
+            actions[action](e);
         }
     };
 

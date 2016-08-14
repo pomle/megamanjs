@@ -58,7 +58,7 @@ class TestEnv
       .then(log => {
         this.game.input.enable();
         const player = new Engine.InputPlayer(this.game.scene.world,
-                                            this.game.input);
+                                              this.game.input);
         player.play(log);
         return player;
       });

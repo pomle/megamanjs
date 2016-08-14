@@ -138,7 +138,7 @@ extends Game.Loader.XML.Parser
                 props[key] = parseFloat(value) || value;
             }
             return function setup(trait) {
-                for (const key in props) {
+                for (let key in props) {
                     trait.properties[key] = props[key];
                 }
             };
@@ -210,7 +210,7 @@ extends Game.Loader.XML.Parser
                 }
             }
             return function setup(trait) {
-                for (const key in properties) {
+                for (let key in properties) {
                     trait[key] = properties[key];
                 }
             };
