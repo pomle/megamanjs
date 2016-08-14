@@ -26,11 +26,9 @@ class Timer
     eventLoop(millis)
     {
         if (millis !== undefined) {
-            const seconds = millis / 1000;
-            if (this._timeLastEvent != null) {
-                this.updateTime(seconds - this._timeLastEvent);
-            }
-            this._timeLastEvent = seconds;
+            const diff = millis - this._timeLastEvent;
+            this.updateTime(diff / 1000);
+            this._timeLastEvent = millis;
         }
         this.events.trigger(this.EVENT_RENDER);
 
@@ -49,7 +47,7 @@ class Timer
             return;
         }
         this._isRunning = true;
-        this._timeLastEvent = null;
+        this._timeLastEvent = performance.now();
         this._enqueue();
     }
     setTimeStretch(multiplier)

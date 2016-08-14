@@ -49,22 +49,23 @@ describe('Timer', function() {
       const timer = createTimer();
       timer.run();
       timer.pause();
-      RequestAnimationFrameMock.triggerAnimationFrame(0);
       RequestAnimationFrameMock.triggerAnimationFrame(100);
       expect(requestAnimationFrame.callCount).to.be(1);
       teardown();
     });
 
-    it('should propagate delta time of requestAnimationFrame time in seconds', function() {
+    it('should propagate delta time of requestAnimationFrame in seconds', function() {
       setup();
       const timer = createTimer();
       const updateSpy = sinon.spy();
       timer.events.bind(timer.EVENT_UPDATE, updateSpy);
       timer.run();
-      RequestAnimationFrameMock.triggerAnimationFrame(0);
       RequestAnimationFrameMock.triggerAnimationFrame(200);
       expect(updateSpy.callCount).to.equal(1);
-      expect(updateSpy.getCall(0).args[0]).to.equal(0.2);
+      expect(updateSpy.getCall(0).args[0]).to.equal(0.200);
+      RequestAnimationFrameMock.triggerAnimationFrame(550);
+      expect(updateSpy.callCount).to.equal(2);
+      expect(updateSpy.getCall(1).args[0]).to.equal(0.350);
       teardown();
     });
 
@@ -137,22 +138,22 @@ describe('Timer', function() {
       const callback = sinon.spy();
       timer.events.bind(timer.EVENT_UPDATE, callback);
       timer.setTimeStretch(2.13);
-      timer.updateTime(.3);
+      timer.updateTime(0.3);
       expect(callback.callCount).to.equal(1);
-      expect(callback.lastCall.args[0]).to.be(0.6389999999999999);
+      expect(callback.lastCall.args[0]).to.be.within(0.6389, 0.6399);
       teardown();
     });
   });
 
   describe('#updateTime', function() {
-    it('should trigger EVENT_UPDATE', function() {
+    it('should trigger EVENT_UPDATE with time in seconds', function() {
       setup();
       const timer = createTimer();
       const callback = sinon.spy();
       timer.events.bind(timer.EVENT_UPDATE, callback);
-      timer.updateTime(.3);
+      timer.updateTime(1.234);
       expect(callback.callCount).to.equal(1);
-      expect(callback.lastCall.args[0]).to.equal(.3);
+      expect(callback.lastCall.args[0]).to.equal(1.234);
       teardown();
     });
   });

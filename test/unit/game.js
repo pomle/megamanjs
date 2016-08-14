@@ -12,21 +12,27 @@ const Game = env.Game;
 const Scene = env.Game.Scene;
 
 describe('Game', function() {
+  beforeEach(function() {
+    WebGLRendererMock.mock();
+    RequestAnimationFrameMock.mock();
+    AudioContextMock.mock();
+  });
+
+  afterEach(function() {
+    WebGLRendererMock.clean();
+    RequestAnimationFrameMock.clean();
+    AudioContextMock.clean();
+  });
+
   function createGame()
   {
-    AudioContextMock.mock();
-    WebGLRendererMock.mock();
     const game = new Game;
-    AudioContextMock.clean();
-    WebGLRendererMock.clean();
     return game;
   }
 
   function createScene()
   {
-    RequestAnimationFrameMock.mock();
     const scene = new Scene;
-    RequestAnimationFrameMock.clean();
     return scene;
   }
 
@@ -118,13 +124,12 @@ describe('Game', function() {
       game.setPlaybackSpeed(1.16);
       game.setScene(scene);
       scene.world.events.bind(scene.world.EVENT_UPDATE, updateSpy);
-      RequestAnimationFrameMock.triggerAnimationFrame(0);
       RequestAnimationFrameMock.triggerAnimationFrame(219);
       expect(updateSpy.callCount).to.be(1);
       expect(updateSpy.lastCall.args).to.eql([0.25404, 0.24999999999999997]);
       RequestAnimationFrameMock.triggerAnimationFrame(519);
       expect(updateSpy.callCount).to.be(2);
-      expect(updateSpy.lastCall.args).to.eql([0.34800000000000003, 0.6000000000000003]);
+      expect(updateSpy.lastCall.args).to.eql([0.348, 0.6000000000000003]);
     });
   });
 
