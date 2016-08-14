@@ -79,6 +79,9 @@ class Jump extends Engine.Trait
         this._host.physics.velocity.add(this._bump);
         this._elapsed = 0;
 
+        /* Immediately express "falling" state on jump. */
+        this._fallcount = 2;
+
         this._trigger(this.EVENT_JUMP_ENGAGE);
     }
     cancel()
