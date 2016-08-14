@@ -67,6 +67,10 @@ class TestEnv
       inp.trigger(key, state ? inp.ENGAGE : inp.RELEASE);
     });
   }
+  release()
+  {
+    this.game.input.release();
+  }
   playInput(log)
   {
     this.game.input.enable();
