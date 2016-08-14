@@ -49,7 +49,7 @@ describe('Crashman Level', function() {
       });
     });
 
-    it('player should reach end', function(done) {
+    it.skip('player should reach end', function(done) {
       env.waitTime(90).then(() => {
         const pos = env.game.player.character.position;
         expect(pos.x).to.be.within(1288, 1536);
