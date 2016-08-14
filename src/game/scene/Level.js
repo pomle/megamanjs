@@ -263,6 +263,7 @@ Game.scenes.Level = class Level extends Game.Scene
             character.moveTo(new THREE.Vector2(0, 0));
             this.camera.follow(character);
             this.world.addObject(character);
+            this.resumeGamePlay();
         }
 
         this.events.trigger(this.EVENT_PLAYER_RESET);
