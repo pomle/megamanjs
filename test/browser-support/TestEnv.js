@@ -85,7 +85,7 @@ class TestEnv
   }
   goToTime(time)
   {
-    return this.waitUntil(data => data.timeTotal > time);
+    return this.waitUntil(data => data.totalTime > time);
   }
   waitTime(time)
   {
