@@ -17,7 +17,7 @@ describe('World', function() {
       new THREE.MeshBasicMaterial()
     );
     world = new World();
-    world._timeStep = 1/120;
+    world.timeStep = 1/120;
     objects = [
       new Obj(),
       new Obj(),
@@ -162,11 +162,11 @@ describe('World', function() {
   describe('#doFor()', function() {
     it('should call callback for every simulation step for entire duration and supply elapsed time and progress fraction', function() {
       const callbackSpy = sinon.spy();
-      world._timeStep = 1/30;
+      world.timeStep = 1/30;
       world.doFor(2, callbackSpy);
       world.updateTime(1);
       expect(callbackSpy.callCount).to.be(30);
-      expect(callbackSpy.getCall(0).args).to.eql([world._timeStep, 0.016666666666666666]);
+      expect(callbackSpy.getCall(0).args).to.eql([world.timeStep, 0.016666666666666666]);
       expect(callbackSpy.getCall(12).args[0]).to.be(0.4333333333333333);
       world.updateTime(2);
       expect(callbackSpy.lastCall.args).to.eql([2.0000000000000027, 1]);
@@ -174,7 +174,7 @@ describe('World', function() {
 
     it('should return a promise that resolves when done', function(done) {
       const callbackSpy = sinon.spy();
-      world._timeStep = 1/30;
+      world.timeStep = 1/30;
       world.doFor(2, callbackSpy).then(time => {
         done();
       });
@@ -185,7 +185,7 @@ describe('World', function() {
   describe('#waitFor()', function() {
     it('should return a promise that resolves when duration elapsed', function(done) {
       const callbackSpy = sinon.spy();
-      world._timeStep = 1/30;
+      world.timeStep = 1/30;
       world.waitFor(2).then(time => {
         done();
       });
@@ -252,7 +252,7 @@ describe('World', function() {
         world.updateTime(time);
       };
       for (let i = 0, l = objects[0].timeShift.callCount; i !== l; ++i) {
-        expect(objects[0].timeShift.getCall(i).args[0]).to.equal(world._timeStep);
+        expect(objects[0].timeShift.getCall(i).args[0]).to.equal(world.timeStep);
       }
     });
 
@@ -272,7 +272,7 @@ describe('World', function() {
     it('should propagate total time to objects', function() {
       world.updateTime(0.07);
       world.updateTime(0.13);
-      expect(objects[1].timeShift.lastCall.args).to.eql([world._timeStep, 0.19999999999999998]);
+      expect(objects[1].timeShift.lastCall.args).to.eql([world.timeStep, 0.19999999999999998]);
     });
 
     it('should trigger EVENT_UPDATE with current and total time', function() {
