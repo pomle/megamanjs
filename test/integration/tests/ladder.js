@@ -5,7 +5,7 @@ describe('Ladder', () => {
 
   before(done => {
     env.ready.then(() => {
-      return env.load('/base/test/integration/fixtures/ladder.xml');
+      return env.load('./fixtures/ladder.xml');
     }).then(scene => {
       env.scene(scene);
       player = env.game.player.character;

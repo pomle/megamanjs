@@ -162,6 +162,7 @@
   <div id="mocha"></div>
 
   <script src="../browser-support/bootstrap.js"></script>
+  <script src="../browser-support/ui.js"></script>
 
   <script src="./tests/game.js"></script>
   <script src="./tests/intro.js"></script>
@@ -170,5 +171,11 @@
   <script src="./tests/level-quickman.js"></script>
   <script src="./tests/stage-select.js"></script>
   <!-- INJECT-TEST-SCRIPTS -->
+
+  <script>
+    env.ready.then(() => {
+      mocha.run();
+    });
+  </script>
 </body>
 </html>
