@@ -5,7 +5,8 @@ mocha.setup({
 
 const env = new TestEnv('/base/src/resource/Megaman2.xml');
 
-['tickDelay', 'renderInterval'].forEach(prop => {
+
+/*['tickDelay', 'renderInterval'].forEach(prop => {
     const element = document.querySelector('[name=' + prop + ']');
     let value;
     if (value = localStorage.getItem(prop)) {
@@ -17,13 +18,7 @@ const env = new TestEnv('/base/src/resource/Megaman2.xml');
     if (env.hasOwnProperty(prop)) {
         env[prop] = value|0;
     }
-});
-
-console.log(env);
-
-env.loader.loadGame('../../src/resource/Megaman2.xml').then(() => {
-  mocha.run();
-});
+});*/
 
 document.addEventListener('click', e => {
   const name = e.target.getAttribute('name');
