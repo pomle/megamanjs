@@ -1,7 +1,4 @@
-// Karma configuration
-// Generated on Mon Aug 15 2016 09:52:16 GMT+0200 (CEST)
-
-module.exports = function(config) {
+module.exports = function(_config) {
   const files = require('./src/script-manifest.json').map(src => 'src/' + src);
   files.unshift('./src/lib/three.js');
 
@@ -16,7 +13,7 @@ module.exports = function(config) {
       'test/system/tests/*.js'
   );
 
-  config.set({
+  const config = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -35,12 +32,18 @@ module.exports = function(config) {
     exclude: [
     ],
 
+    customLaunchers: {
+        Chrome_travis_ci: {
+            base: 'Chrome',
+            flags: ['--no-sandbox']
+        }
+    },
+
     customContextFile: 'test/browser-support/context.html',
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '**/src/**/*.js': 'coverage',
     },
 
     proxies: {
@@ -52,7 +55,7 @@ module.exports = function(config) {
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: [
       'progress',
-      'coverage',
+      //'coverage',
     ],
 
 
@@ -66,7 +69,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: _config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
@@ -76,7 +79,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
-        'Chrome',
+        'PhantomJS',
         //'Firefox',
     ],
 
@@ -88,12 +91,12 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity,
+  };
 
-    coverageReporter: {
-      dir: 'reports/coverage/',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-      ],
-    },
-  })
+  if (process.env.TRAVIS) {
+      config.browsers = ['Chrome_travis_ci'];
+      config.singleRun = true;
+  }
+
+  _config.set(config);
 }

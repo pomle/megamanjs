@@ -6,8 +6,9 @@
     "build": "bash ./tools/build.sh",
     "minify": "bash ./tools/minify.sh",
     "generate": "bash ./tools/generate.sh",
-    "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit && npm run test:integration",
     "test:unit": "mocha test/unit",
+    "test:integration": "karma start .karma-integration.conf",
     "upload-coverage": "codecov"
   },
   "devDependencies": {
@@ -17,7 +18,8 @@
     "expect.js": "^0.3.1",
     "istanbul": "^0.4.2",
     "karma": "^1.2.0",
-    "karma-coverage": "^1.1.1",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-mocha": "^1.1.1",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
     "three": "0.72.0",
