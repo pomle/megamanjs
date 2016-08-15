@@ -6,12 +6,14 @@ module.exports = function(config) {
   files.unshift('./src/lib/three.js');
 
   files.push(
-      {pattern: 'src/resource/**', served: true, included: false},
-      {pattern: 'test/integration/fixtures/**', served: true, included: false},
+      {pattern: 'src/resource/**', watched: true, included: false},
+      {pattern: 'test/integration/fixtures/**', watched: true, included: false},
+      {pattern: 'test/system/input/**', watched: true, included: false},
       'test/browser-support/lib/expect.js',
       'test/browser-support/TestEnv.js',
       'test/browser-support/bootstrap.js',
-      'test/integration/tests/*.js'
+      'test/integration/tests/*.js',
+      'test/system/tests/*.js'
   );
 
   config.set({
@@ -44,7 +46,6 @@ module.exports = function(config) {
       '/resource/': '/base/src/resource/'
     },
 
-
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
@@ -61,7 +62,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes

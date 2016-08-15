@@ -3,8 +3,9 @@ mocha.setup({
   enableTimeouts: false,
 });
 
-const env = new TestEnv('/base/src/resource/Megaman2.xml');
-
+const env = new TestEnv('/resource/Megaman2.xml');
+env.renderInterval = 0;
+env.tickDelay = -1;
 
 /*['tickDelay', 'renderInterval'].forEach(prop => {
     const element = document.querySelector('[name=' + prop + ']');

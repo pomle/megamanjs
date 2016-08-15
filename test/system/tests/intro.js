@@ -1,8 +1,4 @@
-'use strict';
-
 describe('Intro', function() {
-  this.timeout(120000);
-
   before(function(done) {
     env.load('Intro').then(scene => {
       env.scene(scene);

@@ -28,7 +28,7 @@ describe('Crashman Level', function() {
     before(function(done) {
       Promise.all([
         env.load('Crashman'),
-        env.loadInput('./input/level-crashman.json'),
+        env.loadInput('/base/test/system/input/level-crashman.json'),
       ]).then(([scene, log]) => {
         env.scene(scene);
         env.playInput(log);
