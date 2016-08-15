@@ -14,9 +14,11 @@ class TestEnv
     this.game = new Game;
     this.loader = new Game.Loader.XML(this.game);
 
-    this.game.attachToElement(this._screen);
-    this.game.setResolution(640, 480);
-    this.game.adjustResolution();
+    if (this._screen) {
+      this.game.attachToElement(this._screen);
+      this.game.setResolution(640, 480);
+      this.game.adjustResolution();
+    }
 
     this.ready = this.loader.loadGame(gameXML);
   }
