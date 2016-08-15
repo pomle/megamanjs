@@ -1,5 +1,15 @@
 body {
   display: flex;
+  font-family: sans-serif;
+}
+
+fieldset {
+  border: none;
+  font-size: .8em;
+}
+
+#control {
+  margin: .5em;
 }
 
 #mocha {

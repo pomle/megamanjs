@@ -112,6 +112,7 @@ const Game = class Game
         this.unsetScene();
 
         this.scene = scene;
+        this.input.release();
         this.scene.events.trigger(this.scene.EVENT_CREATE, [this]);
         this.events.trigger(this.EVENT_SCENE_CREATE, [this.scene]);
         this.events.trigger(this.EVENT_SCENE_SET, [this.scene]);
