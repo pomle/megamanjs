@@ -138,15 +138,20 @@ Editor.prototype.getXML = function()
     return this.document[0].outerHTML;
 }
 
-Editor.prototype.loadUrl = function(url)
+Editor.prototype.loadURL = function(url)
 {
-    const loader = new Game.Loader.XML(this.game);
+    const loader = new Game.Loader.XML();
     return loader.asyncLoadXML(url).then(doc => {
-        const parser = new Game.Loader.XML.LevelParser(loader, doc.children[0]);
-        return this.open(parser);
+        return this.loadXML(doc.children[0]);
     });
 }
 
+Editor.prototype.loadXML = function(node)
+{
+    const loader = new Game.Loader.XML(this.game);
+    const parser = new Game.Loader.XML.LevelParser(loader, node);
+    return this.open(parser);
+}
 
 Editor.prototype.open = function(parser)
 {
