@@ -91,6 +91,11 @@ class TestEnv
   {
     return this.waitUntil(data => data.totalTime > time);
   }
+  waitTicks(ticks)
+  {
+    const tick = this.game.scene.world._tick + ticks;
+    return this.waitUntil(data => data.tick >= tick);
+  }
   waitTime(time)
   {
     const goal = this.game.scene.world._timeTotal + time;
