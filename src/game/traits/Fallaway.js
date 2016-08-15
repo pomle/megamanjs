@@ -37,7 +37,6 @@ class Fallaway extends Engine.Trait
     reset()
     {
         this._host.physics.disable();
-        this._host.physics.zero();
         if (this._origin) {
             this._host.position.copy(this._origin);
             this._origin = null;

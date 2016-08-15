@@ -72,6 +72,10 @@ class Physics extends Engine.Trait
         this.velocity.x += x;
         this.velocity.y += y;
     }
+    reset()
+    {
+        this.zero();
+    }
     zero()
     {
         this.velocity.set(0, 0, 0);

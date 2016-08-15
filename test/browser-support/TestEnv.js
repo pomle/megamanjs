@@ -67,6 +67,10 @@ class TestEnv
       inp.trigger(key, state ? inp.ENGAGE : inp.RELEASE);
     });
   }
+  release()
+  {
+    this.game.input.release();
+  }
   playInput(log)
   {
     this.game.input.enable();
@@ -86,6 +90,11 @@ class TestEnv
   goToTime(time)
   {
     return this.waitUntil(data => data.totalTime > time);
+  }
+  waitTicks(ticks)
+  {
+    const tick = this.game.scene.world._tick + ticks;
+    return this.waitUntil(data => data.tick >= tick);
   }
   waitTime(time)
   {

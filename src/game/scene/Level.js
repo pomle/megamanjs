@@ -169,7 +169,7 @@ Game.scenes.Level = class Level extends Game.Scene
     readyBlink()
     {
         if (this.readyBlinkTime === 0 || !this.assets['start-caption']) {
-            return Promise.resolve();
+            return Engine.SyncPromise.resolve();
         }
 
         const model = this.assets['start-caption'];
@@ -263,6 +263,7 @@ Game.scenes.Level = class Level extends Game.Scene
             character.moveTo(new THREE.Vector2(0, 0));
             this.camera.follow(character);
             this.world.addObject(character);
+            this.resumeGamePlay();
         }
 
         this.events.trigger(this.EVENT_PLAYER_RESET);

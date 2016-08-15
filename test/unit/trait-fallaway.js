@@ -126,11 +126,11 @@ describe('Fallaway Trait', function() {
     });
 
     it('runs disable() on physics trait', function() {
-      expect(host.physics.disable.calledOnce).to.be(true);
+      expect(host.physics.disable.callCount).to.be(1);
     });
 
     it('runs zero() on physics trait', function() {
-      expect(host.physics.zero.calledOnce).to.be(true);
+      expect(host.physics.zero.callCount).to.be(1);
     });
   });
 });
