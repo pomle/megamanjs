@@ -1,9 +1,9 @@
 class TestEnv
 {
-  constructor()
+  constructor(gameXML)
   {
     this.renderInterval = 0;
-    this.tickDelay = 0;
+    this.tickDelay = -1;
 
     this.paused = false;
     this._resume = null;
@@ -17,6 +17,8 @@ class TestEnv
     this.game.attachToElement(this._screen);
     this.game.setResolution(640, 480);
     this.game.adjustResolution();
+
+    this.ready = this.loader.loadGame(gameXML);
   }
   destroy()
   {
