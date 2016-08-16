@@ -1,8 +1,6 @@
 'use strict';
 
 describe('Heatman Level', function() {
-  this.timeout(120000);
-
   context('StageSelect', function() {
     before(function(done) {
       env.load('StageSelect').then(scene => {
@@ -77,7 +75,6 @@ describe('Heatman Level', function() {
 
     it('should have teleported player to first checkpoint', function(done) {
       env.goToTick(310).then(() => {
-        console.log(env.game.player.character);
         expect(env.game.player.character.position)
           .to.eql({x: 136, y: -165, z: 0});
         done();
