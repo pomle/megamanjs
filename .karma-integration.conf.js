@@ -101,6 +101,7 @@ module.exports = function(_config) {
       config.singleRun = true;
       config.files = [
         'https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js',
+        './test/browser-support/webgl-mock.js',
         'build/megaman.es5.js',
       ].concat(testFiles);
   }
