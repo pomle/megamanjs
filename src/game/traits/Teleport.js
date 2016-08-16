@@ -1,104 +1,103 @@
-Game.traits.Teleport = function()
+Game.traits.Teleport =
+class Teleport extends Engine.Trait
 {
-    Engine.Trait.call(this);
-    this._destination = undefined;
-    this._endProgress = 0;
-    this._startProgress = 0;
-    this.endDuration = .15;
-    this.startDuration = .15;
-    this.speed = 900;
-    this.state = this.STATE_OFF;
-}
+    constructor()
+    {
+        super();
+        this.NAME = 'teleport';
 
-Game.traits.Teleport.prototype = Object.create(Engine.Trait.prototype);
-Game.traits.Teleport.constructor = Engine.Trait;
+        this.EVENT_DEST_REACHED = 'teleport-dest-reached';
+        this.EVENT_END = 'teleport-end';
+        this.EVENT_START = 'teleport-start';
 
-Game.traits.Teleport.prototype.NAME = 'teleport';
+        this.STATE_OFF = 'off';
+        this.STATE_IN = 'in';
+        this.STATE_GO = 'go';
+        this.STATE_OUT = 'out';
 
-Game.traits.Teleport.prototype.EVENT_DEST_REACHED = 'teleport-dest-reached';
-Game.traits.Teleport.prototype.EVENT_END = 'teleport-end';
-Game.traits.Teleport.prototype.EVENT_START = 'teleport-start';
+        this._destination = undefined;
+        this._endProgress = 0;
+        this._startProgress = 0;
 
-Game.traits.Teleport.prototype.STATE_OFF = 0;
-Game.traits.Teleport.prototype.STATE_IN = 1;
-Game.traits.Teleport.prototype.STATE_GO = 2;
-Game.traits.Teleport.prototype.STATE_OUT = 3;
-
-Game.traits.Teleport.prototype.__timeshift = function(dt)
-{
-    if (this._destination) {
-        this._handle(dt);
+        this.endDuration = .15;
+        this.startDuration = .15;
+        this.speed = 900;
+        this.state = this.STATE_OFF;
     }
-}
-
-Game.traits.Teleport.prototype._start = function()
-{
-    this.state = this.STATE_IN;
-    this._startProgress = this.startDuration;
-    var host = this._host;
-    host.collidable = false;
-    if (host.physics) {
-        host.physics.disable();
-    }
-    this._trigger(this.EVENT_START);
-}
-
-Game.traits.Teleport.prototype._end = function()
-{
-    this.state = this.STATE_OUT;
-    this._endProgress = this.endDuration;
-    this._trigger(this.EVENT_END);
-}
-
-Game.traits.Teleport.prototype._stop = function()
-{
-    this.state = this.STATE_OFF;
-    var host = this._host;
-    host.collidable = true;
-    if (host.physics) {
-        host.physics.enable();
-    }
-    if (host.jump) {
-        host.jump.reset();
-    }
-    this._destination = undefined;
-}
-
-Game.traits.Teleport.prototype._handle = function(dt)
-{
-    /* Block velocity. */
-    this._host.velocity.set(0, 0);
-
-    if (this._startProgress > 0) {
-        this._startProgress -= dt;
-    }
-    else if (this._endProgress > 0) {
-        this._endProgress -= dt;
-        if (this._endProgress <= 0) {
-            this._stop();
+    __timeshift(dt)
+    {
+        if (this._destination) {
+            this._handle(dt);
         }
     }
-    else {
-        this.state = this.STATE_GO;
-        var teleportDistance = Engine.Animation.vectorTraverse(
-            this._host.position, this._destination, this.speed * dt);
-        if (teleportDistance === 0) {
-            this._trigger(this.EVENT_DEST_REACHED);
-            this._end();
+    _start()
+    {
+        this.state = this.STATE_IN;
+        this._startProgress = this.startDuration;
+        const host = this._host;
+        host.collidable = false;
+        if (host.physics) {
+            host.physics.disable();
+        }
+        this._trigger(this.EVENT_START);
+    }
+    _end()
+    {
+        this.state = this.STATE_OUT;
+        this._endProgress = this.endDuration;
+    }
+    _stop()
+    {
+        this.state = this.STATE_OFF;
+        const host = this._host;
+        host.collidable = true;
+        if (host.physics) {
+            host.physics.enable();
+        }
+        if (host.jump) {
+            host.jump.reset();
+        }
+        this._destination = undefined;
+    }
+    _handle(dt)
+    {
+        /* Block velocity. */
+        this._host.velocity.set(0, 0);
+
+        if (this._startProgress > 0) {
+            this._startProgress -= dt;
+        }
+        else if (this._endProgress > 0) {
+            this._endProgress -= dt;
+            if (this._endProgress <= 0) {
+                this._trigger(this.EVENT_END);
+                this._stop();
+            }
+        }
+        else {
+            this.state = this.STATE_GO;
+            const teleportDistance = Engine.Animation.vectorTraverse(
+                this._host.position, this._destination, this.speed * dt);
+            if (teleportDistance === 0) {
+                this._trigger(this.EVENT_DEST_REACHED);
+                this._end();
+            }
         }
     }
-}
-
-Game.traits.Teleport.prototype.nudge = function(vec2)
-{
-    var dest = this._host.position.clone();
-    dest.x += vec2.x;
-    dest.y += vec2.y;
-    this.to(dest);
-}
-
-Game.traits.Teleport.prototype.to = function(vec2)
-{
-    this._destination = vec2;
-    this._start();
+    nudge(vec2)
+    {
+        const dest = this._host.position.clone();
+        dest.x += vec2.x;
+        dest.y += vec2.y;
+        this.to(dest);
+    }
+    reset()
+    {
+        this._stop();
+    }
+    to(vec2)
+    {
+        this._destination = vec2;
+        this._start();
+    }
 }
