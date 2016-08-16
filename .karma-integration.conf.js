@@ -1,8 +1,12 @@
 module.exports = function(_config) {
 
-  const dependencies = require('./src/script-manifest.json').map(src => 'src/' + src);
-  dependencies.unshift('./test/browser-support/webgl-mock.js');
-  dependencies.unshift('./src/lib/three.js');
+  const dependencies = [];
+  dependencies.push('./src/lib/three.js');
+  dependencies.push('./test/browser-support/webgl-mock.js');
+
+  const projectFiles = require('./src/script-manifest.json').map(src => 'src/' + src);
+
+  dependencies.push(...projectFiles);
 
   const testFiles = [
     {pattern: 'src/resource/**', watched: true, included: false},
