@@ -72,7 +72,7 @@
             <![CDATA[
             animationRouter = function()
             {
-                if (this.teleport.state) {
+                if (this.teleport.state !== this.teleport.STATE_OFF) {
                     if (this.teleport.state === this.teleport.STATE_OUT) {
                         return 'teleport-out';
                     }
