@@ -6,6 +6,7 @@ const sinon = require('sinon');
 const RandomMock = require('../mocks/math-random-mock');
 const env = require('../env');
 const _Math = env.Engine.Math;
+const THREE = env.THREE;
 
 describe('Math', function() {
   describe('#applyRatio()', function() {
@@ -85,6 +86,75 @@ describe('Math', function() {
 
     it('should round to given precision if given', function() {
       expect(_Math.round(13.45678911111, 4)).to.be(13.4568);
+    });
+  });
+
+  describe('Geometry', function() {
+    describe('#circlesIntersect()', function() {
+      context('when two circles with radii 5 are 9.9 horizontal units away from each other', function() {
+        it('returns true', function() {
+          expect(_Math.Geometry.circlesIntersect(5, 5, 0, 0, 0, 9.9)).to.be(true);
+        });
+      });
+
+      context('when two circles with radii 5 are 9.9 vertical units away from each other', function() {
+        it('returns true', function() {
+          expect(_Math.Geometry.circlesIntersect(5, 5, 0, 9.9, 0, 0)).to.be(true);
+        });
+      });
+
+      context('when two circles with radii 5 are 10 horizontal units away from each other', function() {
+        it('returns false', function() {
+          expect(_Math.Geometry.circlesIntersect(5, 5, 0, 0, 0, 10)).to.be(false);
+        });
+      });
+
+      context('when two circles with radii 5 are 10 vertical units away from each other', function() {
+        it('returns false', function() {
+          expect(_Math.Geometry.circlesIntersect(5, 5, 0, 10, 0, 0)).to.be(false);
+        });
+      });
+    });
+
+    describe('#convertPlaneToRectangle()', function() {
+      it('returns width / height for a THREE.PlaneGeometry', function() {
+        const geo = new THREE.PlaneGeometry(13, 17);
+        expect(_Math.Geometry.convertPlaneToRectangle(geo)).to.eql({w: 13, h: 17});
+      });
+    });
+
+    describe('#rectanglesIntersect()', function() {
+      context('when a rectangle sized 10x10 is at 0, 0', function() {
+        context('and another rectangle 10x10 is at 9, 9', function() {
+          it('returns true', function() {
+            expect(_Math.Geometry.rectanglesIntersect(0, 0, 10, 10, 9, 9, 10, 10)).to.be(true);
+          });
+        });
+
+        context('and another rectangle 10x10 is at 10, 0', function() {
+          it('returns false', function() {
+            expect(_Math.Geometry.rectanglesIntersect(0, 0, 10, 10, 10, 0, 10, 10)).to.be(false);
+          });
+        });
+
+        context('and another rectangle 10x10 is at -10, 0', function() {
+          it('returns false', function() {
+            expect(_Math.Geometry.rectanglesIntersect(0, 0, 10, 10, -10, 10, 10, 10)).to.be(false);
+          });
+        });
+
+        context('and another rectangle 10x10 is at 0, 10', function() {
+          it('returns false', function() {
+            expect(_Math.Geometry.rectanglesIntersect(0, 0, 10, 10, 0, 10, 10, 10)).to.be(false);
+          });
+        });
+
+        context('and another rectangle 10x10 is at 0, -10', function() {
+          it('returns false', function() {
+            expect(_Math.Geometry.rectanglesIntersect(0, 0, 10, 10, 0, -10, 10, 10)).to.be(false);
+          });
+        });
+      });
     });
   });
 });
