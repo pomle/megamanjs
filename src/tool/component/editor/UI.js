@@ -68,7 +68,7 @@ Editor.UI.prototype.applyState = function()
 
 Editor.UI.prototype.loadLevel = function(url)
 {
-    this.editor.loadUrl(url).then(() => {
+    this.editor.loadURL(url).then(() => {
         this.file.recent.add(url);
         this.lastLoadedLevel = url;
         this.applyState();
@@ -280,7 +280,8 @@ Editor.UI.prototype.setupConsole = function()
     });
     C.find('button[name=reload-xml]').on('click', e => {
         const node = $($.parseXML(C.textarea.val()));
-        this.editor.load(node.find('> scene'));
+        const sceneNode = node.find('> scene')[0];
+        this.editor.loadXML(sceneNode);
     });
     C.hide = function() {
         C.addClass('hidden');
