@@ -56,7 +56,7 @@ describe('Flashman Level', function() {
       });
     });
 
-    describe('after 78 seconds', function() {
+    describe.skip('after 78 seconds', function() {
       before(done => env.goToTime(80).then(done));
 
       it('player should reach a position', function() {
