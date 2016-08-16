@@ -161,17 +161,25 @@ describe('Teleport Trait', function() {
 
   describe('#reset()', function() {
     let host
-    before(function() {
+    beforeEach(function() {
       host = new Object;
       host.applyTrait(new Physics);
       host.applyTrait(new Teleport);
-      sinon.stub(host.teleport, '_stop');
-      host.reset();
     });
 
-    it('runs disable() on physics trait', function() {
-      expect(host.teleport._stop.callCount).to.be(1);
-    });
+    describe('when in the middle of teleport', function() {
+      beforeEach(function() {
+        host.teleport.nudge({x: 100, y: 100});
+        host.timeShift(1);
+        host.teleport.reset();
+      });
 
+      it('stops current teleportation', function() {
+        expect(host.teleport.state).to.be(host.teleport.STATE_OFF);
+        expect(host.teleport._endProgress).to.be(0);
+        expect(host.teleport._startProgress).to.be(0);
+        expect(host.teleport._destination).to.be(null);
+      });
+    });
   });
 });
