@@ -75,6 +75,10 @@ class TestEnv
   {
     this.game.input.release();
   }
+  settle()
+  {
+    this.game.scene.world.simulateTime(0);
+  }
   playInput(log)
   {
     this.game.input.enable();
