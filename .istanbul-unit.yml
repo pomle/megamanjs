@@ -2,7 +2,7 @@ verbose: false
 instrumentation:
     root: .
     default-excludes: true
-    excludes: ['src/lib/*', 'src/tool/*']
+    excludes: ['src/lib/*']
     embed-source: false
     variable: __coverage__
     compact: true
@@ -13,7 +13,7 @@ reporting:
     print: summary
     reports:
         - lcov
-    dir: ./test/coverage
+    dir: ./test/coverage/unit
     watermarks:
         statements: [50, 80]
         lines: [50, 80]

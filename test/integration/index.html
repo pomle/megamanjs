@@ -162,8 +162,15 @@
   <div id="mocha"></div>
 
   <script src="../browser-support/bootstrap.js"></script>
+  <script src="../browser-support/ui.js"></script>
 
   <script src="./tests/ladder.js"></script>
   <!-- INJECT-TEST-SCRIPTS -->
+
+  <script>
+    env.ready.then(() => {
+      mocha.run();
+    });
+  </script>
 </body>
 </html>

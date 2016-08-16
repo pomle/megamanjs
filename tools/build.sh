@@ -14,5 +14,6 @@ cp -r "${SRC_DIR}/resource" "${BUILD_DIR}/"
 
 $TOOLS_DIR/generate-prod-html.js > "${BUILD_DIR}/index.html"
 $TOOLS_DIR/concat-js.js > "${BUILD_DIR}/megaman.js"
+$TOOLS_DIR/es5ify.js "${BUILD_DIR}/megaman.js" > "${BUILD_DIR}/megaman.es5.js"
 
 echo "Build OK"

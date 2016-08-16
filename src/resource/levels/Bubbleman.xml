@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Bubbleman">
     <audio>
         <music src="./bubbleman/music.ogg" id="level">
@@ -23,8 +24,8 @@
             <constraint x1="1152" x2="1152" y1="-328" y2="-328"/>
         </path>
         <path>
-            <window x1="1024" x2="1280" y1="-720" y2="-480"/>
-            <constraint x1="1152" x2="1152" y1="-600" y2="-600"/>
+            <window x1="1024" x2="1280" y1="-720" y2="-416"/>
+            <constraint x1="1152" x2="1152" y1="-568" y2="-568"/>
         </path>
         <path>
             <window x1="1024" x2="1280" y1="-960" y2="-720"/>
@@ -183,7 +184,7 @@
             </collision>
             <traits>
                 <trait name="physics" mass="500"/>
-                <trait name="solid" fixed="true" obstructs="true" />
+                <trait name="solid" fixed="true" obstructs="true"/>
                 <trait name="fallaway" delay=".2"/>
             </traits>
         </object>
@@ -508,10 +509,16 @@
             <object id="waterfall" x="640" y="-120" z="-1"/>
             <object id="waterfall" x="896" y="-120" z="-1"/>
             <object id="waterfall" x="1152" y="-120" z="-1"/>
-            <object id="waterfall" x="1152" y="-344" z="-1"/>
-            <object id="waterfall" x="1152" y="-568" z="-1"/>
-            <object id="surface" x="1152" y="-696" z="-1"/>
-            <object id="water" x="1152" y="-840" z="-1"/>
+            <object id="waterfall" x="1024" y="-360" z="-1"/>
+            <object id="waterfall" x="1408" y="-120" z="-1"/>
+            <object id="waterfall" x="1280" y="-360" z="-1"/>
+            <object id="waterfall" x="1024" y="-600" z="-1"/>
+            <object id="waterfall" x="1280" y="-600" z="-1"/>
+            <object id="surface" x="1280" y="-712" z="-1"/>
+            <object id="surface" x="1024" y="-712" z="-1"/>
+            <object id="water" x="896" y="-1080" z="-1"/>
+            <object id="water" x="1280" y="-864" z="-1"/>
+            <object id="water" x="1024" y="-880" z="-1"/>
             <object id="waterfall" x="3392" y="-1080" z="-1"/>
             <object id="waterfall" x="3456" y="-1080" z="-1"/>
             <object id="waterfall" x="3968" y="-1080" z="-1"/>
