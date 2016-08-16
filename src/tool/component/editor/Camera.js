@@ -63,6 +63,7 @@ Editor.Camera.prototype.nudge = function(vec2)
 Editor.Camera.prototype.zoom = function(factor)
 {
     this.position.z = this.position.z * factor;
+    this.editor.grid.visible = this.position.z < 400;
 }
 
 Editor.Camera.prototype.zoomOut = function()
