@@ -8,13 +8,13 @@ Follow the project blog at https://medium.com/recreating-megaman-2-using-js-webg
 
 See the v0.1 demo video: https://www.youtube.com/watch?v=LQHTdmzcV3E (lagging introduced by screen capture).
 
-## Developing
+## Running
 
-1) Clone repo.
+Clone repo.
 
     git clone https://github.com/pomle/megamanjs.git
 
-2) Start a webserver of your choice in project dir, for example:
+Start a webserver of your choice in project dir, for example:
 
     cd megamanjs
     php -S localhost:8000 -t ./
@@ -23,14 +23,38 @@ or
     cd megamanjs
     python -m SimpleHTTPServer 8000
   
-3) Browse to dev version at `http://localhost:8000/src/dev.html` and it should run.
+Browse to dev version at `http://localhost:8000/src/dev.html` and it should run.
 
-4) When adding scripts to project, add them to [script-manifest.json](https://github.com/pomle/megamanjs/blob/master/src/script-manifest.json) and regenerate `dev.html`.
+
+## Developing
+
+### Prerequisites
+
+Install dev dependencies with
+
+        cd megamanjs
+        npm install
+
+### Testing
+
+#### Unit Tests
+
+Unit tests are run in Node using Mocha.
+
+        npm run test:unit
+
+#### Integration Tests
+
+Integration / System tests are automaticly run in Chrome using Karma Runner and Mocha
+
+        npm run test:integration
+
+When adding scripts to project, add them to [script-manifest.json](https://github.com/pomle/megamanjs/blob/master/src/script-manifest.json) and regenerate .
 
     npm run generate
 
 
-####Running locally in Chrome (discouraged).
+####Running locally in Chrome without web server (discouraged).
 
 To run project locally without a web server, Chrome needs to be started with --allow-file-access-from-files flag.
 
