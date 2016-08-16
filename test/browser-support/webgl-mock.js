@@ -1,10 +1,10 @@
 THREE.WebGLRenderer = function() {
-  console.info('WebGLRenderer mock instantiated');
+  console.debug('WebGLRenderer mock instantiated');
   this.domElement = document.createElement('canvas');
   this.render = function() {
-    console.info('WebGLRenderer.render()');
+    console.debug('WebGLRenderer.render()');
   };
   this.setSize = function() {
-    console.info('WebGLRenderer.setSize()');
+    console.debug('WebGLRenderer.setSize()');
   };
 }
