@@ -58,17 +58,14 @@ class ResourceLoader
     {
         const task = this._createTask();
         const context = this.loader.game.audioPlayer.getContext();
-        task.promise = fetch(url)
-            .then(response => {
-                return response.arrayBuffer();
-            })
-            .then(arrayBuffer => {
-                return context.decodeAudioData(arrayBuffer);
-            })
-            .then(buffer => {
-                this._completeTask(task);
-                return new Engine.Audio(buffer);
-            });
+        task.promise = fetch(url).then(response => {
+            return response.arrayBuffer();
+        }).then(arrayBuffer => {
+            return context.decodeAudioData(arrayBuffer);
+        }).then(buffer => {
+            this._completeTask(task);
+            return new Engine.Audio(buffer);
+        });
         return task.promise;
     }
     loadImage(url)
@@ -89,17 +86,18 @@ class ResourceLoader
     loadXML(url)
     {
         const task = this._createTask();
-        task.promise = fetch(url)
-            .then(response => {
-                return response.text();
-            })
-            .then(text => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'text/xml');
-                doc.baseURL = url;
-                this._completeTask(task);
-                return doc;
-            });
+        task.promise = fetch(url).then(response => {
+            if (response.status > 299) {
+                throw new Error('Could not load XML from ' + url);
+            }
+            return response.text();
+        }).then(text => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/xml');
+            doc.baseURL = url;
+            this._completeTask(task);
+            return doc;
+        });
         return task.promise;
     }
 }
