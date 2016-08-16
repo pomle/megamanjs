@@ -1,6 +1,7 @@
 module.exports = function(_config) {
 
   const dependencies = require('./src/script-manifest.json').map(src => 'src/' + src);
+  dependencies.unshift('./test/browser-support/webgl-mock.js');
   dependencies.unshift('./src/lib/three.js');
 
   const testFiles = [
@@ -99,11 +100,13 @@ module.exports = function(_config) {
   if (process.env.TRAVIS) {
       config.browsers = ['Chrome_travis_ci'];
       config.singleRun = true;
+      /*
       config.files = [
         'https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js',
         './test/browser-support/webgl-mock.js',
         'build/megaman.es5.js',
       ].concat(testFiles);
+      */
   }
 
   _config.set(config);
