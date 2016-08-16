@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene type="level">
+    <objects>
+        <textures>
+            <texture id="heatman-stage" url="../../../src/resource/levels/heatman/tiles.png" w="256" h="128"/>
+        </textures>
+        <animations>
+            <animation id="ladder">
+                <frame x="91" y="37" w="16" h="16"/>
+            </animation>
+            <animation id="bricks-big">
+                <frame x="145" y="55" w="16" h="16"/>
+            </animation>
+        </animations>
+        <object id="ground">
+            <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+                <face animation="bricks-big">
+                    <range x="*" y="*"/>
+                </face>
+            </geometry>
+            <collision>
+                <rect w="64" h="16"/>
+            </collision>
+            <traits>
+                <trait name="solid" fixed="true" obstructs="true"/>
+            </traits>
+        </object>
+    </objects>
+    <layout>
+        <objects>
+            <object id="ground" x="8" y="-16"/>
+            <object id="ground" x="-56" y="-16" z="0"/>
+            <object id="ground" x="72" y="-16" z="0"/>
+            <object id="ground" x="-8" y="48" z="0"/>
+        </objects>
+    </layout>
+</scene>
