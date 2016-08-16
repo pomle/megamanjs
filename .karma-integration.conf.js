@@ -20,6 +20,7 @@ module.exports = function(_config) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
+    browserNoActivityTimeout: 20000,
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
