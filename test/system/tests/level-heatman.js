@@ -25,11 +25,14 @@ describe('Heatman Level', function() {
   });
 
   context('Level', function() {
+    let player;
+
     before(function(done) {
       Promise.all([
         env.load('Heatman'),
       ]).then(([scene]) => {
         env.scene(scene);
+        player = env.game.player.character;
         done();
       });
     });
@@ -38,53 +41,48 @@ describe('Heatman Level', function() {
       env.game.unsetScene();
     });
 
-    it('camera placed correctly', function() {
-      expect(env.game.scene.camera.position)
-        .to.eql({x: 180, y: -120, z: 150});
-    });
+    describe('at start of level', () => {
+      it('player is off screen', function() {
+        expect(player.position).to.eql({x: 136, y: 35, z: 0});
+      });
 
-    it('should hide player off screen on start', function() {
-      expect(env.game.player.character.position)
-        .to.eql({ x: 136, y: 35, z: 0});
-    });
-
-    it('should blink ready text', function(done) {
-      this.text = env.game.scene.assets['start-caption'];
-      env.waitTime(3/60).then(() => {
-        expect(env.game.scene.world.scene.children)
-          .to.contain(this.text);
-        expect(this.text.visible).to.be(true);
-        return env.waitTime(9/60);
-      }).then(() => {
-        expect(this.text.visible).to.be(false);
-        return env.waitTime(9/60);
-      }).then(() => {
-        expect(this.text.visible).to.be(true);
-        done();
+      it('camera is at start of level', function() {
+        expect(env.game.scene.camera.position)
+          .to.eql({x: 180, y: -120, z: 150});
       });
     });
 
-    it('should remove ready text', function(done) {
-      env.waitTime(100/60).then(() => {
-        expect(env.game.scene.world.scene.children)
-          .to.not.contain(this.text);
-        delete this.text;
-        done();
+    describe('after 2.2 seconds', () => {
+      before(done => {
+        env.goToTime(2.2).then(done);
+      });
+
+      it('player teleport is active', () => {
+        expect(player.teleport.state).to.be(player.teleport.STATE_GO);
+      });
+
+      it('player is teleporting down', () => {
+        expect(player.position.y).to.be.within(-3, -2);
       });
     });
 
-    it('should have teleported player to first checkpoint', function(done) {
-      env.goToTick(310).then(() => {
-        expect(env.game.player.character.position)
-          .to.eql({x: 136, y: -165, z: 0});
-        done();
+    describe('after 2.6 seconds', () => {
+      before(done => {
+        env.goToTime(2.6).then(done);
+      });
+
+      it('player is on the ground', () => {
+        expect(player.position)
+          .to.eql({ x: 136, y: -165, z: 0 });
       });
     });
 
-    it.skip('disappearing blocks part 1 should be solvable', function() {
-    });
+    describe('Level succession', function() {
+      it.skip('disappearing blocks part 1 should be solvable', function() {
+      });
 
-    it.skip('disappearing blocks part 2 should be solvable', function() {
+      it.skip('disappearing blocks part 2 should be solvable', function() {
+      });
     });
   });
 });

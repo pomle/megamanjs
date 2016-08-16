@@ -28,12 +28,12 @@ describe('Flashman Level', function() {
     before(function(done) {
       Promise.all([
         env.load('Flashman'),
-        env.loadInput('./input/level-flashman.json'),
+        env.loadInput('/test/system/input/level-flashman.json'),
       ]).then(([scene, log]) => {
         env.scene(scene);
-        env.useInput(log);
+        env.playInput(log);
         done();
-      });
+      }).catch(done);
     });
 
     after(function() {
@@ -48,7 +48,7 @@ describe('Flashman Level', function() {
     });
 
     describe('after ready text', function() {
-      before(done => env.waitTime(2.5).then(done));
+      before(done => env.goToTime(2.5).then(done));
 
       it('player should be at start position', function() {
         expect(env.game.player.character.position)
@@ -56,8 +56,8 @@ describe('Flashman Level', function() {
       });
     });
 
-    describe('after 80 seconds', function() {
-      before(done => env.waitTime(80).then(done));
+    describe.skip('after 78 seconds', function() {
+      before(done => env.goToTime(80).then(done));
 
       it('player should reach a position', function() {
         const pos = env.game.player.character.position;

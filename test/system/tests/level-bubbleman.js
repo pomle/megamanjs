@@ -28,10 +28,10 @@ describe('Bubbleman Level', function() {
     before(function(done) {
       Promise.all([
         env.load('Bubbleman'),
-        env.loadInput('./input/level-bubbleman.json'),
+        env.loadInput('/test/system/input/level-bubbleman.json'),
       ]).then(([scene, log]) => {
         env.scene(scene);
-        env.useInput(log);
+        env.playInput(log);
         done();
       });
     });
@@ -41,18 +41,12 @@ describe('Bubbleman Level', function() {
     });
 
     it('should hide player off screen on start', function() {
-      console.log(env.game.player.character.position,
-                  env.game.player.character.velocity);
       expect(env.game.player.character.position.y)
         .to.be.above(env.game.scene.camera.position.y + 120);
     });
 
     it('should teleport player to first checkpoint', function(done) {
-      console.log(env.game.player.character.position,
-                  env.game.player.character.velocity);
-      env.waitTime(2.5).then(() => {
-        console.log(env.game.player.character.position,
-            env.game.player.character.velocity);
+      env.goToTime(2.5).then(() => {
         expect(env.game.player.character.position)
           .to.eql({x: 128, y: -101, z: 0});
         done();

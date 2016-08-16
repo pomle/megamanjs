@@ -1,8 +1,6 @@
 'use strict';
 
 describe('Crashman Level', function() {
-  let player;
-
   context('StageSelect', function() {
     before(function(done) {
       env.load('StageSelect').then(scene => {
@@ -27,6 +25,8 @@ describe('Crashman Level', function() {
   });
 
   context('Level', function() {
+    let player;
+
     before(function(done) {
       Promise.all([
         env.load('Crashman'),
@@ -70,7 +70,7 @@ describe('Crashman Level', function() {
       });
 
       it('player is on the ground', () => {
-        expect(env.game.player.character.position).to.eql({x: 128, y: 59, z: 0});
+        expect(player.position).to.eql({x: 128, y: 59, z: 0});
       });
     });
 

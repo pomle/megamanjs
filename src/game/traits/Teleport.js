@@ -15,7 +15,7 @@ class Teleport extends Engine.Trait
         this.STATE_GO = 'go';
         this.STATE_OUT = 'out';
 
-        this._destination = undefined;
+        this._destination = null;
         this._endProgress = 0;
         this._startProgress = 0;
 
@@ -57,7 +57,9 @@ class Teleport extends Engine.Trait
         if (host.jump) {
             host.jump.reset();
         }
-        this._destination = undefined;
+        this._destination = null;
+        this._endProgress = 0;
+        this._startProgress = 0;
     }
     _handle(dt)
     {
