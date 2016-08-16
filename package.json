@@ -20,6 +20,7 @@
     "karma": "^1.2.0",
     "karma-chrome-launcher": "^1.0.1",
     "karma-mocha": "^1.1.1",
+    "karma-mocha-reporter": "^2.1.0",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
     "three": "0.72.0",
