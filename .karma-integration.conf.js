@@ -24,8 +24,9 @@ module.exports = function(_config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
-
+    frameworks: [
+      'mocha'
+    ],
 
     // list of files / patterns to load in the browser
     files: dependencies.concat(testFiles),
@@ -36,10 +37,10 @@ module.exports = function(_config) {
     ],
 
     customLaunchers: {
-        Chrome_travis_ci: {
-            base: 'Chrome',
-            flags: ['--no-sandbox']
-        }
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox'],
+      }
     },
 
     customContextFile: 'test/browser-support/context.html',
@@ -66,23 +67,18 @@ module.exports = function(_config) {
       'coverage',
     ],
 
-
     // web server port
     port: 9876,
 
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: _config.LOG_DEBUG,
 
-
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
-
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
@@ -90,7 +86,6 @@ module.exports = function(_config) {
         'Chrome',
         //'Firefox',
     ],
-
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
