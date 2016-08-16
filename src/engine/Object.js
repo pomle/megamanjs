@@ -138,6 +138,7 @@ Engine.Object.prototype.obstruct = function(object, attack, ourZone, theirZone)
 
 Engine.Object.prototype.reset = function()
 {
+    this.aim.set(0, 0);
     this.traits.forEach(trait => {
         if (typeof trait.reset === 'function') {
             trait.reset();
