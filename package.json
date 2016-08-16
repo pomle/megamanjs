@@ -6,7 +6,7 @@
     "build": "bash ./tools/build.sh",
     "minify": "bash ./tools/minify.sh",
     "generate": "bash ./tools/generate.sh",
-    "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit && npm run test:integration",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha test/unit && npm run build && npm run test:integration",
     "test:unit": "mocha test/unit",
     "test:integration": "karma start .karma-integration.conf",
     "upload-coverage": "codecov"

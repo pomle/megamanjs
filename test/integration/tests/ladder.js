@@ -5,12 +5,12 @@ describe('Ladder', () => {
 
   before(done => {
     env.ready.then(() => {
-      return env.load('./fixtures/ladder.xml');
+      return env.load('/test/integration/fixtures/ladder.xml');
     }).then(scene => {
       env.scene(scene);
       player = env.game.player.character;
       done();
-    });
+    }).catch(done);
   });
 
   after(() => {

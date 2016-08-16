@@ -30,7 +30,7 @@ describe('Quickman Level', function() {
     before(function(done) {
       Promise.all([
         env.load('Quickman'),
-        env.loadInput('/base/test/system/input/level-quickman.json'),
+        env.loadInput('/test/system/input/level-quickman.json'),
       ]).then(([scene, log]) => {
         env.scene(scene);
         env.playInput(log);

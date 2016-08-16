@@ -3,7 +3,6 @@ mocha.setup({
   enableTimeouts: false,
 });
 
-const env = new TestEnv('./../../src/resource/Megaman2.xml');
-env.renderInterval = 1;
-env.tickDelay = 1;
-
+const env = new TestEnv('/src/resource/Megaman2.xml');
+env.renderInterval = 0;
+env.tickDelay = -1;
