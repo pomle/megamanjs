@@ -9,7 +9,7 @@
     "test": "npm run test:unit && npm run test:integration && istanbul report --dir ./test/coverage/sum",
     "test:unit": "istanbul cover --config .istanbul-unit.yml node_modules/mocha/bin/_mocha test/unit",
     "test:integration": "karma start .karma-integration.conf --single-run",
-    "upload-coverage": "codecov"
+    "upload-coverage": "codecov -f test/coverage/sum/lcov.info  --disable=gcov"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
