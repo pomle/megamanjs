@@ -1,6 +1,6 @@
 "use strict";
 
-var Editor = function()
+const Editor = function()
 {
     this.document = undefined;
     this.game = undefined;
