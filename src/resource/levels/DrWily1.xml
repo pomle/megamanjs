@@ -1,8 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <scene type="level" name="Dr. Wily Mecha Dragon">
+    <camera>
+        <path>
+            <window x1="0" x2="2304" y1="-8" y2="232"/>
+            <constraint x1="128" x2="2176" y1="112" y2="112"/>
+        </path>
+        <path>
+            <window x1="2048" x2="2304" y1="232" y2="472"/>
+            <constraint x1="2176" x2="2176" y1="352" y2="352"/>
+        </path>
+        <path>
+            <window x1="2048" x2="2304" y1="472" y2="712"/>
+            <constraint x1="2176" x2="2176" y1="592" y2="592"/>
+        </path>
+        <path>
+            <window x1="2048" x2="2304" y1="712" y2="952"/>
+            <constraint x1="2176" x2="2176" y1="832" y2="832"/>
+        </path>
+        <path>
+            <window x1="2048" x2="2304" y1="952" y2="1192"/>
+            <constraint x1="2176" x2="2176" y1="1072" y2="1072"/>
+        </path>
+        <path>
+            <window x1="2048" x2="2304" y1="1192" y2="1432"/>
+            <constraint x1="2176" x2="2176" y1="1312" y2="1312"/>
+        </path>
+        <path>
+            <window x1="2048" x2="3456" y1="1432" y2="1672"/>
+            <constraint x1="2176" x2="3328" y1="1552" y2="1552"/>
+        </path>
+    </camera>
     <gravity x="0" y="9.81"/>
     <checkpoints>
-        <checkpoint x="128" y="48" z="0"/>
-        <checkpoint x="2176" y="768" r="100" z="0"/>
+        <checkpoint x="128" y="48"/>
+        <checkpoint x="2176" y="768" r="100"/>
     </checkpoints>
     <objects>
         <textures>

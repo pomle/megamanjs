@@ -17,7 +17,6 @@ describe('Intro', function() {
   });
 
   it('should have three invisible text layers', function() {
-    env.game.render();
     const world = env.game.scene.world;
     const objects = [
       world.getObject('story1'),
