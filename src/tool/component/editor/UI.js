@@ -275,7 +275,7 @@ Editor.UI.prototype.setupConsole = function()
     });
     C.find('button[name=generate-xml]').on('click', e => {
         let xml = '<?xml version="1.0" encoding="UTF-8"?>' + this.editor.getXML();
-        xml = vkbeautify.xml(xml);
+        xml = vkbeautify.xml(xml) + '\n';
         C.textarea.val(xml);
     });
     C.find('button[name=reload-xml]').on('click', e => {
