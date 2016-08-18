@@ -43,7 +43,7 @@ describe('Woodman Level', function() {
 
     describe('at start of stage', function() {
       it('player should be off screen', function() {
-        expect(env.game.player.character.position)
+        expect(player.position)
           .to.eql({x: 128, y: 16, z: 0});
       });
     });
@@ -52,7 +52,7 @@ describe('Woodman Level', function() {
       before(done => env.goToTime(2.5).then(done));
 
       it('player should be at start position', function() {
-        expect(env.game.player.character.position)
+        expect(player.position)
           .to.eql({x: 128, y: -184, z: 0});
       });
     });
