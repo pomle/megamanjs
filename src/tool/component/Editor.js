@@ -149,6 +149,7 @@ Editor.prototype.loadURL = function(url)
 Editor.prototype.loadXML = function(node)
 {
     const loader = new Game.Loader.XML(this.game);
+    loader.textureScale = 4;
     const parser = new Game.Loader.XML.LevelParser(loader, node);
     return this.open(parser);
 }
