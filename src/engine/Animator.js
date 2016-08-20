@@ -15,14 +15,6 @@ class Animator
         this.time = 0;
     }
 
-    copy(animator)
-    {
-        this._currentAnimation = animator._currentAnimation;
-        this._currentId = animator._currentId;
-        this.offset = animator.offset;
-        this.animations = animator.animations;
-    }
-
     reset()
     {
         this.time = this.offset;
