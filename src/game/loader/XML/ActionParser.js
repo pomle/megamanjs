@@ -104,7 +104,7 @@ extends Game.Loader.XML.Parser
     _parseTransformation(node)
     {
         let duration = 0;
-        let easing = undefined;
+        let easing;
         if (node.parentNode.tagName === 'tween') {
             duration = this.getFloat(node.parentNode, 'duration') || 0;
             easing = this.getEasing(node.parentNode, 'easing');
@@ -134,7 +134,7 @@ extends Game.Loader.XML.Parser
             Object.keys(to).forEach(key => {
                 if (to[key]) {
                     to[key] *= this.DEGTORAD;
-                };
+                }
             });
             return function rotationTransform(object) {
                 const tween = new Engine.Tween(to, easing);

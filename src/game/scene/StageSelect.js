@@ -66,9 +66,9 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
                 'indicator': this.createIndicatorAnimation(),
                 'stars': this.createStarAnimation(),
             };
-            if (game.state) {
+            /*if (game.state) {
 
-            }
+            }*/
         });
         this.events.bind(this.EVENT_START, (game) => {
             this.world.events.bind(this.world.EVENT_SIMULATE, simulate);

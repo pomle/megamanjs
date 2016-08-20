@@ -35,7 +35,7 @@ class Door extends Game.traits.Solid
 
         let step = 0;
         let stepTime = 0;
-        let stepLength = undefined;
+        let stepLength;
 
         this.sequencer = new Engine.Sequencer();
         this.sequencer.addStep(function start() {
@@ -107,7 +107,7 @@ class Door extends Game.traits.Solid
             return false;
         }
 
-        if (this._traverseObject != null) {
+        if (this._traverseObject !== null) {
             return false;
         }
 

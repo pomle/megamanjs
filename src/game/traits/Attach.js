@@ -32,9 +32,9 @@ class Attach extends Engine.Trait
             }
             /* If we hit something from left or right, we attach. */
             else {
-                if (dir == solid.LEFT) {
+                if (dir === solid.LEFT) {
                     ourZone.left = theirZone.right;
-                } else if (dir == solid.RIGHT) {
+                } else if (dir === solid.RIGHT) {
                     ourZone.right = theirZone.left;
                 }
 

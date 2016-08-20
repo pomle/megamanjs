@@ -19,7 +19,7 @@ class Solid extends Engine.Trait
             this.TOP,
             this.BOTTOM,
             this.LEFT,
-            this.RIGHT
+            this.RIGHT,
         ];
 
         this.fixed = false;
