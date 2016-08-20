@@ -29,10 +29,10 @@ Engine.Math = {
     randStr: (len = 6, chars = Engine.Math.ALPHANUM_SAFE) => {
         let id = '';
         while (len--) {
-            id += chars[Math.random() * chars.length | 0];
+            id += chars[Math.random() * chars.length | 0];
         }
         return id;
-    }
+    },
 }
 
 Engine.Math.Geometry = {

@@ -43,7 +43,7 @@ extends Game.Loader.XML.SceneParser
         const level = this._scene;
         for (let checkpointNode, i = 0; checkpointNode = checkpointNodes[i]; ++i) {
             const p = this.getPosition(checkpointNode);
-            const r = this.getFloat(checkpointNode, 'radius') || undefined;
+            const r = this.getFloat(checkpointNode, 'radius') || undefined;
             level.addCheckPoint(p.x, p.y, r);
         }
         return Promise.resolve();

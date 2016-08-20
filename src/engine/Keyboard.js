@@ -80,9 +80,9 @@ Engine.Keyboard = class Keyboard
     }
     release()
     {
-        for (let key in this._map) {
+        Object.keys(this._map).forEach(key => {
             this.trigger(this._map[key], this.RELEASE);
-        }
+        });
     }
     trigger(key, state)
     {

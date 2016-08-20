@@ -209,6 +209,13 @@ class Parser
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
 
+        function createReplace(colorIn, colorOut) {
+            return function colorReplace(canvas) {
+                return Engine.CanvasUtil.colorReplace(canvas,
+                    colorIn, colorOut);
+            }
+        }
+
         this.loader.resourceLoader.loadImage(textureUrl).then(canvas => {
             texture.name = textureId;
             const effects = [];
@@ -221,14 +228,7 @@ class Parser
                             this.getColorHex(effectNode, 'in'),
                             this.getColorHex(effectNode, 'out'),
                         ];
-                        effects.push(function() {
-                            const colorIn = colors[0];
-                            const colorOut = colors[1];
-                            return function colorReplace(canvas) {
-                                return Engine.CanvasUtil.colorReplace(canvas,
-                                    colorIn, colorOut);
-                            }
-                        }());
+                        effects.push(createReplace(colors[0], colors[1]));
                     }
                 }
             }
@@ -263,9 +263,9 @@ class Parser
         if (arguments.length == 2) {
             const aggr = this.getAttr(node, attrX).split(',');
             const vec = new THREE.Vector3();
-            vec.x = aggr[0] ? parseFloat(aggr[0]) : undefined;
-            vec.y = aggr[1] ? parseFloat(aggr[1]) : undefined;
-            vec.z = aggr[2] ? parseFloat(aggr[2]) : undefined;
+            vec.x = aggr[0] ? parseFloat(aggr[0]) : undefined;
+            vec.y = aggr[1] ? parseFloat(aggr[1]) : undefined;
+            vec.z = aggr[2] ? parseFloat(aggr[2]) : undefined;
             return vec;
         } else {
             const x = this.getAttr(node, attrX || 'x');

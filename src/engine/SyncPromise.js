@@ -69,7 +69,7 @@ Engine.SyncPromise = class SyncPromise
           return new SyncPromise(resolve => {
             handle({
               onResolved: onResolved,
-              resolve: resolve
+              resolve: resolve,
             });
           });
         };

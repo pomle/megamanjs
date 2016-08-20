@@ -30,7 +30,7 @@ class Physics extends Engine.Trait
     }
     __timeshift(dt)
     {
-        if (this._enabled === false || this.mass <= 0) {
+        if (this._enabled === false || this.mass <= 0) {
             return;
         }
 

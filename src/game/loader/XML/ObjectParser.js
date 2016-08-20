@@ -6,7 +6,7 @@ extends Game.Loader.XML.Parser
 {
     constructor(loader, node)
     {
-        if (!node || node.tagName !== 'objects') {
+        if (!node || node.tagName !== 'objects') {
             throw new TypeError('Node not <objects>');
         }
 
@@ -275,7 +275,7 @@ extends Game.Loader.XML.Parser
                 for (let j = 0, faceNode; faceNode = faceNodes[j]; ++j) {
                     const animator = new Engine.Animator.UV();
                     animator.indices = [];
-                    animator.offset = this.getFloat(faceNode, 'offset') || 0;
+                    animator.offset = this.getFloat(faceNode, 'offset') || 0;
 
                     animator.name = faceNode.getAttribute('animation');
                     if (!animator.name) {
@@ -346,7 +346,7 @@ extends Game.Loader.XML.Parser
     {
         const node = objectNode.getElementsByTagName('animation-router')[0];
         if (node) {
-            let animationRouter = undefined;
+            let animationRouter;
             eval(node.textContent);
             if (typeof animationRouter === "function") {
                 return Promise.resolve(animationRouter);
@@ -412,7 +412,7 @@ extends Game.Loader.XML.Parser
         const traitsNode = objectNode.getElementsByTagName('traits')[0];
         if (traitsNode) {
             const traitNodes = traitsNode.getElementsByTagName('trait');
-            for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
+            for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
                 traits.push(traitParser.parseTrait(traitNode));
             }
         }

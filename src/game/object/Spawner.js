@@ -99,10 +99,10 @@ class Spawner extends Engine.Object
     timeShift(dt)
     {
         this._accumulatedTime += dt;
-        if (this.childLifetime != null) {
+        if (this.childLifetime !== null) {
             this.killOffElderly();
         }
-        if (this.roamingLimit != null) {
+        if (this.roamingLimit !== null) {
             this.killOffRoaming();
         }
         if (this.interval > 0 && this._accumulatedTime >= this.interval) {

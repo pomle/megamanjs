@@ -15,8 +15,8 @@ class Timeline
     addFrame(value, duration)
     {
         this.frames.push({
-            'duration': duration,
-            'value': value
+            duration,
+            value,
         });
         this.totalDuration += duration;
     }

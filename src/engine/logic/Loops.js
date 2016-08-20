@@ -30,7 +30,7 @@ Engine.Loops = {
                             total: total,
                         });
                     }
-                };
+                }
                 events.bind(event, doForWrapper);
             });
         };

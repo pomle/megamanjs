@@ -169,7 +169,7 @@ extends Game.Loader.XML.Parser
             const items = [];
             for (let itemNode, i = 0; itemNode = itemNodes[i]; ++i) {
                 const offsetNode = itemNode.getElementsByTagName('offset')[0];
-                let offset = undefined;
+                let offset;
                 if (offsetNode) {
                     offset = this.getVector3(offsetNode) || undefined;
                 }

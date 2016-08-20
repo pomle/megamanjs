@@ -12,12 +12,12 @@ Engine.Trait = function()
 
     /* Bind on instanciation so that
        they can be found when unbound. */
-    for (var method in this.MAGIC_METHODS) {
+    Object.keys(this.MAGIC_METHODS).forEach(method => {
         if (this[method] !== undefined) {
             this[method] = this[method].bind(this);
             this._bindables[method] = this[method];
         }
-    }
+    });
 }
 
 Engine.Trait.prototype.MAGIC_METHODS = {
@@ -45,9 +45,9 @@ Engine.Trait.prototype.__attach = function(host)
     this._host = host;
 
     var events = this._host.events;
-    for (var method in this._bindables) {
+    Object.keys(this._bindables).forEach(method => {
         events.bind(this.MAGIC_METHODS[method], this[method]);
-    }
+    });
 
     this.events.trigger(this.EVENT_ATTACHED, [this._host]);
 }
@@ -55,11 +55,11 @@ Engine.Trait.prototype.__attach = function(host)
 Engine.Trait.prototype.__detach = function()
 {
     var events = this._host.events;
-    for (var method in this._bindables) {
+    Object.keys(this._bindables).forEach(method => {
         events.unbind(this.MAGIC_METHODS[method], this[method]);
-    }
+    });
 
-    this.events.trigger(this.EVENT_DETACHED, [this._host]);;
+    this.events.trigger(this.EVENT_DETACHED, [this._host]);
     this._host = undefined;
 }
 
