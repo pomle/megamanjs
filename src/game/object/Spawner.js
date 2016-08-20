@@ -26,11 +26,7 @@ class Spawner extends Engine.Object
             return w.hasObject(child);
         });
     }
-    getChildren()
-    {
-        return this._children;
-    }
-    killOffElderly()
+    _killOffElderly()
     {
         this._children = this._children.filter(child => {
             if (child.time >= this.childLifetime) {
@@ -40,7 +36,7 @@ class Spawner extends Engine.Object
             return true;
         });
     }
-    killOffRoaming()
+    _killOffRoaming()
     {
         const world = this.world;
         this._children = this._children.filter(child => {
@@ -51,6 +47,10 @@ class Spawner extends Engine.Object
                 return true;
             }
         });
+    }
+    getChildren()
+    {
+        return this._children;
     }
     reset()
     {
@@ -102,10 +102,10 @@ class Spawner extends Engine.Object
     {
         this._accumulatedTime += dt;
         if (this.childLifetime !== null) {
-            this.killOffElderly();
+            this._killOffElderly();
         }
         if (this.roamingLimit !== null) {
-            this.killOffRoaming();
+            this._killOffRoaming();
         }
         if (this.interval > 0 && this._accumulatedTime >= this.interval) {
             let overdue = Math.floor(this._accumulatedTime / this.interval);
