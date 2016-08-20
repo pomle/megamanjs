@@ -190,6 +190,21 @@ describe('Spawner', function() {
     expect(spawner.getChildren()).to.have.length(0);
   });
 
+  it('should honor life time', function() {
+    const spawner = new Spawner;
+    spawner.childLifetime = 2;
+    spawner.pool.push(Spawnable);
+
+    const world = new World;
+    world.addObject(spawner);
+    world.updateTime(3);
+
+    let children = spawner.getChildren();
+    expect(children).to.have.length(1);
+    world.updateTime(1);
+    expect(spawner.getChildren()).to.have.length(0);
+  });
+
   describe('#reset()', function() {
     it('should remove all children', function() {
       const spawner = new Spawner;

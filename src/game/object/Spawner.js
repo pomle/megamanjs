@@ -32,10 +32,12 @@ class Spawner extends Engine.Object
     }
     killOffElderly()
     {
-        this._children.forEach(child => {
+        this._children = this._children.filter(child => {
             if (child.time >= this.childLifetime) {
                 child.health.kill();
+                return false;
             }
+            return true;
         });
     }
     killOffRoaming()
