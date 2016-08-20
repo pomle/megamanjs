@@ -46,18 +46,6 @@ class Animator
         this.time += deltaTime || 0;
         this._applyAnimation(this._currentAnimation);
     }
-
-    /**
-     * Runs through all geometries and faces and updates their UV maps
-     * regardless of what their previous value was.
-     *
-     * @param {Number} [deltaTime]
-     */
-    updateForce(deltaTime)
-    {
-        this._currentIndex = undefined;
-        this.update(deltaTime);
-    }
 }
 
 Engine.Animator.Animation = class Animation
