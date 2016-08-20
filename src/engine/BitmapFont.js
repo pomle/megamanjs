@@ -14,14 +14,9 @@ class BitmapFont
     createText(string)
     {
         const charSize = this.charSize;
-        const charMap = this.charMap;
 
         const lines = string.split("\n");
-        const lengths = [];
-        for (let i in lines) {
-            lengths.push(lines[i].length);
-        }
-        const totalLen = Math.max.apply(Math, lengths);
+        const totalLen = lines.reduce((max, line) => Math.max(max, line.length));
 
         const textSize = new THREE.Vector2(charSize.x * totalLen,
                                            charSize.y * lines.length);
@@ -38,17 +33,16 @@ class BitmapFont
         const context = canvas.getContext("2d");
         context.imageSmoothingEnabled = false;
 
-        for (let i in lines) {
-            const chars = lines[i].split('');
-            for (let j in chars) {
-                const charPos = charMap.indexOf(chars[j]);
+        lines.forEach((chars, line)  => {
+            for (let index = 0, char; char = chars[index]; index++) {
+                const pos = this.charMap.indexOf(char);
                 const co = {
-                    dx: charSize.x * j * scale,
-                    dy: charSize.y * i * scale,
+                    dx: charSize.x * index * scale,
+                    dy: charSize.y * line * scale,
                     dw: charSize.x * scale,
                     dh: charSize.y * scale,
-                    sx: (charPos % charMapMod) * charSize.x,
-                    sy: Math.floor(charPos / charMapMod) * charSize.y,
+                    sx: (pos % charMapMod) * charSize.x,
+                    sy: Math.floor(pos / charMapMod) * charSize.y,
                     sw: charSize.x,
                     sh: charSize.y,
                 }
@@ -56,7 +50,7 @@ class BitmapFont
                                   co.sx, co.sy, co.sw, co.sh,
                                   co.dx, co.dy, co.dw, co.dh);
             }
-        }
+        });
         const texture = new THREE.Texture(canvas);
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
