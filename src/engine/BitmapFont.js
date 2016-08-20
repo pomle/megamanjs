@@ -16,7 +16,7 @@ class BitmapFont
         const charSize = this.charSize;
 
         const lines = string.split("\n");
-        const totalLen = lines.reduce((max, line) => Math.max(max, line.length));
+        const totalLen = lines.reduce((max, line) => Math.max(max, line.length), 0);
 
         const textSize = new THREE.Vector2(charSize.x * totalLen,
                                            charSize.y * lines.length);
