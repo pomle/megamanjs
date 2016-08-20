@@ -16,6 +16,26 @@ describe('Stage Select', function() {
     env.game.unsetScene();
   });
 
+  describe('Scene integrity', () => {
+    it('has 9 stages', () => {
+      expect(scene.stages).to.have.length(9);
+    });
+
+    it('stages have caption added to scene', () => {
+      scene.stages.forEach(stage => {
+        expect(stage.caption).to.be.a(THREE.Mesh);
+        expect(scene.world.scene.children).to.contain(stage.caption);
+      });
+    });
+
+    it('stage titles have width and height', () => {
+      scene.stages.forEach(stage => {
+        expect(stage.caption.material.map.image.width).to.be(256);
+        expect(stage.caption.material.map.image.height).to.be(64);
+      });
+    });
+  });
+
   describe('At start', () => {
     it('is zoomed in', () => {
       expect(camera.position.z).to.be(40);
