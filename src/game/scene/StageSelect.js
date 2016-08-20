@@ -237,8 +237,8 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.input.release();
         this.input.disable();
         this.disableIndicator();
-        const index = this.currentIndex;
-        const stage = this.stages[index];
+
+        const stage = this.getSelected();
         this.events.trigger(this.EVENT_STAGE_SELECTED, [stage]);
         this.runFlash().then(() => {
             if (stage.character) {
@@ -249,6 +249,10 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
                 this.events.trigger(this.EVENT_STAGE_ENTER, [stage]);
             }
         });
+    }
+    getSelected()
+    {
+        return this.stages[this.currentIndex];
     }
     runFlash()
     {

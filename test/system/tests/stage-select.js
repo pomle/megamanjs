@@ -1,56 +1,105 @@
 'use strict';
 
 describe('Stage Select', function() {
+  let camera, scene;
 
-  before(function(done) {
-    env.load('StageSelect').then(scene => {
-      env.scene(scene);
+  beforeEach(done => {
+    env.load('StageSelect').then(_scene => {
+      scene = _scene;
+      env.scene(_scene);
+      camera = env.game.scene.camera;
       done();
     });
   });
 
-  after(function() {
+  afterEach(() => {
     env.game.unsetScene();
   });
 
-  it('should start zoomed in and then zoom out', function(done) {
-    const camera = env.game.scene.camera;
-    expect(camera.position.z).to.be(40);
-    env.waitTime(1).then(() => {
-      expect(camera.position.z).to.be(140);
-      done();
+  describe('At start', () => {
+    it('is zoomed in', () => {
+      expect(camera.position.z).to.be(40);
+    });
+
+    it('has center selected', () => {
+      expect(scene.currentIndex).to.be(4);
+      expect(scene.indicator.position).to.eql({x: 64, y: -64, z: 0.1});
+    });
+
+    describe('after 1 second', () => {
+      beforeEach(done => env.waitTime(1).then(done));
+
+      it('is zoomed out', () => {
+        expect(camera.position.z).to.be(140);
+      });
     });
   });
 
-  context('when stage selected', function() {
-    it('should select Heatman stage when pressing left and start', function(done) {
-      const scene = env.game.scene;
-      scene.events.once(scene.EVENT_STAGE_SELECTED, stage => {
-        const Heatman = env.loader.resourceManager.get('object', 'Heatman');
-        expect(stage.character).to.be(Heatman);
-        done();
-      });
-      env.tap('left start');
-    });
+  const bosses = [
+    {
+      keys: 'up',
+      name: 'Airman',
+    },
+    {
+      keys: 'down',
+      name: 'Flashman',
+    },
+    {
+      keys: 'left',
+      name: 'Heatman',
+    },
+    {
+      keys: 'down left',
+      name: 'Metalman',
+    },
+  ];
 
-    it('camera should move to reveal boss', function(done) {
-      env.waitTime(3).then(() => {
-        expect(env.game.scene.camera.position.y).to.be(440);
-        done();
+  bosses.forEach(boss => {
+    describe(`when pressing ${boss.keys} and start`, () => {
+      let spy = sinon.spy();
+      beforeEach(() => {
+        const scene = env.game.scene;
+        scene.events.once(scene.EVENT_STAGE_SELECTED, spy);
+        env.tap(boss.keys);
+        env.tap('start');
       });
-    });
 
-    it('boss character should be in view', function() {
-      const boss = env.game.scene.world.getObjects('Heatman')[0];
-      expect(boss.position).to.eql({ x: 64, y: 436, z: 0});
-    });
-
-    it('should load Heatman level eventually', function(done) {
-      let started = false;
-      env.game.events.once(env.game.EVENT_SCENE_SET, scene => {
-        started = true;
+      it(`should select ${boss.name} stage`, () => {
+        expect(spy.callCount).to.be(1);
+        const stage = spy.lastCall.args[0];
+        expect(stage.name).to.be(boss.name);
       });
-      env.waitUntil(() => started).then(done);
+
+      describe('after 2.5 seconds', () => {
+        beforeEach(done => env.waitTime(2.5).then(done));
+
+        it('camera has moved to reveal boss', () => {
+          expect(env.game.scene.camera.position.y).to.be(440);
+        });
+
+        it(`${boss.name} has been spawned in scene`, () => {
+          const Char = env.loader.resourceManager.get('object', boss.name);
+          const model = env.game.scene.world.getObjects(boss.name)[0];
+          expect(model).to.be.a(Char);
+          expect(model.position.x).to.be(64);
+          expect(model.position.y).to.be.within(434, 444);
+        });
+
+        describe('after 5 seconds', () => {
+          let spy;
+
+          beforeEach(done => {
+            spy = sinon.spy(a => console.log(a));
+            env.game.events.once(env.game.EVENT_SCENE_SET, spy);
+            env.waitUntil(() => spy.called).then(done);
+          });
+
+          it(`has loaded ${boss.name} level`, () => {
+            expect(spy.callCount).to.be(1);
+            expect(spy.lastCall.args[0].name).to.be(boss.name);
+          });
+        });
+      });
     });
   });
 });
