@@ -5,14 +5,19 @@ class Animator
 {
     constructor()
     {
-        this._currentAnimation = undefined;
-        this._currentGroup = undefined;
-        this._currentIndex = undefined;
+        this._currentAnimation = null;
+        this._currentGroup = null;
+        this._currentIndex = null;
 
-        this.name = "";
+        this.name = '';
 
         this.offset = 0;
         this.time = 0;
+    }
+
+    _applyAnimation()
+    {
+        throw new Error('_applyAnimation not implemented');
     }
 
     reset()
@@ -26,21 +31,15 @@ class Animator
             return;
         }
 
-        if (animation.group === undefined || animation.group !== this._currentGroup) {
+        if (animation.group === null || animation.group !== this._currentGroup) {
             this.reset();
         }
 
         this._currentGroup = animation.group;
-        this._currentIndex = undefined;
+        this._currentIndex = null;
         this._currentAnimation = animation;
     }
 
-    /**
-     * Runs through all geometries and faces and updates their UV maps
-     * if frames has changed between previous and previous + deltaTime.
-     *
-     * @param {Number} [deltaTime]
-     */
     update(deltaTime)
     {
         this.time += deltaTime || 0;
@@ -48,18 +47,19 @@ class Animator
     }
 }
 
-Engine.Animator.Animation = class Animation
+Engine.Animator.Animation =
+class Animation
 {
-    constructor(id, group)
+    constructor(id, group = null)
     {
-        this._value = undefined;
-        this._duration = undefined;
+        this._value = null;
+        this._duration = null;
 
         this.id = id;
         this.group = group;
 
         this.length = 0;
-        this.timeline = undefined;
+        this.timeline = null;
     }
 
     addFrame(value, duration)
@@ -67,7 +67,7 @@ Engine.Animator.Animation = class Animation
         /* If this is the first time addFrame is run,
            save the value and duration flat, since we
            will not need the Timeline class to resolve it. */
-        if (this._value === undefined) {
+        if (this._value === null) {
             this.length = 1;
             this._value = value;
             this._duration = duration;
@@ -76,9 +76,11 @@ Engine.Animator.Animation = class Animation
            object, copy static frame to Timeline and tranform
            behavior to a multi frame Animation. */
         else {
-            if (this.timeline === undefined) {
+            if (this.timeline === null) {
                 this.timeline = new Engine.Timeline();
                 this.timeline.addFrame(this._value, this._duration);
+                this._value = null;
+                this._duration = null;
             }
 
             this.timeline.addFrame(value, duration);
@@ -88,7 +90,7 @@ Engine.Animator.Animation = class Animation
 
     getIndex(time)
     {
-        if (this.timeline === undefined) {
+        if (this.timeline === null) {
             return 0;
         } else {
             return this.timeline.getIndexAtTime(time);
@@ -97,7 +99,7 @@ Engine.Animator.Animation = class Animation
 
     getValue(index)
     {
-        if (this.timeline === undefined) {
+        if (this.timeline === null) {
             return this._value;
         } else {
             return this.timeline.getValueAtIndex(index);
