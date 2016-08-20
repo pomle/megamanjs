@@ -6,7 +6,7 @@ extends Game.Loader.XML.Parser
 {
     constructor(loader, node)
     {
-        if (!node || node.tagName !== 'game') {
+        if (!node || node.tagName !== 'game') {
             throw new TypeError('Node not <game>');
         }
 
@@ -134,7 +134,7 @@ extends Game.Loader.XML.Parser
 
         const invincibilityNode = playerNode.querySelector('invincibility');
 
-        player.retries = this.getInt(playerNode, 'retries') || 3;
+        player.retries = this.getInt(playerNode, 'retries') || 3;
         player.setCharacter(character);
 
         return Promise.resolve();

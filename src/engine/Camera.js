@@ -30,7 +30,7 @@ class Camera
     }
     alignToPath(pos)
     {
-        if (this.paths.length == 0) {
+        if (this.paths.length === 0) {
             return false;
         }
 

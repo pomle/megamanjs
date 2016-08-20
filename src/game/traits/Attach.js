@@ -52,7 +52,7 @@ class Attach extends Engine.Trait
     }
     __timeshift(dt)
     {
-        if (this._position != null) {
+        if (this._position !== null) {
             this._host.position.copy(this._position).add(this._offset);
         }
     }

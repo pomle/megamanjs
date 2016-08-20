@@ -35,5 +35,5 @@ Engine.CanvasUtil = {
         context.imageSmoothingEnabled = scale < 1;
         context.drawImage(canvas, 0, 0, w, h);
         return scaled;
-    }
+    },
 }

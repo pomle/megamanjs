@@ -202,7 +202,7 @@ extends Game.Loader.XML.Parser
             const layoutObject = this._parseLayoutObject(objectNode);
             world.addObject(layoutObject.instance);
             this._layoutObjects.push(layoutObject);
-        };
+        }
         return Promise.resolve();
     }
     _parseLayoutObject(node)
@@ -220,7 +220,7 @@ extends Game.Loader.XML.Parser
         instance.position.copy(position);
 
         if (instance.model) {
-            const scale = this.getFloat(node, 'scale') || 1;
+            const scale = this.getFloat(node, 'scale') || 1;
             instance.model.scale.multiplyScalar(scale);
         }
 

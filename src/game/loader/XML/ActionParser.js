@@ -106,7 +106,7 @@ extends Game.Loader.XML.Parser
         let duration = 0;
         let easing;
         if (node.parentNode.tagName === 'tween') {
-            duration = this.getFloat(node.parentNode, 'duration') || 0;
+            duration = this.getFloat(node.parentNode, 'duration') || 0;
             easing = this.getEasing(node.parentNode, 'easing');
         }
 

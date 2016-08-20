@@ -41,6 +41,6 @@ Engine.Util = {
                 else break;
             }
             return s;
-        }
-    }
+        },
+    },
 }

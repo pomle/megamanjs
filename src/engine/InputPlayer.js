@@ -27,7 +27,7 @@ class InputPlayer
                         break;
                     }
                 }
-            };
+            }
 
             function stop() {
                 world.events.unbind(world.EVENT_SIMULATE, onSimulate);
