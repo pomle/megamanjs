@@ -12,8 +12,8 @@ env:
 # http://eslint.org/docs/rules/
 rules:
   # Possible Errors
-  comma-dangle: [2, always]
-  no-cond-assign: 2
+  comma-dangle: [2, always-multiline]
+  no-cond-assign: 0
   no-console: 0
   no-constant-condition: 2
   no-control-regex: 2
@@ -44,13 +44,13 @@ rules:
   # Best Practices
   accessor-pairs: 2
   block-scoped-var: 0
-  complexity: [2, 6]
+  complexity: [1, 6]
   consistent-return: 0
   curly: 0
   default-case: 0
   dot-location: 0
   dot-notation: 0
-  eqeqeq: 2
+  eqeqeq: 1
   guard-for-in: 2
   no-alert: 2
   no-caller: 2
