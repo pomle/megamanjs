@@ -21,6 +21,8 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.captionOffset = new THREE.Vector3(0, -32, .2);
         this.currentIndex = undefined;
         this.initialIndex = 0;
+        this.indicator = null;
+        this.indicatorInterval = 1;
         this.podium = undefined;
         this.stages = [];
         this.stars = [];
@@ -147,7 +149,7 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
     }
     createIndicatorAnimation()
     {
-        const interval = (this.indicatorInterval) * 2;
+        const interval = this.indicatorInterval * 2;
         const indicator = this.indicator;
         let time = 0;
         return (dt) => {

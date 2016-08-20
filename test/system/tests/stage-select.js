@@ -35,6 +35,27 @@ describe('Stage Select', function() {
     });
   });
 
+  describe('Indicator', () => {
+    describe('when idling', () => {
+      it('blinks', done => {
+        expect(scene.indicator.visible).to.be(true);
+        let seconds = 2;
+        let interval = 0.125;
+        let chain = env.waitTime(interval);
+        let state = false;
+        while (seconds > 0) {
+          seconds -= interval;
+          chain = chain.then(() => {
+            expect(scene.indicator.visible).to.be(state);
+            state = !state;
+            return env.waitTime(interval);
+          });
+        }
+        chain.then(done);
+      });
+    });
+  });
+
   const bosses = [
     {
       keys: 'up',
