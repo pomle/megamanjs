@@ -27,3 +27,4 @@ ratings:
 exclude_paths:
 - test/
 - src/lib/three.js
+- src/tool/lib/vkbeautify.js
