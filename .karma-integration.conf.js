@@ -13,6 +13,7 @@ module.exports = function(_config) {
     {pattern: 'test/integration/fixtures/**', watched: true, included: false},
     {pattern: 'test/system/input/**', watched: true, included: false},
     'test/browser-support/lib/expect.js',
+    'test/browser-support/lib/sinon.js',
     'test/browser-support/TestEnv.js',
     'test/browser-support/bootstrap.js',
     'test/integration/tests/*.js',
