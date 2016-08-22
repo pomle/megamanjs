@@ -47,7 +47,7 @@ The test suite begins with running a Mocha unit test in Node. After that Karma s
 
 * When adding scripts to project, add them to [script-manifest.json](https://github.com/pomle/megamanjs/blob/master/src/script-manifest.json) and regenerate .
 
-    npm run generate
+        npm run generate
 
 
 ####Running locally in Chrome without web server (discouraged).
@@ -56,11 +56,11 @@ To run project locally without a web server, Chrome needs to be started with --a
 
 Windows:
 
-    "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --allow-file-access-from-files
+        "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --allow-file-access-from-files
 
 OSX
 
-    open -a "Google Chrome" --args --allow-file-access-from-files
+        open -a "Google Chrome" --args --allow-file-access-from-files
     
 ## Contributing
 
