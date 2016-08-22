@@ -43,7 +43,7 @@ See the v0.1 demo video: https://www.youtube.com/watch?v=LQHTdmzcV3E (lagging in
 
         npm test
 
-The test suite begins with running a Mocha unit test in Node. After that Karma starts and should open a Chrome window where an integration test followed by a system test is run. Lastly test coverage output is stored in ./test/coverage.
+    The test suite begins with running a Mocha unit test in Node. After that Karma starts and should open a Chrome window where an integration test followed by a system test is run. Lastly test coverage output is stored in ./test/coverage.
 
 * When adding scripts to project, add them to [script-manifest.json](https://github.com/pomle/megamanjs/blob/master/src/script-manifest.json) and regenerate .
 
