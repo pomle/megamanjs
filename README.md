@@ -13,16 +13,17 @@ See the v0.1 demo video: https://www.youtube.com/watch?v=LQHTdmzcV3E (lagging in
 
 * Clone repo.
 
-    git clone https://github.com/pomle/megamanjs.git
+        git clone https://github.com/pomle/megamanjs.git
 
 * Start a webserver of your choice in project dir, for example:
 
-    cd megamanjs
-    php -S localhost:8000 -t ./
+        cd megamanjs
+        php -S localhost:8000 -t ./
+        
 or
 
-    cd megamanjs
-    python -m SimpleHTTPServer 8000
+        cd megamanjs
+        python -m SimpleHTTPServer 8000
   
 * Browse to dev version at `http://localhost:8000/src/dev.html` and it should run.
 
