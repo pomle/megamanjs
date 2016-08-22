@@ -3,7 +3,7 @@
 [![codecov.io](https://codecov.io/github/pomle/megamanjs/coverage.svg?branch=master)](https://codecov.io/github/pomle/megamanjs?branch=master)
 [![code-climate](https://codeclimate.com/github/pomle/megamanjs/badges/gpa.svg)](https://codeclimate.com/github/pomle/megamanjs)
 
-Project that aims at creating a game engine in JavaScript using Megaman 2 on NES as MVP guide. WebGL is used as renderer and despite Megaman 2 being a 2D game THREE.js is used as 3D lib.
+Project that aims at creating a game engine in JavaScript using Megaman 2 on NES as MVP guide. WebGL is used as renderer and despite Megaman 2 being a 2D game [THREE.js](https://github.com/mrdoob/three.js/) is used as 3D lib.
 
 Follow the project blog at https://medium.com/recreating-megaman-2-using-js-webgl
 
