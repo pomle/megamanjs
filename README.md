@@ -20,7 +20,7 @@ See the v0.1 demo video: https://www.youtube.com/watch?v=LQHTdmzcV3E (lagging in
         cd megamanjs
         php -S localhost:8000 -t ./
         
-or
+   or
 
         cd megamanjs
         python -m SimpleHTTPServer 8000
@@ -39,7 +39,7 @@ or
         cd megamanjs
         npm install
 
-*Run test suite
+* Run test suite
 
         npm test
 
