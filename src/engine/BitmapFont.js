@@ -36,6 +36,9 @@ class BitmapFont
         lines.forEach((chars, line)  => {
             for (let index = 0, char; char = chars[index]; index++) {
                 const pos = this.charMap.indexOf(char);
+                if (pos === -1) {
+                    throw new Error(`Char "${char}" not in map ${this.charMap}`);
+                }
                 const co = {
                     dx: charSize.x * index * scale,
                     dy: charSize.y * line * scale,
