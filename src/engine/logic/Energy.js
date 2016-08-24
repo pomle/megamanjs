@@ -4,9 +4,9 @@ Engine.logic.Energy = function(max, min)
 
     this.events = new Engine.Events(this);
 
-    this._max = max || 100;
-    this._min = min || 0;
-    this._value = this._max;
+    this.max = max || 100;
+    this.min = min || 0;
+    this.amount = this.max;
 }
 
 Object.defineProperties(Engine.logic.Energy.prototype, {
