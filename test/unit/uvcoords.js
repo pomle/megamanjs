@@ -3,7 +3,7 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
+const env = require('../env');
 const UVCoords = env.Engine.UVCoords;
 
 describe('UVCoords', function() {
@@ -16,8 +16,8 @@ describe('UVCoords', function() {
     const textureH = 256;
 
     const uvCoord = new Engine.UVCoords({x: offsetX, y: offsetY},
-                                      {x: sizeW, y: sizeH},
-                                      {x: textureW, y: textureH});
+                                        {x: sizeW, y: sizeH},
+                                        {x: textureW, y: textureH});
     expect(uvCoord).to.be.an(Array);
     expect(uvCoord[0][0].x).to.equal(0.1875);
     expect(uvCoord[0][0].y).to.equal(0.625);
