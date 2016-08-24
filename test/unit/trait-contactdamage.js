@@ -26,8 +26,8 @@ describe('ContactDamage Trait', function() {
     player.applyTrait(new Health);
     player.applyTrait(new Invincibility);
     player.events.bind(contactDamage.EVENT_CONTACT_DAMAGE, eventSpy);
-    player.health.max = 25;
-    player.health.fill();
+    player.health.energy.max = 25;
+    player.health.energy.fill();
 
     const monster = new Object;
     monster.addCollisionRect(10, 10);
@@ -42,7 +42,7 @@ describe('ContactDamage Trait', function() {
     world.addObject(monster);
     world.simulateTime(0.1);
 
-    expect(player.health.amount).to.be(15);
+    expect(player.health.energy.amount).to.be(15);
     expect(eventSpy.called).to.be(true);
   });
 

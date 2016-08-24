@@ -70,6 +70,28 @@ describe('Events', function() {
     });
   });
 
+  describe('#clear()', function() {
+    it('throws away all bound events', function() {
+      const events = new Events();
+      const callback = sinon.spy();
+      events.bind('event', callback);
+      events.clear();
+      expect(events.bound(callback)).to.be(false);
+    });
+  });
+
+  describe('#once()', function() {
+    it('trigger bound events once then unbinds', function() {
+      const events = new Events();
+      const callback = sinon.spy();
+      events.once('event', callback);
+      events.trigger('event');
+      events.trigger('event');
+      expect(callback.callCount).to.be(1);
+      expect(events.bound(callback)).to.be(false);
+    });
+  });
+
   describe('#trigger()', function() {
     it('should call each callback once', function() {
       const events = new Events();
@@ -107,10 +129,18 @@ describe('Events', function() {
       expect(callback.callCount).to.be(1);
     });
 
-    it('should silently ignore unbinding of unbound events', function() {
+    it('should silently ignore unbinding of unknown event names', function() {
       const events = new Events();
       const callback = sinon.spy();
       events.unbind('not-defined-event-name', callback);
+    });
+
+    it('should silently ignore unbinding of unbound events', function() {
+      const events = new Events();
+      const callback = sinon.spy();
+      events.bind('known-defined-event-name', callback);
+      events.unbind('known-defined-event-name', callback);
+      events.unbind('known-defined-event-name', callback);
     });
   });
 });

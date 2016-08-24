@@ -1,83 +1,83 @@
-Game.traits.Health = function()
+Game.traits.Health =
+class Health extends Engine.Trait
 {
-    Engine.Trait.call(this);
-    Engine.logic.Energy.call(this);
+    constructor()
+    {
+        super();
 
-    this.immune = false;
-    this._dead = false;
+        this.NAME = 'health';
 
-    const onChange = () => {
-        this._trigger(this.EVENT_HEALTH_CHANGED, [this]);
-        if (!this._dead && this.depleted) {
-            this.kill();
-        } else if (this._dead && !this.depleted) {
-            this.resurrect();
+        this.EVENT_DEATH = 'death';
+        this.EVENT_HEALED = 'healed';
+        this.EVENT_HURT = 'hurt';
+        this.EVENT_RESURRECT = 'resurrect';
+        this.EVENT_HEALTH_CHANGED = 'health-changed';
+
+        this.energy = new Engine.logic.Energy(100);
+        this.immune = false;
+        this._dead = false;
+
+        const onChange = () => {
+            this._trigger(this.EVENT_HEALTH_CHANGED, [this]);
+            if (!this._dead && this.energy.depleted) {
+                this.kill();
+            } else if (this._dead && !this.energy.depleted) {
+                this.resurrect();
+            }
+        };
+
+        this.events.bind(this.EVENT_ATTACHED, () => {
+            this.energy.events.bind(this.energy.EVENT_CHANGE, onChange);
+        });
+        this.events.bind(this.EVENT_DETACHED, () => {
+            this.energy.events.unbind(this.energy.EVENT_CHANGE, onChange);
+        });
+    }
+    __collides(withObject)
+    {
+        if (withObject.pickupable && !this.energy.full) {
+            const props = withObject.pickupable.properties;
+            if (props.type === 'energy-tank') {
+                withObject.world.removeObject(withObject);
+                this.energy.amount += props.capacity;
+                this._trigger(this.EVENT_HEALED);
+            }
         }
-    };
-
-    this.events.bind(this.EVENT_CHANGE, onChange);
-}
-
-Engine.Util.extend(Game.traits.Health, Engine.Trait);
-Engine.Util.mixin(Game.traits.Health, Engine.logic.Energy);
-
-Game.traits.Health.prototype.NAME = 'health';
-
-Game.traits.Health.prototype.EVENT_DEATH = 'death';
-Game.traits.Health.prototype.EVENT_HEALED = 'healed';
-Game.traits.Health.prototype.EVENT_HURT = 'hurt';
-Game.traits.Health.prototype.EVENT_RESURRECT = 'resurrect';
-Game.traits.Health.prototype.EVENT_HEALTH_CHANGED = 'health-changed';
-
-Game.traits.Health.prototype.__collides = function(withObject)
-{
-    if (withObject.pickupable && !this.full) {
-        var props = withObject.pickupable.properties;
-        if (props.type === 'energy-tank') {
-            withObject.world.removeObject(withObject);
-            this.amount += props.capacity;
-            this._trigger(this.EVENT_HEALED);
+    }
+    kill()
+    {
+        if (this._dead === true) {
+            return;
         }
+
+        this._dead = true;
+        this.energy.deplete();
+
+        this._trigger(this.EVENT_DEATH, [this]);
+        this._host.removeFromWorld();
     }
-}
-
-Game.traits.Health.prototype.kill = function()
-{
-    if (this._dead === true) {
-        return;
+    inflictDamage(points, direction)
+    {
+        if (this.immune === true) {
+            return false;
+        }
+        this.energy.amount -= points;
+        this._trigger(this.EVENT_HURT, [points, direction]);
+        return true;
     }
-
-    this._dead = true;
-    this.deplete();
-
-    this._trigger(this.EVENT_DEATH, [this]);
-    this._host.removeFromWorld();
-}
-
-Game.traits.Health.prototype.inflictDamage = function(points, direction)
-{
-    if (this.immune === true) {
-        return false;
+    reset()
+    {
+        this.resurrect();
+        this.energy.fill();
     }
-    this.amount -= points;
-    this._trigger(this.EVENT_HURT, [points, direction]);
-    return true;
-}
+    resurrect()
+    {
+        if (this._dead === false) {
+            return;
+        }
 
-
-Game.traits.Health.prototype.reset = function()
-{
-    this.resurrect();
-    this.fill();
-}
-
-Game.traits.Health.prototype.resurrect = function()
-{
-    if (this._dead === false) {
-        return;
+        this._dead = false;
+        this.energy.fill();
+        this._trigger(this.EVENT_RESURRECT);
     }
-
-    this._dead = false;
-    this.fill();
-    this._trigger(this.EVENT_RESURRECT);
 }

@@ -45,8 +45,8 @@ describe('Stun Trait', function() {
     host.applyTrait(new Jump);
     host.applyTrait(new Move);
     host.physics.mass = 10;
-    host.health.max = 25;
-    host.health.fill();
+    host.health.energy.max = 25;
+    host.health.energy.fill();
     return host;
   }
 

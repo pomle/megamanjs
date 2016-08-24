@@ -10,14 +10,12 @@ class Events
     }
     _gc(name)
     {
-        if (this._events[name]) {
-            const events = this._events[name];
-            for (let i = 0, l = events.length; i < l; ++i) {
-                if (events[i] === undefined) {
-                    events.splice(i, 1);
-                    --i;
-                    --l;
-                }
+        const events = this._events[name];
+        for (let i = 0, l = events.length; i < l; ++i) {
+            if (events[i] === undefined) {
+                events.splice(i, 1);
+                --i;
+                --l;
             }
         }
     }
