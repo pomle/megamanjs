@@ -59,13 +59,20 @@ describe('Energy', function() {
 
   describe('when set up with max 100 and min 0', () => {
     let energy;
+    let spy;
     beforeEach(() => {
       energy = new Energy(100, 0);
+      spy = sinon.spy();
+      energy.events.bind(energy.EVENT_CHANGE, spy);
     });
 
     describe('and amount set to 100', () => {
       beforeEach(() => {
         energy.amount = 100;
+      });
+
+      it('does not emit change event', () => {
+        expect(spy.callCount).to.be(0);
       });
 
       describe('.fraction', () => {
@@ -94,6 +101,10 @@ describe('Energy', function() {
         it('reduces amount to min', () => {
           expect(energy.amount).to.be(energy.min);
         });
+
+        it('it emits change event', () => {
+          expect(spy.callCount).to.be(1);
+        });
       });
     });
 
@@ -106,11 +117,20 @@ describe('Energy', function() {
         energy.amount = 0;
         expect(energy.amount).to.be(100);
       });
+
+      it('it does not emit change event', () => {
+        energy.amount = 0;
+        expect(spy.callCount).to.be(0);
+      });
     });
 
     describe('and amount set to 0', () => {
       beforeEach(() => {
         energy.amount = 0;
+      });
+
+      it('it emits change event', () => {
+        expect(spy.callCount).to.be(1);
       });
 
       describe('.fraction', () => {
@@ -139,12 +159,20 @@ describe('Energy', function() {
         it('fills amount to max', () => {
           expect(energy.amount).to.be(energy.max);
         });
+
+        it('it emits change event', () => {
+          expect(spy.callCount).to.be(2);
+        });
       });
     });
 
     describe('and amount set to 50', () => {
       beforeEach(() => {
         energy.amount = 50;
+      });
+
+      it('change event is emitted', () => {
+        expect(spy.callCount).to.be(1);
       });
 
       describe('and then max set to 40', () => {
@@ -155,6 +183,10 @@ describe('Energy', function() {
         it('amount is decreased to match max', () => {
           expect(energy.amount).to.be(40);
         });
+
+        it('change event is emitted again', () => {
+          expect(spy.callCount).to.be(2);
+        });
       });
 
       describe('and then min set to 60', () => {
@@ -164,6 +196,10 @@ describe('Energy', function() {
 
         it('amount is increased to match min', () => {
           expect(energy.amount).to.be(60);
+        });
+
+        it('change event is emitted again', () => {
+          expect(spy.callCount).to.be(2);
         });
       });
     });
@@ -199,6 +235,10 @@ describe('Energy', function() {
 
       it('amount does not surpass max 100', () => {
         expect(energy.amount).to.be(100);
+      });
+
+      it('change event is not emitted', () => {
+        expect(spy.callCount).to.be(0);
       });
     });
 
