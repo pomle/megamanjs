@@ -1,4 +1,5 @@
-Engine.logic.Energy = class Energy
+Engine.logic.Energy =
+class Energy
 {
     constructor(max = 100, min = 0)
     {
@@ -73,6 +74,7 @@ Engine.logic.Energy = class Energy
         if (!isFinite(v)) {
             throw new TypeError('Value not a number');
         }
+
         this._max = v;
         if (this._max < this._value) {
             this.amount = this._max;
@@ -87,6 +89,7 @@ Engine.logic.Energy = class Energy
         if (!isFinite(v)) {
             throw new TypeError('Value not a number');
         }
+
         this._min = v;
         if (this._min > this._value) {
             this.amount = this._min;

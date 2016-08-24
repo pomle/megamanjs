@@ -1,7 +1,6 @@
 Engine.Loops = {
     doFor: function(events, event) {
-        return function doFor(duration, callback)
-        {
+        return function doFor(duration, callback) {
             if (duration <= 0) {
                 if (callback) {
                     callback(0, 1);
@@ -33,12 +32,11 @@ Engine.Loops = {
                 }
                 events.bind(event, doForWrapper);
             });
-        };
+        }
     },
     waitFor: function(events, event) {
         const doFor = Engine.Loops.doFor(events, event);
-        return function waitFor(seconds)
-        {
+        return function waitFor(seconds) {
             return doFor(seconds);
         }
     },
