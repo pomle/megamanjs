@@ -40,7 +40,7 @@ Game.traits.Projectile = class Projectile extends Engine.Trait
         const direction = this._host.position.clone().sub(withObject.position);
         withObject.health.inflictDamage(this._damage, direction);
         withObject.events.trigger(this.EVENT_HIT, [this._host]);
-        if (!this.penetratingForce || !withObject.health.depleted) {
+        if (!this.penetratingForce || !withObject.health.energy.depleted) {
             this.recycle();
         }
     }

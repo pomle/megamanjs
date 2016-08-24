@@ -59,21 +59,21 @@ describe('Projectile Trait', function() {
     it('should inflict correct amount of damage', function() {
       const char = createCharacter();
       const proj = createProjectile();
-      char.health.max = 27;
-      char.health.fill();
+      char.health.energy.max = 27;
+      char.health.energy.fill();
       proj.projectile.setDamage(13);
       proj.collides(char);
-      expect(char.health.amount).to.be(14);
+      expect(char.health.energy.amount).to.be(14);
     });
     it('should ignore if subject is emitter', function() {
       const char = createCharacter();
       const proj = createProjectile();
-      char.health.max = 27;
-      char.health.fill();
+      char.health.energy.max = 27;
+      char.health.energy.fill();
       proj.setEmitter(char);
       proj.projectile.setDamage(13);
       proj.collides(char);
-      expect(char.health.amount).to.be(27);
+      expect(char.health.energy.amount).to.be(27);
     });
     it('should calculate and supply direction', function() {
       const char = createCharacter();
@@ -88,8 +88,8 @@ describe('Projectile Trait', function() {
       it('should recyle if health not depleted', function() {
         const char = createCharacter();
         const proj = createProjectile();
-        char.health.max = 10;
-        char.health.fill();
+        char.health.energy.max = 10;
+        char.health.energy.fill();
         proj.projectile.setDamage(5);
         proj.projectile.penetratingForce = true;
         sinon.stub(proj.projectile, 'recycle');
@@ -99,8 +99,8 @@ describe('Projectile Trait', function() {
       it('should recyle if health is depleted', function() {
         const char = createCharacter();
         const proj = createProjectile();
-        char.health.max = 10;
-        char.health.fill();
+        char.health.energy.max = 10;
+        char.health.energy.fill();
         proj.projectile.setDamage(15);
         proj.projectile.penetratingForce = true;
         sinon.stub(proj.projectile, 'recycle');
@@ -112,8 +112,8 @@ describe('Projectile Trait', function() {
       it('should recyle even if health depleted', function() {
         const char = createCharacter();
         const proj = createProjectile();
-        char.health.max = 10;
-        char.health.fill();
+        char.health.energy.max = 10;
+        char.health.energy.fill();
         proj.projectile.setDamage(12);
         proj.projectile.penetratingForce = false;
         sinon.stub(proj.projectile, 'recycle');

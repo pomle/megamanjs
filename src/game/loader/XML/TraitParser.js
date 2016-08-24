@@ -129,6 +129,11 @@ extends Game.Loader.XML.Parser
             return function setup(trait) {
                 trait.color.copy(color);
             };
+        } else if (name === 'health') {
+            const max = this.getFloat(node, 'max');
+            return function setup(trait) {
+                trait.energy.max = max;
+            };
         } else if (name === 'pickupable') {
             const props = {};
             const propNodes = node.getElementsByTagName('property');
