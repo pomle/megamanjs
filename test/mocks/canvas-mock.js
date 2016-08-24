@@ -28,6 +28,7 @@ function CanvasMock() {
     if (type === '2d') {
       return this._context;
     }
+    throw new TypeError('CanvasMock.getContext() called with unsupported argument ' + type);
   });
 }
 
