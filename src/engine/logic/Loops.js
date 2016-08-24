@@ -35,21 +35,6 @@ Engine.Loops = {
             });
         };
     },
-    doWhile: function(events, event) {
-        return function doWhile(callback)
-        {
-            let elapsed = 0;
-            return new Engine.SyncPromise(resolve => {
-                const wrapper = (dt) => {
-                    elapsed += dt;
-                    if (!callback(elapsed, dt)) {
-                        events.unbind(event, wrapper);
-                    }
-                };
-                events.bind(event, wrapper);
-            });
-        };
-    },
     waitFor: function(events, event) {
         const doFor = Engine.Loops.doFor(events, event);
         return function waitFor(seconds)
