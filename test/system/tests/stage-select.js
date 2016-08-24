@@ -130,7 +130,7 @@ describe('Stage Select', function() {
           let spy;
 
           beforeEach(done => {
-            spy = sinon.spy(a => console.log(a));
+            spy = sinon.spy();
             env.game.events.once(env.game.EVENT_SCENE_SET, spy);
             env.waitUntil(() => spy.called).then(done);
           });
