@@ -7,10 +7,10 @@
     "minify": "bash ./tools/minify.sh",
     "generate": "bash ./tools/generate.sh",
     "lint": "eslint src/engine src/game",
-    "test": "npm run test:unit && npm run test:integration && istanbul report --dir ./test/coverage/sum",
+    "test": "npm run test:unit && npm run test:integration && istanbul report --dir ./test/coverage/summary",
     "test:unit": "istanbul cover --config .istanbul-unit.yml node_modules/mocha/bin/_mocha test/unit",
     "test:integration": "karma start .karma-integration.conf --single-run --reporters mocha,coverage",
-    "upload-coverage": "codecov -f test/coverage/sum/lcov.info  --disable=gcov"
+    "upload-coverage": "codecov -f test/coverage/summary/lcov.info  --disable=gcov"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
