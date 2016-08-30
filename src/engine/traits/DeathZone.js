@@ -1,15 +1,15 @@
-Engine.traits.DeathZone = function()
+Engine.traits.DeathZone =
+class DeathZone extends Engine.Trait
 {
-    Engine.Trait.call(this);
-}
-
-Engine.Util.extend(Engine.traits.DeathZone, Engine.Trait);
-
-Engine.traits.DeathZone.prototype.NAME = 'deathZone';
-
-Engine.traits.DeathZone.prototype.__collides = function(withObject, ourZone, theirZone)
-{
-    if (withObject.health !== undefined && withObject.health.energy.depleted === false) {
-        withObject.health.kill();
+    constructor()
+    {
+        super();
+        this.NAME = 'deathZone';
+    }
+    __collides(withObject, ourZone, theirZone)
+    {
+        if (withObject.health && withObject.health.energy.depleted === false) {
+            withObject.health.kill();
+        }
     }
 }

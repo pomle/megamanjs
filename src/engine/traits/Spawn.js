@@ -1,40 +1,47 @@
 'use strict';
 
-Engine.traits.Spawn = function()
+Engine.traits.Spawn =
+class Spawn extends Engine.Trait
 {
-    Engine.Trait.call(this);
-    this._conditions = [];
+    constructor()
+    {
+        super();
+        this.NAME = 'spawn';
 
-    this._bind = this._bind.bind(this);
-    this._unbind = this._unbind.bind(this);
-}
+        this._conditions = [];
 
-Engine.Util.extend(Engine.traits.Spawn, Engine.Trait, {
-    NAME: 'spawn',
-    __attach: function() {
-        Engine.Trait.prototype.__attach.apply(this, arguments);
+        this._bind = this._bind.bind(this);
+        this._unbind = this._unbind.bind(this);
+    }
+    __attach()
+    {
+        super.__attach.apply(this, arguments);
         this._conditions.forEach(this._bind);
-    },
-    __detach: function() {
+    }
+    __detach()
+    {
         this._conditions.forEach(this._unbind);
-        Engine.Trait.prototype.__detach.apply(this, arguments);
-    },
-    _bind: function(condition) {
+        super.__detach.apply(this, arguments);
+    }
+    _bind(condition)
+    {
         this._host.events.bind(condition.event, condition.callback);
-    },
-    _unbind: function(condition) {
+    }
+    _unbind(condition)
+    {
         this._host.events.unbind(condition.event, condition.callback);
-    },
-    addItem: function(event, constr, offset) {
+    }
+    addItem(event, constr, offset)
+    {
         offset = offset || new THREE.Vector3(0, 0, 0);
         this._conditions.push({
             event: event,
             callback: function() {
-                var object = new constr();
+                const object = new constr();
                 object.position.copy(this.position);
                 object.position.add(offset);
                 this.world.addObject(object);
             },
         });
-    },
-});
+    }
+}

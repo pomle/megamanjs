@@ -1,56 +1,53 @@
-Engine.traits.Disappearing = function()
+Engine.traits.Disappearing =
+class Disappearing extends Engine.Trait
 {
-    Engine.Trait.call(this);
-    this._visible = true;
+    constructor()
+    {
+        super();
+        this.NAME = 'disappearing';
 
-    this.offDuration = 3;
-    this.onDuration = 2;
+        this._visible = true;
 
-    this.offset = 0;
-}
+        this.offDuration = 3;
+        this.onDuration = 2;
 
-Engine.Util.extend(Engine.traits.Disappearing, Engine.Trait);
-
-Engine.traits.Disappearing.prototype.NAME = 'disappearing';
-
-Engine.traits.Disappearing.prototype.ANIM_APPEARING = 'appearing';
-
-Engine.traits.Disappearing.prototype.__timeshift = function(deltaTime, totalTime)
-{
-    var totalDuration = this.onDuration + this.offDuration;
-    var modTime = (totalTime + this.offset) % totalDuration;
-    if (this._visible === false && modTime > this.offDuration) {
-        this.admit();
+        this.offset = 0;
     }
-    else if (this._visible === true && modTime < this.offDuration) {
-        this.retract();
+    __timeshift(deltaTime, totalTime)
+    {
+        const totalDuration = this.onDuration + this.offDuration;
+        const modTime = (totalTime + this.offset) % totalDuration;
+        if (this._visible === false && modTime > this.offDuration) {
+            this.admit();
+        }
+        else if (this._visible === true && modTime < this.offDuration) {
+            this.retract();
+        }
     }
-}
+    admit()
+    {
+        if (this._visible) {
+            return;
+        }
 
-Engine.traits.Disappearing.prototype.admit = function()
-{
-    if (this._visible) {
-        return;
+        const h = this._host;
+        this._visible = true;
+        h.model.visible = true;
+        h.collidable = true;
+
+        h.animators.forEach(animator => {
+            animator.reset();
+        });
     }
+    retract()
+    {
+        if (!this._visible) {
+            return;
+        }
 
-    var h = this._host;
-    this._visible = true;
-    h.model.visible = true;
-    h.collidable = true;
-
-    for (var i in h.animators) {
-        h.animators[i].reset();
+        const h = this._host;
+        this._visible = false;
+        h.model.visible = false;
+        h.collidable = false;
     }
-}
-
-Engine.traits.Disappearing.prototype.retract = function()
-{
-    if (!this._visible) {
-        return;
-    }
-
-    var h = this._host;
-    this._visible = false;
-    h.model.visible = false;
-    h.collidable = false;
 }
