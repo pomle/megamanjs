@@ -1,6 +1,6 @@
 'use strict';
 
-Game.ResourceLoader =
+Engine.ResourceLoader =
 class ResourceLoader
 {
     constructor(loader)

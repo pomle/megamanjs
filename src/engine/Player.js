@@ -1,4 +1,4 @@
-Game.Player = function()
+Engine.Player = function()
 {
     this.character = null;
     this.defaultWeapon = null;
@@ -7,7 +7,7 @@ Game.Player = function()
     this.weapons = {};
 }
 
-Game.Player.prototype.equipWeapon = function(code)
+Engine.Player.prototype.equipWeapon = function(code)
 {
     if (!this.character.weapon) {
         return false;
@@ -16,7 +16,7 @@ Game.Player.prototype.equipWeapon = function(code)
     this.character.weapon.equip(weapon);
 }
 
-Game.Player.prototype.setCharacter = function(character)
+Engine.Player.prototype.setCharacter = function(character)
 {
     if (this.character) {
         this.character.isPlayer = false;

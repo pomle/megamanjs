@@ -1,4 +1,4 @@
-const Game = class Game
+Engine.Game = class Game
 {
     constructor()
     {
@@ -140,8 +140,8 @@ const Game = class Game
     }
 }
 
-Game.objects = {
+Engine.Game.objects = {
     characters: {},
 };
-Game.scenes = {};
-Game.traits = {};
+Engine.Game.scenes = {};
+Engine.Game.traits = {};

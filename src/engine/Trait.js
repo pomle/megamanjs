@@ -106,3 +106,5 @@ Engine.Trait.prototype.enable = function()
 {
     this._enabled = true;
 }
+
+Engine.traits = {};

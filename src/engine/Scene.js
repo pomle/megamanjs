@@ -1,6 +1,6 @@
 'use strict';
 
-Game.Scene =
+Engine.Scene =
 class Scene
 {
     constructor()

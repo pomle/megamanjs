@@ -1,4 +1,4 @@
-Game.Loader = function(game)
+Engine.Loader = function(game)
 {
     this.game = game;
     this.resourceManager = new Game.ResourceManager(this);

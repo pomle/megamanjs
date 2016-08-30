@@ -1,6 +1,6 @@
 'use strict';
 
-Game.ResourceManager =
+Engine.ResourceManager =
 class ResourceManager
 {
     constructor()
