@@ -1,4 +1,4 @@
-Game.traits.Projectile = class Projectile extends Engine.Trait
+Engine.traits.Projectile = class Projectile extends Engine.Trait
 {
     constructor()
     {

@@ -1,4 +1,4 @@
-Game.traits.Invincibility =
+Engine.traits.Invincibility =
 class Invincibility extends Engine.Trait
 {
     constructor()
@@ -16,7 +16,7 @@ class Invincibility extends Engine.Trait
             this.engage();
         };
 
-        this.__requires(Game.traits.Health);
+        this.__requires(Engine.traits.Health);
 
         this.events.bind(this.EVENT_ATTACHED, host => {
             host.events.bind(host.health.EVENT_HURT, onHurt);

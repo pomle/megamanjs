@@ -1,6 +1,6 @@
 'use strict';
 
-Game.scenes.Level = class Level extends Game.Scene
+Engine.scenes.Level = class Level extends Engine.Scene
 {
     constructor()
     {

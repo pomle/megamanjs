@@ -1,4 +1,4 @@
-Game.traits.Health =
+Engine.traits.Health =
 class Health extends Engine.Trait
 {
     constructor()

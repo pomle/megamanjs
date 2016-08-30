@@ -1,13 +1,13 @@
-Game.objects.obstacles.Ladder = function()
+Engine.objects.obstacles.Ladder = function()
 {
-    Game.objects.Solid.call(this);
+    Engine.objects.Solid.call(this);
     this.attackAccept = [this.TOP];
 }
 
-Game.objects.obstacles.Ladder.prototype = Object.create(Game.objects.Solid.prototype);
-Game.objects.obstacles.Ladder.constructor = Game.objects.obstacles.Ladder;
+Engine.objects.obstacles.Ladder.prototype = Object.create(Engine.objects.Solid.prototype);
+Engine.objects.obstacles.Ladder.constructor = Engine.objects.obstacles.Ladder;
 
-Game.objects.obstacles.Ladder.prototype.collides = function(withObject, ourZone, theirZone)
+Engine.objects.obstacles.Ladder.prototype.collides = function(withObject, ourZone, theirZone)
 {
 
 }

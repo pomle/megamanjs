@@ -1,4 +1,4 @@
-Game.traits.LightControl =
+Engine.traits.LightControl =
 class LightControl extends Engine.Trait
 {
     constructor()

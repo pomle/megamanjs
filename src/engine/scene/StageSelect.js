@@ -1,6 +1,6 @@
 'use strict';
 
-Game.scenes.StageSelect = class StageSelect extends Game.Scene
+Engine.scenes.StageSelect = class StageSelect extends Engine.Scene
 {
     constructor()
     {
@@ -343,7 +343,7 @@ Game.scenes.StageSelect = class StageSelect extends Game.Scene
         this.world.scene.add(model);
         const solid = new Engine.Object;
         solid.addCollisionRect(64, 16);
-        solid.applyTrait(new Game.traits.Solid);
+        solid.applyTrait(new Engine.traits.Solid);
         solid.solid.fixed = true;
         solid.solid.obstructs = true;
         this.podiumSolid = solid;

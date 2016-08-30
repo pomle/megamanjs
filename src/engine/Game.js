@@ -17,7 +17,7 @@ Engine.Game = class Game
             'antialias': false,
         });
 
-        this.player = new Game.Player();
+        this.player = new Engine.Player();
 
         this.element = null;
         this.scene = null;
@@ -105,7 +105,7 @@ Engine.Game = class Game
     }
     setScene(scene)
     {
-        if (scene instanceof Game.Scene === false) {
+        if (scene instanceof Engine.Scene === false) {
             throw new Error('Invalid scene');
         }
 

@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.StageSelectParser =
+Engine.Loader.XML.StageSelectParser =
 class StageSelectParser
-extends Game.Loader.XML.SceneParser
+extends Engine.Loader.XML.SceneParser
 {
     constructor(loader, node)
     {
@@ -14,7 +14,7 @@ extends Game.Loader.XML.SceneParser
     }
     _parse()
     {
-        this._scene = new Game.scenes.StageSelect;
+        this._scene = new Engine.scenes.StageSelect;
 
         this._parseAudio();
         this._parseEvents();

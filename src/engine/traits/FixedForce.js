@@ -1,4 +1,4 @@
-Game.traits.FixedForce = class FixedForce extends Engine.Trait
+Engine.traits.FixedForce = class FixedForce extends Engine.Trait
 {
     constructor()
     {

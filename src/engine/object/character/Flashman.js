@@ -1,13 +1,13 @@
-Game.objects.characters.Flashman = function()
+Engine.objects.characters.Flashman = function()
 {
     Engine.Object.call(this);
     this.isFlashing = false;
 }
 
-Engine.Util.extend(Game.objects.characters.Flashman,
+Engine.Util.extend(Engine.objects.characters.Flashman,
                    Engine.Object);
 
-Game.objects.characters.Flashman.prototype.routeAnimation = function()
+Engine.objects.characters.Flashman.prototype.routeAnimation = function()
 {
     if (this.weapon._firing) {
         return 'fire';

@@ -1,12 +1,12 @@
-Game.objects.characters.Metalman = function()
+Engine.objects.characters.Metalman = function()
 {
     Engine.Object.call(this);
 }
 
-Engine.Util.extend(Game.objects.characters.Metalman,
+Engine.Util.extend(Engine.objects.characters.Metalman,
                    Engine.Object);
 
-Game.objects.characters.Metalman.prototype.routeAnimation = function()
+Engine.objects.characters.Metalman.prototype.routeAnimation = function()
 {
     if (!this.jump._ready) {
         if (this.weapon._firing) {

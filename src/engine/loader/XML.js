@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML =
+Engine.Loader.XML =
 class XMLLoader
-extends Game.Loader
+extends Engine.Loader
 {
     constructor(game)
     {
@@ -28,7 +28,7 @@ extends Game.Loader
     {
         return this.asyncLoadXML(url).then(doc => {
             const node = doc.querySelector('game');
-            const parser = new Game.Loader.XML.GameParser(this, node);
+            const parser = new Engine.Loader.XML.Engine.arser(this, node);
             return parser.parse();
         });
     }
@@ -56,16 +56,16 @@ extends Game.Loader
         const type = node.getAttribute('type');
         if (type) {
             if (type === 'level') {
-                const parser = new Game.Loader.XML.LevelParser(this, node);
+                const parser = new Engine.Loader.XML.LevelParser(this, node);
                 return parser.getScene();
             } else if (type === 'stage-select') {
-                const parser = new Game.Loader.XML.StageSelectParser(this, node);
+                const parser = new Engine.Loader.XML.StageSelectParser(this, node);
                 return parser.getScene();
             } else {
                 throw new Error(`Scene type "${type}" not recognized`);
             }
         } else {
-            const parser = new Game.Loader.XML.SceneParser(this, node);
+            const parser = new Engine.Loader.XML.SceneParser(this, node);
             return parser.getScene();
         }
     }

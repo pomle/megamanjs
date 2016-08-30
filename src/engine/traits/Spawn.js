@@ -1,6 +1,6 @@
 'use strict';
 
-Game.traits.Spawn = function()
+Engine.traits.Spawn = function()
 {
     Engine.Trait.call(this);
     this._conditions = [];
@@ -9,7 +9,7 @@ Game.traits.Spawn = function()
     this._unbind = this._unbind.bind(this);
 }
 
-Engine.Util.extend(Game.traits.Spawn, Engine.Trait, {
+Engine.Util.extend(Engine.traits.Spawn, Engine.Trait, {
     NAME: 'spawn',
     __attach: function() {
         Engine.Trait.prototype.__attach.apply(this, arguments);

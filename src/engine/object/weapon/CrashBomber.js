@@ -1,5 +1,5 @@
-Game.objects.weapons.CrashBomber =
-class CrashBomber extends Game.objects.Weapon
+Engine.objects.weapons.CrashBomber =
+class CrashBomber extends Engine.objects.Weapon
 {
     fire()
     {

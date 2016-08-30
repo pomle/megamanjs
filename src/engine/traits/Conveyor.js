@@ -1,5 +1,5 @@
-Game.traits.Conveyor =
-class Conveyor extends Game.traits.Solid
+Engine.traits.Conveyor =
+class Conveyor extends Engine.traits.Solid
 {
     constructor()
     {

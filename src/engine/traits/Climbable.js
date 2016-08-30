@@ -1,5 +1,5 @@
-Game.traits.Climbable =
-class Climbable extends Game.traits.Solid
+Engine.traits.Climbable =
+class Climbable extends Engine.traits.Solid
 {
     constructor()
     {

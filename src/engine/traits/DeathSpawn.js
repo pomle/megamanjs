@@ -1,4 +1,4 @@
-Game.traits.DeathSpawn =
+Engine.traits.DeathSpawn =
 class DeathSpawn extends Engine.Trait
 {
     constructor()

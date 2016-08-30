@@ -1,4 +1,4 @@
-Game.traits.Climber =
+Engine.traits.Climber =
 class Climber extends Engine.Trait
 {
     constructor()

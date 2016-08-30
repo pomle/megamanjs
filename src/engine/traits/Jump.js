@@ -1,4 +1,4 @@
-Game.traits.Jump =
+Engine.traits.Jump =
 class Jump extends Engine.Trait
 {
     constructor()

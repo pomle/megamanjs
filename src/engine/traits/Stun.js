@@ -1,4 +1,4 @@
-Game.traits.Stun =
+Engine.traits.Stun =
 class Stun extends Engine.Trait
 {
     constructor()
@@ -19,18 +19,18 @@ class Stun extends Engine.Trait
         this.engage = this.engage.bind(this);
         this.disengage = this.disengage.bind(this);
 
-        this.__requires(Game.traits.Health);
-        this.__requires(Game.traits.Physics);
+        this.__requires(Engine.traits.Health);
+        this.__requires(Engine.traits.Physics);
     }
     __attach(host)
     {
-        const health = this.__require(host, Game.traits.Health);
+        const health = this.__require(host, Engine.traits.Health);
         super.__attach(host);
         this._bind(health.EVENT_HURT, this.engage);
     }
     __detach()
     {
-        const health = this.__require(host, Game.traits.Health);
+        const health = this.__require(host, Engine.traits.Health);
         this._host.unbind(health.EVENT_HURT, this.engage);
         super.__detach(this._host);
     }

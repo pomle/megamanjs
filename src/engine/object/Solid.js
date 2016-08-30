@@ -1,12 +1,12 @@
-Game.objects.Solid = function()
+Engine.objects.Solid = function()
 {
     Engine.Object.call(this);
-    var solid = new Game.traits.Solid();
+    var solid = new Engine.traits.Solid();
     solid.fixed = true;
     solid.obstructs = true;
     this.applyTrait(solid);
 }
 
-Engine.Util.extend(Game.objects.Solid, Engine.Object);
+Engine.Util.extend(Engine.objects.Solid, Engine.Object);
 
-Game.objects.obstacles = {};
+Engine.objects.obstacles = {};

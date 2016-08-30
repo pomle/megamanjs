@@ -1,5 +1,5 @@
-Game.traits.Elevator =
-class Elevator extends Game.traits.Solid
+Engine.traits.Elevator =
+class Elevator extends Engine.traits.Solid
 {
     constructor()
     {

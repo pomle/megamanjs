@@ -1,4 +1,4 @@
-Game.objects.characters.SniperArmor = function()
+Engine.objects.characters.SniperArmor = function()
 {
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
@@ -10,10 +10,10 @@ Game.objects.characters.SniperArmor = function()
     this.timeAIUpdated = null;
 }
 
-Engine.Util.extend(Game.objects.characters.SniperArmor,
+Engine.Util.extend(Engine.objects.characters.SniperArmor,
                    Engine.Object);
 
-Game.objects.characters.SniperArmor.prototype.routeAnimation = function()
+Engine.objects.characters.SniperArmor.prototype.routeAnimation = function()
 {
     if (!this.jump._ready) {
         return 'jumping';
@@ -24,7 +24,7 @@ Game.objects.characters.SniperArmor.prototype.routeAnimation = function()
     return 'idle';
 }
 
-Game.objects.characters.SniperArmor.prototype.updateAI = function()
+Engine.objects.characters.SniperArmor.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) < 2) {
         return;
@@ -46,7 +46,7 @@ Game.objects.characters.SniperArmor.prototype.updateAI = function()
     }
 }
 
-Game.objects.characters.SniperArmor.prototype.timeShift = function(dt)
+Engine.objects.characters.SniperArmor.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
 

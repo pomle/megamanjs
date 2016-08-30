@@ -1,5 +1,5 @@
-Game.objects.weapons.AirShooter =
-class AirShooter extends Game.objects.Weapon
+Engine.objects.weapons.AirShooter =
+class AirShooter extends Engine.objects.Weapon
 {
     constructor()
     {

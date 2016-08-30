@@ -1,13 +1,13 @@
-Game.traits.DeathZone = function()
+Engine.traits.DeathZone = function()
 {
     Engine.Trait.call(this);
 }
 
-Engine.Util.extend(Game.traits.DeathZone, Engine.Trait);
+Engine.Util.extend(Engine.traits.DeathZone, Engine.Trait);
 
-Game.traits.DeathZone.prototype.NAME = 'deathZone';
+Engine.traits.DeathZone.prototype.NAME = 'deathZone';
 
-Game.traits.DeathZone.prototype.__collides = function(withObject, ourZone, theirZone)
+Engine.traits.DeathZone.prototype.__collides = function(withObject, ourZone, theirZone)
 {
     if (withObject.health !== undefined && withObject.health.energy.depleted === false) {
         withObject.health.kill();

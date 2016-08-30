@@ -1,4 +1,4 @@
-Game.traits.Teleport =
+Engine.traits.Teleport =
 class Teleport extends Engine.Trait
 {
     constructor()

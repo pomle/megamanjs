@@ -1,4 +1,4 @@
-Game.traits.Destructible =
+Engine.traits.Destructible =
 class Destructible extends Engine.Trait
 {
     constructor()

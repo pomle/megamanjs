@@ -1,13 +1,13 @@
-Game.ai.Telly = function()
+Engine.ai.Telly = function()
 {
     Engine.Trait.call(this);
     this._timeLastUpdated = undefined;
     this._updateInterval = 1;
 }
 
-Engine.Util.extend(Game.ai.Telly, Engine.Trait);
+Engine.Util.extend(Engine.ai.Telly, Engine.Trait);
 
-Game.traits.Teleport.prototype.__timeshift = function(dt)
+Engine.traits.Teleport.prototype.__timeshift = function(dt)
 {
     if (Math.abs(this._host.time - this._timeLastUpdated) < this._updateInterval) {
         return;
@@ -16,7 +16,7 @@ Game.traits.Teleport.prototype.__timeshift = function(dt)
     this._updateAI();
 }
 
-Game.traits.Teleport.prototype._updateAI = function()
+Engine.traits.Teleport.prototype._updateAI = function()
 {
     this._timeLastUpdated = this._host.time;
 

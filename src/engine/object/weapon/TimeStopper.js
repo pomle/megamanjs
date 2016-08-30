@@ -1,5 +1,5 @@
-Game.objects.weapons.TimeStopper =
-class TimeStopper extends Game.objects.Weapon
+Engine.objects.weapons.TimeStopper =
+class TimeStopper extends Engine.objects.Weapon
 {
     constructor()
     {

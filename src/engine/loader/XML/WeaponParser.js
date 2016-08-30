@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.WeaponParser =
+Engine.Loader.XML.WeaponParser =
 class WeaponParser
-extends Game.Loader.XML.Parser
+extends Engine.Loader.XML.Parser
 {
     createConstructor(blueprint)
     {
@@ -72,7 +72,7 @@ extends Game.Loader.XML.Parser
         var objectId = weaponNode.getAttribute('id');
         var source = weaponNode.getAttribute('source');
 
-        var constr = Game.objects.weapons[source] || Game.objects.Weapon;
+        var constr = Engine.objects.weapons[source] || Engine.objects.Weapon;
         const weaponId = weaponNode.getAttribute('id');
         const directionNode = weaponNode.getElementsByTagName('directions')[0];
         var projectileNodes = weaponNode.getElementsByTagName('projectile');

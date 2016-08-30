@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.TraitParser =
+Engine.Loader.XML.TraitParser =
 class TraitParser
-extends Game.Loader.XML.Parser
+extends Engine.Loader.XML.Parser
 {
     constructor(loader)
     {
@@ -57,10 +57,10 @@ extends Game.Loader.XML.Parser
     getConstructor(name)
     {
         const type = this.TRAIT_MAP[name];
-        if (!type || !Game.traits[type]) {
+        if (!type || !Engine.traits[type]) {
             throw new TypeError(`Trait type "${name}"" does not exist`);
         }
-        return Game.traits[type];
+        return Engine.traits[type];
     }
     getSetup(node)
     {
@@ -226,7 +226,7 @@ extends Game.Loader.XML.Parser
         const attack = node.getAttribute(attr);
         if (attack) {
             const surfaces = [];
-            const SIDES = Game.traits.Solid.SIDES;
+            const SIDES = Engine.traits.Solid.SIDES;
             const map = {
                 'top': SIDES.TOP,
                 'bottom': SIDES.BOTTOM,

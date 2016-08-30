@@ -1,5 +1,5 @@
-Game.objects.weapons.MetalBlade =
-class MetalBlade extends Game.objects.Weapon
+Engine.objects.weapons.MetalBlade =
+class MetalBlade extends Engine.objects.Weapon
 {
     fire()
     {

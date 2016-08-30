@@ -1,4 +1,4 @@
-Game.Hud = class Hud
+Engine.Hud = class Hud
 {
     constructor()
     {
@@ -62,7 +62,7 @@ Game.Hud = class Hud
     }
     onSceneSet(scene)
     {
-        if (scene instanceof Game.scenes.Level) {
+        if (scene instanceof Engine.scenes.Level) {
             scene.events.bind(scene.EVENT_PLAYER_RESET, this.showHud);
             scene.events.bind(scene.EVENT_PLAYER_DEATH, this.hideHud);
             const player = scene.player.character;
@@ -74,7 +74,7 @@ Game.Hud = class Hud
     }
     onSceneUnset(scene)
     {
-        if (scene instanceof Game.scenes.Level) {
+        if (scene instanceof Engine.scenes.Level) {
             scene.events.unbind(scene.EVENT_PLAYER_RESET, this.showHud);
             scene.events.unbind(scene.EVENT_PLAYER_DEATH, this.hideHud);
             const player = scene.player.character;

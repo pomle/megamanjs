@@ -1,5 +1,5 @@
-Game.objects.weapons.Plasma =
-class Plasma extends Game.objects.Weapon
+Engine.objects.weapons.Plasma =
+class Plasma extends Engine.objects.Weapon
 {
     fire()
     {

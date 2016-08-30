@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.GameParser =
+Engine.Loader.XML.GameParser =
 class GameParser
-extends Game.Loader.XML.Parser
+extends Engine.Loader.XML.Parser
 {
     constructor(loader, node)
     {
@@ -106,7 +106,7 @@ extends Game.Loader.XML.Parser
         for (let node, i = 0; node = nodes[i++];) {
             const task = this.loader.followNode(node)
                 .then(node => {
-                    const parser = new Game.Loader.XML.ObjectParser(this.loader, node);
+                    const parser = new Engine.Loader.XML.ObjectParser(this.loader, node);
                     return parser.getObjects();
                 })
                 .then(objects => {
@@ -156,7 +156,7 @@ extends Game.Loader.XML.Parser
         const weaponsNode = this._node.querySelector(':scope > weapons');
         if (weaponsNode) {
             const resource = this.loader.resourceManager;
-            const weaponParser = new Game.Loader.XML.WeaponParser(this.loader);
+            const weaponParser = new Engine.Loader.XML.WeaponParser(this.loader);
             const weapons = weaponParser.parse(weaponsNode);
             const player = this.loader.game.player;
             Object.keys(weapons).forEach((key) => {

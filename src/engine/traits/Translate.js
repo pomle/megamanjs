@@ -1,4 +1,4 @@
-Game.traits.Translate =
+Engine.traits.Translate =
 class Translate extends Engine.Trait
 {
     constructor()

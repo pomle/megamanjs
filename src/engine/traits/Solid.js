@@ -1,6 +1,6 @@
 'use strict';
 
-Game.traits.Solid =
+Engine.traits.Solid =
 class Solid extends Engine.Trait
 {
     constructor()
@@ -9,7 +9,7 @@ class Solid extends Engine.Trait
 
         this.NAME = 'solid';
 
-        const SIDES = Game.traits.Solid.SIDES;
+        const SIDES = Engine.traits.Solid.SIDES;
         this.TOP = SIDES.TOP;
         this.BOTTOM = SIDES.BOTTOM;
         this.LEFT = SIDES.LEFT;
@@ -105,7 +105,7 @@ class Solid extends Engine.Trait
     }
 }
 
-Game.traits.Solid.SIDES = {
+Engine.traits.Solid.SIDES = {
     TOP: Engine.Object.prototype.SURFACE_TOP,
     BOTTOM: Engine.Object.prototype.SURFACE_BOTTOM,
     LEFT: Engine.Object.prototype.SURFACE_LEFT,

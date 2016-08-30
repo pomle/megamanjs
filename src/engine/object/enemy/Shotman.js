@@ -1,4 +1,4 @@
-Game.objects.characters.Shotman = function(target)
+Engine.objects.characters.Shotman = function(target)
 {
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
@@ -20,16 +20,16 @@ Game.objects.characters.Shotman = function(target)
     this.shootingAngle = this.aimingAngle;
 }
 
-Engine.Util.extend(Game.objects.characters.Shotman,
+Engine.Util.extend(Engine.objects.characters.Shotman,
                    Engine.Object);
 
-Game.objects.characters.Shotman.prototype.fire = function()
+Engine.objects.characters.Shotman.prototype.fire = function()
 {
     if (this.waitForShot > 0) {
         return;
     }
 
-    var projectile = new Game.objects.projectiles.EnemyPlasma();
+    var projectile = new Engine.objects.projectiles.EnemyPlasma();
     projectile.physics.enabled = true;
 
     var kX = Math.cos(this.RAD * this.shootingAngle);
@@ -54,7 +54,7 @@ Game.objects.characters.Shotman.prototype.fire = function()
     return true;
 }
 
-Game.objects.characters.Shotman.prototype.updateAI = function()
+Engine.objects.characters.Shotman.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) > 2) {
         var target = this.ai.findPlayer();
@@ -70,7 +70,7 @@ Game.objects.characters.Shotman.prototype.updateAI = function()
     }
 }
 
-Game.objects.characters.Shotman.prototype.routeAnimation = function()
+Engine.objects.characters.Shotman.prototype.routeAnimation = function()
 {
     if (this.shootingAngle > 145) {
         return 'deg0';
@@ -83,7 +83,7 @@ Game.objects.characters.Shotman.prototype.routeAnimation = function()
     }
 }
 
-Game.objects.characters.Shotman.prototype.timeShift = function(dt)
+Engine.objects.characters.Shotman.prototype.timeShift = function(dt)
 {
     this.waitForShot -= dt;
 

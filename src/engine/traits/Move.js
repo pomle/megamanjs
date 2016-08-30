@@ -1,4 +1,4 @@
-Game.traits.Move =
+Engine.traits.Move =
 class Move extends Engine.Trait
 {
     constructor()

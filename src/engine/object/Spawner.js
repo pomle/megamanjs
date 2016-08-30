@@ -1,4 +1,4 @@
-Game.objects.Spawner =
+Engine.objects.Spawner =
 class Spawner extends Engine.Object
 {
     constructor()

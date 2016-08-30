@@ -1,7 +1,7 @@
 'use strict';
 
-Game.traits.Door =
-class Door extends Game.traits.Solid
+Engine.traits.Door =
+class Door extends Engine.traits.Solid
 {
     constructor()
     {

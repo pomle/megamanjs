@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.EventParser =
+Engine.Loader.XML.EventParser =
 class EventParser
-extends Game.Loader.XML.Parser
+extends Engine.Loader.XML.Parser
 {
     constructor(loader, node)
     {
@@ -24,7 +24,7 @@ extends Game.Loader.XML.Parser
     _parseEvents()
     {
         const events = [];
-        const parser = new Game.Loader.XML.ActionParser;
+        const parser = new Engine.Loader.XML.ActionParser;
         const actionNodes = this._node.querySelectorAll(':scope > event > action');
         for (let actionNode, i = 0; actionNode = actionNodes[i++];) {
             const name = this.getAttr(actionNode.parentNode, 'name');

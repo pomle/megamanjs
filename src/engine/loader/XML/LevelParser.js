@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.LevelParser =
+Engine.Loader.XML.LevelParser =
 class LevelParser
-extends Game.Loader.XML.SceneParser
+extends Engine.Loader.XML.SceneParser
 {
     constructor(loader, node)
     {
@@ -14,7 +14,7 @@ extends Game.Loader.XML.SceneParser
             throw new TypeError('Node not <scene type="level">');
         }
 
-        this._scene = new Game.scenes.Level();
+        this._scene = new Engine.scenes.Level();
 
         this._parseAudio();
         this._parseEvents();
@@ -72,7 +72,7 @@ extends Game.Loader.XML.SceneParser
         const world = this._scene.world;
         const spawnerNodes = this._node.querySelectorAll('layout > spawner');
         for (let spawnerNode, i = 0; spawnerNode = spawnerNodes[i]; ++i) {
-            const spawner = new Game.objects.Spawner();
+            const spawner = new Engine.objects.Spawner();
             const position = this.getPosition(spawnerNode);
             spawner.position.copy(position);
             spawner.position.z = 0;

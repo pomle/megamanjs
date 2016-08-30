@@ -1,4 +1,4 @@
-Game.objects.characters.SniperJoe = function(target)
+Engine.objects.characters.SniperJoe = function(target)
 {
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
@@ -10,10 +10,10 @@ Game.objects.characters.SniperJoe = function(target)
     this._firingLoop = -1;
 }
 
-Engine.Util.extend(Game.objects.characters.SniperJoe,
+Engine.Util.extend(Engine.objects.characters.SniperJoe,
                    Engine.Object);
 
-Game.objects.characters.SniperJoe.prototype.impactProjectile = function(projectile)
+Engine.objects.characters.SniperJoe.prototype.impactProjectile = function(projectile)
 {
     // Is the shield pointing towards the projectile
     if (this.isShielding) {
@@ -25,10 +25,10 @@ Game.objects.characters.SniperJoe.prototype.impactProjectile = function(projecti
         }
     }
 
-    return Game.objects.Character.prototype.impactProjectile.call(this, projectile);
+    return Engine.objects.Character.prototype.impactProjectile.call(this, projectile);
 }
 
-Game.objects.characters.SniperJoe.prototype.routeAnimation = function(dt)
+Engine.objects.characters.SniperJoe.prototype.routeAnimation = function(dt)
 {
     if (this.isShielding) {
         return 'shielding';
@@ -36,7 +36,7 @@ Game.objects.characters.SniperJoe.prototype.routeAnimation = function(dt)
     return 'shooting';
 }
 
-Game.objects.characters.SniperJoe.prototype.updateAI = function()
+Engine.objects.characters.SniperJoe.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) < 2) {
         return;
@@ -56,7 +56,7 @@ Game.objects.characters.SniperJoe.prototype.updateAI = function()
     }
 }
 
-Game.objects.characters.SniperJoe.prototype.timeShift = function(dt)
+Engine.objects.characters.SniperJoe.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
 

@@ -1,14 +1,14 @@
-Game.objects.characters.Telly = function()
+Engine.objects.characters.Telly = function()
 {
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
     this.speed = 12;
 }
 
-Engine.Util.extend(Game.objects.characters.Telly,
+Engine.Util.extend(Engine.objects.characters.Telly,
                    Engine.Object);
 
-Game.objects.characters.Telly.prototype.updateAI = function()
+Engine.objects.characters.Telly.prototype.updateAI = function()
 {
     if (Math.abs(this.time - this.timeAIUpdated) < 1) {
         return;
@@ -32,7 +32,7 @@ Game.objects.characters.Telly.prototype.updateAI = function()
     }
 }
 
-Game.objects.characters.Telly.prototype.timeShift = function(dt)
+Engine.objects.characters.Telly.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
     Engine.Object.prototype.timeShift.call(this, dt);

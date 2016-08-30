@@ -1,7 +1,7 @@
-Game.objects.obstacles.DeathZone = function()
+Engine.objects.obstacles.DeathZone = function()
 {
     Engine.Object.call(this);
-    this.applyTrait(new Game.traits.DeathZone);
+    this.applyTrait(new Engine.traits.DeathZone);
 }
 
-Engine.Util.extend(Game.objects.obstacles.DeathZone, Engine.Object);
+Engine.Util.extend(Engine.objects.obstacles.DeathZone, Engine.Object);

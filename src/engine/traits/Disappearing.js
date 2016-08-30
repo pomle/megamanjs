@@ -1,4 +1,4 @@
-Game.traits.Disappearing = function()
+Engine.traits.Disappearing = function()
 {
     Engine.Trait.call(this);
     this._visible = true;
@@ -9,13 +9,13 @@ Game.traits.Disappearing = function()
     this.offset = 0;
 }
 
-Engine.Util.extend(Game.traits.Disappearing, Engine.Trait);
+Engine.Util.extend(Engine.traits.Disappearing, Engine.Trait);
 
-Game.traits.Disappearing.prototype.NAME = 'disappearing';
+Engine.traits.Disappearing.prototype.NAME = 'disappearing';
 
-Game.traits.Disappearing.prototype.ANIM_APPEARING = 'appearing';
+Engine.traits.Disappearing.prototype.ANIM_APPEARING = 'appearing';
 
-Game.traits.Disappearing.prototype.__timeshift = function(deltaTime, totalTime)
+Engine.traits.Disappearing.prototype.__timeshift = function(deltaTime, totalTime)
 {
     var totalDuration = this.onDuration + this.offDuration;
     var modTime = (totalTime + this.offset) % totalDuration;
@@ -27,7 +27,7 @@ Game.traits.Disappearing.prototype.__timeshift = function(deltaTime, totalTime)
     }
 }
 
-Game.traits.Disappearing.prototype.admit = function()
+Engine.traits.Disappearing.prototype.admit = function()
 {
     if (this._visible) {
         return;
@@ -43,7 +43,7 @@ Game.traits.Disappearing.prototype.admit = function()
     }
 }
 
-Game.traits.Disappearing.prototype.retract = function()
+Engine.traits.Disappearing.prototype.retract = function()
 {
     if (!this._visible) {
         return;

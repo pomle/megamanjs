@@ -1,4 +1,4 @@
-Game.behaviors = {
+Engine.behaviors = {
     lookForPlayer: function(ai, host, deltaTime) {
         if (Math.abs(this.time - this.timeAIUpdated) < 2) {
             return;

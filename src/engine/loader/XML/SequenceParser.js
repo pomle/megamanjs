@@ -1,7 +1,7 @@
 'use strict';
 
-Game.Loader.XML.SequenceParser =
-class SequenceParser extends Game.Loader.XML.Parser
+Engine.Loader.XML.SequenceParser =
+class SequenceParser extends Engine.Loader.XML.Parser
 {
     getSequences(sequencesNode)
     {
@@ -19,7 +19,7 @@ class SequenceParser extends Game.Loader.XML.Parser
     }
     getSequence(sequenceNode)
     {
-        const actionParser = new Game.Loader.XML.ActionParser;
+        const actionParser = new Engine.Loader.XML.ActionParser;
         const nodes = sequenceNode.querySelectorAll('action');
         const sequence = [];
         for (let node, i = 0; node = nodes[i]; ++i) {

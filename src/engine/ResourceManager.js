@@ -7,7 +7,7 @@ class ResourceManager
     {
         /* These must be defined in order of specificity. */
         this.TYPE_MAP = {
-            'weapon': Game.objects.Weapon,
+            'weapon': Engine.objects.Weapon,
             'object': Engine.Object,
             'texture': THREE.Texture,
         }

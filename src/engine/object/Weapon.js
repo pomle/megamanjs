@@ -1,4 +1,4 @@
-Game.objects.Weapon = class Weapon
+Engine.objects.Weapon = class Weapon
 {
     constructor()
     {
@@ -122,7 +122,7 @@ Game.objects.Weapon = class Weapon
         if (user instanceof Engine.Object !== true) {
             throw new TypeError('User not object');
         }
-        if (user.weapon instanceof Game.traits.Weapon !== true) {
+        if (user.weapon instanceof Engine.traits.Weapon !== true) {
             throw new TypeError('User missing weapon trait');
         }
         this.user = user;
@@ -140,4 +140,4 @@ Game.objects.Weapon = class Weapon
     }
 }
 
-Game.objects.weapons = {};
+Engine.objects.weapons = {};

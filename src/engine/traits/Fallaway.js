@@ -1,11 +1,11 @@
-Game.traits.Fallaway =
+Engine.traits.Fallaway =
 class Fallaway extends Engine.Trait
 {
     constructor()
     {
         super();
         this.NAME = 'fallaway';
-        this.__requires(Game.traits.Physics);
+        this.__requires(Engine.traits.Physics);
 
         this._countdown = null;
         this._origin = null;

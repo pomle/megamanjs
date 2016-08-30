@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.SceneParser =
+Engine.Loader.XML.SceneParser =
 class SceneParser
-extends Game.Loader.XML.Parser
+extends Engine.Loader.XML.Parser
 {
     constructor(loader, node)
     {
@@ -10,10 +10,10 @@ extends Game.Loader.XML.Parser
 
         this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
         this.BEHAVIOR_MAP = {
-            'climbables': Game.objects.Climbable,
-            'deathzones': Game.objects.obstacles.DeathZone,
+            'climbables': Engine.objects.Climbable,
+            'deathzones': Engine.objects.obstacles.DeathZone,
             'environments': Engine.Object,
-            'solids': Game.objects.Solid,
+            'solids': Engine.objects.Solid,
         };
 
         this._node = node;
@@ -77,7 +77,7 @@ extends Game.Loader.XML.Parser
             throw new TypeError('Node not <scene>');
         }
 
-        this._scene = new Game.Scene();
+        this._scene = new Engine.Scene();
 
         this._parseAudio();
         this._parseCamera();
@@ -154,7 +154,7 @@ extends Game.Loader.XML.Parser
             return Promise.resolve();
         }
 
-        const parser = new Game.Loader.XML.EventParser(this.loader, node);
+        const parser = new Engine.Loader.XML.EventParser(this.loader, node);
         return parser.getEvents().then(events => {
             const scene = this._scene;
             events.forEach(event => {
@@ -226,7 +226,7 @@ extends Game.Loader.XML.Parser
 
         const traitNodes = node.getElementsByTagName('trait');
         if (traitNodes) {
-            const traitParser = new Game.Loader.XML.TraitParser();
+            const traitParser = new Engine.Loader.XML.TraitParser();
             const traits = [];
             for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
                 const Trait = traitParser.parseTrait(traitNode);
@@ -251,7 +251,7 @@ extends Game.Loader.XML.Parser
 
         const tasks = [];
         for (let node, i = 0; node = nodes[i++];) {
-            const parser = new Game.Loader.XML.ObjectParser(this.loader, node);
+            const parser = new Engine.Loader.XML.ObjectParser(this.loader, node);
             const task = parser.getObjects().then(objects => {
                 Object.assign(this._objects, objects);
             });
@@ -262,7 +262,7 @@ extends Game.Loader.XML.Parser
     }
     _parseSequences()
     {
-        const parser = new Game.Loader.XML.SequenceParser;
+        const parser = new Engine.Loader.XML.SequenceParser;
         const node = this._node.querySelector(':scope > sequences');
         if (node) {
             const seq = this._scene.sequencer;

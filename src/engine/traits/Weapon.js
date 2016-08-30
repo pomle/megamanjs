@@ -1,4 +1,4 @@
-Game.traits.Weapon = function()
+Engine.traits.Weapon = function()
 {
     Engine.Trait.call(this);
 
@@ -12,14 +12,14 @@ Game.traits.Weapon = function()
     this.projectileEmitRadius = 0;
 }
 
-Engine.Util.extend(Game.traits.Weapon, Engine.Trait);
+Engine.Util.extend(Engine.traits.Weapon, Engine.Trait);
 
-Game.traits.Weapon.prototype.NAME = 'weapon';
+Engine.traits.Weapon.prototype.NAME = 'weapon';
 
-Game.traits.Weapon.prototype.EVENT_FIRE = 'weapon-fire';
-Game.traits.Weapon.prototype.EVENT_EQUIP = 'weapon-equip';
+Engine.traits.Weapon.prototype.EVENT_FIRE = 'weapon-fire';
+Engine.traits.Weapon.prototype.EVENT_EQUIP = 'weapon-equip';
 
-Game.traits.Weapon.prototype.__collides = function(withObject)
+Engine.traits.Weapon.prototype.__collides = function(withObject)
 {
     if (withObject.pickupable && this._weapon && this._weapon.ammo.full === false) {
         var props = withObject.pickupable.properties;
@@ -30,7 +30,7 @@ Game.traits.Weapon.prototype.__collides = function(withObject)
     }
 }
 
-Game.traits.Weapon.prototype.__timeshift = function(deltaTime)
+Engine.traits.Weapon.prototype.__timeshift = function(deltaTime)
 {
     if (this._firing) {
         this._duration += deltaTime;
@@ -45,9 +45,9 @@ Game.traits.Weapon.prototype.__timeshift = function(deltaTime)
     }
 }
 
-Game.traits.Weapon.prototype.equip = function(weapon)
+Engine.traits.Weapon.prototype.equip = function(weapon)
 {
-    if (weapon instanceof Game.objects.Weapon === false) {
+    if (weapon instanceof Engine.objects.Weapon === false) {
         throw new Error('Invalid weapon');
     }
     this._weapon = weapon;
@@ -55,7 +55,7 @@ Game.traits.Weapon.prototype.equip = function(weapon)
     this._trigger(this.EVENT_EQUIP, [weapon]);
 }
 
-Game.traits.Weapon.prototype.fire = function()
+Engine.traits.Weapon.prototype.fire = function()
 {
     if (this._host.stun && this._host.stun._engaged === true) {
         return false;

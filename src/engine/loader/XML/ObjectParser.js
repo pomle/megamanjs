@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.ObjectParser =
+Engine.Loader.XML.ObjectParser =
 class ObjectParser
-extends Game.Loader.XML.Parser
+extends Engine.Loader.XML.Parser
 {
     constructor(loader, node)
     {
@@ -104,8 +104,8 @@ extends Game.Loader.XML.Parser
     }
     _getConstructor(type, source)
     {
-        if (type === 'character' && Game.objects.characters[source]) {
-            return Game.objects.characters[source];
+        if (type === 'character' && Engine.objects.characters[source]) {
+            return Engine.objects.characters[source];
         } else {
             return Engine.Object;
         }
@@ -398,7 +398,7 @@ extends Game.Loader.XML.Parser
     {
         const eventsNode = objectNode.querySelector(':scope > events');
         if (eventsNode) {
-            const parser = new Game.Loader.XML.EventParser(this.loader, eventsNode);
+            const parser = new Engine.Loader.XML.EventParser(this.loader, eventsNode);
             return parser.getEvents();
         }
         else {
@@ -408,7 +408,7 @@ extends Game.Loader.XML.Parser
     _parseObjectTraits(objectNode)
     {
         const traits = [];
-        const traitParser = new Game.Loader.XML.TraitParser(this.loader);
+        const traitParser = new Engine.Loader.XML.TraitParser(this.loader);
         const traitsNode = objectNode.getElementsByTagName('traits')[0];
         if (traitsNode) {
             const traitNodes = traitsNode.getElementsByTagName('trait');
@@ -420,7 +420,7 @@ extends Game.Loader.XML.Parser
     }
     _parseObjectSequences(objectNode)
     {
-        const parser = new Game.Loader.XML.SequenceParser;
+        const parser = new Engine.Loader.XML.SequenceParser;
         const node = objectNode.querySelector(':scope > sequences');
         if (node) {
             const sequences = parser.getSequences(node);

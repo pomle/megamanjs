@@ -1,8 +1,8 @@
 'use strict';
 
-Game.Loader.XML.ActionParser =
+Engine.Loader.XML.ActionParser =
 class ActionParser
-extends Game.Loader.XML.Parser
+extends Engine.Loader.XML.Parser
 {
     constructor()
     {

@@ -1,4 +1,4 @@
-Game.traits.Light = function()
+Engine.traits.Light = function()
 {
     Engine.Trait.call(this);
 
@@ -14,13 +14,13 @@ Game.traits.Light = function()
     this._updateFrequency = 2.5;
 }
 
-Engine.Util.extend(Game.traits.Light, Engine.Trait);
+Engine.Util.extend(Engine.traits.Light, Engine.Trait);
 
-Game.traits.Light.prototype.EVENT_LAMP_CHANGE = 'lamp_change';
+Engine.traits.Light.prototype.EVENT_LAMP_CHANGE = 'lamp_change';
 
-Game.traits.Light.prototype.NAME = 'headlight';
+Engine.traits.Light.prototype.NAME = 'headlight';
 
-Game.traits.Light.prototype.__timeshift = function lightTimeshift(deltaTime)
+Engine.traits.Light.prototype.__timeshift = function lightTimeshift(deltaTime)
 {
     if (this._nextUpdate > this._updateFrequency) {
         this._nextUpdate = 0;
@@ -43,7 +43,7 @@ Game.traits.Light.prototype.__timeshift = function lightTimeshift(deltaTime)
     this._nextUpdate += deltaTime;
 }
 
-Game.traits.Light.prototype._updateLight = function(deltaTime)
+Engine.traits.Light.prototype._updateLight = function(deltaTime)
 {
     const host = this._host;
 
@@ -57,7 +57,7 @@ Game.traits.Light.prototype._updateLight = function(deltaTime)
     }
 }
 
-Game.traits.Light.prototype._updateScene = function()
+Engine.traits.Light.prototype._updateScene = function()
 {
     const host = this._host;
     this.lamps.forEach(lamp => {
@@ -74,7 +74,7 @@ Game.traits.Light.prototype._updateScene = function()
     }
 }
 
-Game.traits.Light.prototype._startLamp = function(lamp)
+Engine.traits.Light.prototype._startLamp = function(lamp)
 {
     if (lamp.state === true) {
         return;
@@ -87,7 +87,7 @@ Game.traits.Light.prototype._startLamp = function(lamp)
     });
 }
 
-Game.traits.Light.prototype._stopLamp = function(lamp)
+Engine.traits.Light.prototype._stopLamp = function(lamp)
 {
     if (lamp.state === false) {
         return;
@@ -100,14 +100,14 @@ Game.traits.Light.prototype._stopLamp = function(lamp)
     });
 }
 
-Game.traits.Light.prototype.addLamp = function(light)
+Engine.traits.Light.prototype.addLamp = function(light)
 {
-    var lamp = new Game.traits.Light.Lamp(light);
+    var lamp = new Engine.traits.Light.Lamp(light);
     this.lamps.push(lamp);
     return lamp;
 }
 
-Game.traits.Light.prototype.on = function()
+Engine.traits.Light.prototype.on = function()
 {
     this._updateScene();
     this.lamps.forEach(lamp => {
@@ -115,14 +115,14 @@ Game.traits.Light.prototype.on = function()
     });
 }
 
-Game.traits.Light.prototype.off = function()
+Engine.traits.Light.prototype.off = function()
 {
     this.lamps.forEach(lamp => {
         this._stopLamp(lamp);
     });
 }
 
-Game.traits.Light.Lamp = function(light)
+Engine.traits.Light.Lamp = function(light)
 {
     if (light === undefined) {
         this.light = new THREE.SpotLight(0xffffff, 0, 100);

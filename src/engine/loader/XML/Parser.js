@@ -1,6 +1,6 @@
 'use strict';
 
-Game.Loader.XML.Parser =
+Engine.Loader.XML.Parser =
 class Parser
 {
     constructor(loader)

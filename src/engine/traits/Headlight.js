@@ -1,6 +1,6 @@
-Game.traits.Headlight = function()
+Engine.traits.Headlight = function()
 {
-    Game.traits.Light.call(this);
+    Engine.traits.Light.call(this);
 
     this.position = new THREE.Vector3(4, 7.5, -1);
 
@@ -30,38 +30,38 @@ Game.traits.Headlight = function()
     this.headbob = 2;
 
     this.lamps = [
-        new Game.traits.Light.Lamp(this.beam),
-        new Game.traits.Light.Lamp(this.point),
+        new Engine.traits.Light.Lamp(this.beam),
+        new Engine.traits.Light.Lamp(this.point),
     ];
 }
 
-Engine.Util.extend(Game.traits.Headlight, Game.traits.Light);
+Engine.Util.extend(Engine.traits.Headlight, Engine.traits.Light);
 
-Game.traits.Headlight.prototype.NAME = 'headlight';
+Engine.traits.Headlight.prototype.NAME = 'headlight';
 
-Game.traits.Headlight.prototype.__attach = function(host)
+Engine.traits.Headlight.prototype.__attach = function(host)
 {
     if (host.textures['headlight_lensflare']) {
         this.flare.material.map = host.textures['headlight_lensflare'].texture;
         this.flare.material.needsUpdate = true;
     }
 
-    Game.traits.Light.prototype.__attach.call(this, host);
+    Engine.traits.Light.prototype.__attach.call(this, host);
     this._host.model.add(this.lamps[0].light);
     this._host.model.add(this.lamps[0].light.target);
 }
 
-Game.traits.Headlight.prototype.__detach = function()
+Engine.traits.Headlight.prototype.__detach = function()
 {
     this.flare.material.map = undefined;
     this.flare.material.needsUpdate = true;
 
     this._host.model.remove(this.lamps[0].light);
     this._host.model.remove(this.lamps[0].light.target);
-    Game.traits.Light.prototype.__detach.call(this);
+    Engine.traits.Light.prototype.__detach.call(this);
 }
 
-Game.traits.Headlight.prototype.__timeshift = function(deltaTime)
+Engine.traits.Headlight.prototype.__timeshift = function(deltaTime)
 {
     var host = this._host,
         animator = host.animators[0];
@@ -75,5 +75,5 @@ Game.traits.Headlight.prototype.__timeshift = function(deltaTime)
         }
     }
 
-    Game.traits.Light.prototype.__timeshift.apply(this, arguments);
+    Engine.traits.Light.prototype.__timeshift.apply(this, arguments);
 }

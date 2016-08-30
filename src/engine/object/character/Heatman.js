@@ -1,4 +1,4 @@
-Game.objects.characters.Heatman = function()
+Engine.objects.characters.Heatman = function()
 {
     Engine.Object.call(this);
 
@@ -6,10 +6,10 @@ Game.objects.characters.Heatman = function()
     this.flameTransformTime = 0;
 }
 
-Engine.Util.extend(Game.objects.characters.Heatman,
+Engine.Util.extend(Engine.objects.characters.Heatman,
                    Engine.Object);
 
-Game.objects.characters.Heatman.prototype.routeAnimation = function()
+Engine.objects.characters.Heatman.prototype.routeAnimation = function()
 {
     if (this.move._interimSpeed) {
         if (this.flameTransformTime < this.flameTransformDuration) {
@@ -40,7 +40,7 @@ Game.objects.characters.Heatman.prototype.routeAnimation = function()
     }
 }
 
-Game.objects.characters.Heatman.prototype.timeShift = function(dt)
+Engine.objects.characters.Heatman.prototype.timeShift = function(dt)
 {
     if (this.move._walkSpeed === 0) {
         this.health.immune = false;

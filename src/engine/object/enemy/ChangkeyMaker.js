@@ -1,4 +1,4 @@
-Game.objects.characters.ChangkeyMaker = function()
+Engine.objects.characters.ChangkeyMaker = function()
 {
     Engine.Object.call(this);
     this.ai = new Engine.AI(this);
@@ -14,16 +14,16 @@ Game.objects.characters.ChangkeyMaker = function()
     var light = new THREE.PointLight(0xff5400, 2, 256);
     light.position.z = 20;
 
-    var glow = new Game.traits.Glow();
+    var glow = new Engine.traits.Glow();
     glow.addLamp(light);
 
     this.applyTrait(glow);
 }
 
-Engine.Util.extend(Game.objects.characters.ChangkeyMaker,
+Engine.Util.extend(Engine.objects.characters.ChangkeyMaker,
                    Engine.Object);
 
-Game.objects.characters.ChangkeyMaker.prototype.routeAnimation = function()
+Engine.objects.characters.ChangkeyMaker.prototype.routeAnimation = function()
 {
     if (this.fireWait < 1) {
         return 'throw';
@@ -31,7 +31,7 @@ Game.objects.characters.ChangkeyMaker.prototype.routeAnimation = function()
     return 'idle';
 }
 
-Game.objects.characters.ChangkeyMaker.prototype.updateAI = function(dt)
+Engine.objects.characters.ChangkeyMaker.prototype.updateAI = function(dt)
 {
     if (this.ai.findPlayer() && this.ai.target.position.distanceTo(this.position) < 300) {
         if (this.fireLoop === undefined) {
@@ -43,7 +43,7 @@ Game.objects.characters.ChangkeyMaker.prototype.updateAI = function(dt)
     }
 }
 
-Game.objects.characters.ChangkeyMaker.prototype.timeShift = function(dt)
+Engine.objects.characters.ChangkeyMaker.prototype.timeShift = function(dt)
 {
     this.updateAI(dt);
 

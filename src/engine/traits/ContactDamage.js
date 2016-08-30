@@ -1,4 +1,4 @@
-Game.traits.ContactDamage =
+Engine.traits.ContactDamage =
 class ContactDamage extends Engine.Trait
 {
     constructor()

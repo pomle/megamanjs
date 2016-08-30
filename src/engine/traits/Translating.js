@@ -1,4 +1,4 @@
-Game.traits.Translating = function()
+Engine.traits.Translating = function()
 {
     Engine.Trait.call(this);
 
@@ -7,11 +7,11 @@ Game.traits.Translating = function()
     this.speed = 1;
 }
 
-Engine.Util.extend(Game.traits.Translating, Engine.Trait);
+Engine.Util.extend(Engine.traits.Translating, Engine.Trait);
 
-Game.traits.Translating.prototype.NAME = 'translating';
+Engine.traits.Translating.prototype.NAME = 'translating';
 
-Game.traits.Translating.prototype.__timeshift = function(deltaTime, totalTime)
+Engine.traits.Translating.prototype.__timeshift = function(deltaTime, totalTime)
 {
     switch (this.func) {
         case 'linear':
@@ -21,14 +21,14 @@ Game.traits.Translating.prototype.__timeshift = function(deltaTime, totalTime)
     }
 }
 
-Game.traits.Translating.prototype.linear = function(deltaTime, totalTime)
+Engine.traits.Translating.prototype.linear = function(deltaTime, totalTime)
 {
     var v = this._host.velocity;
     v.x = this.amplitude.x * this.speed;
     v.y = this.amplitude.y * this.speed;
 }
 
-Game.traits.Translating.prototype.oscillate = function(deltaTime, totalTime)
+Engine.traits.Translating.prototype.oscillate = function(deltaTime, totalTime)
 {
     var v = this._host.velocity,
         s = this.speed,

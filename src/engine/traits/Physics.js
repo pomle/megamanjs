@@ -1,4 +1,4 @@
-Game.traits.Physics =
+Engine.traits.Physics =
 class Physics extends Engine.Trait
 {
     constructor()
