@@ -10,7 +10,7 @@ Editor.ComponentFactory = function(editor)
 Editor.ComponentFactory.prototype.createBehavior = function(node, instance)
 {
     if (!instance) {
-        const parser = new Game.Loader.XML.LevelParser();
+        const parser = new Engine.Loader.XML.LevelParser();
         instance = parser.getBehavior(node[0]).instance;
     }
 
@@ -30,7 +30,7 @@ Editor.ComponentFactory.prototype.createCameraPath = function(pathNode, cameraPa
     }
 
     if (!cameraPath) {
-        const parser = new Game.Loader.XML.Parser();
+        const parser = new Engine.Loader.XML.Parser();
         cameraPath = parser.getCameraPath(pathNode[0]);
         this.editor.scene.camera.addPath(cameraPath);
     }
@@ -84,7 +84,7 @@ Editor.ComponentFactory.prototype.createObject = function(objectNode, objectRef)
         if (!objectRef) {
             const objectsNode = $('<objects/>', this.editor.document).append(objectNode);
             const id = objectNode.attr('id');
-            const parser = new Game.Loader.XML.ObjectParser(this.loader, objectsNode[0]);
+            const parser = new Engine.Loader.XML.ObjectParser(this.loader, objectsNode[0]);
             return parser.getObjects().then(objects => {
                 this.nodeManager.addObject(objectNode);
                 resolve(objects[id].constructor);

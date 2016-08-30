@@ -1,6 +1,6 @@
 window.addEventListener('load', function() {
-    const game = new Game;
-    const loader = new Game.Loader.XML(game);
+    const game = new Engine.Game;
+    const loader = new Engine.Loader.XML(game);
     const env = {};
 
     const gameElement = document.getElementById('game');
@@ -237,7 +237,7 @@ window.addEventListener('load', function() {
         game.attachToElement(screenElement);
         game.attachController(window);
 
-        const hud = new Game.Hud;
+        const hud = new Engine.Hud;
         hud.attach(game, screenElement.querySelector('.energy'));
         updateScreen();
         gameElement.classList.add('ready');

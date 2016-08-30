@@ -19,7 +19,7 @@ const Editor = function()
     this.grid = this.createGrid();
     this.marker = this.createMarker();
 
-    this.attachGame(new Game);
+    this.attachGame(new Engine.Game);
 
     this.renderOverlays = this.renderOverlays.bind(this);
 }
@@ -140,7 +140,7 @@ Editor.prototype.getXML = function()
 
 Editor.prototype.loadURL = function(url)
 {
-    const loader = new Game.Loader.XML();
+    const loader = new Engine.Loader.XML();
     return loader.asyncLoadXML(url).then(doc => {
         return this.loadXML(doc.children[0]);
     });
@@ -148,15 +148,15 @@ Editor.prototype.loadURL = function(url)
 
 Editor.prototype.loadXML = function(node)
 {
-    const loader = new Game.Loader.XML(this.game);
+    const loader = new Engine.Loader.XML(this.game);
     loader.textureScale = 4;
-    const parser = new Game.Loader.XML.LevelParser(loader, node);
+    const parser = new Engine.Loader.XML.LevelParser(loader, node);
     return this.open(parser);
 }
 
 Editor.prototype.open = function(parser)
 {
-    if (!(parser instanceof Game.Loader.XML.LevelParser)) {
+    if (!(parser instanceof Engine.Loader.XML.LevelParser)) {
         throw new TypeError('Expected LevelParser');
     }
 

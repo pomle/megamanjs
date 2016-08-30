@@ -303,7 +303,7 @@ Editor.UI.prototype.setupFileView = function()
     /*editor.loader = {
         loadCharacterXml: function(src) {
             var game = editor.game,
-                loader = new Game.Loader.XML(game);
+                loader = new Engine.Loader.XML(game);
 
             loader.loadObjects(src, function(objects, parser) {
                 for (var characterId in objects) {
@@ -721,7 +721,7 @@ Editor.UI.prototype.setupViewport = function()
 
                         /* If something playable is clicked we should route input to it.
                            Disables because Character instance is not a thing anymore.
-                        if (match.item.object instanceof Game.objects.Character) {
+                        if (match.item.object instanceof Engine.objects.Character) {
                             editor.game.player.setCharacter(match.item.object);
                             console.log("Selected character", match.item.object);
                         }
