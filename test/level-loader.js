@@ -4,7 +4,7 @@ const sinon = require('sinon');
 
 const env = require('./env');
 const xmlReader = require('./xmlreader');
-const LevelParser = env.Game.Loader.XML.LevelParser;
+const LevelParser = env.Engine.Loader.XML.LevelParser;
 
 function loadLevel(levelName) {
   global.AudioContext = function() {};
@@ -13,7 +13,7 @@ function loadLevel(levelName) {
 
   const loaderMock = {
     game: new env.Game(),
-    resource: new env.Game.ResourceManager(),
+    resource: new env.Engine.ResourceManager(),
   };
 
   loaderMock.resource.get = function(type) {

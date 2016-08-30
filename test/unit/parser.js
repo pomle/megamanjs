@@ -10,10 +10,10 @@ const Engine = env.Engine;
 const World = env.Engine.World;
 const THREE = env.THREE;
 const Obj = env.Engine.Object;
-const Parser = env.Game.Loader.XML.Parser;
-const ObjectParser = env.Game.Loader.XML.ObjectParser;
-const LevelParser = env.Game.Loader.XML.LevelParser;
-const TraitParser = env.Game.Loader.XML.TraitParser;
+const Parser = env.Engine.Loader.XML.Parser;
+const ObjectParser = env.Engine.Loader.XML.ObjectParser;
+const LevelParser = env.Engine.Loader.XML.LevelParser;
+const TraitParser = env.Engine.Loader.XML.TraitParser;
 
 function createNode(x) {
   return xmlReader.createNode(x).childNodes[0];
@@ -28,7 +28,7 @@ describe('Parser', function() {
 
   beforeEach(function() {
     loaderMock = {
-      resource: new Game.ResourceManager(),
+      resource: new Engine.ResourceManager(),
     };
 
     global.Image = sinon.spy(function() {
@@ -221,7 +221,7 @@ describe('Parser', function() {
       });
       it('should provide a constructor for object', function() {
         character = new objects['Megaman'];
-        expect(character).to.be.a(Game.objects.Character);
+        expect(character).to.be.a(Engine.objects.Character);
       });
       context('Animations', function() {
         it('should have correct UV maps', function() {
@@ -416,7 +416,7 @@ describe('Parser', function() {
   describe('for Levels', function() {
     let level;
     it('should parse a level', function(done) {
-      const resourceMock = new Game.ResourceManager();
+      const resourceMock = new Engine.ResourceManager();
       resourceMock.get = sinon.spy(function(type, id) {
         if (type === 'font') {
           return function() {
@@ -429,7 +429,7 @@ describe('Parser', function() {
         }
       });
       const game = new Game();
-      game.player = new Game.Player();
+      game.player = new Engine.Player();
       const sceneNode = getNode('level');
       const parser = new LevelParser({
         game: game,
@@ -438,7 +438,7 @@ describe('Parser', function() {
       parser.parse(sceneNode)
       .then(function(_level) {
         level = _level;
-        expect(level).to.be.a(Game.Scene);
+        expect(level).to.be.a(Engine.Scene);
         done();
       })
       .catch(done);
@@ -497,7 +497,7 @@ describe('Parser', function() {
   });
   describe('for Traits', function() {
     const parser = new TraitParser({
-        resource: new Game.ResourceManager(),
+        resource: new Engine.ResourceManager(),
     });
     context('when parsing by default scheme', function() {
       it('should prefer parsing floats', function() {
@@ -515,7 +515,7 @@ describe('Parser', function() {
         const node = createNode('<trait source="Door"/>');
         const Trait = parser.parseTrait(node);
         it('should inherit Door trait', function() {
-          expect(new Trait).to.be.a(Game.traits.Door);
+          expect(new Trait).to.be.a(Engine.traits.Door);
         });
         it('should default to universal direction', function() {
           const trait = new Trait();
@@ -541,7 +541,7 @@ describe('Parser', function() {
     });
     describe('Solid', function() {
       context('when instantiating', function() {
-        const trait = new Game.traits.Solid();
+        const trait = new Engine.traits.Solid();
         it('should have name set to "solid"', function() {
           expect(trait.NAME).to.be('solid');
         });

@@ -6,13 +6,13 @@ const sinon = require('sinon');
 const env = require('../env');
 const World = env.Engine.World;
 const Object = env.Engine.Object;
-const ContactDamage = env.Game.traits.ContactDamage;
-const Physics = env.Game.traits.Physics;
-const Solid = env.Game.traits.Solid;
-const Move = env.Game.traits.Move;
-const Jump = env.Game.traits.Jump;
-const Health = env.Game.traits.Health;
-const Stun = env.Game.traits.Stun;
+const ContactDamage = env.Engine.traits.ContactDamage;
+const Physics = env.Engine.traits.Physics;
+const Solid = env.Engine.traits.Solid;
+const Move = env.Engine.traits.Move;
+const Jump = env.Engine.traits.Jump;
+const Health = env.Engine.traits.Health;
+const Stun = env.Engine.traits.Stun;
 
 describe('Stun Trait', function() {
   function createGround()

@@ -8,7 +8,7 @@ describe('Megaman Colors', () => {
       player = env.game.player.character;
       weapons = env.game.player.weapons;
 
-      const scene = new Game.Scene();
+      const scene = new Engine.Scene();
       scene.camera.position.z = 100;
       scene.world.gravityForce.set(0, 0);
       scene.world.addObject(player);

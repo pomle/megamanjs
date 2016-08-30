@@ -7,8 +7,8 @@ const env = require('../env');
 
 const World = env.Engine.World;
 const Object = env.Engine.Object;
-const Health = env.Game.traits.Health;
-const Spawner = env.Game.objects.Spawner;
+const Health = env.Engine.traits.Health;
+const Spawner = env.Engine.objects.Spawner;
 
 describe('Spawner', function() {
   class Spawnable extends Object {

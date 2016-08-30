@@ -5,8 +5,8 @@ const sinon = require('sinon');
 
 const env = require('../env.js');
 const Object = env.Engine.Object;
-const Health = env.Game.traits.Health;
-const Projectile = env.Game.traits.Projectile;
+const Health = env.Engine.traits.Health;
+const Projectile = env.Engine.traits.Projectile;
 
 describe('Projectile Trait', function() {
   function createCharacter()

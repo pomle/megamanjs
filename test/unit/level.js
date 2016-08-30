@@ -7,8 +7,9 @@ const env = require('../env');
 const AudioContextMock = require('../mocks/audiocontext-mock');
 const WebGLRendererMock = require('../mocks/webglrenderer-mock');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
+const Game = env.Engine.Game;
 const Object = env.Engine.Object;
-const Level = env.Game.scenes.Level;
+const Level = env.Engine.scenes.Level;
 
 describe('Level', function() {
   function createLevel() {
@@ -18,8 +19,8 @@ describe('Level', function() {
       const level = new Level();
       const game = new Game();
       const character = new Object;
-      character.applyTrait(new Game.traits.Health);
-      character.applyTrait(new Game.traits.Teleport);
+      character.applyTrait(new Engine.traits.Health);
+      character.applyTrait(new Engine.traits.Teleport);
       game.player.setCharacter(character);
       level.events.trigger(level.EVENT_CREATE, [game]);;
       AudioContextMock.clean();

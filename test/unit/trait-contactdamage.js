@@ -5,9 +5,9 @@ const sinon = require('sinon');
 
 const env = require('../env');
 const Object = env.Engine.Object;
-const ContactDamage = env.Game.traits.ContactDamage;
-const Invincibility = env.Game.traits.Invincibility;
-const Health = env.Game.traits.Health;
+const ContactDamage = env.Engine.traits.ContactDamage;
+const Invincibility = env.Engine.traits.Invincibility;
+const Health = env.Engine.traits.Health;
 const World = env.Engine.World;
 
 describe('ContactDamage Trait', function() {

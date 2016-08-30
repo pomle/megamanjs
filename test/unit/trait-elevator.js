@@ -6,9 +6,9 @@ const sinon = require('sinon');
 const env = require('../env');
 const World = env.Engine.World;
 const Object = env.Engine.Object;
-const Elevator = env.Game.traits.Elevator;
-const Physics = env.Game.traits.Physics;
-const Solid = env.Game.traits.Solid;
+const Elevator = env.Engine.traits.Elevator;
+const Physics = env.Engine.traits.Physics;
+const Solid = env.Engine.traits.Solid;
 const Vec2 = env.THREE.Vector2;
 
 describe('Elevator Trait', function() {

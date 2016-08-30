@@ -236,3 +236,6 @@ Engine.Object.prototype.unsetWorld = function() {
     this.events.trigger(this.EVENT_WORLD_REMOVE);
     this.world = undefined;
 }
+
+Engine.objects = {};
+Engine.objects.characters = {};

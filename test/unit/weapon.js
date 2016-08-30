@@ -5,9 +5,9 @@ const sinon = require('sinon');
 
 const env = require('../env');
 const Object = env.Engine.Object;
-const Projectile = env.Game.traits.Projectile;
-const Weapon = env.Game.objects.Weapon;
-const WeaponTrait = env.Game.traits.Weapon;
+const Projectile = env.Engine.traits.Projectile;
+const Weapon = env.Engine.objects.Weapon;
+const WeaponTrait = env.Engine.traits.Weapon;
 
 describe('Weapon', function() {
   let weapon;
