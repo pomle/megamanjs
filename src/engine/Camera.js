@@ -85,7 +85,7 @@ class Camera
         this.jumpTo(vec);
         this.alignToPath(this.position);
     }
-    panTo(pos, duration, easing = Engine.Easing.linear)
+    panTo(pos, duration, easing = Engine.Easing.linear())
     {
         this.desiredPosition = undefined;
         const tween = new Engine.Tween(pos, easing);

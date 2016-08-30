@@ -13,8 +13,8 @@ class Light extends Engine.Trait
 
         this.lamps = [];
         this.threshold = .8;
-        this.easeOn = Engine.Easing.easeOutElastic;
-        this.easeOff = Engine.Easing.easeOutQuint;
+        this.easeOn = Engine.Easing.easeOutElastic();
+        this.easeOff = Engine.Easing.easeOutQuint();
 
         this._nextUpdate = 0;
         this._updateFrequency = 2.5;
