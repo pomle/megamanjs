@@ -5,9 +5,9 @@ const sinon = require('sinon');
 
 const env = require('../env.js');
 const World = env.Engine.World;
-const Door = env.Game.traits.Door;
-const Physics = env.Game.traits.Physics;
-const Solid = env.Game.traits.Solid;
+const Door = env.Engine.traits.Door;
+const Physics = env.Engine.traits.Physics;
+const Solid = env.Engine.traits.Solid;
 const THREE = env.THREE;
 
 describe('Door Trait', function() {

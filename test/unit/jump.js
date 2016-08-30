@@ -7,10 +7,10 @@ const env = require('../env.js');
 
 const Obj = env.Engine.Object;
 const World = env.Engine.World;
-const Character = env.Game.objects.Character;
-const Physics = env.Game.traits.Physics;
-const Jump = env.Game.traits.Jump;
-const Solid = env.Game.traits.Solid;
+const Character = env.Engine.objects.Character;
+const Physics = env.Engine.traits.Physics;
+const Jump = env.Engine.traits.Jump;
+const Solid = env.Engine.traits.Solid;
 
 describe('Jump', function() {
   it.skip('should maintain jump height despite variations in time', function() {

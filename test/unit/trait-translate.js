@@ -5,7 +5,7 @@ const sinon = require('sinon');
 
 const env = require('../env');
 const Object = env.Engine.Object;
-const Translate = env.Game.traits.Translate;
+const Translate = env.Engine.traits.Translate;
 
 describe('Translate Trait', function() {
   function createTranslate()

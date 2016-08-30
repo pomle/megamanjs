@@ -8,7 +8,7 @@ const env = require('../env.js');
 const World = env.Engine.World;
 const Host = env.Engine.Object;
 const Spawnable = env.Engine.Object;
-const Spawn = env.Game.traits.Spawn;
+const Spawn = env.Engine.traits.Spawn;
 
 describe('Trait', function() {
   describe('Spawn', function() {

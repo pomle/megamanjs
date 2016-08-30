@@ -12,7 +12,7 @@ class TestEnv
     this._screen = document.querySelector('#screen');
 
     this.game = new Game;
-    this.loader = new Game.Loader.XML(this.game);
+    this.loader = new Engine.Loader.XML(this.game);
 
     if (this._screen) {
       this.game.attachToElement(this._screen);

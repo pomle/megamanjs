@@ -6,8 +6,8 @@ const sinon = require('sinon');
 const env = require('../env');
 const World = env.Engine.World;
 const Object = env.Engine.Object;
-const Health = env.Game.traits.Health;
-const DeathSpawn = env.Game.traits.DeathSpawn;
+const Health = env.Engine.traits.Health;
+const DeathSpawn = env.Engine.traits.DeathSpawn;
 
 describe('DeathSpawn Trait', function() {
   function createDeathSpawner()

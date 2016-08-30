@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const env = require('../env.js');
 const World = env.Engine.World;
 const Object = env.Engine.Object;
-const Solid = env.Game.traits.Solid;
+const Solid = env.Engine.traits.Solid;
 
 describe('Solid Trait', function() {
   const step = 1/120;

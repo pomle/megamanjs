@@ -5,7 +5,7 @@ const sinon = require('sinon');
 
 const env = require('../env');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
-const Scene = env.Game.Scene;
+const Scene = env.Engine.Scene;
 
 describe('Scene', function() {
   function createScene() {

@@ -9,7 +9,7 @@ const AudioContextMock = require('../mocks/audiocontext-mock');
 const WebGLRendererMock = require('../mocks/webglrenderer-mock');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
 const Game = env.Game;
-const Scene = env.Game.Scene;
+const Scene = env.Engine.Scene;
 
 describe('Game', function() {
   beforeEach(function() {

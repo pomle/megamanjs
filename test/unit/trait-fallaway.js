@@ -5,8 +5,8 @@ const sinon = require('sinon');
 
 const env = require('../env');
 const Object = env.Engine.Object;
-const Fallaway = env.Game.traits.Fallaway;
-const Physics = env.Game.traits.Physics;
+const Fallaway = env.Engine.traits.Fallaway;
+const Physics = env.Engine.traits.Physics;
 
 describe('Fallaway Trait', function() {
   describe('on instantiation', function() {

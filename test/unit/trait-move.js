@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const env = require('../env');
 const World = env.Engine.World;
 const Object = env.Engine.Object;
-const Move = env.Game.traits.Move;
+const Move = env.Engine.traits.Move;
 
 describe('Move Trait', function() {
   function createPlayer()

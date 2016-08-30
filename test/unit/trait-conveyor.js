@@ -6,9 +6,9 @@ const sinon = require('sinon');
 const env = require('../env.js');
 const World = env.Engine.World;
 const Object = env.Engine.Object;
-const Conveyor = env.Game.traits.Conveyor;
-const Physics = env.Game.traits.Physics;
-const Solid = env.Game.traits.Solid;
+const Conveyor = env.Engine.traits.Conveyor;
+const Physics = env.Engine.traits.Physics;
+const Solid = env.Engine.traits.Solid;
 
 describe('Conveyor Trait', function() {
   function createCharacter()

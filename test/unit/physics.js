@@ -7,9 +7,9 @@ const env = require('../env.js');
 
 const Host = env.Engine.Object;
 const World = env.Engine.World;
-const Solid = env.Game.objects.Solid;
-const Character = env.Game.objects.Character;
-const Physics = env.Game.traits.Physics;
+const Solid = env.Engine.objects.Solid;
+const Character = env.Engine.objects.Character;
+const Physics = env.Engine.traits.Physics;
 
 describe('Physics', function() {
   it('should bind to timeshift event of host', function() {
