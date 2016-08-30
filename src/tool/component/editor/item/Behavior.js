@@ -2,12 +2,14 @@
 
 Editor.Item.Behavior = function(object, node)
 {
-    if (object instanceof Engine.objects.Solid) {
-        this.MATERIAL = this.MATERIALS.solid;
-    } else if (object instanceof Engine.objects.Climbable) {
-        this.MATERIAL = this.MATERIALS.climbable;
-    } else if (object instanceof Engine.objects.obstacles.DeathZone) {
-        this.MATERIAL = this.MATERIALS.deathzone;
+    if(object.traits.length === 1) {
+        if (object.solid) {
+            this.MATERIAL = this.MATERIALS.solid;
+        } else if (object.climbable) {
+            this.MATERIAL = this.MATERIALS.climbable;
+        } else if (object.deathZone) {
+            this.MATERIAL = this.MATERIALS.deathzone;
+        }
     }
 
     Editor.Item.Rectangle2.call(this, object, node, object.collision[0]);
