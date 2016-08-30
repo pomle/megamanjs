@@ -138,3 +138,5 @@ class Scene
         }
     }
 }
+
+Engine.scenes = {};

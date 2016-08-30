@@ -4,7 +4,7 @@ const env = require('../env');
 const AudioContextMock = require('./audiocontext-mock');
 const WebGLRendererMock = require('./webglrenderer-mock');
 
-const Game = env.Game;
+const Game = env.Engine.Game;
 
 function createGameMock()
 {

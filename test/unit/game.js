@@ -8,7 +8,7 @@ const NodeMock = require('../mocks/node-mock');
 const AudioContextMock = require('../mocks/audiocontext-mock');
 const WebGLRendererMock = require('../mocks/webglrenderer-mock');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
-const Game = env.Game;
+const Game = env.Engine.Game;
 const Scene = env.Engine.Scene;
 
 describe('Game', function() {

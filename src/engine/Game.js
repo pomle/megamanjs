@@ -139,9 +139,3 @@ Engine.Game = class Game
         }
     }
 }
-
-Engine.Game.objects = {
-    characters: {},
-};
-Engine.Game.scenes = {};
-Engine.Game.traits = {};

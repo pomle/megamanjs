@@ -23,5 +23,4 @@ files.forEach(src => {
 module.exports = {
     THREE,
     Engine,
-    Game,
 };
