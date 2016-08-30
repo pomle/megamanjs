@@ -2,11 +2,11 @@
 
 Editor.Item.Behavior = function(object, node)
 {
-    if (object instanceof Game.objects.Solid) {
+    if (object instanceof Engine.objects.Solid) {
         this.MATERIAL = this.MATERIALS.solid;
-    } else if (object instanceof Game.objects.Climbable) {
+    } else if (object instanceof Engine.objects.Climbable) {
         this.MATERIAL = this.MATERIALS.climbable;
-    } else if (object instanceof Game.objects.obstacles.DeathZone) {
+    } else if (object instanceof Engine.objects.obstacles.DeathZone) {
         this.MATERIAL = this.MATERIALS.deathzone;
     }
 

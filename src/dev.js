@@ -39,7 +39,7 @@ window.addEventListener('load', function() {
     function setupInputRecorder() {
         game.events.bind(game.EVENT_SCENE_CREATE, function(scene) {
             const input = (scene => {
-                if (scene instanceof Game.scenes.Level) {
+                if (scene instanceof Engine.scenes.Level) {
                     return scene.inputs.character;
                 } else {
                     return scene.input;
