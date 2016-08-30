@@ -1,10 +1,12 @@
+/**
+ * This file overrides the renderer part of THREE.js's WebGLRenderer
+ * and can be used to run THREE.js when no graphics card is available.
+ *
+ * Include after THREE.js and it will overwrite relevant parts of THREE.js.
+ */
+
 THREE.WebGLRenderer = function() {
-  console.debug('WebGLRenderer mock instantiated');
   this.domElement = document.createElement('canvas');
-  this.render = function() {
-    console.debug('WebGLRenderer.render()');
-  };
-  this.setSize = function() {
-    console.debug('WebGLRenderer.setSize()');
-  };
+  this.render = function() {}
+  this.setSize = function() {}
 }
