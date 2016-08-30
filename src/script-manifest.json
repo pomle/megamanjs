@@ -96,9 +96,6 @@
     "engine/traits/Headlight.js",
     "engine/traits/LightControl.js",
 
-    "engine/object/Solid.js",
-    "engine/object/Climbable.js",
-    "engine/object/obstacle/DeathZone.js",
     "engine/object/Spawner.js",
     "engine/object/Weapon.js",
 

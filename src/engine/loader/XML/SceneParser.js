@@ -10,10 +10,9 @@ extends Engine.Loader.XML.Parser
 
         this.DEFAULT_POS = new THREE.Vector3(0, 0, 0);
         this.BEHAVIOR_MAP = {
-            'climbables': Engine.objects.Climbable,
-            'deathzones': Engine.objects.obstacles.DeathZone,
-            'environments': Engine.Object,
-            'solids': Engine.objects.Solid,
+            'climbables': this._createClimbable,
+            'deathzones': this._createDeathZone,
+            'solids': this._createSolid,
         };
 
         this._node = node;
@@ -22,15 +21,35 @@ extends Engine.Loader.XML.Parser
         this._bevahiorObjects = [];
         this._layoutObjects = [];
     }
+    _createClimbable()
+    {
+        const object = new Engine.Object();
+        object.applyTrait(new Engine.traits.Climbable);
+        return object;
+    }
+    _createDeathZone()
+    {
+        const object = new Engine.Object();
+        object.applyTrait(new Engine.traits.DeathZone);
+        return object;
+    }
+    _createSolid() {
+        const object = new Engine.Object();
+        const solid = new Engine.traits.Solid;
+        solid.fixed = true;
+        solid.obstructs = true;
+        object.applyTrait(solid);
+        return object;
+    }
     getBehavior(node)
     {
         const type = node.parentNode.tagName.toLowerCase();
         if (!this.BEHAVIOR_MAP[type]) {
             throw new Error('Behavior ' + type + ' not in behavior map');
         }
-        const constructor = this.BEHAVIOR_MAP[type];
+        const factory = this.BEHAVIOR_MAP[type];
         const rect = this.getRect(node);
-        const instance = new constructor;
+        const instance = factory();
         instance.addCollisionRect(rect.w, rect.h);
         instance.position.x = rect.x;
         instance.position.y = rect.y;
