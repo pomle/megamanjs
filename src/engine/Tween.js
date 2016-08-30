@@ -3,7 +3,7 @@
 Engine.Tween =
 class Tween
 {
-    constructor(to, easing = Engine.Easing.linear)
+    constructor(to, easing = Engine.Easing.linear())
     {
         this._setGoal(to);
         this._easing = easing;

@@ -47,10 +47,10 @@ extends Engine.Loader.XML.Parser
                 const val = parseFloat(comp[0]);
                 return Engine.Easing[name](val);
             } else {
-                return Engine.Easing[name];
+                return Engine.Easing[name]();
             }
         } else {
-            return Engine.Easing.linear;
+            return Engine.Easing.linear();
         }
     }
     _parseActionCameraMove(node)

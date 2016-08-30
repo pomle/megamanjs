@@ -74,7 +74,7 @@ Engine.scenes.StageSelect = class StageSelect extends Engine.Scene
         });
         this.events.bind(this.EVENT_START, (game) => {
             this.world.events.bind(this.world.EVENT_SIMULATE, simulate);
-            this.camera.panTo(this.cameraDesiredPosition, 1, Engine.Easing.easeOutQuad);
+            this.camera.panTo(this.cameraDesiredPosition, 1, Engine.Easing.easeOutQuad());
             this.enableIndicator();
             this.input.enable();
         });
@@ -286,7 +286,7 @@ Engine.scenes.StageSelect = class StageSelect extends Engine.Scene
             state.currentBoss = character;
             this.world.addObject(character);
         });
-        return camera.panTo(this.bossRevealCenter, 1, Engine.Easing.easeInOutCubic).then(() => {
+        return camera.panTo(this.bossRevealCenter, 1, Engine.Easing.easeInOutCubic()).then(() => {
             return this.waitFor(6);
         });
     }
