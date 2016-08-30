@@ -28,7 +28,7 @@ extends Engine.Loader
     {
         return this.asyncLoadXML(url).then(doc => {
             const node = doc.querySelector('game');
-            const parser = new Engine.Loader.XML.Engine.arser(this, node);
+            const parser = new Engine.Loader.XML.GameParser(this, node);
             return parser.parse();
         });
     }

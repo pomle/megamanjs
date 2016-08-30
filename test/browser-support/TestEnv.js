@@ -11,7 +11,7 @@ class TestEnv
     this._running = false;
     this._screen = document.querySelector('#screen');
 
-    this.game = new Game;
+    this.game = new Engine.Game;
     this.loader = new Engine.Loader.XML(this.game);
 
     if (this._screen) {

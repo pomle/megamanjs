@@ -4,7 +4,7 @@ describe('Megaman 2', function() {
   describe('when loading game XML', () => {
     let game, loader, entrypoint;
     before(done => {
-      game = new Game;
+      game = new Engine.Game;
       loader = new Engine.Loader.XML(game);
       loader.loadGame('/src/resource/Megaman2.xml').then(_entrypoint => {
         entrypoint = _entrypoint;
@@ -26,7 +26,7 @@ describe('Megaman 2', function() {
 
     describe('Loader', () => {
       it('should load a scene by name', function(done) {
-        const game = new Game;
+        const game = new Engine.Game;
         const loader = new Engine.Loader.XML(game);
         loader.loadGame('/src/resource/Megaman2.xml')
           .then(() => {
