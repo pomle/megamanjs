@@ -2,7 +2,11 @@ Engine.objects.characters.Megaman = function()
 {
     Engine.Object.call(this);
 
-    this.events.bind(Engine.traits.Weapon.prototype.EVENT_EQUIP, this.changeDress);
+    this.events.bind(this.EVENT_TRAIT_ATTACHED, trait => {
+      if (trait.NAME === 'weapon') {
+          this.events.bind(trait.EVENT_EQUIP, this.changeDress);
+      }
+    });
 }
 
 Engine.Util.extend(Engine.objects.characters.Megaman,

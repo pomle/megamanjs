@@ -1,20 +1,20 @@
-Engine.traits.Environment = function()
+Engine.traits.Environment =
+class Environment extends Engine.Trait
 {
-    Engine.Trait.call(this);
-    this.atmosphericDensity = 1000;
-    this.timeDilation = 1;
-}
+    constructor()
+    {
+        super();
+        this.NAME = 'environment';
+        this.atmosphericDensity = 1000;
+        this.timeDilation = 1;
+    }
+    __collides(subject)
+    {
+      if (subject.physics) {
+          p = subject.physics;
+         p.atmosphericDensity = this.atmosphericDensity;
+      }
 
-Engine.Util.extend(Engine.traits.Environment, Engine.Trait);
-
-Engine.traits.Environment.prototype.NAME = 'deathZone';
-
-Engine.traits.Environment.prototype.__collides = function(subject)
-{
-	if (subject.physics) {
-		p = subject.physics;
-		p.atmosphericDensity = this.atmosphericDensity;
-	}
-
-	subject.timeStretch = this.timeDilation;
+      subject.timeStretch = this.timeDilation;
+    }
 }

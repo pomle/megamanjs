@@ -1,10 +1,11 @@
-Engine.traits.Pickupable = function()
+Engine.traits.Pickupable =
+class Pickupable extends Engine.Trait
 {
-    Engine.Trait.call(this);
-    this.properties = {};
+    constructor()
+    {
+        super();
+        this.NAME = 'pickupable';
+        this.EVENT_PICKUP = 'pickup',
+        this.properties = {};
+    }
 }
-
-Engine.Util.extend(Engine.traits.Pickupable, Engine.Trait, {
-    NAME: 'pickupable',
-    EVENT_PICKUP: 'pickup',
-});

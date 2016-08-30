@@ -46,6 +46,8 @@ Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
 Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
 Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
 
+Engine.Object.prototype.EVENT_TRAIT_ATTACHED = 'trait-attached';
+
 Engine.Object.prototype.SURFACE_TOP = 0;
 Engine.Object.prototype.SURFACE_BOTTOM = 1;
 Engine.Object.prototype.SURFACE_LEFT = 2;
@@ -83,6 +85,7 @@ Engine.Object.prototype.applyTrait = function(trait)
     trait.__attach(this);
     this.traits.push(trait);
     this[trait.NAME] = trait;
+    this.events.trigger(this.EVENT_TRAIT_ATTACHED, [trait]);
 }
 
 Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)

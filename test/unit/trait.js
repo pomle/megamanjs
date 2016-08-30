@@ -3,37 +3,51 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
+const env = require('../env');
 
-const extend = env.Engine.Util.extend;
 const Host = env.Engine.Object;
 const Trait = env.Engine.Trait;
 
 describe('Trait', function() {
-  const MockTrait = function() {
-    Trait.apply(this, arguments);
-    this.__collides = sinon.spy();
-    this.__obstruct = sinon.spy();
-    this.__uncollides = sinon.spy();
-    this.__timeshift = sinon.spy();
-  }
-  extend(MockTrait, Trait);
-  MockTrait.prototype.NAME = 'mockTrait';
-  MockTrait.prototype.__collides = sinon.spy();
-  MockTrait.prototype.__obstruct = sinon.spy();
-  MockTrait.prototype.__uncollides = sinon.spy();
-  MockTrait.prototype.__timeshift = sinon.spy();
+  let MockTrait;
+  let MockTrait2;
+  before(() => {
+    MockTrait = class extends Trait
+    {
+      constructor()
+      {
+        super();
+        this.NAME = 'mockTrait';
+        this.__collides = sinon.spy();
+        this.__obstruct = sinon.spy();
+        this.__uncollides = sinon.spy();
+        this.__timeshift = sinon.spy();
+      }
+    }
 
-  const MockTrait2 = function() {
-    Trait.apply(this, arguments);
-  }
-  extend(MockTrait2, Trait);
-  MockTrait2.prototype.NAME = 'mockTrait2';
+    MockTrait.prototype.__collides = sinon.spy();
+    MockTrait.prototype.__obstruct = sinon.spy();
+    MockTrait.prototype.__uncollides = sinon.spy();
+    MockTrait.prototype.__timeshift = sinon.spy();
+
+    MockTrait2 = class extends Trait
+    {
+      constructor()
+      {
+        super();
+        this.NAME = 'mockTrait2';
+      }
+    }
+  });
 
   context('when applied', function() {
-    const host = new Host();
-    const trait = new MockTrait();
-    host.applyTrait(trait);
+    let host;
+    let trait;
+    beforeEach(() => {
+      host = new Host();
+      trait = new MockTrait();
+      host.applyTrait(trait);
+    });
 
     it('should bind collide method', function() {
       host.events.trigger(host.EVENT_COLLIDE);
@@ -115,7 +129,7 @@ describe('Trait', function() {
       const trait = new MockTrait();
       trait.__attach(host);
       trait.__detach(host);
-      expect(trait._host).to.be(undefined);
+      expect(trait._host).to.be(null);
     });
 
     it('should except if host already set', function() {
