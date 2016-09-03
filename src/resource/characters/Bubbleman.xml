@@ -1,0 +1,58 @@
+<objects>
+    <object type="character" id="Bubbleman">
+        <geometry type="plane" w="48" h="48" />
+        <collision>
+            <rect x="0" y="0" w="12" h="24" />
+        </collision>
+        <traits>
+            <trait name="contact-damage" points="4" />
+            <trait name="health" max="28" />
+            <trait name="jump" force="600" duration=".18" />
+            <trait name="physics" area=".04" drag=".045" mass="105" />
+            <trait name="solid" attack="bottom"/>
+            <trait name="move" />
+            <trait name="invincibility" duration=".5" />
+            <trait name="weapon">
+                <projectile-emit-offset x="15" y="2" />
+            </trait>
+        </traits>
+        <animation-router>
+            <![CDATA[
+            animationRouter = function() {
+                if (!this.jump._ready) {
+                    return 'jump';
+                }
+
+                return 'idle';
+            }
+            ]]>
+        </animation-router>
+    </object>
+
+    <textures>
+        <texture id="bubbleman" url="bubbleman.png" w="256" h="128" />
+    </textures>
+
+    <animations>
+        <animation id="idle">
+            <frame x="0" y="0" w="48" h="48" />
+        </animation>
+        <animation id="jump" group="jump">
+            <frame x="48" y="0" w="48" h="48" duration=".16" />
+            <frame x="96" y="0" w="48" h="48" duration=".16" />
+        </animation>
+        <animation id="throw">
+            <frame x="144" y="0" w="48" h="48" />
+        </animation>
+        <animation id="taunt1">
+            <frame x="192" y="48" w="48" h="48" />
+        </animation>
+        <animation id="taunt2">
+            <frame x="192" y="0" w="48" h="48" />
+        </animation>
+        <animation id="jump-shoot" group="jump">
+            <frame x="48" y="48" w="48" h="48" duration=".16" />
+            <frame x="0" y="48" w="48" h="48" duration=".16" />
+        </animation>
+    </animations>
+</objects>
