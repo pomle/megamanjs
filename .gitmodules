@@ -1,0 +1,3 @@
+[submodule "src/engine"]
+	path = src/engine
+	url = git@github.com:snakesilk/snakesilk-engine.git

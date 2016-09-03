@@ -6,8 +6,8 @@ const fs = require('fs');
 const inject = require('./lib/inject').inject;
 
 function getDepScripts() {
-  const scripts = require('../src/script-manifest.json').map(src => '../../src/' + src);
-  scripts.unshift('../../src/lib/three.js');
+  const scripts = require('../src/engine/script-manifest.json').map(src => '../../src/engine/src/' + src);
+  scripts.unshift('../../src/engine/lib/three.js');
   return Promise.resolve(scripts);
 }
 
