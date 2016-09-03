@@ -43,7 +43,7 @@
 
     <object type="object" id="Explosion">
         <audio>
-            <effect id="explosion"/>
+            <effect src="./explosion.ogg" id="explosion"/>
         </audio>
         <events>
             <event name="world-add">
