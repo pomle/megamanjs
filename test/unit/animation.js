@@ -33,7 +33,7 @@ describe('Animation', () => {
     });
 
     describe('#addFrame()', () => {
-      describe('when called first', () => {
+      describe('when called once', () => {
         beforeEach(() => {
           animation.addFrame('A', 1.13);
         });
@@ -92,11 +92,43 @@ describe('Animation', () => {
               expect(animation.getValue(1)).to.be('B');
             });
           });
+
+          describe('then each following call', () => {
+            const labels = 'CDEFGHIJK'.split('');
+            beforeEach(() => {
+              labels.forEach((label, index) => {
+                animation.addFrame(label, index + 1);
+              });
+            });
+
+            it('adds frames to timeline', () => {
+              expect(animation.timeline.frames).to.have.length(11);
+            });
+
+            it('updates animation length', () => {
+              expect(animation.length).to.be(11);
+            });
+
+            it('is added in given order', () => {
+              expect(animation.getValue(
+                animation.getIndex(3)
+              )).to.be('C');
+
+              expect(animation.getValue(
+                animation.getIndex(4)
+              )).to.be('D');
+
+              expect(animation.getValue(
+                animation.getIndex(10)
+              )).to.be('F');
+
+              expect(animation.getValue(
+                animation.getIndex(47)
+              )).to.be('K');
+            });
+          });
         });
       });
-
-
     });
-
   });
 });
