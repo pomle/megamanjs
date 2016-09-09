@@ -17,7 +17,13 @@ global.THREE = require('three');
 files.forEach(src => {
   const filename = path.join(BASE_PATH, src);
   const code = fs.readFileSync(filename, 'utf8');
-  vm.runInThisContext(code, filename);
+
+  try {
+    vm.runInThisContext(code, filename);
+  } catch (e) {
+    console.error('Error while running', filename);
+    throw e;
+  }
 });
 
 module.exports = {
