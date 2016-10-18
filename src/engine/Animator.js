@@ -67,8 +67,7 @@ class Animation
         /* If this is the first time addFrame is run,
            save the value and duration flat, since we
            will not need the Timeline class to resolve it. */
-        if (this._value === null) {
-            this.length = 1;
+        if (this.length === 0) {
             this._value = value;
             this._duration = duration;
         }
@@ -84,8 +83,8 @@ class Animation
             }
 
             this.timeline.addFrame(value, duration);
-            ++this.length;
         }
+        ++this.length;
     }
 
     getIndex(time)
