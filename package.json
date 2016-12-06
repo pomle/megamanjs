@@ -29,5 +29,8 @@
     "three": "0.72.0",
     "uglify-js": "^2.7.0",
     "xmldom": "^0.1.22"
+  },
+  "dependencies": {
+    "snakesilk": "git://github.com/snakesilk/snakesilk-engine.git#master"
   }
 }

@@ -237,7 +237,7 @@ window.addEventListener('load', function() {
         game.attachToElement(screenElement);
         game.attachController(window);
 
-        const hud = new Engine.Hud;
+        const hud = new Megaman2.Hud;
         hud.attach(game, screenElement.querySelector('.energy'));
         updateScreen();
         gameElement.classList.add('ready');
