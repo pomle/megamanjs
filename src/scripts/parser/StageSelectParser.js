@@ -5,25 +5,22 @@ class StageSelectParser
 {
     constructor(loader, node)
     {
-        if (node.tagName !== 'scene' || node.getAttribute('type') !== 'stage-select') {
-            throw new TypeError('Node not <scene type="stage-select">');
-        }
+        this.loader = loader;
 
-        this._loader = loader;
-        this._result = new Promise(resolve => {
-            const parser = new Engine.Loader.XML.SceneParser(loader, node);
+        this._result = node.find(':scope > scene')
+        .then(([sceneNode]) => {
+            const parser = new Engine.Loader.XML.SceneParser(loader, sceneNode.node);
             return parser.getScene();
         })
         .then(scene => {
-            this._scene = scene;
-            this._stageSelect = new Megaman2.StageSelect(this._scene);
-            this._setupBehavior();
-
-            return this.loader.resourceLoader.complete();
+            return parser.getScene();
         })
-        .then(() => {
-            return this._stageSelect;
+        .then(scene => {
+            console.log(scene);
         });
+    }
+    getScene() {
+        return this._result;
     }
     _createCaption(text)
     {

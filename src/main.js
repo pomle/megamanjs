@@ -1,6 +1,6 @@
 window.addEventListener('load', function() {
-    const game = new Engine.Game;
-    const loader = new Engine.Loader.XML(game);
+    const megaman2 = new Megaman2();
+    const game = megaman2.game;
     const env = {};
 
     const gameElement = document.getElementById('game');
@@ -124,12 +124,12 @@ window.addEventListener('load', function() {
             }
             gameElement.removeEventListener('mousemove', sluggishPause);
             controlElement.classList.add('show');
-            game.pause();
+            megaman2.game.pause();
         }
 
         function resume() {
             controlElement.classList.remove('show');
-            game.resume();
+            megaman2.game.resume();
             setTimeout(function() {
                 gameElement.removeEventListener('mousemove', sluggishPause);
                 gameElement.addEventListener('mousemove', sluggishPause);
@@ -192,7 +192,7 @@ window.addEventListener('load', function() {
 
     function setupProgressbar() {
         const progressElement = gameElement.querySelector('.progress-bar > .progress');
-        const res = loader.resourceLoader;
+        const res = megaman2.loader.resourceLoader;
         res.events.bind(res.EVENT_PROGRESS, frac => {
             progressElement.style.width = frac * 100 + '%';
             gameElement.classList.add('busy');
@@ -233,7 +233,7 @@ window.addEventListener('load', function() {
     setupMessaging();
     setupProgressbar();
 
-    loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
+    megaman2.loadXML('./resource/Megaman2.xml').then(entrypoint => {
         game.attachToElement(screenElement);
         game.attachController(window);
 
@@ -241,15 +241,9 @@ window.addEventListener('load', function() {
         hud.attach(game, screenElement.querySelector('.energy'));
         updateScreen();
         gameElement.classList.add('ready');
-
-        return loader.loadSceneByName(entrypoint);
     }).then(scene => {
         game.setScene(scene);
     });
 
-    window.megaman2 = {
-        env,
-        game,
-        loader,
-    };
+    window.megaman2 = megaman2;
 });
