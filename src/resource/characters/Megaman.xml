@@ -2,14 +2,14 @@
 <objects>
     <object type="character" source="Megaman" id="Megaman">
         <audio>
-            <effect src="./megaman/teleport-in.ogg" id="teleport-in"/>
-            <effect src="./megaman/teleport-out.ogg" id="teleport-out"/>
-            <effect src="./megaman/jump-land.ogg" id="jump-land"/>
-            <effect src="./megaman/damage.ogg" id="damage"/>
-            <effect src="./megaman/death.ogg" id="death"/>
-            <effect src="./megaman/plasma.ogg" id="plasma"/>
-            <effect src="./megaman/metalblade.ogg" id="metalblade"/>
-            <effect src="./megaman/airshot.ogg" id="airshot"/>
+            <effect url="./megaman/teleport-in.ogg" id="teleport-in"/>
+            <effect url="./megaman/teleport-out.ogg" id="teleport-out"/>
+            <effect url="./megaman/jump-land.ogg" id="jump-land"/>
+            <effect url="./megaman/damage.ogg" id="damage"/>
+            <effect url="./megaman/death.ogg" id="death"/>
+            <effect url="./megaman/plasma.ogg" id="plasma"/>
+            <effect url="./megaman/metalblade.ogg" id="metalblade"/>
+            <effect url="./megaman/airshot.ogg" id="airshot"/>
         </audio>
 
         <geometry type="plane" w="48" h="48" />

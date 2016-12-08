@@ -5,7 +5,11 @@ class StageSelect
 {
     constructor(scene)
     {
-        scene.camera.camera.position.z = 120;
+        this.scene = scene;
+
+        this.scene.camera.camera.position.z = 120;
+
+        this.events = new Engine.Events();
 
         this.EVENT_STAGE_ENTER = 'stage-enter';
         this.EVENT_STAGE_SELECTED = 'stage-selected';
@@ -33,7 +37,7 @@ class StageSelect
         this.backgroundColor = new THREE.Mesh(
             new THREE.PlaneGeometry(500, 500),
             new THREE.MeshLambertMaterial());
-        scene.world.scene.add(this.backgroundColor);
+        this.scene.world.scene.add(this.backgroundColor);
         this.backgroundModel = undefined;
 
         const input = scene.input;
@@ -55,13 +59,15 @@ class StageSelect
         });
 
         const simulate = (dt) => {
-            scene.update(dt);
+            this.scene.update(dt);
         };
 
         this.modifiers = new Set();
 
-
-        const events = this.scene.events;
+        this.setupSceneEvents(scene);
+    }
+    setupSceneEvents(scene) {
+        const events = scene.events;
 
         events.bind(scene.EVENT_CREATE, (game) => {
             this.equalize(this.initialIndex);
@@ -75,17 +81,17 @@ class StageSelect
 
             }*/
         });
+
         events.bind(scene.EVENT_START, (game) => {
-            this.world.events.bind(this.world.EVENT_SIMULATE, simulate);
-            this._scene.camera.panTo(this.cameraDesiredPosition, 1, Engine.Easing.easeOutQuad());
+            scene.world.events.bind(this.world.EVENT_SIMULATE, simulate);
+            scene.camera.panTo(this.cameraDesiredPosition, 1, Engine.Easing.easeOutQuad());
             this.enableIndicator();
             this.input.enable();
         });
-        events.bind(scene.EVENT_DESTROY, (game) => {
-            scene.world.events.unbind(scene.world.EVENT_SIMULATE, simulate);
-        });
 
-        this._scene = scene;
+        events.bind(scene.EVENT_DESTROY, (game) => {
+            this.scene.world.events.unbind(scene.world.EVENT_SIMULATE, simulate);
+        });
     }
     addStage(avatar, caption, name, character)
     {
@@ -107,9 +113,9 @@ class StageSelect
         avatar.position.set(pos.x, pos.y, .1);
         caption.position.copy(avatar.position);
         caption.position.add(this.captionOffset);
-        this._scene.world.scene.add(frame);
-        this._scene.world.scene.add(avatar);
-        this._scene.world.scene.add(caption);
+        this.scene.world.scene.add(frame);
+        this.scene.world.scene.add(avatar);
+        this.scene.world.scene.add(caption);
     }
     addStar(model)
     {
@@ -169,7 +175,7 @@ class StageSelect
     }
     createStarAnimation()
     {
-        const scene = this._scene.world.scene;
+        const scene = this.scene.world.scene;
         const spread = 160;
         const center = this.bossRevealCenter;
         const camera = scene.camera.camera;
@@ -229,8 +235,8 @@ class StageSelect
         this.bossRevealCenter.z += this.cameraDistance;
 
         this.cameraDesiredPosition.copy(this.stageSelectCenter);
-        this._scene.camera.position.copy(center);
-        this._scene.camera.position.z = this.cameraDesiredPosition.z - 100;
+        this.scene.camera.position.copy(center);
+        this.scene.camera.position.z = this.cameraDesiredPosition.z - 100;
 
         this.selectIndex(index);
         this.backgroundColor.position.copy(center);
@@ -314,10 +320,10 @@ class StageSelect
     setBackgroundModel(model)
     {
         if (this.backgroundModel) {
-            this._scene.world.scene.remove(this.backgroundModel);
+            this.scene.world.scene.remove(this.backgroundModel);
         }
         this.backgroundModel = model;
-        this._scene.world.scene.add(model);
+        this.scene.world.scene.add(model);
     }
     setBackgroundColor(hexcolor)
     {
@@ -340,12 +346,12 @@ class StageSelect
     {
         this.indicator = model;
         this.indicator.position.z = .1;
-        this._scene.world.scene.add(model);
+        this.scene.world.scene.add(model);
     }
     setPodium(model)
     {
         this.podium = model;
-        this._scene.world.scene.add(model);
+        this.scene.world.scene.add(model);
         const solid = new Engine.Object;
         solid.addCollisionRect(64, 16);
         solid.applyTrait(new Engine.traits.Solid);

@@ -13,10 +13,14 @@ class StageSelectParser
             return parser.getScene();
         })
         .then(scene => {
-            return parser.getScene();
-        })
-        .then(scene => {
-            console.log(scene);
+            const stageSelect = new Megaman2.StageSelect(scene);
+            return Promise.all([
+                this._parseLayout(node, stageSelect),
+                this._parseReveal(node, stageSelect),
+            ])
+            .then(() => {
+                return stageSelect;
+            });
         });
     }
     getScene() {
@@ -29,54 +33,53 @@ class StageSelectParser
         text = text.join("\n");
         return this.loader.resourceManager.get('font', 'nintendo')(text).createMesh();
     }
-    _parseLayout()
+    _parseLayout(stageSelectNode, stageSelect)
     {
-        const sceneNode = this._node;
-        const scene = this._scene;
+        const parser = new Engine.Loader.XML.Parser();
+
+        const node = stageSelectNode.node;
         const objects = this._objects;
         const res = this.loader.resourceManager;
 
-        const backgroundNode = sceneNode.getElementsByTagName('background')[0];
-        const cameraNode = sceneNode.getElementsByTagName('camera')[0];
-        const indicatorNode = sceneNode.getElementsByTagName('indicator')[0];
-        const spacingNode = sceneNode.querySelector('spacing');
+        const backgroundNode = node.getElementsByTagName('background')[0];
+        const cameraNode = node.getElementsByTagName('camera')[0];
+        const indicatorNode = node.getElementsByTagName('indicator')[0];
+        const spacingNode = node.querySelector('spacing');
 
-        scene.setBackgroundColor(this.getAttr(backgroundNode, 'color'));
-        scene.setBackgroundModel(this._createObject('background').model);
-        scene.setIndicator(this._createObject('indicator').model);
-        scene.setFrame(this._createObject('frame').model);
+        stageSelect.setBackgroundColor(parser.getAttr(backgroundNode, 'color'));
+        stageSelect.setBackgroundModel(this._createObject('background').model);
+        stageSelect.setIndicator(this._createObject('indicator').model);
+        stageSelect.setFrame(this._createObject('frame').model);
 
         if (spacingNode) {
-            scene.spacing.copy(this.getVector2(spacingNode));
+            stageSelect.spacing.copy(parser.getVector2(spacingNode));
         }
         if (cameraNode) {
-            scene.cameraDistance = this.getFloat(cameraNode, 'distance');
+            stageSelect.cameraDistance = parser.getFloat(cameraNode, 'distance');
         }
         if (indicatorNode) {
-            scene.indicatorInterval = this.getFloat(indicatorNode, 'blink-interval');
+            stageSelect.indicatorInterval = parser.getFloat(indicatorNode, 'blink-interval');
         }
 
-        const stagesNode = sceneNode.getElementsByTagName('stage');
-        scene.rowLength = Math.ceil(Math.sqrt(stagesNode.length));
+        const stagesNode = node.getElementsByTagName('stage');
+        stageSelect.rowLength = Math.ceil(Math.sqrt(stagesNode.length));
         for (let stageNode, i = 0; stageNode = stagesNode[i++];) {
-            const id = this.getAttr(stageNode, 'id')
-            const name = this.getAttr(stageNode, 'name');
-            const text = this.getAttr(stageNode, 'caption');
+            const id = parser.getAttr(stageNode, 'id')
+            const name = parser.getAttr(stageNode, 'name');
+            const text = parser.getAttr(stageNode, 'caption');
             const caption = this._createCaption(text);
             const avatar = this._createObject(id).model;
-            const characterId = this.getAttr(stageNode, 'character');
-            scene.addStage(avatar, caption, name, characterId && res.get('object', characterId));
+            const characterId = parser.getAttr(stageNode, 'character');
+            stageSelect.addStage(avatar, caption, name, characterId && res.get('object', characterId));
         }
 
-        this._parseReveal();
-
-        const initialIndex = this.getInt(indicatorNode, 'initial-index') || 0;
-        scene.initialIndex = initialIndex;
-
-        return Promise.resolve();
+        const initialIndex = parser.getInt(indicatorNode, 'initial-index') || 0;
+        stageSelect.initialIndex = initialIndex;
     }
-    _parseReveal()
+    _parseReveal(stageSelectNode, stageSelect)
     {
+        const node = stageSelectNode.node;
+
         const starNodes = this._node.querySelectorAll(':scope > layout > stars > star');
         for (let node, i = 0; node = starNodes[i]; ++i) {
             const id = this.getAttr(node, 'object');
@@ -85,14 +88,14 @@ class StageSelectParser
             for (let j = 0; j < count; ++j) {
                 const model = this._createObject(id).model;
                 model.position.z = -depth;
-                this._scene.addStar(model, depth);
+                stageSelect.addStar(model, depth);
             }
         }
 
         const podiumNode = this._node.querySelector(':scope > layout > podium');
         if (podiumNode) {
             const id = this.getAttr(podiumNode, 'object');
-            this._scene.setPodium(this._createObject(id).model);
+            stageSelect.setPodium(this._createObject(id).model);
         }
     }
     _setupBehavior()

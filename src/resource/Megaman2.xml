@@ -40,40 +40,36 @@
     </scenes>
 
     <resources>
-        <group order="1">
-            <audio>
-                <effect src="./energy-fill.ogg" id="energy-fill">
-                    <loop />
-                </effect>
-                <effect src="./hit.ogg" id="hit"/>
-            </audio>
+        <audio>
+            <effect url="./energy-fill.ogg" id="energy-fill">
+                <loop />
+            </effect>
+            <effect url="./hit.ogg" id="hit"/>
+            <effect url="./explosion.ogg" id="explosion"/>
+        </audio>
 
-            <fonts>
-                <font id="nintendo" url="./font.png" w="8" h="8">
-                    <map><![CDATA[ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~]]></map>
-                </font>
-            </fonts>
+        <fonts>
+            <font id="nintendo" url="./font.png" w="8" h="8">
+                <map><![CDATA[ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~]]></map>
+            </font>
+        </fonts>
 
-            <objects src="./Decorations.xml" />
-            <objects src="./Powerup.xml" />
-        </group>
+        <objects src="./Decorations.xml" />
+        <objects src="./Powerup.xml" />
+        <objects src="./Projectiles.xml" />
 
-        <group order="2">
-            <objects src="./Projectiles.xml" />
+        <objects src="./characters/Megaman.xml" />
+        <objects src="./characters/Airman.xml" />
+        <objects src="./characters/Crashman.xml" />
+        <objects src="./characters/Flashman.xml" />
+        <objects src="./characters/Heatman.xml" />
+        <objects src="./characters/Metalman.xml" />
 
-            <objects src="./characters/Megaman.xml" />
-            <objects src="./characters/Airman.xml" />
-            <objects src="./characters/Crashman.xml" />
-            <objects src="./characters/Flashman.xml" />
-            <objects src="./characters/Heatman.xml" />
-            <objects src="./characters/Metalman.xml" />
-
-            <objects src="./characters/ChangkeyMaker.xml" />
-            <objects src="./characters/Shotman.xml" />
-            <objects src="./characters/SniperJoe.xml" />
-            <objects src="./characters/SniperArmor.xml" />
-            <objects src="./characters/Telly.xml" />
-        </group>
+        <objects src="./characters/ChangkeyMaker.xml" />
+        <objects src="./characters/Shotman.xml" />
+        <objects src="./characters/SniperJoe.xml" />
+        <objects src="./characters/SniperArmor.xml" />
+        <objects src="./characters/Telly.xml" />
     </resources>
 
     <player retries="1">

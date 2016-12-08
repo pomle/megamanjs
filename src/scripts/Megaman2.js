@@ -91,8 +91,7 @@ class Megaman2
             sceneIndexTask,
         ])
         .then(() => gameNode.find(':scope > entrypoint'))
-        .then(nodes => nodes[0])
-        .then(entrypointNode => {
+        .then(([entrypointNode]) => {
             const scene = entrypointNode.attr('scene').value;
             this.goToScene(scene);
         });
@@ -102,10 +101,10 @@ class Megaman2
         const type = node.node.tagName;
         if (type) {
             if (type === 'level') {
-                const parser = new Engine.Loader.XML.LevelParser(this, node.node);
+                const parser = new Engine.Loader.XML.LevelParser(this.loader, node.node);
                 return parser.getScene();
             } else if (type === 'stage-select') {
-                const parser = new Megaman2.StageSelectParser(this, node);
+                const parser = new Megaman2.StageSelectParser(this.loader, node);
                 return parser.getScene();
             } else {
                 throw new Error(`Scene type "${type}" not recognized`);

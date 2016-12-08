@@ -241,8 +241,6 @@ window.addEventListener('load', function() {
         hud.attach(game, screenElement.querySelector('.energy'));
         updateScreen();
         gameElement.classList.add('ready');
-    }).then(scene => {
-        game.setScene(scene);
     });
 
     window.megaman2 = megaman2;

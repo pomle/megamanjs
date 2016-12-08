@@ -45,7 +45,7 @@
 
     <object type="projectile" source="CrashBomb" id="CrashBomb">
         <audio>
-            <effect src="./crash-bomb-attach.ogg" id="crash-bomb-attach"/>
+            <effect url="./crash-bomb-attach.ogg" id="crash-bomb-attach"/>
         </audio>
         <geometry type="plane" w="20" h="16">
             <face animation="flying"/>

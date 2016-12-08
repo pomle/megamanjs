@@ -26,12 +26,12 @@
 
     <scene>
         <audio>
-            <music src="./stage-select/wait-music.ogg" id="wait-music">
+            <music url="./stage-select/wait-music.ogg" id="wait-music">
                 <loop start="1.364" end="6.690"/>
             </music>
-            <music src="./stage-select/boss-reveal.ogg" id="boss-reveal"/>
-            <effect src="./stage-select/change-selection.ogg" id="change-selection"/>
-            <effect src="./stage-select/make-selection.ogg" id="make-selection"/>
+            <music url="./stage-select/boss-reveal.ogg" id="boss-reveal"/>
+            <effect url="./stage-select/change-selection.ogg" id="change-selection"/>
+            <effect url="./stage-select/make-selection.ogg" id="make-selection"/>
         </audio>
         <camera distance="140" />
 
