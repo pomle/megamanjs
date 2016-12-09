@@ -15,6 +15,18 @@ describe('Scene', function() {
     return scene;
   }
 
+  describe('when instantiated', () => {
+    let scene;
+
+    beforeEach(() => {
+      scene = new Scene();
+    });
+
+    it('has a resource manager', () => {
+      expect(scene.resources).to.be.a(env.Engine.ResourceManager);
+    });
+  })
+
   describe('#startSimulation()', function() {
     it('should bind to timer update event', function() {
       const scene = createScene();

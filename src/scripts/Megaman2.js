@@ -11,6 +11,8 @@ class Megaman2
         this.state = Object.create(null);
 
         this._sceneIndex = Object.create(null);
+
+        this.activeScene = null;
     }
     loadXML(url)
     {
@@ -28,6 +30,10 @@ class Megaman2
         return this.loader.resourceLoader.loadXML(url)
         .then(([sceneNode]) => {
             return this.parseSceneNode(sceneNode);
+        })
+        .then(scene => {
+            this.game.setScene(scene.scene);
+            this.activeScene = scene;
         });
     }
 

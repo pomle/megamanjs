@@ -101,8 +101,8 @@ describe('World', function() {
       expect(world.getObject('foo')).to.be(objects[0]);
     });
 
-    it('should return false if no matching object', function() {
-      expect(world.getObject('foo')).to.be(false);
+    it('should return null if no matching object', function() {
+      expect(world.getObject('foo')).to.be(null);
     });
   });
 

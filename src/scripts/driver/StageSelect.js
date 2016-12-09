@@ -11,35 +11,43 @@ class StageSelect
 
         this.events = new Engine.Events();
 
+        this.RESET = Symbol();
+
         this.EVENT_STAGE_ENTER = 'stage-enter';
         this.EVENT_STAGE_SELECTED = 'stage-selected';
         this.EVENT_SELECTION_CHANGED = 'selection-changed';
         this.EVENT_BOSS_REVEAL = 'boss-reveal';
 
-        this._state = {};
-
         this.animations = {};
+
         this.cameraDesiredPosition = new THREE.Vector3();
         this.cameraDistance = 140;
         this.cameraSmoothing = 20;
+
         this.captionOffset = new THREE.Vector3(0, -32, .2);
-        this.currentIndex = undefined;
+        this.currentBoss = null;
+
+        this.currentIndex = null;
         this.initialIndex = 0;
+
         this.indicator = null;
         this.indicatorInterval = 1;
-        this.podium = undefined;
+
+        this.rowLength = 3;
         this.stages = [];
         this.stars = [];
-        this.rowLength = 3;
         this.spacing = new THREE.Vector2(64, 64);
         this.starSpeed = 200;
 
-        this.backgroundColor = new THREE.Mesh(
-            new THREE.PlaneGeometry(500, 500),
-            new THREE.MeshLambertMaterial());
-        this.scene.world.scene.add(this.backgroundColor);
-        this.backgroundModel = undefined;
+        this.bossRevealEasing = Engine.Easing.easeInOutCubic();
+        this.zoomInEasing = Engine.Easing.easeOutQuad();
 
+        this.modifiers = new Set();
+
+        this.setupInput(scene);
+        this.setupSceneEvents(scene);
+    }
+    setupInput(scene) {
         const input = scene.input;
         input.disable();
         input.hit(input.LEFT, () => {
@@ -57,40 +65,35 @@ class StageSelect
         input.hit(input.START, () => {
             this.enter();
         });
-
-        const simulate = (dt) => {
-            this.scene.update(dt);
-        };
-
-        this.modifiers = new Set();
-
-        this.setupSceneEvents(scene);
     }
     setupSceneEvents(scene) {
         const events = scene.events;
+        const world = scene.world;
+
+        const onSimulate = (dt) => {
+            this.modifiers.forEach(mod => mod(dt));
+        };
 
         events.bind(scene.EVENT_CREATE, (game) => {
-            this.equalize(this.initialIndex);
+            this.equalize();
             this.modifiers.clear();
             this.animations = {
                 'flash': this.createFlashAnimation(),
                 'indicator': this.createIndicatorAnimation(),
-                'stars': this.createStarAnimation(),
+                'stars': this.createStarAnimation(game),
             };
-            /*if (game.state) {
-
-            }*/
         });
 
         events.bind(scene.EVENT_START, (game) => {
-            scene.world.events.bind(this.world.EVENT_SIMULATE, simulate);
-            scene.camera.panTo(this.cameraDesiredPosition, 1, Engine.Easing.easeOutQuad());
+            world.events.bind(world.EVENT_SIMULATE, onSimulate);
+            scene.camera.panTo(this.cameraDesiredPosition, 1, this.zoomInEasing);
+            this.selectIndex(this.initialIndex);
             this.enableIndicator();
-            this.input.enable();
+            scene.input.enable();
         });
 
         events.bind(scene.EVENT_DESTROY, (game) => {
-            this.scene.world.events.unbind(scene.world.EVENT_SIMULATE, simulate);
+            world.events.unbind(world.EVENT_SIMULATE, onSimulate);
         });
     }
     addStage(avatar, caption, name, character)
@@ -102,20 +105,22 @@ class StageSelect
         const frame = this.frame.clone();
 
         this.stages.push({
-            "avatar": avatar,
-            "name": name,
-            "caption": caption,
-            "frame": frame,
-            "character": character,
+            avatar,
+            name,
+            caption,
+            frame,
+            character,
         });
 
         frame.position.set(pos.x, pos.y, 0);
         avatar.position.set(pos.x, pos.y, .1);
         caption.position.copy(avatar.position);
         caption.position.add(this.captionOffset);
-        this.scene.world.scene.add(frame);
-        this.scene.world.scene.add(avatar);
-        this.scene.world.scene.add(caption);
+
+        const scene = this.scene.world.scene;
+        scene.add(frame);
+        scene.add(avatar);
+        scene.add(caption);
     }
     addStar(model)
     {
@@ -123,28 +128,24 @@ class StageSelect
     }
     createFlashAnimation()
     {
-        const backgroundColor = this.backgroundColor.material.ambient;
-        const defaultBackgroundColor = backgroundColor.clone();
-        const light = this.world.ambientLight.color;
-        const defaultLight = light.clone();
+        const lightColor = this.scene.world.ambientLight.color;
+        const defaultLightColor = lightColor.clone();
 
-        const interval = (3/60) * 2;
+        const interval = (3 / 60) * 2;
         let time = 0;
         let state = false;
 
         const on = () => {
-            backgroundColor.setRGB(1,1,1);
-            light.setRGB(5,5,5);
+            lightColor.setRGB(5,5,5);
             state = true;
         };
         const off = () => {
-            backgroundColor.copy(defaultBackgroundColor);
-            light.copy(defaultLight);
+            lightColor.copy(defaultLightColor);
             state = false;
         };
 
         return (dt) => {
-            if (dt === -1) {
+            if (dt === this.RESET) {
                 time = 0;
                 off();
             } else {
@@ -164,22 +165,22 @@ class StageSelect
         const indicator = this.indicator;
         let time = 0;
         return (dt) => {
-            if (dt === -1) {
+            if (dt === this.RESET) {
                 time = 0;
-                indicator.visible = false;
+                indicator.visible;
             } else {
-                time += dt;
+                time = time + dt;
+                indicator.visible = (time % interval) / interval < .5;
             }
-            indicator.visible = (time % interval) / interval < .5;
         }
     }
-    createStarAnimation()
+    createStarAnimation(game)
     {
         const scene = this.scene.world.scene;
         const spread = 160;
         const center = this.bossRevealCenter;
-        const camera = scene.camera.camera;
-        const viewport = this.game.renderer.domElement;
+        const camera = this.scene.camera.camera;
+        const viewport = game.renderer.domElement;
         const aspect = viewport.width / viewport.height;
 
         this.stars.forEach(star => {
@@ -192,25 +193,22 @@ class StageSelect
             star.userData.minY = center.y - h / 2;
             star.userData.maxX = center.x + w / 2;
             star.userData.minX = center.x - w / 2;
+            star.position.z -= 1;
             scene.add(star);
         });
 
-        return dt => {
+        return (dt) => {
             this.stars.forEach(star => {
                 if (star.position.x > star.userData.maxX) {
                     star.position.x = star.userData.minX;
                     star.position.y = star.userData.minY + Math.random() * Math.abs(star.userData.minY - star.userData.maxY);
                 }
                 star.position.x += this.starSpeed * dt;
-
             });
         }
     }
-    equalize(index)
-    {
-        if (!this.stages[index]) {
-            index = 0;
-        }
+    equalize() {
+        const world = this.scene.world;
 
         const center = new THREE.Vector3();
         center.x = this.stages[0].avatar.position.x
@@ -222,46 +220,36 @@ class StageSelect
         center.y /= 2;
         center.y -= 8; // Adjust for caption.
 
-        if (this.podium) {
-            this.podium.position.copy(center);
-            this.podium.position.y += 512;
-            this.podiumSolid.position.copy(this.podium.position);
-            this.podiumSolid.position.y -= 24;
-        }
+        const podium = world.getObject('podium');
+        podium.position.copy(center);
+        podium.position.y += 512;
+
+        const background = world.getObject('background');
+        background.position.copy(center);
+        background.position.z -= 10;
 
         this.stageSelectCenter = center.clone();
         this.stageSelectCenter.z += this.cameraDistance;
-        this.bossRevealCenter = this.podium.position.clone();
+        this.bossRevealCenter = podium.position.clone();
         this.bossRevealCenter.z += this.cameraDistance;
 
         this.cameraDesiredPosition.copy(this.stageSelectCenter);
         this.scene.camera.position.copy(center);
         this.scene.camera.position.z = this.cameraDesiredPosition.z - 100;
-
-        this.selectIndex(index);
-        this.backgroundColor.position.copy(center);
-        this.backgroundColor.position.z -= 10;
-        this.backgroundModel.position.copy(center);
-        this.backgroundColor.position.z -= 9;
-        this.backgroundModel.position.copy(center);
     }
     enter()
     {
-        this.input.release();
-        this.input.disable();
+        this.scene.input.release();
+        this.scene.input.disable();
         this.disableIndicator();
 
         const stage = this.getSelected();
+        this.scene.events.trigger(this.EVENT_STAGE_SELECTED);
         this.events.trigger(this.EVENT_STAGE_SELECTED, [stage]);
-        this.runFlash().then(() => {
-            if (stage.character) {
-                return this.runBossReveal(stage).then(() => {
-                    this.events.trigger(this.EVENT_STAGE_ENTER, [stage]);
-                });
-            } else {
-                this.events.trigger(this.EVENT_STAGE_ENTER, [stage]);
-            }
-        });
+
+        this.runFlash()
+        .then(() => stage.character && this.runBossReveal(stage))
+        .then(() => this.events.trigger(this.EVENT_STAGE_ENTER, [stage]));
     }
     getSelected()
     {
@@ -270,36 +258,44 @@ class StageSelect
     runFlash()
     {
         this.modifiers.add(this.animations.flash);
-        return this.waitFor(1.0).then(() => {
+        return this.scene.waitFor(1.0).then(() => {
             this.modifiers.delete(this.animations.flash);
             this.animations.flash(-1);
         });
     }
     runBossReveal(stage)
     {
-        if (!this._state.bossReveal) {
-            this._state.bossReveal = {};
-        }
-        const state = this._state.bossReveal;
+        const scene = this.scene;
+        const camera = scene.camera;
 
-        if (state.currentBoss) {
-            this.world.removeObject(state.currentBoss);
+        if (this.currentBoss) {
+            scene.world.removeObject(this.currentBoss);
+            this.currentBoss = null;
         }
 
-        const camera = this.camera;
-        const character = new stage.character;
+        const character = new stage.character();
         character.direction.x = -1;
-        character.position.copy(this.podium.position);
+
+        const podium = scene.world.getObject('podium');
+        character.position.copy(podium.position);
         character.position.y += 150;
+
         this.modifiers.add(this.animations.stars);
-        this.events.trigger(this.EVENT_BOSS_REVEAL, [stage]);
-        this.waitFor(.5).then(() => {
-            state.currentBoss = character;
-            this.world.addObject(character);
-        });
-        return camera.panTo(this.bossRevealCenter, 1, Engine.Easing.easeInOutCubic()).then(() => {
-            return this.waitFor(6);
-        });
+        this.scene.events.trigger(this.EVENT_BOSS_REVEAL, [stage]);
+
+        const bossTask = scene.waitFor(.5)
+            .then(() => {
+                this.currentBoss = character;
+                scene.world.addObject(character);
+            });
+
+        const cameraTask = camera.panTo(this.bossRevealCenter, 1, this.bossRevealEasing)
+            .then(() => scene.waitFor(6));
+
+        return Promise.all([
+            bossTask,
+            cameraTask,
+        ]);
     }
     selectIndex(index)
     {
@@ -309,25 +305,11 @@ class StageSelect
         const avatar = this.stages[index].avatar;
         this.indicator.position.x = avatar.position.x;
         this.indicator.position.y = avatar.position.y;
-        if (this.animations.indicator) {
-            this.animations.indicator(-1);
-        }
+        this.animations.indicator(this.RESET);
 
         this.currentIndex = index;
 
         return this.currentIndex;
-    }
-    setBackgroundModel(model)
-    {
-        if (this.backgroundModel) {
-            this.scene.world.scene.remove(this.backgroundModel);
-        }
-        this.backgroundModel = model;
-        this.scene.world.scene.add(model);
-    }
-    setBackgroundColor(hexcolor)
-    {
-        this.backgroundColor.material.ambient.setHex(hexcolor);
     }
     setFrame(model)
     {
@@ -335,7 +317,7 @@ class StageSelect
     }
     disableIndicator()
     {
-        this.animations.indicator(-1);
+        this.animations.indicator(this.RESET);
         this.modifiers.delete(this.animations.indicator);
     }
     enableIndicator()
@@ -347,18 +329,6 @@ class StageSelect
         this.indicator = model;
         this.indicator.position.z = .1;
         this.scene.world.scene.add(model);
-    }
-    setPodium(model)
-    {
-        this.podium = model;
-        this.scene.world.scene.add(model);
-        const solid = new Engine.Object;
-        solid.addCollisionRect(64, 16);
-        solid.applyTrait(new Engine.traits.Solid);
-        solid.solid.fixed = true;
-        solid.solid.obstructs = true;
-        this.podiumSolid = solid;
-        this.world.addObject(solid);
     }
     steer(x, y)
     {
@@ -378,12 +348,6 @@ class StageSelect
 
         this.selectIndex(newIndex);
 
-        this.events.trigger(this.EVENT_SELECTION_CHANGED, [this.currentIndex]);
-    }
-    update(dt)
-    {
-        this.modifiers.forEach(mod => {
-            mod(dt);
-        });
+        this.scene.events.trigger(this.EVENT_SELECTION_CHANGED, [this.currentIndex]);
     }
 }
