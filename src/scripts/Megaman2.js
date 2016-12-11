@@ -38,24 +38,41 @@ class Megaman2
     }
 
     parseGameNode(gameNode) {
-        const resourceTask = gameNode.find(':scope > resources')
-        .then(([resourcesNode]) => {
-            const resourceParser = new Engine.Loader.XML
-                .ResourceParser(this.loader);
-            return resourceParser.parseResourcesNode(resourcesNode);
-        });
-
-        const sceneIndexTask = gameNode.find(':scope > scenes > scene')
-        .then(sceneNodes => {
-            sceneNodes.forEach(sceneNode => {
-                const name = sceneNode.attr('name').value;
-                this._sceneIndex[name] = {
-                    url: sceneNode.attr('url').toURL(),
-                };
+        const configTask = gameNode.find(':scope > config')
+        .then(([configNode]) => {
+            const scaleAttr = configNode.attr('texture-scale');
+            if (scaleAttr) {
+                this.loader.textureScale = scaleAttr.toFloat();
+            }
+        })
+        .then(() => {
+            const resourceTask = gameNode.find(':scope > resources')
+            .then(([resourcesNode]) => {
+                const resourceParser = new Engine.Loader.XML
+                    .ResourceParser(this.loader);
+                return resourceParser.parseResourcesNode(resourcesNode);
             });
+
+            const sceneIndexTask = gameNode.find(':scope > scenes > scene')
+            .then(sceneNodes => {
+                sceneNodes.forEach(sceneNode => {
+                    const name = sceneNode.attr('name').value;
+                    this._sceneIndex[name] = {
+                        url: sceneNode.attr('url').toURL(),
+                    };
+                });
+            });
+
+            return Promise.all([
+                resourceTask,
+                sceneIndexTask,
+            ]);
+        })
+        .then(() => gameNode.find(':scope > entrypoint'))
+        .then(([entrypointNode]) => {
+            const scene = entrypointNode.attr('scene').value;
+            this.goToScene(scene);
         });
-
-
         /*
         .then(() => {
             const playerNode = gameNode.querySelector('player');
@@ -92,15 +109,6 @@ class Megaman2
             return megaman2;
         });*/
 
-        return Promise.all([
-            resourceTask,
-            sceneIndexTask,
-        ])
-        .then(() => gameNode.find(':scope > entrypoint'))
-        .then(([entrypointNode]) => {
-            const scene = entrypointNode.attr('scene').value;
-            this.goToScene(scene);
-        });
     }
 
     parseSceneNode(node) {
