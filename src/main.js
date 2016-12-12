@@ -30,14 +30,14 @@ window.addEventListener('load', function() {
         let keyName = null;
 
         function saveMap() {
-            const map = game.input.exportMap();
+            const map = megaman2.input.exportMap();
             localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
         }
 
         function loadMap() {
             const map = localStorage.getItem(STORAGE_KEY);
             if (map) {
-                game.input.importMap(JSON.parse(map));
+                megaman2.input.importMap(JSON.parse(map));
             }
         }
 
@@ -49,7 +49,7 @@ window.addEventListener('load', function() {
                 return;
             }
 
-            game.input.assign(keyCode, keyName);
+            megaman2.input.assign(keyCode, keyName);
             const text = mapElement.dataset.msgRemapSuccess
                 .replace('{{key}}', HUMAN_KEYS[keyName])
                 .replace('{{code}}', HUMAN_CODES[keyCode] || String.fromCharCode(keyCode) || keyCode);
@@ -235,7 +235,7 @@ window.addEventListener('load', function() {
 
     megaman2.loadXML('./resource/Megaman2.xml').then(entrypoint => {
         game.attachToElement(screenElement);
-        game.attachController(window);
+        megaman2.input.listenTo(window);
 
         const hud = new Megaman2.Hud;
         hud.attach(game, screenElement.querySelector('.energy'));
