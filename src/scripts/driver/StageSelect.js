@@ -44,11 +44,11 @@ class StageSelect
 
         this.modifiers = new Set();
 
-        this.setupInput(scene);
+        this.setupInput();
         this.setupSceneEvents(scene);
     }
-    setupInput(scene) {
-        const input = scene.input;
+    setupInput() {
+        const input = new Engine.Keyboard();
         input.disable();
         input.hit(input.LEFT, () => {
             this.steer(-1, 0);
@@ -65,6 +65,7 @@ class StageSelect
         input.hit(input.START, () => {
             this.enter();
         });
+        this.input = input;
     }
     setupSceneEvents(scene) {
         const events = scene.events;

@@ -72,11 +72,10 @@
         <objects src="./characters/Telly.xml" />
     </resources>
 
-    <player retries="1">
-        <character id="Megaman" />
-        <invincibility duration="2"/>
-        <weapon default="p" />
-    </player>
+    <player
+        object="Megaman"
+        invincibility-duration="2"
+        retries="1"/>
 
     <bosses>
         <boss name="Air Man" code="a">

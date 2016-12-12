@@ -68,29 +68,23 @@ class Megaman2
                 sceneIndexTask,
             ]);
         })
+        .then(() => gameNode.find('player'))
+        .then(([playerNode]) => {
+            const Character = this.loader.resourceManager.get(
+                'object', playerNode.attr('object').value);
+
+            const character = new Character();
+            this.player.setCharacter(character);
+
+            this.player.retries = playerNode.attr('retries').toFloat(3);
+            this.player.setCharacter(character);
+        })
         .then(() => gameNode.find(':scope > entrypoint'))
         .then(([entrypointNode]) => {
             const scene = entrypointNode.attr('scene').value;
             this.goToScene(scene);
         });
         /*
-        .then(() => {
-            const playerNode = gameNode.querySelector('player');
-            const player = this.loader.game.player;
-            const characterId = playerNode.querySelector('character')
-                                          .getAttribute('id');
-
-            player.defaultWeapon = playerNode.querySelector('weapon')
-                                             .getAttribute('default');
-
-            const Character = this.loader.resourceManager.get('object', characterId);
-            const character = new Character;
-
-            const invincibilityNode = playerNode.querySelector('invincibility');
-
-            player.retries = parseFloat(playerNode.getAttribute('retries')) || 3;
-            player.setCharacter(character);
-        })
         .then(() => {
             const weaponsNode = gameNode.querySelector(':scope > weapons');
             if (weaponsNode) {
@@ -115,8 +109,12 @@ class Megaman2
         const type = node.node.tagName;
         if (type) {
             if (type === 'level') {
-                const parser = new Engine.Loader.XML.LevelParser(this.loader, node.node);
-                return parser.getScene();
+                const parser = new Megaman2.LevelParser(this.loader, node);
+                return parser.getScene()
+                    .then(level => {
+                        level.setPlayer(this.player);
+                        return level;
+                    });
             } else if (type === 'stage-select') {
                 const parser = new Megaman2.StageSelectParser(this.loader, node);
                 return parser.getScene();
