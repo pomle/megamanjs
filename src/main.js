@@ -37,7 +37,7 @@ window.addEventListener('load', function() {
         function loadMap() {
             const map = localStorage.getItem(STORAGE_KEY);
             if (map) {
-                megaman2.input.importMap(JSON.parse(map));
+                //megaman2.input.importMap(JSON.parse(map));
             }
         }
 

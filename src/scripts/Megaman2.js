@@ -7,18 +7,20 @@ class Megaman2
         this.game = new Engine.Game();
         this.loader = new Engine.Loader.XML(this.game);
 
-        this.input = new Engine.Keyboard();
+        this.input = new Engine.Input.NES();
         this.player = new Engine.Player();
         this.state = Object.create(null);
 
         this.sceneIndex = Object.create(null);
 
-        this.input.events.bind(this.input.EVENT_TRIGGER, (key, state) => {
+        this.input.listen((name, state) => {
+            console.trace(name, state);
+
             if (!this.activeScene) {
                 console.error('No input receiver');
                 return;
             }
-            this.activeScene.input.trigger(key, state);
+            this.activeScene.input.receive(name, state);
         });
 
         this.activeScene = null;

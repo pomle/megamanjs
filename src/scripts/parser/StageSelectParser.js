@@ -47,7 +47,6 @@ class StageSelectParser
         const indicatorNode = node.getElementsByTagName('indicator')[0];
         const spacingNode = node.querySelector('spacing');
 
-        stageSelect.setIndicator(createModel('indicator'));
         stageSelect.setFrame(createModel('frame'));
 
         stageSelect.spacing.copy(parser.getVector2(spacingNode));

@@ -11,14 +11,14 @@ class StageSelect
 
         this.events = new Engine.Events();
 
+        this.input = this.setupInput();
+
         this.RESET = Symbol();
 
         this.EVENT_STAGE_ENTER = 'stage-enter';
         this.EVENT_STAGE_SELECTED = 'stage-selected';
         this.EVENT_SELECTION_CHANGED = 'selection-changed';
         this.EVENT_BOSS_REVEAL = 'boss-reveal';
-
-        this.animations = {};
 
         this.cameraDesiredPosition = new THREE.Vector3();
         this.cameraDistance = 140;
@@ -30,7 +30,7 @@ class StageSelect
         this.currentIndex = null;
         this.initialIndex = 0;
 
-        this.indicator = null;
+        this.indicator = this.scene.world.getObject('indicator');
         this.indicatorInterval = 1;
 
         this.rowLength = 3;
@@ -44,28 +44,28 @@ class StageSelect
 
         this.modifiers = new Set();
 
+        this.animations = {
+            'flash': this.createFlashAnimation(),
+            'indicator': this.createIndicatorAnimation(),
+            'stars': this.createStarAnimation(),
+        };
+
         this.setupInput();
         this.setupSceneEvents(scene);
     }
     setupInput() {
-        const input = new Engine.Keyboard();
+        const input = new Engine.InputReceiver();
         input.disable();
-        input.hit(input.LEFT, () => {
-            this.steer(-1, 0);
+
+        input.listen(Engine.Input.NES.DPAD_TAP, dir => {
+            this.steer(dir.x, -dir.y);
         });
-        input.hit(input.RIGHT, () => {
-            this.steer(1, 0);
-        });
-        input.hit(input.UP, () => {
-            this.steer(0, -1);
-        });
-        input.hit(input.DOWN, () => {
-            this.steer(0, 1);
-        });
-        input.hit(input.START, () => {
+
+        input.listen(Engine.Input.NES.START, () => {
             this.enter();
         });
-        this.input = input;
+
+        return input;
     }
     setupSceneEvents(scene) {
         const events = scene.events;
@@ -76,24 +76,16 @@ class StageSelect
         };
 
         events.bind(scene.EVENT_CREATE, (game) => {
-            this.equalize();
+            this.equalize(game);
             this.modifiers.clear();
-            this.animations = {
-                'flash': this.createFlashAnimation(),
-                'indicator': this.createIndicatorAnimation(),
-                'stars': this.createStarAnimation(game),
-            };
-        });
-
-        events.bind(scene.EVENT_START, (game) => {
+            this.input.enable();
             world.events.bind(world.EVENT_SIMULATE, onSimulate);
             scene.camera.panTo(this.cameraDesiredPosition, 1, this.zoomInEasing);
             this.selectIndex(this.initialIndex);
             this.enableIndicator();
-            scene.input.enable();
         });
 
-        events.bind(scene.EVENT_DESTROY, (game) => {
+        events.bind(scene.EVENT_DESTROY, () => {
             world.events.unbind(world.EVENT_SIMULATE, onSimulate);
         });
     }
@@ -175,29 +167,8 @@ class StageSelect
             }
         }
     }
-    createStarAnimation(game)
+    createStarAnimation()
     {
-        const scene = this.scene.world.scene;
-        const spread = 160;
-        const center = this.bossRevealCenter;
-        const camera = this.scene.camera.camera;
-        const viewport = game.renderer.domElement;
-        const aspect = viewport.width / viewport.height;
-
-        this.stars.forEach(star => {
-            const vFOV = camera.fov * Math.PI / 180;
-            const h = 2 * Math.tan(vFOV / 2) * Math.abs(this.cameraDistance - star.position.z);
-            const w = h * aspect;
-            star.position.x = center.x + (Math.random() * w) - w / 2;
-            star.position.y = center.y + (Math.random() * h) - h / 2;
-            star.userData.maxY = center.y + h / 2;
-            star.userData.minY = center.y - h / 2;
-            star.userData.maxX = center.x + w / 2;
-            star.userData.minX = center.x - w / 2;
-            star.position.z -= 1;
-            scene.add(star);
-        });
-
         return (dt) => {
             this.stars.forEach(star => {
                 if (star.position.x > star.userData.maxX) {
@@ -208,8 +179,9 @@ class StageSelect
             });
         }
     }
-    equalize() {
-        const world = this.scene.world;
+    equalize(game) {
+        const scene = this.scene;
+        const world = scene.world;
 
         const center = new THREE.Vector3();
         center.x = this.stages[0].avatar.position.x
@@ -237,11 +209,29 @@ class StageSelect
         this.cameraDesiredPosition.copy(this.stageSelectCenter);
         this.scene.camera.position.copy(center);
         this.scene.camera.position.z = this.cameraDesiredPosition.z - 100;
+
+        const spread = 160;
+        const camera = scene.camera.camera;
+        const viewport = game.renderer.domElement;
+        const aspect = viewport.width / viewport.height;
+
+        this.stars.forEach(star => {
+            const vFOV = camera.fov * Math.PI / 180;
+            const h = 2 * Math.tan(vFOV / 2) * Math.abs(this.cameraDistance - star.position.z);
+            const w = h * aspect;
+            star.position.x = center.x + (Math.random() * w) - w / 2;
+            star.position.y = center.y + (Math.random() * h) - h / 2;
+            star.userData.maxY = center.y + h / 2;
+            star.userData.minY = center.y - h / 2;
+            star.userData.maxX = center.x + w / 2;
+            star.userData.minX = center.x - w / 2;
+            star.position.z -= 1;
+            world.scene.add(star);
+        });
     }
     enter()
     {
-        this.scene.input.release();
-        this.scene.input.disable();
+        this.input.disable();
         this.disableIndicator();
 
         const stage = this.getSelected();
@@ -324,12 +314,6 @@ class StageSelect
     enableIndicator()
     {
         this.modifiers.add(this.animations.indicator);
-    }
-    setIndicator(model)
-    {
-        this.indicator = model;
-        this.indicator.position.z = .1;
-        this.scene.world.scene.add(model);
     }
     steer(x, y)
     {

@@ -31,6 +31,7 @@
             <effect url="./stage-select/change-selection.ogg" id="change-selection"/>
             <effect url="./stage-select/make-selection.ogg" id="make-selection"/>
         </audio>
+
         <camera distance="140" />
 
         <events>
@@ -220,6 +221,7 @@
 
         <layout>
             <objects>
+                <object id="podium" instance="indicator" z=".1" />
                 <object id="podium" instance="podium" />
                 <object id="background" instance="background" />
             </objects>

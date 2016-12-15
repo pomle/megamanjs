@@ -26,25 +26,25 @@ Megaman2.Level = class Level
             character: this.createCharacterInput(),
             menu: this.createMenuInput(),
         };
+
+        this.input = this.inputs.character;
     }
     setupEvents() {
         const scene = this.scene;
-        const timer = scene.timer;
 
         const onUpdate = () => {
             this.detectCheckpoint();
         };
 
         scene.events.bind(scene.EVENT_CREATE, (game) => {
+            const timer = game.timer;
             timer.events.bind(timer.EVENT_UPDATE, onUpdate);
-        });
-        scene.events.bind(scene.EVENT_DESTROY, () => {
-            this.scene.camera.unfollow();
-            timer.events.unbind(timer.EVENT_UPDATE, onUpdate);
-        });
-
-        scene.events.bind(scene.EVENT_START, () => {
             this.resetPlayer()
+        });
+        scene.events.bind(scene.EVENT_DESTROY, (game) => {
+            const timer = game.timer;
+            timer.events.unbind(timer.EVENT_UPDATE, onUpdate);
+            this.scene.camera.unfollow();
         });
     }
 
@@ -85,71 +85,35 @@ Megaman2.Level = class Level
 
     createCharacterInput()
     {
-        const input = new Engine.Keyboard();
+        const input = new Engine.InputReceiver();
 
-        input.intermittent(input.LEFT,
-            () => {
-                this.player.character.aim.x = -1;
-            },
-            () => {
-                if (this.player.character.aim.x === -1) {
-                    this.player.character.aim.x = 0;
-                }
-            });
-        input.intermittent(input.RIGHT,
-            () => {
-                this.player.character.aim.x = 1;
-            },
-            () => {
-                if (this.player.character.aim.x === 1) {
-                    this.player.character.aim.x = 0;
-                }
-            });
-        input.intermittent(input.UP,
-            () => {
-                this.player.character.aim.y = 1;
-            },
-            () => {
-                if (this.player.character.aim.y === 1) {
-                    this.player.character.aim.y = 0;
-                }
-            });
-        input.intermittent(input.DOWN,
-            () => {
-                this.player.character.aim.y = -1;
-            },
-            () => {
-                if (this.player.character.aim.y === -1) {
-                    this.player.character.aim.y = 0;
-                }
-            });
+        input.listen(Engine.Input.NES.DPAD_STATE, (dir) => {
+            this.player.character.aim.copy(dir);
+        });
 
-        input.intermittent(input.A,
-            () => {
+        input.listen(Engine.Input.NES.A, (state) => {
+            console.log(state);
+            if (state) {
                 this.player.character.jump.engage();
-            },
-            () => {
+            } else {
                 this.player.character.jump.cancel();
-            });
-        input.hit(input.B,
-            () => {
-                this.player.character.weapon.fire();
-            });
-        input.hit(input.START,
-            () => {
-                //levelrunner.toggleMenu();
-            });
-        input.hit(input.SELECT,
-            () => {
-                this.events.trigger(this.EVENT_END);
-            });
+            }
+        });
+
+        input.listen(Engine.Input.NES.B, (state) => {
+            this.player.character.weapon.fire();
+        });
+
+        input.listen(Engine.Input.NES.SELECT, () => {
+            this.events.trigger(this.EVENT_END);
+        });
 
         return input;
     }
 
     createMenuInput()
     {
-        return new Engine.Keyboard();
+        return new Engine.InputReceiver();
     }
 
     detectCheckpoint()

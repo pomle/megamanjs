@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const env = require('../env');
 
 const World = env.Engine.World;
-const Input = env.Engine.Keyboard;
+const Input = env.Engine.Input.Keyboard;
 const Recorder = env.Engine.InputRecorder;
 
 describe('InputRecorder', function() {
