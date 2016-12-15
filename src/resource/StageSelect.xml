@@ -221,7 +221,7 @@
 
         <layout>
             <objects>
-                <object id="podium" instance="indicator" z=".1" />
+                <object id="indicator" instance="indicator" z=".1" />
                 <object id="podium" instance="podium" />
                 <object id="background" instance="background" />
             </objects>

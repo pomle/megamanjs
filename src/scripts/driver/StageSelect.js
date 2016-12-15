@@ -31,6 +31,7 @@ class StageSelect
         this.initialIndex = 0;
 
         this.indicator = this.scene.world.getObject('indicator');
+        this.indicator.position.z = .1;
         this.indicatorInterval = 1;
 
         this.rowLength = 3;
@@ -71,22 +72,19 @@ class StageSelect
         const events = scene.events;
         const world = scene.world;
 
-        const onSimulate = (dt) => {
+        world.events.bind(world.EVENT_UPDATE, (dt) => {
             this.modifiers.forEach(mod => mod(dt));
-        };
+        });
 
         events.bind(scene.EVENT_CREATE, (game) => {
             this.equalize(game);
             this.modifiers.clear();
+            this.modifiers.add(this.animations.indicator);
             this.input.enable();
-            world.events.bind(world.EVENT_SIMULATE, onSimulate);
+
             scene.camera.panTo(this.cameraDesiredPosition, 1, this.zoomInEasing);
             this.selectIndex(this.initialIndex);
             this.enableIndicator();
-        });
-
-        events.bind(scene.EVENT_DESTROY, () => {
-            world.events.unbind(world.EVENT_SIMULATE, onSimulate);
         });
     }
     addStage(avatar, caption, name, character)
@@ -154,18 +152,18 @@ class StageSelect
     }
     createIndicatorAnimation()
     {
-        const interval = this.indicatorInterval * 2;
-        const indicator = this.indicator;
+        const model = this.indicator.model;
         let time = 0;
         return (dt) => {
+            const interval = this.indicatorInterval * 2;
             if (dt === this.RESET) {
                 time = 0;
-                indicator.visible;
+                model.visible = true;
             } else {
                 time = time + dt;
-                indicator.visible = (time % interval) / interval < .5;
+                model.visible = (time % interval) / interval < .5;
             }
-        }
+        };
     }
     createStarAnimation()
     {
@@ -182,6 +180,7 @@ class StageSelect
     equalize(game) {
         const scene = this.scene;
         const world = scene.world;
+        const camera = scene.camera;
 
         const center = new THREE.Vector3();
         center.x = this.stages[0].avatar.position.x
@@ -207,16 +206,16 @@ class StageSelect
         this.bossRevealCenter.z += this.cameraDistance;
 
         this.cameraDesiredPosition.copy(this.stageSelectCenter);
-        this.scene.camera.position.copy(center);
-        this.scene.camera.position.z = this.cameraDesiredPosition.z - 100;
+        camera.position.copy(center);
+        camera.position.z = this.cameraDesiredPosition.z - 100;
 
+        center.copy(podium.position);
         const spread = 160;
-        const camera = scene.camera.camera;
         const viewport = game.renderer.domElement;
         const aspect = viewport.width / viewport.height;
+        const vFOV = camera.camera.fov * Math.PI / 180;
 
         this.stars.forEach(star => {
-            const vFOV = camera.fov * Math.PI / 180;
             const h = 2 * Math.tan(vFOV / 2) * Math.abs(this.cameraDistance - star.position.z);
             const w = h * aspect;
             star.position.x = center.x + (Math.random() * w) - w / 2;
@@ -272,7 +271,7 @@ class StageSelect
         character.position.y += 150;
 
         this.modifiers.add(this.animations.stars);
-        this.scene.events.trigger(this.EVENT_BOSS_REVEAL, [stage]);
+        scene.events.trigger(this.EVENT_BOSS_REVEAL, [stage]);
 
         const bossTask = scene.waitFor(.5)
             .then(() => {

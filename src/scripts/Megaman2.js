@@ -14,8 +14,6 @@ class Megaman2
         this.sceneIndex = Object.create(null);
 
         this.input.listen((name, state) => {
-            console.trace(name, state);
-
             if (!this.activeScene) {
                 console.error('No input receiver');
                 return;
