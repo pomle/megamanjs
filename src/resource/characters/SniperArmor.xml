@@ -9,12 +9,12 @@
 
         <traits>
             <trait name="contact-damage" points="8" />
+            <trait name="health" max="20" />
             <trait name="death-spawn" chance="1">
                 <objects>
                     <character id="SniperJoe" />
                 </objects>
             </trait>
-            <trait name="health" max="20" />
             <trait name="jump" force="297" forward="154" duration=".18" />
             <trait name="physics" area=".5" drag=".1" mass="600" />
             <trait name="solid" attack="bottom"/>

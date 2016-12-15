@@ -5,6 +5,7 @@ class DeathSpawn extends Engine.Trait
     {
         super();
         this.NAME = 'deathSpawn';
+        this._requires = [Engine.traits.Health];
 
         this.chance = 1;
         this.pool = [];
