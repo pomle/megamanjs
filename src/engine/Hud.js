@@ -58,7 +58,7 @@ Engine.Hud = class Hud
     }
     onHealthChanged(health)
     {
-        this.setAmountInteractive(this.dom.health, health.fraction);
+        this.setAmountInteractive(this.dom.health, health.energy.fraction);
     }
     onSceneSet(scene)
     {
