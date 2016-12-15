@@ -4,38 +4,38 @@
     <entrypoint scene="StageSelect" />
 
     <scenes>
-        <scene type="level" name="Intro" url="./Intro.xml" />
-        <scene type="stage-select" name="StageSelect" url="./StageSelect.xml" />
+        <scene name="Intro" url="./Intro.xml" />
+        <scene name="StageSelect" url="./StageSelect.xml" />
 
-        <scene type="level" name="Airman" url="./levels/Airman.xml" />
-        <scene type="level" name="Bubbleman" url="./levels/Bubbleman.xml" />
-        <scene type="level" name="Crashman" url="./levels/Crashman.xml" />
-        <scene type="level" name="Flashman" url="./levels/Flashman.xml" />
-        <scene type="level" name="Heatman" url="./levels/Heatman.xml" />
-        <scene type="level" name="Metalman" url="./levels/Metalman.xml" />
-        <scene type="level" name="Quickman" url="./levels/Quickman.xml" />
-        <scene type="level" name="Woodman" url="./levels/Woodman.xml" />
+        <scene name="Airman" url="./levels/Airman.xml" />
+        <scene name="Bubbleman" url="./levels/Bubbleman.xml" />
+        <scene name="Crashman" url="./levels/Crashman.xml" />
+        <scene name="Flashman" url="./levels/Flashman.xml" />
+        <scene name="Heatman" url="./levels/Heatman.xml" />
+        <scene name="Metalman" url="./levels/Metalman.xml" />
+        <scene name="Quickman" url="./levels/Quickman.xml" />
+        <scene name="Woodman" url="./levels/Woodman.xml" />
 
-        <scene type="level" name="DrWily1" url="./levels/DrWily1.xml" />
-        <scene type="level" name="DrWily2" url="./levels/DrWily2.xml" />
-        <scene type="level" name="DrWily3" url="./levels/DrWily3.xml" />
-        <scene type="level" name="DrWily4" url="./levels/DrWily4.xml" />
-        <scene type="level" name="DrWilyTeleport" url="./levels/DrWilyTeleport.xml" />
-        <scene type="level" name="DrWilyAlien" url="./levels/DrWilyAlien.xml" />
+        <scene name="DrWily1" url="./levels/DrWily1.xml" />
+        <scene name="DrWily2" url="./levels/DrWily2.xml" />
+        <scene name="DrWily3" url="./levels/DrWily3.xml" />
+        <scene name="DrWily4" url="./levels/DrWily4.xml" />
+        <scene name="DrWilyTeleport" url="./levels/DrWilyTeleport.xml" />
+        <scene name="DrWilyAlien" url="./levels/DrWilyAlien.xml" />
 
         <!-- Debug Levels -->
-            <scene type="level" name="Doors" url="./levels/debug/Doors.xml" />
-            <scene type="level" name="Elevator" url="./levels/debug/Elevator.xml" />
-            <scene type="level" name="JumpHeight" url="./levels/debug/JumpHeight.xml" />
-            <scene type="level" name="OnePlatform" url="./levels/debug/OnePlatform.xml" />
-            <scene type="level" name="JumpTest" url="./levels/debug/JumpTest.xml" />
-            <scene type="level" name="DestructibleWall" url="./levels/debug/DestructibleWall.xml" />
-            <scene type="level" name="DisappearingBlock" url="./levels/debug/DisappearingBlock.xml" />
-            <scene type="level" name="Ladder" url="./levels/debug/Ladder.xml" />
-            <scene type="level" name="Per" url="./levels/debug/Per.xml" />
-            <scene type="level" name="Physics" url="./levels/debug/Physics.xml" />
-            <scene type="level" name="Enemies" url="./levels/debug/Enemies.xml" />
-            <scene type="level" name="Powerups" url="./levels/debug/Powerups.xml" />
+            <scene name="Doors" url="./levels/debug/Doors.xml" />
+            <scene name="Elevator" url="./levels/debug/Elevator.xml" />
+            <scene name="JumpHeight" url="./levels/debug/JumpHeight.xml" />
+            <scene name="OnePlatform" url="./levels/debug/OnePlatform.xml" />
+            <scene name="JumpTest" url="./levels/debug/JumpTest.xml" />
+            <scene name="DestructibleWall" url="./levels/debug/DestructibleWall.xml" />
+            <scene name="DisappearingBlock" url="./levels/debug/DisappearingBlock.xml" />
+            <scene name="Ladder" url="./levels/debug/Ladder.xml" />
+            <scene name="Per" url="./levels/debug/Per.xml" />
+            <scene name="Physics" url="./levels/debug/Physics.xml" />
+            <scene name="Enemies" url="./levels/debug/Enemies.xml" />
+            <scene name="Powerups" url="./levels/debug/Powerups.xml" />
         <!-- End Debug Levels -->
     </scenes>
 
