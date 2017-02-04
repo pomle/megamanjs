@@ -7,6 +7,7 @@
     "minify": "bash ./tools/minify.sh",
     "generate": "bash ./tools/generate.sh",
     "lint": "eslint src/engine src/game",
+    "serve:dev": "node ./tools/serve-dev.js",
     "test": "npm run test:unit && npm run test:integration && istanbul report --dir ./test/coverage/summary",
     "test:unit": "istanbul cover --config .istanbul-unit.yml node_modules/mocha/bin/_mocha test/unit",
     "test:integration": "karma start .karma-integration.conf --single-run --reporters mocha,coverage",
@@ -31,6 +32,7 @@
     "xmldom": "^0.1.22"
   },
   "dependencies": {
+    "express": "^4.14.1",
     "snakesilk": "git://github.com/snakesilk/snakesilk-engine.git#master"
   }
 }
