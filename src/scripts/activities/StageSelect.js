@@ -232,11 +232,17 @@ class StageSelect extends Megaman2.Activity
 
         const stage = this.getSelected();
         this.scene.events.trigger(this.EVENT_STAGE_SELECTED);
+
+
         this.events.trigger(this.EVENT_STAGE_SELECTED, [stage]);
 
         this.runFlash()
-        .then(() => stage.character && this.runBossReveal(stage))
-        .then(() => this.events.trigger(this.EVENT_GOTO_SCENE, [stage.name]));
+        .then(() => {
+            if (stage.character) {
+                return this.runBossReveal(stage);
+            }
+        })
+        .then(() => this.goToActivity(stage.name));
     }
     getSelected()
     {
