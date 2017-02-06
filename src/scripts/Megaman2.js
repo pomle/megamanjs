@@ -43,6 +43,7 @@ class Megaman2
             return this.parseSceneNode(sceneNode);
         })
         .then(activity => {
+            activity.events.once(activity.EVENT_GOTO_ACTIVITY, (name) => this.goToActivity(name));
             this.game.setScene(activity.scene);
             this.activity = activity;
         });
