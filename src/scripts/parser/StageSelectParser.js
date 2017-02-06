@@ -40,7 +40,7 @@ class StageSelectParser
         }
 
         function createModel(id) {
-            return new (scene.resources.get('object', id))().model;
+            return new (scene.resources.get('entity', id))().model;
         }
 
         const cameraNode = node.getElementsByTagName('camera')[0];
@@ -62,7 +62,7 @@ class StageSelectParser
             const text = parser.getAttr(stageNode, 'caption');
             const characterId = parser.getAttr(stageNode, 'character');
             stageSelect.addStage(createModel(id), createCaption(text), name,
-                characterId && res.get('object', characterId));
+                characterId && res.get('entity', characterId));
         }
 
         const initialIndex = parser.getInt(indicatorNode, 'initial-index') || 0;

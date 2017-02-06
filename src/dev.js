@@ -93,7 +93,7 @@ window.addEventListener('load', function() {
             }
         },
         'spawn': (e) => {
-            const Obj = loader.resourceManager.get('object', e.target.dataset.object);
+            const Obj = loader.resourceManager.get('entity', e.target.dataset.object);
             const obj = new Obj();
             const pos = game.scene.camera.position;
             obj.moveTo({

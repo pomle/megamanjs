@@ -71,7 +71,7 @@ class LevelParser
             const spawnableNodes = spawnerNode.getElementsByTagName('*');
             for (let spawnableNode, j = 0; spawnableNode = spawnableNodes[j]; ++j) {
                 const objectId = spawnableNode.getAttribute('id');
-                const objectRef = this.loader.resourceManager.get('object', objectId);
+                const objectRef = this.loader.resourceManager.get('entity', objectId);
                 spawner.pool.push(objectRef);
             }
 

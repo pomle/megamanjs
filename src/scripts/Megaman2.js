@@ -82,7 +82,7 @@ class Megaman2
         .then(() => gameNode.find('player'))
         .then(([playerNode]) => {
             const Character = this.loader.resourceManager.get(
-                'object', playerNode.attr('object').value);
+                'entity', playerNode.attr('object').value);
 
             const character = new Character();
             this.player.setCharacter(character);
