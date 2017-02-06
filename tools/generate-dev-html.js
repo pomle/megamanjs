@@ -9,7 +9,7 @@ const fs = require('fs');
 
 let template = fs.readFileSync(__dirname + '/template.html', 'utf8');
 
-const styles = ['main.css', 'dev.css'];
+const styles = ['main.css'];
 template = injectCSS('<!-- INJECT-CSS -->', template, styles);
 
 const scripts = require('../src/script-manifest.json');
