@@ -11,17 +11,17 @@ class Megaman2
         this.player = new Engine.Player();
         this.state = Object.create(null);
 
-        this.sceneIndex = Object.create(null);
+        this.activityIndex = Object.create(null);
 
         this.input.listen((name, state) => {
-            if (!this.activeScene) {
+            if (!this.activity) {
                 console.error('No input receiver');
                 return;
             }
-            this.activeScene.input.receive(name, state);
+            this.activity.input.receive(name, state);
         });
 
-        this.activeScene = null;
+        this.activity = null;
     }
 
     loadXML(url)
@@ -30,21 +30,21 @@ class Megaman2
             .then(([gameNode]) => this.parseGameNode(gameNode));
     }
 
-    goToScene(name)
+    goToActivity(name)
     {
-        if (!this.sceneIndex[name]) {
+        if (!this.activityIndex[name]) {
             throw new Error(`Scene "${name}" does not exist.`);
         }
 
-        const url = this.sceneIndex[name].url;
+        const url = this.activityIndex[name].url;
 
         return this.loader.resourceLoader.loadXML(url)
         .then(([sceneNode]) => {
             return this.parseSceneNode(sceneNode);
         })
-        .then(scene => {
-            this.game.setScene(scene.scene);
-            this.activeScene = scene;
+        .then(activity => {
+            this.game.setScene(activity.scene);
+            this.activity = activity;
         });
     }
 
@@ -64,11 +64,11 @@ class Megaman2
                 return resourceParser.parseResourcesNode(resourcesNode);
             });
 
-            const sceneIndexTask = gameNode.find(':scope > scenes > scene')
+            const activityIndexTask = gameNode.find(':scope > scenes > scene')
             .then(sceneNodes => {
                 sceneNodes.forEach(sceneNode => {
                     const name = sceneNode.attr('name').value;
-                    this.sceneIndex[name] = {
+                    this.activityIndex[name] = {
                         url: sceneNode.attr('url').toURL(),
                     };
                 });
@@ -76,7 +76,7 @@ class Megaman2
 
             return Promise.all([
                 resourceTask,
-                sceneIndexTask,
+                activityIndexTask,
             ]);
         })
         .then(() => gameNode.find('player'))
@@ -92,8 +92,8 @@ class Megaman2
         })
         .then(() => gameNode.find(':scope > entrypoint'))
         .then(([entrypointNode]) => {
-            const scene = entrypointNode.attr('scene').value;
-            this.goToScene(scene);
+            const activityName = entrypointNode.attr('scene').value;
+            this.goToActivity(activityName);
         });
         /*
         .then(() => {

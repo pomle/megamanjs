@@ -1,15 +1,12 @@
 'use strict';
 
 Megaman2.StageSelect =
-class StageSelect
+class StageSelect extends Megaman2.Activity
 {
     constructor(scene)
     {
-        this.scene = scene;
-
+        super(scene);
         this.scene.camera.camera.position.z = 120;
-
-        this.events = new Engine.Events();
 
         this.input = this.setupInput();
 
@@ -239,7 +236,7 @@ class StageSelect
 
         this.runFlash()
         .then(() => stage.character && this.runBossReveal(stage))
-        .then(() => this.events.trigger(this.EVENT_STAGE_ENTER, [stage]));
+        .then(() => this.events.trigger(this.EVENT_GOTO_SCENE, [stage.name]));
     }
     getSelected()
     {

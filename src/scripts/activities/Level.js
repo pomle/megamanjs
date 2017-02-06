@@ -1,13 +1,13 @@
-Megaman2.Level = class Level
+Megaman2.Level =
+class Level extends Megaman2.Activity
 {
     constructor(scene)
     {
-        this.scene = scene;
+        super(scene);
         this.scene.camera.position.z = 150;
 
         this.EVENT_PLAYER_RESET = 'player-reset';
         this.EVENT_PLAYER_DEATH = 'player-death';
-        this.events = new Engine.Events(this);
 
         this.assets = {};
         this.player = null;

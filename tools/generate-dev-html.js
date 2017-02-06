@@ -12,7 +12,12 @@ let template = fs.readFileSync(__dirname + '/template.html', 'utf8');
 const styles = ['main.css', 'dev.css'];
 template = injectCSS('<!-- INJECT-CSS -->', template, styles);
 
-const scripts = require('../src/engine/script-manifest.json').map(src => './engine/src/' + src);
+const engineScripts = require('../src/engine/script-manifest.json').map(src => './engine/src/' + src);
+const megamanScripts = require('../src/script-manifest.json').map(src => './scripts/' + src);
+
+const scripts = [];
+scripts.push(...engineScripts);
+scripts.push(...megamanScripts);
 scripts.unshift('./engine/lib/three.js');
 scripts.push('main.js', 'dev.js');
 template = injectJS('<!-- INJECT-JS -->', template, scripts);
