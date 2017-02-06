@@ -13,17 +13,15 @@ Follow the project blog at https://medium.com/recreating-megaman-2-using-js-webg
 
         git clone https://github.com/pomle/megamanjs.git
 
-* Start webserver of your choice in project dir.
+* Install dependencies
 
-        cd megamanjs
-        php -S localhost:8000 -t ./
-        
-   or
+        npm i
 
-        cd megamanjs
-        python -m SimpleHTTPServer 8000
-  
-* Open `http://localhost:8000/src/dev.html` in Chrome and it should run.
+* Start server
+
+        npm start
+
+* Open `http://localhost:8000/` in Chrome and it should run.
 
 
 ## Developing
