@@ -1,7 +1,7 @@
 {
-  "name": "Compositor",
+  "name": "MegamanJS",
   "version": "0.1.0",
-  "repository": "https://github.com/pomle/compositor",
+  "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
     "build": "bash ./tools/build.sh",
     "minify": "bash ./tools/minify.sh",
