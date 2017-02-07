@@ -1,5 +1,9 @@
-'use strict';
+const Animator = require('./Animator');
 
-let Engine = {
-    logic: {},
+
+const Engine = {
+    Animator,
+
 };
+
+module.exports = Engine;

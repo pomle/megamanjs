@@ -2,6 +2,7 @@
  * Script for require-ifying src files for use in tests.
  */
 
+/*
 'use strict';
 
 const fs = require('fs');
@@ -26,7 +27,8 @@ files.forEach(src => {
   }
 });
 
+*/
+
 module.exports = {
-    THREE,
-    Engine,
+
 };

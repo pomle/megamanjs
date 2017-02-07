@@ -3,8 +3,7 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const Animation = Engine.Animator.Animation;
+const Animation = require('../../src/engine/Animation');
 
 describe('Animation', () => {
   describe('on instantiation', () => {

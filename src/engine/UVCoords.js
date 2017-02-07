@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.UVCoords =
 class UVCoords extends Array
 {
     constructor(offset, size, txSize)
@@ -25,3 +22,5 @@ class UVCoords extends Array
                   [uvs[1], uvs[2], uvs[3]]);
     }
 }
+
+module.exports = UVCoords;

@@ -1,7 +1,7 @@
-'use strict';
+const THREE = require('three');
+const Animator = require('../Animator');
 
-Engine.Animator.UV =
-class UVAnimator extends Engine.Animator
+class UVAnimator extends Animator
 {
     constructor()
     {
@@ -39,7 +39,7 @@ class UVAnimator extends Engine.Animator
 
     clone(animation)
     {
-        const anim = new Engine.Animator.UV();
+        const anim = new UVAnimator();
         anim._currentAnimation = this._currentAnimation;
         anim._currentGroup = this._currentGroup;
         anim._currentIndex = this._currentIndex;
@@ -50,3 +50,5 @@ class UVAnimator extends Engine.Animator
         return anim;
     }
 }
+
+module.exports = UVAnimator;

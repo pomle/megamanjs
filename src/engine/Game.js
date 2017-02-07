@@ -1,4 +1,4 @@
-Engine.Game = class Game
+class Game
 {
     constructor()
     {
@@ -139,3 +139,5 @@ Engine.Game = class Game
         }
     }
 }
+
+module.exports = Game;

@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.AudioPlayer =
 class AudioPlayer
 {
     constructor()
@@ -67,3 +64,5 @@ class AudioPlayer
         }
     }
 }
+
+module.exports = AudioPlayer;
