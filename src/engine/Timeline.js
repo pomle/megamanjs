@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.Timeline =
 class Timeline
 {
     constructor()
@@ -78,3 +75,5 @@ class Timeline
         this.accumulatedTime = 0;
     }
 }
+
+module.exports = Timeline;
