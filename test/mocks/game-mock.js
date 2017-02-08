@@ -1,10 +1,7 @@
-'use strict';
-
-const env = require('../env');
 const AudioContextMock = require('./audiocontext-mock');
 const WebGLRendererMock = require('./webglrenderer-mock');
 
-const Game = env.Engine.Game;
+const Game = require('../../src/engine/Game');
 
 function createGameMock()
 {

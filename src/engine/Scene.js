@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.Scene =
 class Scene
 {
     constructor()
@@ -139,4 +136,4 @@ class Scene
     }
 }
 
-Engine.scenes = {};
+module.exports = Scene;
