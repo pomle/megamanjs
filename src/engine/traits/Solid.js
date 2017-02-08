@@ -1,7 +1,15 @@
-'use strict';
+const THREE = require('three');
+const Entity = require('../Object');
+const Trait = require('../Trait');
 
-Engine.traits.Solid =
-class Solid extends Engine.Trait
+const SIDES = {
+    TOP: Entity.prototype.SURFACE_TOP,
+    BOTTOM: Entity.prototype.SURFACE_BOTTOM,
+    LEFT: Entity.prototype.SURFACE_LEFT,
+    RIGHT: Entity.prototype.SURFACE_RIGHT,
+};
+
+class Solid extends Trait
 {
     constructor()
     {
@@ -9,7 +17,6 @@ class Solid extends Engine.Trait
 
         this.NAME = 'solid';
 
-        const SIDES = Engine.traits.Solid.SIDES;
         this.TOP = SIDES.TOP;
         this.BOTTOM = SIDES.BOTTOM;
         this.LEFT = SIDES.LEFT;
@@ -105,9 +112,6 @@ class Solid extends Engine.Trait
     }
 }
 
-Engine.traits.Solid.SIDES = {
-    TOP: Engine.Object.prototype.SURFACE_TOP,
-    BOTTOM: Engine.Object.prototype.SURFACE_BOTTOM,
-    LEFT: Engine.Object.prototype.SURFACE_LEFT,
-    RIGHT: Engine.Object.prototype.SURFACE_RIGHT,
-};
+Solid.prototype.SIDES = SIDES;
+
+module.exports = Solid;

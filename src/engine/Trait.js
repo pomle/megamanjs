@@ -1,4 +1,3 @@
-Engine.Trait =
 class Trait
 {
     constructor()
@@ -97,4 +96,4 @@ class Trait
     }
 }
 
-Engine.traits = {};
+module.exports = Trait;

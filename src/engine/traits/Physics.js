@@ -1,5 +1,7 @@
-Engine.traits.Physics =
-class Physics extends Engine.Trait
+const THREE = require('three');
+const Trait = require('../Trait');
+
+class Physics extends Trait
 {
     constructor()
     {
@@ -83,3 +85,5 @@ class Physics extends Engine.Trait
         this._host.integrator.reset();
     }
 }
+
+module.exports = Physics;
