@@ -1,6 +1,6 @@
-'use strict';
+const Scene = require('../Scene');
 
-Engine.scenes.Level = class Level extends Engine.Scene
+class Level extends Scene
 {
     constructor()
     {
@@ -269,3 +269,5 @@ Engine.scenes.Level = class Level extends Engine.Scene
         this.events.trigger(this.EVENT_PLAYER_RESET);
     }
 }
+
+module.exports = Level;

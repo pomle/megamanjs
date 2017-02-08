@@ -1,4 +1,4 @@
-Engine.Hud = class Hud
+class Hud
 {
     constructor()
     {
@@ -139,3 +139,6 @@ Engine.Hud = class Hud
         }
     }
 }
+
+module.exports = Hud;
+

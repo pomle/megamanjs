@@ -1,15 +1,13 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
 const NodeMock = require('../mocks/node-mock');
 const GameMock = require('../mocks/game-mock');
-const Hud = env.Engine.Hud;
-const Timer = env.Engine.Timer;
-const Level = env.Engine.scenes.Level;
+
+const Hud = require('../../src/engine/Hud');
+const Timer = require('../../src/engine/Timer');
+const Level = require('../../src/engine/scene/Level');
 
 describe('Hud', function() {
   describe('attach()', function() {

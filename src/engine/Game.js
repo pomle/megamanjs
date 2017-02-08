@@ -1,3 +1,10 @@
+const THREE = require('three');
+
+const AudioPlayer = require('./AudioPlayer');
+const Keyboard = require('./Keyboard');
+const Events = require('./Events');
+const Player = require('./Player');
+
 class Game
 {
     constructor()
@@ -10,14 +17,14 @@ class Game
         this._paused = null;
         this._playbackSpeed = 1;
 
-        this.input = new Engine.Keyboard;
-        this.events = new Engine.Events(this);
-        this.audioPlayer = new Engine.AudioPlayer();
+        this.input = new Keyboard;
+        this.events = new Events(this);
+        this.audioPlayer = new AudioPlayer();
         this.renderer = new THREE.WebGLRenderer({
             'antialias': false,
         });
 
-        this.player = new Engine.Player();
+        this.player = new Player();
 
         this.element = null;
         this.scene = null;
