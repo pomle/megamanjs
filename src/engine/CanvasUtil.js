@@ -1,6 +1,4 @@
-'use strict';
-
-Engine.CanvasUtil = {
+const CanvasUtil = {
     clone: function(canvas) {
         const clone = document.createElement('canvas');
         const context = clone.getContext('2d');
@@ -37,3 +35,5 @@ Engine.CanvasUtil = {
         return scaled;
     },
 }
+
+module.exports = CanvasUtil;

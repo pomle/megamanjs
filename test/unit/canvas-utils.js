@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const env = require('../env');
 
 const CanvasMock = require('../mocks/canvas-mock');
-const CanvasUtil = env.Engine.CanvasUtil;
+const CanvasUtil = require('../../src/engine/CanvasUtil');
 
 describe('CanvasUtil', function() {
   beforeEach(function() {
