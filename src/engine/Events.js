@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.Events =
 class Events
 {
     constructor(host)
@@ -76,3 +73,5 @@ class Events
         }
     }
 }
+
+module.exports = Events;
