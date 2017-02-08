@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const env = require('../env');
 
 const CanvasMock = require('../mocks/canvas-mock');
-const BitmapFont = env.Engine.BitmapFont;
+const BitmapFont = require('../../src/engine/BitmapFont');
 
 describe('Bitmap Font', () => {
   beforeEach(() => {

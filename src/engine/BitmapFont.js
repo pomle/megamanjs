@@ -1,6 +1,5 @@
-'use strict';
+const THREE = require('three');
 
-Engine.BitmapFont =
 class BitmapFont
 {
     constructor(map, size, image)
@@ -58,11 +57,11 @@ class BitmapFont
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
         texture.needsUpdate = true;
-        return new Engine.BitmapFont.Text(texture, textSize, textureSize);
+        return new Text(texture, textSize, textureSize);
     }
 }
 
-Engine.BitmapFont.Text = class BitMapFontText
+class Text
 {
     constructor(texture, size, textureSize)
     {
@@ -96,3 +95,5 @@ Engine.BitmapFont.Text = class BitMapFontText
         return new THREE.Mesh(geometry, material);
     }
 }
+
+module.exports = BitmapFont;
