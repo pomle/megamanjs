@@ -1,4 +1,3 @@
-const Entity = require('./Object');
 const Events = require('./Events');
 
 class Trait
@@ -13,10 +12,10 @@ class Trait
         this._requires = [];
 
         this.MAGIC_METHODS = {
-            '__collides':   Entity.prototype.EVENT_COLLIDE,
-            '__obstruct':   Entity.prototype.EVENT_OBSTRUCT,
-            '__uncollides': Entity.prototype.EVENT_UNCOLLIDE,
-            '__timeshift':  Entity.prototype.EVENT_TIMESHIFT,
+            '__collides': 'EVENT_COLLIDE',
+            '__obstruct': 'EVENT_OBSTRUCT',
+            '__uncollides': 'EVENT_UNCOLLIDE',
+            '__timeshift': 'EVENT_TIMESHIFT',
         }
 
         this.EVENT_ATTACHED = 'attached';
@@ -35,9 +34,6 @@ class Trait
     }
     __attach(host)
     {
-        if (host instanceof Entity === false) {
-            throw new TypeError('Invalid host');
-        }
         if (this._host !== null) {
             throw new Error('Already attached');
         }
@@ -50,7 +46,8 @@ class Trait
 
         const events = this._host.events;
         Object.keys(this._bindables).forEach(method => {
-            events.bind(this.MAGIC_METHODS[method], this[method]);
+            const event = this.MAGIC_METHODS[method];
+            events.bind(host[event], this[method]);
         });
 
         this.events.trigger(this.EVENT_ATTACHED, [this._host]);

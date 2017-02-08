@@ -1,3 +1,4 @@
+const { Vector3 } = require('three');
 const Trait = require('../Trait');
 
 class Spawn extends Trait
@@ -32,7 +33,7 @@ class Spawn extends Trait
     }
     addItem(event, constr, offset)
     {
-        offset = offset || new THREE.Vector3(0, 0, 0);
+        offset = offset || new Vector3(0, 0, 0);
         this._conditions.push({
             event: event,
             callback: function() {

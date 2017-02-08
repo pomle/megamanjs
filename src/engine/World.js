@@ -1,5 +1,6 @@
 const THREE = require('three');
 const Collision = require('./Collision');
+const Entity = require('./Object');
 const Events = require('./Events');
 const Loops = require('./Loops');
 
@@ -41,7 +42,7 @@ class World
     }
     addObject(object)
     {
-        if (object instanceof Engine.Object === false) {
+        if (object instanceof Entity === false) {
             throw new TypeError('Invalid object');
         }
         if (this.hasObject(object)) {
@@ -81,7 +82,7 @@ class World
     }
     removeObject(object)
     {
-        if (object instanceof Engine.Object === false) {
+        if (object instanceof Entity === false) {
             throw new TypeError('Invalid object');
         }
         const index = this.objects.indexOf(object);

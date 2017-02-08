@@ -5,8 +5,9 @@ const Loops = require('./Loops');
 const SequenceManager = require('./SequenceManager');
 const Trait = require('./Trait');
 const Verlet = require('./Verlet');
+const World = require('./World');
 
-const Entity = function()
+function Entity()
 {
     this.uuid = THREE.Math.generateUUID();
     this.name = undefined;
@@ -81,10 +82,6 @@ Entity.prototype.addCollisionZone = function(r, offsetX, offsetY)
 
 Entity.prototype.applyTrait = function(trait)
 {
-    if (trait instanceof Trait === false) {
-        console.error(trait);
-        throw new Error('Invalid trait');
-    }
     if (this[trait.NAME] !== undefined) {
         throw new Error('Trait name "' + trait.NAME + '" occupied');
     }
@@ -191,7 +188,7 @@ Entity.prototype.setModel = function(model)
 
 Entity.prototype.setWorld = function(world)
 {
-    if (world instanceof Engine.World === false) {
+    if (world instanceof World === false) {
         throw new Error('Invalid world');
     }
     this.world = world;
