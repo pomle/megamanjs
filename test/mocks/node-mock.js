@@ -1,7 +1,5 @@
-'use strict';
-
 const sinon = require('sinon');
-const Events = require('../env').Engine.Events;
+const Events = require('../../src/engine/Events');
 
 function NodeMock()
 {
