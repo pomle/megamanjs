@@ -1,4 +1,3 @@
-Engine.logic.Energy =
 class Energy
 {
     constructor(max = 100, min = 0)
@@ -96,3 +95,5 @@ class Energy
         }
     }
 }
+
+module.exports = Energy;
