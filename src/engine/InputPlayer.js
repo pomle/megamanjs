@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.InputPlayer =
 class InputPlayer
 {
     constructor(world, input)
@@ -52,3 +49,6 @@ class InputPlayer
         this._abort = null;
     }
 }
+
+module.exports = InputPlayer;
+

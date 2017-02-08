@@ -1,6 +1,8 @@
-'use strict';
+const THREE = require('three');
+const Collision = require('./Collision');
+const Events = require('./Events');
+const Loops = require('./Loops');
 
-Engine.World =
 class World
 {
     constructor()
@@ -13,11 +15,11 @@ class World
 
         this.ambientLight = new THREE.AmbientLight(0xffffff);
 
-        this.collision = new Engine.Collision();
+        this.collision = new Collision();
 
-        this.events = new Engine.Events(this);
-        this.doFor = Engine.Loops.doFor(this.events, this.EVENT_SIMULATE);
-        this.waitFor = Engine.Loops.waitFor(this.events, this.EVENT_SIMULATE);
+        this.events = new Events(this);
+        this.doFor = Loops.doFor(this.events, this.EVENT_SIMULATE);
+        this.waitFor = Loops.waitFor(this.events, this.EVENT_SIMULATE);
 
         this.atmosphericDensity = .1;
         this.atmosphericViscosity = .1;
@@ -149,3 +151,5 @@ class World
         this.events.trigger(this.EVENT_UPDATE, [adjustedDelta, this._timeTotal]);
     }
 }
+
+module.exports = World;

@@ -1,9 +1,5 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
-
-const env = require('../env.js');
 
 const Integrator = env.Engine.Verlet;
 

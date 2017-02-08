@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.InputRecorder =
 class InputRecorder
 {
     constructor(world, input)
@@ -36,3 +33,5 @@ class InputRecorder
         return JSON.stringify(this._log);
     }
 }
+
+module.exports = InputRecorder;
