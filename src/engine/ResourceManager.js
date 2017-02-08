@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.ResourceManager =
 class ResourceManager
 {
     constructor()
@@ -75,3 +72,5 @@ class ResourceManager
                this._items[type][id] !== undefined;
     }
 }
+
+module.exports = ResourceManager;

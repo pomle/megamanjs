@@ -1,8 +1,6 @@
-'use strict';
+const Parser = require('./Parser');
 
-Engine.Loader.XML.TraitParser =
-class TraitParser
-extends Engine.Loader.XML.Parser
+class TraitParser extends Parser
 {
     constructor(loader)
     {
@@ -256,3 +254,5 @@ extends Engine.Loader.XML.Parser
         return this.createConstructor(blueprint);
     }
 }
+
+module.exports = Parser;

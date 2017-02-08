@@ -1,8 +1,6 @@
-'use strict';
+const Parser = require('./Parser');
 
-Engine.Loader.XML.ObjectParser =
-class ObjectParser
-extends Engine.Loader.XML.Parser
+class ObjectParser extends Parser
 {
     constructor(loader, node)
     {
@@ -449,3 +447,6 @@ extends Engine.Loader.XML.Parser
         return Promise.resolve(textures);
     }
 }
+
+module.exports = Parser;
+

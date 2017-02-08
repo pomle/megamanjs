@@ -1,19 +1,17 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 const fs = require('fs');
 
+const THREE = require('three');
 const xmlReader = require('../xmlreader');
-const env = require('../env.js');
-const Engine = env.Engine;
-const World = env.Engine.World;
-const THREE = env.THREE;
-const Obj = env.Engine.Object;
-const Parser = env.Engine.Loader.XML.Parser;
-const ObjectParser = env.Engine.Loader.XML.ObjectParser;
-const LevelParser = env.Engine.Loader.XML.LevelParser;
-const TraitParser = env.Engine.Loader.XML.TraitParser;
+
+const World = require('../../src/engine/World');
+const ResourceManager = require('../../src/engine/ResourceManager');
+const Obj = require('../../src/engine/Object');
+const Parser = require('../../src/engine/loader/XML/Parser');
+const ObjectParser = require('../../src/engine/loader/XML/ObjectParser');
+const LevelParser = require('../../src/engine/loader/XML/LevelParser');
+const TraitParser = require('../../src/engine/loader/XML/TraitParser');
 
 function createNode(x) {
   return xmlReader.createNode(x).childNodes[0];

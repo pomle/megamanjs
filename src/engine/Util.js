@@ -1,4 +1,4 @@
-Engine.Util = {
+const Util = {
     units: ['x','y','z'],
 
     renameFunction: function (name, fn) {
@@ -44,3 +44,5 @@ Engine.Util = {
         },
     },
 }
+
+module.exports = Util;

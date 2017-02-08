@@ -1,8 +1,6 @@
-'use strict';
+const Parser = require('./Parser');
 
-Engine.Loader.XML.LevelParser =
-class LevelParser
-extends Engine.Loader.XML.SceneParser
+class LevelParser extends Parser
 {
     constructor(loader, node)
     {
@@ -115,3 +113,5 @@ extends Engine.Loader.XML.SceneParser
         }
     }
 }
+
+module.exports = LevelParser;

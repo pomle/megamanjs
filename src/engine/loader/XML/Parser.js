@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.Loader.XML.Parser =
 class Parser
 {
     constructor(loader)
@@ -298,3 +295,5 @@ class Parser
         return baseUrl + url;
     }
 }
+
+module.exports = Parser;
