@@ -1,17 +1,17 @@
-Engine.AI = function(object)
+const AI = function(object)
 {
     this.object = object;
     this.target = undefined;
 }
 
-Engine.AI.prototype.faceObject = function(object)
+AI.prototype.faceObject = function(object)
 {
     this.object.direction.x = object.position.x > this.object.position.x
         ? this.object.DIRECTION_RIGHT
         : this.object.DIRECTION_LEFT;
 }
 
-Engine.AI.prototype.faceTarget = function()
+AI.prototype.faceTarget = function()
 {
     if (!this.target) {
         return false;
@@ -19,7 +19,7 @@ Engine.AI.prototype.faceTarget = function()
     return this.faceObject(this.target);
 }
 
-Engine.AI.prototype.findPlayer = function()
+AI.prototype.findPlayer = function()
 {
     if (this.target && this.target.isPlayer) {
         return this.target;
@@ -38,10 +38,12 @@ Engine.AI.prototype.findPlayer = function()
     return false;
 }
 
-Engine.AI.prototype.setTarget = function(object)
+AI.prototype.setTarget = function(object)
 {
     if (object instanceof Engine.Object !== true) {
         throw new Error("Target must be object");
     }
     this.target = object;
 }
+
+module.exports = AI;

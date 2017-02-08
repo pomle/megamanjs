@@ -1,14 +1,10 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-
-const World = env.Engine.World;
-const Object = env.Engine.Object;
-const Health = env.Engine.traits.Health;
-const Spawner = env.Engine.objects.Spawner;
+const World = require('../../src/engine/World');
+const Object = require('../../src/engine/Object');
+const Health = require('../../src/engine/traits/Health');
+const Spawner = require('../../src/engine/object/Spawner');
 
 describe('Spawner', function() {
   class Spawnable extends Object {

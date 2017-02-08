@@ -1,7 +1,6 @@
-'use strict';
+const Trait = require('../Trait');
 
-Engine.traits.Spawn =
-class Spawn extends Engine.Trait
+class Spawn extends Trait
 {
     constructor()
     {
@@ -45,3 +44,5 @@ class Spawn extends Engine.Trait
         });
     }
 }
+
+module.exports = Spawn;

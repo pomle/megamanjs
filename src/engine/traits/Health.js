@@ -1,5 +1,6 @@
-Engine.traits.Health =
-class Health extends Engine.Trait
+const Trait = require('../Trait');
+
+class Health extends Trait
 {
     constructor()
     {
@@ -81,3 +82,5 @@ class Health extends Engine.Trait
         this._trigger(this.EVENT_RESURRECT);
     }
 }
+
+module.exports = Health;

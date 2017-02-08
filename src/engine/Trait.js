@@ -1,3 +1,6 @@
+const Entity = require('./Object');
+const Events = require('./Events');
+
 class Trait
 {
     constructor()
@@ -10,16 +13,16 @@ class Trait
         this._requires = [];
 
         this.MAGIC_METHODS = {
-            '__collides':   Engine.Object.prototype.EVENT_COLLIDE,
-            '__obstruct':   Engine.Object.prototype.EVENT_OBSTRUCT,
-            '__uncollides': Engine.Object.prototype.EVENT_UNCOLLIDE,
-            '__timeshift':  Engine.Object.prototype.EVENT_TIMESHIFT,
+            '__collides':   Entity.prototype.EVENT_COLLIDE,
+            '__obstruct':   Entity.prototype.EVENT_OBSTRUCT,
+            '__uncollides': Entity.prototype.EVENT_UNCOLLIDE,
+            '__timeshift':  Entity.prototype.EVENT_TIMESHIFT,
         }
 
         this.EVENT_ATTACHED = 'attached';
         this.EVENT_DETACHED = 'detached';
 
-        this.events = new Engine.Events(this);
+        this.events = new Events(this);
 
         /* Bind on instantiation so that
            they can be found when unbound. */
@@ -32,7 +35,7 @@ class Trait
     }
     __attach(host)
     {
-        if (host instanceof Engine.Object === false) {
+        if (host instanceof Entity === false) {
             throw new TypeError('Invalid host');
         }
         if (this._host !== null) {

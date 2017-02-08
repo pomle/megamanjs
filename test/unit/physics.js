@@ -1,9 +1,6 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const Parser = require('./Parser');
-
-
 const Host = require('../../src/engine/Object');
 const World = require('../../src/engine/World');
 const Physics = require('../../src/engine/traits/Physics');

@@ -1,5 +1,7 @@
-Engine.objects.Spawner =
-class Spawner extends Engine.Object
+const AI = require('../AI');
+const Entity = require('../Object');
+
+class Spawner extends Entity
 {
     constructor()
     {
@@ -9,7 +11,7 @@ class Spawner extends Engine.Object
         this._children = [];
         this._spawnCount = 0;
 
-        this.ai = new Engine.AI(this);
+        this.ai = new AI(this);
         this.childLifetime = null;
         this.interval = 1;
         this.maxDistance = null;
@@ -119,3 +121,5 @@ class Spawner extends Engine.Object
         }
     }
 }
+
+module.exports = Spawner;
