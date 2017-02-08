@@ -1,14 +1,12 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-const World = env.Engine.World;
-const Door = env.Engine.traits.Door;
-const Physics = env.Engine.traits.Physics;
-const Solid = env.Engine.traits.Solid;
-const THREE = env.THREE;
+const THREE = require('three');
+const Object = require('../../src/engine/Object');
+const World = require('../../src/engine/World');
+const Door = require('../../src/engine/traits/Door');
+const Physics = require('../../src/engine/traits/Physics');
+const Solid = require('../../src/engine/traits/Solid');
 
 describe('Door Trait', function() {
   function createDoor()

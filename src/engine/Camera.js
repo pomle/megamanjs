@@ -1,7 +1,9 @@
-const THREE = require('THREE');
+const THREE = require('three');
 const CameraPath = require('./CameraPath');
+const Easing = require('./Easing');
 const Events = require('./Events');
 const Loops = require('./Loops');
+const Tween = require('./Tween');
 
 class Camera
 {
@@ -87,10 +89,10 @@ class Camera
         this.jumpTo(vec);
         this.alignToPath(this.position);
     }
-    panTo(pos, duration, easing = Engine.Easing.linear())
+    panTo(pos, duration, easing = Easing.linear())
     {
         this.desiredPosition = undefined;
-        const tween = new Engine.Tween(pos, easing);
+        const tween = new Tween(pos, easing);
         tween.addSubject(this.position);
         return this.doFor(duration, (elapsed, progress) => {
             tween.update(progress);

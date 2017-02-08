@@ -1,13 +1,10 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const Object = env.Engine.Object;
-const Projectile = env.Engine.traits.Projectile;
-const Weapon = env.Engine.objects.Weapon;
-const WeaponTrait = env.Engine.traits.Weapon;
+const Object = require('../../src/engine/Object');
+const Weapon = require('../../src/engine/object/Weapon');
+const Projectile = require('../../src/engine/traits/Projectile');
+const WeaponTrait = require('../../src/engine/traits/Weapon');
 
 describe('Weapon', function() {
   let weapon;

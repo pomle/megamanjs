@@ -1,10 +1,7 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-const Tween = env.Engine.Tween;
+const Tween = require('../../src/engine/Tween');
 
 describe('Tween', function() {
   it('should ignore keys in to that are undefined', function() {

@@ -1,12 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const Object = env.Engine.Object;
-const Fallaway = env.Engine.traits.Fallaway;
-const Physics = env.Engine.traits.Physics;
+const Object = require('../../src/engine/Object');
+const Fallaway = require('../../src/engine/traits/Fallaway');
+const Physics = require('../../src/engine/traits/Physics');
 
 describe('Fallaway Trait', function() {
   describe('on instantiation', function() {

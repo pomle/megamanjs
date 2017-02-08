@@ -3,9 +3,10 @@ const BoundingBox = require('./BoundingBox');
 const Events = require('./Events');
 const Loops = require('./Loops');
 const SequenceManager = require('./SequenceManager');
+const Trait = require('./Trait');
 const Verlet = require('./Verlet');
 
-const Object = function()
+const Entity = function()
 {
     this.uuid = THREE.Math.generateUUID();
     this.name = undefined;
@@ -38,32 +39,32 @@ const Object = function()
     }
 }
 
-Object.prototype.DIRECTION_UP = 1;
-Object.prototype.DIRECTION_DOWN = -1;
-Object.prototype.DIRECTION_LEFT = -1;
-Object.prototype.DIRECTION_RIGHT = 1;
+Entity.prototype.DIRECTION_UP = 1;
+Entity.prototype.DIRECTION_DOWN = -1;
+Entity.prototype.DIRECTION_LEFT = -1;
+Entity.prototype.DIRECTION_RIGHT = 1;
 
-Object.prototype.EVENT_WORLD_ADD = 'world-add';
-Object.prototype.EVENT_WORLD_REMOVE = 'world-remove';
+Entity.prototype.EVENT_WORLD_ADD = 'world-add';
+Entity.prototype.EVENT_WORLD_REMOVE = 'world-remove';
 
-Object.prototype.EVENT_COLLIDE = 'collide';
-Object.prototype.EVENT_OBSTRUCT = 'obstruct';
-Object.prototype.EVENT_TIMESHIFT = 'timeshift';
-Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
+Entity.prototype.EVENT_COLLIDE = 'collide';
+Entity.prototype.EVENT_OBSTRUCT = 'obstruct';
+Entity.prototype.EVENT_TIMESHIFT = 'timeshift';
+Entity.prototype.EVENT_UNCOLLIDE = 'uncollide';
 
-Object.prototype.EVENT_TRAIT_ATTACHED = 'trait-attached';
+Entity.prototype.EVENT_TRAIT_ATTACHED = 'trait-attached';
 
-Object.prototype.SURFACE_TOP = 0;
-Object.prototype.SURFACE_BOTTOM = 1;
-Object.prototype.SURFACE_LEFT = 2;
-Object.prototype.SURFACE_RIGHT = 3;
+Entity.prototype.SURFACE_TOP = 0;
+Entity.prototype.SURFACE_BOTTOM = 1;
+Entity.prototype.SURFACE_LEFT = 2;
+Entity.prototype.SURFACE_RIGHT = 3;
 
-Object.prototype.audio = {};
-Object.prototype.geometry = undefined;
-Object.prototype.material = undefined;
-Object.prototype.textures = {};
+Entity.prototype.audio = {};
+Entity.prototype.geometry = undefined;
+Entity.prototype.material = undefined;
+Entity.prototype.textures = {};
 
-Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
+Entity.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
 {
     const boundingBox = new BoundingBox(
         this.position,
@@ -73,14 +74,14 @@ Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
     this.collision.push(boundingBox);
 }
 
-Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
+Entity.prototype.addCollisionZone = function(r, offsetX, offsetY)
 {
     return this.addCollisionRect(r * 2, r * 2, offsetX, offsetY);
 }
 
-Object.prototype.applyTrait = function(trait)
+Entity.prototype.applyTrait = function(trait)
 {
-    if (trait instanceof Engine.Trait === false) {
+    if (trait instanceof Trait === false) {
         console.error(trait);
         throw new Error('Invalid trait');
     }
@@ -93,29 +94,29 @@ Object.prototype.applyTrait = function(trait)
     this.events.trigger(this.EVENT_TRAIT_ATTACHED, [trait]);
 }
 
-Object.prototype.collides = function(withObject, ourZone, theirZone)
+Entity.prototype.collides = function(withObject, ourZone, theirZone)
 {
     this.events.trigger(this.EVENT_COLLIDE, [withObject, ourZone, theirZone]);
 }
 
-Object.prototype.dropCollision = function()
+Entity.prototype.dropCollision = function()
 {
     this.collision.length = 0;
 }
 
-Object.prototype.emitAudio = function(audio)
+Entity.prototype.emitAudio = function(audio)
 {
     if (this.world) {
         this.world.emitAudio(audio);
     }
 }
 
-Object.prototype.getModel = function()
+Entity.prototype.getModel = function()
 {
     return this.model;
 }
 
-Object.prototype.getTrait = function(traitReference)
+Entity.prototype.getTrait = function(traitReference)
 {
     for (let i = 0, l = this.traits.length; i < l; ++i) {
         if (this.traits[i] instanceof traitReference) {
@@ -125,13 +126,13 @@ Object.prototype.getTrait = function(traitReference)
     return false;
 }
 
-Object.prototype.moveTo = function(vec)
+Entity.prototype.moveTo = function(vec)
 {
     this.position.x = vec.x;
     this.position.y = vec.y;
 }
 
-Object.prototype.nudge = function(x, y)
+Entity.prototype.nudge = function(x, y)
 {
     const vec = this.position.clone();
     vec.x += x || 0;
@@ -139,12 +140,12 @@ Object.prototype.nudge = function(x, y)
     this.moveTo(vec);
 }
 
-Object.prototype.obstruct = function(object, attack, ourZone, theirZone)
+Entity.prototype.obstruct = function(object, attack, ourZone, theirZone)
 {
     this.events.trigger(this.EVENT_OBSTRUCT, [object, attack, ourZone, theirZone]);
 }
 
-Object.prototype.reset = function()
+Entity.prototype.reset = function()
 {
     this.aim.set(0, 0);
     this.traits.forEach(trait => {
@@ -154,19 +155,19 @@ Object.prototype.reset = function()
     });
 }
 
-Object.prototype.removeFromWorld = function()
+Entity.prototype.removeFromWorld = function()
 {
     if (this.world) {
         this.world.removeObject(this);
     }
 }
 
-Object.prototype.routeAnimation = function()
+Entity.prototype.routeAnimation = function()
 {
     return null;
 }
 
-Object.prototype.setAnimation = function(name)
+Entity.prototype.setAnimation = function(name)
 {
     if (name !== this.anim) {
         this.animators[0].setAnimation(this.animations[name]);
@@ -174,7 +175,7 @@ Object.prototype.setAnimation = function(name)
     }
 }
 
-Object.prototype.setEmitter = function(object)
+Entity.prototype.setEmitter = function(object)
 {
     if (object instanceof Object !== true) {
         throw new Error('Invalid emitter');
@@ -182,13 +183,13 @@ Object.prototype.setEmitter = function(object)
     this.emitter = object;
 }
 
-Object.prototype.setModel = function(model)
+Entity.prototype.setModel = function(model)
 {
     this.model = model;
     this.position = this.model.position;
 }
 
-Object.prototype.setWorld = function(world)
+Entity.prototype.setWorld = function(world)
 {
     if (world instanceof Engine.World === false) {
         throw new Error('Invalid world');
@@ -197,7 +198,7 @@ Object.prototype.setWorld = function(world)
     this.events.trigger(this.EVENT_WORLD_ADD);
 }
 
-Object.prototype.timeShift = function(deltaTime)
+Entity.prototype.timeShift = function(deltaTime)
 {
     const adjustedDelta = deltaTime * this.timeStretch;
     this.deltaTime = adjustedDelta;
@@ -227,7 +228,7 @@ Object.prototype.timeShift = function(deltaTime)
     this.time += adjustedDelta;
 }
 
-Object.prototype.updateAnimators = function(deltaTime)
+Entity.prototype.updateAnimators = function(deltaTime)
 {
     const adjustedDelta = deltaTime * this.timeStretch;
     this.animators.forEach(animator => {
@@ -235,14 +236,14 @@ Object.prototype.updateAnimators = function(deltaTime)
     });
 }
 
-Object.prototype.uncollides = function(withObject)
+Entity.prototype.uncollides = function(withObject)
 {
     this.events.trigger(this.EVENT_UNCOLLIDE, [withObject]);
 }
 
-Object.prototype.unsetWorld = function() {
+Entity.prototype.unsetWorld = function() {
     this.events.trigger(this.EVENT_WORLD_REMOVE);
     this.world = undefined;
 }
 
-module.exports = Object;
+module.exports = Entity;

@@ -1,5 +1,6 @@
-Engine.traits.Weapon =
-class Weapon extends Engine.Trait
+const Trait = require('../Trait');
+
+class Weapon extends Trait
 {
     constructor()
     {
@@ -72,3 +73,5 @@ class Weapon extends Engine.Trait
         return true;
     }
 }
+
+module.exports = Weapon;

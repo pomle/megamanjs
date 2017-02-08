@@ -1,5 +1,6 @@
-Engine.traits.Fallaway =
-class Fallaway extends Engine.Trait
+const Trait = require('../Trait');
+
+class Fallaway extends Trait
 {
     constructor()
     {
@@ -43,3 +44,5 @@ class Fallaway extends Engine.Trait
         }
     }
 }
+
+module.exports = Fallaway;

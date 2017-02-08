@@ -1,4 +1,6 @@
-Engine.traits.Projectile = class Projectile extends Engine.Trait
+const Trait = require('../Trait');
+
+class Projectile extends Trait
 {
     constructor()
     {
@@ -96,3 +98,5 @@ Engine.traits.Projectile = class Projectile extends Engine.Trait
         this._speed = speed;
     }
 }
+
+module.exports = Projectile;

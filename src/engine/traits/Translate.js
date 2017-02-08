@@ -1,5 +1,6 @@
-Engine.traits.Translate =
-class Translate extends Engine.Trait
+const Trait = require('../Trait');
+
+class Translate extends Trait
 {
     constructor()
     {
@@ -14,3 +15,5 @@ class Translate extends Engine.Trait
         pos.y += this.velocity.y * dt;
     }
 }
+
+module.exports = Trait;

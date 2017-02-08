@@ -1,5 +1,6 @@
-Engine.traits.Elevator =
-class Elevator extends Engine.traits.Solid
+const Solid = require('./Solid');
+
+class Elevator extends Solid
 {
     constructor()
     {
@@ -73,3 +74,5 @@ class Elevator extends Engine.traits.Solid
         return offset;
     }
 }
+
+module.exports = Elevator;

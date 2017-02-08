@@ -7,7 +7,7 @@ const WebGLRendererMock = require('../mocks/webglrenderer-mock');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
 
 const Game = require('../../src/engine/Game');
-const Object = require('../../src/engine/Object');
+const Entity = require('../../src/engine/Object');
 const Level = require('../../src/engine/scene/Level');
 
 describe('Level', function() {
@@ -17,7 +17,7 @@ describe('Level', function() {
       RequestAnimationFrameMock.mock();
       const level = new Level();
       const game = new Game();
-      const character = new Object;
+      const character = new Entity;
       character.applyTrait(new Engine.traits.Health);
       character.applyTrait(new Engine.traits.Teleport);
       game.player.setCharacter(character);

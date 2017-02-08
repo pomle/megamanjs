@@ -1,7 +1,6 @@
-'use strict';
+const Trait = require('../Trait');
 
-Engine.traits.Door =
-class Door extends Engine.traits.Solid
+class Door extends Trait
 {
     constructor()
     {
@@ -153,3 +152,5 @@ class Door extends Engine.traits.Solid
         this._traverseObject = null;
     }
 }
+
+module.exports = Door;

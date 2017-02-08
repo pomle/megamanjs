@@ -1,24 +1,26 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
+const Object = require('../../src/engine/Object');
+const World = require('../../src/engine/World');
+const Climbable = require('../../src/engine/traits/Climbable');
+const Climber = require('../../src/engine/traits/Climber');
+const Solid = require('../../src/engine/traits/Solid');
 
 describe('Climber / Climbable', function() {
   let climber;
   let climbable;
   let world;
   beforeEach(function() {
-    world = new env.Engine.World();
+    world = new World();
 
-    climber = new env.Engine.Object();
-    climber.applyTrait(new env.Engine.traits.Solid());
-    climber.applyTrait(new env.Engine.traits.Climber());
+    climber = new Object();
+    climber.applyTrait(new Solid());
+    climber.applyTrait(new Climber());
     climber.addCollisionRect(10, 10);
 
-    climbable = new env.Engine.Object();
-    climbable.applyTrait(new env.Engine.traits.Climbable());
+    climbable = new Object();
+    climbable.applyTrait(new Climbable());
     climbable.addCollisionRect(10, 10);
 
     world.addObject(climber);

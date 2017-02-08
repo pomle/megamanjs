@@ -1,5 +1,6 @@
-Engine.traits.Invincibility =
-class Invincibility extends Engine.Trait
+const Trait = require('../Trait');
+
+class Invincibility extends Trait
 {
     constructor()
     {
@@ -56,3 +57,5 @@ class Invincibility extends Engine.Trait
         this.disengage();
     }
 }
+
+module.exports = Invincibility;

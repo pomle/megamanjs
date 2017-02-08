@@ -1,5 +1,6 @@
-Engine.traits.Teleport =
-class Teleport extends Engine.Trait
+const Trait = require('../Trait');
+
+class Teleport extends Trait
 {
     constructor()
     {
@@ -103,3 +104,5 @@ class Teleport extends Engine.Trait
         this._start();
     }
 }
+
+module.exports = Trait;

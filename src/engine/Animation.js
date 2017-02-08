@@ -1,3 +1,5 @@
+const Timeline = require('./Timeline');
+
 class Animation
 {
     constructor(id, group = null)
@@ -26,7 +28,7 @@ class Animation
            behavior to a multi frame Animation. */
         else {
             if (this.timeline === null) {
-                this.timeline = new Engine.Timeline();
+                this.timeline = new Timeline();
                 this.timeline.addFrame(this._value, this._duration);
                 this._value = null;
                 this._duration = null;

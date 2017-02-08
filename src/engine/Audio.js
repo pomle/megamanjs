@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.Audio =
 class Audio
 {
     constructor(buffer)
@@ -21,3 +18,5 @@ class Audio
         this._loop = [start, end];
     }
 }
+
+module.exports = Audio;

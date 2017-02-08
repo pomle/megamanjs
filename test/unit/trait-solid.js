@@ -1,12 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-const World = env.Engine.World;
-const Object = env.Engine.Object;
-const Solid = env.Engine.traits.Solid;
+const Object = require('../../src/engine/Object');
+const World = require('../../src/engine/World');
+const Solid = require('../../src/engine/traits/Solid');
 
 describe('Solid Trait', function() {
   const step = 1/120;

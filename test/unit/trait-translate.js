@@ -1,11 +1,8 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const Object = env.Engine.Object;
-const Translate = env.Engine.traits.Translate;
+const Object = require('../../src/engine/Object');
+const Translate = require('../../src/engine/traits/Translate');
 
 describe('Translate Trait', function() {
   function createTranslate()

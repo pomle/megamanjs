@@ -1,4 +1,4 @@
-const Math = {
+const MathLib = {
     ALPHANUM: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
     ALPHANUM_LOWER: 'abcdefghijklmnopqrstuvwxyz0123456789',
     ALPHANUM_UPPER: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
@@ -35,7 +35,7 @@ const Math = {
     },
 }
 
-Math.Geometry = {
+MathLib.Geometry = {
     circlesIntersect: (r1, r2, x1, x2, y1, y2) => {
         const dx = x2 - x1;
         const dy = y2 - y1;
@@ -87,5 +87,5 @@ Math.Geometry = {
     },
 }
 
-module.exports = Math;
+module.exports = MathLib;
 

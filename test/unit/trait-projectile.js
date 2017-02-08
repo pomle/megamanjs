@@ -1,12 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-const Object = env.Engine.Object;
-const Health = env.Engine.traits.Health;
-const Projectile = env.Engine.traits.Projectile;
+const Object = require('../../src/engine/Object');
+const Health = require('../../src/engine/traits/Health');
+const Projectile = require('../../src/engine/traits/Projectile');
 
 describe('Projectile Trait', function() {
   function createCharacter()

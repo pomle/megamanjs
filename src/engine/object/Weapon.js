@@ -1,4 +1,4 @@
-Engine.objects.Weapon = class Weapon
+class Weapon
 {
     constructor()
     {
@@ -140,4 +140,4 @@ Engine.objects.Weapon = class Weapon
     }
 }
 
-Engine.objects.weapons = {};
+module.exports = Weapon;

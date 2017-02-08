@@ -1,5 +1,6 @@
-Engine.traits.Stun =
-class Stun extends Engine.Trait
+const Trait = require('../Trait');
+
+class Stun extends Trait
 {
     constructor()
     {
@@ -100,3 +101,5 @@ class Stun extends Engine.Trait
         this.disengage();
     }
 }
+
+module.exports = Stun;

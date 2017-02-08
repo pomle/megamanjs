@@ -1,5 +1,6 @@
-Engine.traits.Conveyor =
-class Conveyor extends Engine.traits.Solid
+const Trait = require('../Trait');
+
+class Conveyor extends Trait
 {
     constructor()
     {
@@ -24,3 +25,5 @@ class Conveyor extends Engine.traits.Solid
         vel.x = -vel.x;
     }
 }
+
+module.exports = Conveyor;
