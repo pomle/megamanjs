@@ -1,3 +1,5 @@
+const SyncPromise = require('./SyncPromise');
+
 const Loops = {
     doFor: function(events, event) {
         return function doFor(duration, callback) {
@@ -5,12 +7,12 @@ const Loops = {
                 if (callback) {
                     callback(0, 1);
                 }
-                return Engine.SyncPromise.resolve();
+                return SyncPromise.resolve();
             }
 
             let elapsed = 0;
             let progress = 0;
-            return new Engine.SyncPromise(resolve => {
+            return new SyncPromise(resolve => {
                 function doForWrapper(dt, total, tick) {
                     elapsed += dt;
                     progress = elapsed / duration;
@@ -35,7 +37,7 @@ const Loops = {
         }
     },
     waitFor: function(events, event) {
-        const doFor = Engine.Loops.doFor(events, event);
+        const doFor = Loops.doFor(events, event);
         return function waitFor(seconds) {
             return doFor(seconds);
         }

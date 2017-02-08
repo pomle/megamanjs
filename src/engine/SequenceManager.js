@@ -1,4 +1,3 @@
-Engine.SequenceManager =
 class SequenceManager
 {
     constructor(host)
@@ -48,3 +47,5 @@ class SequenceManager
         return next();
     }
 }
+
+module.exports = SequenceManager;

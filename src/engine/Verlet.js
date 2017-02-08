@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.Verlet =
 class Verlet
 {
     constructor(vec)
@@ -21,3 +18,5 @@ class Verlet
         this.vec.set(0, 0, 0);
     }
 }
+
+module.exports = Verlet;

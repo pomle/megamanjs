@@ -1,6 +1,11 @@
-'use strict';
+const THREE = require('three');
+const BoundingBox = require('./BoundingBox');
+const Events = require('./Events');
+const Loops = require('./Loops');
+const SequenceManager = require('./SequenceManager');
+const Verlet = require('./Verlet');
 
-Engine.Object = function()
+const Object = function()
 {
     this.uuid = THREE.Math.generateUUID();
     this.name = undefined;
@@ -13,54 +18,54 @@ Engine.Object = function()
     this.deltaTime = undefined;
     this.direction = new THREE.Vector2(this.DIRECTION_RIGHT, 0);
     this.emitter = undefined;
-    this.events = new Engine.Events(this);
+    this.events = new Events(this);
     this.id = undefined;
-    this.integrator = new Engine.Verlet(new THREE.Vector2);
+    this.integrator = new Verlet(new THREE.Vector2);
     this.origo = new THREE.Vector2();
     this.position = new THREE.Vector3();
-    this.sequencer = new Engine.SequenceManager(this);
+    this.sequencer = new SequenceManager(this);
     this.time = 0;
     this.timeStretch = 1;
     this.traits = [];
     this.velocity = new THREE.Vector2;
     this.world = undefined;
 
-    this.doFor = Engine.Loops.doFor(this.events, this.EVENT_TIMESHIFT);
-    this.waitFor = Engine.Loops.waitFor(this.events, this.EVENT_TIMESHIFT);
+    this.doFor = Loops.doFor(this.events, this.EVENT_TIMESHIFT);
+    this.waitFor = Loops.waitFor(this.events, this.EVENT_TIMESHIFT);
 
     if (this.geometry && this.material) {
         this.setModel(new THREE.Mesh(this.geometry, this.material));
     }
 }
 
-Engine.Object.prototype.DIRECTION_UP = 1;
-Engine.Object.prototype.DIRECTION_DOWN = -1;
-Engine.Object.prototype.DIRECTION_LEFT = -1;
-Engine.Object.prototype.DIRECTION_RIGHT = 1;
+Object.prototype.DIRECTION_UP = 1;
+Object.prototype.DIRECTION_DOWN = -1;
+Object.prototype.DIRECTION_LEFT = -1;
+Object.prototype.DIRECTION_RIGHT = 1;
 
-Engine.Object.prototype.EVENT_WORLD_ADD = 'world-add';
-Engine.Object.prototype.EVENT_WORLD_REMOVE = 'world-remove';
+Object.prototype.EVENT_WORLD_ADD = 'world-add';
+Object.prototype.EVENT_WORLD_REMOVE = 'world-remove';
 
-Engine.Object.prototype.EVENT_COLLIDE = 'collide';
-Engine.Object.prototype.EVENT_OBSTRUCT = 'obstruct';
-Engine.Object.prototype.EVENT_TIMESHIFT = 'timeshift';
-Engine.Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
+Object.prototype.EVENT_COLLIDE = 'collide';
+Object.prototype.EVENT_OBSTRUCT = 'obstruct';
+Object.prototype.EVENT_TIMESHIFT = 'timeshift';
+Object.prototype.EVENT_UNCOLLIDE = 'uncollide';
 
-Engine.Object.prototype.EVENT_TRAIT_ATTACHED = 'trait-attached';
+Object.prototype.EVENT_TRAIT_ATTACHED = 'trait-attached';
 
-Engine.Object.prototype.SURFACE_TOP = 0;
-Engine.Object.prototype.SURFACE_BOTTOM = 1;
-Engine.Object.prototype.SURFACE_LEFT = 2;
-Engine.Object.prototype.SURFACE_RIGHT = 3;
+Object.prototype.SURFACE_TOP = 0;
+Object.prototype.SURFACE_BOTTOM = 1;
+Object.prototype.SURFACE_LEFT = 2;
+Object.prototype.SURFACE_RIGHT = 3;
 
-Engine.Object.prototype.audio = {};
-Engine.Object.prototype.geometry = undefined;
-Engine.Object.prototype.material = undefined;
-Engine.Object.prototype.textures = {};
+Object.prototype.audio = {};
+Object.prototype.geometry = undefined;
+Object.prototype.material = undefined;
+Object.prototype.textures = {};
 
-Engine.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
+Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
 {
-    const boundingBox = new Engine.Collision.BoundingBox(
+    const boundingBox = new BoundingBox(
         this.position,
         {x: w, y: h},
         {x: offsetX || 0, y: offsetY || 0}
@@ -68,12 +73,12 @@ Engine.Object.prototype.addCollisionRect = function(w, h, offsetX, offsetY)
     this.collision.push(boundingBox);
 }
 
-Engine.Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
+Object.prototype.addCollisionZone = function(r, offsetX, offsetY)
 {
     return this.addCollisionRect(r * 2, r * 2, offsetX, offsetY);
 }
 
-Engine.Object.prototype.applyTrait = function(trait)
+Object.prototype.applyTrait = function(trait)
 {
     if (trait instanceof Engine.Trait === false) {
         console.error(trait);
@@ -88,29 +93,29 @@ Engine.Object.prototype.applyTrait = function(trait)
     this.events.trigger(this.EVENT_TRAIT_ATTACHED, [trait]);
 }
 
-Engine.Object.prototype.collides = function(withObject, ourZone, theirZone)
+Object.prototype.collides = function(withObject, ourZone, theirZone)
 {
     this.events.trigger(this.EVENT_COLLIDE, [withObject, ourZone, theirZone]);
 }
 
-Engine.Object.prototype.dropCollision = function()
+Object.prototype.dropCollision = function()
 {
     this.collision.length = 0;
 }
 
-Engine.Object.prototype.emitAudio = function(audio)
+Object.prototype.emitAudio = function(audio)
 {
     if (this.world) {
         this.world.emitAudio(audio);
     }
 }
 
-Engine.Object.prototype.getModel = function()
+Object.prototype.getModel = function()
 {
     return this.model;
 }
 
-Engine.Object.prototype.getTrait = function(traitReference)
+Object.prototype.getTrait = function(traitReference)
 {
     for (let i = 0, l = this.traits.length; i < l; ++i) {
         if (this.traits[i] instanceof traitReference) {
@@ -120,13 +125,13 @@ Engine.Object.prototype.getTrait = function(traitReference)
     return false;
 }
 
-Engine.Object.prototype.moveTo = function(vec)
+Object.prototype.moveTo = function(vec)
 {
     this.position.x = vec.x;
     this.position.y = vec.y;
 }
 
-Engine.Object.prototype.nudge = function(x, y)
+Object.prototype.nudge = function(x, y)
 {
     const vec = this.position.clone();
     vec.x += x || 0;
@@ -134,12 +139,12 @@ Engine.Object.prototype.nudge = function(x, y)
     this.moveTo(vec);
 }
 
-Engine.Object.prototype.obstruct = function(object, attack, ourZone, theirZone)
+Object.prototype.obstruct = function(object, attack, ourZone, theirZone)
 {
     this.events.trigger(this.EVENT_OBSTRUCT, [object, attack, ourZone, theirZone]);
 }
 
-Engine.Object.prototype.reset = function()
+Object.prototype.reset = function()
 {
     this.aim.set(0, 0);
     this.traits.forEach(trait => {
@@ -149,19 +154,19 @@ Engine.Object.prototype.reset = function()
     });
 }
 
-Engine.Object.prototype.removeFromWorld = function()
+Object.prototype.removeFromWorld = function()
 {
     if (this.world) {
         this.world.removeObject(this);
     }
 }
 
-Engine.Object.prototype.routeAnimation = function()
+Object.prototype.routeAnimation = function()
 {
     return null;
 }
 
-Engine.Object.prototype.setAnimation = function(name)
+Object.prototype.setAnimation = function(name)
 {
     if (name !== this.anim) {
         this.animators[0].setAnimation(this.animations[name]);
@@ -169,21 +174,21 @@ Engine.Object.prototype.setAnimation = function(name)
     }
 }
 
-Engine.Object.prototype.setEmitter = function(object)
+Object.prototype.setEmitter = function(object)
 {
-    if (object instanceof Engine.Object !== true) {
+    if (object instanceof Object !== true) {
         throw new Error('Invalid emitter');
     }
     this.emitter = object;
 }
 
-Engine.Object.prototype.setModel = function(model)
+Object.prototype.setModel = function(model)
 {
     this.model = model;
     this.position = this.model.position;
 }
 
-Engine.Object.prototype.setWorld = function(world)
+Object.prototype.setWorld = function(world)
 {
     if (world instanceof Engine.World === false) {
         throw new Error('Invalid world');
@@ -192,7 +197,7 @@ Engine.Object.prototype.setWorld = function(world)
     this.events.trigger(this.EVENT_WORLD_ADD);
 }
 
-Engine.Object.prototype.timeShift = function(deltaTime)
+Object.prototype.timeShift = function(deltaTime)
 {
     const adjustedDelta = deltaTime * this.timeStretch;
     this.deltaTime = adjustedDelta;
@@ -222,7 +227,7 @@ Engine.Object.prototype.timeShift = function(deltaTime)
     this.time += adjustedDelta;
 }
 
-Engine.Object.prototype.updateAnimators = function(deltaTime)
+Object.prototype.updateAnimators = function(deltaTime)
 {
     const adjustedDelta = deltaTime * this.timeStretch;
     this.animators.forEach(animator => {
@@ -230,15 +235,14 @@ Engine.Object.prototype.updateAnimators = function(deltaTime)
     });
 }
 
-Engine.Object.prototype.uncollides = function(withObject)
+Object.prototype.uncollides = function(withObject)
 {
     this.events.trigger(this.EVENT_UNCOLLIDE, [withObject]);
 }
 
-Engine.Object.prototype.unsetWorld = function() {
+Object.prototype.unsetWorld = function() {
     this.events.trigger(this.EVENT_WORLD_REMOVE);
     this.world = undefined;
 }
 
-Engine.objects = {};
-Engine.objects.characters = {};
+module.exports = Object;
