@@ -1,6 +1,10 @@
 import Loader from '../../Loader';
 import GameParser from './GameParser';
 
+import SceneParser from './SceneParser';
+import LevelParser from './LevelParser';
+import StageSelectParser from './StageSelectParser';
+
 class XMLLoader extends Loader
 {
     constructor(game)

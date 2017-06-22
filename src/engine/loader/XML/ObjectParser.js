@@ -1,4 +1,4 @@
-import {Vector2} from 'three';
+import {Vector2, DoubleSide, MeshPhongMaterial} from 'three';
 
 import Parser from './Parser';
 import EventParser from './EventParser';
@@ -42,10 +42,10 @@ class ObjectParser extends Parser
         const constructor = this.createObject(blueprint.id, blueprint.constructor, function objectConstructor() {
             if (blueprint.geometries.length) {
                 this.geometry = blueprint.geometries[0].clone();
-                this.material = new THREE.MeshPhongMaterial({
+                this.material = new MeshPhongMaterial({
                     depthWrite: false,
                     map: this.textures['__default'] && this.textures['__default'].texture,
-                    side: THREE.DoubleSide,
+                    side: DoubleSide,
                     transparent: true,
                 });
             }
@@ -113,18 +113,10 @@ class ObjectParser extends Parser
     _getConstructor(type, source)
     {
         if (type === 'character') {
-            let ref;
-
-            ref = require('../../object/character/' + source);
+            const ref = require('../../object/character/' + source);
             const Character = ref.default ? ref.default : ref;
             if (Character) {
                 return Character;
-            }
-
-            ref = require('../../object/enemy/' + source);
-            const Enemy = ref.default ? ref.default : ref;
-            if (Enemy) {
-                return Enemy;
             }
         }
         return Entity;

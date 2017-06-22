@@ -1,3 +1,4 @@
+import THREE from 'three';
 import Light from './Light';
 
 class Headlight extends Light
@@ -35,8 +36,8 @@ class Headlight extends Light
         this.headbob = 2;
 
         this.lamps = [
-            new Engine.traits.Light.Lamp(this.beam),
-            new Engine.traits.Light.Lamp(this.point),
+            new Light.Lamp(this.beam),
+            new Light.Lamp(this.point),
         ];
     }
     __attach(host)

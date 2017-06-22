@@ -1,5 +1,6 @@
-Engine.objects.weapons.TimeStopper =
-class TimeStopper extends Engine.objects.Weapon
+import Weapon from '../Weapon';
+
+class TimeStopper extends Weapon
 {
     constructor()
     {
@@ -45,3 +46,5 @@ class TimeStopper extends Engine.objects.Weapon
         super.timeShift(dt);
     }
 }
+
+export default TimeStopper;

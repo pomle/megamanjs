@@ -1,4 +1,4 @@
-const Solid = require('./Solid');
+import Solid from './Solid';
 
 class Climbable extends Solid
 {
@@ -27,4 +27,4 @@ class Climbable extends Solid
     }
 }
 
-module.exports = Climbable;
+export default Climbable;

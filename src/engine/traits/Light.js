@@ -1,3 +1,6 @@
+import {Vector2} from 'three';
+import Easing from '../Easing';
+import Events from '../Events';
 import Trait from '../Trait';
 
 class Light extends Trait
@@ -9,13 +12,13 @@ class Light extends Trait
 
         this.EVENT_LAMP_CHANGE = 'lamp_change';
 
-        this.direction = new THREE.Vector2();
-        this.events = new Engine.Events();
+        this.direction = new Vector2();
+        this.events = new Events();
 
         this.lamps = [];
         this.threshold = .8;
-        this.easeOn = Engine.Easing.easeOutElastic();
-        this.easeOff = Engine.Easing.easeOutQuint();
+        this.easeOn = Easing.easeOutElastic();
+        this.easeOff = Easing.easeOutQuint();
 
         this._nextUpdate = 0;
         this._updateFrequency = 2.5;

@@ -1,8 +1,7 @@
-'use strict';
+import SceneParser from './SceneParser';
+import StageSelect from '../../scene/StageSelect';
 
-Engine.Loader.XML.StageSelectParser =
-class StageSelectParser
-extends Engine.Loader.XML.SceneParser
+class StageSelectParser extends SceneParser
 {
     constructor(loader, node)
     {
@@ -14,7 +13,7 @@ extends Engine.Loader.XML.SceneParser
     }
     _parse()
     {
-        this._scene = new Engine.scenes.StageSelect;
+        this._scene = new StageSelect;
 
         this._parseAudio();
         this._parseEvents();
@@ -118,3 +117,5 @@ extends Engine.Loader.XML.SceneParser
         });
     }
 }
+
+export default StageSelectParser;

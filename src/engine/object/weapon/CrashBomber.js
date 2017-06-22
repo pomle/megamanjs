@@ -1,5 +1,6 @@
-Engine.objects.weapons.CrashBomber =
-class CrashBomber extends Engine.objects.Weapon
+import Weapon from '../Weapon';
+
+class CrashBomber extends Weapon
 {
     fire()
     {
@@ -11,3 +12,5 @@ class CrashBomber extends Engine.objects.Weapon
         return true;
     }
 }
+
+export default CrashBomber;

@@ -1,5 +1,6 @@
-Engine.traits.Attach =
-class Attach extends Engine.Trait
+import Trait from '../Trait';
+
+class Attach extends Trait
 {
     constructor()
     {
@@ -64,3 +65,5 @@ class Attach extends Engine.Trait
         this._trigger(this.EVENT_DETACH);
     }
 }
+
+export default Trait;

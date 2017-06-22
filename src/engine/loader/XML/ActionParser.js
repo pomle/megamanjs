@@ -1,4 +1,7 @@
 import Parser from './Parser';
+import Easing from '../../Easing';
+import SyncPromise from '../../SyncPromise';
+import Tween from '../../Tween';
 
 class ActionParser extends Parser
 {
@@ -43,12 +46,12 @@ class ActionParser extends Parser
             const name = comp.shift();
             if (comp.length) {
                 const val = parseFloat(comp[0]);
-                return Engine.Easing[name](val);
+                return Easing[name](val);
             } else {
-                return Engine.Easing[name]();
+                return Easing[name]();
             }
         } else {
-            return Engine.Easing.linear();
+            return Easing.linear();
         }
     }
     _parseActionCameraMove(node)
@@ -96,7 +99,7 @@ class ActionParser extends Parser
                     tasks.push(task);
                 });
             });
-            return Engine.SyncPromise.all(tasks);
+            return SyncPromise.all(tasks);
         };
     }
     _parseTransformation(node)
@@ -112,7 +115,7 @@ class ActionParser extends Parser
         if (type === 'opacity') {
             const to = this.getFloat(node, 'to');
             return function opacityTransform(object) {
-                const tween = new Engine.Tween({opacity: to}, easing);
+                const tween = new Tween({opacity: to}, easing);
                 tween.addSubject(object.model.material);
                 return object.doFor(duration, (elapsed, progress) => {
                     tween.update(progress);
@@ -121,7 +124,7 @@ class ActionParser extends Parser
         } else if (type === 'position') {
             const to = this.getVector3(node, 'to');
             return function positionTransform(object) {
-                const tween = new Engine.Tween(to, easing);
+                const tween = new Tween(to, easing);
                 tween.addSubject(object.position);
                 return object.doFor(duration, (elapsed, progress) => {
                     tween.update(progress);
@@ -135,7 +138,7 @@ class ActionParser extends Parser
                 }
             });
             return function rotationTransform(object) {
-                const tween = new Engine.Tween(to, easing);
+                const tween = new Tween(to, easing);
                 tween.addSubject(object.model.rotation);
                 return object.doFor(duration, (elapsed, progress) => {
                     tween.update(progress);
@@ -145,7 +148,7 @@ class ActionParser extends Parser
             const to = this.getFloat(node, 'to');
             const vec = new THREE.Vector3(to, to, to);
             return function scaleTransform(object) {
-                const tween = new Engine.Tween(to, easing);
+                const tween = new Tween(to, easing);
                 tween.addSubject(object.model.scale);
             };
         }

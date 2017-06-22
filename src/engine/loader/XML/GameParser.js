@@ -1,5 +1,6 @@
 import Parser from './Parser';
 import ObjectParser from './ObjectParser';
+import WeaponParser from './WeaponParser';
 import BitmapFont from '../../BitmapFont';
 
 class GameParser extends Parser
@@ -156,7 +157,7 @@ class GameParser extends Parser
         const weaponsNode = this._node.querySelector(':scope > weapons');
         if (weaponsNode) {
             const resource = this.loader.resourceManager;
-            const weaponParser = new Engine.Loader.XML.WeaponParser(this.loader);
+            const weaponParser = new WeaponParser(this.loader);
             const weapons = weaponParser.parse(weaponsNode);
             const player = this.loader.game.player;
             Object.keys(weapons).forEach((key) => {

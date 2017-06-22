@@ -1,6 +1,7 @@
-'use strict';
+import THREE from 'three';
+import Scene from '../Scene';
 
-Engine.scenes.StageSelect = class StageSelect extends Engine.Scene
+class StageSelect extends Scene
 {
     constructor()
     {
@@ -376,3 +377,5 @@ Engine.scenes.StageSelect = class StageSelect extends Engine.Scene
         });
     }
 }
+
+export default StageSelect;

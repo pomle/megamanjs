@@ -1,6 +1,7 @@
 import Game from './engine/Game';
 import XMLLoader from './engine/loader/XML';
 import Mouse from './engine/Mouse';
+import Hud from './engine/Hud';
 
 window.addEventListener('load', function() {
     const game = new Game;
@@ -241,7 +242,7 @@ window.addEventListener('load', function() {
         game.attachToElement(screenElement);
         game.attachController(window);
 
-        const hud = new Engine.Hud;
+        const hud = new Hud();
         hud.attach(game, screenElement.querySelector('.energy'));
         updateScreen();
         gameElement.classList.add('ready');

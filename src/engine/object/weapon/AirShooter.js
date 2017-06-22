@@ -1,5 +1,6 @@
-Engine.objects.weapons.AirShooter =
-class AirShooter extends Engine.objects.Weapon
+import Weapon from '../Weapon';
+
+class AirShooter extends Weapon
 {
     constructor()
     {
@@ -23,3 +24,5 @@ class AirShooter extends Engine.objects.Weapon
         return true;
     }
 }
+
+export default AirShooter;

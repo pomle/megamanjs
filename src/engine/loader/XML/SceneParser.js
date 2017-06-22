@@ -1,8 +1,19 @@
-'use strict';
+import THREE from 'three';
 
-Engine.Loader.XML.SceneParser =
-class SceneParser
-extends Engine.Loader.XML.Parser
+import Parser from './Parser';
+import EventParser from './EventParser';
+import ObjectParser from './ObjectParser';
+import SequenceParser from './SequenceParser';
+import TraitParser from './TraitParser';
+
+import Entity from '../../Object';
+import Scene from '../../Scene';
+
+import Climbable from '../../traits/Climbable';
+import DeathZone from '../../traits/DeathZone';
+import Solid from '../../traits/Solid';
+
+class SceneParser extends Parser
 {
     constructor(loader, node)
     {
@@ -23,19 +34,19 @@ extends Engine.Loader.XML.Parser
     }
     _createClimbable()
     {
-        const object = new Engine.Object();
-        object.applyTrait(new Engine.traits.Climbable);
+        const object = new Entity();
+        object.applyTrait(new Climbable);
         return object;
     }
     _createDeathZone()
     {
-        const object = new Engine.Object();
-        object.applyTrait(new Engine.traits.DeathZone);
+        const object = new Entity();
+        object.applyTrait(new DeathZone);
         return object;
     }
     _createSolid() {
-        const object = new Engine.Object();
-        const solid = new Engine.traits.Solid;
+        const object = new Entity();
+        const solid = new Solid;
         solid.fixed = true;
         solid.obstructs = true;
         object.applyTrait(solid);
@@ -96,7 +107,7 @@ extends Engine.Loader.XML.Parser
             throw new TypeError('Node not <scene>');
         }
 
-        this._scene = new Engine.Scene();
+        this._scene = new Scene();
 
         this._parseAudio();
         this._parseCamera();
@@ -173,7 +184,7 @@ extends Engine.Loader.XML.Parser
             return Promise.resolve();
         }
 
-        const parser = new Engine.Loader.XML.EventParser(this.loader, node);
+        const parser = new EventParser(this.loader, node);
         return parser.getEvents().then(events => {
             const scene = this._scene;
             events.forEach(event => {
@@ -245,7 +256,7 @@ extends Engine.Loader.XML.Parser
 
         const traitNodes = node.getElementsByTagName('trait');
         if (traitNodes) {
-            const traitParser = new Engine.Loader.XML.TraitParser();
+            const traitParser = new TraitParser();
             const traits = [];
             for (let traitNode, i = 0; traitNode = traitNodes[i++];) {
                 const Trait = traitParser.parseTrait(traitNode);
@@ -270,7 +281,7 @@ extends Engine.Loader.XML.Parser
 
         const tasks = [];
         for (let node, i = 0; node = nodes[i++];) {
-            const parser = new Engine.Loader.XML.ObjectParser(this.loader, node);
+            const parser = new ObjectParser(this.loader, node);
             const task = parser.getObjects().then(objects => {
                 Object.assign(this._objects, objects);
             });
@@ -281,7 +292,7 @@ extends Engine.Loader.XML.Parser
     }
     _parseSequences()
     {
-        const parser = new Engine.Loader.XML.SequenceParser;
+        const parser = new SequenceParser();
         const node = this._node.querySelector(':scope > sequences');
         if (node) {
             const seq = this._scene.sequencer;
@@ -291,3 +302,5 @@ extends Engine.Loader.XML.Parser
         }
     }
 }
+
+export default SceneParser;

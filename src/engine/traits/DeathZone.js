@@ -1,5 +1,6 @@
-Engine.traits.DeathZone =
-class DeathZone extends Engine.Trait
+import Trait from '../Trait';
+
+class DeathZone extends Trait
 {
     constructor()
     {
@@ -13,3 +14,5 @@ class DeathZone extends Engine.Trait
         }
     }
 }
+
+export default DeathZone;

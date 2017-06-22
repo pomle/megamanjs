@@ -1,8 +1,15 @@
-'use strict';
+import {Vector2} from 'three';
+import Parser from './Parser';
 
-Engine.Loader.XML.WeaponParser =
-class WeaponParser
-extends Engine.Loader.XML.Parser
+function loadWeapon(source) {
+    const constr = require('../../object/weapon/' + source);
+    if (constr.default) {
+        return constr.default;
+    }
+    return constr;
+}
+
+class WeaponParser extends Parser
 {
     createConstructor(blueprint)
     {
@@ -72,7 +79,7 @@ extends Engine.Loader.XML.Parser
         var objectId = weaponNode.getAttribute('id');
         var source = weaponNode.getAttribute('source');
 
-        var constr = Engine.objects.weapons[source] || Engine.objects.Weapon;
+        const constr = loadWeapon(source);
         const weaponId = weaponNode.getAttribute('id');
         const directionNode = weaponNode.getElementsByTagName('directions')[0];
         var projectileNodes = weaponNode.getElementsByTagName('projectile');
@@ -85,8 +92,8 @@ extends Engine.Loader.XML.Parser
             coolDown: this.getFloat(weaponNode, 'cool-down') || 0,
             cost: this.getFloat(weaponNode, 'cost') || 1,
             directions: [
-                directionNode && this.getVector2(directionNode, 'x1', 'y1') || new THREE.Vector2(-1, 0),
-                directionNode && this.getVector2(directionNode, 'x2', 'y2') || new THREE.Vector2(1, 0),
+                directionNode && this.getVector2(directionNode, 'x1', 'y1') || new Vector2(-1, 0),
+                directionNode && this.getVector2(directionNode, 'x2', 'y2') || new Vector2(1, 0),
             ],
             projectiles: this.parseProjectiles(projectileNodes),
         };
@@ -94,3 +101,5 @@ extends Engine.Loader.XML.Parser
         return this.createConstructor(blueprint);
     }
 }
+
+export default WeaponParser;
