@@ -1,8 +1,6 @@
-'use strict';
+import Parser from './Parser';
 
-Engine.Loader.XML.ActionParser =
-class ActionParser
-extends Engine.Loader.XML.Parser
+class ActionParser extends Parser
 {
     constructor()
     {
@@ -200,3 +198,5 @@ extends Engine.Loader.XML.Parser
         throw new Error(`No action "${type}"`);
     }
 }
+
+export default ActionParser;

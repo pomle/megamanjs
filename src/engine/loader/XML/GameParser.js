@@ -1,8 +1,8 @@
-'use strict';
+import Parser from './Parser';
+import ObjectParser from './ObjectParser';
+import BitmapFont from '../../BitmapFont';
 
-Engine.Loader.XML.GameParser =
-class GameParser
-extends Engine.Loader.XML.Parser
+class GameParser extends Parser
 {
     constructor(loader, node)
     {
@@ -89,7 +89,7 @@ extends Engine.Loader.XML.Parser
                 const fontId = this.getAttr(node, 'id');
                 const size = this.getVector2(node, 'w', 'h');
                 const map = node.getElementsByTagName('map')[0].textContent;
-                const font = new Engine.BitmapFont(map, size, canvas);
+                const font = new BitmapFont(map, size, canvas);
                 font.scale = loader.textureScale;
                 loader.resourceManager.addFont(fontId, function(text) {
                     return font.createText(text);
@@ -106,7 +106,7 @@ extends Engine.Loader.XML.Parser
         for (let node, i = 0; node = nodes[i++];) {
             const task = this.loader.followNode(node)
                 .then(node => {
-                    const parser = new Engine.Loader.XML.ObjectParser(this.loader, node);
+                    const parser = new ObjectParser(this.loader, node);
                     return parser.getObjects();
                 })
                 .then(objects => {
@@ -167,3 +167,5 @@ extends Engine.Loader.XML.Parser
         }
     }
 }
+
+export default GameParser;

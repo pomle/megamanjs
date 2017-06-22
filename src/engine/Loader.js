@@ -1,8 +1,16 @@
-Engine.Loader = function(game)
-{
-    this.game = game;
-    this.resourceManager = new Engine.ResourceManager(this);
-    this.resourceLoader = new Engine.ResourceLoader(this);
+import ResourceLoader from './ResourceLoader';
+import ResourceManager from './ResourceManager';
 
-    this.textureScale = 1;
+class Loader
+{
+    constructor(game)
+    {
+        this.game = game;
+        this.resourceManager = new ResourceManager(this);
+        this.resourceLoader = new ResourceLoader(this);
+
+        this.textureScale = 1;
+    }
 }
+
+export default Loader;

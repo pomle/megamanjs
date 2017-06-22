@@ -1,4 +1,14 @@
-const Parser = require('./Parser');
+import {Vector2} from 'three';
+
+import Parser from './Parser';
+import EventParser from './EventParser';
+import SequenceParser from './SequenceParser';
+import TraitParser from './TraitParser';
+
+import Animation from '../../Animation';
+import UVAnimator from '../../animator/UV';
+import Entity from '../../Object';
+import UVCoords from '../../UVCoords';
 
 class ObjectParser extends Parser
 {
@@ -102,11 +112,22 @@ class ObjectParser extends Parser
     }
     _getConstructor(type, source)
     {
-        if (type === 'character' && Engine.objects.characters[source]) {
-            return Engine.objects.characters[source];
-        } else {
-            return Engine.Object;
+        if (type === 'character') {
+            let ref;
+
+            ref = require('../../object/character/' + source);
+            const Character = ref.default ? ref.default : ref;
+            if (Character) {
+                return Character;
+            }
+
+            ref = require('../../object/enemy/' + source);
+            const Enemy = ref.default ? ref.default : ref;
+            if (Enemy) {
+                return Enemy;
+            }
         }
+        return Entity;
     }
     _getTexture(id)
     {
@@ -158,7 +179,7 @@ class ObjectParser extends Parser
 
         const id = animationNode.getAttribute('id');
         const group = animationNode.getAttribute('group') || undefined;
-        const animation = new Engine.Animator.Animation(id, group);
+        const animation = new Animation(id, group);
         const frameNodes = animationNode.getElementsByTagName('frame');
         let loop = [];
         for (let i = 0, frameNode; frameNode = frameNodes[i++];) {
@@ -166,7 +187,7 @@ class ObjectParser extends Parser
             const size = this.getVector2(frameNode, 'w', 'h') ||
                          this.getVector2(frameNode.parentNode, 'w', 'h') ||
                          this.getVector2(frameNode.parentNode.parentNode, 'w', 'h');
-            const uvMap = new Engine.UVCoords(offset, size, texture.size);
+            const uvMap = new UVCoords(offset, size, texture.size);
             const duration = this.getFloat(frameNode, 'duration') || undefined;
             animation.addFrame(uvMap, duration);
 
@@ -192,7 +213,7 @@ class ObjectParser extends Parser
     {
         const indices = [];
         const segs = this.getVector2(faceNode.parentNode, 'w-segments', 'h-segments')
-                   || new THREE.Vector2(1, 1);
+                   || new Vector2(1, 1);
 
         const rangeNodes = faceNode.getElementsByTagName('range');
         for (let rangeNode, i = 0; rangeNode = rangeNodes[i]; ++i) {
@@ -271,7 +292,7 @@ class ObjectParser extends Parser
 
                 const faceNodes = geometryNode.getElementsByTagName('face');
                 for (let j = 0, faceNode; faceNode = faceNodes[j]; ++j) {
-                    const animator = new Engine.Animator.UV();
+                    const animator = new UVAnimator();
                     animator.indices = [];
                     animator.offset = this.getFloat(faceNode, 'offset') || 0;
 
@@ -300,7 +321,7 @@ class ObjectParser extends Parser
                 }
 
                 if (!blueprint.animators.length && animations['__default']) {
-                    const animator = new Engine.Animator.UV();
+                    const animator = new UVAnimator();
                     animator.setAnimation(animations['__default']);
                     animator.update();
                     blueprint.animators.push(animator);
@@ -396,7 +417,7 @@ class ObjectParser extends Parser
     {
         const eventsNode = objectNode.querySelector(':scope > events');
         if (eventsNode) {
-            const parser = new Engine.Loader.XML.EventParser(this.loader, eventsNode);
+            const parser = new EventParser(this.loader, eventsNode);
             return parser.getEvents();
         }
         else {
@@ -406,7 +427,7 @@ class ObjectParser extends Parser
     _parseObjectTraits(objectNode)
     {
         const traits = [];
-        const traitParser = new Engine.Loader.XML.TraitParser(this.loader);
+        const traitParser = new TraitParser(this.loader);
         const traitsNode = objectNode.getElementsByTagName('traits')[0];
         if (traitsNode) {
             const traitNodes = traitsNode.getElementsByTagName('trait');
@@ -418,7 +439,7 @@ class ObjectParser extends Parser
     }
     _parseObjectSequences(objectNode)
     {
-        const parser = new Engine.Loader.XML.SequenceParser;
+        const parser = new SequenceParser();
         const node = objectNode.querySelector(':scope > sequences');
         if (node) {
             const sequences = parser.getSequences(node);
@@ -448,5 +469,4 @@ class ObjectParser extends Parser
     }
 }
 
-module.exports = Parser;
-
+export default ObjectParser;

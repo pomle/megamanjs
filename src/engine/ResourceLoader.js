@@ -1,6 +1,7 @@
-'use strict';
+import Audio from './Audio';
+import CanvasUtil from './CanvasUtil';
+import Events from './Events';
 
-Engine.ResourceLoader =
 class ResourceLoader
 {
     constructor(loader)
@@ -10,7 +11,7 @@ class ResourceLoader
 
         this.loader = loader;
 
-        this.events = new Engine.Events(this);
+        this.events = new Events(this);
 
         this.PENDING = 0;
         this.RUNNING = 1;
@@ -67,7 +68,7 @@ class ResourceLoader
             })
             .then(buffer => {
                 this._completeTask(task);
-                return new Engine.Audio(buffer);
+                return new Audio(buffer);
             });
         return task.promise;
     }
@@ -77,7 +78,7 @@ class ResourceLoader
         task.promise = new Promise((resolve, reject) => {
             const image = new Image();
             image.addEventListener('load', () => {
-                const canvas = Engine.CanvasUtil.clone(image);
+                const canvas = CanvasUtil.clone(image);
                 resolve(canvas);
                 this._completeTask(task);
             });
@@ -103,3 +104,5 @@ class ResourceLoader
         return task.promise;
     }
 }
+
+export default ResourceLoader;

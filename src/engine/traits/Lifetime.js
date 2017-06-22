@@ -1,5 +1,6 @@
-Engine.traits.Lifetime =
-class Lifetime extends Engine.Trait
+import Trait from '../Trait';
+
+class Lifetime extends Trait
 {
     constructor()
     {
@@ -12,8 +13,7 @@ class Lifetime extends Engine.Trait
     __timeshift(dt)
     {
         if (this._time > this.duration) {
-            var host = this._host;
-            host.world.removeObject(host);
+            host.world.removeObject(this._host);
         } else {
             this._time += dt;
         }
@@ -23,3 +23,5 @@ class Lifetime extends Engine.Trait
         this._time = 0;
     }
 }
+
+export default Lifetime;

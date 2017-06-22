@@ -1,8 +1,7 @@
-const THREE = require('three');
-const Entity = require('../Object');
-const Trait = require('../Trait');
+import Entity from '../Object';
+import Trait from '../Trait';
 
-const SIDES = {
+export const SIDES = {
     TOP: Entity.prototype.SURFACE_TOP,
     BOTTOM: Entity.prototype.SURFACE_BOTTOM,
     LEFT: Entity.prototype.SURFACE_LEFT,
@@ -114,4 +113,4 @@ class Solid extends Trait
 
 Solid.prototype.SIDES = SIDES;
 
-module.exports = Solid;
+export default Solid;

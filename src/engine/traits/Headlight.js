@@ -1,5 +1,6 @@
-Engine.traits.Headlight =
-class Headlight extends Engine.traits.Light
+import Light from './Light';
+
+class Headlight extends Light
 {
     constructor()
     {
@@ -75,3 +76,5 @@ class Headlight extends Engine.traits.Light
         super.__timeshift.apply(this, arguments);
     }
 }
+
+module.exports = Headlight;

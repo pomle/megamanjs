@@ -1,5 +1,6 @@
-Engine.traits.Light =
-class Light extends Engine.Trait
+import Trait from '../Trait';
+
+class Light extends Trait
 {
     constructor()
     {
@@ -115,7 +116,6 @@ class Light extends Engine.Trait
     }
 }
 
-Engine.traits.Light.Lamp =
 class Lamp
 {
     constructor(light)
@@ -135,3 +135,7 @@ class Lamp
         this.state = false;
     }
 }
+
+Light.Lamp = Lamp;
+
+module.exports = Light;

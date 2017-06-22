@@ -1,5 +1,6 @@
-Engine.traits.Pickupable =
-class Pickupable extends Engine.Trait
+import Trait from '../Trait';
+
+class Pickupable extends Trait
 {
     constructor()
     {
@@ -9,3 +10,5 @@ class Pickupable extends Engine.Trait
         this.properties = {};
     }
 }
+
+module.exports = Pickupable;

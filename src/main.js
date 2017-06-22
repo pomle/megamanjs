@@ -1,6 +1,10 @@
+import Game from './engine/Game';
+import XMLLoader from './engine/loader/XML';
+import Mouse from './engine/Mouse';
+
 window.addEventListener('load', function() {
-    const game = new Engine.Game;
-    const loader = new Engine.Loader.XML(game);
+    const game = new Game;
+    const loader = new XMLLoader(game);
     const env = {};
 
     const gameElement = document.getElementById('game');
@@ -116,7 +120,7 @@ window.addEventListener('load', function() {
     }
 
     function setupInterruptDetection() {
-        const sluggishPause = Engine.Mouse.sluggish(pause, 20);
+        const sluggishPause = Mouse.sluggish(pause, 20);
 
         function pause() {
             if (document.body.classList.contains('dev-tools')) {

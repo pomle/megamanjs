@@ -1,23 +1,22 @@
-Engine.objects.characters.Crashman = function()
-{
-    Engine.Object.call(this);
-}
+import Entity from '../../Object';
 
-Engine.Util.extend(Engine.objects.characters.Crashman,
-                   Engine.Object);
-
-Engine.objects.characters.Crashman.prototype.routeAnimation = function()
+class Crashman extends Entity
 {
-    if (!this.jump._ready) {
-        if (this.weapon._firing) {
-            return 'jump-fire';
+    routeAnimation()
+    {
+        if (!this.jump._ready) {
+            if (this.weapon._firing) {
+                return 'jump-fire';
+            }
+            return 'jump';
         }
-        return 'jump';
-    }
 
-    if (this.move._interimSpeed) {
-        return 'run';
-    }
+        if (this.move._interimSpeed) {
+            return 'run';
+        }
 
-    return 'idle';
+        return 'idle';
+    }
 }
+
+export default Crashman;
