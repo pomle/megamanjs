@@ -1,6 +1,6 @@
-const THREE = require('three');
-const Timeline = require('../Timeline');
-const Solid = require('./Solid');
+import THREE from 'three';
+import Timeline from '../Timeline';
+import Solid from './Solid';
 
 class Elevator extends Solid
 {
@@ -77,4 +77,4 @@ class Elevator extends Solid
     }
 }
 
-module.exports = Elevator;
+export default Elevator;

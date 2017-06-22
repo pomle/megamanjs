@@ -210,7 +210,6 @@ Entity.prototype.timeShift = function(deltaTime)
     }
 
     this.events.trigger(this.EVENT_TIMESHIFT, [adjustedDelta, this.time]);
-
     this.integrator.integrate(this.position, this.velocity, adjustedDelta);
 
     this.time += adjustedDelta;

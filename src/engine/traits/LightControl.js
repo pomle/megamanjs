@@ -1,12 +1,14 @@
-Engine.traits.LightControl =
-class LightControl extends Engine.Trait
+import {Color} from 'three';
+import Trait from '../Trait';
+
+class LightControl extends Trait
 {
     constructor()
     {
         super();
         this.NAME = 'lightcontrol';
 
-        this.color = new THREE.Color(1,1,1);
+        this.color = new Color(1,1,1);
         this.duration = 1;
 
         this._ignore = new Set();
@@ -49,3 +51,5 @@ class LightControl extends Engine.Trait
         this._tween.update(frac);
     }
 }
+
+export default LightControl;
