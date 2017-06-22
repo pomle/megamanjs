@@ -1,6 +1,7 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
+const THREE = require('three');
 const World = require('../../src/engine/World');
 const Host = require('../../src/engine/Object');
 const Spawnable = Host;

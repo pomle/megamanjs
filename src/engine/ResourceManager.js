@@ -1,11 +1,15 @@
+const THREE = require('three');
+const Entity = require('./Object');
+const Weapon = require('./object/Weapon');
+
 class ResourceManager
 {
     constructor()
     {
         /* These must be defined in order of specificity. */
         this.TYPE_MAP = {
-            'weapon': Engine.objects.Weapon,
-            'object': Engine.Object,
+            'weapon': Weapon,
+            'object': Entity,
             'texture': THREE.Texture,
         }
 

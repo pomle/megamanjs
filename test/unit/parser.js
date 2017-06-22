@@ -26,7 +26,7 @@ describe('Parser', function() {
 
   beforeEach(function() {
     loaderMock = {
-      resource: new Engine.ResourceManager(),
+      resource: new ResourceManager(),
     };
 
     global.Image = sinon.spy(function() {

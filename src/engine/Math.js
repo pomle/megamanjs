@@ -26,7 +26,7 @@ const MathLib = {
         const m = Math.pow(10, digits);
         return Math.round(value * m) / m;
     },
-    randStr: (len = 6, chars = Engine.Math.ALPHANUM_SAFE) => {
+    randStr: (len = 6, chars = MathLib.ALPHANUM_SAFE) => {
         let id = '';
         while (len--) {
             id += chars[Math.random() * chars.length | 0];

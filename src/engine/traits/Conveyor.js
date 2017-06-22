@@ -1,6 +1,7 @@
-const Trait = require('../Trait');
+const THREE = require('three');
+const Solid = require('./Solid');
 
-class Conveyor extends Trait
+class Conveyor extends Solid
 {
     constructor()
     {

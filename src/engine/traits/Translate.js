@@ -1,3 +1,4 @@
+const {Vector2} = require('three');
 const Trait = require('../Trait');
 
 class Translate extends Trait
@@ -6,7 +7,7 @@ class Translate extends Trait
     {
         super();
         this.NAME = 'translate';
-        this.velocity = new THREE.Vector2(1, 1);
+        this.velocity = new Vector2(1, 1);
     }
     __timeshift(dt)
     {
@@ -16,4 +17,4 @@ class Translate extends Trait
     }
 }
 
-module.exports = Trait;
+module.exports = Translate;

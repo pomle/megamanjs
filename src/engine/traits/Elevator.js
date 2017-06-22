@@ -1,3 +1,5 @@
+const THREE = require('three');
+const Timeline = require('../Timeline');
 const Solid = require('./Solid');
 
 class Elevator extends Solid
@@ -14,7 +16,7 @@ class Elevator extends Solid
         this._offset = new THREE.Vector2;
         this._origo = new THREE.Vector3;
         this._nextPos = new THREE.Vector2;
-        this._timeline = new Engine.Timeline;
+        this._timeline = new Timeline;
 
         this.fixed = true;
         this.obstructs = true;

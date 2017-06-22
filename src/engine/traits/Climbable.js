@@ -27,4 +27,4 @@ class Climbable extends Solid
     }
 }
 
-module.exports = Solid;
+module.exports = Climbable;

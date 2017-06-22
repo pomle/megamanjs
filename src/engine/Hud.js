@@ -1,3 +1,5 @@
+const Level = require('./scene/Level');
+
 class Hud
 {
     constructor()
@@ -62,7 +64,7 @@ class Hud
     }
     onSceneSet(scene)
     {
-        if (scene instanceof Engine.scenes.Level) {
+        if (scene instanceof Level) {
             scene.events.bind(scene.EVENT_PLAYER_RESET, this.showHud);
             scene.events.bind(scene.EVENT_PLAYER_DEATH, this.hideHud);
             const player = scene.player.character;
@@ -74,7 +76,7 @@ class Hud
     }
     onSceneUnset(scene)
     {
-        if (scene instanceof Engine.scenes.Level) {
+        if (scene instanceof Level) {
             scene.events.unbind(scene.EVENT_PLAYER_RESET, this.showHud);
             scene.events.unbind(scene.EVENT_PLAYER_DEATH, this.hideHud);
             const player = scene.player.character;

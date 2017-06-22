@@ -1,3 +1,4 @@
+const THREE = require('three');
 const Trait = require('../Trait');
 
 class Projectile extends Trait

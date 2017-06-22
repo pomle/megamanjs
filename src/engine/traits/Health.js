@@ -1,4 +1,5 @@
 const Trait = require('../Trait');
+const Energy = require('../logic/Energy');
 
 class Health extends Trait
 {
@@ -14,7 +15,7 @@ class Health extends Trait
         this.EVENT_RESURRECT = 'resurrect';
         this.EVENT_HEALTH_CHANGED = 'health-changed';
 
-        this.energy = new Engine.logic.Energy(100);
+        this.energy = new Energy(100);
         this.immune = false;
         this._dead = false;
 

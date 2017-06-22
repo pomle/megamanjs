@@ -40,4 +40,4 @@ class Move extends Trait
     }
 }
 
-module.exports = Trait;
+module.exports = Move;

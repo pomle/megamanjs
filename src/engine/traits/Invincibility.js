@@ -1,4 +1,5 @@
 const Trait = require('../Trait');
+const Health = require('./Health');
 
 class Invincibility extends Trait
 {
@@ -17,7 +18,7 @@ class Invincibility extends Trait
             this.engage();
         };
 
-        this.__requires(Engine.traits.Health);
+        this.__requires(Health);
 
         this.events.bind(this.EVENT_ATTACHED, host => {
             host.events.bind(host.health.EVENT_HURT, onHurt);

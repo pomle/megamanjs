@@ -1,10 +1,12 @@
+const Events = require('../Events');
+
 class Energy
 {
     constructor(max = 100, min = 0)
     {
         this.EVENT_CHANGE = 'change';
 
-        this.events = new Engine.Events(this);
+        this.events = new Events(this);
 
         this._max = max;
         this._min = min;

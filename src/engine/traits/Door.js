@@ -1,6 +1,9 @@
-const Trait = require('../Trait');
+const THREE = require('three');
+const Solid = require('./Solid');
+const Sequencer = require('../Sequencer');
+const {vectorTraverse} = require('../Util');
 
-class Door extends Trait
+class Door extends Solid
 {
     constructor()
     {
@@ -20,8 +23,6 @@ class Door extends Trait
         this._traverseDestination = null;
         this._traverseObject = null;
 
-        const traverseFunction = Engine.Animation.vectorTraverse;
-
         function accordion(geometry, start, step)
         {
             for (let i = start, l = geometry.vertices.length; i < l; ++i) {
@@ -36,7 +37,7 @@ class Door extends Trait
         let stepTime = 0;
         let stepLength;
 
-        this.sequencer = new Engine.Sequencer();
+        this.sequencer = new Sequencer();
         this.sequencer.addStep(function start() {
             stepLength = this.duration / 4;
             stepTime = 0;
@@ -54,7 +55,7 @@ class Door extends Trait
             return false;
         });
         this.sequencer.addStep(function traverse(dt) {
-            return traverseFunction(this._traverseObject.position,
+            return vectorTraverse(this._traverseObject.position,
                                     this._traverseDestination,
                                     this.speed * dt) === 0;
         });

@@ -1,3 +1,6 @@
+const THREE = require('three');
+const Util = require('../../Util');
+
 class Parser
 {
     constructor(loader)

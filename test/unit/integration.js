@@ -1,6 +1,7 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
+const THREE = require('three');
 const Integrator = require('../../src/engine/Verlet');
 
 describe('Integration', function() {

@@ -1,4 +1,5 @@
 const Trait = require('../Trait');
+const Health = require('./Health');
 
 class DeathSpawn extends Trait
 {
@@ -6,7 +7,7 @@ class DeathSpawn extends Trait
     {
         super();
         this.NAME = 'deathSpawn';
-        this._requires = [Engine.traits.Health];
+        this._requires = [Health];
 
         this.chance = 1;
         this.pool = [];
@@ -50,4 +51,4 @@ class DeathSpawn extends Trait
     }
 }
 
-module.exports = Trait;
+module.exports = DeathSpawn;

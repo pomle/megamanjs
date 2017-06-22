@@ -21,4 +21,4 @@ class ContactDamage extends Trait
     }
 }
 
-module.exports = Trait;
+module.exports = ContactDamage;

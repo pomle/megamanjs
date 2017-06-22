@@ -1,7 +1,7 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const Object = require('../../src/engine/Object');
+const Entity = require('../../src/engine/Object');
 const Weapon = require('../../src/engine/object/Weapon');
 const Projectile = require('../../src/engine/traits/Projectile');
 const WeaponTrait = require('../../src/engine/traits/Weapon');
@@ -13,7 +13,7 @@ describe('Weapon', function() {
 
   function createProjectile()
   {
-    const proj = new Engine.Object();
+    const proj = new Entity();
     proj.applyTrait(new Projectile);
     return proj;
   }
@@ -28,7 +28,7 @@ describe('Weapon', function() {
       }),
     };
     weapon = new Weapon();
-    character = new Object();
+    character = new Entity();
     character.world = worldMock;
     character.applyTrait(new WeaponTrait());
     character.weapon.equip(weapon);
@@ -210,7 +210,7 @@ describe('Weapon', function() {
 
     it('should except if user weapon trait not applied', function() {
       expect(function() {
-        weapon.setUser(new Object());
+        weapon.setUser(new Entity());
       }).to.throwError(function(error) {
         expect(error).to.be.a(TypeError);
         expect(error.message).to.equal('User missing weapon trait');

@@ -2,7 +2,7 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const THREE = require('three');
-const Object = require('../../src/engine/Object');
+const Entity = require('../../src/engine/Object');
 const World = require('../../src/engine/World');
 const Door = require('../../src/engine/traits/Door');
 const Physics = require('../../src/engine/traits/Physics');
@@ -11,7 +11,7 @@ const Solid = require('../../src/engine/traits/Solid');
 describe('Door Trait', function() {
   function createDoor()
   {
-    const door = new env.Engine.Object;
+    const door = new Entity;
     const model = new THREE.Mesh(new THREE.PlaneGeometry(8, 2, 4, 2), new THREE.MeshBasicMaterial());
     door.setModel(model);
     door.addCollisionRect(10, 10);
@@ -21,7 +21,7 @@ describe('Door Trait', function() {
 
   function createPlayer()
   {
-    const player = new env.Engine.Object;
+    const player = new Entity;
     player.applyTrait(new Physics);
     player.applyTrait(new Solid);
     player.addCollisionRect(10, 10);

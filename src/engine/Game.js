@@ -4,6 +4,7 @@ const AudioPlayer = require('./AudioPlayer');
 const Keyboard = require('./Keyboard');
 const Events = require('./Events');
 const Player = require('./Player');
+const Scene = require('./Scene');
 
 class Game
 {
@@ -112,7 +113,7 @@ class Game
     }
     setScene(scene)
     {
-        if (scene instanceof Engine.Scene === false) {
+        if (scene instanceof Scene === false) {
             throw new Error('Invalid scene');
         }
 

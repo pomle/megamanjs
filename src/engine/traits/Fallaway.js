@@ -1,4 +1,5 @@
 const Trait = require('../Trait');
+const Physics = require('./Physics');
 
 class Fallaway extends Trait
 {
@@ -6,7 +7,7 @@ class Fallaway extends Trait
     {
         super();
         this.NAME = 'fallaway';
-        this.__requires(Engine.traits.Physics);
+        this.__requires(Physics);
 
         this._countdown = null;
         this._origin = null;

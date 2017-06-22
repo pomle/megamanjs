@@ -1,7 +1,7 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const Object = require('../../src/engine/Object');
+const Host = require('../../src/engine/Object');
 const Trait = require('../../src/engine/Trait');
 
 describe('Trait', function() {
@@ -85,7 +85,6 @@ describe('Trait', function() {
     });
 
     it('should except if host not Object', function() {
-      const host = new Host();
       const trait = new MockTrait();
       expect(function() {
         trait.__attach('a');

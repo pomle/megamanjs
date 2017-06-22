@@ -1,3 +1,5 @@
+const Entity = require('./Object');
+
 const AI = function(object)
 {
     this.object = object;
@@ -40,7 +42,7 @@ AI.prototype.findPlayer = function()
 
 AI.prototype.setTarget = function(object)
 {
-    if (object instanceof Engine.Object !== true) {
+    if (object instanceof Entity !== true) {
         throw new Error("Target must be object");
     }
     this.target = object;

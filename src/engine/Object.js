@@ -1,12 +1,3 @@
-const THREE = require('three');
-const BoundingBox = require('./BoundingBox');
-const Events = require('./Events');
-const Loops = require('./Loops');
-const SequenceManager = require('./SequenceManager');
-const Trait = require('./Trait');
-const Verlet = require('./Verlet');
-const World = require('./World');
-
 function Entity()
 {
     this.uuid = THREE.Math.generateUUID();
@@ -244,3 +235,12 @@ Entity.prototype.unsetWorld = function() {
 }
 
 module.exports = Entity;
+
+const THREE = require('three');
+const BoundingBox = require('./BoundingBox');
+const Events = require('./Events');
+const Loops = require('./Loops');
+const SequenceManager = require('./SequenceManager');
+const Trait = require('./Trait');
+const Verlet = require('./Verlet');
+const World = require('./World');

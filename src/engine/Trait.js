@@ -1,4 +1,12 @@
+const Entity = require('./Object');
 const Events = require('./Events');
+
+const MAGIC_METHODS = {
+    '__collides': Entity.prototype.EVENT_COLLIDE,
+    '__obstruct': Entity.prototype.EVENT_OBSTRUCT,
+    '__uncollides': Entity.prototype.EVENT_UNCOLLIDE,
+    '__timeshift': Entity.prototype.EVENT_TIMESHIFT,
+};
 
 class Trait
 {
@@ -11,13 +19,6 @@ class Trait
         this._host = null;
         this._requires = [];
 
-        this.MAGIC_METHODS = {
-            '__collides': 'EVENT_COLLIDE',
-            '__obstruct': 'EVENT_OBSTRUCT',
-            '__uncollides': 'EVENT_UNCOLLIDE',
-            '__timeshift': 'EVENT_TIMESHIFT',
-        }
-
         this.EVENT_ATTACHED = 'attached';
         this.EVENT_DETACHED = 'detached';
 
@@ -25,7 +26,7 @@ class Trait
 
         /* Bind on instantiation so that
            they can be found when unbound. */
-        Object.keys(this.MAGIC_METHODS).forEach(method => {
+        Object.keys(MAGIC_METHODS).forEach(method => {
             if (this[method]) {
                 this[method] = this[method].bind(this);
                 this._bindables[method] = this[method];
@@ -38,6 +39,10 @@ class Trait
             throw new Error('Already attached');
         }
 
+        if (host instanceof Entity !== true) {
+            throw new TypeError('Invalid host');
+        }
+
         this._requires.forEach(ref => {
             this.__require(host, ref);
         });
@@ -46,8 +51,7 @@ class Trait
 
         const events = this._host.events;
         Object.keys(this._bindables).forEach(method => {
-            const event = this.MAGIC_METHODS[method];
-            events.bind(host[event], this[method]);
+            events.bind(MAGIC_METHODS[method], this[method]);
         });
 
         this.events.trigger(this.EVENT_ATTACHED, [this._host]);
@@ -56,7 +60,7 @@ class Trait
     {
         const events = this._host.events;
         Object.keys(this._bindables).forEach(method => {
-            events.unbind(this.MAGIC_METHODS[method], this[method]);
+            events.unbind(MAGIC_METHODS[method], this[method]);
         });
 
         this.events.trigger(this.EVENT_DETACHED, [this._host]);

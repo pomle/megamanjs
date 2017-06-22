@@ -12,9 +12,9 @@ describe('UVCoords', function() {
     const textureW = 256;
     const textureH = 256;
 
-    const uvCoord = new Engine.UVCoords({x: offsetX, y: offsetY},
-                                        {x: sizeW, y: sizeH},
-                                        {x: textureW, y: textureH});
+    const uvCoord = new UVCoords({x: offsetX, y: offsetY},
+                                 {x: sizeW, y: sizeH},
+                                 {x: textureW, y: textureH});
     expect(uvCoord).to.be.an(Array);
     expect(uvCoord[0][0].x).to.equal(0.1875);
     expect(uvCoord[0][0].y).to.equal(0.625);
