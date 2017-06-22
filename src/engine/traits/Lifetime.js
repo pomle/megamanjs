@@ -13,7 +13,8 @@ class Lifetime extends Trait
     __timeshift(dt)
     {
         if (this._time > this.duration) {
-            host.world.removeObject(this._host);
+            const host = this._host;
+            host.world.removeObject(host);
         } else {
             this._time += dt;
         }

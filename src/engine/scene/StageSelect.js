@@ -1,5 +1,9 @@
 import THREE from 'three';
+import Easing from '../Easing';
+import Entity from '../Object';
 import Scene from '../Scene';
+
+import Solid from '../traits/Solid';
 
 class StageSelect extends Scene
 {
@@ -75,7 +79,7 @@ class StageSelect extends Scene
         });
         this.events.bind(this.EVENT_START, (game) => {
             this.world.events.bind(this.world.EVENT_SIMULATE, simulate);
-            this.camera.panTo(this.cameraDesiredPosition, 1, Engine.Easing.easeOutQuad());
+            this.camera.panTo(this.cameraDesiredPosition, 1, Easing.easeOutQuad());
             this.enableIndicator();
             this.input.enable();
         });
@@ -287,7 +291,7 @@ class StageSelect extends Scene
             state.currentBoss = character;
             this.world.addObject(character);
         });
-        return camera.panTo(this.bossRevealCenter, 1, Engine.Easing.easeInOutCubic()).then(() => {
+        return camera.panTo(this.bossRevealCenter, 1, Easing.easeInOutCubic()).then(() => {
             return this.waitFor(6);
         });
     }
@@ -342,9 +346,9 @@ class StageSelect extends Scene
     {
         this.podium = model;
         this.world.scene.add(model);
-        const solid = new Engine.Object;
+        const solid = new Entity();
         solid.addCollisionRect(64, 16);
-        solid.applyTrait(new Engine.traits.Solid);
+        solid.applyTrait(new Solid());
         solid.solid.fixed = true;
         solid.solid.obstructs = true;
         this.podiumSolid = solid;

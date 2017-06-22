@@ -1,10 +1,11 @@
 import Entity from '../../Object';
+import AI from '../../AI';
 
 class Telly extends Entity
 {
     constructor() {
         super();
-        this.ai = new Engine.AI(this);
+        this.ai = new AI(this);
         this.speed = 12;
     }
 

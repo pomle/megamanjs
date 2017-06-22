@@ -1,5 +1,6 @@
-Engine.traits.Disappearing =
-class Disappearing extends Engine.Trait
+import Trait from '../Trait';
+
+class Disappearing extends Trait
 {
     constructor()
     {
@@ -51,3 +52,5 @@ class Disappearing extends Engine.Trait
         h.collidable = false;
     }
 }
+
+export default Trait;

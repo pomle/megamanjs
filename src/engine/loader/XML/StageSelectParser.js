@@ -1,5 +1,6 @@
 import SceneParser from './SceneParser';
 import StageSelect from '../../scene/StageSelect';
+import Util from '../../Util';
 
 class StageSelectParser extends SceneParser
 {
@@ -29,7 +30,7 @@ class StageSelectParser extends SceneParser
     _createCaption(text)
     {
         text = text.split(" ");
-        text[1] = Engine.Util.string.fill(" ", 6 - text[1].length) + text[1];
+        text[1] = Util.string.fill(" ", 6 - text[1].length) + text[1];
         text = text.join("\n");
         return this.loader.resourceManager.get('font', 'nintendo')(text).createMesh();
     }

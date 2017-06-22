@@ -1,7 +1,7 @@
-const THREE = require('three');
-const Solid = require('./Solid');
-const Sequencer = require('../Sequencer');
-const {vectorTraverse} = require('../Util');
+import THREE from 'three';
+import Solid from './Solid';
+import Sequencer from '../Sequencer';
+import {vectorTraverse} from '../Util';
 
 class Door extends Solid
 {
@@ -154,4 +154,4 @@ class Door extends Solid
     }
 }
 
-module.exports = Door;
+export default Door;

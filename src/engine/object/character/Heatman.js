@@ -47,7 +47,7 @@ class Heatman extends Entity
             this.health.immune = true;
         }
 
-        Engine.Object.prototype.timeShift.call(this, dt);
+        super.timeShift(dt);
     }
 }
 

@@ -1,18 +1,17 @@
-const Parser = require('./Parser');
+import SceneParser from './SceneParser';
+import Level from '../../scene/Level';
 
-class LevelParser extends Parser
+import Spawner from '../../object/Spawner';
+
+class LevelParser extends SceneParser
 {
-    constructor(loader, node)
-    {
-        super(loader, node);
-    }
     _parse()
     {
         if (this._node.tagName !== 'scene') {
             throw new TypeError('Node not <scene type="level">');
         }
 
-        this._scene = new Engine.scenes.Level();
+        this._scene = new Level();
 
         this._parseAudio();
         this._parseEvents();
@@ -70,7 +69,7 @@ class LevelParser extends Parser
         const world = this._scene.world;
         const spawnerNodes = this._node.querySelectorAll('layout > spawner');
         for (let spawnerNode, i = 0; spawnerNode = spawnerNodes[i]; ++i) {
-            const spawner = new Engine.objects.Spawner();
+            const spawner = new Spawner();
             const position = this.getPosition(spawnerNode);
             spawner.position.copy(position);
             spawner.position.z = 0;
@@ -114,4 +113,4 @@ class LevelParser extends Parser
     }
 }
 
-module.exports = LevelParser;
+export default LevelParser;
