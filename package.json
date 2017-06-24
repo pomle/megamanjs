@@ -35,7 +35,6 @@
     "karma-mocha-reporter": "^2.1.0",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
-    "three": "0.70.0",
     "webpack": "^3.0.0",
     "xmldom": "^0.1.22"
   }
