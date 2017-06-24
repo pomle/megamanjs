@@ -1,5 +1,6 @@
-Engine.traits.Environment =
-class Environment extends Engine.Trait
+const Trait = require('../Trait');
+
+class Environment extends Trait
 {
     constructor()
     {
@@ -10,11 +11,13 @@ class Environment extends Engine.Trait
     }
     __collides(subject)
     {
-      if (subject.physics) {
-          p = subject.physics;
-         p.atmosphericDensity = this.atmosphericDensity;
-      }
+        if (subject.physics) {
+            p = subject.physics;
+            p.atmosphericDensity = this.atmosphericDensity;
+        }
 
-      subject.timeStretch = this.timeDilation;
+        subject.timeStretch = this.timeDilation;
     }
 }
+
+module.exports = Environment;

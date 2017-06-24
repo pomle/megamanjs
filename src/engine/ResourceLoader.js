@@ -1,6 +1,6 @@
-import Audio from './Audio';
-import CanvasUtil from './CanvasUtil';
-import Events from './Events';
+const Audio = require('./Audio');
+const CanvasUtil = require('./CanvasUtil');
+const Events = require('./Events');
 
 class ResourceLoader
 {
@@ -105,4 +105,4 @@ class ResourceLoader
     }
 }
 
-export default ResourceLoader;
+module.exports = ResourceLoader;

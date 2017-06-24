@@ -1,5 +1,7 @@
-Engine.traits.Translating =
-class Translating extends Engine.Trait
+const {Vector2} = require('three');
+const Trait = require('../Trait');
+
+class Translating extends Trait
 {
     constructor()
     {
@@ -7,16 +9,16 @@ class Translating extends Engine.Trait
         this.NAME = 'translating';
 
         this.func = undefined;
-        this.amplitude = new THREE.Vector2(1, 1);
+        this.amplitude = new Vector2(1, 1);
         this.speed = 1;
     }
     __timeshift(deltaTime, totalTime)
     {
         switch (this.func) {
-            case 'linear':
-                return this.linear.apply(this, arguments);
-            case 'oscillate':
-                return this.oscillate.apply(this, arguments);
+        case 'linear':
+            return this.linear.apply(this, arguments);
+        case 'oscillate':
+            return this.oscillate.apply(this, arguments);
         }
     }
     linear(deltaTime, totalTime)
@@ -27,10 +29,14 @@ class Translating extends Engine.Trait
     }
     oscillate(deltaTime, totalTime)
     {
-        const v = this._host.velocity,
-              s = this.speed,
-              t = totalTime + deltaTime / 2;
+        const
+            v = this._host.velocity,
+            s = this.speed,
+            t = totalTime + deltaTime / 2;
+
         v.x = Math.sin(t * s) * this.amplitude.x * s;
         v.y = Math.cos(t * s) * this.amplitude.y * s;
     }
 }
+
+module.exports = Translating;

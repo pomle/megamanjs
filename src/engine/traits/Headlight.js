@@ -62,8 +62,9 @@ class Headlight extends Light
     }
     __timeshift(deltaTime)
     {
-        const host = this._host,
-              animator = host.animators[0];
+        const
+            host = this._host,
+            animator = host.animators[0];
 
         this.flare.material.opacity = this.point.intensity / this.lamps[1].intensity;
 

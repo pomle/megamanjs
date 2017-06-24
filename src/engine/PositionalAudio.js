@@ -1,4 +1,4 @@
-import Audio from './Audio';
+const Audio = require('./Audio');
 
 class PositionalAudio extends Audio
 {
@@ -13,4 +13,4 @@ class PositionalAudio extends Audio
     }
 }
 
-export default PositionalAudio;
+module.exports = PositionalAudio;

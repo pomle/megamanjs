@@ -36,12 +36,13 @@ class Physics extends Trait
             return;
         }
 
-        const g = this._host.world.gravityForce,
-              v = this.velocity,
-              a = this.acceleration,
-              å = this.accelerationDelta,
-              F = this.force,
-              m = this.mass;
+        const
+            g = this._host.world.gravityForce,
+            v = this.velocity,
+            a = this.acceleration,
+            å = this.accelerationDelta,
+            F = this.force,
+            m = this.mass;
 
         F.y -= g.y * m;
 
@@ -60,10 +61,11 @@ class Physics extends Trait
     }
     _calculateDrag()
     {
-        const ρ = this.atmosphericDensity,
-             Cd = this.dragCoefficient,
-              A = this.area,
-              v = this._host.velocity;
+        const
+            ρ = this.atmosphericDensity,
+            Cd = this.dragCoefficient,
+            A = this.area,
+            v = this._host.velocity;
         /* abs value for one velocity component to circumvent
            signage removal on v^2 . */
         return new THREE.Vector2(-.5 * ρ * Cd * A * v.x * Math.abs(v.x),
