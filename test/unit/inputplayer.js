@@ -1,13 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-
-const World = env.Engine.World;
-const Input = env.Engine.Keyboard;
-const Player = env.Engine.InputPlayer;
+const World = require('../../src/engine/World');
+const Input = require('../../src/engine/Keyboard');
+const Player = require('../../src/engine/InputPlayer');
 
 describe('InputPlayer', function() {
   const json = '[{"tick":24,"key":"right","type":"keydown"},{"tick":288,"key":"a","type":"keydown"},{"tick":324,"key":"a","type":"keyup"},{"tick":684,"key":"b","type":"keydown"},{"tick":690,"key":"b","type":"keyup"}]';

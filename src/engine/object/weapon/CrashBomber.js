@@ -1,13 +1,16 @@
-Engine.objects.weapons.CrashBomber =
-class CrashBomber extends Engine.objects.Weapon
+const Weapon = require('../Weapon');
+
+class CrashBomber extends Weapon
 {
     fire()
     {
         if (!super.fire()) {
             return false;
         }
-        var projectile = this.getProjectile();
+        const projectile = this.getProjectile();
         this.emit(projectile);
         return true;
     }
 }
+
+module.exports = CrashBomber;

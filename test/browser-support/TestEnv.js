@@ -11,15 +11,14 @@ class TestEnv
     this._running = false;
     this._screen = document.querySelector('#screen');
 
-    this.game = new Engine.Game;
-    this.loader = new Engine.Loader.XML(this.game);
+    this.game = new Engine.Game();
+    this.loader = new Engine.XMLLoader(this.game);
 
     if (this._screen) {
       this.game.attachToElement(this._screen);
       this.game.setResolution(640, 480);
       this.game.adjustResolution();
     }
-
     this.ready = this.loader.loadGame(gameXML);
   }
   destroy()
@@ -116,7 +115,7 @@ class TestEnv
     }
     this._running = true;
 
-    return new Engine.SyncPromise(resolve => {
+    return new Promise(resolve => {
       const scene = this.game.scene;
       const world = scene.world;
 

@@ -1,5 +1,6 @@
-Engine.traits.DeathZone =
-class DeathZone extends Engine.Trait
+const Trait = require('../Trait');
+
+class DeathZone extends Trait
 {
     constructor()
     {
@@ -13,3 +14,5 @@ class DeathZone extends Engine.Trait
         }
     }
 }
+
+module.exports = DeathZone;

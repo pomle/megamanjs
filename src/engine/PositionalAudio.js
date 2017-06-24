@@ -1,7 +1,6 @@
-'use strict';
+import Audio from './Audio';
 
-Engine.PositionalAudio =
-class PositionalAudio extends Engine.Audio
+class PositionalAudio extends Audio
 {
     constructor(buffer, position)
     {
@@ -13,3 +12,5 @@ class PositionalAudio extends Engine.Audio
         return this._position;
     }
 }
+
+export default PositionalAudio;

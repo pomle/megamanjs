@@ -23,7 +23,7 @@ describe('Stage Select', function() {
 
     it('stages have caption added to scene', () => {
       scene.stages.forEach(stage => {
-        expect(stage.caption).to.be.a(THREE.Mesh);
+        expect(stage.caption).to.be.ok();
         expect(scene.world.scene.children).to.contain(stage.caption);
       });
     });

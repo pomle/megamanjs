@@ -1,13 +1,16 @@
-Engine.objects.weapons.MetalBlade =
-class MetalBlade extends Engine.objects.Weapon
+import Weapon from '../Weapon';
+
+class MetalBlade extends Weapon
 {
     fire()
     {
         if (!super.fire()) {
             return false;
         }
-        var projectile = this.getProjectile();
+        const projectile = this.getProjectile();
         this.emit(projectile);
         return true;
     }
 }
+
+export default MetalBlade;

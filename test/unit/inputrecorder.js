@@ -1,13 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-
-const World = env.Engine.World;
-const Input = env.Engine.Keyboard;
-const Recorder = env.Engine.InputRecorder;
+const World = require('../../src/engine/World');
+const Input = require('../../src/engine/Keyboard');
+const Recorder = require('../../src/engine/InputRecorder');
 
 describe('InputRecorder', function() {
   context('when recording input on world', function() {

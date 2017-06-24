@@ -1,4 +1,4 @@
-Engine.SyncPromise = class SyncPromise
+class SyncPromise
 {
     static all(tasks)
     {
@@ -77,3 +77,5 @@ Engine.SyncPromise = class SyncPromise
         fn(resolve);
     }
 }
+
+module.exports = SyncPromise;

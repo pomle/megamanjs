@@ -1,6 +1,10 @@
-'use strict';
+const THREE = require('three');
+const CameraPath = require('./CameraPath');
+const Easing = require('./Easing');
+const Events = require('./Events');
+const Loops = require('./Loops');
+const Tween = require('./Tween');
 
-Engine.Camera =
 class Camera
 {
     constructor()
@@ -9,7 +13,7 @@ class Camera
 
         this.camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
         this.desiredPosition = undefined;
-        this.events = new Engine.Events(this);
+        this.events = new Events(this);
         this.followObject = undefined;
         this.followOffset = new THREE.Vector2(0, 0);
         this.obeyPaths = true;
@@ -19,11 +23,11 @@ class Camera
         this.smoothing = 20;
         this.velocity = new THREE.Vector3(0, 0, 0);
 
-        this.doFor = Engine.Loops.doFor(this.events, this.EVENT_UPDATE);
+        this.doFor = Loops.doFor(this.events, this.EVENT_UPDATE);
     }
     addPath(path)
     {
-        if (path instanceof Engine.Camera.Path === false) {
+        if (path instanceof CameraPath === false) {
             throw new TypeError("Invalid camera path");
         }
         this.paths.push(path);
@@ -85,10 +89,10 @@ class Camera
         this.jumpTo(vec);
         this.alignToPath(this.position);
     }
-    panTo(pos, duration, easing = Engine.Easing.linear())
+    panTo(pos, duration, easing = Easing.linear())
     {
         this.desiredPosition = undefined;
-        const tween = new Engine.Tween(pos, easing);
+        const tween = new Tween(pos, easing);
         tween.addSubject(this.position);
         return this.doFor(duration, (elapsed, progress) => {
             tween.update(progress);
@@ -122,42 +126,4 @@ class Camera
     }
 }
 
-Engine.Camera.Path = class CameraPath
-{
-    constructor()
-    {
-        this.constraint = [
-            new THREE.Vector3(),
-            new THREE.Vector3(),
-        ];
-        this.window = [
-            new THREE.Vector2(),
-            new THREE.Vector2(),
-        ];
-    }
-    constrain(vec)
-    {
-        vec.clamp(this.constraint[0], this.constraint[1]);
-    }
-    inWindow(vec)
-    {
-        return vec.x >= this.window[0].x
-            && vec.x <= this.window[1].x
-            && vec.y >= this.window[0].y
-            && vec.y <= this.window[1].y;
-    }
-    setConstraint(x1, y1, x2, y2)
-    {
-        this.constraint[0].x = x1;
-        this.constraint[0].y = y1;
-        this.constraint[1].x = x2;
-        this.constraint[1].y = y2;
-    }
-    setWindow(x1, y1, x2, y2)
-    {
-        this.window[0].x = x1;
-        this.window[0].y = y1;
-        this.window[1].x = x2;
-        this.window[1].y = y2;
-    }
-}
+module.exports = Camera;

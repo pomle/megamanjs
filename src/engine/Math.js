@@ -1,4 +1,4 @@
-Engine.Math = {
+const MathLib = {
     ALPHANUM: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
     ALPHANUM_LOWER: 'abcdefghijklmnopqrstuvwxyz0123456789',
     ALPHANUM_UPPER: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
@@ -26,7 +26,7 @@ Engine.Math = {
         const m = Math.pow(10, digits);
         return Math.round(value * m) / m;
     },
-    randStr: (len = 6, chars = Engine.Math.ALPHANUM_SAFE) => {
+    randStr: (len = 6, chars = MathLib.ALPHANUM_SAFE) => {
         let id = '';
         while (len--) {
             id += chars[Math.random() * chars.length | 0];
@@ -35,7 +35,7 @@ Engine.Math = {
     },
 }
 
-Engine.Math.Geometry = {
+MathLib.Geometry = {
     circlesIntersect: (r1, r2, x1, x2, y1, y2) => {
         const dx = x2 - x1;
         const dy = y2 - y1;
@@ -86,3 +86,6 @@ Engine.Math.Geometry = {
         return false;
     },
 }
+
+module.exports = MathLib;
+

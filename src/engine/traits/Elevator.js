@@ -1,5 +1,8 @@
-Engine.traits.Elevator =
-class Elevator extends Engine.traits.Solid
+const THREE = require('three');
+const Timeline = require('../Timeline');
+const Solid = require('./Solid');
+
+class Elevator extends Solid
 {
     constructor()
     {
@@ -13,7 +16,7 @@ class Elevator extends Engine.traits.Solid
         this._offset = new THREE.Vector2;
         this._origo = new THREE.Vector3;
         this._nextPos = new THREE.Vector2;
-        this._timeline = new Engine.Timeline;
+        this._timeline = new Timeline;
 
         this.fixed = true;
         this.obstructs = true;
@@ -73,3 +76,5 @@ class Elevator extends Engine.traits.Solid
         return offset;
     }
 }
+
+module.exports = Elevator;

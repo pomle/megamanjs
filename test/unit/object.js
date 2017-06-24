@@ -1,13 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-
-const extend = env.Engine.Util.extend;
-const Host = env.Engine.Object;
-const Trait = env.Engine.Trait;
+const { extend } = require('../../src/engine/Util');
+const Host = require('../../src/engine/Object');
+const Trait = require('../../src/engine/Trait');
 
 describe('Object', function() {
   let MockTrait;

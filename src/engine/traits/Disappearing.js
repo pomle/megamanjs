@@ -1,5 +1,6 @@
-Engine.traits.Disappearing =
-class Disappearing extends Engine.Trait
+const Trait = require('../Trait');
+
+class Disappearing extends Trait
 {
     constructor()
     {
@@ -51,3 +52,5 @@ class Disappearing extends Engine.Trait
         h.collidable = false;
     }
 }
+
+module.exports = Disappearing;

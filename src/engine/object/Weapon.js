@@ -1,4 +1,4 @@
-Engine.objects.Weapon = class Weapon
+class Weapon
 {
     constructor()
     {
@@ -7,7 +7,7 @@ Engine.objects.Weapon = class Weapon
 
         this._coolDownDelay = undefined;
 
-        this.ammo = new Engine.logic.Energy(100);
+        this.ammo = new Energy(100);
         this.code = undefined;
         this.coolDown = 0;
         this.cost = 1;
@@ -15,7 +15,7 @@ Engine.objects.Weapon = class Weapon
             new THREE.Vector2(-1, 0),
             new THREE.Vector2(1, 0),
         ];
-        this.events = new Engine.Events(this);
+        this.events = new Events(this);
         this.projectiles = [];
         this.projectilesFired = [];
         this.projectilesIdle = [];
@@ -28,7 +28,7 @@ Engine.objects.Weapon = class Weapon
     }
     addProjectile(object)
     {
-        if (!(object instanceof Engine.Object) || !object.projectile) {
+        if (!(object instanceof Entity) || !object.projectile) {
             throw new TypeError('Invalid projectile');
         }
         this.projectiles.push(object);
@@ -37,7 +37,7 @@ Engine.objects.Weapon = class Weapon
     }
     emit(object)
     {
-        if (!(object instanceof Engine.Object) || !object.projectile) {
+        if (!(object instanceof Entity) || !object.projectile) {
             throw new TypeError('Invalid projectile');
         }
 
@@ -119,10 +119,10 @@ Engine.objects.Weapon = class Weapon
     }
     setUser(user)
     {
-        if (user instanceof Engine.Object !== true) {
+        if (user instanceof Entity !== true) {
             throw new TypeError('User not object');
         }
-        if (user.weapon instanceof Engine.traits.Weapon !== true) {
+        if (user.weapon instanceof WeaponTrait !== true) {
             throw new TypeError('User missing weapon trait');
         }
         this.user = user;
@@ -140,4 +140,10 @@ Engine.objects.Weapon = class Weapon
     }
 }
 
-Engine.objects.weapons = {};
+module.exports = Weapon;
+
+const THREE = require('three');
+const Events = require('../Events');
+const Entity = require('../Object');
+const Energy = require('../logic/Energy');
+const WeaponTrait = require('../traits/Weapon');

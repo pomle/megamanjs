@@ -1,6 +1,5 @@
-'use strict';
+const Events = require('./Events');
 
-Engine.Timer =
 class Timer
 {
     constructor()
@@ -15,7 +14,7 @@ class Timer
         this._timeLastEvent = null;
         this._timeStretch = 1;
 
-        this.events = new Engine.Events(this);
+        this.events = new Events(this);
 
         this.eventLoop = this.eventLoop.bind(this);
     }
@@ -60,3 +59,5 @@ class Timer
         this.events.trigger(this.EVENT_UPDATE, [adjustedDelta]);
     }
 }
+
+module.exports = Timer;

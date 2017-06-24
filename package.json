@@ -1,22 +1,28 @@
 {
-  "name": "Compositor",
+  "name": "MegamanJS",
   "version": "0.1.0",
-  "repository": "https://github.com/pomle/compositor",
+  "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
-    "build": "bash ./tools/build.sh",
+    "build": "webpack --progress --colors",
     "minify": "bash ./tools/minify.sh",
     "generate": "bash ./tools/generate.sh",
-    "lint": "eslint src/engine src/game",
-    "start": "node ./tools/serve-dev.js",
-    "test": "npm run test:unit && npm run test:integration && istanbul report --dir ./test/coverage/summary",
-    "test:unit": "istanbul cover --config .istanbul-unit.yml node_modules/mocha/bin/_mocha test/unit",
-    "test:integration": "karma start .karma-integration.conf --single-run --reporters mocha,coverage",
+    "lint": "eslint src/engine/",
+    "watch": "npm run build -- --watch",
+    "test": "npm run test:unit:coverage && npm run build && npm run test:browser && istanbul report --dir ./test/coverage/summary",
+    "test:unit": "mocha test/unit --require test/env.js",
+    "test:unit:coverage": "istanbul cover --config .istanbul-unit.yml node_modules/mocha/bin/_mocha --require test/env.js test/unit",
+    "test:browser": "karma start .karma.conf --single-run --reporters mocha",
     "upload-coverage": "codecov -f test/coverage/summary/lcov.info  --disable=gcov"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-preset-env": "^1.5.2",
     "babel-preset-es2015": "^6.9.0",
+    "clean-webpack-plugin": "^0.1.16",
     "codecov": "^1.0.1",
+    "copy-webpack-plugin": "^4.0.1",
     "eslint": "^3.3.1",
     "expect.js": "^0.3.1",
     "express": "^4.14.1",
@@ -28,8 +34,8 @@
     "karma-mocha-reporter": "^2.1.0",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
-    "three": "0.72.0",
-    "uglify-js": "^2.7.0",
+    "three": "0.70.0",
+    "webpack": "^3.0.0",
     "xmldom": "^0.1.22"
   }
 }

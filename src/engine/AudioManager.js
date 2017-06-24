@@ -1,6 +1,3 @@
-'use strict';
-
-Engine.AudioManager =
 class AudioManager
 {
     constructor()
@@ -45,3 +42,5 @@ class AudioManager
         this._player = null;
     }
 }
+
+module.exports = AudioManager;

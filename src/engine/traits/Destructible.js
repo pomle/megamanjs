@@ -1,5 +1,6 @@
-Engine.traits.Destructible =
-class Destructible extends Engine.Trait
+const Trait = require('../Trait');
+
+class Destructible extends Trait
 {
     constructor()
     {
@@ -16,3 +17,5 @@ class Destructible extends Engine.Trait
         }
     }
 }
+
+module.exports = Destructible;

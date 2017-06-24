@@ -1,29 +1,32 @@
-Engine.objects.characters.Flashman = function()
+import Entity from '../../Object';
+
+class Flashman extends Entity
 {
-    Engine.Object.call(this);
-    this.isFlashing = false;
+    constructor() {
+        super();
+        this.isFlashing = false;
+    }
+
+    routeAnimation()
+    {
+        if (this.weapon._firing) {
+            return 'fire';
+        }
+
+        if (!this.jump._ready) {
+            return 'jump';
+        }
+
+        if (this.move._interimSpeed) {
+            return 'run';
+        }
+
+        if (this.isFlashing) {
+            return 'flash';
+        }
+
+        return 'idle';
+    }
 }
 
-Engine.Util.extend(Engine.objects.characters.Flashman,
-                   Engine.Object);
-
-Engine.objects.characters.Flashman.prototype.routeAnimation = function()
-{
-    if (this.weapon._firing) {
-        return 'fire';
-    }
-
-    if (!this.jump._ready) {
-        return 'jump';
-    }
-
-    if (this.move._interimSpeed) {
-        return 'run';
-    }
-
-    if (this.isFlashing) {
-        return 'flash';
-    }
-
-    return 'idle';
-}
+export default Flashman;

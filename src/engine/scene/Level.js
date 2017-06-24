@@ -1,6 +1,9 @@
-'use strict';
+const THREE = require('three');
+const Keyboard = require('../Keyboard');
+const Scene = require('../Scene');
+const SyncPromise = require('../SyncPromise');
 
-Engine.scenes.Level = class Level extends Engine.Scene
+class Level extends Scene
 {
     constructor()
     {
@@ -76,7 +79,7 @@ Engine.scenes.Level = class Level extends Engine.Scene
     }
     createCharacterInput(game)
     {
-        const input = new Engine.Keyboard();
+        const input = new Keyboard();
         const player = game.player;
 
         input.intermittent(input.LEFT,
@@ -140,7 +143,7 @@ Engine.scenes.Level = class Level extends Engine.Scene
     }
     createMenuInput()
     {
-        var input = new Engine.Keyboard;
+        var input = new Keyboard;
         return input;
     }
     detectCheckpoint()
@@ -169,7 +172,7 @@ Engine.scenes.Level = class Level extends Engine.Scene
     readyBlink()
     {
         if (this.readyBlinkTime === 0 || !this.assets['start-caption']) {
-            return Engine.SyncPromise.resolve();
+            return SyncPromise.resolve();
         }
 
         const model = this.assets['start-caption'];
@@ -269,3 +272,5 @@ Engine.scenes.Level = class Level extends Engine.Scene
         this.events.trigger(this.EVENT_PLAYER_RESET);
     }
 }
+
+module.exports = Level;

@@ -1,5 +1,6 @@
-Engine.traits.ContactDamage =
-class ContactDamage extends Engine.Trait
+const Trait = require('../Trait');
+
+class ContactDamage extends Trait
 {
     constructor()
     {
@@ -19,3 +20,5 @@ class ContactDamage extends Engine.Trait
         }
     }
 }
+
+module.exports = ContactDamage;

@@ -1,6 +1,8 @@
-'use strict';
+const THREE = require('three');
+const CanvasUtil = require('../../CanvasUtil');
+const Path = require('../../CameraPath');
+const Util = require('../../Util');
 
-Engine.Loader.XML.Parser =
 class Parser
 {
     constructor(loader)
@@ -15,8 +17,8 @@ class Parser
     createObject(name, ext, func)
     {
         const fnName = name.replace(/-/g, '');
-        const object = Engine.Util.renameFunction(fnName, func);
-        Engine.Util.extend(object, ext);
+        const object = Util.renameFunction(fnName, func);
+        Util.extend(object, ext);
         return object;
     }
     getArray(nodes, attr)
@@ -62,7 +64,7 @@ class Parser
     getCameraPath(pathNode)
     {
         const z = 150;
-        const path = new Engine.Camera.Path();
+        const path = new Path();
         /* y1 and y2 is swapped because they are converted to negative values and
            y2 should always be bigger than y1. */
         const windowNode = pathNode.getElementsByTagName('window')[0];
@@ -211,7 +213,7 @@ class Parser
 
         function createReplace(colorIn, colorOut) {
             return function colorReplace(canvas) {
-                return Engine.CanvasUtil.colorReplace(canvas,
+                return CanvasUtil.colorReplace(canvas,
                     colorIn, colorOut);
             }
         }
@@ -235,7 +237,7 @@ class Parser
 
             if (textureScale !== 1) {
                 effects.push(function(canvas) {
-                    return Engine.CanvasUtil.scale(canvas, textureScale);
+                    return CanvasUtil.scale(canvas, textureScale);
                 });
             }
 
@@ -260,7 +262,7 @@ class Parser
     }
     getVector3(node, attrX, attrY, attrZ)
     {
-        if (arguments.length == 2) {
+        if (arguments.length === 2) {
             const aggr = this.getAttr(node, attrX).split(',');
             const vec = new THREE.Vector3();
             vec.x = aggr[0] ? parseFloat(aggr[0]) : undefined;
@@ -298,3 +300,5 @@ class Parser
         return baseUrl + url;
     }
 }
+
+module.exports = Parser;

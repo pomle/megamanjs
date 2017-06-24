@@ -1,12 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-
-const Camera = env.Engine.Camera;
-const THREE = env.THREE;
+const THREE = require('three');
+const Camera = require('../../src/engine/Camera');
+const CameraPath = require('../../src/engine/CameraPath');
 
 describe('Camera', function() {
   let camera;
@@ -33,7 +30,7 @@ describe('Camera', function() {
   });
   describe('#addPath()', function() {
     it('should add a path to path array', function() {
-      const path = new Camera.Path();
+      const path = new CameraPath();
       camera.addPath(path);
       expect(camera.paths).to.have.length(1);
       expect(camera.paths[0]).to.be(path);
@@ -79,8 +76,8 @@ describe('Camera', function() {
   describe('#findPath()', function() {
     const camera = new Camera(new THREE.Camera());
     const path = [
-      new Camera.Path(),
-      new Camera.Path(),
+      new CameraPath(),
+      new CameraPath(),
     ];
     // First square window
     path[0].setWindow(0, 0, 100, 100);
@@ -131,7 +128,7 @@ describe('Camera', function() {
   });
   describe('#jumpToPath()', function() {
     it('should set camera position to vector and constrain it to path', function() {
-      const path = new Camera.Path();
+      const path = new CameraPath();
       camera.addPath(path);
       path.setConstraint(5, 7, 15, 17);
       camera.jumpToPath(new THREE.Vector2(0, 0));
@@ -191,7 +188,7 @@ describe('Camera', function() {
 
   describe('Path', function() {
     context('when instantiating', function() {
-      const path = new Camera.Path();
+      const path = new CameraPath();
       it('should contain windows and constraint vectors', function() {
         expect(path.constraint[0]).to.be.a(THREE.Vector3);
         expect(path.constraint[1]).to.be.a(THREE.Vector3);
@@ -200,7 +197,7 @@ describe('Camera', function() {
       });
     });
     describe('#constrain()', function() {
-      const path = new Camera.Path();
+      const path = new CameraPath();
       path.setConstraint(-100, -10, 100, 10);
       context('when vector inside constraint', function() {
         it('should leave vector untouched', function() {
@@ -226,7 +223,7 @@ describe('Camera', function() {
       });
     });
     describe('#inWindow()', function() {
-      const path = new Camera.Path();
+      const path = new CameraPath();
       path.setWindow(-5, -5, 5, 5);
       it('should return false if any vector component outside window', function() {
         const vec = new THREE.Vector2();
@@ -251,7 +248,7 @@ describe('Camera', function() {
     });
     describe('#setConstraint()', function() {
       it('should assign constraint coordinates correctly', function() {
-        const path = new Camera.Path();
+        const path = new CameraPath();
         path.setConstraint(-10, -15, 10, 15);
         expect(path.constraint[0].x).to.equal(-10);
         expect(path.constraint[0].y).to.equal(-15);
@@ -261,7 +258,7 @@ describe('Camera', function() {
     });
     describe('#setWindow()', function() {
       it('should assign window coordinates correctly', function() {
-        const path = new Camera.Path();
+        const path = new CameraPath();
         path.setWindow(-10, -15, 10, 15);
         expect(path.window[0].x).to.equal(-10);
         expect(path.window[0].y).to.equal(-15);

@@ -1,5 +1,7 @@
-Engine.traits.Teleport =
-class Teleport extends Engine.Trait
+const Trait = require('../Trait');
+const {vectorTraverse} = require('../Util');
+
+class Teleport extends Trait
 {
     constructor()
     {
@@ -78,7 +80,7 @@ class Teleport extends Engine.Trait
         }
         else {
             this.state = this.STATE_GO;
-            const teleportDistance = Engine.Animation.vectorTraverse(
+            const teleportDistance = vectorTraverse(
                 this._host.position, this._destination, this.speed * dt);
             if (teleportDistance === 0) {
                 this._trigger(this.EVENT_DEST_REACHED);
@@ -103,3 +105,5 @@ class Teleport extends Engine.Trait
         this._start();
     }
 }
+
+module.exports = Teleport;

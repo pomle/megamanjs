@@ -1,4 +1,3 @@
-Engine.Mouse =
 class Mouse
 {
     static sluggish(callback, sluggery = 5) {
@@ -16,3 +15,5 @@ class Mouse
         }
     }
 }
+
+module.exports = Mouse;

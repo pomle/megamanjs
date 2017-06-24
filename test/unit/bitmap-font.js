@@ -1,12 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-
+const THREE = require('three');
 const CanvasMock = require('../mocks/canvas-mock');
-const BitmapFont = env.Engine.BitmapFont;
+const BitmapFont = require('../../src/engine/BitmapFont');
 
 describe('Bitmap Font', () => {
   beforeEach(() => {

@@ -1,15 +1,11 @@
 module.exports = function(_config) {
 
   const dependencies = [];
-  dependencies.push('./src/lib/three.js');
+  dependencies.push('./dist/engine.js');
   dependencies.push('./test/browser-support/webgl-mock.js');
 
-  const projectFiles = require('./src/script-manifest.json').map(src => 'src/' + src);
-
-  dependencies.push(...projectFiles);
-
   const testFiles = [
-    {pattern: 'src/resource/**', watched: true, included: false},
+    {pattern: 'dist/resource/**', watched: true, included: false},
     {pattern: 'test/integration/fixtures/**', watched: true, included: false},
     {pattern: 'test/system/input/**', watched: true, included: false},
     'test/browser-support/lib/expect.js',
@@ -50,16 +46,8 @@ module.exports = function(_config) {
 
     customContextFile: 'test/browser-support/context.html',
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-      'src/game/**/*.js': 'coverage',
-      'src/engine/**/*.js': 'coverage',
-    },
-
     proxies: {
-      '/build/': '/base/build/',
-      '/src/': '/base/src/',
+      '/dist/': '/base/dist/',
       '/test/': '/base/test/',
     },
 

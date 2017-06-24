@@ -1,10 +1,7 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const SyncPromise = env.Engine.SyncPromise;
+const SyncPromise = require('../../src/engine/SyncPromise');
 
 describe('SyncPromise', function() {
   it('should call thenable callback when resolved', function() {

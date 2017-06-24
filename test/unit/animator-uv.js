@@ -3,11 +3,10 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const UVAnimator = Engine.Animator.UV;
-const Animation = Engine.Animator.Animation;
-const UVCoords = Engine.UVCoords;
-const PlaneGeometry = THREE.PlaneGeometry;
+const {PlaneGeometry} = require('three');
+const UVAnimator = require('../../src/engine/animator/UV');
+const Animation = require('../../src/engine/Animation');
+const UVCoords = require('../../src/engine/UVCoords');
 
 describe('UV Animator', () => {
   let animator;

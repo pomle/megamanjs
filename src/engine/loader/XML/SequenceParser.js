@@ -1,7 +1,7 @@
-'use strict';
+const Parser = require('./Parser');
+const ActionParser = require('./ActionParser');
 
-Engine.Loader.XML.SequenceParser =
-class SequenceParser extends Engine.Loader.XML.Parser
+class SequenceParser extends Parser
 {
     getSequences(sequencesNode)
     {
@@ -19,7 +19,7 @@ class SequenceParser extends Engine.Loader.XML.Parser
     }
     getSequence(sequenceNode)
     {
-        const actionParser = new Engine.Loader.XML.ActionParser;
+        const actionParser = new ActionParser();
         const nodes = sequenceNode.querySelectorAll('action');
         const sequence = [];
         for (let node, i = 0; node = nodes[i]; ++i) {
@@ -29,3 +29,5 @@ class SequenceParser extends Engine.Loader.XML.Parser
         return sequence;
     }
 }
+
+module.exports = SequenceParser;

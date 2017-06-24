@@ -1,8 +1,8 @@
-'use strict';
+import SceneParser from './SceneParser';
+import StageSelect from '../../scene/StageSelect';
+import Util from '../../Util';
 
-Engine.Loader.XML.StageSelectParser =
-class StageSelectParser
-extends Engine.Loader.XML.SceneParser
+class StageSelectParser extends SceneParser
 {
     constructor(loader, node)
     {
@@ -14,7 +14,7 @@ extends Engine.Loader.XML.SceneParser
     }
     _parse()
     {
-        this._scene = new Engine.scenes.StageSelect;
+        this._scene = new StageSelect;
 
         this._parseAudio();
         this._parseEvents();
@@ -30,7 +30,7 @@ extends Engine.Loader.XML.SceneParser
     _createCaption(text)
     {
         text = text.split(" ");
-        text[1] = Engine.Util.string.fill(" ", 6 - text[1].length) + text[1];
+        text[1] = Util.string.fill(" ", 6 - text[1].length) + text[1];
         text = text.join("\n");
         return this.loader.resourceManager.get('font', 'nintendo')(text).createMesh();
     }
@@ -118,3 +118,5 @@ extends Engine.Loader.XML.SceneParser
         });
     }
 }
+
+export default StageSelectParser;

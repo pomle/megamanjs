@@ -1,9 +1,8 @@
-'use strict';
+const Easing = require('./Easing');
 
-Engine.Tween =
 class Tween
 {
-    constructor(to, easing = Engine.Easing.linear())
+    constructor(to, easing = Easing.linear())
     {
         this._setGoal(to);
         this._easing = easing;
@@ -59,3 +58,5 @@ class Tween
         });
     }
 }
+
+module.exports = Tween;

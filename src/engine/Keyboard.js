@@ -1,6 +1,6 @@
-'use strict';
+const Events = require('./Events');
 
-Engine.Keyboard = class Keyboard
+class Keyboard
 {
     constructor()
     {
@@ -20,8 +20,8 @@ Engine.Keyboard = class Keyboard
 
         this._enabled = true;
 
-        this.events = new Engine.Events(this);
-        this._events = new Engine.Events();
+        this.events = new Events(this);
+        this._events = new Events();
 
         this._map = {
             65: this.LEFT,
@@ -106,3 +106,6 @@ Engine.Keyboard = class Keyboard
         delete this._map[key];
     }
 }
+
+module.exports = Keyboard;
+

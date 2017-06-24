@@ -1,11 +1,7 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-
-const Energy = env.Engine.logic.Energy;
+const Energy = require('../../src/engine/logic/Energy');
 
 describe('Energy', function() {
   describe('when instantiating with no args', () => {

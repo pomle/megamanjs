@@ -1,4 +1,5 @@
-Engine.SequenceManager =
+const SyncPromise = require('./SyncPromise');
+
 class SequenceManager
 {
     constructor(host)
@@ -31,7 +32,7 @@ class SequenceManager
                 steps.shift().forEach(action => {
                     tasks.push(action.call(this._host));
                 });
-                return Engine.SyncPromise.all(tasks).then(() => {
+                return SyncPromise.all(tasks).then(() => {
                     return next();
                 });
             }
@@ -48,3 +49,5 @@ class SequenceManager
         return next();
     }
 }
+
+module.exports = SequenceManager;

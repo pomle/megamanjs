@@ -1,18 +1,16 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
 const AudioContextMock = require('../mocks/audiocontext-mock');
-const AudioPlayer = env.Engine.AudioPlayer;
+const Audio = require('../../src/engine/Audio');
+const AudioPlayer = require('../../src/engine/AudioPlayer');
 
 describe('AudioPlayer', function() {
 
   function createAudioMock()
   {
     const bufferMock = '3fa0b830-3218-11e6-b350-1040f388afa6';
-    return new Engine.Audio(bufferMock);
+    return new Audio(bufferMock);
   }
 
   function createAudioPlayer()

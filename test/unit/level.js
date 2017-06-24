@@ -1,5 +1,3 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
@@ -7,25 +5,35 @@ const env = require('../env');
 const AudioContextMock = require('../mocks/audiocontext-mock');
 const WebGLRendererMock = require('../mocks/webglrenderer-mock');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
-const Game = env.Engine.Game;
-const Object = env.Engine.Object;
-const Level = env.Engine.scenes.Level;
+
+const Game = require('../../src/engine/Game');
+const Entity = require('../../src/engine/Object');
+const Level = require('../../src/engine/scene/Level');
+const Health = require('../../src/engine/traits/Health');
+const Teleport = require('../../src/engine/traits/Teleport');
 
 describe('Level', function() {
-  function createLevel() {
+  beforeEach(() => {
       AudioContextMock.mock();
       WebGLRendererMock.mock();
       RequestAnimationFrameMock.mock();
-      const level = new Level();
-      const game = new Game();
-      const character = new Object;
-      character.applyTrait(new Engine.traits.Health);
-      character.applyTrait(new Engine.traits.Teleport);
-      game.player.setCharacter(character);
-      level.events.trigger(level.EVENT_CREATE, [game]);;
+  });
+
+  afterEach(() => {
       AudioContextMock.clean();
       WebGLRendererMock.clean();
       RequestAnimationFrameMock.clean();
+  });
+
+  function createLevel() {
+      const level = new Level();
+      const game = new Game();
+      const character = new Entity;
+      character.applyTrait(new Health);
+      character.applyTrait(new Teleport);
+      console.log(character);
+      game.player.setCharacter(character);
+      level.events.trigger(level.EVENT_CREATE, [game]);;
       return level;
   }
 
@@ -73,7 +81,7 @@ describe('Level', function() {
   describe('#resetObjects', function() {
     it('should run reset function on every trait of every object if available', function() {
       const level = createLevel();
-      const thing = new Engine.Object();
+      const thing = new Entity();
       const resetSpy = sinon.spy();
       thing.traits = [
         { reset: resetSpy },
@@ -88,7 +96,7 @@ describe('Level', function() {
   describe('#resetPlayer()', function() {
     it('should run reset on player', function() {
       const level = createLevel();
-      const character = new Object;
+      const character = new Entity;
       character.reset = sinon.spy();
       level.player = { character };
       level.resetPlayer();

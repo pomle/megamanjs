@@ -1,11 +1,13 @@
-Engine.traits.Fallaway =
-class Fallaway extends Engine.Trait
+const Trait = require('../Trait');
+const Physics = require('./Physics');
+
+class Fallaway extends Trait
 {
     constructor()
     {
         super();
         this.NAME = 'fallaway';
-        this.__requires(Engine.traits.Physics);
+        this.__requires(Physics);
 
         this._countdown = null;
         this._origin = null;
@@ -43,3 +45,5 @@ class Fallaway extends Engine.Trait
         }
     }
 }
+
+module.exports = Fallaway;

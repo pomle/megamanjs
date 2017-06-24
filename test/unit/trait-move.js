@@ -1,12 +1,9 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const World = env.Engine.World;
-const Object = env.Engine.Object;
-const Move = env.Engine.traits.Move;
+const Object = require('../../src/engine/Object');
+const World = require('../../src/engine/World');
+const Move = require('../../src/engine/traits/Move');
 
 describe('Move Trait', function() {
   function createPlayer()

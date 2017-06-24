@@ -1,10 +1,8 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const Animation = Engine.Animator.Animation;
+const Animation = require('../../src/engine/Animation');
+const Timeline = require('../../src/engine/Timeline');
 
 describe('Animation', () => {
   describe('on instantiation', () => {
@@ -63,7 +61,7 @@ describe('Animation', () => {
           });
 
           it('instantiates a timeline', () => {
-            expect(animation.timeline).to.be.a(Engine.Timeline);
+            expect(animation.timeline).to.be.a(Timeline);
           });
 
           describe('#getIndex()', () => {

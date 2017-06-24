@@ -1,6 +1,4 @@
-'use strict';
-
-Engine.Easing = {
+const Easing = {
     linear: () => {
         return t => t;
     },
@@ -66,3 +64,5 @@ Engine.Easing = {
         }
     },
 }
+
+module.exports = Easing;

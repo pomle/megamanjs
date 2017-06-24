@@ -1,5 +1,10 @@
-Engine.traits.Light =
-class Light extends Engine.Trait
+const {SpotLight, Vector2} = require('three');
+const Easing = require('../Easing');
+const Events = require('../Events');
+const Trait = require('../Trait');
+const Tween = require('../Tween');
+
+class Light extends Trait
 {
     constructor()
     {
@@ -8,13 +13,13 @@ class Light extends Engine.Trait
 
         this.EVENT_LAMP_CHANGE = 'lamp_change';
 
-        this.direction = new THREE.Vector2();
-        this.events = new Engine.Events();
+        this.direction = new Vector2();
+        this.events = new Events();
 
         this.lamps = [];
         this.threshold = .8;
-        this.easeOn = Engine.Easing.easeOutElastic();
-        this.easeOff = Engine.Easing.easeOutQuint();
+        this.easeOn = Easing.easeOutElastic();
+        this.easeOff = Easing.easeOutQuint();
 
         this._nextUpdate = 0;
         this._updateFrequency = 2.5;
@@ -76,7 +81,7 @@ class Light extends Engine.Trait
             return;
         }
         lamp.state = true;
-        const tween = new Engine.Tween({intensity: lamp.intensity}, this.easeOn);
+        const tween = new Tween({intensity: lamp.intensity}, this.easeOn);
         tween.addSubject(lamp.light);
         this._host.doFor(lamp.heatUpTime, (elapsed, progress) => {
             tween.update(progress);
@@ -88,7 +93,7 @@ class Light extends Engine.Trait
             return;
         }
         lamp.state = false;
-        const tween = new Engine.Tween({intensity: 0}, this.easeOff);
+        const tween = new Tween({intensity: 0}, this.easeOff);
         tween.addSubject(lamp.light);
         this._host.doFor(lamp.coolDownTime, (elapsed, progress) => {
             tween.update(progress);
@@ -96,7 +101,7 @@ class Light extends Engine.Trait
     }
     addLamp(light)
     {
-        var lamp = new Engine.traits.Light.Lamp(light);
+        const lamp = new Lamp(light);
         this.lamps.push(lamp);
         return lamp;
     }
@@ -115,13 +120,12 @@ class Light extends Engine.Trait
     }
 }
 
-Engine.traits.Light.Lamp =
 class Lamp
 {
     constructor(light)
     {
         if (light === undefined) {
-            this.light = new THREE.SpotLight(0xffffff, 0, 100);
+            this.light = new SpotLight(0xffffff, 0, 100);
         }
         else {
             this.light = light;
@@ -135,3 +139,7 @@ class Lamp
         this.state = false;
     }
 }
+
+Light.Lamp = Lamp;
+
+module.exports = Light;

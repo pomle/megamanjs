@@ -1,11 +1,8 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
-const Scene = env.Engine.Scene;
+const Scene = require('../../src/engine/Scene');
 
 describe('Scene', function() {
   function createScene() {

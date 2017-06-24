@@ -1,6 +1,8 @@
-'use strict';
+const { Vector2 } = require('three');
+const BoundingBox = require('./BoundingBox');
+const Entity = require('./Object');
+const Math = require('./Math');
 
-Engine.Collision =
 class Collision
 {
     constructor()
@@ -15,12 +17,12 @@ class Collision
     }
     addObject(object)
     {
-        if (object instanceof Engine.Object !== true) {
+        if (object instanceof Entity !== true) {
             throw new TypeError('Collidable wrong type');
         }
         this.objects.push(object);
         this.collisionIndex.push([]);
-        this.positionCache.push(new THREE.Vector2().set());
+        this.positionCache.push(new Vector2().set());
     }
     garbageCollect()
     {
@@ -115,76 +117,10 @@ class Collision
     }
     zonesCollide(object1, zone1, object2, zone2)
     {
-        return Engine.Math.Geometry.rectanglesIntersect(
+        return Math.Geometry.rectanglesIntersect(
             zone1.x, zone1.y, zone1.w, zone1.h,
             zone2.x, zone2.y, zone2.w, zone2.h);
     }
 }
 
-Engine.Collision.BoundingBox = class BoundingBox
-{
-    constructor(hostPos, size, offset)
-    {
-        this.position = hostPos;
-        this.offset = offset;
-
-        this.w = size.x;
-        this.h = size.y;
-        this.width = size.x;
-        this.height = size.y;
-
-        this._w = this.w / 2;
-        this._h = this.h / 2;
-    }
-}
-
-Object.defineProperties(Engine.Collision.BoundingBox.prototype, {
-    x: {
-        get: function() {
-            return this.position.x + this.offset.x;
-        },
-        set: function(v) {
-            this.position.x = v - this.offset.x;
-        },
-    },
-    y: {
-        get: function() {
-            return this.position.y + this.offset.y;
-        },
-        set: function(v) {
-            this.position.y = v - this.offset.y;
-        },
-    },
-    left: {
-        get: function() {
-            return this.x - this._w;
-        },
-        set: function(v) {
-            this.x = v + this._w;
-        },
-    },
-    right: {
-        get: function() {
-            return this.x + this._w;
-        },
-        set: function(v) {
-            this.x = v - this._w;
-        },
-    },
-    top: {
-        get: function() {
-            return this.y + this._h;
-        },
-        set: function(v) {
-            this.y = v - this._h;
-        },
-    },
-    bottom: {
-        get: function() {
-            return this.y - this._h;
-        },
-        set: function(v) {
-            this.y = v + this._h;
-        },
-    },
-});
+module.exports = Collision;

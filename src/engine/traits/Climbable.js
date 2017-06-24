@@ -1,5 +1,6 @@
-Engine.traits.Climbable =
-class Climbable extends Engine.traits.Solid
+const Solid = require('./Solid');
+
+class Climbable extends Solid
 {
     constructor()
     {
@@ -25,3 +26,5 @@ class Climbable extends Engine.traits.Solid
         this.ignore.delete(subject);
     }
 }
+
+module.exports = Climbable;

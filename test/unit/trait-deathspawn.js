@@ -1,13 +1,10 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const World = env.Engine.World;
-const Object = env.Engine.Object;
-const Health = env.Engine.traits.Health;
-const DeathSpawn = env.Engine.traits.DeathSpawn;
+const Object = require('../../src/engine/Object');
+const World = require('../../src/engine/World');
+const Health = require('../../src/engine/traits/Health');
+const DeathSpawn = require('../../src/engine/traits/DeathSpawn');
 
 describe('DeathSpawn Trait', function() {
   function createDeathSpawner()

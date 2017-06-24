@@ -1,8 +1,8 @@
-'use strict';
+const {Vector2} = require('three');
+const Parser = require('./Parser');
+const Solid = require('../../traits/Solid');
 
-Engine.Loader.XML.TraitParser =
-class TraitParser
-extends Engine.Loader.XML.Parser
+class TraitParser extends Parser
 {
     constructor(loader)
     {
@@ -57,10 +57,12 @@ extends Engine.Loader.XML.Parser
     getConstructor(name)
     {
         const type = this.TRAIT_MAP[name];
-        if (!type || !Engine.traits[type]) {
+        const ref = require('../../traits/' + type);
+        const Trait = ref.default ? ref.default : ref;
+        if (!Trait) {
             throw new TypeError(`Trait type "${name}"" does not exist`);
         }
-        return Engine.traits[type];
+        return Trait;
     }
     getSetup(node)
     {
@@ -107,7 +109,7 @@ extends Engine.Loader.XML.Parser
                 });
             };
         } else if (name === 'fixed-force') {
-            const vec = new THREE.Vector2;
+            const vec = new Vector2;
             vec.x = this.getFloat(node, 'x') || 0;
             vec.y = this.getFloat(node, 'y') || 0;
             return function setup(trait) {
@@ -115,7 +117,7 @@ extends Engine.Loader.XML.Parser
             };
         } else if (name === 'jump') {
             const duration = this.getFloat(node, 'duration');
-            const force = new THREE.Vector2();
+            const force = new Vector2();
             force.x = this.getFloat(node, 'forward') || 0;
             force.y = this.getFloat(node, 'force') || 0;
             return function setup(trait) {
@@ -195,7 +197,7 @@ extends Engine.Loader.XML.Parser
             };
         } else if (name === 'weapon') {
             const emitNode = node.getElementsByTagName('projectile-emit')[0];
-            const projectileEmitOffset = emitNode && this.getVector2(emitNode) || new THREE.Vector2(0,0);
+            const projectileEmitOffset = emitNode && this.getVector2(emitNode) || new Vector2(0,0);
             const projectileEmitRadius = emitNode && this.getFloat(emitNode, 'r') || 0;
             return function setup(trait) {
                 trait.projectileEmitOffset.copy(projectileEmitOffset);
@@ -226,7 +228,7 @@ extends Engine.Loader.XML.Parser
         const attack = node.getAttribute(attr);
         if (attack) {
             const surfaces = [];
-            const SIDES = Engine.traits.Solid.SIDES;
+            const SIDES = Solid.SIDES;
             const map = {
                 'top': SIDES.TOP,
                 'bottom': SIDES.BOTTOM,
@@ -256,3 +258,5 @@ extends Engine.Loader.XML.Parser
         return this.createConstructor(blueprint);
     }
 }
+
+module.exports = TraitParser;

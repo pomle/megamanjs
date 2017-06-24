@@ -1,15 +1,10 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-
-const Host = env.Engine.Object;
-const World = env.Engine.World;
-const Solid = env.Engine.objects.Solid;
-const Character = env.Engine.objects.Character;
-const Physics = env.Engine.traits.Physics;
+const Host = require('../../src/engine/Object');
+const World = require('../../src/engine/World');
+const Physics = require('../../src/engine/traits/Physics');
+const Solid = require('../../src/engine/traits/Solid');
 
 describe('Physics', function() {
   it('should bind to timeshift event of host', function() {

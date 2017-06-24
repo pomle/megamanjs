@@ -1,5 +1,6 @@
-Engine.objects.weapons.Plasma =
-class Plasma extends Engine.objects.Weapon
+import Weapon from '../Weapon';
+
+class Plasma extends Weapon
 {
     fire()
     {
@@ -11,3 +12,5 @@ class Plasma extends Engine.objects.Weapon
         return true;
     }
 }
+
+export default Plasma;

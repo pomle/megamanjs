@@ -1,10 +1,7 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const Util = env.Engine.Util;
+const Util = require('../../src/engine/Util');
 
 describe('Util', function() {
   describe('#renameFunction', () => {

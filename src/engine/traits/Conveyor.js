@@ -1,17 +1,19 @@
-Engine.traits.Conveyor =
-class Conveyor extends Engine.traits.Solid
+const {Vector2} = require('three');
+const Solid = require('./Solid');
+
+class Conveyor extends Solid
 {
     constructor()
     {
         super();
         this.NAME = 'conveyor';
-        this.velocity = new THREE.Vector2(40, 0);
+        this.velocity = new Vector2(40, 0);
         this.fixed = true;
         this.obstructs = true;
     }
     __collides(subject)
     {
-        const attack = super.__collides.apply(this, arguments);
+        const attack = super.__collides(...arguments);
         if (attack === this.TOP) {
             subject.velocity.copy(this.velocity);
         }
@@ -24,3 +26,5 @@ class Conveyor extends Engine.traits.Solid
         vel.x = -vel.x;
     }
 }
+
+module.exports = Conveyor;

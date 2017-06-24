@@ -1,5 +1,7 @@
-Engine.traits.Jump =
-class Jump extends Engine.Trait
+const THREE = require('three');
+const Trait = require('../Trait');
+
+class Jump extends Trait
 {
     constructor()
     {
@@ -99,3 +101,5 @@ class Jump extends Engine.Trait
         this._fallcount = 0;
     }
 }
+
+module.exports = Jump;

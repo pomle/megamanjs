@@ -1,12 +1,14 @@
-'use strict';
+const THREE = require('three');
+const { Vector2 } = THREE;
+const { nextPowerOf } = require('./Math');
+const UVCoords = require('./UVCoords');
 
-Engine.BitmapFont =
 class BitmapFont
 {
     constructor(map, size, image)
     {
         this.charMap = map;
-        this.charSize = new THREE.Vector2(size.x, size.y);
+        this.charSize = new Vector2(size.x, size.y);
         this.image = image;
         this.scale = 1;
     }
@@ -18,11 +20,11 @@ class BitmapFont
         const lines = string.split("\n");
         const totalLen = lines.reduce((max, line) => Math.max(max, line.length), 0);
 
-        const textSize = new THREE.Vector2(charSize.x * totalLen,
+        const textSize = new Vector2(charSize.x * totalLen,
                                            charSize.y * lines.length);
 
-        const textureSize = new THREE.Vector2(Engine.Math.nextPowerOf(textSize.x),
-                                              Engine.Math.nextPowerOf(textSize.y));
+        const textureSize = new Vector2(nextPowerOf(textSize.x),
+                                        nextPowerOf(textSize.y));
 
         const canvas = document.createElement("canvas");
 
@@ -58,17 +60,17 @@ class BitmapFont
         texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
         texture.needsUpdate = true;
-        return new Engine.BitmapFont.Text(texture, textSize, textureSize);
+        return new Text(texture, textSize, textureSize);
     }
 }
 
-Engine.BitmapFont.Text = class BitMapFontText
+class Text
 {
     constructor(texture, size, textureSize)
     {
         this._texture = texture;
         this._size = size;
-        this._uvMap = new Engine.UVCoords({x: 0, y: 0}, size, textureSize);
+        this._uvMap = new UVCoords({x: 0, y: 0}, size, textureSize);
     }
     getGeometry()
     {
@@ -96,3 +98,7 @@ Engine.BitmapFont.Text = class BitMapFontText
         return new THREE.Mesh(geometry, material);
     }
 }
+
+BitmapFont.Text = Text;
+
+module.exports = BitmapFont;

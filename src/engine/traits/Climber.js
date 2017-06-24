@@ -1,5 +1,6 @@
-Engine.traits.Climber =
-class Climber extends Engine.Trait
+const Trait = require('../Trait');
+
+class Climber extends Trait
 {
     constructor()
     {
@@ -142,3 +143,5 @@ class Climber extends Engine.Trait
         this.release();
     }
 }
+
+module.exports = Climber;

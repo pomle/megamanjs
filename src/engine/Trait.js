@@ -1,4 +1,13 @@
-Engine.Trait =
+const Entity = require('./Object');
+const Events = require('./Events');
+
+const MAGIC_METHODS = {
+    '__collides': Entity.prototype.EVENT_COLLIDE,
+    '__obstruct': Entity.prototype.EVENT_OBSTRUCT,
+    '__uncollides': Entity.prototype.EVENT_UNCOLLIDE,
+    '__timeshift': Entity.prototype.EVENT_TIMESHIFT,
+};
+
 class Trait
 {
     constructor()
@@ -10,21 +19,14 @@ class Trait
         this._host = null;
         this._requires = [];
 
-        this.MAGIC_METHODS = {
-            '__collides':   Engine.Object.prototype.EVENT_COLLIDE,
-            '__obstruct':   Engine.Object.prototype.EVENT_OBSTRUCT,
-            '__uncollides': Engine.Object.prototype.EVENT_UNCOLLIDE,
-            '__timeshift':  Engine.Object.prototype.EVENT_TIMESHIFT,
-        }
-
         this.EVENT_ATTACHED = 'attached';
         this.EVENT_DETACHED = 'detached';
 
-        this.events = new Engine.Events(this);
+        this.events = new Events(this);
 
         /* Bind on instantiation so that
            they can be found when unbound. */
-        Object.keys(this.MAGIC_METHODS).forEach(method => {
+        Object.keys(MAGIC_METHODS).forEach(method => {
             if (this[method]) {
                 this[method] = this[method].bind(this);
                 this._bindables[method] = this[method];
@@ -33,11 +35,12 @@ class Trait
     }
     __attach(host)
     {
-        if (host instanceof Engine.Object === false) {
-            throw new TypeError('Invalid host');
-        }
         if (this._host !== null) {
             throw new Error('Already attached');
+        }
+
+        if (host instanceof Entity !== true) {
+            throw new TypeError('Invalid host');
         }
 
         this._requires.forEach(ref => {
@@ -48,7 +51,7 @@ class Trait
 
         const events = this._host.events;
         Object.keys(this._bindables).forEach(method => {
-            events.bind(this.MAGIC_METHODS[method], this[method]);
+            events.bind(MAGIC_METHODS[method], this[method]);
         });
 
         this.events.trigger(this.EVENT_ATTACHED, [this._host]);
@@ -57,7 +60,7 @@ class Trait
     {
         const events = this._host.events;
         Object.keys(this._bindables).forEach(method => {
-            events.unbind(this.MAGIC_METHODS[method], this[method]);
+            events.unbind(MAGIC_METHODS[method], this[method]);
         });
 
         this.events.trigger(this.EVENT_DETACHED, [this._host]);
@@ -97,4 +100,4 @@ class Trait
     }
 }
 
-Engine.traits = {};
+module.exports = Trait;

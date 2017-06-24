@@ -1,5 +1,8 @@
-Engine.traits.Weapon =
-class Weapon extends Engine.Trait
+const THREE = require('three');
+const Trait = require('../Trait');
+const WeaponEntity = require('../object/Weapon');
+
+class Weapon extends Trait
 {
     constructor()
     {
@@ -44,7 +47,7 @@ class Weapon extends Engine.Trait
     }
     equip(weapon)
     {
-        if (weapon instanceof Engine.objects.Weapon === false) {
+        if (weapon instanceof WeaponEntity === false) {
             throw new Error('Invalid weapon');
         }
         this._weapon = weapon;
@@ -72,3 +75,5 @@ class Weapon extends Engine.Trait
         return true;
     }
 }
+
+module.exports = Weapon;

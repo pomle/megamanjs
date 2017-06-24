@@ -1,9 +1,7 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const Timeline = require('../env.js').Engine.Timeline;
+const Timeline = require('../../src/engine/Timeline');
 
 describe('Timeline', function() {
   it('should hold frame forever if not duration given', function() {

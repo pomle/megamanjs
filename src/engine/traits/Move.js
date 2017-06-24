@@ -1,5 +1,6 @@
-Engine.traits.Move =
-class Move extends Engine.Trait
+const Trait = require('../Trait');
+
+class Move extends Trait
 {
     constructor()
     {
@@ -38,3 +39,5 @@ class Move extends Engine.Trait
         }
     }
 }
+
+module.exports = Move;

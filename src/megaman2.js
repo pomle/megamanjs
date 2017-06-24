@@ -1,6 +1,8 @@
 window.addEventListener('load', function() {
-    const game = new Engine.Game;
-    const loader = new Engine.Loader.XML(game);
+    const {Game, XMLLoader, Mouse, Hud} = window.Engine;
+
+    const game = new Game;
+    const loader = new XMLLoader(game);
     const env = {};
 
     const gameElement = document.getElementById('game');
@@ -116,7 +118,7 @@ window.addEventListener('load', function() {
     }
 
     function setupInterruptDetection() {
-        const sluggishPause = Engine.Mouse.sluggish(pause, 20);
+        const sluggishPause = Mouse.sluggish(pause, 20);
 
         function pause() {
             if (document.body.classList.contains('dev-tools')) {
@@ -237,7 +239,7 @@ window.addEventListener('load', function() {
         game.attachToElement(screenElement);
         game.attachController(window);
 
-        const hud = new Engine.Hud;
+        const hud = new Hud();
         hud.attach(game, screenElement.querySelector('.energy'));
         updateScreen();
         gameElement.classList.add('ready');

@@ -1,11 +1,8 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-
-const Integrator = env.Engine.Verlet;
+const THREE = require('three');
+const Integrator = require('../../src/engine/Verlet');
 
 describe('Integration', function() {
   context('when instantiating with vector', function() {

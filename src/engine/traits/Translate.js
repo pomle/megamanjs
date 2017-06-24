@@ -1,11 +1,13 @@
-Engine.traits.Translate =
-class Translate extends Engine.Trait
+const {Vector2} = require('three');
+const Trait = require('../Trait');
+
+class Translate extends Trait
 {
     constructor()
     {
         super();
         this.NAME = 'translate';
-        this.velocity = new THREE.Vector2(1, 1);
+        this.velocity = new Vector2(1, 1);
     }
     __timeshift(dt)
     {
@@ -14,3 +16,5 @@ class Translate extends Engine.Trait
         pos.y += this.velocity.y * dt;
     }
 }
+
+module.exports = Translate;

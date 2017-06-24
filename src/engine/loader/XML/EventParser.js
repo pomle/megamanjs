@@ -1,8 +1,7 @@
-'use strict';
+const Parser = require('./Parser');
+const ActionParser = require('./ActionParser');
 
-Engine.Loader.XML.EventParser =
-class EventParser
-extends Engine.Loader.XML.Parser
+class EventParser extends Parser
 {
     constructor(loader, node)
     {
@@ -24,7 +23,7 @@ extends Engine.Loader.XML.Parser
     _parseEvents()
     {
         const events = [];
-        const parser = new Engine.Loader.XML.ActionParser;
+        const parser = new ActionParser();
         const actionNodes = this._node.querySelectorAll(':scope > event > action');
         for (let actionNode, i = 0; actionNode = actionNodes[i++];) {
             const name = this.getAttr(actionNode.parentNode, 'name');
@@ -37,3 +36,5 @@ extends Engine.Loader.XML.Parser
         return events;
     }
 }
+
+module.exports = EventParser;

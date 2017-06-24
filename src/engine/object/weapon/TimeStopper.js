@@ -1,5 +1,6 @@
-Engine.objects.weapons.TimeStopper =
-class TimeStopper extends Engine.objects.Weapon
+const Weapon = require('../Weapon');
+
+class TimeStopper extends Weapon
 {
     constructor()
     {
@@ -45,3 +46,5 @@ class TimeStopper extends Engine.objects.Weapon
         super.timeShift(dt);
     }
 }
+
+module.exports = TimeStopper;

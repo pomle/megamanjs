@@ -1,15 +1,12 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
 const NodeMock = require('../mocks/node-mock');
 const AudioContextMock = require('../mocks/audiocontext-mock');
 const WebGLRendererMock = require('../mocks/webglrenderer-mock');
 const RequestAnimationFrameMock = require('../mocks/requestanimationframe-mock');
-const Game = env.Engine.Game;
-const Scene = env.Engine.Scene;
+const Game = require('../../src/engine/Game');
+const Scene = require('../../src/engine/Scene');
 
 describe('Game', function() {
   beforeEach(function() {

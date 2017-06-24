@@ -1,40 +1,43 @@
-Engine.traits.__Skeleton = function()
-{
-    Engine.Trait.call(this);
-    this._privet = 'private value';
-    this.public = 'public value';
-}
+const Trait = require('../Trait');
 
-Engine.Util.extend(Engine.traits.__Skeleton, Engine.Trait);
+class Skeleton extends Trait {
+    constructor() {
+        super();
 
-Engine.traits.__Skeleton.prototype.EVENT_NAME = 'event';
+        this.EVENT_NAME = 'event';
 
-Engine.traits.__Skeleton.prototype.__attach = function(host)
-{
-    Engine.Trait.prototype.__attach.call(this, host);
-}
+        this._private = 'private value';
+        this.public = 'public value';
+    }
 
-Engine.traits.__Skeleton.prototype.__detach = function()
-{
-    Engine.Trait.prototype.__detach.call(this, host);
-}
+    __attach(host)
+    {
+        super.__attach(host);
+    }
 
-Engine.traits.__Skeleton.prototype.__timeshift = function(deltaTime)
-{
-    this._host.setSomething = true;
-    this._host.doSomething();
-    if (this._host.setSomething === true) {
-        this._trigger(this.EVENT_NAME);
+    __detach()
+    {
+        super.__detach(host);
+    }
+
+    __timeshift(deltaTime)
+    {
+        this._host.setSomething = true;
+        this._host.doSomething();
+        if (this._host.setSomething === true) {
+            this._trigger(this.EVENT_NAME);
+        }
+    }
+
+    _private()
+    {
+        console.log('Private method called');
+    }
+
+    public()
+    {
+        console.log('Public method called');
     }
 }
 
-Engine.traits.__Skeleton.prototype._private = function()
-{
-    console.log('Private method called');
-}
-
-Engine.traits.__Skeleton.prototype.public = function()
-{
-    console.log('Public method called');
-}
-
+module.exports = Skeleton;

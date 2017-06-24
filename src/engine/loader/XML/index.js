@@ -1,8 +1,11 @@
-'use strict';
+import Loader from '../../Loader';
+import GameParser from './GameParser';
 
-Engine.Loader.XML =
-class XMLLoader
-extends Engine.Loader
+import SceneParser from './SceneParser';
+import LevelParser from './LevelParser';
+import StageSelectParser from './StageSelectParser';
+
+class XMLLoader extends Loader
 {
     constructor(game)
     {
@@ -28,7 +31,7 @@ extends Engine.Loader
     {
         return this.asyncLoadXML(url).then(doc => {
             const node = doc.querySelector('game');
-            const parser = new Engine.Loader.XML.GameParser(this, node);
+            const parser = new GameParser(this, node);
             return parser.parse();
         });
     }
@@ -56,16 +59,16 @@ extends Engine.Loader
         const type = node.getAttribute('type');
         if (type) {
             if (type === 'level') {
-                const parser = new Engine.Loader.XML.LevelParser(this, node);
+                const parser = new LevelParser(this, node);
                 return parser.getScene();
             } else if (type === 'stage-select') {
-                const parser = new Engine.Loader.XML.StageSelectParser(this, node);
+                const parser = new StageSelectParser(this, node);
                 return parser.getScene();
             } else {
                 throw new Error(`Scene type "${type}" not recognized`);
             }
         } else {
-            const parser = new Engine.Loader.XML.SceneParser(this, node);
+            const parser = new SceneParser(this, node);
             return parser.getScene();
         }
     }
@@ -88,3 +91,5 @@ extends Engine.Loader
         return baseUrl + url;
     }
 }
+
+export default XMLLoader;

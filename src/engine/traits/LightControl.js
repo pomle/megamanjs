@@ -1,12 +1,15 @@
-Engine.traits.LightControl =
-class LightControl extends Engine.Trait
+const {Color} = require('three');
+const Trait = require('../Trait');
+const Tween = require('../Tween');
+
+class LightControl extends Trait
 {
     constructor()
     {
         super();
         this.NAME = 'lightcontrol';
 
-        this.color = new THREE.Color(1,1,1);
+        this.color = new Color(1,1,1);
         this.duration = 1;
 
         this._ignore = new Set();
@@ -21,7 +24,7 @@ class LightControl extends Engine.Trait
             this.color.equals(color) === false &&
             this._ignore.has(withObject) === false)
         {
-            this._tween = new Engine.Tween({
+            this._tween = new Tween({
                 r: this.color.r,
                 g: this.color.g,
                 b: this.color.b,
@@ -49,3 +52,5 @@ class LightControl extends Engine.Trait
         this._tween.update(frac);
     }
 }
+
+module.exports = LightControl;

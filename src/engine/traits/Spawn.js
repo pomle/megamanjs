@@ -1,7 +1,7 @@
-'use strict';
+const { Vector3 } = require('three');
+const Trait = require('../Trait');
 
-Engine.traits.Spawn =
-class Spawn extends Engine.Trait
+class Spawn extends Trait
 {
     constructor()
     {
@@ -33,7 +33,7 @@ class Spawn extends Engine.Trait
     }
     addItem(event, constr, offset)
     {
-        offset = offset || new THREE.Vector3(0, 0, 0);
+        offset = offset || new Vector3(0, 0, 0);
         this._conditions.push({
             event: event,
             callback: function() {
@@ -45,3 +45,5 @@ class Spawn extends Engine.Trait
         });
     }
 }
+
+module.exports = Spawn;

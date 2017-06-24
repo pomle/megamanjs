@@ -1,6 +1,12 @@
-'use strict';
+const AudioManager = require('./AudioManager');
+const Camera = require('./Camera');
+const Events = require('./Events');
+const Keyboard = require('./Keyboard');
+const Loops = require('./Loops');
+const SequenceManager = require('./SequenceManager');
+const Timer = require('./Timer');
+const World = require('./World');
 
-Engine.Scene =
 class Scene
 {
     constructor()
@@ -14,17 +20,17 @@ class Scene
 
         this.EVENT_INPUT = 'input';
 
-        this.audio = new Engine.AudioManager();
-        this.sequencer = new Engine.SequenceManager(this);
-        this.camera = new Engine.Camera;
+        this.audio = new AudioManager();
+        this.sequencer = new SequenceManager(this);
+        this.camera = new Camera;
         this.game = null;
-        this.events = new Engine.Events(this);
-        this.input = new Engine.Keyboard;
-        this.timer = new Engine.Timer;
-        this.world = new Engine.World;
+        this.events = new Events(this);
+        this.input = new Keyboard;
+        this.timer = new Timer;
+        this.world = new World;
 
-        this.doFor = Engine.Loops.doFor(this.world.events, this.world.EVENT_SIMULATE);
-        this.waitFor = Engine.Loops.waitFor(this.world.events, this.world.EVENT_SIMULATE);
+        this.doFor = Loops.doFor(this.world.events, this.world.EVENT_SIMULATE);
+        this.waitFor = Loops.waitFor(this.world.events, this.world.EVENT_SIMULATE);
 
         this.input.events.bind(this.input.EVENT_TRIGGER, (key, type) => {
             this.events.trigger(this.EVENT_INPUT, [key, type]);
@@ -139,4 +145,4 @@ class Scene
     }
 }
 
-Engine.scenes = {};
+module.exports = Scene;

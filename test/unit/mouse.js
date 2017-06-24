@@ -1,10 +1,7 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const Mouse = env.Engine.Mouse;
+const Mouse = require('../../src/engine/Mouse');
 
 describe('Mouse', function() {
   describe('#sluggish()', function() {

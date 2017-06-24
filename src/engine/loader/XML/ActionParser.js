@@ -1,8 +1,9 @@
-'use strict';
+const Parser = require('./Parser');
+const Easing = require('../../Easing');
+const SyncPromise = require('../../SyncPromise');
+const Tween = require('../../Tween');
 
-Engine.Loader.XML.ActionParser =
-class ActionParser
-extends Engine.Loader.XML.Parser
+class ActionParser extends Parser
 {
     constructor()
     {
@@ -45,12 +46,12 @@ extends Engine.Loader.XML.Parser
             const name = comp.shift();
             if (comp.length) {
                 const val = parseFloat(comp[0]);
-                return Engine.Easing[name](val);
+                return Easing[name](val);
             } else {
-                return Engine.Easing[name]();
+                return Easing[name]();
             }
         } else {
-            return Engine.Easing.linear();
+            return Easing.linear();
         }
     }
     _parseActionCameraMove(node)
@@ -98,7 +99,7 @@ extends Engine.Loader.XML.Parser
                     tasks.push(task);
                 });
             });
-            return Engine.SyncPromise.all(tasks);
+            return SyncPromise.all(tasks);
         };
     }
     _parseTransformation(node)
@@ -114,7 +115,7 @@ extends Engine.Loader.XML.Parser
         if (type === 'opacity') {
             const to = this.getFloat(node, 'to');
             return function opacityTransform(object) {
-                const tween = new Engine.Tween({opacity: to}, easing);
+                const tween = new Tween({opacity: to}, easing);
                 tween.addSubject(object.model.material);
                 return object.doFor(duration, (elapsed, progress) => {
                     tween.update(progress);
@@ -123,7 +124,7 @@ extends Engine.Loader.XML.Parser
         } else if (type === 'position') {
             const to = this.getVector3(node, 'to');
             return function positionTransform(object) {
-                const tween = new Engine.Tween(to, easing);
+                const tween = new Tween(to, easing);
                 tween.addSubject(object.position);
                 return object.doFor(duration, (elapsed, progress) => {
                     tween.update(progress);
@@ -137,7 +138,7 @@ extends Engine.Loader.XML.Parser
                 }
             });
             return function rotationTransform(object) {
-                const tween = new Engine.Tween(to, easing);
+                const tween = new Tween(to, easing);
                 tween.addSubject(object.model.rotation);
                 return object.doFor(duration, (elapsed, progress) => {
                     tween.update(progress);
@@ -147,7 +148,7 @@ extends Engine.Loader.XML.Parser
             const to = this.getFloat(node, 'to');
             const vec = new THREE.Vector3(to, to, to);
             return function scaleTransform(object) {
-                const tween = new Engine.Tween(to, easing);
+                const tween = new Tween(to, easing);
                 tween.addSubject(object.model.scale);
             };
         }
@@ -200,3 +201,5 @@ extends Engine.Loader.XML.Parser
         throw new Error(`No action "${type}"`);
     }
 }
+
+module.exports = ActionParser;

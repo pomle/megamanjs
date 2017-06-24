@@ -1,4 +1,12 @@
-Engine.Game = class Game
+const THREE = require('three');
+
+const AudioPlayer = require('./AudioPlayer');
+const Keyboard = require('./Keyboard');
+const Events = require('./Events');
+const Player = require('./Player');
+const Scene = require('./Scene');
+
+class Game
 {
     constructor()
     {
@@ -10,14 +18,14 @@ Engine.Game = class Game
         this._paused = null;
         this._playbackSpeed = 1;
 
-        this.input = new Engine.Keyboard;
-        this.events = new Engine.Events(this);
-        this.audioPlayer = new Engine.AudioPlayer();
+        this.input = new Keyboard;
+        this.events = new Events(this);
+        this.audioPlayer = new AudioPlayer();
         this.renderer = new THREE.WebGLRenderer({
             'antialias': false,
         });
 
-        this.player = new Engine.Player();
+        this.player = new Player();
 
         this.element = null;
         this.scene = null;
@@ -105,7 +113,7 @@ Engine.Game = class Game
     }
     setScene(scene)
     {
-        if (scene instanceof Engine.Scene === false) {
+        if (scene instanceof Scene === false) {
             throw new Error('Invalid scene');
         }
 
@@ -139,3 +147,5 @@ Engine.Game = class Game
         }
     }
 }
+
+module.exports = Game;

@@ -1,15 +1,12 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env');
-const World = env.Engine.World;
-const Object = env.Engine.Object;
-const Elevator = env.Engine.traits.Elevator;
-const Physics = env.Engine.traits.Physics;
-const Solid = env.Engine.traits.Solid;
-const Vec2 = env.THREE.Vector2;
+const { Vector2: Vec2 } = require('three');
+const Object = require('../../src/engine/Object');
+const World = require('../../src/engine/World');
+const Elevator = require('../../src/engine/traits/Elevator');
+const Physics = require('../../src/engine/traits/Physics');
+const Solid = require('../../src/engine/traits/Solid');
 
 describe('Elevator Trait', function() {
   function createCharacter()

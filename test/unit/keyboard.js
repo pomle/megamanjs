@@ -1,10 +1,7 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-const Keyboard = env.Engine.Keyboard;
+const Keyboard = require('../../src/engine/Keyboard');
 
 describe('Keyboard', function() {
   describe('#assign()', function() {

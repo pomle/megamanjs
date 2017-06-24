@@ -1,17 +1,15 @@
-'use strict';
-
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const env = require('../env.js');
-
-const World = env.Engine.World;
-const Host = env.Engine.Object;
-const Spawnable = env.Engine.Object;
-const Spawn = env.Engine.traits.Spawn;
+const THREE = require('three');
+const World = require('../../src/engine/World');
+const Host = require('../../src/engine/Object');
+const Spawnable = Host;
+const Spawn = require('../../src/engine/traits/Spawn');
 
 describe('Trait', function() {
   describe('Spawn', function() {
+    console.log(Host);
     const spawn = new Spawn();
     const world = new World();
     const host = new Host();
