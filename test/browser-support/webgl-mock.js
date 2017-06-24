@@ -5,7 +5,7 @@
  * Include after THREE.js and it will overwrite relevant parts of THREE.js.
  */
 
-Engine.THREE.WebGLRenderer = function() {
+window.THREE.WebGLRenderer = function() {
   this.domElement = document.createElement('canvas');
   this.render = function() {}
   this.setSize = function() {}

@@ -5,15 +5,10 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --progress --colors",
-    "minify": "bash ./tools/minify.sh",
-    "generate": "bash ./tools/generate.sh",
-    "lint": "eslint src/engine/",
+    "lint": "eslint src/",
     "watch": "npm run build -- --watch",
-    "test": "npm run test:unit:coverage && npm run build && npm run test:browser && istanbul report --dir ./test/coverage/summary",
-    "test:unit": "mocha test/unit --require test/env.js",
-    "test:unit:coverage": "istanbul cover --config .istanbul-unit.yml node_modules/mocha/bin/_mocha --require test/env.js test/unit",
-    "test:browser": "karma start .karma.conf --single-run --reporters mocha",
-    "upload-coverage": "codecov -f test/coverage/summary/lcov.info  --disable=gcov"
+    "test": "npm run build && npm run test:browser",
+    "test:browser": "karma start .karma.conf --single-run --reporters mocha"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
@@ -35,7 +30,7 @@
     "karma-mocha-reporter": "^2.1.0",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
-    "snakesilk-engine": "git+https://github.com/snakesilk/snakesilk-engine.git#97d7299",
+    "snakesilk-engine": "git+https://github.com/snakesilk/snakesilk-engine.git#5f8bbf8",
     "webpack": "^3.0.0",
     "xmldom": "^0.1.22"
   }

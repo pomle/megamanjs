@@ -1,6 +1,6 @@
-window.addEventListener('load', function() {
-    const {Game, XMLLoader, Mouse, Hud} = window.Engine;
+const {Game, XMLLoader, Mouse, Hud} = window.Engine;
 
+window.addEventListener('load', function() {
     const game = new Game;
     const loader = new XMLLoader(game);
     const env = {};
