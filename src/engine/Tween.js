@@ -10,7 +10,7 @@ class Tween
     }
     _setGoal(to)
     {
-        this._keys = Object.keys(to).filter(key => to[key] !== null);
+        this._keys = Object.keys(to).filter(key => to[key] != null);
         this._to = to;
     }
     _updateOrigin(subject)

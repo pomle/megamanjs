@@ -8,7 +8,7 @@
     "generate": "bash ./tools/generate.sh",
     "lint": "eslint src/engine/",
     "watch": "npm run build -- --watch",
-    "test": "npm run test:unit:coverage && && npm run build && npm run test:browser && istanbul report --dir ./test/coverage/summary",
+    "test": "npm run test:unit:coverage && npm run build && npm run test:browser && istanbul report --dir ./test/coverage/summary",
     "test:unit": "mocha test/unit --require test/env.js",
     "test:unit:coverage": "istanbul cover --config .istanbul-unit.yml node_modules/mocha/bin/_mocha --require test/env.js test/unit",
     "test:browser": "karma start .karma.conf --single-run --reporters mocha",
