@@ -1,9 +1,6 @@
-import Game from './engine/Game';
-import XMLLoader from './engine/loader/XML';
-import Mouse from './engine/Mouse';
-import Hud from './engine/Hud';
-
 window.addEventListener('load', function() {
+    const {Game, XMLLoader, Mouse, Hud} = window.Engine;
+
     const game = new Game;
     const loader = new XMLLoader(game);
     const env = {};

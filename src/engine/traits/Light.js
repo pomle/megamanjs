@@ -1,7 +1,8 @@
-import {Vector2} from 'three';
+import {SpotLight, Vector2} from 'three';
 import Easing from '../Easing';
 import Events from '../Events';
 import Trait from '../Trait';
+import Tween from '../Tween';
 
 class Light extends Trait
 {
@@ -80,7 +81,7 @@ class Light extends Trait
             return;
         }
         lamp.state = true;
-        const tween = new Engine.Tween({intensity: lamp.intensity}, this.easeOn);
+        const tween = new Tween({intensity: lamp.intensity}, this.easeOn);
         tween.addSubject(lamp.light);
         this._host.doFor(lamp.heatUpTime, (elapsed, progress) => {
             tween.update(progress);
@@ -92,7 +93,7 @@ class Light extends Trait
             return;
         }
         lamp.state = false;
-        const tween = new Engine.Tween({intensity: 0}, this.easeOff);
+        const tween = new Tween({intensity: 0}, this.easeOff);
         tween.addSubject(lamp.light);
         this._host.doFor(lamp.coolDownTime, (elapsed, progress) => {
             tween.update(progress);
@@ -100,7 +101,7 @@ class Light extends Trait
     }
     addLamp(light)
     {
-        var lamp = new Engine.traits.Light.Lamp(light);
+        const lamp = new Lamp(light);
         this.lamps.push(lamp);
         return lamp;
     }
@@ -124,7 +125,7 @@ class Lamp
     constructor(light)
     {
         if (light === undefined) {
-            this.light = new THREE.SpotLight(0xffffff, 0, 100);
+            this.light = new SpotLight(0xffffff, 0, 100);
         }
         else {
             this.light = light;

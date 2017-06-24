@@ -25,7 +25,6 @@ describe('Intro', function() {
     ];
 
     objects.forEach(o => {
-      expect(o).to.be.an(Engine.Object);
       expect(o.model.material.opacity).to.be(0);
     });
 

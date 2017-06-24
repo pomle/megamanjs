@@ -7,10 +7,10 @@ function resolve(...args) {
 }
 
 module.exports = {
-  entry: resolve('src', 'main.js'),
+  entry: resolve('src', 'snakesilk.js'),
   output: {
     path: resolve('dist'),
-    filename: 'bundle.js',
+    filename: 'engine.js',
   },
   module: {
     rules: [
@@ -32,7 +32,10 @@ module.exports = {
         from: resolve('src', 'index.html'),
       },
       {
-        from: resolve('src', 'main.css'),
+        from: resolve('src', 'megaman2.css'),
+      },
+      {
+        from: resolve('src', 'megaman2.js'),
       },
       {
         from: resolve('src', 'resource'),

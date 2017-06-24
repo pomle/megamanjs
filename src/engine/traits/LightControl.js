@@ -1,5 +1,6 @@
 import {Color} from 'three';
 import Trait from '../Trait';
+import Tween from '../Tween';
 
 class LightControl extends Trait
 {
@@ -23,7 +24,7 @@ class LightControl extends Trait
             this.color.equals(color) === false &&
             this._ignore.has(withObject) === false)
         {
-            this._tween = new Engine.Tween({
+            this._tween = new Tween({
                 r: this.color.r,
                 g: this.color.g,
                 b: this.color.b,
