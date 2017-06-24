@@ -7,7 +7,7 @@ function resolve(...args) {
 }
 
 module.exports = {
-  entry: resolve('src', 'snakesilk.js'),
+  entry: resolve('src', 'engine.js'),
   output: {
     path: resolve('dist'),
     filename: 'engine.js',
@@ -16,7 +16,10 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        include: [
+          resolve('src'),
+          resolve('node_modules', 'snakesilk-engine'),
+        ],
         use: {
           loader: 'babel-loader',
           options: {
@@ -32,10 +35,10 @@ module.exports = {
         from: resolve('src', 'index.html'),
       },
       {
-        from: resolve('src', 'megaman2.css'),
+        from: resolve('src', 'megaman2.js'),
       },
       {
-        from: resolve('src', 'megaman2.js'),
+        from: resolve('src', 'megaman2.css'),
       },
       {
         from: resolve('src', 'resource'),
