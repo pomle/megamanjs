@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --progress --colors",
     "minify": "bash ./tools/minify.sh",
     "generate": "bash ./tools/generate.sh",
     "lint": "eslint src/engine src/game",
-    "watch": "webpack --progress --colors --watch",
+    "watch": "npm run build -- --watch",
     "start": "node ./tools/serve-dev.js",
     "test": "npm run test:unit:coverage && npm run test:integration:coverage && istanbul report --dir ./test/coverage/summary",
     "test:unit": "mocha test/unit",
