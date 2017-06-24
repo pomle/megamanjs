@@ -53,4 +53,4 @@ class Disappearing extends Trait
     }
 }
 
-export default Trait;
+export default Disappearing;
