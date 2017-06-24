@@ -2,6 +2,7 @@
   "name": "MegamanJS",
   "version": "0.1.0",
   "repository": "https://github.com/pomle/megamanjs",
+  "license": "MIT",
   "scripts": {
     "build": "webpack --progress --colors",
     "minify": "bash ./tools/minify.sh",
