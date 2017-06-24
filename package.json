@@ -35,6 +35,7 @@
     "karma-mocha-reporter": "^2.1.0",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
+    "snakesilk-engine": "git+https://github.com/snakesilk/snakesilk-engine.git#97d7299",
     "webpack": "^3.0.0",
     "xmldom": "^0.1.22"
   }
