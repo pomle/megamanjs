@@ -262,7 +262,7 @@ class Parser
     }
     getVector3(node, attrX, attrY, attrZ)
     {
-        if (arguments.length == 2) {
+        if (arguments.length === 2) {
             const aggr = this.getAttr(node, attrX).split(',');
             const vec = new THREE.Vector3();
             vec.x = aggr[0] ? parseFloat(aggr[0]) : undefined;

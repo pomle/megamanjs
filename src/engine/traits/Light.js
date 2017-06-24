@@ -1,8 +1,8 @@
-import {SpotLight, Vector2} from 'three';
-import Easing from '../Easing';
-import Events from '../Events';
-import Trait from '../Trait';
-import Tween from '../Tween';
+const {SpotLight, Vector2} = require('three');
+const Easing = require('../Easing');
+const Events = require('../Events');
+const Trait = require('../Trait');
+const Tween = require('../Tween');
 
 class Light extends Trait
 {

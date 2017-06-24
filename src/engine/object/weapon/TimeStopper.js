@@ -1,4 +1,4 @@
-import Weapon from '../Weapon';
+const Weapon = require('../Weapon');
 
 class TimeStopper extends Weapon
 {
@@ -47,4 +47,4 @@ class TimeStopper extends Weapon
     }
 }
 
-export default TimeStopper;
+module.exports = TimeStopper;

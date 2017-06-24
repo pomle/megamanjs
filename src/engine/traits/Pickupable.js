@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class Pickupable extends Trait
 {
@@ -6,7 +6,7 @@ class Pickupable extends Trait
     {
         super();
         this.NAME = 'pickupable';
-        this.EVENT_PICKUP = 'pickup',
+        this.EVENT_PICKUP = 'pickup';
         this.properties = {};
     }
 }

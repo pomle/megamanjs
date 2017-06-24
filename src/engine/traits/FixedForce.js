@@ -1,5 +1,5 @@
-import {Vector2} from 'three';
-import Trait from '../Trait';
+const {Vector2} = require('three');
+const Trait = require('../Trait');
 
 class FixedForce extends Trait
 {
@@ -18,4 +18,4 @@ class FixedForce extends Trait
     }
 }
 
-export default FixedForce;
+module.exports = FixedForce;

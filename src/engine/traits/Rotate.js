@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class Rotate extends Trait {
     constructor() {
@@ -13,4 +13,4 @@ class Rotate extends Trait {
     }
 }
 
-export default Rotate;
+module.exports = Rotate;

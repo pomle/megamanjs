@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class Attach extends Trait
 {
@@ -66,4 +66,4 @@ class Attach extends Trait
     }
 }
 
-export default Trait;
+module.exports = Trait;

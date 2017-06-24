@@ -1,4 +1,4 @@
-import Weapon from '../Weapon';
+const Weapon = require('../Weapon');
 
 class CrashBomber extends Weapon
 {
@@ -7,10 +7,10 @@ class CrashBomber extends Weapon
         if (!super.fire()) {
             return false;
         }
-        var projectile = this.getProjectile();
+        const projectile = this.getProjectile();
         this.emit(projectile);
         return true;
     }
 }
 
-export default CrashBomber;
+module.exports = CrashBomber;

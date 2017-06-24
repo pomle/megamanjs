@@ -1,4 +1,4 @@
-import Weapon from '../Weapon';
+const Weapon = require('../Weapon');
 
 class AirShooter extends Weapon
 {
@@ -25,4 +25,4 @@ class AirShooter extends Weapon
     }
 }
 
-export default AirShooter;
+module.exports = AirShooter;

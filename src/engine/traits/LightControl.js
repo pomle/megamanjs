@@ -1,6 +1,6 @@
-import {Color} from 'three';
-import Trait from '../Trait';
-import Tween from '../Tween';
+const {Color} = require('three');
+const Trait = require('../Trait');
+const Tween = require('../Tween');
 
 class LightControl extends Trait
 {
@@ -53,4 +53,4 @@ class LightControl extends Trait
     }
 }
 
-export default LightControl;
+module.exports = LightControl;

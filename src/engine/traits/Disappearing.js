@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class Disappearing extends Trait
 {
@@ -53,4 +53,4 @@ class Disappearing extends Trait
     }
 }
 
-export default Disappearing;
+module.exports = Disappearing;

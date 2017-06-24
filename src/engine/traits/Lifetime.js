@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class Lifetime extends Trait
 {
@@ -25,4 +25,4 @@ class Lifetime extends Trait
     }
 }
 
-export default Lifetime;
+module.exports = Lifetime;

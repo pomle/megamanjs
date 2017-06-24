@@ -1,5 +1,5 @@
-import THREE from 'three';
-import Light from './Light';
+const THREE = require('three');
+const Light = require('./Light');
 
 class Headlight extends Light
 {

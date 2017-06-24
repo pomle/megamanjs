@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class Skeleton extends Trait {
     constructor() {
@@ -12,12 +12,12 @@ class Skeleton extends Trait {
 
     __attach(host)
     {
-        Engine.Trait.prototype.__attach.call(this, host);
+        super.__attach(host);
     }
 
     __detach()
     {
-        Engine.Trait.prototype.__detach.call(this, host);
+        super.__detach(host);
     }
 
     __timeshift(deltaTime)
@@ -40,4 +40,4 @@ class Skeleton extends Trait {
     }
 }
 
-export default Skeleton;
+module.exports = Skeleton;

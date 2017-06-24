@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class Destructible extends Trait
 {
@@ -18,4 +18,4 @@ class Destructible extends Trait
     }
 }
 
-export default Destructible;
+module.exports = Destructible;
