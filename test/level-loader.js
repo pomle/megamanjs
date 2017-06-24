@@ -28,7 +28,7 @@ function loadLevel(levelName) {
   }
 
   const xml = xmlReader.readXml(__dirname +
-    '/../src/resource/levels/' + levelName + '.xml');
+    '/../dist/resource/levels/' + levelName + '.xml');
 
   const node = xml.getElementsByTagName('scene')[0];
   const levelParser = new LevelParser(loaderMock, node);

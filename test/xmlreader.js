@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs');
 const DOMParser = require('xmldom').DOMParser;
 
