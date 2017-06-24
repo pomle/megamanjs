@@ -1,5 +1,5 @@
-import Parser from './Parser';
-import ActionParser from './ActionParser';
+const Parser = require('./Parser');
+const ActionParser = require('./ActionParser');
 
 class EventParser extends Parser
 {
@@ -37,4 +37,4 @@ class EventParser extends Parser
     }
 }
 
-export default EventParser;
+module.exports = EventParser;

@@ -1,6 +1,5 @@
-import {Vector2} from 'three';
-
-import Parser from './Parser';
+const {Vector2} = require('three');
+const Parser = require('./Parser');
 const Solid = require('../../traits/Solid');
 
 class TraitParser extends Parser
@@ -260,4 +259,4 @@ class TraitParser extends Parser
     }
 }
 
-export default TraitParser;
+module.exports = TraitParser;

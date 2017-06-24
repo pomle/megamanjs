@@ -1,4 +1,4 @@
-import SyncPromise from './SyncPromise';
+const SyncPromise = require('./SyncPromise');
 
 class SequenceManager
 {

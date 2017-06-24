@@ -1,17 +1,17 @@
-import THREE from 'three';
+const THREE = require('three');
 
-import Parser from './Parser';
-import EventParser from './EventParser';
-import ObjectParser from './ObjectParser';
-import SequenceParser from './SequenceParser';
-import TraitParser from './TraitParser';
+const Parser = require('./Parser');
+const EventParser = require('./EventParser');
+const ObjectParser = require('./ObjectParser');
+const SequenceParser = require('./SequenceParser');
+const TraitParser = require('./TraitParser');
 
-import Entity from '../../Object';
-import Scene from '../../Scene';
+const Entity = require('../../Object');
+const Scene = require('../../Scene');
 
-import Climbable from '../../traits/Climbable';
-import DeathZone from '../../traits/DeathZone';
-import Solid from '../../traits/Solid';
+const Climbable = require('../../traits/Climbable');
+const DeathZone = require('../../traits/DeathZone');
+const Solid = require('../../traits/Solid');
 
 class SceneParser extends Parser
 {
@@ -303,4 +303,4 @@ class SceneParser extends Parser
     }
 }
 
-export default SceneParser;
+module.exports = SceneParser;

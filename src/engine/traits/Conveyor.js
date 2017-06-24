@@ -1,5 +1,5 @@
-import {Vector2} from 'three';
-import Solid from './Solid';
+const {Vector2} = require('three');
+const Solid = require('./Solid');
 
 class Conveyor extends Solid
 {
@@ -27,4 +27,4 @@ class Conveyor extends Solid
     }
 }
 
-export default Conveyor;
+module.exports = Conveyor;

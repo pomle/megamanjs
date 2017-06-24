@@ -1,7 +1,7 @@
-import SceneParser from './SceneParser';
-import Level from '../../scene/Level';
+const SceneParser = require('./SceneParser');
+const Level = require('../../scene/Level');
 
-import Spawner from '../../object/Spawner';
+const Spawner = require('../../object/Spawner');
 
 class LevelParser extends SceneParser
 {
@@ -113,4 +113,4 @@ class LevelParser extends SceneParser
     }
 }
 
-export default LevelParser;
+module.exports = LevelParser;

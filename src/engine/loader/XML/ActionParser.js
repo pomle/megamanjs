@@ -1,7 +1,7 @@
-import Parser from './Parser';
-import Easing from '../../Easing';
-import SyncPromise from '../../SyncPromise';
-import Tween from '../../Tween';
+const Parser = require('./Parser');
+const Easing = require('../../Easing');
+const SyncPromise = require('../../SyncPromise');
+const Tween = require('../../Tween');
 
 class ActionParser extends Parser
 {
@@ -202,4 +202,4 @@ class ActionParser extends Parser
     }
 }
 
-export default ActionParser;
+module.exports = ActionParser;

@@ -30,7 +30,7 @@ describe('Jump', function() {
     world.addObject(jumper);
     world.addObject(ground);
 
-    const maxLoops = 40;
+    let maxLoops = 40;
     expect(jumper.jump._ready).to.be(false);
     while (jumper.jump._ready === false && maxLoops--) {
       world.updateTime(step);

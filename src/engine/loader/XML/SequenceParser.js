@@ -1,5 +1,5 @@
-import Parser from './Parser';
-import ActionParser from './ActionParser';
+const Parser = require('./Parser');
+const ActionParser = require('./ActionParser');
 
 class SequenceParser extends Parser
 {
@@ -30,4 +30,4 @@ class SequenceParser extends Parser
     }
 }
 
-export default SequenceParser;
+module.exports = SequenceParser;

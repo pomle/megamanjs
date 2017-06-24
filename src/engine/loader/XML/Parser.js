@@ -1,7 +1,7 @@
-import THREE from 'three';
-import CanvasUtil from '../../CanvasUtil';
-import Path from '../../CameraPath';
-import Util from '../../Util';
+const THREE = require('three');
+const CanvasUtil = require('../../CanvasUtil');
+const Path = require('../../CameraPath');
+const Util = require('../../Util');
 
 class Parser
 {
@@ -301,4 +301,4 @@ class Parser
     }
 }
 
-export default Parser;
+module.exports = Parser;

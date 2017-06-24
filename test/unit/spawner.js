@@ -2,12 +2,12 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const World = require('../../src/engine/World');
-const Object = require('../../src/engine/Object');
+const Entity = require('../../src/engine/Object');
 const Health = require('../../src/engine/traits/Health');
 const Spawner = require('../../src/engine/object/Spawner');
 
 describe('Spawner', function() {
-  class Spawnable extends Object {
+  class Spawnable extends Entity {
     constructor()
     {
       super();
@@ -72,7 +72,7 @@ describe('Spawner', function() {
     spawner.minDistance = 20;
     spawner.pool.push(Spawnable);
 
-    const player = new Object;
+    const player = new Entity;
     player.position.set(19, 0, 0);
     player.isPlayer = true;
 
@@ -93,7 +93,7 @@ describe('Spawner', function() {
     spawner.maxDistance = 100;
     spawner.pool.push(Spawnable);
 
-    const player = new Object;
+    const player = new Entity;
     player.position.set(101, 0, 0);
     player.isPlayer = true;
 

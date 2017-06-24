@@ -1,14 +1,14 @@
-import {Vector2, DoubleSide, MeshPhongMaterial} from 'three';
+const {Vector2, DoubleSide, MeshPhongMaterial} = require('three');
 
-import Parser from './Parser';
-import EventParser from './EventParser';
-import SequenceParser from './SequenceParser';
-import TraitParser from './TraitParser';
+const Parser = require('./Parser');
+const EventParser = require('./EventParser');
+const SequenceParser = require('./SequenceParser');
+const TraitParser = require('./TraitParser');
 
-import Animation from '../../Animation';
-import UVAnimator from '../../animator/UV';
-import Entity from '../../Object';
-import UVCoords from '../../UVCoords';
+const Animation = require('../../Animation');
+const UVAnimator = require('../../animator/UV');
+const Entity = require('../../Object');
+const UVCoords = require('../../UVCoords');
 
 class ObjectParser extends Parser
 {
@@ -461,4 +461,4 @@ class ObjectParser extends Parser
     }
 }
 
-export default ObjectParser;
+module.exports = ObjectParser;

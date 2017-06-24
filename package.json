@@ -10,7 +10,7 @@
     "watch": "npm run build -- --watch",
     "start": "node ./tools/serve-dev.js",
     "test": "npm run test:unit:coverage && npm run test:browser && istanbul report --dir ./test/coverage/summary",
-    "test:unit": "mocha test/unit",
+    "test:unit": "mocha test/unit --require test/env.js",
     "test:unit:coverage": "istanbul cover --config .istanbul-unit.yml node_modules/mocha/bin/_mocha test/unit",
     "test:browser": "karma start .karma.conf --single-run --reporters mocha",
     "upload-coverage": "codecov -f test/coverage/summary/lcov.info  --disable=gcov"

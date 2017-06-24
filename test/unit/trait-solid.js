@@ -1,7 +1,7 @@
 const expect = require('expect.js');
 const sinon = require('sinon');
 
-const Object = require('../../src/engine/Object');
+const Entity = require('../../src/engine/Object');
 const World = require('../../src/engine/World');
 const Solid = require('../../src/engine/traits/Solid');
 
@@ -10,7 +10,7 @@ describe('Solid Trait', function() {
 
   function createSolid()
   {
-    const host = new Object;
+    const host = new Entity;
     host.addCollisionRect(10, 10);
     host.applyTrait(new Solid);
     return host;
@@ -31,8 +31,8 @@ describe('Solid Trait', function() {
 
   describe('#attackDirection()', function() {
     const solid = new Solid;
-    const object1 = new Object;
-    const object2 = new Object;
+    const object1 = new Entity;
+    const object2 = new Entity;
     object1.addCollisionRect(10, 10);
     object2.addCollisionRect(10, 10);
 

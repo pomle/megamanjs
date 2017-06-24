@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class ContactDamage extends Trait
 {
@@ -21,4 +21,4 @@ class ContactDamage extends Trait
     }
 }
 
-export default ContactDamage;
+module.exports = ContactDamage;

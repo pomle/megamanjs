@@ -1,4 +1,4 @@
-import Trait from '../Trait';
+const Trait = require('../Trait');
 
 class DeathZone extends Trait
 {
@@ -15,4 +15,4 @@ class DeathZone extends Trait
     }
 }
 
-export default DeathZone;
+module.exports = DeathZone;

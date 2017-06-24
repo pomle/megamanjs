@@ -1,7 +1,7 @@
-import Entity from '../Object';
-import Trait from '../Trait';
+const Entity = require('../Object');
+const Trait = require('../Trait');
 
-export const SIDES = {
+const SIDES = {
     TOP: Entity.prototype.SURFACE_TOP,
     BOTTOM: Entity.prototype.SURFACE_BOTTOM,
     LEFT: Entity.prototype.SURFACE_LEFT,
@@ -13,6 +13,7 @@ class Solid extends Trait
     constructor()
     {
         super();
+        this.SIDES = SIDES;
 
         this.NAME = 'solid';
 
@@ -111,6 +112,6 @@ class Solid extends Trait
     }
 }
 
-Solid.prototype.SIDES = SIDES;
+Solid.SIDES = SIDES;
 
-export default Solid;
+module.exports = Solid;
