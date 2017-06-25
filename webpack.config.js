@@ -19,6 +19,7 @@ module.exports = {
         include: [
           resolve('src'),
           resolve('node_modules', 'snakesilk-engine'),
+          resolve('node_modules', 'snakesilk-xml-loader'),
         ],
         use: {
           loader: 'babel-loader',
