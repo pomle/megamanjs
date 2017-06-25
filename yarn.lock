@@ -3594,15 +3594,15 @@ slice-ansi@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/slice-ansi/-/slice-ansi-0.0.4.tgz#edbf8903f66f7ce2f8eafd6ceed65e264c831b35"
 
-"snakesilk-engine@git+https://github.com/snakesilk/snakesilk-engine.git#42815e8128700bc7157e5e3cbe631e6b37f174a5":
+"snakesilk-engine@git+https://github.com/snakesilk/snakesilk-engine.git#1942223137e09f97feff6dc38afb3e002e726743":
   version "0.1.1"
-  resolved "git+https://github.com/snakesilk/snakesilk-engine.git#42815e8128700bc7157e5e3cbe631e6b37f174a5"
+  resolved "git+https://github.com/snakesilk/snakesilk-engine.git#1942223137e09f97feff6dc38afb3e002e726743"
   dependencies:
     three "0.70"
 
-"snakesilk-xml-loader@git+https://github.com/snakesilk/snakesilk-xml-loader.git#d08a479":
+"snakesilk-xml-loader@git+https://github.com/snakesilk/snakesilk-xml-loader.git#8a4faca3d06be76af424ef6ab4eee16c2da2892f":
   version "0.1.0"
-  resolved "git+https://github.com/snakesilk/snakesilk-xml-loader.git#d08a479"
+  resolved "git+https://github.com/snakesilk/snakesilk-xml-loader.git#8a4faca3d06be76af424ef6ab4eee16c2da2892f"
 
 sntp@1.x.x:
   version "1.0.9"
