@@ -11,6 +11,8 @@
     "test:browser": "karma start .karma.conf --single-run --reporters mocha"
   },
   "devDependencies": {
+    "@snakesilk/engine": "^0.1.3",
+    "@snakesilk/xml-loader": "^0.1.1",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
@@ -30,8 +32,6 @@
     "karma-mocha-reporter": "^2.1.0",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
-    "snakesilk-engine": "git+https://github.com/snakesilk/snakesilk-engine.git#1942223137e09f97feff6dc38afb3e002e726743",
-    "snakesilk-xml-loader": "git+https://github.com/snakesilk/snakesilk-xml-loader.git#8a4faca3d06be76af424ef6ab4eee16c2da2892f",
     "webpack": "^3.0.0",
     "xmldom": "^0.1.22"
   }
