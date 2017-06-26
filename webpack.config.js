@@ -18,8 +18,7 @@ module.exports = {
         test: /\.js$/,
         include: [
           resolve('src'),
-          resolve('node_modules', 'snakesilk-engine'),
-          resolve('node_modules', 'snakesilk-xml-loader'),
+          resolve('node_modules', '@snakesilk'),
         ],
         use: {
           loader: 'babel-loader',
