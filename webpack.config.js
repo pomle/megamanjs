@@ -18,7 +18,6 @@ const config = {
         test: /\.js$/,
         include: [
           resolve('src'),
-          resolve('node_modules', '@snakesilk'),
         ],
         use: {
           loader: 'babel-loader',
