@@ -6,7 +6,7 @@ function resolve(...args) {
   return path.resolve(__dirname, ...args);
 }
 
-module.exports = {
+const config = {
   entry: resolve('src', 'engine.js'),
   output: {
     path: resolve('dist'),
@@ -45,6 +45,15 @@ module.exports = {
         to: resolve('dist', 'resource'),
       },
     ]),
-    //new webpack.optimize.UglifyJsPlugin(),
   ],
 };
+
+if (process.env.NODE_ENV === 'production') {
+  const plugins = [
+    new webpack.optimize.UglifyJsPlugin(),
+  ];
+
+  config.plugins.push(...plugins);
+}
+
+module.exports = config;
