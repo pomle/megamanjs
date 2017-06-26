@@ -6,13 +6,19 @@
   "scripts": {
     "build": "webpack --progress --colors",
     "lint": "eslint src/",
-    "watch": "npm run build -- --watch",
+    "start": "serve ./dist/ -p $PORT",
     "test": "npm run build && npm run test:browser",
-    "test:browser": "karma start .karma.conf --single-run --reporters mocha"
+    "test:browser": "karma start .karma.conf --single-run --reporters mocha",
+    "watch": "webpack",
+
+    "heroku-postbuild": "npm run build"
+  },
+  "dependencies": {
+    "serve": "^6.0.0"
   },
   "devDependencies": {
-    "@snakesilk/engine": "^0.1.3",
-    "@snakesilk/xml-loader": "^0.1.1",
+    "@snakesilk/engine": "git+https://github.com/snakesilk/snakesilk-engine.git#4c410bfb4ca78f0a4036692ff44aae73b01ccbff",
+    "@snakesilk/xml-loader": "git+https://github.com/snakesilk/snakesilk-xml-loader.git#bde6699926e1aefd59c455704348acd777447fc3",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
@@ -33,8 +39,5 @@
     "sinon": "^1.17.3",
     "webpack": "^3.0.0",
     "xmldom": "^0.1.22"
-  },
-  "dependencies": {
-    "serve": "^6.0.0"
   }
 }
