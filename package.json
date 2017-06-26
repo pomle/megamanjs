@@ -10,15 +10,14 @@
     "test": "npm run build && npm run test:browser",
     "test:browser": "karma start .karma.conf --single-run --reporters mocha",
     "watch": "webpack",
-
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "serve": "^6.0.0"
   },
   "devDependencies": {
-    "@snakesilk/engine": "git+https://github.com/snakesilk/snakesilk-engine.git#4c410bfb4ca78f0a4036692ff44aae73b01ccbff",
-    "@snakesilk/xml-loader": "git+https://github.com/snakesilk/snakesilk-xml-loader.git#bde6699926e1aefd59c455704348acd777447fc3",
+    "@snakesilk/engine": "^0.2.2",
+    "@snakesilk/xml-loader": "^0.2.0",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
