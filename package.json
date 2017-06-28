@@ -16,8 +16,8 @@
     "serve": "^6.0.0"
   },
   "devDependencies": {
-    "@snakesilk/engine": "^0.2.2",
-    "@snakesilk/xml-loader": "^0.2.0",
+    "@snakesilk/engine": "^0.3.1",
+    "@snakesilk/xml-loader": "^0.2.1",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",

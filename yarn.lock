@@ -2,17 +2,18 @@
 # yarn lockfile v1
 
 
-"@snakesilk/engine@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@snakesilk/engine/-/engine-0.2.2.tgz#3ed23e798509e801ce86a4346cbb98d80f6731d6"
+"@snakesilk/engine@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@snakesilk/engine/-/engine-0.3.1.tgz#f30eec4fa302b075d1bf63f4d7c72e1a8dbb683e"
   dependencies:
     three "0.70"
 
-"@snakesilk/xml-loader@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.2.0.tgz#1168686616a68e2c6d6b4032f96b4f9aa740b830"
+"@snakesilk/xml-loader@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.2.1.tgz#be0dbc50eec0c54fb697be173fe011d582721284"
   dependencies:
-    "@snakesilk/engine" "^0.2.2"
+    "@snakesilk/engine" "^0.3.1"
+    three "0.70"
 
 abbrev@1, abbrev@1.0.x:
   version "1.0.9"
