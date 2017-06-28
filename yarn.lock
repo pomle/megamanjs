@@ -8,9 +8,9 @@
   dependencies:
     three "0.70"
 
-"@snakesilk/xml-loader@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.2.1.tgz#be0dbc50eec0c54fb697be173fe011d582721284"
+"@snakesilk/xml-loader@beta":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.2.2.tgz#4b927b2d5e5d06deed6a60ff180397b1a8bcf2ce"
   dependencies:
     "@snakesilk/engine" "^0.3.1"
     three "0.70"
