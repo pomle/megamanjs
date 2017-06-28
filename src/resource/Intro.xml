@@ -12,13 +12,13 @@
             <action type="transform">
                 <opacity to="0"/>
                 <position to="0,608,-800"/>
-                <object instance="logo"/>
+                <object instance-id="logo"/>
             </action>
             <action type="transform">
                 <opacity to="0"/>
-                <object instance="story1"/>
-                <object instance="story2"/>
-                <object instance="story3"/>
+                <object instance-id="story1"/>
+                <object instance-id="story2"/>
+                <object instance-id="story3"/>
             </action>
         </event>
         <event name="start">
@@ -39,40 +39,40 @@
                 <tween duration="1">
                     <opacity to="1"/>
                 </tween>
-                <object instance="story1"/>
+                <object instance-id="story1"/>
             </action>
             <action type="wait" duration="5"/>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="0"/>
                 </tween>
-                <object instance="story1"/>
+                <object instance-id="story1"/>
             </action>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="1"/>
                 </tween>
-                <object instance="story2"/>
+                <object instance-id="story2"/>
             </action>
             <action type="wait" duration="5"/>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="0"/>
                 </tween>
-                <object instance="story2"/>
+                <object instance-id="story2"/>
             </action>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="1"/>
                 </tween>
-                <object instance="story3"/>
+                <object instance-id="story3"/>
             </action>
             <action type="wait" duration="5"/>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="0"/>
                 </tween>
-                <object instance="story3"/>
+                <object instance-id="story3"/>
             </action>
         </sequence>
 
@@ -87,7 +87,7 @@
                     <opacity to="1"/>
                     <position to=",,0"/>
                 </tween>
-                <object instance="logo"/>
+                <object instance-id="logo"/>
             </action>
             <action type="wait" duration="50"/>
             <action type="emit-event" name="end"/>
@@ -348,14 +348,14 @@ DR. WILY CREATED EIGHT OF HIS OWN
     </objects>
     <layout>
         <objects>
-            <object id="logo" x="0" y="608" z="0" instance="logo"/>
+            <object id="logo" x="0" y="608" z="0" instance-id="logo"/>
             <object id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
             <object id="NAGscu" x="140" y="230" z="0"/>
 
             <object id="Megaman" x="136" y="552" dir="-1"/>
-            <object id="story1" x="0" y="-70" z="0" instance="story1"/>
-            <object id="story2" x="0" y="-70" z="0" instance="story2"/>
-            <object id="story3" x="0" y="-70" z="0" instance="story3"/>
+            <object id="story1" x="0" y="-70" z="0" instance-id="story1"/>
+            <object id="story2" x="0" y="-70" z="0" instance-id="story2"/>
+            <object id="story3" x="0" y="-70" z="0" instance-id="story3"/>
         </objects>
         <behaviors>
             <solids>
