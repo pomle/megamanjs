@@ -9,7 +9,7 @@
     "start": "serve ./dist/ -p $PORT",
     "test": "npm run build && npm run test:browser",
     "test:browser": "karma start .karma.conf --single-run --reporters mocha",
-    "watch": "webpack",
+    "watch": "npm run build -- --watch",
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
