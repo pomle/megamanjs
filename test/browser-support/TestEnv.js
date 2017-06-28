@@ -145,7 +145,7 @@ class TestEnv
       const next = this._resume = () => {
         if (!this.paused) {
           if (this.tickDelay >= 0) {
-            scene._timerUpdate(scene.world.timeStep);
+            scene.updateTime(scene.world.timeStep);
           } else {
             /* Relieve occasionally to let Async operations run.
                In the game environment everything is sync, but
@@ -154,7 +154,7 @@ class TestEnv
                at some time, we need to back off. */
             let maxTicks = 1200;
             while (maxTicks-- && this._running) {
-              scene._timerUpdate(scene.world.timeStep);
+              scene.updateTime(scene.world.timeStep);
             }
           }
 
