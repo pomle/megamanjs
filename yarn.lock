@@ -2,17 +2,24 @@
 # yarn lockfile v1
 
 
-"@snakesilk/engine@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@snakesilk/engine/-/engine-0.3.1.tgz#f30eec4fa302b075d1bf63f4d7c72e1a8dbb683e"
+"@snakesilk/engine@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@snakesilk/engine/-/engine-0.4.0.tgz#9ce90747c05392ce0e7698f88d5df8000cfad158"
   dependencies:
     three "0.70"
 
-"@snakesilk/xml-loader@beta":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.2.2.tgz#4b927b2d5e5d06deed6a60ff180397b1a8bcf2ce"
+"@snakesilk/megaman-kit@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@snakesilk/megaman-kit/-/megaman-kit-0.0.2.tgz#a174ccda46ef05d9f6a25323a0e7ee08880ccffd"
   dependencies:
-    "@snakesilk/engine" "^0.3.1"
+    "@snakesilk/engine" "0.4.0"
+    "@snakesilk/xml-loader" "0.3.1"
+
+"@snakesilk/xml-loader@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.3.1.tgz#fc3d2da9666dd79c67e23ebd4bca591df606614f"
+  dependencies:
+    "@snakesilk/engine" "0.4.0"
     three "0.70"
 
 abbrev@1, abbrev@1.0.x:
@@ -1728,11 +1735,11 @@ escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
 
-escape-string-regexp@1.0.2, escape-string-regexp@^1.0.2:
+escape-string-regexp@1.0.2, escape-string-regexp@^1.0.0, escape-string-regexp@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.2.tgz#4dbc2fe674e71949caf3fb2695ce7f2dc1d9a8d1"
 
-escape-string-regexp@^1.0.0, escape-string-regexp@^1.0.5:
+escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
