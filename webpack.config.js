@@ -8,8 +8,8 @@ function resolve(...args) {
 
 const config = {
   entry: {
-    engine: resolve('src', 'engine.js'),
-    megaman2: resolve('src', 'megaman2.js'),
+    'browser-env': resolve('src', 'browser-env.js'),
+    'megaman2': resolve('src', 'megaman2.js'),
   },
   output: {
     path: resolve('dist'),
