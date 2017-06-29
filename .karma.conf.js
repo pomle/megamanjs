@@ -1,7 +1,7 @@
 module.exports = function(_config) {
 
   const dependencies = [];
-  dependencies.push('./dist/engine.js');
+  dependencies.push('./dist/browser-env.js');
   dependencies.push('./test/browser-support/webgl-mock.js');
 
   const testFiles = [
