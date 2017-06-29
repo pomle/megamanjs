@@ -1,9 +1,20 @@
-const XMLLoader = window.XMLLoader;
-const {Game, Mouse, Hud} = window.Engine;
+const {Game, Mouse, Hud} = require('@snakesilk/engine');
+const {XMLLoader} = require('@snakesilk/xml-loader');
+const {Entities} = require('@snakesilk/megaman-kit');
+
+function setup() {
+    const game = new Game();
+    const loader = new XMLLoader(game);
+
+    loader.entities.add(Entities);
+
+    return loader;
+}
 
 window.addEventListener('load', function() {
-    const game = new Game;
-    const loader = new XMLLoader(game);
+    const loader = setup();
+    const game = loader.game;
+
     const env = {};
 
     const gameElement = document.getElementById('game');
