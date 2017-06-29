@@ -7,10 +7,13 @@ function resolve(...args) {
 }
 
 const config = {
-  entry: resolve('src', 'engine.js'),
+  entry: {
+    engine: resolve('src', 'engine.js'),
+    megaman2: resolve('src', 'megaman2.js'),
+  },
   output: {
     path: resolve('dist'),
-    filename: 'engine.js',
+    filename: '[name].js',
   },
   module: {
     rules: [
@@ -32,9 +35,6 @@ const config = {
     new CopyWebpackPlugin([
       {
         from: resolve('src', 'index.html'),
-      },
-      {
-        from: resolve('src', 'megaman2.js'),
       },
       {
         from: resolve('src', 'megaman2.css'),
