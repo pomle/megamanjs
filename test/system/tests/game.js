@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Megaman 2', function() {
-  describe('when loading game XML', () => {
+  describe.skip('when loading game XML', () => {
     let game, loader, entrypoint;
     before(done => {
       game = new Engine.Game;
