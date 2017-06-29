@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@snakesilk/engine@0.4.0":
+"@snakesilk/engine@0.4", "@snakesilk/engine@0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@snakesilk/engine/-/engine-0.4.0.tgz#9ce90747c05392ce0e7698f88d5df8000cfad158"
   dependencies:
     three "0.70"
 
-"@snakesilk/megaman-kit@^0.0.2":
+"@snakesilk/megaman-kit@0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@snakesilk/megaman-kit/-/megaman-kit-0.0.2.tgz#a174ccda46ef05d9f6a25323a0e7ee08880ccffd"
   dependencies:

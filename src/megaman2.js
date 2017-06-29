@@ -1,18 +1,8 @@
-const {Game, Mouse, Hud} = require('@snakesilk/engine');
-const {XMLLoader} = require('@snakesilk/xml-loader');
-const {Entities} = require('@snakesilk/megaman-kit');
-
-function setup() {
-    const game = new Game();
-    const loader = new XMLLoader(game);
-
-    loader.entities.add(Entities);
-
-    return loader;
-}
+const {Mouse, Hud} = require('@snakesilk/engine');
+const {createLoader} = require('./bootstrap');
 
 window.addEventListener('load', function() {
-    const loader = setup();
+    const loader = createLoader();
     const game = loader.game;
 
     const env = {};
