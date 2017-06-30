@@ -79,9 +79,9 @@
     </projectiles>
 
     <player retries="1">
-        <character id="Megaman" />
+        <character id="Megaman"/>
         <invincibility duration="2"/>
-        <weapon default="p" />
+        <weapon default="p"/>
     </player>
 
     <bosses>
