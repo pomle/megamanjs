@@ -3,7 +3,17 @@
 [![codecov.io](https://codecov.io/github/pomle/megamanjs/coverage.svg?branch=master)](https://codecov.io/github/pomle/megamanjs?branch=master)
 [![code-climate](https://codeclimate.com/github/pomle/megamanjs/badges/gpa.svg)](https://codeclimate.com/github/pomle/megamanjs)
 
-Project that aims at creating a game engine in JavaScript using Megaman 2 on NES as MVP guide. WebGL is used as renderer and despite Megaman 2 being a 2D game it is run in 3D space using [THREE.js](https://github.com/mrdoob/three.js/) as 3D lib.
+Project that aims at creating a game engine in JavaScript using Megaman 2 on NES as guide. WebGL is used as renderer and despite Megaman 2 being a 2D game it is run in 3D space using [THREE.js](https://github.com/mrdoob/three.js/) as 3D lib.
+
+This project have generated the SnakeSilk Game Engine and the following libraries:
+* [snakesilk-engine](https://github.com/snakesilk/snakesilk-engine)
+  Simple game engine providing game Entity, Timer, Scene, etc.
+
+* [snakesilk-xml-loader](https://github.com/snakesilk/snakesilk-xml-loader)
+  Loader that can create entities and scenes from XML.
+
+* [megaman-kit](https://github.com/snakesilk/snakesilk-engine)
+  Components for creating Megaman games.
 
 Follow the project blog at https://medium.com/recreating-megaman-2-using-js-webgl
 
@@ -12,16 +22,15 @@ Follow the project blog at https://medium.com/recreating-megaman-2-using-js-webg
 * Clone repo.
 
         git clone https://github.com/pomle/megamanjs.git
+        cd megamanjs
 
 * Install dependencies
 
-        npm i
+        yarn install
 
-* Start server
+* Start; should open game in a browser.
 
-        npm start
-
-* Open `http://localhost:8000/` in Chrome and it should run.
+        yarn start
 
 
 ## Developing
@@ -41,25 +50,9 @@ Follow the project blog at https://medium.com/recreating-megaman-2-using-js-webg
 
         npm test
 
-    The test suite begins with running a Mocha unit test in Node. After that a Chrome window should open running an integration test followed by a system test. Lastly test coverage output is stored in `./test/coverage`.
-
-* When adding scripts to project, add them to [`script-manifest.json`](https://github.com/pomle/megamanjs/blob/master/src/script-manifest.json) and regenerate.
-
-        npm run generate
+    The test suite begins with running a Mocha unit test in Node. After that a Chrome window should open and run a browser test.
 
 
-####Running locally in Chrome without web server (discouraged).
-
-To run project locally without a web server, Chrome needs to be started with `--allow-file-access-from-files` flag.
-
-* Windows
-
-        "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --allow-file-access-from-files
-
-* OSX
-
-        open -a "Google Chrome" --args --allow-file-access-from-files
-    
 ## Contributing
 
 Contributions are welcome.
