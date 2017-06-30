@@ -1,4 +1,5 @@
-const {Mouse, Hud} = require('@snakesilk/engine');
+const {Mouse} = require('@snakesilk/engine');
+const {UI: {HUD}} = require('@snakesilk/megaman-kit');
 const {createLoader} = require('./bootstrap');
 
 window.addEventListener('load', function() {
@@ -241,7 +242,7 @@ window.addEventListener('load', function() {
         game.attachToElement(screenElement);
         game.attachController(window);
 
-        const hud = new Hud();
+        const hud = new HUD();
         hud.attach(game, screenElement.querySelector('.energy'));
         updateScreen();
         gameElement.classList.add('ready');
