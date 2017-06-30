@@ -1,12 +1,12 @@
 {
-  "name": "MegamanJS",
+  "name": "megaman2",
   "version": "0.1.1",
   "repository": "https://github.com/pomle/megamanjs",
   "license": "MIT",
   "scripts": {
     "build": "webpack --progress --colors",
     "lint": "eslint src/",
-    "start": "serve ./dist/ -p $PORT",
+    "start": "serve ./dist/ -p $PORT --open",
     "test": "yarn run test:unit && yarn run build && yarn run test:browser",
     "test:unit": "mocha './src/**/*-test.js'",
     "test:browser": "karma start .karma.conf --single-run --reporters mocha",
