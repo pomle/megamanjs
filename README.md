@@ -1,18 +1,17 @@
 # megamanjs
 [![Build Status](https://travis-ci.org/pomle/megamanjs.svg?branch=master)][1]
 [![codecov.io](https://codecov.io/github/pomle/megamanjs/coverage.svg?branch=master)](https://codecov.io/github/pomle/megamanjs?branch=master)
-[![code-climate](https://codeclimate.com/github/pomle/megamanjs/badges/gpa.svg)](https://codeclimate.com/github/pomle/megamanjs)
 
 Project that aims at creating a game engine in JavaScript using Megaman 2 on NES as guide. WebGL is used as renderer and despite Megaman 2 being a 2D game it is run in 3D space using [THREE.js](https://github.com/mrdoob/three.js/) as 3D lib.
 
 This project have generated the SnakeSilk Game Engine and the following libraries:
-* [snakesilk-engine](https://github.com/snakesilk/snakesilk-engine)
+* [snakesilk-engine](https://github.com/snakesilk/snakesilk-engine) 
   Simple game engine providing game Entity, Timer, Scene, etc.
 
 * [snakesilk-xml-loader](https://github.com/snakesilk/snakesilk-xml-loader)
-  Loader that can create entities and scenes from XML.
+  Loader creating entities and scenes from XML.
 
-* [megaman-kit](https://github.com/snakesilk/snakesilk-engine)
+* [megaman-kit](https://github.com/snakesilk/megaman-kit)
   Components for creating Megaman games.
 
 Follow the project blog at https://medium.com/recreating-megaman-2-using-js-webgl
