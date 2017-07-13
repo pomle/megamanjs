@@ -38,7 +38,7 @@ describe('createLoader()', () => {
     ].forEach(name => {
         const id = name + '-id';
         const xmlString = `<objects>
-             <object type="character" source="${name}" id="${id}">
+             <object type="character" source="${name}" id="${id}"/>
         </objects>`;
 
         describe(`when parsing ${xmlString}`, () => {
