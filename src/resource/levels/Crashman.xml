@@ -83,7 +83,7 @@
             <constraint x1="128" x2="384" y1="600" y2="600"/>
         </path>
     </camera>
-    <objects>
+    <entities>
         <textures>
             <texture url="./crashman/tiles.png" w="256" h="128"/>
         </textures>
@@ -234,7 +234,7 @@
                 <frame x="143" y="72" w="24" h="16" duration=".12"/>
             </animation>
         </animations>
-        <object id="door">
+        <entity id="door">
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
                 <face animation="door">
                     <range x="*" y="*"/>
@@ -248,8 +248,8 @@
                     <direction x="-1" y="0"/>
                 </trait>
             </traits>
-        </object>
-        <object id="object_4FBF48E9426F446698744A217AC1144F">
+        </entity>
+        <entity id="object_4FBF48E9426F446698744A217AC1144F">
             <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45">
                 <face animation="transparent">
                     <range x="*" y="*"/>
@@ -275,9 +275,9 @@
                 <face animation="slice_27" index="[46,38,162,100,116,54,94,124,62,108,170,544,434,442,534,542,604,1212,1276,1402,1394,1378,1280,1386,1024,800]"/>
                 <face animation="maze-v-b" index="[1090,1120]"/>
             </geometry>
-        </object>
+        </entity>
 
-        <object id="elevator1">
+        <entity id="elevator1">
             <geometry type="plane" w="24" h="16">
                 <face animation="elevator"/>
             </geometry>
@@ -294,9 +294,9 @@
                     </path>
                 </trait>
             </traits>
-        </object>
+        </entity>
 
-        <object id="elevator2">
+        <entity id="elevator2">
             <geometry type="plane" w="24" h="16">
                 <face animation="elevator"/>
             </geometry>
@@ -323,9 +323,9 @@
                     </path>
                 </trait>
             </traits>
-        </object>
+        </entity>
 
-        <object id="elevator3">
+        <entity id="elevator3">
             <geometry type="plane" w="24" h="16">
                 <face animation="elevator"/>
             </geometry>
@@ -380,9 +380,9 @@
                     </path>
                 </trait>
             </traits>
-        </object>
+        </entity>
 
-        <object id="object_D26AB42BA8AB4AC79BF82823EB552AF8">
+        <entity id="object_D26AB42BA8AB4AC79BF82823EB552AF8">
             <geometry type="plane" w="256" h="1200" w-segments="16" h-segments="75">
                 <face animation="transparent">
                     <range x="*" y="*"/>
@@ -410,8 +410,8 @@
                 <face animation="slice_5" index="[1942,2006,1994,1998,2050,2202,2252,2328,1410,1418,1422,958,950,942,966,962,470,478,486,482,462]"/>
                 <face animation="maze-h" index="[1990,2002,2200,2234,2232,2244,1348,1356,1364,1372,1430,1470,1426,1414,938,946,954,466,474,458]"/>
             </geometry>
-        </object>
-        <object id="object_540066CB92574BD690359F3A3BE72AA8">
+        </entity>
+        <entity id="object_540066CB92574BD690359F3A3BE72AA8">
             <geometry type="plane" w="256" h="2160" w-segments="16" h-segments="135">
                 <face animation="transparent">
                     <range x="*" y="*"/>
@@ -434,8 +434,8 @@
                 <face animation="slice_28" index="[4276,4268,4260,4284,4222,4188,4028,3932,3966,3804,3610,3452,3324,3130,3068,3708,3742,3486,3006,2972,2844,2836,2828,2820,3228,3262,2216,200,392,520,850,1326,1550,1074]"/>
                 <face animation="slice_1" index="[4214,4182,4150,4118,4086,4022,3990,3958,3926,3894,3862,4054,3830,3798,3766,3734,3702,3670,3638,3606,3542,3574,3510,3446,3414,3382,3350,3478,3318,3286,3254,3222,3190,3158,3126,3094,2984,2952,2920,2888,2856,2824,2792,2768,2736,2704,2672,2640,2608,2576,2544,2512,2480,2416,2384,2352,2320,2288,2448,2764,2732,2700,2636,2668,2604,2572,2540,2508,2476,2444,2412,2380,2348,2316,2284,2252,2220,2188,2156,2124,2092,2060,2028,1996,1964,1932,1900,1868,1836,1804,1772,2256,2224,2192,2160,2128,2096,2064,2032,1968,2000,1936,1904,1840,1872,1808,1776,1744,1712,1716,1748,1780,1812,1844,1876,1908,1940,1972,2004,2036,2068,2100,2132,2164,2152,2148,2116,2084,2052,2020,1988,1956,1924,1860,1828,1892,1796,1764,1732,1700,1668,1636,1640,2120,2088,2056,2024,1992,1960,1928,1864,1832,1896,1800,1768,1736,1704,1672,1680,1648,1616,1584,1552,1488,1456,1392,1360,1328,1520,1424,1684,1652,1620,1588,1556,1524,1492,1460,1428,1396,1364,1332,1300,1268,1236,1204,1172,1140,1108,1608,1576,1544,1512,1480,1448,1416,1384,1352,1320,1288,1256,1224,1192,1160,1128,1096,1076,1044,1012,980,948,884,852,820,788,916,1064,1032,1000,968,936,904,748,716,684,620,588,556,524,492,460,428,396,364,652,612,580,548,516,484,452,420,388,356,324,292,260,228,196,164,132]"/>
             </geometry>
-        </object>
-        <object id="object_EA1ADF1AD35649ADA27295EEE280C334">
+        </entity>
+        <entity id="object_EA1ADF1AD35649ADA27295EEE280C334">
             <geometry type="plane" w="768" h="240" w-segments="48" h-segments="15">
                 <face animation="transparent">
                     <range x="*" y="*"/>
@@ -458,63 +458,63 @@
                 <face animation="slice_19" index="[218,122,26]"/>
                 <face animation="slice_21" index="[316,318]"/>
             </geometry>
-        </object>
-        <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01">
+        </entity>
+        <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01">
             <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
                 <face animation="shield" index="[0]"/>
             </geometry>
-        </object>
-        <object id="object_BD668DBE6F8A46429C98DECFF58F0B5F">
+        </entity>
+        <entity id="object_BD668DBE6F8A46429C98DECFF58F0B5F">
             <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
                 <face animation="drwily" index="[0]"/>
             </geometry>
-        </object>
-        <object id="object_C621A3B7327D461BB64660E5C62B3006">
+        </entity>
+        <entity id="object_C621A3B7327D461BB64660E5C62B3006">
             <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
                 <face animation="blue">
                     <range x="*" y="*"/>
                 </face>
             </geometry>
-        </object>
-    </objects>
+        </entity>
+    </entities>
     <layout>
-        <objects>
-            <object id="elevator1" x="472" y="796" z=".01"/>
-            <object id="elevator2" x="472" y="1036" z=".01"/>
-            <object id="elevator3" x="472" y="1276" z=".01"/>
-            <object id="door" x="1280" y="3504" z="0"/>
-            <object id="door" x="1024" y="3504" z="0"/>
-            <object id="object_4FBF48E9426F446698744A217AC1144F" x="128" y="360" z="-0.01"/>
-            <object id="object_D26AB42BA8AB4AC79BF82823EB552AF8" x="384" y="1080" z="-0.01"/>
-            <object id="object_540066CB92574BD690359F3A3BE72AA8" x="640" y="2520" z="-0.01"/>
-            <object id="object_EA1ADF1AD35649ADA27295EEE280C334" x="1152" y="3480" z="-0.01"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="96" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="160" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="176" y="432" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="144" y="672" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="1568" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="1744" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="752" y="1840" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="2112" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="464" y="512" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="368" y="544" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="240" y="512" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="544" z="0"/>
-            <object id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="336" z="0"/>
-            <object id="object_BD668DBE6F8A46429C98DECFF58F0B5F" x="1008" y="3568" z="0"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="2280" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="2040" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="1800" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="1560" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1560" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1320" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1080" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="840" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="600" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="600" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="360" z="-1"/>
-            <object id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="120" z="-1"/>
-        </objects>
+        <entities>
+            <entity id="elevator1" x="472" y="796" z=".01"/>
+            <entity id="elevator2" x="472" y="1036" z=".01"/>
+            <entity id="elevator3" x="472" y="1276" z=".01"/>
+            <entity id="door" x="1280" y="3504" z="0"/>
+            <entity id="door" x="1024" y="3504" z="0"/>
+            <entity id="object_4FBF48E9426F446698744A217AC1144F" x="128" y="360" z="-0.01"/>
+            <entity id="object_D26AB42BA8AB4AC79BF82823EB552AF8" x="384" y="1080" z="-0.01"/>
+            <entity id="object_540066CB92574BD690359F3A3BE72AA8" x="640" y="2520" z="-0.01"/>
+            <entity id="object_EA1ADF1AD35649ADA27295EEE280C334" x="1152" y="3480" z="-0.01"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="96" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="160" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="176" y="432" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="144" y="672" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="1568" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="1744" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="752" y="1840" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="720" y="2112" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="464" y="512" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="368" y="544" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="240" y="512" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="544" z="0"/>
+            <entity id="object_B57F95322D874C09A5B5ECAD9F8CCC01" x="16" y="336" z="0"/>
+            <entity id="object_BD668DBE6F8A46429C98DECFF58F0B5F" x="1008" y="3568" z="0"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="2280" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="2040" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="1800" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="640" y="1560" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1560" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1320" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="1080" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="840" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="384" y="600" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="600" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="360" z="-1"/>
+            <entity id="object_C621A3B7327D461BB64660E5C62B3006" x="128" y="120" z="-1"/>
+        </entities>
         <behaviors>
             <deathzones/>
             <solids>

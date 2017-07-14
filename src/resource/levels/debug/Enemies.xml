@@ -5,7 +5,7 @@
         <checkpoint x="16" y="100"/>
     </checkpoints>
 
-    <objects>
+    <entities>
         <textures>
             <texture id="background" url="./sunset.png" w="512" h="256" scale="1"/>
         </textures>
@@ -16,21 +16,21 @@
             </animation>
         </animations>
 
-        <object id="landscape">
+        <entity id="landscape">
             <geometry type="plane" w="512" h="256">
                 <face animation="background"/>
             </geometry>
-        </object>
-    </objects>
+        </entity>
+    </entities>
 
     <layout>
-        <objects>
-            <object id="landscape" x="0" y="120" z="-100"/>
-            <object id="landscape" x="512" y="120" z="-100"/>
-            <object id="landscape" x="1024" y="120" z="-100"/>
-            <object id="landscape" x="1536" y="120" z="-100"/>
-            <object id="landscape" x="2048" y="120" z="-100"/>
-        </objects>
+        <entities>
+            <entity id="landscape" x="0" y="120" z="-100"/>
+            <entity id="landscape" x="512" y="120" z="-100"/>
+            <entity id="landscape" x="1024" y="120" z="-100"/>
+            <entity id="landscape" x="1536" y="120" z="-100"/>
+            <entity id="landscape" x="2048" y="120" z="-100"/>
+        </entities>
 
         <spawner x="256" y="100" interval="2" simultaneous="1" max-distance="128">
             <character id="Shotman" />

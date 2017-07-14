@@ -12,13 +12,13 @@
             <action type="transform">
                 <opacity to="0"/>
                 <position to="0,608,-800"/>
-                <object instance-id="logo"/>
+                <entity instance-id="logo"/>
             </action>
             <action type="transform">
                 <opacity to="0"/>
-                <object instance-id="story1"/>
-                <object instance-id="story2"/>
-                <object instance-id="story3"/>
+                <entity instance-id="story1"/>
+                <entity instance-id="story2"/>
+                <entity instance-id="story3"/>
             </action>
         </event>
         <event name="start">
@@ -39,40 +39,40 @@
                 <tween duration="1">
                     <opacity to="1"/>
                 </tween>
-                <object instance-id="story1"/>
+                <entity instance-id="story1"/>
             </action>
             <action type="wait" duration="5"/>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="0"/>
                 </tween>
-                <object instance-id="story1"/>
+                <entity instance-id="story1"/>
             </action>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="1"/>
                 </tween>
-                <object instance-id="story2"/>
+                <entity instance-id="story2"/>
             </action>
             <action type="wait" duration="5"/>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="0"/>
                 </tween>
-                <object instance-id="story2"/>
+                <entity instance-id="story2"/>
             </action>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="1"/>
                 </tween>
-                <object instance-id="story3"/>
+                <entity instance-id="story3"/>
             </action>
             <action type="wait" duration="5"/>
             <action type="transform">
                 <tween duration="1">
                     <opacity to="0"/>
                 </tween>
-                <object instance-id="story3"/>
+                <entity instance-id="story3"/>
             </action>
         </sequence>
 
@@ -87,13 +87,13 @@
                     <opacity to="1"/>
                     <position to=",,0"/>
                 </tween>
-                <object instance-id="logo"/>
+                <entity instance-id="logo"/>
             </action>
             <action type="wait" duration="50"/>
             <action type="emit-event" name="end"/>
         </sequence>
     </sequences>
-    <objects>
+    <entities>
         <textures>
             <texture url="./intro/intro.png" w="256" h="256"/>
         </textures>
@@ -255,26 +255,26 @@
                 <frame x="199" y="19" w="16" h="16"/>
             </animation>
         </animations>
-        <object id="logo">
+        <entity id="logo">
             <geometry type="plane" w="188" h="100">
                 <face animation="logo"/>
             </geometry>
-        </object>
-        <object id="story1">
+        </entity>
+        <entity id="story1">
             <text font="nintendo"><![CDATA[
 IN THE YEAR 200X, A SUPER ROBOT
 
    NAMED MEGAMAN WAS CREATED.
 ]]></text>
-        </object>
-        <object id="story2">
+        </entity>
+        <entity id="story2">
             <text font="nintendo"><![CDATA[
 DR. LIGHT CREATED MEGAMAN TO STOP
 
   THE EVIL DESIRES OF DR. WILY.
 ]]></text>
-        </object>
-        <object id="story3">
+        </entity>
+        <entity id="story3">
             <text font="nintendo"><![CDATA[
     HOWEVER, AFTER HIS DEFEAT,
 
@@ -282,8 +282,8 @@ DR. WILY CREATED EIGHT OF HIS OWN
 
     ROBOTS TO COUNTER MEGAMAN.
 ]]></text>
-        </object>
-        <object id="IpqEDd">
+        </entity>
+        <entity id="IpqEDd">
             <geometry type="plane" w="512" h="240" w-segments="32" h-segments="15">
                 <face animation="slice_25" index="[898,834,908,600,668,608,634,558,622,626,958,916]"/>
                 <face animation="slice_20" index="[784,848,912,760,824,888,952,810,874,938]"/>
@@ -321,8 +321,8 @@ DR. WILY CREATED EIGHT OF HIS OWN
                 <face animation="slice_14" index="[204,196,192,208,216,220,224,232,236,240,244,252]"/>
                 <face animation="slice_9" index="[200,202,212,214,228,230,248,250]"/>
             </geometry>
-        </object>
-        <object id="NAGscu">
+        </entity>
+        <entity id="NAGscu">
             <geometry type="plane" w="128" h="720" w-segments="8" h-segments="45">
                 <face animation="slice_0">
                     <range x="2" y="4-45"/>
@@ -344,19 +344,19 @@ DR. WILY CREATED EIGHT OF HIS OWN
                 <face animation="grey" index="[40,46,44]"/>
                 <face animation="slice_42" index="[42]"/>
             </geometry>
-        </object>
-    </objects>
+        </entity>
+    </entities>
     <layout>
-        <objects>
-            <object id="logo" x="0" y="608" z="0" instance-id="logo"/>
-            <object id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
-            <object id="NAGscu" x="140" y="230" z="0"/>
+        <entities>
+            <entity id="logo" x="0" y="608" z="0" instance-id="logo"/>
+            <entity id="IpqEDd" x="0" y="-40" z="-150" scale="1.6"/>
+            <entity id="NAGscu" x="140" y="230" z="0"/>
 
-            <object id="Megaman" x="136" y="552" dir="-1"/>
-            <object id="story1" x="0" y="-70" z="0" instance-id="story1"/>
-            <object id="story2" x="0" y="-70" z="0" instance-id="story2"/>
-            <object id="story3" x="0" y="-70" z="0" instance-id="story3"/>
-        </objects>
+            <entity id="Megaman" x="136" y="552" dir="-1"/>
+            <entity id="story1" x="0" y="-70" z="0" instance-id="story1"/>
+            <entity id="story2" x="0" y="-70" z="0" instance-id="story2"/>
+            <entity id="story3" x="0" y="-70" z="0" instance-id="story3"/>
+        </entities>
         <behaviors>
             <solids>
                 <rect x="148" y="534" w="112" h="16"/>

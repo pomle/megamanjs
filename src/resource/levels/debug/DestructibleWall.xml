@@ -6,9 +6,9 @@
     </checkpoints>
 
     <layout>
-        <objects>
-            <object id="destructible-wall-orange" x="100" y="30" />
-        </objects>
+        <entities>
+            <entity id="destructible-wall-orange" x="100" y="30" />
+        </entities>
 
         <solids>
             <rect x="0" y="32" w="240" h="16" />
