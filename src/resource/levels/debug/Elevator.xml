@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level">
-    <objects>
+    <entities>
         <textures>
             <texture id="background" url="./sunset.png" w="512" h="256" scale="1"/>
         </textures>
@@ -11,14 +11,14 @@
             </animation>
         </animations>
 
-        <object id="landscape">
+        <entity id="landscape">
             <geometry type="plane" w="512" h="256">
                 <face animation="background"/>
             </geometry>
-        </object>
-    </objects>
+        </entity>
+    </entities>
 
-    <objects>
+    <entities>
         <textures>
             <texture url="../crashman/tiles.png" w="256" h="128"/>
         </textures>
@@ -30,7 +30,7 @@
             </animation>
         </animations>
 
-        <object id="elevator">
+        <entity id="elevator">
             <geometry type="plane" w="24" h="16">
                 <face animation="elevator"/>
             </geometry>
@@ -46,14 +46,14 @@
                     </path>
                 </trait>
             </traits>
-        </object>
-    </objects>
+        </entity>
+    </entities>
 
     <layout>
-        <objects>
-            <object id="landscape" x="0" y="0" z="-1" />
-            <object id="elevator" x="64" y="0" />
-        </objects>
+        <entities>
+            <entity id="landscape" x="0" y="0" z="-1" />
+            <entity id="elevator" x="64" y="0" />
+        </entities>
 
         <behaviors>
             <solids>

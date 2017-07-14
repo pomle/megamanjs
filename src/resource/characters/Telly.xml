@@ -1,5 +1,5 @@
-<objects>
-    <object type="character" source="Telly" id="Telly">
+<entities>
+    <entity type="character" source="Telly" id="Telly">
         <audio>
             <effect id="hit"/>
         </audio>
@@ -20,10 +20,10 @@
             <trait name="contact-damage" points="2" />
             <trait name="health" max="1" />
             <trait name="spawn">
-                <item object="TinyExplosion" event="death"/>
+                <entity id="TinyExplosion" event="death"/>
             </trait>
         </traits>
-    </object>
+    </entity>
 
     <textures>
         <texture url="telly.png" w="128" h="16" />
@@ -39,4 +39,4 @@
             <frame x="0"  y="0" duration=".16" />
         </animation>
     </animations>
-</objects>
+</entities>

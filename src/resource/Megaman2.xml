@@ -52,30 +52,28 @@
         </font>
     </fonts>
 
-    <level start-caption="READY" />
-
     <characters>
-        <objects src="./characters/Megaman.xml" />
-        <objects src="./characters/Airman.xml" />
-        <objects src="./characters/Crashman.xml" />
-        <objects src="./characters/Flashman.xml" />
-        <objects src="./characters/Heatman.xml" />
-        <objects src="./characters/Metalman.xml" />
+        <entities src="./characters/Megaman.xml" />
+        <entities src="./characters/Airman.xml" />
+        <entities src="./characters/Crashman.xml" />
+        <entities src="./characters/Flashman.xml" />
+        <entities src="./characters/Heatman.xml" />
+        <entities src="./characters/Metalman.xml" />
 
-        <objects src="./characters/ChangkeyMaker.xml" />
-        <objects src="./characters/Shotman.xml" />
-        <objects src="./characters/SniperJoe.xml" />
-        <objects src="./characters/SniperArmor.xml" />
-        <objects src="./characters/Telly.xml" />
+        <entities src="./characters/ChangkeyMaker.xml" />
+        <entities src="./characters/Shotman.xml" />
+        <entities src="./characters/SniperJoe.xml" />
+        <entities src="./characters/SniperArmor.xml" />
+        <entities src="./characters/Telly.xml" />
     </characters>
 
     <items>
-        <objects src="./Decorations.xml" />
-        <objects src="./Powerup.xml" />
+        <entities src="./Decorations.xml" />
+        <entities src="./Powerup.xml" />
     </items>
 
     <projectiles>
-        <objects src="./Projectiles.xml" />
+        <entities src="./Projectiles.xml" />
     </projectiles>
 
     <player retries="1">

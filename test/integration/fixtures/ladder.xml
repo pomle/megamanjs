@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level">
-    <objects>
+    <entities>
         <textures>
             <texture id="heatman-stage" url="../../../dist/resource/levels/heatman/tiles.png" w="256" h="128"/>
         </textures>
@@ -12,7 +12,7 @@
                 <frame x="145" y="55" w="16" h="16"/>
             </animation>
         </animations>
-        <object id="ground">
+        <entity id="ground">
             <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
                 <face animation="bricks-big">
                     <range x="*" y="*"/>
@@ -24,8 +24,8 @@
             <traits>
                 <trait name="solid" fixed="true" obstructs="true"/>
             </traits>
-        </object>
-        <object id="ladder">
+        </entity>
+        <entity id="ladder">
             <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8">
                 <face animation="ladder">
                     <range x="*" y="*"/>
@@ -37,20 +37,20 @@
             <traits>
                 <trait name="climbable"/>
             </traits>
-        </object>
-    </objects>
+        </entity>
+    </entities>
     <layout>
-        <objects>
-            <object id="ladder" x="32" y="0" z="-1"/>
-            <object id="ladder" x="-48" y="32" z="-1"/>
-            <object id="ladder" x="96" y="-96" z="-1"/>
-            <object id="ladder" x="-32" y="-144" z="-1"/>
+        <entities>
+            <entity id="ladder" x="32" y="0" z="-1"/>
+            <entity id="ladder" x="-48" y="32" z="-1"/>
+            <entity id="ladder" x="96" y="-96" z="-1"/>
+            <entity id="ladder" x="-32" y="-144" z="-1"/>
 
-            <object id="ground" x="8" y="-88" />
-            <object id="ground" x="-72" y="-88" />
-            <object id="ground" x="32" y="72" />
-            <object id="ground" x="136" y="-40" />
-            <object id="ground" x="96" y="-168" />
-        </objects>
+            <entity id="ground" x="8" y="-88" />
+            <entity id="ground" x="-72" y="-88" />
+            <entity id="ground" x="32" y="72" />
+            <entity id="ground" x="136" y="-40" />
+            <entity id="ground" x="96" y="-168" />
+        </entities>
     </layout>
 </scene>

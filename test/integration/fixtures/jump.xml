@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene type="level">
-    <objects>
+    <entities>
         <textures>
             <texture id="heatman-stage" url="../../../dist/resource/levels/heatman/tiles.png" w="256" h="128"/>
         </textures>
@@ -12,7 +12,7 @@
                 <frame x="145" y="55" w="16" h="16"/>
             </animation>
         </animations>
-        <object id="ground">
+        <entity id="ground">
             <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
                 <face animation="bricks-big">
                     <range x="*" y="*"/>
@@ -24,14 +24,14 @@
             <traits>
                 <trait name="solid" fixed="true" obstructs="true"/>
             </traits>
-        </object>
-    </objects>
+        </entity>
+    </entities>
     <layout>
-        <objects>
-            <object id="ground" x="8" y="-16"/>
-            <object id="ground" x="-56" y="-16" z="0"/>
-            <object id="ground" x="72" y="-16" z="0"/>
-            <object id="ground" x="-8" y="48" z="0"/>
-        </objects>
+        <entities>
+            <entity id="ground" x="8" y="-16"/>
+            <entity id="ground" x="-56" y="-16" z="0"/>
+            <entity id="ground" x="72" y="-16" z="0"/>
+            <entity id="ground" x="-8" y="48" z="0"/>
+        </entities>
     </layout>
 </scene>
