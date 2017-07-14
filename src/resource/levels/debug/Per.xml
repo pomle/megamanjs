@@ -25,13 +25,13 @@
     <layout>
         <background model="greenry" x="0"    y="0"   />
 
-        <objects>
-            <object id="destructible-wall-orange" x="200" y="0" />
-            <object id="destructible-wall-orange" x="216" y="0" />
-            <object id="destructible-wall-orange" x="232" y="0" />
-            <object id="destructible-wall-orange" x="248" y="0" />
+        <entities>
+            <entity id="destructible-wall-orange" x="200" y="0" />
+            <entity id="destructible-wall-orange" x="216" y="0" />
+            <entity id="destructible-wall-orange" x="232" y="0" />
+            <entity id="destructible-wall-orange" x="248" y="0" />
 
-        </objects>
+        </entities>
 
         <solids>
             <rect x="0" y="32" w="240" h="16" />

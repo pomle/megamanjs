@@ -1,5 +1,5 @@
-<objects>
-    <object type="character" id="Flashman" source="Flashman">
+<entities>
+    <entity type="character" id="Flashman" source="Flashman">
         <geometry type="plane" w="48" h="48" />
         <collision>
             <rect w="12" h="24" />
@@ -16,7 +16,7 @@
                 <projectile-emit-offset x="18" y="3" />
             </trait>
         </traits>
-    </object>
+    </entity>
 
     <animations w="48" h="48">
         <animation id="idle">
@@ -46,4 +46,4 @@
     <textures>
         <texture id="flashman" url="flashman.png" w="256" h="256" />
     </textures>
-</objects>
+</entities>

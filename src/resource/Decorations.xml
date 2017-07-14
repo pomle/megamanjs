@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects>
+<entities>
     <textures>
         <texture id="explosions" url="explosions.png" w="256" h="256" />
     </textures>
@@ -41,7 +41,7 @@
         </animation>
     </animations>
 
-    <object type="object" id="Explosion">
+    <entity type="object" id="Explosion">
         <audio>
             <effect src="./explosion.ogg" id="explosion"/>
         </audio>
@@ -60,9 +60,9 @@
             <trait name="contact-damage" points="25"/>
             <trait name="lifetime" duration="1.12"/>
         </traits>
-    </object>
+    </entity>
 
-    <object type="object" id="Sweat">
+    <entity type="object" id="Sweat">
         <geometry type="plane" w="32" h="16">
             <face animation="sweat"/>
         </geometry>
@@ -70,14 +70,14 @@
             <trait name="lifetime" duration=".45"/>
             <trait name="translate" x="0" y="12"/>
         </traits>
-    </object>
+    </entity>
 
-    <object type="object" id="TinyExplosion">
+    <entity type="object" id="TinyExplosion">
         <geometry type="plane" w="16" h="16">
             <face animation="tiny-explosion"/>
         </geometry>
         <traits>
             <trait name="lifetime" duration=".2"/>
         </traits>
-    </object>
-</objects>
+    </entity>
+</entities>

@@ -1,5 +1,5 @@
-<objects>
-    <object type="character" id="Metalman" source="Metalman">
+<entities>
+    <entity type="character" id="Metalman" source="Metalman">
         <geometry type="plane" w="48" h="48" />
         <collision>
             <rect x="0" y="0" w="12" h="24" />
@@ -16,7 +16,7 @@
                 <projectile-emit-offset x="18" y="3" />
             </trait>
         </traits>
-    </object>
+    </entity>
 
     <textures>
         <texture id="metalman" url="metalman.png" w="256" h="256" />
@@ -43,4 +43,4 @@
             <frame x="144" y="48" duration=".12" />
         </animation>
     </animations>
-</objects>
+</entities>

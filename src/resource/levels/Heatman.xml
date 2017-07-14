@@ -48,7 +48,7 @@
             <constraint x1="4992" x2="4992" y1="-1080" y2="-1080"/>
         </path>
     </camera>
-    <objects>
+    <entities>
         <textures>
             <texture id="heatman-stage" url="./heatman/tiles.png" w="256" h="128"/>
         </textures>
@@ -201,7 +201,7 @@
                 <frame x="91" y="73" w="16" h="16"/>
             </animation>
         </animations>
-        <object id="pho-block">
+        <entity id="pho-block">
             <geometry type="plane" w="16" h="22" w-segments="1" h-segments="1">
                 <face animation="pho"/>
             </geometry>
@@ -211,8 +211,8 @@
             <traits>
                 <trait name="solid" fixed="true" obstructs="true"/>
             </traits>
-        </object>
-        <object id="ironwall">
+        </entity>
+        <entity id="ironwall">
             <geometry type="plane" w="16" h="32" w-segments="1" h-segments="2">
                 <face animation="destructible-wall">
                     <range x="*" y="*"/>
@@ -225,12 +225,12 @@
                 <trait name="solid" fixed="true" obstructs="true"/>
                 <trait name="destructible">
                     <affectors>
-                        <object id="Explosion"/>
+                        <entity id="Explosion"/>
                     </affectors>
                 </trait>
             </traits>
-        </object>
-        <object id="door">
+        </entity>
+        <entity id="door">
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
                 <face animation="door">
                     <range x="*" y="*"/>
@@ -244,11 +244,11 @@
                     <direction x="-1" y="0"/>
                 </trait>
             </traits>
-        </object>
+        </entity>
         <!--
         <model id="dr-wily-sign"><geometry type="plane" w="32" h="32" /><face animation="dr-wily-sign"></model>
         -->
-        <object id="upper-level">
+        <entity id="upper-level">
             <geometry type="plane" w="2048" h="240" w-segments="128" h-segments="15">
                 <face animation="darkness">
                     <range x="*" y="*"/>
@@ -378,8 +378,8 @@
                     <range x="126" y="13-15"/>
                 </face>
             </geometry>
-        </object>
-        <object id="vertical-1">
+        </entity>
+        <entity id="vertical-1">
             <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
                 <face animation="darkness">
                     <range x="*" y="*"/>
@@ -442,8 +442,8 @@
                     <range x="3" y="5-15"/>
                 </face>
             </geometry>
-        </object>
-        <object id="lower-level">
+        </entity>
+        <entity id="lower-level">
             <geometry type="plane" w="2816" h="240" w-segments="176" h-segments="15">
                 <face animation="darkness">
                     <range x="*" y="*"/>
@@ -565,8 +565,8 @@
                     <range x="174" y="13-15"/>
                 </face>
             </geometry>
-        </object>
-        <object id="vertical-2">
+        </entity>
+        <entity id="vertical-2">
             <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
                 <face animation="darkness">
                     <range x="*" y="*"/>
@@ -639,8 +639,8 @@
                     <range x="4" y="12-15"/>
                 </face>
             </geometry>
-        </object>
-        <object id="boss-level">
+        </entity>
+        <entity id="boss-level">
             <geometry type="plane" w="768" h="240" w-segments="48" h-segments="15">
                 <face animation="darkness">
                     <range x="*" y="*"/>
@@ -730,139 +730,139 @@
                     <range x="17-32" y="1-4"/>
                 </face>
             </geometry>
-        </object>
-        <object id="drwily-sign">
+        </entity>
+        <entity id="drwily-sign">
             <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
                 <face animation="dr-wily-sign" index="[0]"/>
             </geometry>
-        </object>
-    </objects>
+        </entity>
+    </entities>
     <layout>
-        <objects>
-            <object id="upper-level" x="1024" y="-120" z="-0.1"/>
-            <object id="vertical-1" x="1920" y="-360" z="-0.1"/>
-            <object id="lower-level" x="3200" y="-600" z="-0.1"/>
-            <object id="vertical-2" x="4480" y="-840" z="-0.1"/>
-            <object id="boss-level" x="4736" y="-1080" z="-0.1"/>
+        <entities>
+            <entity id="upper-level" x="1024" y="-120" z="-0.1"/>
+            <entity id="vertical-1" x="1920" y="-360" z="-0.1"/>
+            <entity id="lower-level" x="3200" y="-600" z="-0.1"/>
+            <entity id="vertical-2" x="4480" y="-840" z="-0.1"/>
+            <entity id="boss-level" x="4736" y="-1080" z="-0.1"/>
 
-            <object id="door" x="4608" y="-1088"/>
-            <object id="door" x="4864" y="-1088"/>
+            <entity id="door" x="4608" y="-1088"/>
+            <entity id="door" x="4864" y="-1088"/>
             <!-- vertical room 1 -->
-            <object id="pho-block" x="1960" y="-360">
+            <entity id="pho-block" x="1960" y="-360">
                 <trait name="disappearing" off="2" on="2"/>
-            </object>
-            <object id="pho-block" x="1896" y="-296">
+            </entity>
+            <entity id="pho-block" x="1896" y="-296">
                 <trait name="disappearing" off="2" on="2"/>
-            </object>
-            <object id="pho-block" x="1960" y="-312">
+            </entity>
+            <entity id="pho-block" x="1960" y="-312">
                 <trait name="disappearing" off="2" on="2" offset="-1"/>
-            </object>
-            <object id="pho-block" x="1912" y="-328">
+            </entity>
+            <entity id="pho-block" x="1912" y="-328">
                 <trait name="disappearing" off="2" on="2" offset="-2"/>
-            </object>
+            </entity>
             <!-- lower level, section 1 -->
-            <object id="pho-block" x="2104" y="-648">
+            <entity id="pho-block" x="2104" y="-648">
                 <trait name="disappearing" off="2" on="2" offset="-1"/>
-            </object>
-            <object id="pho-block" x="2216" y="-632">
+            </entity>
+            <entity id="pho-block" x="2216" y="-632">
                 <trait name="disappearing" off="2" on="2" offset="0"/>
-            </object>
-            <object id="pho-block" x="2216" y="-584">
+            </entity>
+            <entity id="pho-block" x="2216" y="-584">
                 <trait name="disappearing" off="2" on="2" offset="-1"/>
-            </object>
-            <object id="pho-block" x="2472" y="-640">
+            </entity>
+            <entity id="pho-block" x="2472" y="-640">
                 <trait name="disappearing" off="2" on="2"/>
-            </object>
-            <object id="pho-block" x="2632" y="-648">
+            </entity>
+            <entity id="pho-block" x="2632" y="-648">
                 <trait name="disappearing" off="2" on="2"/>
-            </object>
-            <object id="pho-block" x="2632" y="-600">
+            </entity>
+            <entity id="pho-block" x="2632" y="-600">
                 <trait name="disappearing" off="2" on="2" offset="-2"/>
-            </object>
-            <object id="pho-block" x="2776" y="-664">
+            </entity>
+            <entity id="pho-block" x="2776" y="-664">
                 <trait name="disappearing" off="2" on="2"/>
-            </object>
+            </entity>
             <!-- lava trap -->
-            <object id="pho-block" x="3304" y="-600">
+            <entity id="pho-block" x="3304" y="-600">
                 <trait name="disappearing" off="2" on="2" offset="0"/>
-            </object>
-            <object id="pho-block" x="3352" y="-600">
+            </entity>
+            <entity id="pho-block" x="3352" y="-600">
                 <trait name="disappearing" off="2" on="2" offset="-.5"/>
-            </object>
-            <object id="pho-block" x="3400" y="-600">
+            </entity>
+            <entity id="pho-block" x="3400" y="-600">
                 <trait name="disappearing" off="2" on="2" offset="-2.5"/>
-            </object>
-            <object id="pho-block" x="3400" y="-552">
+            </entity>
+            <entity id="pho-block" x="3400" y="-552">
                 <trait name="disappearing" off="2" on="2" offset="-3.8"/>
-            </object>
-            <object id="pho-block" x="3448" y="-552">
+            </entity>
+            <entity id="pho-block" x="3448" y="-552">
                 <trait name="disappearing" off="2" on="2" offset="-3.5"/>
-            </object>
-            <object id="pho-block" x="3496" y="-600">
+            </entity>
+            <entity id="pho-block" x="3496" y="-600">
                 <trait name="disappearing" off="2" on="2" offset="-5"/>
-            </object>
-            <object id="pho-block" x="3544" y="-600">
+            </entity>
+            <entity id="pho-block" x="3544" y="-600">
                 <trait name="disappearing" off="6" on="2" offset="-2"/>
-            </object>
-            <object id="pho-block" x="3544" y="-552">
+            </entity>
+            <entity id="pho-block" x="3544" y="-552">
                 <trait name="disappearing" off="6" on="2" offset="-1.5"/>
-            </object>
-            <object id="pho-block" x="3592" y="-552">
+            </entity>
+            <entity id="pho-block" x="3592" y="-552">
                 <trait name="disappearing" off="6" on="2" offset="-3"/>
-            </object>
-            <object id="pho-block" x="3640" y="-552">
+            </entity>
+            <entity id="pho-block" x="3640" y="-552">
                 <trait name="disappearing" off="6" on="2" offset="-4"/>
-            </object>
-            <object id="pho-block" x="3688" y="-584">
+            </entity>
+            <entity id="pho-block" x="3688" y="-584">
                 <trait name="disappearing" off="6" on="2" offset="-5"/>
-            </object>
-            <object id="pho-block" x="3736" y="-584">
+            </entity>
+            <entity id="pho-block" x="3736" y="-584">
                 <trait name="disappearing" off="6" on="2" offset="-6"/>
-            </object>
-            <object id="pho-block" x="3784" y="-584">
+            </entity>
+            <entity id="pho-block" x="3784" y="-584">
                 <trait name="disappearing" off="6" on="2" offset="-7"/>
-            </object>
-            <object id="pho-block" x="3832" y="-584">
+            </entity>
+            <entity id="pho-block" x="3832" y="-584">
                 <trait name="disappearing" off="6" on="2" offset="-8"/>
-            </object>
-            <object id="pho-block" x="3880" y="-584">
+            </entity>
+            <entity id="pho-block" x="3880" y="-584">
                 <trait name="disappearing" off="6" on="2" offset="-9"/>
-            </object>
-            <object id="pho-block" x="3928" y="-600">
+            </entity>
+            <entity id="pho-block" x="3928" y="-600">
                 <trait name="disappearing" off="6" on="2" offset="-10"/>
-            </object>
-            <object id="pho-block" x="3976" y="-584">
+            </entity>
+            <entity id="pho-block" x="3976" y="-584">
                 <trait name="disappearing" off="6" on="2" offset="-11"/>
-            </object>
-            <object id="pho-block" x="4024" y="-568">
+            </entity>
+            <entity id="pho-block" x="4024" y="-568">
                 <trait name="disappearing" off="6" on="2" offset="-12"/>
-            </object>
-            <object id="pho-block" x="4072" y="-552">
+            </entity>
+            <entity id="pho-block" x="4072" y="-552">
                 <trait name="disappearing" off="6" on="2" offset="-13"/>
-            </object>
-            <object id="pho-block" x="4120" y="-632">
+            </entity>
+            <entity id="pho-block" x="4120" y="-632">
                 <trait name="disappearing" off="6" on="2" offset="-14"/>
-            </object>
-            <object id="pho-block" x="4168" y="-632">
+            </entity>
+            <entity id="pho-block" x="4168" y="-632">
                 <trait name="disappearing" off="6" on="2" offset="-15"/>
-            </object>
-            <object id="pho-block" x="4216" y="-632">
+            </entity>
+            <entity id="pho-block" x="4216" y="-632">
                 <trait name="disappearing" off="6" on="2" offset="-16"/>
-            </object>
-            <object id="pho-block" x="4216" y="-584">
+            </entity>
+            <entity id="pho-block" x="4216" y="-584">
                 <trait name="disappearing" off="6" on="2" offset="-18"/>
-            </object>
-            <object id="pho-block" x="4264" y="-600">
+            </entity>
+            <entity id="pho-block" x="4264" y="-600">
                 <trait name="disappearing" off="6" on="2" offset="-17"/>
-            </object>
-            <object id="pho-block" x="4312" y="-584">
+            </entity>
+            <entity id="pho-block" x="4312" y="-584">
                 <trait name="disappearing" off="6" on="2" offset="-18.5"/>
-            </object>
-            <object id="ironwall" x="2488" y="-656"/>
-            <object id="ironwall" x="2648" y="-624"/>
-            <object id="ironwall" x="2792" y="-656"/>
-            <object id="drwily-sign" x="4592" y="-1024" z="0"/>
-        </objects>
+            </entity>
+            <entity id="ironwall" x="2488" y="-656"/>
+            <entity id="ironwall" x="2648" y="-624"/>
+            <entity id="ironwall" x="2792" y="-656"/>
+            <entity id="drwily-sign" x="4592" y="-1024" z="0"/>
+        </entities>
         <spawner x="680" y="-88" interval="4" simultaneous="1">
             <character id="Telly"/>
         </spawner>

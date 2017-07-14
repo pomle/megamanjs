@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects>
-    <object type="character" source="Megaman" id="Megaman">
+<entities>
+    <entity type="character" source="Megaman" id="Megaman">
         <audio>
             <effect src="./megaman/teleport-in.ogg" id="teleport-in"/>
             <effect src="./megaman/teleport-out.ogg" id="teleport-out"/>
@@ -59,10 +59,10 @@
             <trait name="stun" force="10500" duration=".8" />
             <trait name="teleport" />
             <trait name="spawn">
-                <item object="Sweat" event="hurt">
+                <entity id="Sweat" event="hurt">
                     <offset x="0" y="12"/>
-                </item>
-                <item object="TinyExplosion" event="death"/>
+                </entity>
+                <entity id="TinyExplosion" event="death"/>
             </trait>
             <trait name="weapon">
                 <projectile-emit x="0" y="1" r="17" />
@@ -127,7 +127,7 @@
             }
             ]]>
         </animation-router>
-    </object>
+    </entity>
 
     <animations w="48" h="48" texture="megaman-p">
         <animation id="idle">
@@ -243,4 +243,4 @@
         </texture>
         <texture id="headlight_lensflare" url="../deco/headlight_lensflare.png" w="256" h="128" scale="1" />
     </textures>
-</objects>
+</entities>

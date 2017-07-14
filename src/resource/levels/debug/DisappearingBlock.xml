@@ -17,8 +17,8 @@
         </animation>
     </texture>
 
-    <objects>
-        <object id="PhoBlock">
+    <entities>
+        <entity id="PhoBlock">
             <geometry type="plane" w="16" h="22" w-segments="1" h-segments="1" />
             <collision>
                 <rect x="0" y="3" w="16" h="16" />
@@ -31,25 +31,25 @@
             <traits>
                 <trait name="solid" />
             </traits>
-        </object>
-    </objects>
+        </entity>
+    </entities>
 
 
     <layout>
-        <objects>
-            <object id="PhoBlock" x="48" y="4">
+        <entities>
+            <entity id="PhoBlock" x="48" y="4">
                 <trait name="disappearing" off="4" on="2" offset="0" />
-            </object>
-            <object id="PhoBlock" x="96" y="4">
+            </entity>
+            <entity id="PhoBlock" x="96" y="4">
                 <trait name="disappearing" off="4" on="2" offset="-1" />
-            </object>
-            <object id="PhoBlock" x="144" y="4">
+            </entity>
+            <entity id="PhoBlock" x="144" y="4">
                 <trait name="disappearing" off="4" on="2" offset="-2" />
-            </object>
-            <object id="PhoBlock" x="192" y="4">
+            </entity>
+            <entity id="PhoBlock" x="192" y="4">
                 <trait name="disappearing" off="4" on="2" offset="-3" />
-            </object>
-        </objects>
+            </entity>
+        </entities>
 
         <solids>
             <rect x="-32" y="32" w="64" h="16" />
