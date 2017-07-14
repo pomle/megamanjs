@@ -1,5 +1,5 @@
-<objects>
-    <object type="character" id="Heatman" source="Heatman">
+<entities>
+    <entity type="character" id="Heatman" source="Heatman">
         <geometry type="plane" w="48" h="48" />
         <collision>
             <rect w="12" h="24" />
@@ -16,7 +16,7 @@
                 <projectile-emit-offset x="18" y="3" />
             </trait>
         </traits>
-    </object>
+    </entity>
 
     <animations w="48" h="48">
         <animation id="idle">
@@ -53,4 +53,4 @@
     <textures>
         <texture id="heatman" url="heatman.png" w="256" h="256" />
     </textures>
-</objects>
+</entities>

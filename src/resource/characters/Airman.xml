@@ -1,5 +1,5 @@
-<objects>
-    <object type="character" id="Airman" source="Airman">
+<entities>
+    <entity type="character" id="Airman" source="Airman">
         <geometry type="plane" w="48" h="48" />
         <collision>
             <rect x="0" y="0" w="20" h="28" />
@@ -16,7 +16,7 @@
                 <projectile-emit-offset x="22" y="-1" />
             </trait>
         </traits>
-    </object>
+    </entity>
 
     <textures>
         <texture url="airman.png" w="256" h="256" />
@@ -37,4 +37,4 @@
             <frame x="192" y="0" duration=".12" />
         </animation>
     </animations>
-</objects>
+</entities>

@@ -1,5 +1,5 @@
-<objects>
-    <object type="character" id="Crashman" source="Crashman">
+<entities>
+    <entity type="character" id="Crashman" source="Crashman">
         <geometry type="plane" w="48" h="48" />
         <collision>
             <rect x="0" y="0" w="12" h="24" />
@@ -17,7 +17,7 @@
                 <projectile-emit-offset x="17" y="1" />
             </trait>
         </traits>
-    </object>
+    </entity>
 
     <textures>
         <texture url="crashman.png" w="256" h="256" />
@@ -44,4 +44,4 @@
             <frame x="96" y="48" duration=".12"/>
         </animation>
     </animations>
-</objects>
+</entities>

@@ -5,7 +5,7 @@
         <checkpoint x="0" y="0"/>
     </checkpoints>
 
-    <objects>
+    <entities>
         <textures>
             <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128" />
         </textures>
@@ -19,7 +19,7 @@
             </animation>
         </animations>
 
-        <object id="ground">
+        <entity id="ground">
             <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
                 <face animation="bricks-big">
                     <range x="*" y="*"/>
@@ -31,9 +31,9 @@
             <traits>
                 <trait name="solid" fixed="true" obstructs="true"/>
             </traits>
-        </object>
+        </entity>
 
-        <object id="door">
+        <entity id="door">
             <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
                 <face animation="door">
                     <range x="*" y="*"/>
@@ -43,28 +43,28 @@
             <collision>
                 <rect x="0" y="0" w="32" h="64" />
             </collision>
-        </object>
-    </objects>
+        </entity>
+    </entities>
 
     <layout>
-        <objects>
-            <object id="door" x="32" y="0">
+        <entities>
+            <entity id="door" x="32" y="0">
                 <trait name="door">
                     <direction x="-1" y="0" />
                 </trait>
-            </object>
-            <object id="door" x="-48" y="0">
+            </entity>
+            <entity id="door" x="-48" y="0">
                 <trait name="door">
                     <direction x="0" y="0" />
                 </trait>
-            </object>
+            </entity>
 
-            <object id="ground" x="32" y="-40"/>
-            <object id="ground" x="-32" y="-40"/>
-            <object id="ground" x="-64" y="-40"/>
-            <object id="ground" x="64" y="-40"/>
-            <object id="ground" x="96" y="-40"/>
-            <object id="ground" x="80" y="16"/>
-        </objects>
+            <entity id="ground" x="32" y="-40"/>
+            <entity id="ground" x="-32" y="-40"/>
+            <entity id="ground" x="-64" y="-40"/>
+            <entity id="ground" x="64" y="-40"/>
+            <entity id="ground" x="96" y="-40"/>
+            <entity id="ground" x="80" y="16"/>
+        </entities>
     </layout>
 </scene>

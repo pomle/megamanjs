@@ -3,7 +3,7 @@ const expect = require('expect.js');
 const mocks = require('@snakesilk/testing/mocks');
 const {createNode} = require('@snakesilk/testing/xml');
 const {createLoader} = require('../bootstrap');
-const {Parser: {ObjectParser}} = require('@snakesilk/xml-loader');
+const {Parser: {EntityParser}} = require('@snakesilk/xml-loader');
 
 describe('createLoader()', () => {
     let loader;
@@ -37,17 +37,17 @@ describe('createLoader()', () => {
         'Telly',
     ].forEach(name => {
         const id = name + '-id';
-        const xmlString = `<objects>
-             <object type="character" source="${name}" id="${id}"/>
-        </objects>`;
+        const xmlString = `<entities>
+             <entity type="character" source="${name}" id="${id}"/>
+        </entities>`;
 
         describe(`when parsing ${xmlString}`, () => {
             let parser, Entity;
 
             beforeEach(() => {
                 const node = createNode(xmlString);
-                parser = new ObjectParser(loader, node);
-                return parser.getObjects()
+                parser = new EntityParser(loader);
+                return parser.getObjects(node)
                     .then(objects => {
                         Entity = objects[id].constructor;
                     });

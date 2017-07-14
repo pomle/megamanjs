@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects>
+<entities>
     <textures>
         <texture id="projectiles" url="projectiles.png" w="128" h="128" />
     </textures>
@@ -30,7 +30,7 @@
         </animation>
     </animations>
 
-    <object type="projectile" source="AirShot" id="AirShot">
+    <entity type="projectile" source="AirShot" id="AirShot">
         <geometry type="plane" w="16" h="16">
             <face animation="airshot-twirl"/>
         </geometry>
@@ -41,9 +41,9 @@
             <trait name="fixed-force" y="150" />
             <trait name="projectile" damage="20" range="220" speed="80" />
         </traits>
-    </object>
+    </entity>
 
-    <object type="projectile" source="CrashBomb" id="CrashBomb">
+    <entity type="projectile" source="CrashBomb" id="CrashBomb">
         <audio>
             <effect src="./crash-bomb-attach.ogg" id="crash-bomb-attach"/>
         </audio>
@@ -78,9 +78,9 @@
                  <item event="recycled" object="Explosion"/>
             </trait>
         </traits>
-    </object>
+    </entity>
 
-    <object type="projectile" source="MetalBlade" id="MetalBlade">
+    <entity type="projectile" source="MetalBlade" id="MetalBlade">
         <geometry type="plane" w="20" h="16">
             <face animation="metal-blade"/>
         </geometry>
@@ -90,9 +90,9 @@
         <traits>
             <trait name="projectile" damage="20" range="300" speed="240" penetrates="true" />
         </traits>
-    </object>
+    </entity>
 
-    <object type="projectile" source="Plasma" id="Plasma">
+    <entity type="projectile" source="Plasma" id="Plasma">
         <geometry type="plane" w="8" h="8">
             <face animation="plasma"/>
         </geometry>
@@ -102,5 +102,5 @@
         <traits>
             <trait name="projectile" damage="3" range="180" speed="240" penetrates="false"/>
         </traits>
-    </object>
-</objects>
+    </entity>
+</entities>
