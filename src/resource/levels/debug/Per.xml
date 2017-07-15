@@ -1,41 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scene type="level" name="Per">
-    <gravity x="0" y="2" />
-
-    <checkpoints>
-        <checkpoint x="0" y="0"/>
-    </checkpoints>
-
-
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="0" y="0"/>
+  </checkpoints>
+  <scene name="Per">
+    <gravity x="0" y="2"/>
     <texture id="heatman-stage" url="http://www.freelargeimages.com/wp-content/uploads/2014/12/Landscape_01.jpg" w="256" h="128">
-        <animation id="greenery">
-            <frame x="0" y="0" w="1920" h="1080"/>
-        </animation>
+      <animation id="greenery">
+        <frame x="0" y="0" w="1920" h="1080"/>
+      </animation>
     </texture>
-
     <models>
-        <model id="greenry">
-            <geometry type="plane" w="1920" h="1080" w-segments="1" h-segments="1" />
-            <tile id="greenery">
-                <face x="1" y="1"/>
-            </tile>
-        </model>
+      <model id="greenry">
+        <geometry type="plane" w="1920" h="1080" w-segments="1" h-segments="1"/>
+        <tile id="greenery">
+          <face x="1" y="1"/>
+        </tile>
+      </model>
     </models>
-
     <layout>
-        <background model="greenry" x="0"    y="0"   />
-
-        <entities>
-            <entity id="destructible-wall-orange" x="200" y="0" />
-            <entity id="destructible-wall-orange" x="216" y="0" />
-            <entity id="destructible-wall-orange" x="232" y="0" />
-            <entity id="destructible-wall-orange" x="248" y="0" />
-
-        </entities>
-
-        <solids>
-            <rect x="0" y="32" w="240" h="16" />
-            <rect x="200" y="64" w="240" h="16" />
-        </solids>
+      <background model="greenry" x="0" y="0"/>
+      <entities>
+        <entity id="destructible-wall-orange" x="200" y="0"/>
+        <entity id="destructible-wall-orange" x="216" y="0"/>
+        <entity id="destructible-wall-orange" x="232" y="0"/>
+        <entity id="destructible-wall-orange" x="248" y="0"/>
+      </entities>
+      <solids>
+        <rect x="0" y="32" w="240" h="16"/>
+        <rect x="200" y="64" w="240" h="16"/>
+      </solids>
     </layout>
-</scene>
+  </scene>
+</level>

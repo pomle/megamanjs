@@ -1,56 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scene type="level">
+<?xml version="1.0"?>
+<level>
+  <scene>
     <entities>
-        <textures>
-            <texture id="heatman-stage" url="../../../dist/resource/levels/heatman/tiles.png" w="256" h="128"/>
-        </textures>
-        <animations>
-            <animation id="ladder">
-                <frame x="91" y="37" w="16" h="16"/>
-            </animation>
-            <animation id="bricks-big">
-                <frame x="145" y="55" w="16" h="16"/>
-            </animation>
-        </animations>
-        <entity id="ground">
-            <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
-                <face animation="bricks-big">
-                    <range x="*" y="*"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect w="64" h="16"/>
-            </collision>
-            <traits>
-                <trait name="solid" fixed="true" obstructs="true"/>
-            </traits>
-        </entity>
-        <entity id="ladder">
-            <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8">
-                <face animation="ladder">
-                    <range x="*" y="*"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="0" h="128"/>
-            </collision>
-            <traits>
-                <trait name="climbable"/>
-            </traits>
-        </entity>
+      <textures>
+        <texture id="heatman-stage" url="../../../dist/resource/levels/heatman/tiles.png" w="256" h="128"/>
+      </textures>
+      <animations>
+        <animation id="ladder">
+          <frame x="91" y="37" w="16" h="16"/>
+        </animation>
+        <animation id="bricks-big">
+          <frame x="145" y="55" w="16" h="16"/>
+        </animation>
+      </animations>
+      <entity id="ground">
+        <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+          <face animation="bricks-big">
+            <range x="*" y="*"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect w="64" h="16"/>
+        </collision>
+        <traits>
+          <trait name="solid" fixed="true" obstructs="true"/>
+        </traits>
+      </entity>
+      <entity id="ladder">
+        <geometry type="plane" w="16" h="128" w-segments="1" h-segments="8">
+          <face animation="ladder">
+            <range x="*" y="*"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="0" h="128"/>
+        </collision>
+        <traits>
+          <trait name="climbable"/>
+        </traits>
+      </entity>
     </entities>
     <layout>
-        <entities>
-            <entity id="ladder" x="32" y="0" z="-1"/>
-            <entity id="ladder" x="-48" y="32" z="-1"/>
-            <entity id="ladder" x="96" y="-96" z="-1"/>
-            <entity id="ladder" x="-32" y="-144" z="-1"/>
-
-            <entity id="ground" x="8" y="-88" />
-            <entity id="ground" x="-72" y="-88" />
-            <entity id="ground" x="32" y="72" />
-            <entity id="ground" x="136" y="-40" />
-            <entity id="ground" x="96" y="-168" />
-        </entities>
+      <entities>
+        <entity id="ladder" x="32" y="0" z="-1"/>
+        <entity id="ladder" x="-48" y="32" z="-1"/>
+        <entity id="ladder" x="96" y="-96" z="-1"/>
+        <entity id="ladder" x="-32" y="-144" z="-1"/>
+        <entity id="ground" x="8" y="-88"/>
+        <entity id="ground" x="-72" y="-88"/>
+        <entity id="ground" x="32" y="72"/>
+        <entity id="ground" x="136" y="-40"/>
+        <entity id="ground" x="96" y="-168"/>
+      </entities>
     </layout>
-</scene>
+  </scene>
+</level>
