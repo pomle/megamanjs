@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scene type="level" name="Heatman">
+<scene type="levl" name="Heatman">
     <audio>
         <music src="./heatman/music.ogg" id="level">
             <loop />
