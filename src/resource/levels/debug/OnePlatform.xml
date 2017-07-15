@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scene type="level" name="OnePlatform" debug="true">
-
-    <checkpoints>
-        <checkpoint x="0" y="0"/>
-    </checkpoints>
-
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="0" y="0"/>
+  </checkpoints>
+  <scene name="OnePlatform" debug="true">
     <layout>
-        <solids>
-            <rect x="0" y="0" w="1024" h="16" />
-        </solids>
+      <solids>
+        <rect x="0" y="0" w="1024" h="16"/>
+      </solids>
     </layout>
-</scene>
+  </scene>
+</level>

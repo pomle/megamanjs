@@ -1,7 +1,0 @@
-<scene type="level" name="LayoutEditorTest">
-    <layout>
-        <solids>
-            <rect x="0" y="-64" w="200" h="16" />
-        </solids>
-    </layout>
-</scene>

@@ -1,59 +1,52 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scene type="level" name="DisappearingBlock">
-
-    <checkpoints>
-        <checkpoint x="0" y="0"/>
-    </checkpoints>
-
-
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="0" y="0"/>
+  </checkpoints>
+  <scene name="DisappearingBlock">
     <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128">
-        <animation id="pho">
-            <frame x="1" y="73" w="16" h="22" duration=".117" />
-            <frame x="19" y="73" w="16" h="22" duration=".117" />
-            <frame x="37" y="73" w="16" h="22" duration=".117" />
-            <frame x="55" y="73" w="16" h="22" duration=".117" />
-            <frame x="73" y="73" w="16" h="22" duration=".117" />
-            <frame x="19" y="73" w="16" h="22" />
-        </animation>
+      <animation id="pho">
+        <frame x="1" y="73" w="16" h="22" duration=".117"/>
+        <frame x="19" y="73" w="16" h="22" duration=".117"/>
+        <frame x="37" y="73" w="16" h="22" duration=".117"/>
+        <frame x="55" y="73" w="16" h="22" duration=".117"/>
+        <frame x="73" y="73" w="16" h="22" duration=".117"/>
+        <frame x="19" y="73" w="16" h="22"/>
+      </animation>
     </texture>
-
     <entities>
-        <entity id="PhoBlock">
-            <geometry type="plane" w="16" h="22" w-segments="1" h-segments="1" />
-            <collision>
-                <rect x="0" y="3" w="16" h="16" />
-            </collision>
-
-            <tile id="pho">
-                <face x="1" y="1"/>
-            </tile>
-
-            <traits>
-                <trait name="solid" />
-            </traits>
-        </entity>
+      <entity id="PhoBlock">
+        <geometry type="plane" w="16" h="22" w-segments="1" h-segments="1"/>
+        <collision>
+          <rect x="0" y="3" w="16" h="16"/>
+        </collision>
+        <tile id="pho">
+          <face x="1" y="1"/>
+        </tile>
+        <traits>
+          <trait name="solid"/>
+        </traits>
+      </entity>
     </entities>
-
-
     <layout>
-        <entities>
-            <entity id="PhoBlock" x="48" y="4">
-                <trait name="disappearing" off="4" on="2" offset="0" />
-            </entity>
-            <entity id="PhoBlock" x="96" y="4">
-                <trait name="disappearing" off="4" on="2" offset="-1" />
-            </entity>
-            <entity id="PhoBlock" x="144" y="4">
-                <trait name="disappearing" off="4" on="2" offset="-2" />
-            </entity>
-            <entity id="PhoBlock" x="192" y="4">
-                <trait name="disappearing" off="4" on="2" offset="-3" />
-            </entity>
-        </entities>
-
-        <solids>
-            <rect x="-32" y="32" w="64" h="16" />
-            <rect x="256" y="32" w="64" h="16" />
-        </solids>
+      <entities>
+        <entity id="PhoBlock" x="48" y="4">
+          <trait name="disappearing" off="4" on="2" offset="0"/>
+        </entity>
+        <entity id="PhoBlock" x="96" y="4">
+          <trait name="disappearing" off="4" on="2" offset="-1"/>
+        </entity>
+        <entity id="PhoBlock" x="144" y="4">
+          <trait name="disappearing" off="4" on="2" offset="-2"/>
+        </entity>
+        <entity id="PhoBlock" x="192" y="4">
+          <trait name="disappearing" off="4" on="2" offset="-3"/>
+        </entity>
+      </entities>
+      <solids>
+        <rect x="-32" y="32" w="64" h="16"/>
+        <rect x="256" y="32" w="64" h="16"/>
+      </solids>
     </layout>
-</scene>
+  </scene>
+</level>

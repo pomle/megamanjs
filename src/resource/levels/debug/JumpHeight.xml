@@ -1,27 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scene type="level" debug="true">
-    <gravity x="0" y="9.81" />
-
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="0" y="-64"/>
+  </checkpoints>
+  <scene debug="true">
+    <gravity x="0" y="9.81"/>
     <camera>
-        <position x="64" y="-48" z="100"/>
+      <position x="64" y="-48" z="100"/>
     </camera>
-
-    <checkpoints>
-        <checkpoint x="0" y="-64"/>
-    </checkpoints>
-
     <layout>
-        <solids>
-            <!-- Ground -->
-            <rect x="0" y="0" w="256" h="16"/>
-
-            <!-- Megaman should just barely touch this platform with his head. -->
-            <rect x="0" y="-74" w="16" h="0"/>
-
-            <!-- Megaman should be able to reach this platform. -->
-            <rect x="48" y="-48" w="16" h="0"/>
-
-
-        </solids>
+      <solids>
+        <!-- Ground -->
+        <rect x="0" y="0" w="256" h="16"/>
+        <!-- Megaman should just barely touch this platform with his head. -->
+        <rect x="0" y="-74" w="16" h="0"/>
+        <!-- Megaman should be able to reach this platform. -->
+        <rect x="48" y="-48" w="16" h="0"/>
+      </solids>
     </layout>
-</scene>
+  </scene>
+</level>

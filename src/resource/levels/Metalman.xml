@@ -1,1119 +1,1122 @@
-<scene type="level" name="Metalman">
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="128" y="-168" z="0"/>
+  </checkpoints>
+  <music>
+    <level id="level"/>
+  </music>
+  <scene name="Metalman">
     <editor>
-        <guides>
-            <image-overlay data="" x="0" y="0"/>
-        </guides>
+      <guides>
+        <image-overlay data="" x="0" y="0"/>
+      </guides>
     </editor>
     <audio>
-        <music src="./metalman/music.ogg" id="level">
-            <loop />
-        </music>
+      <music src="./metalman/music.ogg" id="level">
+        <loop/>
+      </music>
     </audio>
-    <music>
-        <level id="level"/>
-    </music>
     <gravity x="0" y="9.81"/>
-    <checkpoints>
-        <checkpoint x="128" y="-168" z="0"/>
-    </checkpoints>
     <camera>
-        <path>
-            <window x1="0" x2="2560" y1="-240" y2="0"/>
-            <constraint x1="128" x2="2432" y1="-120" y2="-120"/>
-        </path>
-        <path>
-            <window x1="2304" x2="2560" y1="-480" y2="-240"/>
-            <constraint x1="2432" x2="2432" y1="-360" y2="-360"/>
-        </path>
-        <path>
-            <window x1="2304" x2="4608" y1="-720" y2="-480"/>
-            <constraint x1="2432" x2="4480" y1="-600" y2="-600"/>
-        </path>
-        <path>
-            <window x1="4864" x2="5120" y1="-720" y2="-480"/>
-            <constraint x1="4992" x2="4992" y1="-600" y2="-600"/>
-        </path>
-        <path>
-            <window x1="4608" x2="4864" y1="-720" y2="-480"/>
-            <constraint x1="4736" x2="4736" y1="-600" y2="-600"/>
-        </path>
+      <path>
+        <window x1="0" x2="2560" y1="-240" y2="0"/>
+        <constraint x1="128" x2="2432" y1="-120" y2="-120"/>
+      </path>
+      <path>
+        <window x1="2304" x2="2560" y1="-480" y2="-240"/>
+        <constraint x1="2432" x2="2432" y1="-360" y2="-360"/>
+      </path>
+      <path>
+        <window x1="2304" x2="4608" y1="-720" y2="-480"/>
+        <constraint x1="2432" x2="4480" y1="-600" y2="-600"/>
+      </path>
+      <path>
+        <window x1="4864" x2="5120" y1="-720" y2="-480"/>
+        <constraint x1="4992" x2="4992" y1="-600" y2="-600"/>
+      </path>
+      <path>
+        <window x1="4608" x2="4864" y1="-720" y2="-480"/>
+        <constraint x1="4736" x2="4736" y1="-600" y2="-600"/>
+      </path>
     </camera>
     <entities>
-        <textures>
-            <texture url="./metalman/tiles.png" w="256" h="128"/>
-        </textures>
-        <animations>
-            <animation id="transparent">
-                <frame x="1" y="109" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-h-1">
-                <frame x="1" y="1" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-h-2">
-                <frame x="19" y="1" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-h-3">
-                <frame x="37" y="1" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-h-4">
-                <frame x="55" y="1" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-v-1">
-                <frame x="1" y="19" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-v-2">
-                <frame x="1" y="37" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-v-3">
-                <frame x="1" y="55" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-v-4">
-                <frame x="1" y="73" w="16" h="16"/>
-            </animation>
-            <animation id="wheel-v-5">
-                <frame x="1" y="91" w="16" h="16"/>
-            </animation>
-            <animation id="conveyor-left">
-                <frame x="37" y="37" w="16" h="16" duration=".1"/>
-                <frame x="73" y="55" w="16" h="16" duration=".1"/>
-            </animation>
-            <animation id="conveyor">
-                <frame x="55" y="37" w="16" h="16" duration=".1"/>
-                <frame x="73" y="37" w="16" h="16" duration=".1"/>
-            </animation>
-            <animation id="conveyor-right">
-                <frame x="91" y="37" w="16" h="16" duration=".1"/>
-                <frame x="73" y="55" w="16" h="16" duration=".1"/>
-            </animation>
-            <animation id="sign-n">
-                <frame x="55" y="55" w="16" h="16"/>
-            </animation>
-            <animation id="sign-w">
-                <frame x="55" y="73" w="16" h="16"/>
-            </animation>
-            <animation id="door">
-                <frame x="73" y="73" w="16" h="16"/>
-            </animation>
-            <animation id="sign-s">
-                <frame x="73" y="91" w="16" h="16"/>
-            </animation>
-            <animation id="sign-sw">
-                <frame x="55" y="91" w="16" h="16"/>
-            </animation>
-            <animation id="screw-top">
-                <frame x="19" y="19" w="16" h="16"/>
-            </animation>
-            <animation id="screw-bot">
-                <frame x="19" y="37" w="16" h="16"/>
-            </animation>
-            <animation id="screw-left">
-                <frame x="37" y="19" w="16" h="16"/>
-            </animation>
-            <animation id="screw-right">
-                <frame x="55" y="19" w="16" h="16"/>
-            </animation>
-            <animation id="big-cog">
-                <frame x="145" y="19" w="32" h="32" duration=".12"/>
-                <frame x="145" y="55" w="32" h="32" duration=".12"/>
-            </animation>
-            <animation id="crankshaft">
-                <frame x="145" y="91" w="16" h="16" duration=".12"/>
-                <frame x="163" y="91" w="16" h="16" duration=".12"/>
-            </animation>
-            <animation id="small-cog">
-                <frame x="127" y="19" w="16" h="16" duration=".12"/>
-                <frame x="127" y="37" w="16" h="16" duration=".12"/>
-            </animation>
-            <animation id="med-cog">
-                <frame x="127" y="55" w="16" h="16" duration=".12"/>
-                <frame x="127" y="73" w="16" h="16" duration=".12"/>
-            </animation>
-            <animation id="piston-1">
-                <frame x="91" y="55" w="16" h="16" duration=".12"/>
-                <frame x="109" y="55" w="16" h="16" duration=".12"/>
-            </animation>
-            <animation id="piston-2">
-                <frame x="91" y="73" w="16" h="16" duration=".12"/>
-                <frame x="109" y="73" w="16" h="16" duration=".12"/>
-            </animation>
-            <animation id="piston-crank">
-                <frame x="91" y="91" w="16" h="16" duration=".12"/>
-                <frame x="109" y="91" w="16" h="16" duration=".12"/>
-            </animation>
-            <animation id="dr-wily-logo">
-                <frame x="73" y="1" w="32" h="32"/>
-            </animation>
-            <animation id="struct-1">
-                <frame x="19" y="55" w="16" h="16"/>
-            </animation>
-            <animation id="struct-2">
-                <frame x="37" y="55" w="16" h="16"/>
-            </animation>
-            <animation id="struct-3">
-                <frame x="19" y="73" w="16" h="16"/>
-            </animation>
-            <animation id="struct-4">
-                <frame x="37" y="73" w="16" h="16"/>
-            </animation>
-            <animation id="struct-5">
-                <frame x="19" y="91" w="16" h="16"/>
-            </animation>
-            <animation id="struct-6">
-                <frame x="37" y="91" w="16" h="16"/>
-            </animation>
-            <animation id="deco-1">
-                <frame x="109" y="37" w="16" h="16"/>
-            </animation>
-            <animation id="shaft-hori">
-                <frame x="127" y="91" w="16" h="16"/>
-            </animation>
-        </animations>
-        <entity id="big_cog">
-            <geometry type="plane" w="32" h="32">
-                <face animation="big-cog">
-                    <range x="1" y="1"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="conveyor_24">
-            <geometry type="plane" w="384" h="16" w-segments="24" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,24" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-23" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="384" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="conveyor_20">
-            <geometry type="plane" w="320" h="16" w-segments="20" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,20" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-19" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="320" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="conveyor_14">
-            <geometry type="plane" w="224" h="16" w-segments="14" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,14" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-13" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="224" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="conveyor_15">
-            <geometry type="plane" w="240" h="16" w-segments="15" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,15" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-14" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="240" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="conveyor_18">
-            <geometry type="plane" w="288" h="16" w-segments="18" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,18" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-17" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="288" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="conveyor_12">
-            <geometry type="plane" w="192" h="16" w-segments="12" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,12" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-11" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="192" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="conveyor_16">
-            <geometry type="plane" w="256" h="16" w-segments="16" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,16" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-15" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="256" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="conveyor_10">
-            <geometry type="plane" w="160" h="16" w-segments="10" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,10" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-9" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="160" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="conveyor_4">
-            <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
-                <face animation="conveyor-right">
-                    <range x="1,4" y="1"/>
-                </face>
-                <face animation="conveyor">
-                    <range x="2-3" y="1"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="64" h="16"/>
-            </collision>
-            <traits>
-                <trait name="conveyor"/>
-            </traits>
-        </entity>
-        <entity id="door">
-            <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
-                <face animation="door">
-                    <range x="*" y="*"/>
-                </face>
-            </geometry>
-            <collision>
-                <rect x="0" y="0" w="32" h="64"/>
-            </collision>
-            <traits>
-                <trait name="door">
-                    <direction x="-1" y="0"/>
-                </trait>
-            </traits>
-        </entity>
-        <entity id="cog_green_vert">
-            <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
-                <face animation="wheel-h-1">
-                    <range x="1" y="1"/>
-                </face>
-                <face animation="wheel-h-2">
-                    <range x="2" y="1"/>
-                </face>
-                <face animation="wheel-h-3">
-                    <range x="3" y="1"/>
-                </face>
-                <face animation="wheel-h-4">
-                    <range x="4" y="1"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="cog_green_hori">
-            <geometry type="plane" w="16" h="64" w-segments="1" h-segments="4">
-                <face animation="wheel-v-1">
-                    <range x="1" y="1"/>
-                </face>
-                <face animation="wheel-v-2">
-                    <range x="1" y="2"/>
-                </face>
-                <face animation="wheel-v-3">
-                    <range x="1" y="3"/>
-                </face>
-                <face animation="wheel-v-5">
-                    <range x="1" y="4"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="cog_green_vert_tall">
-            <geometry type="plane" w="16" h="96" w-segments="1" h-segments="6">
-                <face animation="wheel-v-1">
-                    <range x="1" y="1"/>
-                </face>
-                <face animation="wheel-v-2">
-                    <range x="1" y="2-3"/>
-                </face>
-                <face animation="wheel-v-3">
-                    <range x="1" y="4"/>
-                </face>
-                <face animation="wheel-v-4">
-                    <range x="1" y="5"/>
-                </face>
-                <face animation="wheel-v-5">
-                    <range x="1" y="6"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="corn_vert">
-            <geometry type="plane" w="32" h="128" w-segments="2" h-segments="8">
-                <face animation="screw-left">
-                    <range x="1" y="*"/>
-                </face>
-                <face animation="screw-right">
-                    <range x="2" y="*"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="corn_hori">
-            <geometry type="plane" w="64" h="32" w-segments="4" h-segments="2">
-                <face animation="screw-top">
-                    <range x="*" y="1"/>
-                </face>
-                <face animation="screw-bot">
-                    <range x="*" y="2"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="object_81E630B581B942C9ABFFEDF41A1A73F7">
-            <geometry type="plane" w="1600" h="240" w-segments="100" h-segments="15">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="struct-1" index="[1808,2008,2208,2408,2608,2808,2820,2620,2420,2220,1820,2020,1830,1642,1842,2042,2242,2442,2642,2842,2850,2650,2450,2250,2050,1850,1650,0,200,400,600,616,416,216,16,30,230,430,630,42,242,442,50,250,450,650,56,256,456,656,64,264,464,664,80,280,480,680,880,1080,688,488,288,88,96,296,496,696,896,1096,704,504,304,104,112,312,512,712,912,1112,120,320,520,720,128,328,528,728,540,136,336,536,736,744,544,344,144,152,352,552,752,160,360,560,760,168,368,568,768,968,1168,1368,1568,1768,1776,1576,1376,1176,976,776,376,176,576,184,384,584,984,784,1184,1384,1584,1784,2592,2792,2992,2580,2780,2980,2568,2768,2968,2560,2760,2960,1952,2152,2352,2552,2752,2952,1944,2144,2344,2544,2744,2944,1936,2136,2336,2536,2736,2936,1928,2128,2328,2528,2728,2928,2508,2708,2908,2096,2296,2496,2696,2896,2484,2684,2884,2468,2668,2868,34,234,434,62,262,462,662]"/>
-                <face animation="struct-3" index="[1810,2210,2610,1814,2214,2614,1822,1826,1832,1836,1844,1852,1856,1860,2260,2256,2252,2244,2236,2232,2226,2222,2622,2626,2632,2636,2644,2652,2656,2660,2,6,212,18,418,24,224,36,44,252,58,458,66,70,74,474,470,466,82,482,882,90,490,98,498,898,106,506,114,514,914,122,322,522,130,530,136,138,538,146,546,154,554,162,562,170,370,770,1170,1570,378,778,1178,1578,386,786,1186,1586,2594,2586,2582,2574,2570,2562,2154,2146,2346,2546,2946,2954,2554,2962,2970,2982,2984,2986,2994,2138,2538,2938,2930,2530,2130,1724,2124,2524,2924,2920,2520,2120,2514,2510,2910,2914,2902,2502,2102,2098,2498,2898,2470,2474,2478,2878,2870,2874,2486,2490,2890,2886,402,406,2974]"/>
-                <face animation="struct-4" index="[1812,1816,1824,1828,1834,1838,1846,1854,1858,1862,2262,2258,2254,2246,2238,2228,2224,2212,2612,2616,2624,2628,2634,2638,2646,2654,2658,2662,2234,2216,8,4,404,408,20,420,214,226,38,46,254,60,460,68,72,76,476,472,468,84,484,884,492,92,100,500,900,508,108,116,516,916,524,124,132,532,140,538,540,148,548,156,556,164,564,372,772,1172,1572,1580,1180,780,380,388,788,1188,1588,2596,2996,2584,2588,2988,2576,2976,2972,2572,2564,2964,2956,2556,2156,2148,2548,2948,2940,2540,2140,2132,2532,2932,2926,2526,2126,1726,2122,2522,2922,2516,2916,2912,2512,2104,2504,2904,2900,2500,2100,2492,2892,2888,2488,2480,2880,2876,2476,2472,2872]"/>
-                <face animation="struct-5" index="[2810,2410,2010,2014,2414,2814,2822,2422,2022,2026,2426,2826,2832,2432,2032,2036,2836,2844,2444,2044,2052,2452,2852,2856,2456,2056,2060,2460,2860,2436,602,202,208,206,606,12,412,218,618,424,236,244,258,658,666,266,270,670,674,274,282,682,1082,690,290,298,698,1098,706,306,314,714,1114,722,322,330,730,738,338,346,746,754,354,362,762,570,970,1370,1770,1778,1378,978,578,170,178,186,586,986,1386,1786,2794,2786,2782,2774,2770,2762,2754,2354,1954,1946,2346,2746,2738,2338,1938,1930,2330,2730,2724,2324,1924,2320,2720,2710,2714,2698,2298,2302,2686,2690,2678,2674,2670,2702,24,52,452]"/>
-                <face animation="struct-6" index="[2016,2012,2412,2812,2816,2416,2428,2424,2024,2028,2828,2824,2834,2434,2034,2038,2438,2838,2846,2446,2046,2054,2058,2062,2462,2862,2858,2458,2454,2854,208,608,604,204,414,220,14,620,426,238,246,454,260,660,668,268,272,672,676,276,284,684,1084,692,292,300,700,1100,708,308,316,716,1116,324,332,732,724,340,740,748,348,356,756,764,364,172,572,972,1372,1772,1780,1380,980,580,180,188,588,988,1388,1788,2796,2788,2784,2776,2772,2764,2756,2356,1956,1948,2348,2748,2740,2340,1940,1932,2332,2732,1926,2326,2726,2722,2322,2716,2712,2300,2700,2704,2304,2692,2688,2680,2676,2672,26,54]"/>
-                <face animation="struct-2" index="[1648,1848,2048,2248,2448,2648,2848,1640,1840,2040,2240,2440,2640,2840,1818,2018,2218,2418,2618,2818,1830,2030,2230,2430,2630,2830,10,210,410,610,622,422,222,22,28,228,428,628,32,232,432,40,240,440,448,248,48,78,278,478,678,86,286,486,686,886,1086,94,294,494,694,102,302,502,702,902,1102,110,310,510,710,118,318,518,718,918,1118,726,526,326,126,134,334,534,734,142,342,542,742,150,350,550,750,158,358,558,758,166,366,566,766,174,374,574,974,774,1174,1374,1574,1774,1782,1582,1382,1182,982,782,582,382,182,190,390,590,790,990,1190,1390,1590,1790,2482,2682,2882,2494,2694,2894,2506,2706,2906,2518,2718,2918,1934,2134,2534,2734,2934,2334,1942,2142,2542,2742,2942,2342,1950,2150,2350,2550,2750,2950,1958,2158,2358,2558,2758,2958,2566,2766,2966,2978,2778,2578,2590,2790,2990,2998,2798,2598]"/>
-                <face animation="dr-wily-logo" index="[0]"/>
-                <face animation="struct-1" index="[0]"/>
-                <face animation="struct-1" index="[136]"/>
-                <face animation="struct-3" index="[538]"/>
-                <face animation="struct-4" index="[540]"/>
-                <face animation="struct-5" index="[170]"/>
-                <face animation="struct-3" index="[2982]"/>
-                <face animation="struct-4" index="[2984]"/>
-                <face animation="struct-5" index="[2346]"/>
-            </geometry>
-        </entity>
-        <entity id="object_5A82F22724AD471AA61BF2930EECDD5C">
-            <geometry type="plane" w="640" h="240" w-segments="40" h-segments="15">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="struct-1" index="[640,720,800,880,960,1040,1120,1128,1048,968,888,808,728,648,176,256,656,736,744,664,264,184,192,272,672,752,760,680,280,200,48,128,208,288,688,768,848,928,1008,1088,1168,1176,1096,1104,1184,1112,1192,152,72,64,144,56,136]"/>
-                <face animation="struct-2" index="[1094,1174,1102,1182,1190,1110,1198,1118,1038,958,878,718,798,638,558,478,398,318,238,158,78,54,134,62,142,150,70,286,206,686,766,758,678,750,670,742,662,182,262,190,270,198,278,654,734,814,894,1126,1046,966,886,806,726,646]"/>
-                <face animation="struct-3" index="[642,650,658,666,674,682,202,194,186,178,802,810,970,1130,1122,962,1170,1178,1186,1194,74,66,58,50]"/>
-                <face animation="struct-4" index="[52,60,68,76,1196,1188,1180,1172,684,676,668,660,180,188,196,204,644,804,964,1124,812,652]"/>
-                <face animation="struct-5" index="[258,730,890,1050,1042,882,722,738,746,754,762,282,274,266,130,138,146,154,1114,1106,1098,1090]"/>
-                <face animation="struct-6" index="[1092,1100,1108,1116,156,148,140,132,284,764,756,276,268,748,740,260,732,892,884,724,1044]"/>
-                <face animation="wheel-h-2" index="[972,974,1132,1134]"/>
-                <face animation="screw-left" index="[1052]"/>
-                <face animation="screw-right" index="[1054]"/>
-                <face animation="sign-n" index="[12,14,92,172,174,94]"/>
-                <face animation="sign-s" index="[252,254]"/>
-                <face animation="sign-sw" index="[250]"/>
-                <face animation="sign-w" index="[170,90,10]"/>
-            </geometry>
-        </entity>
-        <entity id="object_A96DBC33FE3B4DED89232B330392F6F6">
-            <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="struct-1" index="[20,52,90,92,124,156,188,220,252,284,316,348,380,412,444,476,540,508,572,604,636,668,700,732,764,796,364,396,428,460,492,524,556,620,588,620,652,684]"/>
-                <face animation="struct-2" index="[374]"/>
-                <face animation="struct-2" index="[406]"/>
-                <face animation="struct-2" index="[438]"/>
-                <face animation="struct-2" index="[470]"/>
-                <face animation="struct-2" index="[502]"/>
-                <face animation="struct-2" index="[534]"/>
-                <face animation="struct-2" index="[566]"/>
-                <face animation="struct-2" index="[598]"/>
-                <face animation="struct-2" index="[630]"/>
-                <face animation="struct-2" index="[662]"/>
-                <face animation="struct-2" index="[694]"/>
-                <face animation="struct-2" index="[678]"/>
-                <face animation="struct-2" index="[646]"/>
-                <face animation="struct-2" index="[614]"/>
-                <face animation="struct-2" index="[582]"/>
-                <face animation="struct-2" index="[550]"/>
-                <face animation="struct-2" index="[518]"/>
-                <face animation="struct-2" index="[486]"/>
-                <face animation="struct-2" index="[422]"/>
-                <face animation="struct-2" index="[454]"/>
-                <face animation="struct-2" index="[390]"/>
-                <face animation="struct-2" index="[358]"/>
-                <face animation="struct-3" index="[22]"/>
-                <face animation="struct-3" index="[26]"/>
-                <face animation="struct-3" index="[30]"/>
-                <face animation="struct-3" index="[94]"/>
-                <face animation="struct-3" index="[158]"/>
-                <face animation="struct-3" index="[222]"/>
-                <face animation="struct-3" index="[286]"/>
-                <face animation="struct-3" index="[350]"/>
-                <face animation="struct-3" index="[414]"/>
-                <face animation="struct-3" index="[478]"/>
-                <face animation="struct-3" index="[542]"/>
-                <face animation="struct-3" index="[606]"/>
-                <face animation="struct-3" index="[670]"/>
-                <face animation="struct-3" index="[734]"/>
-                <face animation="struct-3" index="[798]"/>
-                <face animation="struct-3" index="[386]"/>
-                <face animation="struct-3" index="[450]"/>
-                <face animation="struct-3" index="[514]"/>
-                <face animation="struct-3" index="[578]"/>
-                <face animation="struct-3" index="[642]"/>
-                <face animation="struct-3" index="[654]"/>
-                <face animation="struct-3" index="[590]"/>
-                <face animation="struct-3" index="[526]"/>
-                <face animation="struct-3" index="[462]"/>
-                <face animation="struct-3" index="[398]"/>
-                <face animation="struct-3" index="[402]"/>
-                <face animation="struct-3" index="[466]"/>
-                <face animation="struct-3" index="[530]"/>
-                <face animation="struct-3" index="[594]"/>
-                <face animation="struct-3" index="[658]"/>
-                <face animation="struct-4" index="[404]"/>
-                <face animation="struct-4" index="[468]"/>
-                <face animation="struct-4" index="[532]"/>
-                <face animation="struct-4" index="[596]"/>
-                <face animation="struct-4" index="[660]"/>
-                <face animation="struct-4" index="[644]"/>
-                <face animation="struct-4" index="[580]"/>
-                <face animation="struct-4" index="[516]"/>
-                <face animation="struct-4" index="[452]"/>
-                <face animation="struct-4" index="[388]"/>
-                <face animation="struct-5" index="[418]"/>
-                <face animation="struct-5" index="[482]"/>
-                <face animation="struct-5" index="[546]"/>
-                <face animation="struct-5" index="[610]"/>
-                <face animation="struct-5" index="[674]"/>
-                <face animation="struct-5" index="[686]"/>
-                <face animation="struct-5" index="[622]"/>
-                <face animation="struct-5" index="[558]"/>
-                <face animation="struct-5" index="[494]"/>
-                <face animation="struct-5" index="[430]"/>
-                <face animation="struct-5" index="[434]"/>
-                <face animation="struct-5" index="[498]"/>
-                <face animation="struct-5" index="[562]"/>
-                <face animation="struct-5" index="[626]"/>
-                <face animation="struct-5" index="[690]"/>
-                <face animation="struct-6" index="[436]"/>
-                <face animation="struct-6" index="[500]"/>
-                <face animation="struct-6" index="[564]"/>
-                <face animation="struct-6" index="[628]"/>
-                <face animation="struct-6" index="[692]"/>
-                <face animation="struct-6" index="[688]"/>
-                <face animation="struct-6" index="[624]"/>
-                <face animation="struct-6" index="[560]"/>
-                <face animation="struct-6" index="[496]"/>
-                <face animation="struct-6" index="[432]"/>
-                <face animation="struct-6" index="[420]"/>
-                <face animation="struct-6" index="[484]"/>
-                <face animation="struct-6" index="[548]"/>
-                <face animation="struct-6" index="[612]"/>
-                <face animation="struct-6" index="[676]"/>
-                <face animation="struct-4" index="[400]"/>
-                <face animation="struct-4" index="[464]"/>
-                <face animation="struct-4" index="[528]"/>
-                <face animation="struct-4" index="[592]"/>
-                <face animation="struct-4" index="[656]"/>
-                <face animation="struct-5" index="[366]"/>
-                <face animation="struct-5" index="[370]"/>
-                <face animation="struct-5" index="[354]"/>
-                <face animation="struct-6" index="[356]"/>
-                <face animation="struct-6" index="[372]"/>
-                <face animation="struct-6" index="[368]"/>
-                <face animation="struct-1" index="[352]"/>
-                <face animation="struct-1" index="[384]"/>
-                <face animation="struct-1" index="[416]"/>
-                <face animation="struct-1" index="[448]"/>
-                <face animation="struct-1" index="[480]"/>
-                <face animation="struct-1" index="[512]"/>
-                <face animation="struct-1" index="[544]"/>
-                <face animation="struct-1" index="[576]"/>
-                <face animation="struct-1" index="[608]"/>
-                <face animation="struct-1" index="[640]"/>
-                <face animation="struct-1" index="[672]"/>
-                <face animation="struct-1" index="[704]"/>
-                <face animation="struct-1" index="[768]"/>
-                <face animation="struct-1" index="[736]"/>
-                <face animation="struct-1" index="[800]"/>
-                <face animation="struct-1" index="[832]"/>
-                <face animation="struct-1" index="[864]"/>
-                <face animation="struct-1" index="[928]"/>
-                <face animation="struct-1" index="[896]"/>
-                <face animation="struct-1" index="[960]"/>
-                <face animation="struct-1" index="[1024]"/>
-                <face animation="struct-1" index="[992]"/>
-                <face animation="struct-1" index="[1056]"/>
-                <face animation="struct-1" index="[1088]"/>
-                <face animation="struct-1" index="[1120]"/>
-                <face animation="struct-1" index="[1152]"/>
-                <face animation="struct-1" index="[1184]"/>
-                <face animation="struct-1" index="[1216]"/>
-                <face animation="struct-1" index="[1248]"/>
-                <face animation="struct-1" index="[1280]"/>
-                <face animation="struct-1" index="[1280]"/>
-                <face animation="struct-1" index="[1312]"/>
-                <face animation="struct-2" index="[1314]"/>
-                <face animation="struct-2" index="[1282]"/>
-                <face animation="struct-2" index="[1250]"/>
-                <face animation="struct-2" index="[1218]"/>
-                <face animation="struct-2" index="[1186]"/>
-                <face animation="struct-2" index="[1154]"/>
-                <face animation="struct-2" index="[1122]"/>
-                <face animation="struct-2" index="[1090]"/>
-                <face animation="struct-2" index="[1058]"/>
-                <face animation="struct-2" index="[1026]"/>
-                <face animation="struct-2" index="[994]"/>
-                <face animation="struct-2" index="[962]"/>
-                <face animation="struct-2" index="[930]"/>
-                <face animation="struct-2" index="[898]"/>
-                <face animation="struct-2" index="[866]"/>
-                <face animation="struct-2" index="[834]"/>
-                <face animation="struct-2" index="[802]"/>
-                <face animation="struct-2" index="[770]"/>
-                <face animation="struct-2" index="[738]"/>
-                <face animation="struct-2" index="[706]"/>
-                <face animation="struct-5" index="[126]"/>
-                <face animation="struct-5" index="[62]"/>
-                <face animation="struct-5" index="[58]"/>
-                <face animation="struct-5" index="[54]"/>
-                <face animation="struct-5" index="[190]"/>
-                <face animation="struct-5" index="[254]"/>
-                <face animation="struct-5" index="[318]"/>
-                <face animation="struct-5" index="[382]"/>
-                <face animation="struct-5" index="[446]"/>
-                <face animation="struct-5" index="[510]"/>
-                <face animation="struct-5" index="[574]"/>
-                <face animation="struct-5" index="[638]"/>
-                <face animation="struct-5" index="[702]"/>
-                <face animation="struct-5" index="[766]"/>
-                <face animation="struct-6" index="[60]"/>
-                <face animation="struct-6" index="[56]"/>
-                <face animation="struct-4" index="[24]"/>
-                <face animation="struct-4" index="[28]"/>
-                <face animation="med-cog" index="[664]"/>
-            </geometry>
-        </entity>
-        <entity id="object_75E0C0078E28446EB1F81ADE40AD827E">
-            <geometry type="plane" w="512" h="240" w-segments="32" h-segments="15">
-                <face animation="transparent" index="[148]">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="crankshaft" index="[84,86,88,90,92,94,222,220,218,216,214,212]"/>
-                <face animation="small-cog" index="[78,72,198,194,326,320,386,234,618,726]"/>
-                <face animation="med-cog" index="[130,384,450,662,170,172,104,558,616,262,14,50]"/>
-                <face animation="shaft-hori" index="[96,98,226,224,82,80,204,206,208,210]"/>
-            </geometry>
-        </entity>
-        <entity id="object_899E14F6E66A4D518563F32E733F4A50">
-            <geometry type="plane" w="576" h="240" w-segments="36" h-segments="15">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="med-cog" index="[314,544,402,594,586,730,580,890,498,428,564]"/>
-                <face animation="small-cog" index="[972,1046,664,656,648,508,308,382,472,340,500,566,518]"/>
-            </geometry>
-        </entity>
-        <entity id="object_83FAE8F1BA81431BA32D63C7C8374371">
-            <geometry type="plane" w="64" h="48" w-segments="4" h-segments="3">
-                <face animation="struct-1" index="[0]"/>
-                <face animation="struct-1" index="[8]"/>
-                <face animation="struct-1" index="[16]"/>
-                <face animation="struct-3" index="[2]"/>
-                <face animation="struct-3" index="[18]"/>
-                <face animation="struct-4" index="[4]"/>
-                <face animation="struct-4" index="[20]"/>
-                <face animation="struct-2" index="[6]"/>
-                <face animation="struct-2" index="[14]"/>
-                <face animation="struct-2" index="[22]"/>
-                <face animation="struct-5" index="[10]"/>
-                <face animation="struct-6" index="[12]"/>
-                <face animation="struct-1" index="[0]"/>
-            </geometry>
-        </entity>
-        <entity id="object_CAB1AB1401554942AB92D6C6C4FAF40B">
-            <geometry type="plane" w="256" h="480" w-segments="16" h-segments="30">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="med-cog" index="[138,152,184,186,90,326,550,644,742,750,816,786,730,766,876,682]"/>
-                <face animation="small-cog" index="[826,784,780,814,678,612,388,154,40]"/>
-            </geometry>
-        </entity>
-        <entity id="object_B895B1756C9A44B5B05F12E77AA1937A">
-            <geometry type="plane" w="1920" h="240" w-segments="120" h-segments="15">
-                <face animation="transparent">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="small-cog" index="[1914,1192,1910,1654,1890,2128,2124,2360,1400,904,908,1150,2820,2548,616,1094,1800,2264,1786,1552,1794,1310,568,1052,788,2222,2466,3178,3174,2936,1954,2186,1944,974,730,494,762,528,1362,1604,1126,2326,658,672,420]"/>
-                <face animation="med-cog" index="[486,972,1214,1950,1952,2194,1006,42,304,70,2456,1982,1046,808,2034,1558,1562,1082,1090,1092,856,1334,2546,2310,1124,1366,642,666,1148,1390,1166,2114,2122,1652,1894,1670,2942,2578,2104,2368]"/>
-                <face animation="shaft-hori" index="[284,286,288,290,300,302,782,780,824,826,346,344,334,332,330,328,812,814,388,390,378,376,2328,2330,1866,1864,1880,1882,1884,1886,900,902,890,888,3372,3374,3376,3378,3400,3402,3406,3404,3408,3412,3414,3416,3418,3420,3422,3410,3436,3438]"/>
-                <face animation="crankshaft" index="[292,294,296,298,778,776,774,772,336,338,340,342,822,820,818,816,380,382,384,386,2332,2334,2336,2338,1868,1870,1872,1874,1876,1878,916,918,920,922,892,894,896,898]"/>
-            </geometry>
-        </entity>
-        <entity id="piston_set">
-            <geometry type="plane" w="32" h="48" w-segments="2" h-segments="3">
-                <face animation="piston-1">
-                    <range x="1" y="1"/>
-                </face>
-                <face animation="piston-1" offset=".12">
-                    <range x="2" y="1"/>
-                </face>
-                <face animation="piston-2">
-                    <range x="1" y="2"/>
-                </face>
-                <face animation="piston-2" offset=".12">
-                    <range x="2" y="2"/>
-                </face>
-                <face animation="piston-crank">
-                    <range x="1" y="3"/>
-                </face>
-                <face animation="piston-crank" offset=".12">
-                    <range x="2" y="3"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="object_257a939df522445c836ca551728c11c4">
-            <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
-                <face animation="dr-wily-logo" index="[0]"/>
-            </geometry>
-        </entity>
+      <textures>
+        <texture url="./metalman/tiles.png" w="256" h="128"/>
+      </textures>
+      <animations>
+        <animation id="transparent">
+          <frame x="1" y="109" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-h-1">
+          <frame x="1" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-h-2">
+          <frame x="19" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-h-3">
+          <frame x="37" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-h-4">
+          <frame x="55" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-v-1">
+          <frame x="1" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-v-2">
+          <frame x="1" y="37" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-v-3">
+          <frame x="1" y="55" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-v-4">
+          <frame x="1" y="73" w="16" h="16"/>
+        </animation>
+        <animation id="wheel-v-5">
+          <frame x="1" y="91" w="16" h="16"/>
+        </animation>
+        <animation id="conveyor-left">
+          <frame x="37" y="37" w="16" h="16" duration=".1"/>
+          <frame x="73" y="55" w="16" h="16" duration=".1"/>
+        </animation>
+        <animation id="conveyor">
+          <frame x="55" y="37" w="16" h="16" duration=".1"/>
+          <frame x="73" y="37" w="16" h="16" duration=".1"/>
+        </animation>
+        <animation id="conveyor-right">
+          <frame x="91" y="37" w="16" h="16" duration=".1"/>
+          <frame x="73" y="55" w="16" h="16" duration=".1"/>
+        </animation>
+        <animation id="sign-n">
+          <frame x="55" y="55" w="16" h="16"/>
+        </animation>
+        <animation id="sign-w">
+          <frame x="55" y="73" w="16" h="16"/>
+        </animation>
+        <animation id="door">
+          <frame x="73" y="73" w="16" h="16"/>
+        </animation>
+        <animation id="sign-s">
+          <frame x="73" y="91" w="16" h="16"/>
+        </animation>
+        <animation id="sign-sw">
+          <frame x="55" y="91" w="16" h="16"/>
+        </animation>
+        <animation id="screw-top">
+          <frame x="19" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="screw-bot">
+          <frame x="19" y="37" w="16" h="16"/>
+        </animation>
+        <animation id="screw-left">
+          <frame x="37" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="screw-right">
+          <frame x="55" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="big-cog">
+          <frame x="145" y="19" w="32" h="32" duration=".12"/>
+          <frame x="145" y="55" w="32" h="32" duration=".12"/>
+        </animation>
+        <animation id="crankshaft">
+          <frame x="145" y="91" w="16" h="16" duration=".12"/>
+          <frame x="163" y="91" w="16" h="16" duration=".12"/>
+        </animation>
+        <animation id="small-cog">
+          <frame x="127" y="19" w="16" h="16" duration=".12"/>
+          <frame x="127" y="37" w="16" h="16" duration=".12"/>
+        </animation>
+        <animation id="med-cog">
+          <frame x="127" y="55" w="16" h="16" duration=".12"/>
+          <frame x="127" y="73" w="16" h="16" duration=".12"/>
+        </animation>
+        <animation id="piston-1">
+          <frame x="91" y="55" w="16" h="16" duration=".12"/>
+          <frame x="109" y="55" w="16" h="16" duration=".12"/>
+        </animation>
+        <animation id="piston-2">
+          <frame x="91" y="73" w="16" h="16" duration=".12"/>
+          <frame x="109" y="73" w="16" h="16" duration=".12"/>
+        </animation>
+        <animation id="piston-crank">
+          <frame x="91" y="91" w="16" h="16" duration=".12"/>
+          <frame x="109" y="91" w="16" h="16" duration=".12"/>
+        </animation>
+        <animation id="dr-wily-logo">
+          <frame x="73" y="1" w="32" h="32"/>
+        </animation>
+        <animation id="struct-1">
+          <frame x="19" y="55" w="16" h="16"/>
+        </animation>
+        <animation id="struct-2">
+          <frame x="37" y="55" w="16" h="16"/>
+        </animation>
+        <animation id="struct-3">
+          <frame x="19" y="73" w="16" h="16"/>
+        </animation>
+        <animation id="struct-4">
+          <frame x="37" y="73" w="16" h="16"/>
+        </animation>
+        <animation id="struct-5">
+          <frame x="19" y="91" w="16" h="16"/>
+        </animation>
+        <animation id="struct-6">
+          <frame x="37" y="91" w="16" h="16"/>
+        </animation>
+        <animation id="deco-1">
+          <frame x="109" y="37" w="16" h="16"/>
+        </animation>
+        <animation id="shaft-hori">
+          <frame x="127" y="91" w="16" h="16"/>
+        </animation>
+      </animations>
+      <entity id="big_cog">
+        <geometry type="plane" w="32" h="32">
+          <face animation="big-cog">
+            <range x="1" y="1"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="conveyor_24">
+        <geometry type="plane" w="384" h="16" w-segments="24" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,24" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-23" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="384" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="conveyor_20">
+        <geometry type="plane" w="320" h="16" w-segments="20" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,20" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-19" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="320" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="conveyor_14">
+        <geometry type="plane" w="224" h="16" w-segments="14" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,14" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-13" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="224" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="conveyor_15">
+        <geometry type="plane" w="240" h="16" w-segments="15" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,15" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-14" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="240" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="conveyor_18">
+        <geometry type="plane" w="288" h="16" w-segments="18" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,18" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-17" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="288" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="conveyor_12">
+        <geometry type="plane" w="192" h="16" w-segments="12" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,12" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-11" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="192" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="conveyor_16">
+        <geometry type="plane" w="256" h="16" w-segments="16" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,16" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-15" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="256" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="conveyor_10">
+        <geometry type="plane" w="160" h="16" w-segments="10" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,10" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-9" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="160" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="conveyor_4">
+        <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+          <face animation="conveyor-right">
+            <range x="1,4" y="1"/>
+          </face>
+          <face animation="conveyor">
+            <range x="2-3" y="1"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="64" h="16"/>
+        </collision>
+        <traits>
+          <trait name="conveyor"/>
+        </traits>
+      </entity>
+      <entity id="door">
+        <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
+          <face animation="door">
+            <range x="*" y="*"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="32" h="64"/>
+        </collision>
+        <traits>
+          <trait name="door">
+            <direction x="-1" y="0"/>
+          </trait>
+        </traits>
+      </entity>
+      <entity id="cog_green_vert">
+        <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+          <face animation="wheel-h-1">
+            <range x="1" y="1"/>
+          </face>
+          <face animation="wheel-h-2">
+            <range x="2" y="1"/>
+          </face>
+          <face animation="wheel-h-3">
+            <range x="3" y="1"/>
+          </face>
+          <face animation="wheel-h-4">
+            <range x="4" y="1"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="cog_green_hori">
+        <geometry type="plane" w="16" h="64" w-segments="1" h-segments="4">
+          <face animation="wheel-v-1">
+            <range x="1" y="1"/>
+          </face>
+          <face animation="wheel-v-2">
+            <range x="1" y="2"/>
+          </face>
+          <face animation="wheel-v-3">
+            <range x="1" y="3"/>
+          </face>
+          <face animation="wheel-v-5">
+            <range x="1" y="4"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="cog_green_vert_tall">
+        <geometry type="plane" w="16" h="96" w-segments="1" h-segments="6">
+          <face animation="wheel-v-1">
+            <range x="1" y="1"/>
+          </face>
+          <face animation="wheel-v-2">
+            <range x="1" y="2-3"/>
+          </face>
+          <face animation="wheel-v-3">
+            <range x="1" y="4"/>
+          </face>
+          <face animation="wheel-v-4">
+            <range x="1" y="5"/>
+          </face>
+          <face animation="wheel-v-5">
+            <range x="1" y="6"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="corn_vert">
+        <geometry type="plane" w="32" h="128" w-segments="2" h-segments="8">
+          <face animation="screw-left">
+            <range x="1" y="*"/>
+          </face>
+          <face animation="screw-right">
+            <range x="2" y="*"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="corn_hori">
+        <geometry type="plane" w="64" h="32" w-segments="4" h-segments="2">
+          <face animation="screw-top">
+            <range x="*" y="1"/>
+          </face>
+          <face animation="screw-bot">
+            <range x="*" y="2"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="object_81E630B581B942C9ABFFEDF41A1A73F7">
+        <geometry type="plane" w="1600" h="240" w-segments="100" h-segments="15">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="struct-1" index="[1808,2008,2208,2408,2608,2808,2820,2620,2420,2220,1820,2020,1830,1642,1842,2042,2242,2442,2642,2842,2850,2650,2450,2250,2050,1850,1650,0,200,400,600,616,416,216,16,30,230,430,630,42,242,442,50,250,450,650,56,256,456,656,64,264,464,664,80,280,480,680,880,1080,688,488,288,88,96,296,496,696,896,1096,704,504,304,104,112,312,512,712,912,1112,120,320,520,720,128,328,528,728,540,136,336,536,736,744,544,344,144,152,352,552,752,160,360,560,760,168,368,568,768,968,1168,1368,1568,1768,1776,1576,1376,1176,976,776,376,176,576,184,384,584,984,784,1184,1384,1584,1784,2592,2792,2992,2580,2780,2980,2568,2768,2968,2560,2760,2960,1952,2152,2352,2552,2752,2952,1944,2144,2344,2544,2744,2944,1936,2136,2336,2536,2736,2936,1928,2128,2328,2528,2728,2928,2508,2708,2908,2096,2296,2496,2696,2896,2484,2684,2884,2468,2668,2868,34,234,434,62,262,462,662]"/>
+          <face animation="struct-3" index="[1810,2210,2610,1814,2214,2614,1822,1826,1832,1836,1844,1852,1856,1860,2260,2256,2252,2244,2236,2232,2226,2222,2622,2626,2632,2636,2644,2652,2656,2660,2,6,212,18,418,24,224,36,44,252,58,458,66,70,74,474,470,466,82,482,882,90,490,98,498,898,106,506,114,514,914,122,322,522,130,530,136,138,538,146,546,154,554,162,562,170,370,770,1170,1570,378,778,1178,1578,386,786,1186,1586,2594,2586,2582,2574,2570,2562,2154,2146,2346,2546,2946,2954,2554,2962,2970,2982,2984,2986,2994,2138,2538,2938,2930,2530,2130,1724,2124,2524,2924,2920,2520,2120,2514,2510,2910,2914,2902,2502,2102,2098,2498,2898,2470,2474,2478,2878,2870,2874,2486,2490,2890,2886,402,406,2974]"/>
+          <face animation="struct-4" index="[1812,1816,1824,1828,1834,1838,1846,1854,1858,1862,2262,2258,2254,2246,2238,2228,2224,2212,2612,2616,2624,2628,2634,2638,2646,2654,2658,2662,2234,2216,8,4,404,408,20,420,214,226,38,46,254,60,460,68,72,76,476,472,468,84,484,884,492,92,100,500,900,508,108,116,516,916,524,124,132,532,140,538,540,148,548,156,556,164,564,372,772,1172,1572,1580,1180,780,380,388,788,1188,1588,2596,2996,2584,2588,2988,2576,2976,2972,2572,2564,2964,2956,2556,2156,2148,2548,2948,2940,2540,2140,2132,2532,2932,2926,2526,2126,1726,2122,2522,2922,2516,2916,2912,2512,2104,2504,2904,2900,2500,2100,2492,2892,2888,2488,2480,2880,2876,2476,2472,2872]"/>
+          <face animation="struct-5" index="[2810,2410,2010,2014,2414,2814,2822,2422,2022,2026,2426,2826,2832,2432,2032,2036,2836,2844,2444,2044,2052,2452,2852,2856,2456,2056,2060,2460,2860,2436,602,202,208,206,606,12,412,218,618,424,236,244,258,658,666,266,270,670,674,274,282,682,1082,690,290,298,698,1098,706,306,314,714,1114,722,322,330,730,738,338,346,746,754,354,362,762,570,970,1370,1770,1778,1378,978,578,170,178,186,586,986,1386,1786,2794,2786,2782,2774,2770,2762,2754,2354,1954,1946,2346,2746,2738,2338,1938,1930,2330,2730,2724,2324,1924,2320,2720,2710,2714,2698,2298,2302,2686,2690,2678,2674,2670,2702,24,52,452]"/>
+          <face animation="struct-6" index="[2016,2012,2412,2812,2816,2416,2428,2424,2024,2028,2828,2824,2834,2434,2034,2038,2438,2838,2846,2446,2046,2054,2058,2062,2462,2862,2858,2458,2454,2854,208,608,604,204,414,220,14,620,426,238,246,454,260,660,668,268,272,672,676,276,284,684,1084,692,292,300,700,1100,708,308,316,716,1116,324,332,732,724,340,740,748,348,356,756,764,364,172,572,972,1372,1772,1780,1380,980,580,180,188,588,988,1388,1788,2796,2788,2784,2776,2772,2764,2756,2356,1956,1948,2348,2748,2740,2340,1940,1932,2332,2732,1926,2326,2726,2722,2322,2716,2712,2300,2700,2704,2304,2692,2688,2680,2676,2672,26,54]"/>
+          <face animation="struct-2" index="[1648,1848,2048,2248,2448,2648,2848,1640,1840,2040,2240,2440,2640,2840,1818,2018,2218,2418,2618,2818,1830,2030,2230,2430,2630,2830,10,210,410,610,622,422,222,22,28,228,428,628,32,232,432,40,240,440,448,248,48,78,278,478,678,86,286,486,686,886,1086,94,294,494,694,102,302,502,702,902,1102,110,310,510,710,118,318,518,718,918,1118,726,526,326,126,134,334,534,734,142,342,542,742,150,350,550,750,158,358,558,758,166,366,566,766,174,374,574,974,774,1174,1374,1574,1774,1782,1582,1382,1182,982,782,582,382,182,190,390,590,790,990,1190,1390,1590,1790,2482,2682,2882,2494,2694,2894,2506,2706,2906,2518,2718,2918,1934,2134,2534,2734,2934,2334,1942,2142,2542,2742,2942,2342,1950,2150,2350,2550,2750,2950,1958,2158,2358,2558,2758,2958,2566,2766,2966,2978,2778,2578,2590,2790,2990,2998,2798,2598]"/>
+          <face animation="dr-wily-logo" index="[0]"/>
+          <face animation="struct-1" index="[0]"/>
+          <face animation="struct-1" index="[136]"/>
+          <face animation="struct-3" index="[538]"/>
+          <face animation="struct-4" index="[540]"/>
+          <face animation="struct-5" index="[170]"/>
+          <face animation="struct-3" index="[2982]"/>
+          <face animation="struct-4" index="[2984]"/>
+          <face animation="struct-5" index="[2346]"/>
+        </geometry>
+      </entity>
+      <entity id="object_5A82F22724AD471AA61BF2930EECDD5C">
+        <geometry type="plane" w="640" h="240" w-segments="40" h-segments="15">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="struct-1" index="[640,720,800,880,960,1040,1120,1128,1048,968,888,808,728,648,176,256,656,736,744,664,264,184,192,272,672,752,760,680,280,200,48,128,208,288,688,768,848,928,1008,1088,1168,1176,1096,1104,1184,1112,1192,152,72,64,144,56,136]"/>
+          <face animation="struct-2" index="[1094,1174,1102,1182,1190,1110,1198,1118,1038,958,878,718,798,638,558,478,398,318,238,158,78,54,134,62,142,150,70,286,206,686,766,758,678,750,670,742,662,182,262,190,270,198,278,654,734,814,894,1126,1046,966,886,806,726,646]"/>
+          <face animation="struct-3" index="[642,650,658,666,674,682,202,194,186,178,802,810,970,1130,1122,962,1170,1178,1186,1194,74,66,58,50]"/>
+          <face animation="struct-4" index="[52,60,68,76,1196,1188,1180,1172,684,676,668,660,180,188,196,204,644,804,964,1124,812,652]"/>
+          <face animation="struct-5" index="[258,730,890,1050,1042,882,722,738,746,754,762,282,274,266,130,138,146,154,1114,1106,1098,1090]"/>
+          <face animation="struct-6" index="[1092,1100,1108,1116,156,148,140,132,284,764,756,276,268,748,740,260,732,892,884,724,1044]"/>
+          <face animation="wheel-h-2" index="[972,974,1132,1134]"/>
+          <face animation="screw-left" index="[1052]"/>
+          <face animation="screw-right" index="[1054]"/>
+          <face animation="sign-n" index="[12,14,92,172,174,94]"/>
+          <face animation="sign-s" index="[252,254]"/>
+          <face animation="sign-sw" index="[250]"/>
+          <face animation="sign-w" index="[170,90,10]"/>
+        </geometry>
+      </entity>
+      <entity id="object_A96DBC33FE3B4DED89232B330392F6F6">
+        <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="struct-1" index="[20,52,90,92,124,156,188,220,252,284,316,348,380,412,444,476,540,508,572,604,636,668,700,732,764,796,364,396,428,460,492,524,556,620,588,620,652,684]"/>
+          <face animation="struct-2" index="[374]"/>
+          <face animation="struct-2" index="[406]"/>
+          <face animation="struct-2" index="[438]"/>
+          <face animation="struct-2" index="[470]"/>
+          <face animation="struct-2" index="[502]"/>
+          <face animation="struct-2" index="[534]"/>
+          <face animation="struct-2" index="[566]"/>
+          <face animation="struct-2" index="[598]"/>
+          <face animation="struct-2" index="[630]"/>
+          <face animation="struct-2" index="[662]"/>
+          <face animation="struct-2" index="[694]"/>
+          <face animation="struct-2" index="[678]"/>
+          <face animation="struct-2" index="[646]"/>
+          <face animation="struct-2" index="[614]"/>
+          <face animation="struct-2" index="[582]"/>
+          <face animation="struct-2" index="[550]"/>
+          <face animation="struct-2" index="[518]"/>
+          <face animation="struct-2" index="[486]"/>
+          <face animation="struct-2" index="[422]"/>
+          <face animation="struct-2" index="[454]"/>
+          <face animation="struct-2" index="[390]"/>
+          <face animation="struct-2" index="[358]"/>
+          <face animation="struct-3" index="[22]"/>
+          <face animation="struct-3" index="[26]"/>
+          <face animation="struct-3" index="[30]"/>
+          <face animation="struct-3" index="[94]"/>
+          <face animation="struct-3" index="[158]"/>
+          <face animation="struct-3" index="[222]"/>
+          <face animation="struct-3" index="[286]"/>
+          <face animation="struct-3" index="[350]"/>
+          <face animation="struct-3" index="[414]"/>
+          <face animation="struct-3" index="[478]"/>
+          <face animation="struct-3" index="[542]"/>
+          <face animation="struct-3" index="[606]"/>
+          <face animation="struct-3" index="[670]"/>
+          <face animation="struct-3" index="[734]"/>
+          <face animation="struct-3" index="[798]"/>
+          <face animation="struct-3" index="[386]"/>
+          <face animation="struct-3" index="[450]"/>
+          <face animation="struct-3" index="[514]"/>
+          <face animation="struct-3" index="[578]"/>
+          <face animation="struct-3" index="[642]"/>
+          <face animation="struct-3" index="[654]"/>
+          <face animation="struct-3" index="[590]"/>
+          <face animation="struct-3" index="[526]"/>
+          <face animation="struct-3" index="[462]"/>
+          <face animation="struct-3" index="[398]"/>
+          <face animation="struct-3" index="[402]"/>
+          <face animation="struct-3" index="[466]"/>
+          <face animation="struct-3" index="[530]"/>
+          <face animation="struct-3" index="[594]"/>
+          <face animation="struct-3" index="[658]"/>
+          <face animation="struct-4" index="[404]"/>
+          <face animation="struct-4" index="[468]"/>
+          <face animation="struct-4" index="[532]"/>
+          <face animation="struct-4" index="[596]"/>
+          <face animation="struct-4" index="[660]"/>
+          <face animation="struct-4" index="[644]"/>
+          <face animation="struct-4" index="[580]"/>
+          <face animation="struct-4" index="[516]"/>
+          <face animation="struct-4" index="[452]"/>
+          <face animation="struct-4" index="[388]"/>
+          <face animation="struct-5" index="[418]"/>
+          <face animation="struct-5" index="[482]"/>
+          <face animation="struct-5" index="[546]"/>
+          <face animation="struct-5" index="[610]"/>
+          <face animation="struct-5" index="[674]"/>
+          <face animation="struct-5" index="[686]"/>
+          <face animation="struct-5" index="[622]"/>
+          <face animation="struct-5" index="[558]"/>
+          <face animation="struct-5" index="[494]"/>
+          <face animation="struct-5" index="[430]"/>
+          <face animation="struct-5" index="[434]"/>
+          <face animation="struct-5" index="[498]"/>
+          <face animation="struct-5" index="[562]"/>
+          <face animation="struct-5" index="[626]"/>
+          <face animation="struct-5" index="[690]"/>
+          <face animation="struct-6" index="[436]"/>
+          <face animation="struct-6" index="[500]"/>
+          <face animation="struct-6" index="[564]"/>
+          <face animation="struct-6" index="[628]"/>
+          <face animation="struct-6" index="[692]"/>
+          <face animation="struct-6" index="[688]"/>
+          <face animation="struct-6" index="[624]"/>
+          <face animation="struct-6" index="[560]"/>
+          <face animation="struct-6" index="[496]"/>
+          <face animation="struct-6" index="[432]"/>
+          <face animation="struct-6" index="[420]"/>
+          <face animation="struct-6" index="[484]"/>
+          <face animation="struct-6" index="[548]"/>
+          <face animation="struct-6" index="[612]"/>
+          <face animation="struct-6" index="[676]"/>
+          <face animation="struct-4" index="[400]"/>
+          <face animation="struct-4" index="[464]"/>
+          <face animation="struct-4" index="[528]"/>
+          <face animation="struct-4" index="[592]"/>
+          <face animation="struct-4" index="[656]"/>
+          <face animation="struct-5" index="[366]"/>
+          <face animation="struct-5" index="[370]"/>
+          <face animation="struct-5" index="[354]"/>
+          <face animation="struct-6" index="[356]"/>
+          <face animation="struct-6" index="[372]"/>
+          <face animation="struct-6" index="[368]"/>
+          <face animation="struct-1" index="[352]"/>
+          <face animation="struct-1" index="[384]"/>
+          <face animation="struct-1" index="[416]"/>
+          <face animation="struct-1" index="[448]"/>
+          <face animation="struct-1" index="[480]"/>
+          <face animation="struct-1" index="[512]"/>
+          <face animation="struct-1" index="[544]"/>
+          <face animation="struct-1" index="[576]"/>
+          <face animation="struct-1" index="[608]"/>
+          <face animation="struct-1" index="[640]"/>
+          <face animation="struct-1" index="[672]"/>
+          <face animation="struct-1" index="[704]"/>
+          <face animation="struct-1" index="[768]"/>
+          <face animation="struct-1" index="[736]"/>
+          <face animation="struct-1" index="[800]"/>
+          <face animation="struct-1" index="[832]"/>
+          <face animation="struct-1" index="[864]"/>
+          <face animation="struct-1" index="[928]"/>
+          <face animation="struct-1" index="[896]"/>
+          <face animation="struct-1" index="[960]"/>
+          <face animation="struct-1" index="[1024]"/>
+          <face animation="struct-1" index="[992]"/>
+          <face animation="struct-1" index="[1056]"/>
+          <face animation="struct-1" index="[1088]"/>
+          <face animation="struct-1" index="[1120]"/>
+          <face animation="struct-1" index="[1152]"/>
+          <face animation="struct-1" index="[1184]"/>
+          <face animation="struct-1" index="[1216]"/>
+          <face animation="struct-1" index="[1248]"/>
+          <face animation="struct-1" index="[1280]"/>
+          <face animation="struct-1" index="[1280]"/>
+          <face animation="struct-1" index="[1312]"/>
+          <face animation="struct-2" index="[1314]"/>
+          <face animation="struct-2" index="[1282]"/>
+          <face animation="struct-2" index="[1250]"/>
+          <face animation="struct-2" index="[1218]"/>
+          <face animation="struct-2" index="[1186]"/>
+          <face animation="struct-2" index="[1154]"/>
+          <face animation="struct-2" index="[1122]"/>
+          <face animation="struct-2" index="[1090]"/>
+          <face animation="struct-2" index="[1058]"/>
+          <face animation="struct-2" index="[1026]"/>
+          <face animation="struct-2" index="[994]"/>
+          <face animation="struct-2" index="[962]"/>
+          <face animation="struct-2" index="[930]"/>
+          <face animation="struct-2" index="[898]"/>
+          <face animation="struct-2" index="[866]"/>
+          <face animation="struct-2" index="[834]"/>
+          <face animation="struct-2" index="[802]"/>
+          <face animation="struct-2" index="[770]"/>
+          <face animation="struct-2" index="[738]"/>
+          <face animation="struct-2" index="[706]"/>
+          <face animation="struct-5" index="[126]"/>
+          <face animation="struct-5" index="[62]"/>
+          <face animation="struct-5" index="[58]"/>
+          <face animation="struct-5" index="[54]"/>
+          <face animation="struct-5" index="[190]"/>
+          <face animation="struct-5" index="[254]"/>
+          <face animation="struct-5" index="[318]"/>
+          <face animation="struct-5" index="[382]"/>
+          <face animation="struct-5" index="[446]"/>
+          <face animation="struct-5" index="[510]"/>
+          <face animation="struct-5" index="[574]"/>
+          <face animation="struct-5" index="[638]"/>
+          <face animation="struct-5" index="[702]"/>
+          <face animation="struct-5" index="[766]"/>
+          <face animation="struct-6" index="[60]"/>
+          <face animation="struct-6" index="[56]"/>
+          <face animation="struct-4" index="[24]"/>
+          <face animation="struct-4" index="[28]"/>
+          <face animation="med-cog" index="[664]"/>
+        </geometry>
+      </entity>
+      <entity id="object_75E0C0078E28446EB1F81ADE40AD827E">
+        <geometry type="plane" w="512" h="240" w-segments="32" h-segments="15">
+          <face animation="transparent" index="[148]">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="crankshaft" index="[84,86,88,90,92,94,222,220,218,216,214,212]"/>
+          <face animation="small-cog" index="[78,72,198,194,326,320,386,234,618,726]"/>
+          <face animation="med-cog" index="[130,384,450,662,170,172,104,558,616,262,14,50]"/>
+          <face animation="shaft-hori" index="[96,98,226,224,82,80,204,206,208,210]"/>
+        </geometry>
+      </entity>
+      <entity id="object_899E14F6E66A4D518563F32E733F4A50">
+        <geometry type="plane" w="576" h="240" w-segments="36" h-segments="15">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="med-cog" index="[314,544,402,594,586,730,580,890,498,428,564]"/>
+          <face animation="small-cog" index="[972,1046,664,656,648,508,308,382,472,340,500,566,518]"/>
+        </geometry>
+      </entity>
+      <entity id="object_83FAE8F1BA81431BA32D63C7C8374371">
+        <geometry type="plane" w="64" h="48" w-segments="4" h-segments="3">
+          <face animation="struct-1" index="[0]"/>
+          <face animation="struct-1" index="[8]"/>
+          <face animation="struct-1" index="[16]"/>
+          <face animation="struct-3" index="[2]"/>
+          <face animation="struct-3" index="[18]"/>
+          <face animation="struct-4" index="[4]"/>
+          <face animation="struct-4" index="[20]"/>
+          <face animation="struct-2" index="[6]"/>
+          <face animation="struct-2" index="[14]"/>
+          <face animation="struct-2" index="[22]"/>
+          <face animation="struct-5" index="[10]"/>
+          <face animation="struct-6" index="[12]"/>
+          <face animation="struct-1" index="[0]"/>
+        </geometry>
+      </entity>
+      <entity id="object_CAB1AB1401554942AB92D6C6C4FAF40B">
+        <geometry type="plane" w="256" h="480" w-segments="16" h-segments="30">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="med-cog" index="[138,152,184,186,90,326,550,644,742,750,816,786,730,766,876,682]"/>
+          <face animation="small-cog" index="[826,784,780,814,678,612,388,154,40]"/>
+        </geometry>
+      </entity>
+      <entity id="object_B895B1756C9A44B5B05F12E77AA1937A">
+        <geometry type="plane" w="1920" h="240" w-segments="120" h-segments="15">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="small-cog" index="[1914,1192,1910,1654,1890,2128,2124,2360,1400,904,908,1150,2820,2548,616,1094,1800,2264,1786,1552,1794,1310,568,1052,788,2222,2466,3178,3174,2936,1954,2186,1944,974,730,494,762,528,1362,1604,1126,2326,658,672,420]"/>
+          <face animation="med-cog" index="[486,972,1214,1950,1952,2194,1006,42,304,70,2456,1982,1046,808,2034,1558,1562,1082,1090,1092,856,1334,2546,2310,1124,1366,642,666,1148,1390,1166,2114,2122,1652,1894,1670,2942,2578,2104,2368]"/>
+          <face animation="shaft-hori" index="[284,286,288,290,300,302,782,780,824,826,346,344,334,332,330,328,812,814,388,390,378,376,2328,2330,1866,1864,1880,1882,1884,1886,900,902,890,888,3372,3374,3376,3378,3400,3402,3406,3404,3408,3412,3414,3416,3418,3420,3422,3410,3436,3438]"/>
+          <face animation="crankshaft" index="[292,294,296,298,778,776,774,772,336,338,340,342,822,820,818,816,380,382,384,386,2332,2334,2336,2338,1868,1870,1872,1874,1876,1878,916,918,920,922,892,894,896,898]"/>
+        </geometry>
+      </entity>
+      <entity id="piston_set">
+        <geometry type="plane" w="32" h="48" w-segments="2" h-segments="3">
+          <face animation="piston-1">
+            <range x="1" y="1"/>
+          </face>
+          <face animation="piston-1" offset=".12">
+            <range x="2" y="1"/>
+          </face>
+          <face animation="piston-2">
+            <range x="1" y="2"/>
+          </face>
+          <face animation="piston-2" offset=".12">
+            <range x="2" y="2"/>
+          </face>
+          <face animation="piston-crank">
+            <range x="1" y="3"/>
+          </face>
+          <face animation="piston-crank" offset=".12">
+            <range x="2" y="3"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="object_257a939df522445c836ca551728c11c4">
+        <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
+          <face animation="dr-wily-logo" index="[0]"/>
+        </geometry>
+      </entity>
     </entities>
     <layout>
-        <entities>
-            <entity id="piston_set" x="496" y="-216" z="-2"/>
-            <entity id="piston_set" x="528" y="-216" z="-2"/>
-            <entity id="piston_set" x="3920" y="-696" z="-2"/>
-            <entity id="piston_set" x="4848" y="-696" z="-2"/>
-            <entity id="piston_set" x="4816" y="-696" z="-2"/>
-            <entity id="piston_set" x="4784" y="-696" z="-2"/>
-            <entity id="piston_set" x="3888" y="-696" z="-2"/>
-            <entity id="piston_set" x="3856" y="-696" z="-2"/>
-            <entity id="piston_set" x="3184" y="-696" z="-2"/>
-            <entity id="piston_set" x="3152" y="-696" z="-2"/>
-            <entity id="piston_set" x="3120" y="-696" z="-2"/>
-            <entity id="piston_set" x="2896" y="-696" z="-2"/>
-            <entity id="piston_set" x="2864" y="-696" z="-2"/>
-            <entity id="piston_set" x="2832" y="-696" z="-2"/>
-            <entity id="piston_set" x="2800" y="-696" z="-2"/>
-            <entity id="piston_set" x="2768" y="-696" z="-2"/>
-            <entity id="piston_set" x="2256" y="-216" z="-2"/>
-            <entity id="piston_set" x="2224" y="-216" z="-2"/>
-            <entity id="piston_set" x="2192" y="-216" z="-2"/>
-            <entity id="piston_set" x="2160" y="-216" z="-2"/>
-            <entity id="piston_set" x="560" y="-216" z="-2"/>
-            <entity id="big_cog" x="496" y="-144" z="-2"/>
-            <entity id="big_cog" x="528" y="-128" z="-2"/>
-            <entity id="big_cog" x="528" y="-64" z="-2"/>
-            <entity id="big_cog" x="2368" y="-48" z="-2"/>
-            <entity id="big_cog" x="2208" y="-176" z="-2"/>
-            <entity id="big_cog" x="2400" y="-256" z="-2"/>
-            <entity id="big_cog" x="3104" y="-656" z="-2"/>
-            <entity id="big_cog" x="3072" y="-624" z="-2"/>
-            <entity id="big_cog" x="3152" y="-512" z="-2"/>
-            <entity id="big_cog" x="3120" y="-528" z="-2"/>
-            <entity id="big_cog" x="2928" y="-512" z="-2"/>
-            <entity id="big_cog" x="2960" y="-528" z="-2"/>
-            <entity id="big_cog" x="2992" y="-544" z="-2"/>
-            <entity id="big_cog" x="3920" y="-608" z="-2"/>
-            <entity id="big_cog" x="5088" y="-560" z="-2"/>
-            <entity id="big_cog" x="5040" y="-576" z="-2"/>
-            <entity id="big_cog" x="4992" y="-624" z="-2"/>
-            <entity id="big_cog" x="4960" y="-592" z="-2"/>
-            <entity id="big_cog" x="4944" y="-624" z="-2"/>
-            <entity id="big_cog" x="4912" y="-640" z="-2"/>
-            <entity id="big_cog" x="4896" y="-576" z="-2"/>
-            <entity id="big_cog" x="4928" y="-560" z="-2"/>
-            <entity id="big_cog" x="4624" y="-512" z="-2"/>
-            <entity id="big_cog" x="4656" y="-496" z="-2"/>
-            <entity id="big_cog" x="4816" y="-512" z="-2"/>
-            <entity id="big_cog" x="4832" y="-480" z="-2"/>
-            <entity id="big_cog" x="4784" y="-480" z="-2"/>
-            <entity id="big_cog" x="4752" y="-496" z="-2"/>
-            <entity id="big_cog" x="4864" y="-656" z="-2"/>
-            <entity id="big_cog" x="4816" y="-640" z="-2"/>
-            <entity id="big_cog" x="4720" y="-672" z="-2"/>
-            <entity id="big_cog" x="4688" y="-688" z="-2"/>
-            <entity id="big_cog" x="4656" y="-656" z="-2"/>
-            <entity id="big_cog" x="4496" y="-608" z="-2"/>
-            <entity id="big_cog" x="4464" y="-576" z="-2"/>
-            <entity id="big_cog" x="4416" y="-592" z="-2"/>
-            <entity id="big_cog" x="4384" y="-608" z="-2"/>
-            <entity id="big_cog" x="4304" y="-624" z="-2"/>
-            <entity id="big_cog" x="4240" y="-528" z="-2"/>
-            <entity id="big_cog" x="4224" y="-560" z="-2"/>
-            <entity id="big_cog" x="4144" y="-640" z="-2"/>
-            <entity id="big_cog" x="4240" y="-640" z="-2"/>
-            <entity id="big_cog" x="4144" y="-544" z="-2"/>
-            <entity id="big_cog" x="4112" y="-512" z="-2"/>
-            <entity id="big_cog" x="4048" y="-480" z="-2"/>
-            <entity id="big_cog" x="4016" y="-496" z="-2"/>
-            <entity id="big_cog" x="3984" y="-496" z="-2"/>
-            <entity id="big_cog" x="4016" y="-672" z="-2"/>
-            <entity id="big_cog" x="4048" y="-640" z="-2"/>
-            <entity id="big_cog" x="3952" y="-592" z="-2"/>
-            <entity id="big_cog" x="3920" y="-528" z="-2"/>
-            <entity id="big_cog" x="3888" y="-544" z="-2"/>
-            <entity id="big_cog" x="3824" y="-624" z="-2"/>
-            <entity id="big_cog" x="3760" y="-672" z="-2"/>
-            <entity id="big_cog" x="3696" y="-688" z="-2"/>
-            <entity id="big_cog" x="3696" y="-560" z="-2"/>
-            <entity id="big_cog" x="3664" y="-528" z="-2"/>
-            <entity id="big_cog" x="3632" y="-576" z="-2"/>
-            <entity id="big_cog" x="3552" y="-560" z="-2"/>
-            <entity id="big_cog" x="3520" y="-576" z="-2"/>
-            <entity id="big_cog" x="3456" y="-624" z="-2"/>
-            <entity id="big_cog" x="3472" y="-592" z="-2"/>
-            <entity id="big_cog" x="3344" y="-576" z="-2"/>
-            <entity id="big_cog" x="3312" y="-560" z="-2"/>
-            <entity id="big_cog" x="3280" y="-528" z="-2"/>
-            <entity id="big_cog" x="2816" y="-608" z="-2"/>
-            <entity id="big_cog" x="2864" y="-592" z="-2"/>
-            <entity id="big_cog" x="2736" y="-528" z="-2"/>
-            <entity id="big_cog" x="2672" y="-560" z="-2"/>
-            <entity id="big_cog" x="2624" y="-528" z="-2"/>
-            <entity id="big_cog" x="2544" y="-592" z="-2"/>
-            <entity id="big_cog" x="2528" y="-624" z="-2"/>
-            <entity id="big_cog" x="2496" y="-656" z="-2"/>
-            <entity id="big_cog" x="2480" y="-624" z="-2"/>
-            <entity id="big_cog" x="2432" y="-672" z="-2"/>
-            <entity id="big_cog" x="2400" y="-656" z="-2"/>
-            <entity id="big_cog" x="2336" y="-624" z="-2"/>
-            <entity id="big_cog" x="2336" y="-528" z="-2"/>
-            <entity id="big_cog" x="2352" y="-464" z="-2"/>
-            <entity id="big_cog" x="2336" y="-416" z="-2"/>
-            <entity id="big_cog" x="2400" y="-288" z="-2"/>
-            <entity id="big_cog" x="2528" y="-352" z="-2"/>
-            <entity id="big_cog" x="2384" y="-176" z="-2"/>
-            <entity id="big_cog" x="2416" y="-160" z="-2"/>
-            <entity id="big_cog" x="2448" y="-144" z="-2"/>
-            <entity id="big_cog" x="2256" y="-160" z="-2"/>
-            <entity id="big_cog" x="2432" y="-16" z="-2"/>
-            <entity id="big_cog" x="2352" y="-16" z="-2"/>
-            <entity id="big_cog" x="2048" y="-48" z="-2"/>
-            <entity id="big_cog" x="2080" y="-80" z="-2"/>
-            <entity id="big_cog" x="2144" y="-16" z="-2"/>
-            <entity id="big_cog" x="2128" y="-48" z="-2"/>
-            <entity id="big_cog" x="432" y="-96" z="-2"/>
-            <entity id="big_cog" x="432" y="-48" z="-2"/>
-            <entity id="big_cog" x="400" y="-64" z="-2"/>
-            <entity id="big_cog" x="320" y="-80" z="-2"/>
-            <entity id="big_cog" x="304" y="-112" z="-2"/>
-            <entity id="big_cog" x="320" y="-208" z="-2"/>
-            <entity id="big_cog" x="192" y="-208" z="-2"/>
-            <entity id="big_cog" x="224" y="-48" z="-2"/>
-            <entity id="big_cog" x="192" y="-64" z="-2"/>
-            <entity id="big_cog" x="208" y="-160" z="-2"/>
-            <entity id="big_cog" x="176" y="-176" z="-2"/>
-            <entity id="big_cog" x="128" y="-192" z="-2"/>
-            <entity id="big_cog" x="144" y="-176" z="-2"/>
-            <entity id="big_cog" x="112" y="-144" z="-2"/>
-            <entity id="big_cog" x="32" y="-96" z="-2"/>
-            <entity id="big_cog" x="16" y="-128" z="-2"/>
-            <entity id="conveyor_24" x="2528" y="-664" z="0"/>
-            <entity id="conveyor_20" x="1952" y="-184" z="0"/>
-            <entity id="conveyor_15" x="3080" y="-664" z="0"/>
-            <entity id="conveyor_14" x="4992" y="-680" z="0"/>
-            <entity id="conveyor_16" x="1664" y="-136" z="0"/>
-            <entity id="conveyor_18" x="144" y="-184" z="0"/>
-            <entity id="conveyor_12" x="2432" y="-88" z="0"/>
-            <entity id="conveyor_12" x="2400" y="-168" z="0"/>
-            <entity id="conveyor_12" x="512" y="-136" z="0"/>
-            <entity id="conveyor_12" x="416" y="-184" z="0"/>
-            <entity id="conveyor_10" x="2448" y="-392" z="0"/>
-            <entity id="conveyor_4" x="2880" y="-568" z="0"/>
-            <entity id="conveyor_4" x="2816" y="-600" z="0"/>
-            <entity id="conveyor_4" x="2752" y="-632" z="0"/>
-            <entity id="conveyor_4" x="2224" y="-120" z="0"/>
-            <entity id="conveyor_4" x="2144" y="-152" z="0"/>
-            <entity id="conveyor_4" x="992" y="-136" z="0"/>
-            <entity id="conveyor_4" x="768" y="-136" z="0"/>
-            <entity id="conveyor_4" x="672" y="-136" z="0"/>
-            <entity id="corn_hori" x="3768" y="-592" z="-0.2"/>
-            <entity id="corn_hori" x="3680" y="-656" z="-0.2"/>
-            <entity id="corn_hori" x="3648" y="-688" z="-0.2"/>
-            <entity id="corn_hori" x="3520" y="-720" z="-0.2"/>
-            <entity id="corn_hori" x="3696" y="-608" z="-0.2"/>
-            <entity id="corn_hori" x="3632" y="-624" z="-0.2"/>
-            <entity id="corn_hori" x="3584" y="-704" z="-0.2"/>
-            <entity id="corn_hori" x="3568" y="-640" z="-0.2"/>
-            <entity id="corn_hori" x="3504" y="-656" z="-0.2"/>
-            <entity id="corn_hori" x="3440" y="-672" z="-0.2"/>
-            <entity id="corn_hori" x="3376" y="-688" z="-0.2"/>
-            <entity id="cog_green_vert_tall" x="3528" y="-656" z="0"/>
-            <entity id="cog_green_vert_tall" x="3592" y="-640" z="0"/>
-            <entity id="cog_green_vert_tall" x="3656" y="-624" z="0"/>
-            <entity id="cog_green_vert_tall" x="3672" y="-688" z="0"/>
-            <entity id="cog_green_vert_tall" x="3608" y="-704" z="0"/>
-            <entity id="cog_green_vert_tall" x="3464" y="-672" z="0"/>
-            <entity id="cog_green_vert_tall" x="3400" y="-688" z="0"/>
-            <entity id="cog_green_vert_tall" x="3336" y="-704" z="0"/>
-            <entity id="cog_green_hori" x="3672" y="-608" z="0"/>
-            <entity id="cog_green_hori" x="3704" y="-656" z="0"/>
-            <entity id="cog_green_hori" x="3736" y="-592" z="0"/>
-            <entity id="cog_green_hori" x="3720" y="-592" z="0"/>
-            <entity id="cog_green_hori" x="3560" y="-704" z="0"/>
-            <entity id="cog_green_hori" x="3608" y="-624" z="0"/>
-            <entity id="cog_green_hori" x="3624" y="-688" z="0"/>
-            <entity id="cog_green_hori" x="3544" y="-640" z="0"/>
-            <entity id="cog_green_hori" x="3432" y="-736" z="0"/>
-            <entity id="cog_green_hori" x="3416" y="-736" z="0"/>
-            <entity id="cog_green_hori" x="3496" y="-720" z="0"/>
-            <entity id="cog_green_hori" x="3480" y="-720" z="0"/>
-            <entity id="cog_green_hori" x="3480" y="-656" z="0"/>
-            <entity id="cog_green_hori" x="3544" y="-704" z="0"/>
-            <entity id="cog_green_hori" x="3416" y="-672" z="0"/>
-            <entity id="cog_green_hori" x="3352" y="-688" z="0"/>
-            <entity id="cog_green_hori" x="3256" y="-704" z="0"/>
-            <entity id="cog_green_hori" x="3240" y="-704" z="0"/>
-            <entity id="cog_green_vert" x="304" y="-40" z="0"/>
-            <entity id="cog_green_vert" x="352" y="-72" z="0"/>
-            <entity id="cog_green_vert" x="352" y="-216" z="0"/>
-            <entity id="cog_green_vert" x="400" y="-232" z="0"/>
-            <entity id="cog_green_vert" x="448" y="-216" z="0"/>
-            <entity id="cog_green_vert" x="400" y="-200" z="0"/>
-            <entity id="cog_green_vert" x="3744" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="4128" y="-696" z="0"/>
-            <entity id="cog_green_vert" x="4448" y="-712" z="0"/>
-            <entity id="cog_green_vert" x="4448" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="4448" y="-664" z="0"/>
-            <entity id="cog_green_vert" x="4448" y="-632" z="0"/>
-            <entity id="cog_green_vert" x="4448" y="-616" z="0"/>
-            <entity id="cog_green_vert" x="4384" y="-616" z="0"/>
-            <entity id="cog_green_vert" x="4384" y="-664" z="0"/>
-            <entity id="cog_green_vert" x="4320" y="-696" z="0"/>
-            <entity id="cog_green_vert" x="4320" y="-664" z="0"/>
-            <entity id="cog_green_vert" x="4320" y="-648" z="0"/>
-            <entity id="cog_green_vert" x="4256" y="-648" z="0"/>
-            <entity id="cog_green_vert" x="4256" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="4256" y="-712" z="0"/>
-            <entity id="cog_green_vert" x="4192" y="-712" z="0"/>
-            <entity id="cog_green_vert" x="4192" y="-696" z="0"/>
-            <entity id="cog_green_vert" x="4192" y="-664" z="0"/>
-            <entity id="cog_green_vert" x="4192" y="-648" z="0"/>
-            <entity id="cog_green_vert" x="4128" y="-648" z="0"/>
-            <entity id="cog_green_vert" x="4016" y="-712" z="0"/>
-            <entity id="cog_green_vert" x="4080" y="-712" z="0"/>
-            <entity id="cog_green_vert" x="4080" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="4016" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="3808" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="3776" y="-616" z="-0.3"/>
-            <entity id="cog_green_vert" x="3808" y="-568" z="0"/>
-            <entity id="cog_green_vert" x="3808" y="-552" z="0"/>
-            <entity id="cog_green_vert" x="3808" y="-616" z="0"/>
-            <entity id="cog_green_vert" x="3296" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="2672" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="2624" y="-696" z="0"/>
-            <entity id="cog_green_vert" x="2576" y="-712" z="0"/>
-            <entity id="cog_green_vert" x="2576" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="2528" y="-696" z="0"/>
-            <entity id="cog_green_vert" x="2480" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="2432" y="-712" z="0"/>
-            <entity id="cog_green_vert" x="2336" y="-712" z="0"/>
-            <entity id="cog_green_vert" x="2384" y="-696" z="0"/>
-            <entity id="cog_green_vert" x="2336" y="-680" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-584" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-568" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-536" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-520" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-488" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-472" z="0"/>
-            <entity id="cog_green_vert" x="2528" y="-424" z="0"/>
-            <entity id="cog_green_vert" x="2464" y="-456" z="0"/>
-            <entity id="cog_green_vert" x="2464" y="-504" z="0"/>
-            <entity id="cog_green_vert" x="2464" y="-536" z="0"/>
-            <entity id="cog_green_vert" x="2464" y="-584" z="0"/>
-            <entity id="cog_green_vert" x="2592" y="-584" z="0"/>
-            <entity id="cog_green_vert" x="2528" y="-584" z="0"/>
-            <entity id="cog_green_vert" x="2592" y="-488" z="0"/>
-            <entity id="cog_green_vert" x="2592" y="-520" z="0"/>
-            <entity id="cog_green_vert" x="2592" y="-552" z="0"/>
-            <entity id="cog_green_vert" x="2592" y="-568" z="0"/>
-            <entity id="cog_green_vert" x="2528" y="-568" z="0"/>
-            <entity id="cog_green_vert" x="2528" y="-536" z="0"/>
-            <entity id="cog_green_vert" x="2528" y="-488" z="0"/>
-            <entity id="cog_green_vert" x="2528" y="-472" z="0"/>
-            <entity id="cog_green_vert" x="2464" y="-440" z="0"/>
-            <entity id="cog_green_vert" x="2528" y="-408" z="0"/>
-            <entity id="cog_green_vert" x="2464" y="-408" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-408" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-408" z="0"/>
-            <entity id="cog_green_vert" x="2400" y="-440" z="0"/>
-            <entity id="cog_green_vert" x="464" y="-40" z="0"/>
-            <entity id="cog_green_vert" x="416" y="-24" z="0"/>
-            <entity id="cog_green_vert" x="352" y="-24" z="0"/>
-            <entity id="cog_green_vert" x="304" y="-8" z="0"/>
-            <entity id="cog_green_vert" x="256" y="-24" z="0"/>
-            <entity id="cog_green_vert" x="256" y="-56" z="0"/>
-            <entity id="cog_green_vert" x="256" y="-88" z="0"/>
-            <entity id="cog_green_vert" x="256" y="-200" z="0"/>
-            <entity id="cog_green_vert" x="256" y="-232" z="0"/>
-            <entity id="cog_green_vert" x="160" y="-232" z="0"/>
-            <entity id="cog_green_vert" x="160" y="-200" z="0"/>
-            <entity id="cog_green_vert" x="160" y="-56" z="0"/>
-            <entity id="cog_green_vert" x="160" y="-24" z="0"/>
-            <entity id="cog_green_vert" x="64" y="-56" z="0"/>
-            <entity id="cog_green_vert" x="64" y="-200" z="0"/>
-            <entity id="cog_green_vert" x="16" y="-216" z="0"/>
-            <entity id="cog_green_vert" x="64" y="-232" z="0"/>
-            <entity id="cog_green_vert" x="112" y="-216" z="0"/>
-            <entity id="cog_green_vert" x="16" y="-72" z="0"/>
-            <entity id="cog_green_vert" x="64" y="-88" z="0"/>
-            <entity id="corn_vert" x="2400" y="-464" z="-0.2"/>
-            <entity id="corn_vert" x="2464" y="-464" z="-0.2"/>
-            <entity id="corn_vert" x="2528" y="-464" z="-0.2"/>
-            <entity id="corn_vert" x="2336" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="2384" y="-752" z="-0.2"/>
-            <entity id="corn_vert" x="2480" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="2528" y="-752" z="-0.2"/>
-            <entity id="corn_vert" x="2576" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="2624" y="-752" z="-0.2"/>
-            <entity id="corn_vert" x="4256" y="-704" z="-0.2"/>
-            <entity id="corn_vert" x="4256" y="-704" z="-0.2"/>
-            <entity id="corn_vert" x="4192" y="-704" z="-0.2"/>
-            <entity id="corn_vert" x="4448" y="-672" z="-0.2"/>
-            <entity id="corn_vert" x="4320" y="-704" z="-0.2"/>
-            <entity id="corn_vert" x="4384" y="-672" z="-0.2"/>
-            <entity id="corn_vert" x="4128" y="-704" z="-0.2"/>
-            <entity id="corn_vert" x="4080" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="4016" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="3808" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="3744" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="3296" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="2672" y="-736" z="-0.2"/>
-            <entity id="corn_vert" x="2592" y="-528" z="-0.2"/>
-            <entity id="corn_vert" x="2528" y="-528" z="-0.2"/>
-            <entity id="corn_vert" x="2400" y="-528" z="-0.2"/>
-            <entity id="corn_vert" x="2464" y="-528" z="-0.2"/>
-            <entity id="corn_vert" x="464" y="16" z="-0.2"/>
-            <entity id="corn_vert" x="416" y="32" z="-0.2"/>
-            <entity id="corn_vert" x="352" y="-16" z="-0.2"/>
-            <entity id="corn_vert" x="304" y="16" z="-0.2"/>
-            <entity id="corn_vert" x="304" y="16" z="-0.2"/>
-            <entity id="corn_vert" x="256" y="-32" z="-0.2"/>
-            <entity id="corn_vert" x="160" y="0" z="-0.2"/>
-            <entity id="corn_vert" x="64" y="-32" z="-0.2"/>
-            <entity id="corn_vert" x="448" y="-272" z="-0.2"/>
-            <entity id="corn_vert" x="400" y="-256" z="-0.2"/>
-            <entity id="corn_vert" x="352" y="-272" z="-0.2"/>
-            <entity id="corn_vert" x="256" y="-256" z="-0.2"/>
-            <entity id="corn_vert" x="160" y="-256" z="-0.2"/>
-            <entity id="corn_vert" x="112" y="-288" z="-0.2"/>
-            <entity id="corn_vert" x="64" y="-272" z="-0.2"/>
-            <entity id="corn_vert" x="16" y="-272" z="-0.2"/>
-            <entity id="corn_vert" x="16" y="-16" z="-0.2"/>
-            <entity id="object_81E630B581B942C9ABFFEDF41A1A73F7" x="1312" y="-120" z="0"/>
-            <entity id="object_5A82F22724AD471AA61BF2930EECDD5C" x="4800" y="-600" z="0"/>
-            <entity id="object_A96DBC33FE3B4DED89232B330392F6F6" x="2432" y="-360" z="0"/>
-            <entity id="object_75E0C0078E28446EB1F81ADE40AD827E" x="2304" y="-120" z="-2"/>
-            <entity id="object_899E14F6E66A4D518563F32E733F4A50" x="288" y="-120" z="-2"/>
-            <entity id="object_83FAE8F1BA81431BA32D63C7C8374371" x="3952" y="-696" z="0"/>
-            <entity id="object_CAB1AB1401554942AB92D6C6C4FAF40B" x="2432" y="-480" z="-2"/>
-            <entity id="object_B895B1756C9A44B5B05F12E77AA1937A" x="3552" y="-600" z="-2"/>
-            <entity id="object_257a939df522445c836ca551728c11c4" x="4592" y="-512" z="0"/>
-            <entity id="door" x="4864" y="-576" z="0"/>
-            <entity id="door" x="4608" y="-576" z="0"/>
-        </entities>
-        <behaviors>
-            <solids>
-                <rect x="-16" y="-128" w="32" h="128"/>
-                <rect x="800" y="-192" w="448" h="96"/>
-                <rect x="2336" y="-264" w="64" h="176"/>
-                <rect x="3440" y="-672" w="64" h="32"/>
-                <rect x="3504" y="-656" w="64" h="32"/>
-                <rect x="3568" y="-640" w="64" h="32"/>
-                <rect x="3632" y="-624" w="64" h="32"/>
-                <rect x="3696" y="-608" w="64" h="32"/>
-                <rect x="3776" y="-616" w="128" h="16"/>
-                <rect x="4480" y="-616" w="256" h="16"/>
-                <rect x="4224" y="-648" w="256" h="16"/>
-                <rect x="4016" y="-696" w="192" h="48"/>
-                <rect x="3776" y="-680" w="128" h="16"/>
-                <rect x="3776" y="-592" w="96" h="32"/>
-                <rect x="4360" y="-672" w="64" h="32"/>
-                <rect x="3808" y="-560" w="64" h="32"/>
-                <rect x="3696" y="-656" w="32" h="64"/>
-                <rect x="4720" y="-664" w="320" h="112"/>
-                <rect x="5112" y="-600" w="16" h="240"/>
-                <rect x="4992" y="-704" w="256" h="32"/>
-                <rect x="4992" y="-496" w="256" h="32"/>
-                <rect x="4720" y="-512" w="320" h="64"/>
-                <rect x="4384" y="-656" w="32" h="64"/>
-                <rect x="4128" y="-688" w="32" h="64"/>
-                <rect x="3728" y="-592" w="32" h="64"/>
-                <rect x="3664" y="-616" w="32" h="80"/>
-                <rect x="3600" y="-632" w="32" h="80"/>
-                <rect x="3536" y="-648" w="32" h="80"/>
-                <rect x="3472" y="-664" w="32" h="80"/>
-                <rect x="3408" y="-680" w="32" h="80"/>
-                <rect x="3344" y="-696" w="32" h="80"/>
-                <rect x="3312" y="-712" w="160" h="80"/>
-                <rect x="2496" y="-496" w="256" h="192"/>
-                <rect x="2320" y="-512" w="32" h="320"/>
-                <rect x="2544" y="-304" w="32" h="256"/>
-                <rect x="2544" y="-128" w="32" h="256"/>
-                <rect x="2512" y="-16" w="96" h="32"/>
-                <rect x="2448" y="-264" w="96" h="176"/>
-                <rect x="1952" y="-72" w="192" h="144"/>
-                <rect x="1712" y="-32" w="288" h="64"/>
-                <rect x="1416" y="-32" w="304" h="64"/>
-                <rect x="912" y="-152" w="32" h="48"/>
-                <rect x="880" y="-16" w="160" h="32"/>
-                <rect x="936" y="-24" w="80" h="48"/>
-                <rect x="920" y="-40" w="16" h="48"/>
-                <rect x="1440" y="-72" w="64" h="48"/>
-                <rect x="1312" y="-72" w="64" h="48"/>
-                <rect x="1184" y="-72" w="64" h="48"/>
-                <rect x="848" y="-24" w="32" h="48"/>
-                <rect x="560" y="-40" w="96" h="48"/>
-                <rect x="672" y="-40" w="64" h="48"/>
-                <rect x="752" y="-40" w="32" h="48"/>
-                <rect x="848" y="-152" w="32" h="48"/>
-                <rect x="1328" y="-184" w="96" h="48"/>
-                <rect x="2096" y="-216" w="32" h="48"/>
-                <rect x="1776" y="-168" w="32" h="48"/>
-                <rect x="1520" y="-152" w="32" h="48"/>
-                <rect x="1496" y="-184" w="48" h="48"/>
-                <rect x="1424" y="-200" w="120" h="16"/>
-                <rect x="1184" y="-216" w="256" h="48"/>
-                <rect x="1112" y="-32" w="304" h="64"/>
-                <rect x="656" y="-16" w="288" h="64"/>
-            </solids>
-        </behaviors>
+      <entities>
+        <entity id="piston_set" x="496" y="-216" z="-2"/>
+        <entity id="piston_set" x="528" y="-216" z="-2"/>
+        <entity id="piston_set" x="3920" y="-696" z="-2"/>
+        <entity id="piston_set" x="4848" y="-696" z="-2"/>
+        <entity id="piston_set" x="4816" y="-696" z="-2"/>
+        <entity id="piston_set" x="4784" y="-696" z="-2"/>
+        <entity id="piston_set" x="3888" y="-696" z="-2"/>
+        <entity id="piston_set" x="3856" y="-696" z="-2"/>
+        <entity id="piston_set" x="3184" y="-696" z="-2"/>
+        <entity id="piston_set" x="3152" y="-696" z="-2"/>
+        <entity id="piston_set" x="3120" y="-696" z="-2"/>
+        <entity id="piston_set" x="2896" y="-696" z="-2"/>
+        <entity id="piston_set" x="2864" y="-696" z="-2"/>
+        <entity id="piston_set" x="2832" y="-696" z="-2"/>
+        <entity id="piston_set" x="2800" y="-696" z="-2"/>
+        <entity id="piston_set" x="2768" y="-696" z="-2"/>
+        <entity id="piston_set" x="2256" y="-216" z="-2"/>
+        <entity id="piston_set" x="2224" y="-216" z="-2"/>
+        <entity id="piston_set" x="2192" y="-216" z="-2"/>
+        <entity id="piston_set" x="2160" y="-216" z="-2"/>
+        <entity id="piston_set" x="560" y="-216" z="-2"/>
+        <entity id="big_cog" x="496" y="-144" z="-2"/>
+        <entity id="big_cog" x="528" y="-128" z="-2"/>
+        <entity id="big_cog" x="528" y="-64" z="-2"/>
+        <entity id="big_cog" x="2368" y="-48" z="-2"/>
+        <entity id="big_cog" x="2208" y="-176" z="-2"/>
+        <entity id="big_cog" x="2400" y="-256" z="-2"/>
+        <entity id="big_cog" x="3104" y="-656" z="-2"/>
+        <entity id="big_cog" x="3072" y="-624" z="-2"/>
+        <entity id="big_cog" x="3152" y="-512" z="-2"/>
+        <entity id="big_cog" x="3120" y="-528" z="-2"/>
+        <entity id="big_cog" x="2928" y="-512" z="-2"/>
+        <entity id="big_cog" x="2960" y="-528" z="-2"/>
+        <entity id="big_cog" x="2992" y="-544" z="-2"/>
+        <entity id="big_cog" x="3920" y="-608" z="-2"/>
+        <entity id="big_cog" x="5088" y="-560" z="-2"/>
+        <entity id="big_cog" x="5040" y="-576" z="-2"/>
+        <entity id="big_cog" x="4992" y="-624" z="-2"/>
+        <entity id="big_cog" x="4960" y="-592" z="-2"/>
+        <entity id="big_cog" x="4944" y="-624" z="-2"/>
+        <entity id="big_cog" x="4912" y="-640" z="-2"/>
+        <entity id="big_cog" x="4896" y="-576" z="-2"/>
+        <entity id="big_cog" x="4928" y="-560" z="-2"/>
+        <entity id="big_cog" x="4624" y="-512" z="-2"/>
+        <entity id="big_cog" x="4656" y="-496" z="-2"/>
+        <entity id="big_cog" x="4816" y="-512" z="-2"/>
+        <entity id="big_cog" x="4832" y="-480" z="-2"/>
+        <entity id="big_cog" x="4784" y="-480" z="-2"/>
+        <entity id="big_cog" x="4752" y="-496" z="-2"/>
+        <entity id="big_cog" x="4864" y="-656" z="-2"/>
+        <entity id="big_cog" x="4816" y="-640" z="-2"/>
+        <entity id="big_cog" x="4720" y="-672" z="-2"/>
+        <entity id="big_cog" x="4688" y="-688" z="-2"/>
+        <entity id="big_cog" x="4656" y="-656" z="-2"/>
+        <entity id="big_cog" x="4496" y="-608" z="-2"/>
+        <entity id="big_cog" x="4464" y="-576" z="-2"/>
+        <entity id="big_cog" x="4416" y="-592" z="-2"/>
+        <entity id="big_cog" x="4384" y="-608" z="-2"/>
+        <entity id="big_cog" x="4304" y="-624" z="-2"/>
+        <entity id="big_cog" x="4240" y="-528" z="-2"/>
+        <entity id="big_cog" x="4224" y="-560" z="-2"/>
+        <entity id="big_cog" x="4144" y="-640" z="-2"/>
+        <entity id="big_cog" x="4240" y="-640" z="-2"/>
+        <entity id="big_cog" x="4144" y="-544" z="-2"/>
+        <entity id="big_cog" x="4112" y="-512" z="-2"/>
+        <entity id="big_cog" x="4048" y="-480" z="-2"/>
+        <entity id="big_cog" x="4016" y="-496" z="-2"/>
+        <entity id="big_cog" x="3984" y="-496" z="-2"/>
+        <entity id="big_cog" x="4016" y="-672" z="-2"/>
+        <entity id="big_cog" x="4048" y="-640" z="-2"/>
+        <entity id="big_cog" x="3952" y="-592" z="-2"/>
+        <entity id="big_cog" x="3920" y="-528" z="-2"/>
+        <entity id="big_cog" x="3888" y="-544" z="-2"/>
+        <entity id="big_cog" x="3824" y="-624" z="-2"/>
+        <entity id="big_cog" x="3760" y="-672" z="-2"/>
+        <entity id="big_cog" x="3696" y="-688" z="-2"/>
+        <entity id="big_cog" x="3696" y="-560" z="-2"/>
+        <entity id="big_cog" x="3664" y="-528" z="-2"/>
+        <entity id="big_cog" x="3632" y="-576" z="-2"/>
+        <entity id="big_cog" x="3552" y="-560" z="-2"/>
+        <entity id="big_cog" x="3520" y="-576" z="-2"/>
+        <entity id="big_cog" x="3456" y="-624" z="-2"/>
+        <entity id="big_cog" x="3472" y="-592" z="-2"/>
+        <entity id="big_cog" x="3344" y="-576" z="-2"/>
+        <entity id="big_cog" x="3312" y="-560" z="-2"/>
+        <entity id="big_cog" x="3280" y="-528" z="-2"/>
+        <entity id="big_cog" x="2816" y="-608" z="-2"/>
+        <entity id="big_cog" x="2864" y="-592" z="-2"/>
+        <entity id="big_cog" x="2736" y="-528" z="-2"/>
+        <entity id="big_cog" x="2672" y="-560" z="-2"/>
+        <entity id="big_cog" x="2624" y="-528" z="-2"/>
+        <entity id="big_cog" x="2544" y="-592" z="-2"/>
+        <entity id="big_cog" x="2528" y="-624" z="-2"/>
+        <entity id="big_cog" x="2496" y="-656" z="-2"/>
+        <entity id="big_cog" x="2480" y="-624" z="-2"/>
+        <entity id="big_cog" x="2432" y="-672" z="-2"/>
+        <entity id="big_cog" x="2400" y="-656" z="-2"/>
+        <entity id="big_cog" x="2336" y="-624" z="-2"/>
+        <entity id="big_cog" x="2336" y="-528" z="-2"/>
+        <entity id="big_cog" x="2352" y="-464" z="-2"/>
+        <entity id="big_cog" x="2336" y="-416" z="-2"/>
+        <entity id="big_cog" x="2400" y="-288" z="-2"/>
+        <entity id="big_cog" x="2528" y="-352" z="-2"/>
+        <entity id="big_cog" x="2384" y="-176" z="-2"/>
+        <entity id="big_cog" x="2416" y="-160" z="-2"/>
+        <entity id="big_cog" x="2448" y="-144" z="-2"/>
+        <entity id="big_cog" x="2256" y="-160" z="-2"/>
+        <entity id="big_cog" x="2432" y="-16" z="-2"/>
+        <entity id="big_cog" x="2352" y="-16" z="-2"/>
+        <entity id="big_cog" x="2048" y="-48" z="-2"/>
+        <entity id="big_cog" x="2080" y="-80" z="-2"/>
+        <entity id="big_cog" x="2144" y="-16" z="-2"/>
+        <entity id="big_cog" x="2128" y="-48" z="-2"/>
+        <entity id="big_cog" x="432" y="-96" z="-2"/>
+        <entity id="big_cog" x="432" y="-48" z="-2"/>
+        <entity id="big_cog" x="400" y="-64" z="-2"/>
+        <entity id="big_cog" x="320" y="-80" z="-2"/>
+        <entity id="big_cog" x="304" y="-112" z="-2"/>
+        <entity id="big_cog" x="320" y="-208" z="-2"/>
+        <entity id="big_cog" x="192" y="-208" z="-2"/>
+        <entity id="big_cog" x="224" y="-48" z="-2"/>
+        <entity id="big_cog" x="192" y="-64" z="-2"/>
+        <entity id="big_cog" x="208" y="-160" z="-2"/>
+        <entity id="big_cog" x="176" y="-176" z="-2"/>
+        <entity id="big_cog" x="128" y="-192" z="-2"/>
+        <entity id="big_cog" x="144" y="-176" z="-2"/>
+        <entity id="big_cog" x="112" y="-144" z="-2"/>
+        <entity id="big_cog" x="32" y="-96" z="-2"/>
+        <entity id="big_cog" x="16" y="-128" z="-2"/>
+        <entity id="conveyor_24" x="2528" y="-664" z="0"/>
+        <entity id="conveyor_20" x="1952" y="-184" z="0"/>
+        <entity id="conveyor_15" x="3080" y="-664" z="0"/>
+        <entity id="conveyor_14" x="4992" y="-680" z="0"/>
+        <entity id="conveyor_16" x="1664" y="-136" z="0"/>
+        <entity id="conveyor_18" x="144" y="-184" z="0"/>
+        <entity id="conveyor_12" x="2432" y="-88" z="0"/>
+        <entity id="conveyor_12" x="2400" y="-168" z="0"/>
+        <entity id="conveyor_12" x="512" y="-136" z="0"/>
+        <entity id="conveyor_12" x="416" y="-184" z="0"/>
+        <entity id="conveyor_10" x="2448" y="-392" z="0"/>
+        <entity id="conveyor_4" x="2880" y="-568" z="0"/>
+        <entity id="conveyor_4" x="2816" y="-600" z="0"/>
+        <entity id="conveyor_4" x="2752" y="-632" z="0"/>
+        <entity id="conveyor_4" x="2224" y="-120" z="0"/>
+        <entity id="conveyor_4" x="2144" y="-152" z="0"/>
+        <entity id="conveyor_4" x="992" y="-136" z="0"/>
+        <entity id="conveyor_4" x="768" y="-136" z="0"/>
+        <entity id="conveyor_4" x="672" y="-136" z="0"/>
+        <entity id="corn_hori" x="3768" y="-592" z="-0.2"/>
+        <entity id="corn_hori" x="3680" y="-656" z="-0.2"/>
+        <entity id="corn_hori" x="3648" y="-688" z="-0.2"/>
+        <entity id="corn_hori" x="3520" y="-720" z="-0.2"/>
+        <entity id="corn_hori" x="3696" y="-608" z="-0.2"/>
+        <entity id="corn_hori" x="3632" y="-624" z="-0.2"/>
+        <entity id="corn_hori" x="3584" y="-704" z="-0.2"/>
+        <entity id="corn_hori" x="3568" y="-640" z="-0.2"/>
+        <entity id="corn_hori" x="3504" y="-656" z="-0.2"/>
+        <entity id="corn_hori" x="3440" y="-672" z="-0.2"/>
+        <entity id="corn_hori" x="3376" y="-688" z="-0.2"/>
+        <entity id="cog_green_vert_tall" x="3528" y="-656" z="0"/>
+        <entity id="cog_green_vert_tall" x="3592" y="-640" z="0"/>
+        <entity id="cog_green_vert_tall" x="3656" y="-624" z="0"/>
+        <entity id="cog_green_vert_tall" x="3672" y="-688" z="0"/>
+        <entity id="cog_green_vert_tall" x="3608" y="-704" z="0"/>
+        <entity id="cog_green_vert_tall" x="3464" y="-672" z="0"/>
+        <entity id="cog_green_vert_tall" x="3400" y="-688" z="0"/>
+        <entity id="cog_green_vert_tall" x="3336" y="-704" z="0"/>
+        <entity id="cog_green_hori" x="3672" y="-608" z="0"/>
+        <entity id="cog_green_hori" x="3704" y="-656" z="0"/>
+        <entity id="cog_green_hori" x="3736" y="-592" z="0"/>
+        <entity id="cog_green_hori" x="3720" y="-592" z="0"/>
+        <entity id="cog_green_hori" x="3560" y="-704" z="0"/>
+        <entity id="cog_green_hori" x="3608" y="-624" z="0"/>
+        <entity id="cog_green_hori" x="3624" y="-688" z="0"/>
+        <entity id="cog_green_hori" x="3544" y="-640" z="0"/>
+        <entity id="cog_green_hori" x="3432" y="-736" z="0"/>
+        <entity id="cog_green_hori" x="3416" y="-736" z="0"/>
+        <entity id="cog_green_hori" x="3496" y="-720" z="0"/>
+        <entity id="cog_green_hori" x="3480" y="-720" z="0"/>
+        <entity id="cog_green_hori" x="3480" y="-656" z="0"/>
+        <entity id="cog_green_hori" x="3544" y="-704" z="0"/>
+        <entity id="cog_green_hori" x="3416" y="-672" z="0"/>
+        <entity id="cog_green_hori" x="3352" y="-688" z="0"/>
+        <entity id="cog_green_hori" x="3256" y="-704" z="0"/>
+        <entity id="cog_green_hori" x="3240" y="-704" z="0"/>
+        <entity id="cog_green_vert" x="304" y="-40" z="0"/>
+        <entity id="cog_green_vert" x="352" y="-72" z="0"/>
+        <entity id="cog_green_vert" x="352" y="-216" z="0"/>
+        <entity id="cog_green_vert" x="400" y="-232" z="0"/>
+        <entity id="cog_green_vert" x="448" y="-216" z="0"/>
+        <entity id="cog_green_vert" x="400" y="-200" z="0"/>
+        <entity id="cog_green_vert" x="3744" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="4128" y="-696" z="0"/>
+        <entity id="cog_green_vert" x="4448" y="-712" z="0"/>
+        <entity id="cog_green_vert" x="4448" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="4448" y="-664" z="0"/>
+        <entity id="cog_green_vert" x="4448" y="-632" z="0"/>
+        <entity id="cog_green_vert" x="4448" y="-616" z="0"/>
+        <entity id="cog_green_vert" x="4384" y="-616" z="0"/>
+        <entity id="cog_green_vert" x="4384" y="-664" z="0"/>
+        <entity id="cog_green_vert" x="4320" y="-696" z="0"/>
+        <entity id="cog_green_vert" x="4320" y="-664" z="0"/>
+        <entity id="cog_green_vert" x="4320" y="-648" z="0"/>
+        <entity id="cog_green_vert" x="4256" y="-648" z="0"/>
+        <entity id="cog_green_vert" x="4256" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="4256" y="-712" z="0"/>
+        <entity id="cog_green_vert" x="4192" y="-712" z="0"/>
+        <entity id="cog_green_vert" x="4192" y="-696" z="0"/>
+        <entity id="cog_green_vert" x="4192" y="-664" z="0"/>
+        <entity id="cog_green_vert" x="4192" y="-648" z="0"/>
+        <entity id="cog_green_vert" x="4128" y="-648" z="0"/>
+        <entity id="cog_green_vert" x="4016" y="-712" z="0"/>
+        <entity id="cog_green_vert" x="4080" y="-712" z="0"/>
+        <entity id="cog_green_vert" x="4080" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="4016" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="3808" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="3776" y="-616" z="-0.3"/>
+        <entity id="cog_green_vert" x="3808" y="-568" z="0"/>
+        <entity id="cog_green_vert" x="3808" y="-552" z="0"/>
+        <entity id="cog_green_vert" x="3808" y="-616" z="0"/>
+        <entity id="cog_green_vert" x="3296" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="2672" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="2624" y="-696" z="0"/>
+        <entity id="cog_green_vert" x="2576" y="-712" z="0"/>
+        <entity id="cog_green_vert" x="2576" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="2528" y="-696" z="0"/>
+        <entity id="cog_green_vert" x="2480" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="2432" y="-712" z="0"/>
+        <entity id="cog_green_vert" x="2336" y="-712" z="0"/>
+        <entity id="cog_green_vert" x="2384" y="-696" z="0"/>
+        <entity id="cog_green_vert" x="2336" y="-680" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-584" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-568" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-536" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-520" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-488" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-472" z="0"/>
+        <entity id="cog_green_vert" x="2528" y="-424" z="0"/>
+        <entity id="cog_green_vert" x="2464" y="-456" z="0"/>
+        <entity id="cog_green_vert" x="2464" y="-504" z="0"/>
+        <entity id="cog_green_vert" x="2464" y="-536" z="0"/>
+        <entity id="cog_green_vert" x="2464" y="-584" z="0"/>
+        <entity id="cog_green_vert" x="2592" y="-584" z="0"/>
+        <entity id="cog_green_vert" x="2528" y="-584" z="0"/>
+        <entity id="cog_green_vert" x="2592" y="-488" z="0"/>
+        <entity id="cog_green_vert" x="2592" y="-520" z="0"/>
+        <entity id="cog_green_vert" x="2592" y="-552" z="0"/>
+        <entity id="cog_green_vert" x="2592" y="-568" z="0"/>
+        <entity id="cog_green_vert" x="2528" y="-568" z="0"/>
+        <entity id="cog_green_vert" x="2528" y="-536" z="0"/>
+        <entity id="cog_green_vert" x="2528" y="-488" z="0"/>
+        <entity id="cog_green_vert" x="2528" y="-472" z="0"/>
+        <entity id="cog_green_vert" x="2464" y="-440" z="0"/>
+        <entity id="cog_green_vert" x="2528" y="-408" z="0"/>
+        <entity id="cog_green_vert" x="2464" y="-408" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-408" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-408" z="0"/>
+        <entity id="cog_green_vert" x="2400" y="-440" z="0"/>
+        <entity id="cog_green_vert" x="464" y="-40" z="0"/>
+        <entity id="cog_green_vert" x="416" y="-24" z="0"/>
+        <entity id="cog_green_vert" x="352" y="-24" z="0"/>
+        <entity id="cog_green_vert" x="304" y="-8" z="0"/>
+        <entity id="cog_green_vert" x="256" y="-24" z="0"/>
+        <entity id="cog_green_vert" x="256" y="-56" z="0"/>
+        <entity id="cog_green_vert" x="256" y="-88" z="0"/>
+        <entity id="cog_green_vert" x="256" y="-200" z="0"/>
+        <entity id="cog_green_vert" x="256" y="-232" z="0"/>
+        <entity id="cog_green_vert" x="160" y="-232" z="0"/>
+        <entity id="cog_green_vert" x="160" y="-200" z="0"/>
+        <entity id="cog_green_vert" x="160" y="-56" z="0"/>
+        <entity id="cog_green_vert" x="160" y="-24" z="0"/>
+        <entity id="cog_green_vert" x="64" y="-56" z="0"/>
+        <entity id="cog_green_vert" x="64" y="-200" z="0"/>
+        <entity id="cog_green_vert" x="16" y="-216" z="0"/>
+        <entity id="cog_green_vert" x="64" y="-232" z="0"/>
+        <entity id="cog_green_vert" x="112" y="-216" z="0"/>
+        <entity id="cog_green_vert" x="16" y="-72" z="0"/>
+        <entity id="cog_green_vert" x="64" y="-88" z="0"/>
+        <entity id="corn_vert" x="2400" y="-464" z="-0.2"/>
+        <entity id="corn_vert" x="2464" y="-464" z="-0.2"/>
+        <entity id="corn_vert" x="2528" y="-464" z="-0.2"/>
+        <entity id="corn_vert" x="2336" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="2384" y="-752" z="-0.2"/>
+        <entity id="corn_vert" x="2480" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="2528" y="-752" z="-0.2"/>
+        <entity id="corn_vert" x="2576" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="2624" y="-752" z="-0.2"/>
+        <entity id="corn_vert" x="4256" y="-704" z="-0.2"/>
+        <entity id="corn_vert" x="4256" y="-704" z="-0.2"/>
+        <entity id="corn_vert" x="4192" y="-704" z="-0.2"/>
+        <entity id="corn_vert" x="4448" y="-672" z="-0.2"/>
+        <entity id="corn_vert" x="4320" y="-704" z="-0.2"/>
+        <entity id="corn_vert" x="4384" y="-672" z="-0.2"/>
+        <entity id="corn_vert" x="4128" y="-704" z="-0.2"/>
+        <entity id="corn_vert" x="4080" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="4016" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="3808" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="3744" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="3296" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="2672" y="-736" z="-0.2"/>
+        <entity id="corn_vert" x="2592" y="-528" z="-0.2"/>
+        <entity id="corn_vert" x="2528" y="-528" z="-0.2"/>
+        <entity id="corn_vert" x="2400" y="-528" z="-0.2"/>
+        <entity id="corn_vert" x="2464" y="-528" z="-0.2"/>
+        <entity id="corn_vert" x="464" y="16" z="-0.2"/>
+        <entity id="corn_vert" x="416" y="32" z="-0.2"/>
+        <entity id="corn_vert" x="352" y="-16" z="-0.2"/>
+        <entity id="corn_vert" x="304" y="16" z="-0.2"/>
+        <entity id="corn_vert" x="304" y="16" z="-0.2"/>
+        <entity id="corn_vert" x="256" y="-32" z="-0.2"/>
+        <entity id="corn_vert" x="160" y="0" z="-0.2"/>
+        <entity id="corn_vert" x="64" y="-32" z="-0.2"/>
+        <entity id="corn_vert" x="448" y="-272" z="-0.2"/>
+        <entity id="corn_vert" x="400" y="-256" z="-0.2"/>
+        <entity id="corn_vert" x="352" y="-272" z="-0.2"/>
+        <entity id="corn_vert" x="256" y="-256" z="-0.2"/>
+        <entity id="corn_vert" x="160" y="-256" z="-0.2"/>
+        <entity id="corn_vert" x="112" y="-288" z="-0.2"/>
+        <entity id="corn_vert" x="64" y="-272" z="-0.2"/>
+        <entity id="corn_vert" x="16" y="-272" z="-0.2"/>
+        <entity id="corn_vert" x="16" y="-16" z="-0.2"/>
+        <entity id="object_81E630B581B942C9ABFFEDF41A1A73F7" x="1312" y="-120" z="0"/>
+        <entity id="object_5A82F22724AD471AA61BF2930EECDD5C" x="4800" y="-600" z="0"/>
+        <entity id="object_A96DBC33FE3B4DED89232B330392F6F6" x="2432" y="-360" z="0"/>
+        <entity id="object_75E0C0078E28446EB1F81ADE40AD827E" x="2304" y="-120" z="-2"/>
+        <entity id="object_899E14F6E66A4D518563F32E733F4A50" x="288" y="-120" z="-2"/>
+        <entity id="object_83FAE8F1BA81431BA32D63C7C8374371" x="3952" y="-696" z="0"/>
+        <entity id="object_CAB1AB1401554942AB92D6C6C4FAF40B" x="2432" y="-480" z="-2"/>
+        <entity id="object_B895B1756C9A44B5B05F12E77AA1937A" x="3552" y="-600" z="-2"/>
+        <entity id="object_257a939df522445c836ca551728c11c4" x="4592" y="-512" z="0"/>
+        <entity id="door" x="4864" y="-576" z="0"/>
+        <entity id="door" x="4608" y="-576" z="0"/>
+      </entities>
+      <behaviors>
+        <solids>
+          <rect x="-16" y="-128" w="32" h="128"/>
+          <rect x="800" y="-192" w="448" h="96"/>
+          <rect x="2336" y="-264" w="64" h="176"/>
+          <rect x="3440" y="-672" w="64" h="32"/>
+          <rect x="3504" y="-656" w="64" h="32"/>
+          <rect x="3568" y="-640" w="64" h="32"/>
+          <rect x="3632" y="-624" w="64" h="32"/>
+          <rect x="3696" y="-608" w="64" h="32"/>
+          <rect x="3776" y="-616" w="128" h="16"/>
+          <rect x="4480" y="-616" w="256" h="16"/>
+          <rect x="4224" y="-648" w="256" h="16"/>
+          <rect x="4016" y="-696" w="192" h="48"/>
+          <rect x="3776" y="-680" w="128" h="16"/>
+          <rect x="3776" y="-592" w="96" h="32"/>
+          <rect x="4360" y="-672" w="64" h="32"/>
+          <rect x="3808" y="-560" w="64" h="32"/>
+          <rect x="3696" y="-656" w="32" h="64"/>
+          <rect x="4720" y="-664" w="320" h="112"/>
+          <rect x="5112" y="-600" w="16" h="240"/>
+          <rect x="4992" y="-704" w="256" h="32"/>
+          <rect x="4992" y="-496" w="256" h="32"/>
+          <rect x="4720" y="-512" w="320" h="64"/>
+          <rect x="4384" y="-656" w="32" h="64"/>
+          <rect x="4128" y="-688" w="32" h="64"/>
+          <rect x="3728" y="-592" w="32" h="64"/>
+          <rect x="3664" y="-616" w="32" h="80"/>
+          <rect x="3600" y="-632" w="32" h="80"/>
+          <rect x="3536" y="-648" w="32" h="80"/>
+          <rect x="3472" y="-664" w="32" h="80"/>
+          <rect x="3408" y="-680" w="32" h="80"/>
+          <rect x="3344" y="-696" w="32" h="80"/>
+          <rect x="3312" y="-712" w="160" h="80"/>
+          <rect x="2496" y="-496" w="256" h="192"/>
+          <rect x="2320" y="-512" w="32" h="320"/>
+          <rect x="2544" y="-304" w="32" h="256"/>
+          <rect x="2544" y="-128" w="32" h="256"/>
+          <rect x="2512" y="-16" w="96" h="32"/>
+          <rect x="2448" y="-264" w="96" h="176"/>
+          <rect x="1952" y="-72" w="192" h="144"/>
+          <rect x="1712" y="-32" w="288" h="64"/>
+          <rect x="1416" y="-32" w="304" h="64"/>
+          <rect x="912" y="-152" w="32" h="48"/>
+          <rect x="880" y="-16" w="160" h="32"/>
+          <rect x="936" y="-24" w="80" h="48"/>
+          <rect x="920" y="-40" w="16" h="48"/>
+          <rect x="1440" y="-72" w="64" h="48"/>
+          <rect x="1312" y="-72" w="64" h="48"/>
+          <rect x="1184" y="-72" w="64" h="48"/>
+          <rect x="848" y="-24" w="32" h="48"/>
+          <rect x="560" y="-40" w="96" h="48"/>
+          <rect x="672" y="-40" w="64" h="48"/>
+          <rect x="752" y="-40" w="32" h="48"/>
+          <rect x="848" y="-152" w="32" h="48"/>
+          <rect x="1328" y="-184" w="96" h="48"/>
+          <rect x="2096" y="-216" w="32" h="48"/>
+          <rect x="1776" y="-168" w="32" h="48"/>
+          <rect x="1520" y="-152" w="32" h="48"/>
+          <rect x="1496" y="-184" w="48" h="48"/>
+          <rect x="1424" y="-200" w="120" h="16"/>
+          <rect x="1184" y="-216" w="256" h="48"/>
+          <rect x="1112" y="-32" w="304" h="64"/>
+          <rect x="656" y="-16" w="288" h="64"/>
+        </solids>
+      </behaviors>
     </layout>
-</scene>
+  </scene>
+</level>
