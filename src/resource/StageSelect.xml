@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scene type="stage-select">
-    <audio>
-        <music src="./stage-select/wait-music.ogg" id="wait-music">
-            <loop start="1.364" end="6.690"/>
-        </music>
-        <music src="./stage-select/boss-reveal.ogg" id="boss-reveal"/>
-        <effect src="./stage-select/change-selection.ogg" id="change-selection"/>
-        <effect src="./stage-select/make-selection.ogg" id="make-selection"/>
-    </audio>
+<stage-select>
     <background color="0x0064ff"/>
-    <camera distance="140" />
     <spacing x="64" y="64" />
     <indicator id="indicator" blink-interval=".125" initial-index="4" />
     <frame id="frame" />
@@ -33,185 +24,198 @@
         <podium object="podium"/>
     </layout>
 
-    <events>
-        <event name="start">
-            <action type="play-audio" id="wait-music"/>
-        </event>
-        <event name="stage-selected">
-            <action type="stop-audio" id="wait-music"/>
-            <action type="play-audio" id="make-selection"/>
-        </event>
-        <event name="boss-reveal">
-            <action type="play-audio" id="boss-reveal"/>
-        </event>
-        <event name="selection-changed">
-            <action type="play-audio" id="change-selection"/>
-        </event>
-    </events>
+    <scene>
+        <audio>
+            <music src="./stage-select/wait-music.ogg" id="wait-music">
+                <loop start="1.364" end="6.690"/>
+            </music>
+            <music src="./stage-select/boss-reveal.ogg" id="boss-reveal"/>
+            <effect src="./stage-select/change-selection.ogg" id="change-selection"/>
+            <effect src="./stage-select/make-selection.ogg" id="make-selection"/>
+        </audio>
 
-    <entities>
-        <textures>
-            <texture url="./stage-select/stageselect.png" w="256" h="256" />
-        </textures>
-        <animations>
-            <animation id="star-3">
-                <frame x="98" y="2" w="4" h="4"/>
-            </animation>
-            <animation id="star-2">
-                <frame x="107" y="3" w="2" h="2"/>
-            </animation>
-            <animation id="star-1">
-                <frame x="115" y="3" w="2" h="2"/>
-            </animation>
-            <animation id="border-upper">
-                <frame x="211" y="19" w="16" h="16" />
-            </animation>
-            <animation id="border-lower">
-                <frame x="211" y="37" w="16" h="16" />
-            </animation>
-            <animation id="blue-stripe">
-                <frame x="232" y="5" w="16" h="16" />
-            </animation>
-            <animation id="white-stripe">
-                <frame x="232" y="23" w="16" h="16" />
-            </animation>
-            <animation id="blue">
-                <frame x="194" y="2" w="14" h="14"/>
-            </animation>
-            <animation id="cyan">
-                <frame x="194" y="20" w="14" h="14"/>
-            </animation>
-            <animation id="black">
-                <frame x="211" y="1" w="16" h="16"/>
-            </animation>
-        </animations>
-        <animations w="48" h="48">
-            <animation id="indicator">
-                <frame x="48" y="0"/>
-            </animation>
-            <animation id="frame">
-                <frame x="0" y="0"/>
-            </animation>
-            <animation id="b">
-                <frame x="0" y="48"/>
-            </animation>
-            <animation id="a">
-                <frame x="48" y="48"/>
-            </animation>
-            <animation id="q">
-                <frame x="96" y="48"/>
-            </animation>
-            <animation id="h">
-                <frame x="48" y="96"/>
-            </animation>
-            <animation id="dr">
-                <frame x="144" y="0"/>
-            </animation>
-            <animation id="w">
-                <frame x="144" y="48"/>
-            </animation>
-            <animation id="m">
-                <frame x="144" y="96"/>
-            </animation>
-            <animation id="f">
-                <frame x="96" y="96"/>
-            </animation>
-            <animation id="c">
-                <frame x="0" y="96"/>
-            </animation>
-        </animations>
-        <entity id="background">
-            <geometry type="plane" w="512" h="256" w-segments="32" h-segments="16">
-                <face animation="blue">
-                    <range x="*" y="*"/>
-                </face>
-                <face animation="blue-stripe">
-                    <range x="*" y="4,8,12"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="podium">
-            <geometry type="plane" w="512" h="64" w-segments="32" h-segments="4">
-                <face animation="cyan">
-                    <range x="*" y="1-3"/>
-                </face>
-                <face animation="border-upper">
-                    <range x="*" y="1"/>
-                </face>
-                <face animation="border-lower">
-                    <range x="*" y="4"/>
-                </face>
-            </geometry>
-        </entity>
-        <entity id="star-1">
-            <geometry type="plane" w="1" h="1">
-                <face animation="star-1"/>
-            </geometry>
-        </entity>
-        <entity id="star-2">
-            <geometry type="plane" w="2" h="2">
-                <face animation="star-2"/>
-            </geometry>
-        </entity>
-        <entity id="star-3">
-            <geometry type="plane" w="4" h="4">
-                <face animation="star-3"/>
-            </geometry>
-        </entity>
-        <entity id="indicator">
-            <geometry type="plane" w="48" h="48">
-                <face animation="indicator"/>
-            </geometry>
-        </entity>
-        <entity id="frame">
-            <geometry type="plane" w="48" h="48">
-                <face animation="frame"/>
-            </geometry>
-        </entity>
-        <entity id="b">
-            <geometry type="plane" w="48" h="48">
-                <face animation="b"/>
-            </geometry>
-        </entity>
-        <entity id="a">
-            <geometry type="plane" w="48" h="48">
-                <face animation="a"/>
-            </geometry>
-        </entity>
-        <entity id="q">
-            <geometry type="plane" w="48" h="48">
-                <face animation="q"/>
-            </geometry>
-        </entity>
-        <entity id="h">
-            <geometry type="plane" w="48" h="48">
-                <face animation="h"/>
-            </geometry>
-        </entity>
-        <entity id="dr">
-            <geometry type="plane" w="48" h="48">
-                <face animation="dr"/>
-            </geometry>
-        </entity>
-        <entity id="w">
-            <geometry type="plane" w="48" h="48">
-                <face animation="w"/>
-            </geometry>
-        </entity>
-        <entity id="m">
-            <geometry type="plane" w="48" h="48">
-                <face animation="m"/>
-            </geometry>
-        </entity>
-        <entity id="f">
-            <geometry type="plane" w="48" h="48">
-                <face animation="f"/>
-            </geometry>
-        </entity>
-        <entity id="c">
-            <geometry type="plane" w="48" h="48">
-                <face animation="c"/>
-            </geometry>
-        </entity>
-    </entities>
-</scene>
+        <camera distance="140" />
+
+        <events>
+            <event name="start">
+                <action type="play-audio" id="wait-music"/>
+            </event>
+            <event name="stage-selected">
+                <action type="stop-audio" id="wait-music"/>
+                <action type="play-audio" id="make-selection"/>
+            </event>
+            <event name="boss-reveal">
+                <action type="play-audio" id="boss-reveal"/>
+            </event>
+            <event name="selection-changed">
+                <action type="play-audio" id="change-selection"/>
+            </event>
+        </events>
+
+        <entities>
+            <textures>
+                <texture url="./stage-select/stageselect.png" w="256" h="256" />
+            </textures>
+            <animations>
+                <animation id="star-3">
+                    <frame x="98" y="2" w="4" h="4"/>
+                </animation>
+                <animation id="star-2">
+                    <frame x="107" y="3" w="2" h="2"/>
+                </animation>
+                <animation id="star-1">
+                    <frame x="115" y="3" w="2" h="2"/>
+                </animation>
+                <animation id="border-upper">
+                    <frame x="211" y="19" w="16" h="16" />
+                </animation>
+                <animation id="border-lower">
+                    <frame x="211" y="37" w="16" h="16" />
+                </animation>
+                <animation id="blue-stripe">
+                    <frame x="232" y="5" w="16" h="16" />
+                </animation>
+                <animation id="white-stripe">
+                    <frame x="232" y="23" w="16" h="16" />
+                </animation>
+                <animation id="blue">
+                    <frame x="194" y="2" w="14" h="14"/>
+                </animation>
+                <animation id="cyan">
+                    <frame x="194" y="20" w="14" h="14"/>
+                </animation>
+                <animation id="black">
+                    <frame x="211" y="1" w="16" h="16"/>
+                </animation>
+            </animations>
+            <animations w="48" h="48">
+                <animation id="indicator">
+                    <frame x="48" y="0"/>
+                </animation>
+                <animation id="frame">
+                    <frame x="0" y="0"/>
+                </animation>
+                <animation id="b">
+                    <frame x="0" y="48"/>
+                </animation>
+                <animation id="a">
+                    <frame x="48" y="48"/>
+                </animation>
+                <animation id="q">
+                    <frame x="96" y="48"/>
+                </animation>
+                <animation id="h">
+                    <frame x="48" y="96"/>
+                </animation>
+                <animation id="dr">
+                    <frame x="144" y="0"/>
+                </animation>
+                <animation id="w">
+                    <frame x="144" y="48"/>
+                </animation>
+                <animation id="m">
+                    <frame x="144" y="96"/>
+                </animation>
+                <animation id="f">
+                    <frame x="96" y="96"/>
+                </animation>
+                <animation id="c">
+                    <frame x="0" y="96"/>
+                </animation>
+            </animations>
+            <entity id="background">
+                <geometry type="plane" w="512" h="256" w-segments="32" h-segments="16">
+                    <face animation="blue">
+                        <range x="*" y="*"/>
+                    </face>
+                    <face animation="blue-stripe">
+                        <range x="*" y="4,8,12"/>
+                    </face>
+                </geometry>
+            </entity>
+            <entity id="podium">
+                <geometry type="plane" w="512" h="64" w-segments="32" h-segments="4">
+                    <face animation="cyan">
+                        <range x="*" y="1-3"/>
+                    </face>
+                    <face animation="border-upper">
+                        <range x="*" y="1"/>
+                    </face>
+                    <face animation="border-lower">
+                        <range x="*" y="4"/>
+                    </face>
+                </geometry>
+            </entity>
+            <entity id="star-1">
+                <geometry type="plane" w="1" h="1">
+                    <face animation="star-1"/>
+                </geometry>
+            </entity>
+            <entity id="star-2">
+                <geometry type="plane" w="2" h="2">
+                    <face animation="star-2"/>
+                </geometry>
+            </entity>
+            <entity id="star-3">
+                <geometry type="plane" w="4" h="4">
+                    <face animation="star-3"/>
+                </geometry>
+            </entity>
+            <entity id="indicator">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="indicator"/>
+                </geometry>
+            </entity>
+            <entity id="frame">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="frame"/>
+                </geometry>
+            </entity>
+            <entity id="b">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="b"/>
+                </geometry>
+            </entity>
+            <entity id="a">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="a"/>
+                </geometry>
+            </entity>
+            <entity id="q">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="q"/>
+                </geometry>
+            </entity>
+            <entity id="h">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="h"/>
+                </geometry>
+            </entity>
+            <entity id="dr">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="dr"/>
+                </geometry>
+            </entity>
+            <entity id="w">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="w"/>
+                </geometry>
+            </entity>
+            <entity id="m">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="m"/>
+                </geometry>
+            </entity>
+            <entity id="f">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="f"/>
+                </geometry>
+            </entity>
+            <entity id="c">
+                <geometry type="plane" w="48" h="48">
+                    <face animation="c"/>
+                </geometry>
+            </entity>
+        </entities>
+    </scene>
+</stage-select>

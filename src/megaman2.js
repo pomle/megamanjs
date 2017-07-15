@@ -238,19 +238,13 @@ window.addEventListener('load', function() {
     setupMessaging();
     setupProgressbar();
 
-    loader.loadGame('./resource/Megaman2.xml').then(entrypoint => {
-        game.attachToElement(screenElement);
-        game.attachController(window);
+    const hud = new HUD();
+    hud.attach(game, screenElement.querySelector('.energy'));
+    game.attachToElement(screenElement);
+    game.attachController(window);
+    updateScreen();
 
-        const hud = new HUD();
-        hud.attach(game, screenElement.querySelector('.energy'));
-        updateScreen();
-        gameElement.classList.add('ready');
-
-        return loader.loadSceneByName(entrypoint);
-    }).then(scene => {
-        game.setScene(scene);
-    });
+    loader.loadGame('./resource/Megaman2.xml');
 
     window.megaman2 = {
         env,

@@ -26,10 +26,10 @@ class TestEnv
     this.game.destroy();
     this._screen.innerHTML = '';
   }
-  load(scene)
+  load(nameOrUrl)
   {
-    const method = scene.indexOf('.xml') === -1 ? 'loadSceneByName' : 'loadScene';
-    return this.loader[method](scene).then(scene => {
+    const method = nameOrUrl.indexOf('.xml') === -1 ? 'loadSceneByName' : 'loadScene';
+    return this.loader[method](nameOrUrl).then(scene => {
       scene.camera.smoothing = 0;
       return scene;
     });
