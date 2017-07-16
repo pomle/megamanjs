@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <stage-select>
+    <font id="nintendo"/>
     <background color="0x0064ff"/>
     <spacing x="64" y="64" />
     <indicator id="indicator" blink-interval=".125" initial-index="4" />
