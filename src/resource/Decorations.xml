@@ -41,7 +41,7 @@
         </animation>
     </animations>
 
-    <entity type="object" id="Explosion">
+    <entity id="Explosion">
         <audio>
             <effect src="./explosion.ogg" id="explosion"/>
         </audio>
@@ -62,7 +62,7 @@
         </traits>
     </entity>
 
-    <entity type="object" id="Sweat">
+    <entity id="Sweat">
         <geometry type="plane" w="32" h="16">
             <face animation="sweat"/>
         </geometry>
@@ -72,12 +72,19 @@
         </traits>
     </entity>
 
-    <entity type="object" id="TinyExplosion">
+    <entity id="TinyExplosion">
         <geometry type="plane" w="16" h="16">
             <face animation="tiny-explosion"/>
         </geometry>
         <traits>
             <trait name="lifetime" duration=".2"/>
         </traits>
+    </entity>
+
+    <entity id="READY">
+      <text font="nintendo">READY</text>
+      <traits>
+        <trait name="blink" interval="0.3"/>
+      </traits>
     </entity>
 </entities>

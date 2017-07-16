@@ -19,7 +19,7 @@ describe('Stage Select', function() {
       expect(camera.position.z).to.be(40);
     });
 
-    it('indicator is in center selected', () => {
+    it('indicator is in center', () => {
       expect(scene.world.getObject('indicator').position).to.eql({
         x: 0,
         y: 8,
@@ -28,7 +28,7 @@ describe('Stage Select', function() {
     });
 
     describe('after 1 second', () => {
-      beforeEach(done => env.waitTime(1).then(done));
+      beforeEach(() => env.waitTime(1));
 
       it('is zoomed out', () => {
         expect(camera.position.z).to.be(140);
@@ -37,24 +37,9 @@ describe('Stage Select', function() {
   });
 
   describe('Indicator', () => {
-    describe('when idling', () => {
-      it('blinks', done => {
-        const indicator = scene.world.getObject('indicator');
-        expect(indicator.model.visible).to.be(true);
-        let seconds = 2;
-        let interval = 0.125;
-        let chain = env.waitTime(interval);
-        let state = false;
-        while (seconds > 0) {
-          seconds -= interval;
-          chain = chain.then(() => {
-            expect(indicator.model.visible).to.be(state);
-            state = !state;
-            return env.waitTime(interval);
-          });
-        }
-        chain.then(done);
-      });
+    it('has blink trait', () => {
+      const indicator = scene.world.getObject('indicator');
+      expect(indicator.blink.interval).to.be(0.25);
     });
   });
 
@@ -87,14 +72,22 @@ describe('Stage Select', function() {
         env.tap('start');
       });
 
-      it(`should select ${boss.name} stage`, () => {
+      it(`selects ${boss.name} stage`, () => {
         expect(spy.callCount).to.be(1);
         const stage = spy.lastCall.args[0];
         expect(stage.scene).to.be(boss.name);
       });
 
+      describe('immediately after', () => {
+        beforeEach(() => env.waitTime(0.1));
+
+        it('removes indicator', () => {
+          expect(scene.world.getObject('indicator')).to.be(false);
+        });
+      });
+
       describe('after 2.5 seconds', () => {
-        beforeEach(done => env.waitTime(2.5).then(done));
+        beforeEach(() => env.waitTime(2.5));
 
         it('camera has moved to reveal boss', () => {
           expect(env.game.scene.camera.position).to.eql({
