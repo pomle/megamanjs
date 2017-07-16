@@ -25,6 +25,12 @@
     </layout>
 
     <scene>
+        <layout>
+            <entities>
+                <entity id="background" x="0" y="0" z="0" instance-id="background"/>
+            </entities>
+        </layout>
+
         <audio>
             <music src="./stage-select/wait-music.ogg" id="wait-music">
                 <loop start="1.364" end="6.690"/>
