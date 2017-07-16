@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Megaman Colors', () => {
   let player, weapons;
 

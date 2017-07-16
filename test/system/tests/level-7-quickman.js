@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Quickman Level', function() {
   this.timeout(120000);
 

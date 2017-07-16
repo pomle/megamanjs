@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Flashman Level', function() {
   context('StageSelect', function() {
     before(function(done) {

@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Jump', () => {
   let player;
 

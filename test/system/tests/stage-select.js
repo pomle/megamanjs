@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Stage Select', function() {
   let camera, scene;
 

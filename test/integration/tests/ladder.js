@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Ladder', () => {
   let player;
 
