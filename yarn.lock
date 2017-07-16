@@ -8,9 +8,9 @@
   dependencies:
     three "0.70"
 
-"@snakesilk/megaman-kit@>=0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@snakesilk/megaman-kit/-/megaman-kit-0.5.0.tgz#f4cbd46018ef00df800815ccd34bf7619c891458"
+"@snakesilk/megaman-kit@>=0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@snakesilk/megaman-kit/-/megaman-kit-0.6.0.tgz#09762cefde0abb24b504c64042679a0ea4064a2d"
   dependencies:
     "@snakesilk/engine" ">=0.10.0"
     "@snakesilk/megaman-traits" ">=0.0.3"
