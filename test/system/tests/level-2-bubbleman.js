@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Bubbleman Level', function() {
   context('StageSelect', function() {
     before(function(done) {

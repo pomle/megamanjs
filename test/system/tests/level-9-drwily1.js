@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Dr Wily Level 1', function() {
   let player;
 

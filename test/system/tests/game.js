@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Megaman 2', function() {
   describe.skip('when loading game XML', () => {
     let game, loader, entrypoint;

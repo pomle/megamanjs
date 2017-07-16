@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Heatman Level', function() {
   context('StageSelect', function() {
     before(function(done) {

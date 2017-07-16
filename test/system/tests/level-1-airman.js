@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Airman Level', function() {
   context('StageSelect', function() {
     before(function(done) {
