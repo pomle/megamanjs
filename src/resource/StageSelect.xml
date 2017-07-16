@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <stage-select>
   <spacing x="64" y="64"/>
-  <indicator blink-interval=".125" initial-index="4"/>
+  <indicator initial-index="4"/>
   <stages>
     <stage scene="Bubbleman" avatar="b" caption="b-avatar-caption"/>
     <stage scene="Airman" avatar="a" caption="a-avatar-caption" character="Airman"/>
@@ -179,6 +179,9 @@
         <geometry type="plane" w="48" h="48">
           <face animation="indicator"/>
         </geometry>
+        <traits>
+          <trait name="blink" interval="0.25"/>
+        </traits>
       </entity>
       <entity id="frame">
         <geometry type="plane" w="48" h="48">

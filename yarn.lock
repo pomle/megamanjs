@@ -2,15 +2,15 @@
 # yarn lockfile v1
 
 
-"@snakesilk/engine@>=0.10.0", "@snakesilk/engine@>=0.8.0", "@snakesilk/engine@^0.10.0":
+"@snakesilk/engine@>=0.10.0", "@snakesilk/engine@>=0.8.0":
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/@snakesilk/engine/-/engine-0.10.0.tgz#56e3afd35c998d0a960c11a979148a3f0781b19f"
   dependencies:
     three "0.70"
 
-"@snakesilk/megaman-kit@>=0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@snakesilk/megaman-kit/-/megaman-kit-0.6.0.tgz#09762cefde0abb24b504c64042679a0ea4064a2d"
+"@snakesilk/megaman-kit@>=0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@snakesilk/megaman-kit/-/megaman-kit-0.7.0.tgz#f148e430ea1112849119e6c8c710761d7509e0ee"
   dependencies:
     "@snakesilk/engine" ">=0.10.0"
     "@snakesilk/megaman-traits" ">=0.0.3"
@@ -25,17 +25,17 @@
     "@snakesilk/engine" ">=0.8.0"
     "@snakesilk/platform-traits" ">=0.1.3"
 
-"@snakesilk/platform-kit@>=0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@snakesilk/platform-kit/-/platform-kit-0.1.3.tgz#c1203a3f9343226689e61d617a567bed5f26478c"
+"@snakesilk/platform-kit@>=0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@snakesilk/platform-kit/-/platform-kit-0.2.0.tgz#2897486208059522f38f43d53c259f1bc1cb1787"
   dependencies:
-    "@snakesilk/platform-traits" "^0.1.2"
-    "@snakesilk/xml-loader" "^0.7.0"
+    "@snakesilk/platform-traits" ">=0.2.1"
+    "@snakesilk/xml-loader" ">=0.7.0"
     three "0.70"
 
-"@snakesilk/platform-traits@>=0.1.3", "@snakesilk/platform-traits@^0.1.1", "@snakesilk/platform-traits@^0.1.2":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@snakesilk/platform-traits/-/platform-traits-0.1.3.tgz#40b4e0e506c6f1850e28e3d7f958b893af29fbaf"
+"@snakesilk/platform-traits@>=0.1.3", "@snakesilk/platform-traits@>=0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@snakesilk/platform-traits/-/platform-traits-0.2.1.tgz#8de60ff9f06848e0aa12daec747b46d7fb713f02"
   dependencies:
     "@snakesilk/engine" ">=0.8.0"
     three "0.70"
@@ -48,20 +48,12 @@
     sinon "^1.17.3"
     three "0.70"
 
-"@snakesilk/xml-loader@>=0.7.3":
+"@snakesilk/xml-loader@>=0.7.0", "@snakesilk/xml-loader@>=0.7.3":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.8.0.tgz#b6998c7df1e1357e0d38672138020ab726190fab"
   dependencies:
     "@snakesilk/engine" ">=0.8.0"
     "@snakesilk/platform-traits" ">=0.1.3"
-    three "0.70"
-
-"@snakesilk/xml-loader@^0.7.0":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.7.3.tgz#ee85fe9e9d38a5c018c340c92530c6909fcdb46a"
-  dependencies:
-    "@snakesilk/engine" "^0.10.0"
-    "@snakesilk/platform-traits" "^0.1.1"
     three "0.70"
 
 "@types/node@^6.0.46":
@@ -1276,8 +1268,8 @@ color-convert@^1.0.0:
     color-name "^1.1.1"
 
 color-name@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.2.tgz#5c8ab72b64bd2215d617ae9559ebb148475cf98d"
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
 
 colors@^1.1.0:
   version "1.1.2"
