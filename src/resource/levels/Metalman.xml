@@ -7,11 +7,6 @@
     <level id="level"/>
   </music>
   <scene name="Metalman">
-    <editor>
-      <guides>
-        <image-overlay data="" x="0" y="0"/>
-      </guides>
-    </editor>
     <audio>
       <music src="./metalman/music.ogg" id="level">
         <loop/>
