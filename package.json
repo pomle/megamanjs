@@ -20,6 +20,7 @@
   "devDependencies": {
     "@snakesilk/engine": ">=0.12.0",
     "@snakesilk/megaman-kit": ">=0.7.2",
+    "@snakesilk/nes-input-mapper": "^0.0.3",
     "@snakesilk/platform-kit": ">=0.2.0",
     "@snakesilk/testing": ">=0.2.0",
     "@snakesilk/xml-loader": ">=0.10.1",
