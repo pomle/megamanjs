@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --progress --colors",
     "lint": "eslint src/",
-    "start": "mkdir -p ./dist && serve ./dist/ -p $PORT",
+    "start": "mkdir -p ./dist && serve ./dist/ -p $PORT -C",
     "test": "yarn run test:unit && yarn run build && yarn run test:browser",
     "test:unit": "mocha './src/**/*-test.js'",
     "test:browser": "karma start .karma.conf --single-run --reporters mocha",
