@@ -1,5 +1,6 @@
 const {Mouse} = require('@snakesilk/engine');
 const {UI: {HUD}} = require('@snakesilk/megaman-kit');
+const {createInput} = require('@snakesilk/nes-input-mapper');
 const {createLoader} = require('./bootstrap');
 
 window.addEventListener('load', function() {
@@ -11,114 +12,6 @@ window.addEventListener('load', function() {
     const gameElement = document.getElementById('game');
     const screenElement = document.getElementById('screen');
     const controlElement = gameElement.querySelector('.control');
-
-    function setupInputMapping() {
-        const STORAGE_KEY = 'controller_mapping';
-        const mapElement = controlElement.querySelector('.input-map');
-        const messageElement = mapElement.querySelector('.message');
-        const HUMAN_KEYS = {
-            'a': 'A',
-            'b': 'B',
-            'start': 'START',
-            'select': 'SELECT',
-            'up': 'UP',
-            'down': 'DOWN',
-            'left': 'LEFT',
-            'right': 'RIGHT',
-        };
-        const HUMAN_CODES = {
-            37: '&larr;',
-            38: '&uarr;',
-            39: '&rarr;',
-            40: '&darr;',
-        };
-        let keyName = null;
-
-        function saveMap() {
-            const map = game.input.exportMap();
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
-        }
-
-        function loadMap() {
-            const map = localStorage.getItem(STORAGE_KEY);
-            if (map) {
-                game.input.importMap(JSON.parse(map));
-            }
-        }
-
-        function handleInput(event) {
-            const keyCode = event.keyCode;
-            if (keyCode === 27) {
-                stop();
-                env.emitMessage(null);
-                return;
-            }
-
-            game.input.assign(keyCode, keyName);
-            const text = mapElement.dataset.msgRemapSuccess
-                .replace('{{key}}', HUMAN_KEYS[keyName])
-                .replace('{{code}}', HUMAN_CODES[keyCode] || String.fromCharCode(keyCode) || keyCode);
-            env.emitMessage(text, false);
-            saveMap();
-            stop();
-        }
-
-        function start() {
-            const text = mapElement.dataset.msgRemapQuery
-                .replace('{{key}}', HUMAN_KEYS[keyName]);
-            env.emitMessage(text, true);
-            window.focus();
-            window.addEventListener('keydown', handleInput);
-        }
-
-        function stop() {
-            window.removeEventListener('keydown', handleInput);
-        }
-
-        function handleClick(event) {
-            keyName = event.target.id;
-            if (!keyName) {
-                return;
-            }
-            stop();
-            start();
-        }
-
-        const controller = mapElement.querySelector('#nes-controller');
-        if (controller.contentDocument) {
-            controller.contentDocument.addEventListener('click', handleClick);
-        } else {
-            controller.addEventListener('load', function(e) {
-                this.contentDocument.addEventListener('click', handleClick);
-            });
-        }
-
-        loadMap();
-    }
-
-    function setupMessaging() {
-        const messageElement = gameElement.querySelector('.message');
-        let timer;
-
-        function emitMessage(text, hold = false)
-        {
-            if (!text) {
-                messageElement.classList.remove('show');
-                return;
-            }
-            messageElement.innerHTML = text;
-            messageElement.classList.add('show');
-            clearTimeout(timer);
-            if (hold) {
-                return;
-            }
-            timer = setTimeout(function() {
-                messageElement.classList.remove('show');
-            }, 3000);
-        }
-
-        env.emitMessage = emitMessage;
-    }
 
     function setupInterruptDetection() {
         const sluggishPause = Mouse.sluggish(pause, 20);
@@ -230,12 +123,12 @@ window.addEventListener('load', function() {
         env.toggleFullscreen = toggleFullscreen;
     }
 
+    const inputElement = controlElement.querySelector('.input-map');
+    inputElement.appendChild(createInput(game, inputElement.querySelector('#nes-controller')));
 
-    setupInputMapping();
     setupInterruptDetection();
     setupFullscreenToggle();
     setupActions();
-    setupMessaging();
     setupProgressbar();
 
     const hud = new HUD();
