@@ -1,7 +1,82 @@
 const {Mouse} = require('@snakesilk/engine');
 const {UI: {HUD}} = require('@snakesilk/megaman-kit');
 const {createInput} = require('@snakesilk/nes-input-mapper');
+const snex = require('snex');
 const {createLoader} = require('./bootstrap');
+
+function snexActivator(onSession, padType) {
+    function node(tag, style) {
+        const element = document.createElement(tag);
+        Object.assign(element.style, style);
+        return element;
+    }
+
+    const domElement = node('div', {
+        position: 'relative',
+        transform: 'rotateY(0deg)',
+        transformStyle: 'preserve-3d',
+        transition: 'transform 1s ease',
+    });
+    domElement.classList.add('snex-activator');
+
+    const frontSide = node('div', {
+        backfaceVisibility: 'hidden',
+        cursor: 'pointer',
+        position: 'absolute',
+        height: '100%',
+        transform: 'rotateY(0deg)',
+        width: '100%',
+    });
+    domElement.appendChild(frontSide);
+
+    const logoElement = node('img', {
+        height: '100%',
+        width: '100%',
+    });
+    logoElement.src = 'https://cdn.snex.io/images/snex-logo.svg';
+    frontSide.appendChild(logoElement);
+
+    const backSide = node('div', {
+        alignItems: 'center',
+        backfaceVisibility: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        position: 'absolute',
+        transform: 'rotateX(180deg)',
+        height: '100%',
+        width: '100%',
+    });
+    domElement.appendChild(backSide);
+
+    const linkElement = node('div');
+    backSide.appendChild(linkElement);
+
+    const anchorElement = node('a', {
+        color: '#fff',
+    });
+    anchorElement.target = '_blank';
+    linkElement.appendChild(anchorElement);
+
+    function activateHandler(event) {
+        domElement.removeEventListener('click', activateHandler);
+        domElement.style.transform = 'rotateX(0deg)';
+        snex.createSession()
+        .then(session => {
+            onSession(session);
+            return session.createURL(padType);
+        })
+        .then(({url}) => {
+            anchorElement.textContent = url;
+            anchorElement.href = url;
+            domElement.style.transform = 'rotateX(180deg)';
+        });
+    }
+
+    domElement.addEventListener('click', activateHandler);
+
+
+    return domElement;
+}
 
 window.addEventListener('load', function() {
     const loader = createLoader();
@@ -122,6 +197,16 @@ window.addEventListener('load', function() {
 
         env.toggleFullscreen = toggleFullscreen;
     }
+
+    const snexElement = snexActivator(session => {
+        session.on('connection', conn => {
+            conn.on('data', ({key, state}) => {
+                game.input.trigger(key.toLowerCase(), state ? 'keydown' : 'keyup');
+            });
+        });
+    }, 'nes');
+
+    controlElement.querySelector('.snex').appendChild(snexElement);
 
     const inputElement = controlElement.querySelector('.input-map');
     inputElement.appendChild(createInput(game, inputElement.querySelector('#nes-controller')));
