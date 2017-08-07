@@ -248,3 +248,11 @@ body {
 #screen .energy > .weapon.h > .amount {
     background-position-x: -144px;
 }
+
+.snex-activator {
+    font-size: 18px;
+    height: 100px;
+    margin: 2em auto;
+    perspective: 500px;
+    width: 200px;
+}

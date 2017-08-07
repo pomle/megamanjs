@@ -15,7 +15,8 @@
     "heroku-postbuild": "yarn run build"
   },
   "dependencies": {
-    "serve": "^6.0.0"
+    "serve": "^6.0.0",
+    "snex": "^0.1.8"
   },
   "devDependencies": {
     "@snakesilk/engine": ">=0.12.0",
