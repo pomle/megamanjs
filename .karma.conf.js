@@ -1,11 +1,11 @@
 module.exports = function(_config) {
 
   const dependencies = [];
-  dependencies.push('./dist/browser-env.js');
+  dependencies.push('./test/browser-test-build.js');
   dependencies.push('./test/browser-support/webgl-mock.js');
 
   const testFiles = [
-    {pattern: 'dist/resource/**', watched: true, included: false},
+    {pattern: 'public/resource/**', watched: true, included: false},
     {pattern: 'test/integration/fixtures/**', watched: true, included: false},
     {pattern: 'test/system/input/**', watched: true, included: false},
     'test/browser-support/lib/expect.js',
@@ -47,7 +47,7 @@ module.exports = function(_config) {
     customContextFile: 'test/browser-support/context.html',
 
     proxies: {
-      '/dist/': '/base/dist/',
+      '/public/': '/base/public/',
       '/test/': '/base/test/',
     },
 

@@ -486,13 +486,13 @@
         </g>
     </g>
     <g fill="transparent" transform="translate(0, -200)">
-        <circle id="snex-button-A" cx="1329.6" cy="694" r="74"></circle>
-        <circle id="snex-button-B" cx="1119.1" cy="694.3" r="74"></circle>
-        <circle id="snex-button-SELECT" cx="629.7" cy="694" r="74"></circle>
-        <circle id="snex-button-RIGHT" cx="373" cy="619" r="74"></circle>
         <circle id="snex-button-UP" cx="267.4" cy="512" r="74"></circle>
         <circle id="snex-button-DOWN" cx="267" cy="727.7" r="74"></circle>
         <circle id="snex-button-LEFT" cx="162.8" cy="619" r="74"></circle>
+        <circle id="snex-button-RIGHT" cx="373" cy="619" r="74"></circle>
+        <circle id="snex-button-A" cx="1329.6" cy="694" r="74"></circle>
+        <circle id="snex-button-B" cx="1119.1" cy="694.3" r="74"></circle>
         <circle id="snex-button-START" cx="838.1" cy="694" r="74"></circle>
+        <circle id="snex-button-SELECT" cx="629.7" cy="694" r="74"></circle>
     </g>
 </svg>
