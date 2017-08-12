@@ -46,7 +46,7 @@ describe('Flashman Level', function() {
     });
 
     describe('after ready text', function() {
-      before(done => env.goToTime(2.5).then(done));
+      before(() => env.goToTime(2.5));
 
       it('player should be at start position', function() {
         expect(env.game.player.character.position)

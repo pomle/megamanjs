@@ -4,7 +4,7 @@ describe('Megaman 2', function() {
     before(done => {
       game = new Engine.Game;
       loader = new XMLLoader(game);
-      loader.loadGame('/dist/resource/Megaman2.xml').then(_entrypoint => {
+      loader.loadGame('/resource/Megaman2.xml').then(_entrypoint => {
         entrypoint = _entrypoint;
         done();
       });

@@ -1,0 +1,52 @@
+.App {
+  height: 100%;
+}
+
+.App .snakesilk-presenter .snex-connect {
+    font-size: 2vh;
+    height: 7vh;
+    margin: 0 auto;
+    width: 14vw;
+}
+
+.App .snakesilk-presenter .Video .overlay {
+    align-items: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.App .snex-input-mapper {
+    font-size: 2vh;
+    margin: 0 auto;
+    width: 30vw;
+}
+
+.App .snex-input-mapper .key-map {
+    background: rgba(0,0,0,.5);
+    border-radius: .2em;
+    padding: 1em;
+    text-align: left;
+}
+
+.App .snex-input-mapper button {
+    background: transparent;
+    border: none;
+    color: inherit;
+    margin-left: auto;
+}
+
+.App .snakesilk-progress-bar {
+    border: solid 3px #fff;
+    width: 50%;
+}
+
+.App .snakesilk-progress-bar.idle {
+    display: none;
+}
+
+.App .snakesilk-progress-bar .progress {
+    background: #fff;
+    height: 10px;
+    width: 50%;
+}

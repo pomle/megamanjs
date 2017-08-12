@@ -1,2 +1,4 @@
-dist/
-node_modules/
+/node_modules
+/coverage
+/build
+/test/browser-test-build.js

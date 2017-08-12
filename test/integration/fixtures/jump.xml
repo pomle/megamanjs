@@ -3,7 +3,7 @@
     <scene>
         <entities>
             <textures>
-                <texture id="heatman-stage" url="../../../dist/resource/levels/heatman/tiles.png" w="256" h="128"/>
+                <texture id="heatman-stage" url="../../../public/resource/levels/heatman/tiles.png" w="256" h="128"/>
             </textures>
             <animations>
                 <animation id="ladder">
