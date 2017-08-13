@@ -9,7 +9,7 @@
     "heroku-postbuild": "yarn run build",
     "start": "react-scripts start",
     "start:prod": "serve ./build -C --port $PORT",
-    "test": "yarn run test:unit && yarn run build:test && yarn run test:browser",
+    "test": "yarn run test:unit && yarn run build && yarn run build:test && yarn run test:browser",
     "test:browser": "karma start .karma.conf --single-run --reporters mocha",
     "test:unit": "mocha 'src/**/*-test.js'"
   },
@@ -17,6 +17,7 @@
     "@snakesilk/engine": "^0.12.0",
     "@snakesilk/megaman-kit": "^0.7.2",
     "@snakesilk/platform-kit": "^0.2.1",
+    "@snakesilk/react-loader-progress": "^0.0.1",
     "@snakesilk/react-presenter": "^0.0.2",
     "@snex/react-connect": "^0.0.2",
     "@snex/react-input-mapper": "^0.3.0",

@@ -40,6 +40,13 @@
     "@snakesilk/engine" ">=0.8.0"
     three "0.70"
 
+"@snakesilk/react-loader-progress@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@snakesilk/react-loader-progress/-/react-loader-progress-0.0.1.tgz#1114fe875691e5ab8e90c3d977fdb5913718ad1c"
+  dependencies:
+    prop-types "^15.5.10"
+    react "^15.6.1"
+
 "@snakesilk/react-presenter@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@snakesilk/react-presenter/-/react-presenter-0.0.2.tgz#8635df93a91999beaf7100764539b4edd377d00b"
