@@ -11,6 +11,7 @@ class App extends Component {
     super(props);
     this.loader = createLoader();
     this.game = this.loader.game;
+    window.megaman2 = this.loader;
   }
 
   componentDidMount() {
