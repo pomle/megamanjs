@@ -1,6 +1,8 @@
 {
   "name": "megaman2-js",
-  "version": "0.1.0",
+  "version": "0.2.2",
+  "license": "MIT",
+  "repository": "https://github.com/pomle/megamanjs",
   "scripts": {
     "autoformat": "prettier --trailing-comma es5 --write './src/**/*.{js,jsx}'",
     "build": "react-scripts build",
