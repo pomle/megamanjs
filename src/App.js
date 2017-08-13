@@ -4,6 +4,7 @@ import { ProgressBar } from "@snakesilk/react-loader-progress";
 import SNEXConnect from "@snex/react-connect";
 import SNEXMapper from "@snex/react-input-mapper";
 import {createLoader} from './bootstrap';
+import {multiplayer} from './multiplayer';
 import "./App.css";
 
 class App extends Component {
@@ -11,6 +12,7 @@ class App extends Component {
     super(props);
     this.loader = createLoader();
     this.game = this.loader.game;
+    this.multiplayer = multiplayer(this.loader);
     window.megaman2 = this.loader;
   }
 
@@ -19,9 +21,7 @@ class App extends Component {
   }
 
   attachSNEXController(controller) {
-    controller.on("data", ({ key, state }) => {
-      this.routeInput(key, state);
-    });
+    this.multiplayer(controller);
   }
 
   routeInput(key, state) {
