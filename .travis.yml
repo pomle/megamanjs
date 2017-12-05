@@ -20,6 +20,13 @@ node_js:
 - '9'
 script:
 - yarn test
-- docker build -t megamanjs .
+- docker build -t pomle/megaman .
 after_success:
 - yarn run upload-coverage
+deploy:
+  provider: script
+  script:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - docker push pomle/megaman
+  on:
+    branch: master
