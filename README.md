@@ -38,18 +38,18 @@ Follow the project blog at https://medium.com/recreating-megaman-2-using-js-webg
 
 ### Prerequisites
 
-* Make sure you are running Node.js `>= 6`. Installation instructions for your platform can be found at https://nodejs.org/en/download/package-manager/.
+* Make sure you are running Node.js `>= 7`. Installation instructions for your platform can be found at https://nodejs.org/en/download/package-manager/.
 
         node --version
 
 * Install dev dependencies.
 
         cd megamanjs
-        npm install
+        yarn install
 
 * Run test suite.
 
-        npm test
+        yarn test
 
     The test suite begins with running a Mocha unit test in Node. After that a Chrome window should open and run a browser test.
 
