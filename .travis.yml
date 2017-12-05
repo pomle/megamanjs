@@ -23,6 +23,3 @@ script:
 - docker build -t pomle/megaman .
 after_success:
 - yarn run upload-coverage
-deploy:
-  provider: script
-  script: scripts/deploy.sh
