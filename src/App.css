@@ -9,11 +9,16 @@
     width: 14vw;
 }
 
-.App .snakesilk-presenter .Video .overlay {
+.App .snakesilk-presenter .video .overlay {
     align-items: center;
     display: flex;
     flex-flow: column;
     justify-content: center;
+}
+
+.App .snakesilk-presenter .fullscreen {
+    background: #000;
+    height: 100%;
 }
 
 .App .snex-input-mapper {
