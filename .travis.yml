@@ -17,6 +17,6 @@ node_js:
 - '7'
 - '8'
 script:
-- npm run test
+- yarn test
 after_success:
-- npm run upload-coverage
+- yarn run upload-coverage
