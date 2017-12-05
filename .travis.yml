@@ -25,9 +25,4 @@ after_success:
 - yarn run upload-coverage
 deploy:
   provider: script
-  script:
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - docker push pomle/megaman
-  on:
-    branch: master
-    node: '8'
+  script: scripts/deploy.sh
