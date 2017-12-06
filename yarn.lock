@@ -70,13 +70,13 @@
     "@snakesilk/platform-traits" ">=0.1.3"
     three "0.70"
 
-"@snex/react-connect@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@snex/react-connect/-/react-connect-0.1.2.tgz#a18b1273e4b8fb676c4fe2fb4e8e756ddef0ff2a"
+"@snex/react-connect@^0.2":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@snex/react-connect/-/react-connect-0.2.1.tgz#32aa20abbbc6ae46a9446ee3e7fb5c18fe00d697"
   dependencies:
     prop-types "^15.5.10"
     react "^15.6.1"
-    snex "^0.1.8"
+    snex "0.3.0"
 
 "@snex/react-input-mapper@^0.3.0":
   version "0.3.0"
@@ -6536,6 +6536,10 @@ slice-ansi@0.0.4:
 slide@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
+
+snex@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/snex/-/snex-0.3.0.tgz#b2814ba1d671c685a1a37feffb2e784351fc73bc"
 
 snex@^0.1.8:
   version "0.1.8"
