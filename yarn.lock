@@ -71,12 +71,12 @@
     three "0.70"
 
 "@snex/react-connect@0.2":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@snex/react-connect/-/react-connect-0.2.0.tgz#249b42fea6a1bc66e02909b162d6ece2591d8825"
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@snex/react-connect/-/react-connect-0.2.2.tgz#503c691b14f26ce8b9c6577370a02e4160479d37"
   dependencies:
     prop-types "^15.5.10"
     react "^15.6.1"
-    snex "0.2.0"
+    snex "^0.3"
 
 "@snex/react-input-mapper@^0.3.0":
   version "0.3.0"
@@ -6542,13 +6542,13 @@ slide@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
 
-snex@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/snex/-/snex-0.2.0.tgz#6b7184f3b73f6b911456e2e5b19406f885aad433"
-
 snex@^0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/snex/-/snex-0.1.8.tgz#2f162ad29d8c2caf493333d9396bc37d2dd2a213"
+
+snex@^0.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/snex/-/snex-0.3.3.tgz#dbd4798f84b66a4b6f0222c85245130dacb6ba64"
 
 sntp@1.x.x:
   version "1.0.9"
