@@ -3,6 +3,7 @@
   "version": "0.2.2",
   "license": "MIT",
   "repository": "https://github.com/pomle/megamanjs",
+  "homepage" : ".",
   "scripts": {
     "autoformat": "prettier --trailing-comma es5 --write './src/**/*.{js,jsx}'",
     "build": "react-scripts build",
