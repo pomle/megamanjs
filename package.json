@@ -21,7 +21,7 @@
     "@snakesilk/platform-kit": "^0.2.1",
     "@snakesilk/react-loader-progress": "^0.0.1",
     "@snakesilk/react-presenter": "0.2.0",
-    "@snex/react-connect": "0.2",
+    "@snex/react-connect": "^0.1.2",
     "@snex/react-input-mapper": "^0.3.0",
     "desensitize-mousemove": "^0.1.3",
     "react": "^15.6.1",
