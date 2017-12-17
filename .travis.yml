@@ -23,10 +23,3 @@ script:
 - docker build -t pomle/megaman .
 after_success:
 - yarn run upload-coverage
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
-  on:
-    branch: master
-    node: '8'
