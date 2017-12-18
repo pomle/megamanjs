@@ -18,6 +18,7 @@ node_js:
 - '9'
 script:
 - yarn test
+- echo "megaman.pomle.com" > build/CNAME
 after_success:
 - yarn run upload-coverage
 deploy:
