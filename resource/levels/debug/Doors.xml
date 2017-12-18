@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="0" y="0"/>
+  </checkpoints>
+  <scene name="Doors" debug="true">
+    <entities>
+      <textures>
+        <texture id="heatman-stage" url="../heatman/tiles.png" w="256" h="128"/>
+      </textures>
+      <animations>
+        <animation id="door">
+          <frame x="109" y="55" w="16" h="16"/>
+        </animation>
+        <animation id="bricks-big">
+          <frame x="145" y="55" w="16" h="16"/>
+        </animation>
+      </animations>
+      <entity id="ground">
+        <geometry type="plane" w="64" h="16" w-segments="4" h-segments="1">
+          <face animation="bricks-big">
+            <range x="*" y="*"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect w="64" h="16"/>
+        </collision>
+        <traits>
+          <trait name="solid" fixed="true" obstructs="true"/>
+        </traits>
+      </entity>
+      <entity id="door">
+        <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
+          <face animation="door">
+            <range x="*" y="*"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="32" h="64"/>
+        </collision>
+      </entity>
+    </entities>
+    <layout>
+      <entities>
+        <entity id="door" x="32" y="0">
+          <trait name="door">
+            <direction x="-1" y="0"/>
+          </trait>
+        </entity>
+        <entity id="door" x="-48" y="0">
+          <trait name="door">
+            <direction x="0" y="0"/>
+          </trait>
+        </entity>
+        <entity id="ground" x="32" y="-40"/>
+        <entity id="ground" x="-32" y="-40"/>
+        <entity id="ground" x="-64" y="-40"/>
+        <entity id="ground" x="64" y="-40"/>
+        <entity id="ground" x="96" y="-40"/>
+        <entity id="ground" x="80" y="16"/>
+      </entities>
+    </layout>
+  </scene>
+</level>

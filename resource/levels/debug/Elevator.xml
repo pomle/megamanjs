@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<level>
+  <scene>
+    <entities>
+      <textures>
+        <texture id="background" url="./sunset.png" w="512" h="256" scale="1"/>
+      </textures>
+      <animations texture="background">
+        <animation id="background" w="512" h="256">
+          <frame x="0" y="0"/>
+        </animation>
+      </animations>
+      <entity id="landscape">
+        <geometry type="plane" w="512" h="256">
+          <face animation="background"/>
+        </geometry>
+      </entity>
+    </entities>
+    <entities>
+      <textures>
+        <texture url="../crashman/tiles.png" w="256" h="128"/>
+      </textures>
+      <animations>
+        <animation id="elevator">
+          <frame x="143" y="55" w="24" h="16" duration=".12"/>
+          <frame x="143" y="72" w="24" h="16" duration=".12"/>
+        </animation>
+      </animations>
+      <entity id="elevator">
+        <geometry type="plane" w="24" h="16">
+          <face animation="elevator"/>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="24" h="16"/>
+        </collision>
+        <traits>
+          <trait name="elevator">
+            <path speed="60">
+              <node x="128" y="0"/>
+              <node x="0" y="128"/>
+              <node x="-128" y="-128"/>
+            </path>
+          </trait>
+        </traits>
+      </entity>
+    </entities>
+    <layout>
+      <entities>
+        <entity id="landscape" x="0" y="0" z="-1"/>
+        <entity id="elevator" x="64" y="0"/>
+      </entities>
+      <behaviors>
+        <solids>
+          <rect x="0" y="-32" w="256" h="16"/>
+        </solids>
+      </behaviors>
+    </layout>
+  </scene>
+</level>

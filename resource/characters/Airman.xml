@@ -1,0 +1,40 @@
+<entities>
+    <entity type="character" id="Airman" source="Airman">
+        <geometry type="plane" w="48" h="48" />
+        <collision>
+            <rect x="0" y="0" w="20" h="28" />
+        </collision>
+        <traits>
+            <trait name="contact-damage" points="8" />
+            <trait name="health" max="28" />
+            <trait name="jump" force="600" duration=".18" />
+            <trait name="physics" area=".04" drag=".045" mass="165" />
+            <trait name="solid" attack="bottom"/>
+            <trait name="move" />
+            <trait name="invincibility" duration=".5" />
+            <trait name="weapon">
+                <projectile-emit-offset x="22" y="-1" />
+            </trait>
+        </traits>
+    </entity>
+
+    <textures>
+        <texture url="airman.png" w="256" h="256" />
+    </textures>
+
+    <animations w="48" h="48">
+        <animation id="idle">
+            <frame x="0" y="0"/>
+        </animation>
+        <animation id="fire">
+            <frame x="96" y="0"/>
+        </animation>
+        <animation id="jump">
+            <frame x="48" y="0"/>
+        </animation>
+        <animation id="blow">
+            <frame x="144" y="0" duration=".12" />
+            <frame x="192" y="0" duration=".12" />
+        </animation>
+    </animations>
+</entities>

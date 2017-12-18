@@ -1,0 +1,42 @@
+<entities>
+    <entity type="character" id="Shotman" source="Shotman">
+        <geometry type="plane" w="32" h="32" />
+
+        <collision>
+            <rect x="0" y="-5" w="16" h="20" />
+        </collision>
+
+        <traits>
+            <trait name="contact-damage" points="4" />
+            <trait name="health" max="5" />
+            <trait name="physics" area=".06" drag=".045" mass="135" />
+            <trait name="solid" attack="bottom" />
+            <trait name="spawn">
+                <entity id="TinyExplosion" event="death"/>
+            </trait>
+            <trait name="weapon" equip="EnemyPlasma">
+                <projectile-emit x="0" y="-2" r="9" />
+            </trait>
+        </traits>
+    </entity>
+
+    <animations w="32" h="32">
+        <animation id="deg0">
+            <frame x="32" y="0" duration=".25" />
+            <frame x="0" y="0" duration=".25" />
+        </animation>
+        <animation id="deg22">
+            <frame x="96" y="0" duration=".25" />
+            <frame x="64" y="0" duration=".25" />
+        </animation>
+        <animation id="deg45">
+            <frame x="160" y="0" duration=".25" />
+            <frame x="128" y="0" duration=".25" />
+        </animation>
+    </animations>
+
+    <textures>
+        <texture id="shotman" url="enemies/shotman.png" w="256" h="32">
+        </texture>
+    </textures>
+</entities>

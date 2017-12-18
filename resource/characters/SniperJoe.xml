@@ -1,0 +1,35 @@
+<entities>
+    <entity type="character" id="SniperJoe" source="SniperJoe">
+        <geometry type="plane" w="32" h="32" />
+
+        <collision>
+            <rect x="0" y="0" w="20" h="24" />
+        </collision>
+
+        <traits>
+            <trait name="contact-damage" points="4" />
+            <trait name="health" max="10" />
+            <trait name="physics" area=".06" drag=".045" mass="135" />
+            <trait name="solid" attack="bottom"/>
+            <trait name="spawn">
+                <entity id="TinyExplosion" event="death"/>
+            </trait>
+            <trait name="weapon" equip="EnemyPlasma">
+                <projectile-emit x="0" y="-2" r="9" />
+            </trait>
+        </traits>
+    </entity>
+
+    <textures>
+        <texture id="sniperjoe" url="enemies/sniperjoe.png" w="64" h="32"/>
+    </textures>
+
+    <animations w="32" h="32">
+        <animation id="shielding">
+            <frame x="0" y="0" />
+        </animation>
+        <animation id="shooting">
+            <frame x="32" y="0" />
+        </animation>
+    </animations>
+</entities>

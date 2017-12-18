@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+    <textures>
+        <texture id="projectiles" url="projectiles.png" w="128" h="128" />
+    </textures>
+
+    <animations texture="projectiles">
+        <animation id="airshot-twirl" w="16" h="16" >
+            <frame x="48" y="0" duration=".06"/>
+            <frame x="64" y="0" duration=".06"/>
+            <frame x="80" y="0" duration=".06"/>
+        </animation>
+        <animation id="flying" w="20" h="16">
+            <frame x="2" y="20"/>
+        </animation>
+        <animation id="gripping" w="20" h="16">
+            <frame x="2" y="36" duration=".12"/>
+            <frame x="2" y="52"/>
+        </animation>
+        <animation id="ticking" w="20" h="16">
+            <frame x="2" y="68" duration=".12"/>
+            <frame x="2" y="52" duration=".12"/>
+        </animation>
+        <animation id="metal-blade" w="16" h="16">
+            <frame x="16" y="0" duration=".06"/>
+            <frame x="32" y="0" duration=".06"/>
+        </animation>
+        <animation id="plasma" w="8" h="8">
+            <frame x="4" y="4"/>
+        </animation>
+    </animations>
+
+    <entity type="projectile" source="AirShot" id="AirShot">
+        <geometry type="plane" w="16" h="16">
+            <face animation="airshot-twirl"/>
+        </geometry>
+        <collision>
+            <rect x="0" y="0" w="7" h="8" />
+        </collision>
+        <traits>
+            <trait name="fixed-force" y="150" />
+            <trait name="projectile" damage="20" range="220" speed="80" />
+        </traits>
+    </entity>
+
+    <entity type="projectile" source="CrashBomb" id="CrashBomb">
+        <audio>
+            <effect src="./crash-bomb-attach.ogg" id="crash-bomb-attach"/>
+        </audio>
+        <geometry type="plane" w="20" h="16">
+            <face animation="flying"/>
+        </geometry>
+        <collision>
+            <rect x="0" y="-1" w="8" h="8" />
+        </collision>
+        <events>
+            <event name="detach">
+                <action type="set-animation" id="flying"/>
+            </event>
+            <event name="attach">
+                <action type="play-sequence" id="attach"/>
+            </event>
+        </events>
+        <sequences>
+            <sequence id="attach">
+                <action type="emit-audio" id="crash-bomb-attach"/>
+                <action type="set-animation" id="gripping"/>
+                <action type="wait" duration=".25"/>
+                <action type="set-animation" id="ticking"/>
+                <action type="wait" duration="1.75"/>
+                <action type="emit-event" name="recycle"/>
+            </sequence>
+        </sequences>
+        <traits>
+            <trait name="attach" />
+            <trait name="projectile" damage="20" range="200" speed="240" penetrates="true" />
+            <trait name="spawn">
+                 <entity id="Explosion" event="recycled"/>
+            </trait>
+        </traits>
+    </entity>
+
+    <entity type="projectile" source="MetalBlade" id="MetalBlade">
+        <geometry type="plane" w="20" h="16">
+            <face animation="metal-blade"/>
+        </geometry>
+        <collision>
+            <circ x="0" y="0" r="8"/>
+        </collision>
+        <traits>
+            <trait name="projectile" damage="20" range="300" speed="240" penetrates="true" />
+        </traits>
+    </entity>
+
+    <entity type="projectile" source="Plasma" id="Plasma">
+        <geometry type="plane" w="8" h="8">
+            <face animation="plasma"/>
+        </geometry>
+        <collision>
+            <circ x="0" y="0" r="4"/>
+        </collision>
+        <traits>
+            <trait name="projectile" damage="3" range="180" speed="240" penetrates="false"/>
+        </traits>
+    </entity>
+</entities>

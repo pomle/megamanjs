@@ -1,0 +1,662 @@
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="128" y="-101"/>
+    <checkpoint x="1152" y="-1141"/>
+    <checkpoint x="4224" y="-1077"/>
+  </checkpoints>
+  <music>
+    <level id="level"/>
+  </music>
+  <scene name="Bubbleman">
+    <audio>
+      <music src="./bubbleman/music.ogg" id="level">
+        <loop start="10.683" end="42.629"/>
+      </music>
+    </audio>
+    <gravity x="0" y="9.81"/>
+    <camera>
+      <path>
+        <window x1="0" x2="1280" y1="-240" y2="0"/>
+        <constraint x1="180" x2="1152" y1="-120" y2="-120"/>
+      </path>
+      <path>
+        <window x1="1024" x2="1280" y1="-488" y2="-208"/>
+        <constraint x1="1152" x2="1152" y1="-328" y2="-328"/>
+      </path>
+      <path>
+        <window x1="1024" x2="1280" y1="-720" y2="-416"/>
+        <constraint x1="1152" x2="1152" y1="-568" y2="-568"/>
+      </path>
+      <path>
+        <window x1="1024" x2="1280" y1="-960" y2="-720"/>
+        <constraint x1="1152" x2="1152" y1="-840" y2="-840"/>
+      </path>
+      <path>
+        <window x1="1024" x2="2816" y1="-1200" y2="-960"/>
+        <constraint x1="1152" x2="2688" y1="-1080" y2="-1080"/>
+      </path>
+      <path>
+        <window x1="2816" x2="4096" y1="-1200" y2="-960"/>
+        <constraint x1="2944" x2="3968" y1="-1080" y2="-1080"/>
+      </path>
+      <path>
+        <window x1="4096" x2="4352" y1="-1200" y2="-960"/>
+        <constraint x1="4224" x2="4224" y1="-1080" y2="-1080"/>
+      </path>
+      <path>
+        <window x1="4352" x2="4608" y1="-1200" y2="-960"/>
+        <constraint x1="4480" x2="4480" y1="-1080" y2="-1080"/>
+      </path>
+    </camera>
+    <entities>
+      <textures>
+        <texture url="./bubbleman/tiles.png" w="256" h="128"/>
+      </textures>
+      <animations>
+        <animation id="water">
+          <frame x="109" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="waterfall-1">
+          <frame x="1" y="1" w="16" h="16" duration=".083"/>
+          <frame x="19" y="1" w="16" h="16" duration=".083"/>
+          <frame x="37" y="1" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="waterfall-2">
+          <frame x="1" y="19" w="16" h="16" duration=".083"/>
+          <frame x="19" y="19" w="16" h="16" duration=".083"/>
+          <frame x="37" y="19" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="waterfall-3">
+          <frame x="1" y="37" w="16" h="16" duration=".083"/>
+          <frame x="19" y="37" w="16" h="16" duration=".083"/>
+          <frame x="37" y="37" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="water-surface-1">
+          <frame x="1" y="55" w="16" h="16" duration=".083"/>
+          <frame x="19" y="55" w="16" h="16" duration=".083"/>
+          <frame x="37" y="55" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="water-surface-2">
+          <frame x="1" y="73" w="16" h="16" duration=".083"/>
+          <frame x="19" y="73" w="16" h="16" duration=".083"/>
+          <frame x="37" y="73" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="jet-1">
+          <frame x="55" y="55" w="16" h="16" duration=".083"/>
+          <frame x="73" y="55" w="16" h="16" duration=".083"/>
+          <frame x="91" y="55" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="jet-2">
+          <frame x="55" y="73" w="16" h="16" duration=".083"/>
+          <frame x="73" y="73" w="16" h="16" duration=".083"/>
+          <frame x="91" y="73" w="16" h="16" duration=".083"/>
+        </animation>
+        <animation id="mine">
+          <frame x="109" y="37" w="16" h="16"/>
+        </animation>
+        <animation id="platform-dry">
+          <frame x="55" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="platform-dry-connected">
+          <frame x="55" y="37" w="16" h="16"/>
+        </animation>
+        <animation id="platform-wet">
+          <frame x="73" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="platform-wet-connected">
+          <frame x="73" y="37" w="16" h="16"/>
+        </animation>
+        <animation id="link-dry">
+          <frame x="55" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="link-wet">
+          <frame x="73" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="net-shade">
+          <frame x="109" y="55" w="16" h="16"/>
+        </animation>
+        <animation id="net">
+          <frame x="109" y="73" w="16" h="16"/>
+        </animation>
+        <animation id="door">
+          <frame x="127" y="73" w="16" h="16"/>
+        </animation>
+        <animation id="nozzle">
+          <frame x="91" y="37" w="16" h="16"/>
+        </animation>
+        <animation id="tank">
+          <frame x="91" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="pipe">
+          <frame x="91" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="pipe-cap">
+          <frame x="109" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="transparent">
+          <frame x="163" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="falling-block">
+          <frame x="145" y="73" w="16" h="16"/>
+        </animation>
+        <animation id="black">
+          <frame x="163" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="dr-wily-logo">
+          <frame x="127" y="37" w="32" h="32"/>
+        </animation>
+        <animation id="sign-w">
+          <frame x="127" y="1" w="16" h="16"/>
+        </animation>
+        <animation id="sign-sw">
+          <frame x="127" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="sign-s">
+          <frame x="145" y="19" w="16" h="16"/>
+        </animation>
+        <animation id="sign-n">
+          <frame x="145" y="1" w="16" h="16"/>
+        </animation>
+      </animations>
+      <entity id="door">
+        <geometry type="plane" w="32" h="64" w-segments="2" h-segments="4">
+          <face animation="door">
+            <range x="*" y="*"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="32" h="64"/>
+        </collision>
+        <traits>
+          <trait name="door">
+            <direction x="-1" y="0"/>
+          </trait>
+        </traits>
+      </entity>
+      <entity id="falling-block">
+        <geometry type="plane" w="32" h="16" w-segments="2" h-segments="1">
+          <face animation="falling-block">
+            <range x="*" y="*"/>
+          </face>
+        </geometry>
+        <collision>
+          <rect x="0" y="0" w="32" h="16"/>
+        </collision>
+        <traits>
+          <trait name="physics" mass="500"/>
+          <trait name="solid" fixed="true" obstructs="true"/>
+          <trait name="fallaway" delay=".2"/>
+        </traits>
+      </entity>
+      <entity id="waterfall">
+        <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+          <face animation="waterfall-2">
+            <range x="1-16/2" y="1-15/2"/>
+            <range x="2-16/2" y="2-15/2"/>
+          </face>
+          <face animation="waterfall-3">
+            <range x="1-16/2" y="2-15/2"/>
+            <range x="2-16/2" y="1-15/2"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="dr-wily-logo">
+        <geometry type="plane" w="32" h="32" w-segments="1" h-segments="1">
+          <face animation="dr-wily-logo">
+            <range x="1" y="1"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="surface">
+        <geometry type="plane" w="256" h="240" w-segments="16" h-segments="15">
+          <face animation="water">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="water-surface-1">
+            <range x="*" y="1"/>
+          </face>
+          <face animation="water-surface-2">
+            <range x="*" y="2"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="water">
+        <geometry type="plane" w="256" h="240" w-segments="1" h-segments="1">
+          <face animation="water">
+            <range x="1" y="1"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="water-lower-1">
+        <geometry type="plane" w="2304" h="240" w-segments="144" h-segments="15">
+          <face animation="water">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="transparent">
+            <range x="141-144" y="1-4"/>
+          </face>
+          <face animation="water-surface-1">
+            <range x="140-143" y="5"/>
+          </face>
+          <face animation="water-surface-2">
+            <range x="140-143" y="6"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="water-lower-2">
+        <geometry type="plane" w="640" h="240" w-segments="40" h-segments="15">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="water">
+            <range x="1-8" y="5-9"/>
+            <range x="9-25" y="3-10"/>
+            <range x="25-40" y="*"/>
+          </face>
+          <face animation="water-surface-1">
+            <range x="1-8" y="5"/>
+          </face>
+          <face animation="water-surface-2">
+            <range x="1-8" y="6"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="level-1-platforms">
+        <geometry type="plane" w="1280" h="240" w-segments="80" h-segments="15">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="link-dry">
+            <range x="78" y="*"/>
+            <range x="73" y="6-15"/>
+          </face>
+          <face animation="platform-dry">
+            <range x="5-10" y="8"/>
+            <range x="13-18" y="11"/>
+            <range x="21-26" y="9"/>
+            <range x="29-34,38-44" y="7"/>
+            <range x="65-73" y="6"/>
+            <range x="73-75" y="8"/>
+            <range x="76-78" y="11"/>
+          </face>
+          <face animation="waterfall-1">
+            <range x="5-10" y="9"/>
+            <range x="13-18" y="12"/>
+            <range x="21-26" y="10"/>
+            <range x="29-34,38-44" y="8"/>
+            <range x="65-72" y="7"/>
+            <range x="74-75" y="9"/>
+            <range x="76-77" y="12"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="vertical-platforms">
+        <geometry type="plane" w="256" h="720" w-segments="16" h-segments="45">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="link-dry">
+            <range x="1,16" y="1-21"/>
+          </face>
+          <face animation="link-wet">
+            <range x="1,16" y="22-45"/>
+          </face>
+          <face animation="platform-dry">
+            <range x="5-10" y="5"/>
+            <range x="1-7,10-16" y="8"/>
+            <range x="1-12" y="11"/>
+            <range x="7-16" y="19"/>
+          </face>
+          <face animation="waterfall-1">
+            <range x="5-10" y="6"/>
+            <range x="2-7,10-15" y="9"/>
+            <range x="2-12" y="12"/>
+            <range x="7-15" y="20"/>
+          </face>
+          <face animation="platform-wet">
+            <range x="1-10" y="35"/>
+            <range x="7-16" y="39"/>
+            <range x="5-16" y="42"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="level-2-platforms">
+        <geometry type="plane" w="2304" h="240" w-segments="144" h-segments="15">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="platform-dry">
+            <range x="144" y="5"/>
+          </face>
+          <face animation="platform-dry-connected">
+            <range x="143" y="5"/>
+          </face>
+          <face animation="platform-wet">
+            <range x="85-86" y="5"/>
+            <range x="53-54,61-64,83-84,112-113" y="7"/>
+            <range x="49-50,57-58,65-66,71-72,111,131-142" y="9"/>
+            <range x="45,47,48,51,52,59,68,73,75,77,78,80,82,121-124,126,128-130" y="11"/>
+            <range x="2-44,56,70,87-109,114-120," y="13"/>
+          </face>
+          <face animation="platform-wet-connected">
+            <range x="86" y="5"/>
+            <range x="53,61,63-64,83,112" y="7"/>
+            <range x="49-50,57,66,71,132,135,137,139" y="9"/>
+            <range x="46,60,67,74,76,79,81,110,125,127" y="11"/>
+            <range x="3,5,8,11,14,16,18,20,23,26,29,32,34,36,39,41,44,55,69,90,92,95,104,107,117" y="13"/>
+          </face>
+          <face animation="tank">
+            <range x="91" y="1-10"/>
+            <range x="85-86" y="6-15"/>
+            <range x="53-54,61-64,83-84,112-113" y="8-15"/>
+            <range x="49-50,57-58,65-66,71-72,111,131-142" y="10-15"/>
+            <range x="45,47,48,51,52,59,68,73,75,77,78,80,82,121-124,126,128-130" y="12-15"/>
+            <range x="2-44,56,70,87-109,114-120," y="14-15"/>
+            <range x="7-82,91-140" y="1-2"/>
+            <range x="44-48,57-58,67-80,119-140" y="3-4"/>
+            <range x="139-140" y="1-6"/>
+            <range x="38-43,49-50,55-56,65-66" y="3"/>
+            <range x="68-69,73-74" y="5"/>
+            <range x="75-80" y="5-7"/>
+            <range x="144" y="6-15"/>
+          </face>
+          <face animation="mine">
+            <range x="9-37,51-54,59-64,81-82,93-118" y="3"/>
+            <range x="38-43,49-50,55-56,65-66" y="4"/>
+            <range x="44-48,57-58,67,70-72,119-138" y="5"/>
+            <range x="68-69,73-74" y="6"/>
+            <range x="75-80" y="8"/>
+            <range x="87" y="6-12"/>
+            <range x="90" y="6-10"/>
+            <range x="93" y="4-10"/>
+          </face>
+          <face animation="pipe">
+            <range x="86" y="6-15"/>
+            <range x="53,61,63-64,83,112" y="8-15"/>
+            <range x="49-50,57,66,71,132,135,137,139" y="10-15"/>
+            <range x="46,60,67,74,76,79,81,110,125,127" y="12-15"/>
+            <range x="3,5,8,11,14,16,18,20,23,26,29,32,34,36,39,41,44,55,69,90,92,95,104,107,117" y="14-15"/>
+            <range x="8,11,16,18,24,33,37,104,107,110" y="1-3"/>
+            <range x="41" y="1-4"/>
+            <range x="125,127,135,137" y="1-5"/>
+            <range x="14,20,26,29,34,53,82,95,117" y="1"/>
+            <range x="39,49-50,55,65" y="1-2"/>
+            <range x="44,46,58,67,72,132" y="1-3"/>
+            <range x="69,74" y="1-4"/>
+            <range x="76,79" y="1-6"/>
+            <range x="139" y="1-5"/>
+            <range x="92" y="1-9"/>
+            <range x="143" y="6-15"/>
+          </face>
+          <face animation="pipe-cap">
+            <range x="14,20,26,29,34,53,82,95,117" y="2"/>
+            <range x="39,49-50,55,65" y="3"/>
+            <range x="44,46,58,67,72,132" y="4"/>
+            <range x="69,74" y="5"/>
+            <range x="139" y="6"/>
+            <range x="76,79" y="7"/>
+            <range x="92" y="10"/>
+          </face>
+          <face animation="nozzle">
+            <range x="8,11,16,18,24,33,37,104,107,110" y="3"/>
+            <range x="41" y="4"/>
+            <range x="125,127,135,137" y="5"/>
+          </face>
+          <face animation="jet-1">
+            <range x="8,11,16,18,24,33,37,104,107,110" y="4"/>
+            <range x="41" y="5"/>
+            <range x="125,127,135,137" y="6"/>
+          </face>
+          <face animation="jet-2">
+            <range x="8,11,16,18,24,33,37,104,107,110" y="5"/>
+            <range x="41" y="6"/>
+            <range x="125,127,135,137" y="7"/>
+          </face>
+          <face animation="link-wet">
+            <range x="1" y="*"/>
+            <range x="12-13,42-43,96,99-100,105-106,115-116" y="14-15"/>
+            <range x="47-48" y="12-15"/>
+            <range x="63-64" y="8-15"/>
+            <range x="133-134" y="1-3,10-15"/>
+            <range x="96,99-100,105-106" y="1"/>
+          </face>
+        </geometry>
+      </entity>
+      <entity id="boss-platforms">
+        <geometry type="plane" w="1280" h="240" w-segments="80" h-segments="15">
+          <face animation="transparent">
+            <range x="*" y="*"/>
+          </face>
+          <face animation="platform-dry">
+            <range x="3-8,12-16,25-29" y="8"/>
+            <range x="20-22" y="9"/>
+            <range x="32-36" y="6"/>
+            <range x="39-42" y="5"/>
+          </face>
+          <face animation="platform-dry-connected">
+            <range x="42" y="5"/>
+          </face>
+          <face animation="platform-wet">
+            <range x="43-65" y="9"/>
+            <range x="66-80" y="13"/>
+          </face>
+          <face animation="platform-wet-connected">
+            <range x="68,71,74,77" y="13"/>
+            <range x="65" y="9"/>
+            <range x="48" y="9"/>
+          </face>
+          <face animation="waterfall-1">
+            <range x="3-8,12-16,25-29" y="9"/>
+            <range x="20-22" y="10"/>
+            <range x="32-36" y="7"/>
+            <range x="39-40" y="6"/>
+            <range x="41-46" y="10"/>
+          </face>
+          <face animation="net">
+            <range x="49-79" y="5-8"/>
+            <range x="66-79" y="5-12"/>
+          </face>
+          <face animation="net-shade">
+            <range x="49-65" y="5"/>
+            <range x="66-79" y="4"/>
+          </face>
+          <face animation="tank">
+            <range x="41" y="6-9"/>
+            <range x="47" y="10-15"/>
+            <range x="49-64" y="4"/>
+            <range x="66-79" y="1,2,14,15"/>
+            <range x="66-79" y="1,2,14,15"/>
+          </face>
+          <face animation="pipe">
+            <range x="42" y="6-9"/>
+            <range x="80" y="*"/>
+            <range x="65" y="1-4,10-15"/>
+            <range x="68,71,74,77" y="1-2,14-15"/>
+            <range x="48" y="10-15"/>
+          </face>
+          <face animation="pipe-cap">
+            <range x="68,71,74,77" y="2"/>
+            <range x="65" y="4"/>
+          </face>
+          <face animation="link-wet">
+            <range x="49-64" y="3,10"/>
+          </face>
+          <face animation="mine">
+            <range x="66-79" y="3"/>
+          </face>
+          <face animation="black">
+            <range x="46-48" y="1-4"/>
+          </face>
+          <face animation="sign-w">
+            <range x="46" y="1-3"/>
+          </face>
+          <face animation="sign-sw">
+            <range x="46" y="4"/>
+          </face>
+          <face animation="sign-s">
+            <range x="47-48" y="4"/>
+          </face>
+          <face animation="sign-n">
+            <range x="47-48" y="1"/>
+          </face>
+        </geometry>
+      </entity>
+    </entities>
+    <layout>
+      <entities>
+        <entity id="waterfall" x="128" y="-120" z="-1"/>
+        <entity id="waterfall" x="384" y="-120" z="-1"/>
+        <entity id="waterfall" x="640" y="-120" z="-1"/>
+        <entity id="waterfall" x="896" y="-120" z="-1"/>
+        <entity id="waterfall" x="1152" y="-120" z="-1"/>
+        <entity id="waterfall" x="1024" y="-360" z="-1"/>
+        <entity id="waterfall" x="1408" y="-120" z="-1"/>
+        <entity id="waterfall" x="1280" y="-360" z="-1"/>
+        <entity id="waterfall" x="1024" y="-600" z="-1"/>
+        <entity id="waterfall" x="1280" y="-600" z="-1"/>
+        <entity id="surface" x="1280" y="-712" z="-1"/>
+        <entity id="surface" x="1024" y="-712" z="-1"/>
+        <entity id="water" x="896" y="-1080" z="-1"/>
+        <entity id="water" x="1280" y="-864" z="-1"/>
+        <entity id="water" x="1024" y="-880" z="-1"/>
+        <entity id="waterfall" x="3392" y="-1080" z="-1"/>
+        <entity id="waterfall" x="3456" y="-1080" z="-1"/>
+        <entity id="waterfall" x="3968" y="-1080" z="-1"/>
+        <entity id="waterfall" x="3712" y="-1080" z="-1"/>
+        <entity id="water-lower-1" x="2176" y="-1080" z="-1"/>
+        <entity id="water-lower-2" x="4288" y="-1080" z="-1"/>
+        <entity id="level-1-platforms" x="640" y="-120" z="-.5"/>
+        <entity id="vertical-platforms" x="1152" y="-600" z="-.5"/>
+        <entity id="level-2-platforms" x="2176" y="-1080" z="-.5"/>
+        <entity id="boss-platforms" x="3968" y="-1080" z="-.5"/>
+        <entity id="dr-wily-logo" x="4080" y="-992" z="-.5"/>
+        <entity id="falling-block" x="752" y="-125"/>
+        <entity id="falling-block" x="800" y="-109"/>
+        <entity id="falling-block" x="864" y="-94"/>
+        <entity id="falling-block" x="928" y="-116"/>
+        <entity id="falling-block" x="976" y="-88"/>
+        <entity id="door" x="4080" y="-1056"/>
+        <entity id="door" x="4352" y="-1056"/>
+      </entities>
+      <behaviors>
+        <deathzones>
+          <rect x="128" y="-248" w="256" h="16"/>
+          <rect x="384" y="-248" w="256" h="16"/>
+          <rect x="640" y="-248" w="256" h="16"/>
+          <rect x="896" y="-248" w="256" h="16"/>
+          <rect x="1168" y="-1000" w="32" h="16"/>
+          <rect x="1232" y="-1000" w="64" h="16"/>
+          <rect x="1288" y="-1000" w="16" h="16"/>
+          <rect x="1344" y="-1000" w="64" h="16"/>
+          <rect x="1472" y="-1000" w="128" h="16"/>
+          <rect x="1608" y="-1000" w="16" h="16"/>
+          <rect x="1576" y="-1000" w="48" h="16"/>
+          <rect x="1640" y="-1016" w="48" h="16"/>
+          <rect x="1696" y="-1016" w="32" h="16"/>
+          <rect x="1752" y="-1032" w="80" h="16"/>
+          <rect x="1808" y="-1016" w="32" h="16"/>
+          <rect x="1856" y="-1000" w="64" h="16"/>
+          <rect x="1904" y="-1016" w="32" h="16"/>
+          <rect x="1936" y="-1032" w="32" h="16"/>
+          <rect x="2000" y="-1000" w="96" h="16"/>
+          <rect x="2064" y="-1016" w="32" h="16"/>
+          <rect x="2112" y="-1048" w="32" h="16"/>
+          <rect x="2088" y="-1032" w="16" h="16"/>
+          <rect x="2152" y="-1032" w="48" h="16"/>
+          <rect x="2192" y="-1048" w="32" h="16"/>
+          <rect x="2256" y="-1080" w="96" h="16"/>
+          <rect x="2320" y="-1000" w="32" h="16"/>
+          <rect x="2408" y="-1096" w="16" h="112"/>
+          <rect x="2456" y="-1080" w="16" h="80"/>
+          <rect x="2504" y="-1056" w="16" h="128"/>
+          <rect x="2592" y="-1000" w="160" h="16"/>
+          <rect x="2704" y="-1000" w="32" h="16"/>
+          <rect x="2752" y="-1000" w="32" h="16"/>
+          <rect x="2832" y="-1000" w="96" h="16"/>
+          <rect x="2904" y="-1000" w="16" h="16"/>
+          <rect x="2960" y="-1032" w="96" h="16"/>
+          <rect x="3032" y="-1032" w="16" h="16"/>
+          <rect x="3112" y="-1032" w="112" h="16"/>
+          <rect x="3192" y="-1032" w="16" h="16"/>
+          <rect x="3224" y="-1032" w="16" h="16"/>
+          <rect x="4480" y="-1000" w="224" h="16"/>
+          <rect x="3440" y="-1208" w="256" h="16"/>
+          <rect x="3696" y="-1208" w="256" h="16"/>
+          <rect x="3952" y="-1208" w="256" h="16"/>
+        </deathzones>
+        <solids>
+          <rect x="112" y="-120" w="96" h="16"/>
+          <rect x="240" y="-168" w="96" h="16"/>
+          <rect x="368" y="-136" w="96" h="16"/>
+          <rect x="496" y="-104" w="96" h="16"/>
+          <rect x="648" y="-104" w="112" h="16"/>
+          <rect x="1096" y="-88" w="144" h="16"/>
+          <rect x="1176" y="-120" w="48" h="16"/>
+          <rect x="1224" y="-168" w="48" h="16"/>
+          <rect x="1160" y="-160" w="16" h="160"/>
+          <rect x="1240" y="-120" w="16" h="240"/>
+          <rect x="1032" y="-368" w="16" h="256"/>
+          <rect x="1272" y="-368" w="16" h="256"/>
+          <rect x="1136" y="-312" w="96" h="16"/>
+          <rect x="1080" y="-360" w="112" h="16"/>
+          <rect x="1224" y="-360" w="112" h="16"/>
+          <rect x="1120" y="-408" w="192" h="16"/>
+          <rect x="1200" y="-536" w="160" h="16"/>
+          <rect x="1032" y="-624" w="16" h="256"/>
+          <rect x="1272" y="-624" w="16" h="256"/>
+          <rect x="1272" y="-880" w="16" h="256"/>
+          <rect x="1032" y="-880" w="16" h="256"/>
+          <rect x="1104" y="-792" w="160" h="16"/>
+          <rect x="1200" y="-856" w="160" h="16"/>
+          <rect x="1184" y="-904" w="192" h="16"/>
+          <rect x="1032" y="-1088" w="16" h="160"/>
+          <rect x="1152" y="-1160" w="256" h="16"/>
+          <rect x="1408" y="-1160" w="256" h="16"/>
+          <rect x="1640" y="-1160" w="208" h="16"/>
+          <rect x="1800" y="-1128" w="144" h="16"/>
+          <rect x="1736" y="-1144" w="16" h="48"/>
+          <rect x="1808" y="-1112" w="32" h="48"/>
+          <rect x="1872" y="-1112" w="32" h="112"/>
+          <rect x="1904" y="-1160" w="96" h="16"/>
+          <rect x="1936" y="-1128" w="32" h="80"/>
+          <rect x="2016" y="-1096" w="64" h="80"/>
+          <rect x="2040" y="-1120" w="80" h="64"/>
+          <rect x="2024" y="-1128" w="176" h="16"/>
+          <rect x="2104" y="-1144" w="16" h="48"/>
+          <rect x="2128" y="-1160" w="64" h="16"/>
+          <rect x="2160" y="-1128" w="32" h="80"/>
+          <rect x="2256" y="-1128" w="192" h="16"/>
+          <rect x="2352" y="-1096" w="32" h="80"/>
+          <rect x="2384" y="-1096" w="32" h="144"/>
+          <rect x="2480" y="-1040" w="32" h="160"/>
+          <rect x="2512" y="-1160" w="256" h="16"/>
+          <rect x="2768" y="-1160" w="256" h="16"/>
+          <rect x="2928" y="-1160" w="64" h="16"/>
+          <rect x="3032" y="-1128" w="176" h="16"/>
+          <rect x="3216" y="-1096" w="224" h="16"/>
+          <rect x="3112" y="-1112" w="16" h="48"/>
+          <rect x="2952" y="-1144" w="16" h="48"/>
+          <rect x="2800" y="-1128" w="32" h="80"/>
+          <rect x="2816" y="-1112" w="32" h="112"/>
+          <rect x="2784" y="-1144" w="32" h="48"/>
+          <rect x="3312" y="-1064" w="32" h="80"/>
+          <rect x="3248" y="-1008" w="32" h="96"/>
+          <rect x="3408" y="-1080" w="96" h="16"/>
+          <rect x="3544" y="-1080" w="80" h="16"/>
+          <rect x="3656" y="-1096" w="48" h="16"/>
+          <rect x="3752" y="-1080" w="80" h="16"/>
+          <rect x="3864" y="-1048" w="80" h="16"/>
+          <rect x="3968" y="-1032" w="64" h="16"/>
+          <rect x="3984" y="-1064" w="32" h="80"/>
+          <rect x="4128" y="-1096" w="256" h="16"/>
+          <rect x="4312" y="-1096" w="112" h="16"/>
+          <rect x="4208" y="-992" w="320" h="64"/>
+          <rect x="4480" y="-1160" w="256" h="16"/>
+          <rect x="4360" y="-1128" w="16" h="80"/>
+          <rect x="4600" y="-1064" w="16" h="176"/>
+        </solids>
+      </behaviors>
+    </layout>
+  </scene>
+</level>

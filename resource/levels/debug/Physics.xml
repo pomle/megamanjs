@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="0" y="-64"/>
+  </checkpoints>
+  <scene name="Physics" debug="true">
+    <gravity x="0" y="9.81"/>
+    <camera>
+      <position x="360" y="120" z="500"/>
+    </camera>
+    <layout>
+      <solids>
+        <rect x="-128" y="-32" w="16" h="32">
+          <trait name="translating" func="oscillate" speed=".2">
+            <amplitude x="128" y="0"/>
+          </trait>
+        </rect>
+        <rect x="-128" y="0" w="256" h="16">
+          <trait name="solid" attack="top"/>
+        </rect>
+        <rect x="-128" y="400" w="256" h="16"/>
+        <!-- Circular -->
+        <rect x="128" y="0" w="32" h="16">
+          <trait name="translating" func="linear" speed="1">
+            <amplitude x="1" y="0"/>
+          </trait>
+        </rect>
+        <rect x="-128" y="200" w="32" h="16" comment="Elevator">
+          <trait name="solid" attack="top"/>
+          <trait name="translating" func="oscillate" speed="3">
+            <amplitude x="0" y="200"/>
+          </trait>
+        </rect>
+        <rect x="128" y="400" w="32" h="16">
+          <trait name="translating" func="oscillate" speed="1">
+            <amplitude x="300" y="0"/>
+          </trait>
+        </rect>
+      </solids>
+    </layout>
+  </scene>
+</level>

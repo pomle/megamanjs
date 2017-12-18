@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="16" y="100"/>
+  </checkpoints>
+  <scene name="Enemies" debug="true">
+    <entities>
+      <textures>
+        <texture id="background" url="./sunset.png" w="512" h="256" scale="1"/>
+      </textures>
+      <animations texture="background">
+        <animation id="background" w="512" h="256">
+          <frame x="0" y="0"/>
+        </animation>
+      </animations>
+      <entity id="landscape">
+        <geometry type="plane" w="512" h="256">
+          <face animation="background"/>
+        </geometry>
+      </entity>
+    </entities>
+    <layout>
+      <entities>
+        <entity id="landscape" x="0" y="120" z="-100"/>
+        <entity id="landscape" x="512" y="120" z="-100"/>
+        <entity id="landscape" x="1024" y="120" z="-100"/>
+        <entity id="landscape" x="1536" y="120" z="-100"/>
+        <entity id="landscape" x="2048" y="120" z="-100"/>
+        <entity id="EnergyTank" x="100" y="0" z="0"/>
+        <entity id="WeaponTank" x="200" y="0" z="0"/>
+        <entity id="EnergyCapsule" x="300" y="0" z="0"/>
+        <entity id="ExtraLife" x="400" y="0" z="0"/>
+        <entity id="EnergyTankSmall" x="500" y="0" z="0"/>
+        <entity id="WeaponTankSmall" x="600" y="0" z="0"/>
+      </entities>
+      <behaviors>
+        <solids>
+          <rect x="0" y="-16" w="2000" h="16"/>
+        </solids>
+      </behaviors>
+    </layout>
+  </scene>
+</level>

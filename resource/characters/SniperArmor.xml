@@ -1,0 +1,47 @@
+<entities>
+    <entity type="character" id="SniperArmor" source="SniperArmor">
+        <geometry type="plane" w="64" h="64" />
+
+        <collision>
+            <rect x="-4" y="-4" w="24" h="56" />
+            <rect x="0" y="10" w="28" h="28" />
+        </collision>
+
+        <traits>
+            <trait name="contact-damage" points="8" />
+            <trait name="health" max="20" />
+            <trait name="death-spawn" chance="1">
+                <entities>
+                    <character id="SniperJoe" />
+                </entities>
+            </trait>
+            <trait name="jump" force="297" forward="154" duration=".18" />
+            <trait name="physics" area=".5" drag=".1" mass="600" />
+            <trait name="solid" attack="bottom"/>
+            <trait name="spawn">
+                <entity id="TinyExplosion" event="death"/>
+            </trait>
+            <trait name="weapon" equip="EnemyPlasma">
+                <projectile-emit x="0" y="-2" r="9" />
+            </trait>
+        </traits>
+    </entity>
+
+    <animations w="64" h="64">
+        <animation id="idle">
+            <frame x="0" y="0" />
+        </animation>
+        <animation id="charging">
+            <frame x="64" y="0" />
+        </animation>
+        <animation id="jumping">
+            <frame x="128" y="0" />
+        </animation>
+    </animations>
+
+    <textures>
+        <texture id="sniperarmor" url="enemies/sniperarmor.png" w="256" h="64">
+        </texture>
+    </textures>
+
+</entities>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<level>
+  <checkpoints>
+    <checkpoint x="0" y="0"/>
+  </checkpoints>
+  <scene name="DestructibleWall">
+    <layout>
+      <entities>
+        <entity id="destructible-wall-orange" x="100" y="30"/>
+      </entities>
+      <solids>
+        <rect x="0" y="32" w="240" h="16"/>
+      </solids>
+    </layout>
+  </scene>
+</level>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+    <textures>
+        <texture id="explosions" url="explosions.png" w="256" h="256" />
+    </textures>
+
+    <animations texture="explosions">
+        <animation id="explosion" w="48" h="48" >
+            <loop count="2">
+                <frame x="0"   y="0" duration=".05"/>
+                <frame x="48"  y="0" duration=".05"/>
+                <frame x="96"  y="0" duration=".0333"/>
+
+                <frame x="0"  y="48" duration=".05"/>
+                <frame x="48" y="48" duration=".05"/>
+                <frame x="96" y="48" duration=".0333"/>
+
+                <frame x="0"  y="96" duration=".05"/>
+                <frame x="48" y="96" duration=".05"/>
+                <frame x="96" y="96" duration=".0333"/>
+
+                <frame x="0"  y="144" duration=".05"/>
+                <frame x="48" y="144" duration=".05"/>
+                <frame x="96" y="144" duration=".0333"/>
+            </loop>
+
+            <frame x="144" y="144"/>
+        </animation>
+
+        <animation id="sweat" w="32" h="16">
+            <frame x="144" y=" 0" duration=".15"/>
+            <frame x="144" y="16" duration=".15"/>
+            <frame x="144" y="32"/>
+        </animation>
+
+        <animation id="tiny-explosion" w="16" h="16">
+            <frame x="0" y="192" duration=".05"/>
+            <frame x="16" y="192" duration=".05"/>
+            <frame x="32" y="192" duration=".05"/>
+            <frame x="48" y="192"/>
+        </animation>
+    </animations>
+
+    <entity id="Explosion">
+        <audio>
+            <effect src="./explosion.ogg" id="explosion"/>
+        </audio>
+        <events>
+            <event name="world-add">
+                <action type="emit-audio" id="explosion"/>
+            </event>
+        </events>
+        <geometry type="plane" w="48" h="48">
+            <face animation="explosion"/>
+        </geometry>
+        <collision>
+            <circ r="32" />
+        </collision>
+        <traits>
+            <trait name="contact-damage" points="25"/>
+            <trait name="lifetime" duration="1.12"/>
+        </traits>
+    </entity>
+
+    <entity id="Sweat">
+        <geometry type="plane" w="32" h="16">
+            <face animation="sweat"/>
+        </geometry>
+        <traits>
+            <trait name="lifetime" duration=".45"/>
+            <trait name="translate" x="0" y="12"/>
+        </traits>
+    </entity>
+
+    <entity id="TinyExplosion">
+        <geometry type="plane" w="16" h="16">
+            <face animation="tiny-explosion"/>
+        </geometry>
+        <traits>
+            <trait name="lifetime" duration=".2"/>
+        </traits>
+    </entity>
+
+    <entity id="READY">
+      <text font="nintendo">READY</text>
+      <traits>
+        <trait name="blink" interval="0.3"/>
+      </traits>
+    </entity>
+</entities>

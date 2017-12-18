@@ -1,0 +1,42 @@
+<entities>
+    <entity type="character" source="Telly" id="Telly">
+        <audio>
+            <effect id="hit"/>
+        </audio>
+
+        <geometry type="plane" w="16" h="16" />
+
+        <collision>
+            <rect x="0" y="0" w="16" h="16" />
+        </collision>
+
+        <events>
+            <event name="hit">
+                <action type="emit-audio" id="hit"/>
+            </event>
+        </events>
+
+        <traits>
+            <trait name="contact-damage" points="2" />
+            <trait name="health" max="1" />
+            <trait name="spawn">
+                <entity id="TinyExplosion" event="death"/>
+            </trait>
+        </traits>
+    </entity>
+
+    <textures>
+        <texture url="telly.png" w="128" h="16" />
+    </textures>
+
+    <animations>
+        <animation w="16" h="16">
+            <frame x="80" y="0" duration=".16" />
+            <frame x="64" y="0" duration=".16" />
+            <frame x="48" y="0" duration=".16" />
+            <frame x="32" y="0" duration=".16" />
+            <frame x="16" y="0" duration=".16" />
+            <frame x="0"  y="0" duration=".16" />
+        </animation>
+    </animations>
+</entities>
