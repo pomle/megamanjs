@@ -1,7 +1,5 @@
 dist: trusty
 sudo: required
-services:
-  - docker
 language: node_js
 before_install:
 - export CHROME_BIN=chromium-browser
@@ -20,7 +18,6 @@ node_js:
 - '9'
 script:
 - yarn test
-- docker build -t pomle/megaman .
 after_success:
 - yarn run upload-coverage
 deploy:
