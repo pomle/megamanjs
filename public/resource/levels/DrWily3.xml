@@ -281,8 +281,8 @@
           <rect x="0" y="0" w="16" h="32"/>
         </collision>
         <traits>
-          <trait name="Solid"/>
-          <trait name="Destructible">
+          <trait name="solid"/>
+          <trait name="destructible">
             <affectors>
               <entity id="Explosion"/>
             </affectors>
