@@ -50,7 +50,7 @@
         <traits>
             <trait name="health" max="28" />
             <trait name="jump" force="400" duration=".18" />
-            <trait name="physics" area=".04" dragCoefficient=".045" mass="105" />
+            <trait name="physics" area=".04" mass="105" />
             <trait name="move" />
             <trait name="climber" speed="100" />
             <trait name="headlight"/>

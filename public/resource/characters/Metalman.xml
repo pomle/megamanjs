@@ -8,7 +8,7 @@
             <trait name="contact-damage" points="4" />
             <trait name="health" max="28" />
             <trait name="jump" force="600" duration=".18" />
-            <trait name="physics" area=".04" drag=".045" mass="105" />
+            <trait name="physics" area=".04" mass="105" />
             <trait name="solid" attack="bottom"/>
             <trait name="move" />
             <trait name="invincibility" duration=".5" />
