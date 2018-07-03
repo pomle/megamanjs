@@ -17,9 +17,9 @@
     "test:unit": "mocha 'src/**/*-test.js'"
   },
   "dependencies": {
-    "@snakesilk/engine": "^0.12.0",
-    "@snakesilk/megaman-kit": "^0.7.2",
-    "@snakesilk/platform-kit": "^0.2.1",
+    "@snakesilk/engine": "^0.14.0",
+    "@snakesilk/megaman-kit": "^0.8.0",
+    "@snakesilk/platform-kit": "^0.3.0",
     "@snakesilk/react-loader-progress": "^0.0.1",
     "@snakesilk/react-presenter": "0.2.0",
     "@snex/react-connect": "^0.3.0",
