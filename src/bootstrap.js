@@ -1,19 +1,19 @@
-const {Game} = require('@snakesilk/engine');
-const {Traits: PlatformTraits} = require('@snakesilk/platform-kit');
-const {
-    Entities,
-    Loaders: {MegamanLoader},
-    Traits: MegamanTraits,
-} = require('@snakesilk/megaman-kit');
+const SnakeSilk = require('@snakesilk/engine');
+const PlatformKit = require('@snakesilk/platform-kit');
+const Traits = require('./traits/parsers');
+const Entities = require('./entities');
+const Loader = require('./Loader')
+
+console.log(Entities);
 
 function createLoader() {
-    const game = new Game();
-    const loader = new MegamanLoader(game);
+    const game = new SnakeSilk.Game();
+    const loader = new Loader(game);
 
     loader.entities.add(Entities);
 
-    loader.traits.add(PlatformTraits);
-    loader.traits.add(MegamanTraits);
+    loader.traits.add(PlatformKit.Traits);
+    loader.traits.add(Traits);
 
     return loader;
 }
