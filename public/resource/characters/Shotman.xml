@@ -9,7 +9,7 @@
         <traits>
             <trait name="contact-damage" points="4" />
             <trait name="health" max="5" />
-            <trait name="physics" area=".06" drag=".045" mass="135" />
+            <trait name="physics" area=".06" mass="135" />
             <trait name="solid" attack="bottom" />
             <trait name="spawn">
                 <entity id="TinyExplosion" event="death"/>

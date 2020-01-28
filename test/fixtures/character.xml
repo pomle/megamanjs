@@ -9,7 +9,7 @@
         <traits>
             <trait source="Health" max="28" />
             <trait source="Jump" force="19740" duration=".18" falloff=".3" />
-            <trait source="Physics" area=".04" drag=".045" mass="105" />
+            <trait source="Physics" area=".04" dragCoefficient=".045" mass="105" />
             <trait source="Move" />
             <trait source="Climber" speed="100" />
             <trait source="Headlight"/>

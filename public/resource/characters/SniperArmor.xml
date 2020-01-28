@@ -16,7 +16,7 @@
                 </entities>
             </trait>
             <trait name="jump" force="297" forward="154" duration=".18" />
-            <trait name="physics" area=".5" drag=".1" mass="600" />
+            <trait name="physics" area=".5" dragCoefficient=".1" mass="600" />
             <trait name="solid" attack="bottom"/>
             <trait name="spawn">
                 <entity id="TinyExplosion" event="death"/>
