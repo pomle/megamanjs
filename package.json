@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@snakesilk/engine": "1.0.0",
-    "@snakesilk/platform-kit": "^0.2.1",
+    "@snakesilk/platform-kit": "0.4.2",
+    "@snakesilk/platform-traits": "0.6.0",
     "@snakesilk/react-loader-progress": "^0.0.1",
     "@snakesilk/react-presenter": "0.2.0",
     "@snakesilk/xml-loader": "1.0.0",

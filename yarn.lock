@@ -7,26 +7,15 @@
   resolved "https://registry.yarnpkg.com/@snakesilk/engine/-/engine-1.0.0.tgz#217a8819fb66b911ba3e12b838b106a82800932b"
   integrity sha512-LmoHHQFELftS4vlN7XZRHrp7dkBj5myg3iTnGQVW69VE1tQnn758/EcH4zJGYhGB26YDBhelSmFP0prqsJffwg==
 
-"@snakesilk/engine@>=0.12.0", "@snakesilk/engine@>=0.8.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@snakesilk/engine/-/engine-0.12.0.tgz#e1d6cc5d1fee4065a40d7962dfc932cd2d0eb4cd"
-  dependencies:
-    three "0.70"
+"@snakesilk/platform-kit@0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@snakesilk/platform-kit/-/platform-kit-0.4.2.tgz#fcaf779b710bb3feee675c418a7793322bc009b2"
+  integrity sha512-3QBAetUj51S/w7wZzj1ezTA8mSnsgRqRIqkrTdgC/yalk3jgEHr1jvoDmZk+zLMC62EyuFwJN9AY2c+vUucnnQ==
 
-"@snakesilk/platform-kit@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@snakesilk/platform-kit/-/platform-kit-0.2.1.tgz#c8ecb6333f8190bb9d99dee1930deb105c0ad03e"
-  dependencies:
-    "@snakesilk/platform-traits" ">=0.4.0"
-    "@snakesilk/xml-loader" ">=0.7.0"
-    three "0.70"
-
-"@snakesilk/platform-traits@>=0.1.3", "@snakesilk/platform-traits@>=0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@snakesilk/platform-traits/-/platform-traits-0.4.0.tgz#7d51696f3f5cad5e87171240ef8ae01643ff25ce"
-  dependencies:
-    "@snakesilk/engine" ">=0.8.0"
-    three "0.70"
+"@snakesilk/platform-traits@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@snakesilk/platform-traits/-/platform-traits-0.6.0.tgz#63fb8c36343db7b1fb0ac21b74fb681b4a456516"
+  integrity sha512-cnm7oPMcQUR/QDss/d3F0b4MvcdBRvakhGhMJfTdJ55j6ddcf2cdu3Q67a7E6EZGG8nOggxWEGZECZsztyi8ow==
 
 "@snakesilk/react-loader-progress@^0.0.1":
   version "0.0.1"
@@ -54,14 +43,6 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-1.0.0.tgz#69ff2ffae32da841e7389400ae5033d9d1bd9485"
   integrity sha512-c/KzpTaD6c0JJmKtwvqFzaCA5UC9GC9fcbkc6f5XY1PesW2TtoIyWr5K/RP3g/xqpEhmwbr/CEbNnYQ7AEMB+A==
-
-"@snakesilk/xml-loader@>=0.7.0":
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/@snakesilk/xml-loader/-/xml-loader-0.10.1.tgz#fee3962b5af913f2f399de28edae1afbe1077d73"
-  dependencies:
-    "@snakesilk/engine" ">=0.12.0"
-    "@snakesilk/platform-traits" ">=0.1.3"
-    three "0.70"
 
 "@snex/react-connect@^0.3.0":
   version "0.3.0"
