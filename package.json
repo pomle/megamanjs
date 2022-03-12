@@ -3,7 +3,7 @@
   "version": "0.2.2",
   "license": "MIT",
   "repository": "https://github.com/pomle/megamanjs",
-  "homepage" : ".",
+  "homepage": ".",
   "scripts": {
     "autoformat": "prettier --trailing-comma es5 --write './src/**/*.{js,jsx}'",
     "build": "react-scripts build",
@@ -22,14 +22,13 @@
     "@snakesilk/platform-kit": "^0.2.1",
     "@snakesilk/react-loader-progress": "^0.0.1",
     "@snakesilk/react-presenter": "0.2.0",
-    "@snex/react-connect": "^0.3.0",
+    "@snex/react-connect": "^0.3.1",
     "@snex/react-input-mapper": "^0.3.0",
     "desensitize-mousemove": "^0.1.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.10",
-    "serve": "^6.0.6",
-    "snex": "^0.1.8"
+    "serve": "^6.0.6"
   },
   "devDependencies": {
     "@snakesilk/testing": "^0.2.1",
