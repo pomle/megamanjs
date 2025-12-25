@@ -1,24 +1,39 @@
-name: Build and Deploy
+name: Deploy to GCS
 on:
   push:
     branches:
       - master
+
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+  build_and_deploy:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2
+      - id: "checkout"
+        uses: "actions/checkout@v4"
 
-      - name: Install
-        run: yarn install
-
-      - name: Build
-        run: yarn run build
-
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
+      - uses: actions/setup-node@v6
         with:
-          branch: gh-pages
-          folder: build
+          node-version: 22
+          cache: 'npm'
+
+      - run: yarn install
+      - run: yarn build
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v3"
+        with:
+          credentials_json: "${{ secrets.GCS_DEPLOY }}"
+
+      - id: "upload-folder"
+        uses: "google-github-actions/upload-cloud-storage@v3"
+        with:
+          path: "build"
+          destination: "megaman2.pomle.com"
+          parent: false
+          headers: |
+            cache-control: no-cache, max-age=0
