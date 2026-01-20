@@ -3,7 +3,7 @@
 }
 
 body {
-  background: #222;
+  background: #000000;
   color: #fff;
   margin: 0;
   padding: 0;
@@ -11,6 +11,10 @@ body {
 
 a {
   color: #fff;
-  font-weight: bold;
+  font-weight: 500;
   text-decoration: none;
+}
+
+.mm-button {
+  color: #00c3ff;
 }
