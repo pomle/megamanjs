@@ -1,39 +1,83 @@
-name: Deploy to GCS
+name: Deploy
 on:
   push:
     branches:
       - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "deploy"
+  cancel-in-progress: false
 
 jobs:
-  build_and_deploy:
+  build:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: "read"
-      id-token: "write"
-
     steps:
-      - id: "checkout"
-        uses: "actions/checkout@v4"
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: 'npm'
+          cache: 'yarn'
 
       - run: yarn install
       - run: yarn build
 
-      - id: "auth"
-        uses: "google-github-actions/auth@v3"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy_gcs:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build
+
+      - id: auth
+        uses: google-github-actions/auth@v3
         with:
           credentials_json: "${{ secrets.GCS_DEPLOY }}"
 
-      - id: "upload-folder"
-        uses: "google-github-actions/upload-cloud-storage@v3"
+      - id: upload-folder
+        uses: google-github-actions/upload-cloud-storage@v3
         with:
-          path: "build"
-          destination: "megaman2.pomle.com"
+          path: build
+          destination: megaman2.pomle.com
           parent: false
           headers: |
             cache-control: no-cache, max-age=0
+
+  deploy_pages:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
